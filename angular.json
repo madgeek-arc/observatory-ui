@@ -32,7 +32,7 @@
               "src/catalogue-ui/assets"
             ],
             "styles": [
-              "src/styles/styles.sass"
+              "src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
