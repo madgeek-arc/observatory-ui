@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {HomeComponent} from "./pages/home.component";
-import {CatalogueUiModule} from "../calague-ui/catalogue-ui.module";
+import {CatalogueUiModule} from "../catalague-ui/catalogue-ui.module";
 
 @NgModule({
   declarations: [
