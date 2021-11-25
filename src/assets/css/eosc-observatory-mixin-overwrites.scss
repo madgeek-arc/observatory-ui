@@ -5,4 +5,8 @@
     text-transform: none;
     color: var(--black);
   }
+
+  .uk-navbar-container:not(.uk-navbar-transparent) {
+    background: #fff;
+  }
 }

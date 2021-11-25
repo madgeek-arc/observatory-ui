@@ -20,4 +20,17 @@ export class TopMenuDashboardComponent {
   logout() {
     // this.authService.logout();
   }
+
+  change() {
+    const el: HTMLElement = document.getElementById('hamburger');
+    if(el.classList.contains('change')) {
+      el.classList.remove('change');
+      const el1: HTMLElement = document.getElementById('sidebar_main_content');
+      el1.classList.remove('sidebar_main_active');
+    } else {
+      el.classList.add('change');
+      const el1: HTMLElement = document.getElementById('sidebar_main_content');
+      el1.classList.add('sidebar_main_active');
+    }
+  }
 }

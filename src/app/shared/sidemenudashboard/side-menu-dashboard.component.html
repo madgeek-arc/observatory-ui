@@ -1,21 +1,14 @@
 <aside id="sidebar_main">
 
-  <div class="menu_section uk-margin-medium-top">
+  <div class="menu_section">
     <ul>
 
       <li [routerLinkActive]="['current_section']" class="">
-        <a [routerLink]="['/sources', 'register']">
+        <a [routerLink]="['/sources', 'register']" class="uk-flex uk-flex-middle">
           <!--<a [routerLink]="['/register']">-->
           <!--<span class="menu_icon_circle_letter">R</span>-->
+          <span class="material-icons uk-margin-right">home</span>
           <span class="menu_title">Home</span>
-        </a>
-      </li>
-
-      <li [routerLinkActive]="['current_section']" class="">
-        <a [routerLink]="['/sources', 'register']">
-          <!--<a [routerLink]="['/register']">-->
-          <!--<span class="menu_icon_circle_letter">R</span>-->
-          <span class="menu_title">My Surveys</span>
         </a>
       </li>
 
@@ -30,6 +23,30 @@
           <!--<li routerLinkActive="act_item"><a [routerLink]="['/compatibility', 'browseHistory']">Validation History</a></li>-->
         <!--</ul>-->
       <!--</li>-->
+
+    </ul>
+  </div>
+
+  <div class="menu_section border_top">
+    <ul>
+
+      <li [routerLinkActive]="['current_section']" class="">
+        <a [routerLink]="['/sources', 'register']" class="uk-flex uk-flex-middle">
+          <!--<a [routerLink]="['/register']">-->
+          <!--<span class="menu_icon_circle_letter">R</span>-->
+          <span class="material-icons uk-margin-right">assignment</span>
+          <span class="menu_title">My Surveys</span>
+        </a>
+      </li>
+
+      <li [routerLinkActive]="['current_section']" class="">
+        <a [routerLink]="['/sources', 'register']" class="uk-flex uk-flex-middle">
+          <!--<a [routerLink]="['/register']">-->
+          <!--<span class="menu_icon_circle_letter">R</span>-->
+          <span class="material-icons uk-margin-right">group</span>
+          <span class="menu_title">My Group</span>
+        </a>
+      </li>
 
     </ul>
   </div>

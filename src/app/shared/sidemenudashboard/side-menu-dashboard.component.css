@@ -2,4 +2,43 @@
   top: 88px !important;
   box-shadow: 0 0 16px 2px #00000029;
   background: #fff;
+  width: 280px;
+}
+
+#sidebar_main .menu_section {
+  overflow: visible;
+  margin-bottom: 15px;
+  padding-bottom: 20px;
+  flex: 0;
+  padding-top: 35px;
+}
+
+.sidebar_main_active #sidebar_main .menu_section {
+  overflow: auto;
+  flex: 1;
+  margin-bottom: 45px;
+}
+
+#sidebar_main .menu_section.border_top {
+  border-top: 1px solid #DEDEDE;
+}
+
+#sidebar_main .menu_section ul > li {
+  padding: 0px 20px;
+}
+
+#sidebar_main .menu_section > ul > li > a {
+  font-size: 16px;
+}
+
+#sidebar_main .menu_section > ul > li > a:hover {
+  background-color: #ececec;
+  border-radius: 6px;
+}
+
+.material-icons {
+  width: 24px;
+  height: 24px;
+  /*vertical-align: middle;*/
+  color: #6b6b6b;
 }

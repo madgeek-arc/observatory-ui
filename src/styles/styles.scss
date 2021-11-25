@@ -1,10 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import '../assets/css/eosc-observatory-variable-overwrites';
 
 /* UIKit */
 @import "variables-theme.scss";
 @import "mixins-theme.scss";
 
+@import '../assets/css/eosc-observatory-mixin-overwrites';
 
 /* UIKit */
 @import "uikit-theme.scss";
