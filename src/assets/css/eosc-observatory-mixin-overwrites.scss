@@ -1,0 +1,8 @@
+@mixin hook-navbar() {
+
+  // new rule
+  .uk-navbar-nav > li > a {
+    text-transform: none;
+    color: var(--black);
+  }
+}

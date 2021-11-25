@@ -1,1 +1,11 @@
-<router-outlet></router-outlet>
+<!--<router-outlet></router-outlet>-->
+
+<ng-container *ngIf="isContributionsDashboardRoute() ; else landing">
+  <app-contributions-dashboard></app-contributions-dashboard>
+</ng-container>
+
+<ng-template #landing>
+  <!--<top-menu-landing></top-menu-landing>-->
+  <router-outlet></router-outlet>
+  <!--<footer></footer>-->
+</ng-template>

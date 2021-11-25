@@ -1,0 +1,97 @@
+<div id="header_main">
+  <div class="main-menu tm-header uk-visible@m tm-header-transparent">
+
+    <div class="uk-navbar-container">
+      <div class="uk-container uk-container-expand">
+
+        <nav class="uk-navbar uk-light fixed-navbar">
+
+          <div class="uk-navbar-left">
+            <div id="hamburger" class="hamburger change">
+
+            </div>
+
+            <a class="logo">
+              <img src="https://providers.eosc-portal.eu/assets/images/EOSC_Portal_Logo.png">
+            </a>
+          </div>
+
+          <div class="uk-navbar-right">
+            <div id="navigation">
+              <ul class="uk-navbar-nav user_actions">
+                <li>
+                  <div>
+                    <a class="uk-icon ng-star-inserted" aria-expanded="false">
+                      <svg height="60" width="60">
+                        <circle cx="30" cy="30" r="20" stroke-width="1"></circle>
+                        <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%" class="ng-star-inserted"> {{ parseUsername() }} </text>
+                      </svg>
+                      <!--<i class="material-icons">keyboard_arrow_down</i>-->
+                    </a>
+                    <div class="uk-padding-remove-horizontal ng-star-inserted uk-dropdown" uk-dropdown="mode: click; offset: -2; delay-hide: 0; flip: false; pos: bottom-right">
+                      <ul class="uk-nav uk-dropdown-nav">
+                        <li>
+                          <a id="logout" (click)="logout()">Log out</a>
+                        </li>
+                      </ul>
+                    </div><!---->
+                    <div id="logout2"></div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+
+        </nav>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<!--<header id="header_main">-->
+  <!--<nav class="uk-navbar uk-light fixed-navbar">-->
+
+    <!--<div class="uk-container uk-container-expand">-->
+
+      <!--<div id="hamburger" class="hamburger change">-->
+
+      <!--</div>-->
+
+      <!--<a class="logo">-->
+        <!--<img src="">-->
+      <!--</a>-->
+
+      <!--<div id="navigation">-->
+        <!--<ul class="uk-navbar-nav user_actions">-->
+          <!--<li>-->
+            <!--<div>-->
+              <!--<a class="uk-icon ng-star-inserted" aria-expanded="false">-->
+                <!--<svg height="60" width="60">-->
+                  <!--<circle cx="30" cy="30" r="20" stroke-width="1"></circle>-->
+                  <!--<text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%" class="ng-star-inserted"> {{ parseUsername() }} </text>-->
+                <!--</svg>-->
+                <!--&lt;!&ndash;<i class="material-icons">keyboard_arrow_down</i>&ndash;&gt;-->
+              <!--</a>-->
+              <!--<div class="uk-padding-remove-horizontal ng-star-inserted uk-dropdown" uk-dropdown="mode: click; offset: -2; delay-hide: 0; flip: false; pos: bottom-right">-->
+                <!--<ul class="uk-nav uk-dropdown-nav">-->
+                  <!--<li>-->
+                    <!--<a id="logout" (click)="logout()">Log out</a>-->
+                  <!--</li>-->
+                <!--</ul>-->
+              <!--</div>&lt;!&ndash;&ndash;&gt;-->
+              <!--<div id="logout2"></div>-->
+            <!--</div>-->
+          <!--</li>-->
+        <!--</ul>-->
+      <!--</div>-->
+
+    <!--</div>-->
+
+  <!--</nav>-->
+
+<!--</header>&lt;!&ndash; main header end &ndash;&gt;-->
