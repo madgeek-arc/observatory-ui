@@ -7,7 +7,7 @@ import {HomeComponent} from "./pages/home.component";
 import {CatalogueUiModule} from "../catalogue-ui/catalogue-ui.module";
 import {SurveyFormComponent} from "./pages/survey-form/survey-form.component";
 import {DynamicFormModule} from "../catalogue-ui/pages/dynamic-form/dynamic-form.module";
-import {ContributionsDashboardComponent} from "./pages/contributions/contributions-dashboard.component";
+import {ContributionsDashboardComponent} from "./pages/contributions-dashboard/contributions-dashboard.component";
 import {ReusableComponentsModule} from "./shared/reusablecomponents/reusable-components.module";
 
 @NgModule({

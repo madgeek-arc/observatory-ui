@@ -2,6 +2,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { ContributionsDashboardComponent } from "./contributions-dashboard.component";
 import { SurveyFormComponent } from "../survey-form/survey-form.component";
+import { ContributionsHomeComponent } from "./home/contributions-home.component";
+import { MySurveysComponent } from "./my-surveys/my-surveys.component";
+import { MyGroupComponent } from "./my-group/my-group.component";
 
 const contributionsDashboardRoutes: Routes = [
   {
@@ -10,8 +13,20 @@ const contributionsDashboardRoutes: Routes = [
     // redirectTo: '/403-forbidden',
     children: [
       {
-        path: 'survey',
+        path: 'home',
+        component: ContributionsHomeComponent,
+      },
+      {
+        path: 'surveys',
+        component: MySurveysComponent,
+      },
+      {
+        path: 'surveys/id',
         component: SurveyFormComponent,
+      },
+      {
+        path: 'group',
+        component: MyGroupComponent,
       }
     ]
   }

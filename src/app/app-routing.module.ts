@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'contributions',
-    loadChildren: () => import('./pages/contributions/contributions-dashboard.module').then(m => m.ContributionsDashboardModule),
+    loadChildren: () => import('./pages/contributions-dashboard/contributions-dashboard.module').then(m => m.ContributionsDashboardModule),
     // canActivate: [AuthGuardService]
   },
 ];

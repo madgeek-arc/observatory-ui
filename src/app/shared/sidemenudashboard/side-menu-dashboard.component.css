@@ -36,6 +36,23 @@
   border-radius: 6px;
 }
 
+#sidebar_main .menu_section > ul > li.current_section {
+  background-color: transparent;
+}
+
+#sidebar_main .menu_section > ul > li.current_section a {
+  background-color: rgba(255, 205, 0, 0.5);
+  border-radius: 6px;
+}
+
+#sidebar_main .menu_section > ul > li.current_section > a:hover {
+  background-color: rgba(255, 205, 0, 0.5);
+}
+
+#sidebar_main .menu_section > ul > li.current_section a {
+  color: #1A1A1A !important;
+}
+
 .material-icons {
   width: 24px;
   height: 24px;

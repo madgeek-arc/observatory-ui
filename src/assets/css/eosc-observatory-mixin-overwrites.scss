@@ -10,3 +10,22 @@
     background: #fff;
   }
 }
+
+@mixin hook-tab() {
+
+  .uk-tab > * > a {
+    text-transform: none;
+  }
+}
+
+@mixin hook-button() {
+
+  .uk-button-primary {
+    background-color: #004494;
+  }
+
+  .uk-button-primary:hover {
+    background-color: #1e95b0;
+  }
+
+}
