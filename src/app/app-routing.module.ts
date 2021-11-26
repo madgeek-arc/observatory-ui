@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {HomeComponent} from "./pages/home.component";
-import {SurveyFormComponent} from "./pages/survey-form/survey-form.component";
+import {SurveyFormComponent} from "./pages/contributions-dashboard/my-surveys/survey-form/survey-form.component";
 
 const routes: Routes = [
   {

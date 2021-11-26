@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
-import {DynamicFormComponent} from "../../../catalogue-ui/pages/dynamic-form/dynamic-form.component";
+import {DynamicFormComponent} from "../../../../../catalogue-ui/pages/dynamic-form/dynamic-form.component";
 
 @Component({
   selector: 'app-survey-form',
@@ -11,7 +11,7 @@ export class SurveyFormComponent implements OnInit {
 
   tabsHeader: string = null;
   ngOnInit() {
-    this.tabsHeader = 'Header for tabs block';
+    this.tabsHeader = 'Sections';
   }
 
   callChildFnc() {

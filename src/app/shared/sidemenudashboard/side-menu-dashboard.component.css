@@ -41,12 +41,14 @@
 }
 
 #sidebar_main .menu_section > ul > li.current_section a {
-  background-color: rgba(255, 205, 0, 0.5);
+  /*background-color: rgba(255, 205, 0, 0.5);*/
+  background-color: #ececec;
   border-radius: 6px;
 }
 
 #sidebar_main .menu_section > ul > li.current_section > a:hover {
-  background-color: rgba(255, 205, 0, 0.5);
+  background-color: #ececec;
+  /*background-color: rgba(255, 205, 0, 0.5);*/
 }
 
 #sidebar_main .menu_section > ul > li.current_section a {

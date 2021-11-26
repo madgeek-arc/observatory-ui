@@ -366,15 +366,12 @@ a.footerLink:hover {
   color: var(--grey);
 }
 
-.uk-button-secondary {
-  text-transform: uppercase;
-  border: 1px solid var(--catalogue-light-purple);
-  color: var(--catalogue-light-purple);
+.uk-button-secondary, .uk-button-secondary:hover {
+  border-radius: 60px;
+  background-color: #fff;
+  color: var(--primary-color);
 }
 
-.uk-button-secondary:hover {
-  background: transparent linear-gradient(254deg, var(--openaire-light-blue) 0%, var(--catalogue-light-purple) 100%) 0 0 no-repeat padding-box;
-}
 
 a.uk-button {
   line-height: 50px;
@@ -403,165 +400,21 @@ a.uk-icon-button {
 
 
 
-.uk-navbar-dropbar {
-  background-color: #fff;
-  color: var(--dark-grey);
-}
-
-.navbar .nav > li > .dropdown-menu, .uk-navbar-dropdown {
-  padding: 20px 0;
-  color: var(--dark-grey);
-  font: normal normal normal 16px/24px Aileron;
-  letter-spacing: 0px;
-}
-
-.default-menu-item {
-  font: normal normal normal 14px/22px var(--main-font-family) !important;
-  text-transform: capitalize !important;
-  color: var(--black) !important;
-  text-align: left !important;
-  letter-spacing: 0.14px !important;
-  opacity: 1 !important;
-}
-
-.browse-dropdown-menu .services a {
-  color: var(--black) !important;
-  text-decoration: none;
-}
-
-.help-section a {
-  color: var(--catalogue-light-purple) !important;
-  text-decoration: none;
-}
-
-.help-section a:hover {
-  color: var(--openaire-light-blue) !important;
-}
-
-/*.service-menu {*/
-  /*margin-top: -10px;*/
-/*}*/
-
-.service-menu .uk-navbar-container {
-  background-color: var(--catalogue-dark-purple);
-  color: #fff;
-}
-
-.service-menu > .uk-active {
-  background-color: #fff;
-  color: #fff;
-}
-
-.service-menu-item {
-  font: normal normal normal 14px/22px var(--main-font-family) !important;
-  text-transform: capitalize !important;
-  color: #fff !important;
-  text-align: left !important;
-  letter-spacing: 0.14px !important;
-  opacity: 1 !important;
-}
-
-.service-menu > .uk-active .service-menu-item {
-  color: var(--black) !important;
-}
-
-.uk-active > .service-menu-item {
-  font: normal normal 600 14px/22px var(--main-font-family) !important;
-  color: var(--catalogue-light-purple) !important;
-  text-decoration-line: underline !important;
-  text-underline-offset: 5px;
-  text-decoration-thickness: 1.5px;
-}
-
-a.service-menu-item:hover {
-  color: #fff !important;
-}
-
-.service-menu > .uk-active .uk-active > .service-menu-item {
-  color: var(--catalogue-light-purple) !important;
-}
-
-.service-menu > :not(.uk-active) .uk-navbar-left {
-  display: none;
-}
-
-.uk-navbar-nav > li.uk-active > a::before, .uk-navbar-nav > li:hover > a::before {
-  background-color: transparent;
-}
-
-.uk-navbar-nav > li > a::before {
-  background-image: none;
-}
-
-@media only screen and (max-width: 960px) {
-
-  .uk-navbar-container:not(.uk-navbar-transparent) {
-    background: #fff;
-    opacity: 1;
-  }
-
-  .uk-navbar-toggle, .uk-navbar-toggle:focus {
-    color: var(--grey-900);
-  }
-
-  .help-section {
-    font-size: 20px;
-  }
-
-  .service-tabs.uk-tab {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    background: var(--catalogue-dark-purple);
-    padding-bottom: 15px;
-    padding-top: 10px;
-    padding-left: 20px;
-    margin-bottom: 0px;
-  }
-
-  .service-tabs.uk-tab > .uk-active > a {
-    border: none;
-  }
-
-  .service-tabs.uk-tab > .uk-active > a {
-    color: var(--catalogue-light-purple) !important;
-  }
-
-  .service-tabs.uk-tab > * > a {
-    color: #fff !important;
-  }
-
-  .service-tabs.uk-tab > li:not(.uk-active) > a {
-    text-decoration: none;
-  }
-
-  #tm-mobile {
-    overflow-y: scroll;
-    overscroll-behavior: contain;
-    height: 90vh;
-  }
-
-  .tm-mobile-background {
-    z-index: 3;
-    display: none;
-    padding-top: 100px;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
-  }
-}
-
-
 /* ========================================================================
    Cards
  ========================================================================== */
 
-.uk-card .el-meta {
-  font-weight: normal !important;
+.survey-card .uk-card-badge {
+  background-color: transparent;
+  color: #212121;
+  opacity: .6;
+  justify-content: right;
+  text-transform: none;
+}
+
+.survey-card a {
+  color: var(--black);
+  text-decoration: none;
 }
 
 .uk-card-default {
@@ -578,117 +431,30 @@ a.service-menu-item:hover {
   color: var(--black);
 }
 
-.uk-card-primary {
-  background: transparent linear-gradient(213deg, var(--openaire-light-blue) 0%, var(--catalogue-light-purple) 100%) 0% 0% no-repeat padding-box;
-}
-
-.uk-card-default.uk-card-hover:hover {
-  background: var(--light-grey) 0 0 no-repeat padding-box;
-}
-/*.card-icon-no-button {*/
-  /**/
-/*}*/
-
-/*.insight-info-card {*/
-  /*background: var(--light-grey) 0 0 no-repeat padding-box;*/
-  /*border-radius: 6px;*/
-  /*opacity: 1;*/
-/*}*/
-
-/* ========================================================================
-   Pricing
- ========================================================================== */
-
-
-
-/* ========================================================================
-   Sliders
- ========================================================================== */
-
-.uk-slideshow-items > .uk-active {
-  display: flex;
-}
-
-.uk-dotnav > * > * {
-  width: 16px;
-  height: 16px;
-  background-color: var(--catalogue-light-purple) !important;
-  opacity: 0.4;
-  border: none !important;
-}
-
-.uk-dotnav > .uk-active > * {
-  background-color: var(--catalogue-light-purple) !important;
-  opacity: 1;
-}
-
-.slider-image {
-
-}
-
-.slider-text {
-  position: relative;
-  /*left: -70px;*/
-}
-
-.slider-bold-background-header {
-  text-align: left;
-  font: normal normal bold 229px/286px Bitter;
-  letter-spacing: 0px;
-  color: #211F7E;
-  opacity: 0.03;
-  position: absolute;
-  top: -80px;
-  left: -80px;
-  white-space: nowrap;
-  overflow: clip;
-  z-index: -10;
-}
-
-.slider-header {
-  color: var(--black);
-  /*text-align: left;*/
-  font: normal normal normal 45px/56px var(--secondary-font-family);
-  letter-spacing: 0px;
-  opacity: 1;
-}
-
-.slider-description {
-  color: var(--grey);
-  /*text-align: left;*/
-  font: normal normal normal 16px/24px var(--main-font-family);
-  letter-spacing: 0px;
-  opacity: 1;
-}
-
-
-/* ========================================================================
-   Component: Footer
- ========================================================================== */
-
-.footerSection {
-  text-align: left;
-  font: normal normal 300 12px/20px var(--main-font-family);
-  letter-spacing: 0px;
-  opacity: 1;
-}
-
-.footerLink {
-  font: normal normal normal 16px/21px var(--main-font-family);
-  text-decoration: none;
-}
-
-.newsletter-link {
-  font: normal normal 600 19px/26px Open Sans;
-}
-
-
 /* ========================================================================
    Forms
  ========================================================================== */
 
+.titleAndActionsBar {
+  //background: rgba(255, 205, 0, 0.5) 0% 0% no-repeat padding-box;
+  background: rgba(0, 68, 148, 0.9) 0% 0% no-repeat padding-box;
+}
+
+.uk-tab-left > li {
+  margin-bottom: 15px;
+}
+
 .uk-tab-left > * > a {
   text-decoration: none;
+  padding: 10px 15px;
+}
+
+.uk-tab > .uk-active > a {
+  //background-color: rgba(255, 205, 0, 0.5);
+  background-color: rgba(0, 68, 148, 0.9);
+  //color: var(--black) !important;
+  border-color: transparent;
+  font-weight: normal;
 }
 
 .uk-input:not([class*="menuSearch"]) {
@@ -701,6 +467,14 @@ a.service-menu-item:hover {
 .ng-select {
   background-color: #fff;
   border: 1px solid var(--default-element-bg);
+}
+
+.uk-form-description {
+  background-color: rgba(0, 68, 148, 0.1);
+  padding: .8em;
+  margin: 30px 0;
+  width: auto;
+  border-radius: 4px;
 }
 
 /* ========================================================================

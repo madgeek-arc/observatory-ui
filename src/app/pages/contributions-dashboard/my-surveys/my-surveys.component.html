@@ -8,16 +8,37 @@
     <div class="uk-grid uk-grid-match uk-child-width-1-3">
 
       <div>
-        <a [routerLink]="['./id']">
-          <div class="uk-card uk-card-body uk-card-default uk-card-hover">
-            <div>
-              <h5>National Contributions to EOSC</h5>
+        <div class="uk-card uk-card-default survey-card">
+
+          <div class="uk-card-body">
+
+            <div class="uk-card-badge">
+              Published on 16.12.2021
             </div>
-            <div>
+
+            <div class="uk-margin-top">
+              <h5>National Contributions to EOSC</h5>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt, leo eu lobortis ultrices,</p>
             </div>
+
           </div>
-        </a>
+
+          <div class="uk-card-footer uk-flex">
+
+            <a [routerLink]="['./id']">
+              <div class="uk-margin-right uk-flex uk-flex-middle">
+                  <span class="material-icons uk-margin-small-right">edit</span>
+                  Edit
+              </div>
+            </a>
+            <div class="uk-flex uk-flex-middle" style="border-left: 1px solid #e5e5e5; padding-left: 20px;">
+              <span class="material-icons uk-margin-small-right">task_alt</span>
+              Validate
+            </div>
+
+          </div>
+
+        </div>
       </div>
 
     </div>
