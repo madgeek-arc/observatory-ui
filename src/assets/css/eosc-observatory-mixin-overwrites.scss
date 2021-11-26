@@ -15,7 +15,15 @@
 
   .uk-tab > * > a {
     text-transform: none;
+    color: red;
   }
+}
+
+@mixin hook-tab-item() {
+
+
+  //color: red;
+  //  text-transform: none;
 }
 
 @mixin hook-button() {
