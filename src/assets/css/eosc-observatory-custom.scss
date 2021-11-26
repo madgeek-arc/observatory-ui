@@ -477,6 +477,19 @@ a.uk-icon-button {
   border-radius: 4px;
 }
 
+.uk-subLabel {
+  font-size: 14px !important;
+  font-weight: normal;
+  margin-bottom: 10px !important;
+}
+
+a.add-new-element {
+  font-weight: bold;
+  letter-spacing: -0.35px;
+  color: var(--primary-color);
+  opacity: 1;
+}
+
 /* ========================================================================
    Pagination
  ========================================================================== */
