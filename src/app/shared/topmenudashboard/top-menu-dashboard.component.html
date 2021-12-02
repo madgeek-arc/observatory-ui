@@ -21,11 +21,11 @@
 
           <div class="uk-navbar-right">
             <div id="navigation">
-              <ul class="uk-navbar-nav user_actions">
+              <ul *ngIf="userInfo" class="uk-navbar-nav user_actions">
                 <li>
                   <div>
                     <a class="uk-icon ng-star-inserted" aria-expanded="false">
-                      <span class="uk-text-small uk-margin-small-right">EOSC SG (Greece)</span>
+                      <span *ngIf="currentGroup" class="uk-text-small uk-margin-small-right">{{currentGroup.name}}</span>
                       <svg height="60" width="60">
                         <circle cx="30" cy="30" r="20" stroke-width="1"></circle>
                         <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%" class="ng-star-inserted"> {{ parseUsername() }} </text>
@@ -36,16 +36,13 @@
                       <ul class="uk-nav uk-dropdown-nav">
                         <li class="user-info">
                           <div>
-                            <div class="uk-text-bold">Stefania Martziou</div>
-                            <div class="uk-text-meta">stefania.martziou@athenarc.gr</div>
+                            <div class="uk-text-bold">{{userInfo.user.fullname}}</div>
+                            <div class="uk-text-meta">{{userInfo.user.email}}</div>
                           </div>
                         </li>
                         <hr>
-                        <li class="groups">
-                          <a><span class="material-icons uk-margin-right">group</span>EOSC SG (Greece)</a>
-                        </li>
-                        <li class="groups">
-                          <a class="uk-margin-small-top"><span class="material-icons uk-margin-right">group</span>EOSC Association (AthenaRC)</a>
+                        <li class="groups" *ngFor="let group of userInfo.memberOf">
+                          <a (click)="setGroup(group)"><span class="material-icons uk-margin-right">group</span>{{group.name}}</a>
                         </li>
                         <hr>
                         <li>

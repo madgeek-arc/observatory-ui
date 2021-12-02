@@ -1,4 +1,6 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, Input, OnInit, ViewChild} from "@angular/core";
+import {MemberOf} from "../../../catalogue-ui/domain/userInfo";
+import {UserService} from "../../../catalogue-ui/services/user.service";
 
 @Component({
   selector: 'app-side-menu-dashboard',
@@ -6,9 +8,20 @@ import {Component, OnInit, ViewChild} from "@angular/core";
   styleUrls: ['./side-menu-dashboard.component.css']
 })
 
-export class SideMenuDashboardComponent {
+export class SideMenuDashboardComponent implements OnInit {
 
   toggle: number[] = [];
+  currentGroup: MemberOf = null;
+
+  constructor(private userService: UserService) {
+  }
+
+  ngOnInit() {
+    this.userService.currentStakeholderGroup.subscribe(next => {
+      console.log(next);
+      this.currentGroup = next;
+    });
+  }
 
   setToggle(position: number) {
     if (this.toggle[position] === position) {
