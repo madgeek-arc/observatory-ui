@@ -19,6 +19,6 @@ export class AppComponent {
   }
 
   logInButton() {
-    window.location.href = '/observatory/login';
+    window.location.href = 'http://localhost:8280/observatory/login';
   }
 }

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from "@angular/core";
-import {MemberOf} from "../../../catalogue-ui/domain/userInfo";
+import {MemberOf} from "../../domain/userInfo";
 import {UserService} from "../../../catalogue-ui/services/user.service";
 
 @Component({
@@ -18,7 +18,6 @@ export class SideMenuDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.userService.currentStakeholderGroup.subscribe(next => {
-      console.log(next);
       this.currentGroup = next;
     });
   }

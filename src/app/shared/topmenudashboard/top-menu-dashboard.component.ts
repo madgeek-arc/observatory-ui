@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
-import {MemberOf, UserInfo} from "../../../catalogue-ui/domain/userInfo";
+import {MemberOf, UserInfo} from "../../domain/userInfo";
 import {UserService} from "../../../catalogue-ui/services/user.service";
 import {Router} from "@angular/router";
 
@@ -19,7 +19,6 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.userService.currentStakeholderGroup.subscribe(next => {
-      console.log(next);
       this.currentGroup = next;
     });
   }

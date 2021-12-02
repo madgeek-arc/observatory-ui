@@ -1,7 +1,6 @@
 export class UserInfo {
   memberOf: MemberOf[];
   user: User;
-
 }
 
 export class MemberOf {
@@ -21,4 +20,9 @@ export class User {
   name: string;
   sub: string;
   surname: string
+}
+
+export class StakeholdersMembers {
+  contributors: User[];
+  managers: User[];
 }

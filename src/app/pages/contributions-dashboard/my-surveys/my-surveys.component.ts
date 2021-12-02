@@ -1,8 +1,9 @@
 import {Component, OnInit} from "@angular/core";
-import {MemberOf} from "../../../../catalogue-ui/domain/userInfo";
+import {MemberOf} from "../../../domain/userInfo";
 import {UserService} from "../../../../catalogue-ui/services/user.service";
 import {Paging} from "../../../../catalogue-ui/domain/paging";
-import {Survey} from "../../../../catalogue-ui/domain/survey";
+import {Survey} from "../../../domain/survey";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-contributions-my-surveys',
@@ -20,18 +21,16 @@ export class MySurveysComponent implements OnInit{
   ngOnInit() {
     this.userService.currentStakeholderGroup.subscribe(
       next => {
-        console.log(next);
         this.currentGroup = next;
-        this.userService.getUserSurveys(this.currentGroup.type).subscribe(
-          next => {
-            this.surveys = next;
-            console.log(this.surveys);
-          });
+        if (this.currentGroup !== null) {
+          this.userService.getUserSurveys(this.currentGroup.type).subscribe(
+            next => {
+              this.surveys = next;
+            });
+        }
       },
-      error => {console.log(error)},
-      () => {
-
-      });
+      error => {console.error(error)},
+      () => {});
   }
 
 }

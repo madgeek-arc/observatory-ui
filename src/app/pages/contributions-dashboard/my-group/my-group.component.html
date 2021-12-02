@@ -1,6 +1,5 @@
 <div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 90vh;">
   <div class="uk-container uk-container-expand uk-margin-left uk-margin-right uk-margin-top">
-
     <div class="uk-card uk-card-default uk-card-body">
 
       <div class="uk-flex uk-flex-right">
@@ -8,7 +7,7 @@
       </div>
 
       <div class="uk-overflow-auto uk-margin-medium-top">
-        <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+        <table *ngIf="members" class="uk-table uk-table-hover uk-table-middle uk-table-divider">
           <thead>
           <tr>
             <!--<th class=""><input class="uk-checkbox" type="checkbox"></th>-->
@@ -19,15 +18,12 @@
           </tr>
           </thead>
           <tbody>
-            <tr>
-              <!--<td>-->
-                <!--<input class="uk-checkbox" type="checkbox">-->
-              <!--</td>-->
+            <tr *ngFor="let member of members.managers">
               <td>
-                Stefania Martziou
+                {{member.fullname}}
               </td>
               <td class="">
-                stefania.martziou@athenarc.gr
+                {{member.email}}
               </td>
               <td class="">
                 Manager
@@ -36,38 +32,18 @@
                 <!--<span class="material-icons">delete</span>-->
               </td>
             </tr>
-            <tr>
-              <!--<td>-->
-                <!--<input class="uk-checkbox" type="checkbox">-->
-              <!--</td>-->
+            <tr *ngFor="let member of members.contributors">
               <td>
-                Konstantinos Spyrou
+                {{member.fullname}}
               </td>
               <td class="">
-                spyroukon@di.uoa.gr
+                {{member.email}}
               </td>
               <td class="">
                 Contributor
               </td>
               <td class="uk-text-nowrap">
-                <span class="material-icons">delete</span>
-              </td>
-            </tr>
-            <tr>
-              <!--<td>-->
-                <!--<input class="uk-checkbox" type="checkbox">-->
-              <!--</td>-->
-              <td>
-                John Balasis
-              </td>
-              <td class="">
-                j.balasis92@gmail.com
-              </td>
-              <td class="">
-                Contributor
-              </td>
-              <td class="uk-text-nowrap">
-                <span class="material-icons">delete</span>
+                <!--<span class="material-icons">delete</span>-->
               </td>
             </tr>
           </tbody>
