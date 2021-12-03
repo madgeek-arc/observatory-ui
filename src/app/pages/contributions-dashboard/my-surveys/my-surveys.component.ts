@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {MemberOf} from "../../../domain/userInfo";
-import {UserService} from "../../../../catalogue-ui/services/user.service";
+import {UserService} from "../../../services/user.service";
 import {Paging} from "../../../../catalogue-ui/domain/paging";
 import {Survey} from "../../../domain/survey";
 import {Subject} from "rxjs";
@@ -28,6 +28,7 @@ export class MySurveysComponent implements OnInit{
               this.surveys = next;
             });
         }
+        console.log(this.currentGroup);
       },
       error => {console.error(error)},
       () => {});

@@ -13,18 +13,20 @@
 
   </div>
 
-  <div class="uk-card-footer uk-flex">
+  <div *ngIf="permissions" class="uk-card-footer uk-flex">
 
-    <a [routerLink]="['./', survey.id]">
+    <a [routerLink]="['./', answer.id]" *ngIf="permissions.includes('write')">
       <div class="uk-margin-right uk-flex uk-flex-middle">
         <span class="material-icons uk-margin-small-right">edit</span>
         Edit
       </div>
     </a>
-    <div class="uk-flex uk-flex-middle" style="border-left: 1px solid #e5e5e5; padding-left: 20px;">
-      <span class="material-icons uk-margin-small-right">task_alt</span>
-      Validate
-    </div>
+    <a *ngIf="permissions.includes('validate')">
+      <div class="uk-flex uk-flex-middle" style="border-left: 1px solid #e5e5e5; padding-left: 20px;">
+        <span class="material-icons uk-margin-small-right">task_alt</span>
+        Validate
+      </div>
+    </a>
 
   </div>
 

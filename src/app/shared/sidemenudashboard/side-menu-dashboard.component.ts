@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from "@angular/core";
 import {MemberOf} from "../../domain/userInfo";
-import {UserService} from "../../../catalogue-ui/services/user.service";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-side-menu-dashboard',

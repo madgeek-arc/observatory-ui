@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {UserService} from "../../../../catalogue-ui/services/user.service";
+import {UserService} from "../../../services/user.service";
 import {MemberOf, StakeholdersMembers} from "../../../domain/userInfo";
 
 @Component({

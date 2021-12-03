@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
-import {UserService} from "../../../catalogue-ui/services/user.service";
+import {UserService} from "../../services/user.service";
 import {MemberOf, UserInfo} from "../../domain/userInfo";
 import {Router} from "@angular/router";
 
@@ -20,6 +20,7 @@ export class ContributionsDashboardComponent implements OnInit{
       res => {
         this.userInfo = res;
         this.userService.changeCurrentGroup(this.userInfo.memberOf[0]);
+        this.userService.userId = this.userInfo.user.email;
       }, error => {
         this.router.navigate(['/home']);
       }

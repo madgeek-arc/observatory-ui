@@ -1,10 +1,10 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
-import {MemberOf, StakeholdersMembers, UserInfo} from "../../app/domain/userInfo";
+import {MemberOf, StakeholdersMembers, UserInfo} from "../domain/userInfo";
 import {BehaviorSubject, Observable, Subject} from "rxjs";
-import {Paging} from "../domain/paging";
-import {Survey} from "../../app/domain/survey";
+import {Paging} from "../../catalogue-ui/domain/paging";
+import {Survey} from "../domain/survey";
 
 @Injectable()
 export class UserService {
@@ -12,6 +12,7 @@ export class UserService {
   options = {withCredentials: true};
   base = environment.API_ENDPOINT;
 
+  userId = null;
   currentStakeholderGroup = new BehaviorSubject<MemberOf>(null);
 
   constructor(public http: HttpClient) {}

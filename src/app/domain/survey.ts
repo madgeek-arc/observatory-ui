@@ -18,3 +18,20 @@ export class Chapter {
   description: string;
   sections: string[];
 }
+
+export class SurveyAnswer {
+  surveyId: string;
+  stakeholderId: string;
+  answer: Object;
+  metadata: Metadata;
+  validated: boolean;
+  published: boolean;
+  id: string;
+}
+
+export class Metadata {
+  creationDate: string;
+  createdDy: User;
+  modificationDate: string;
+  modifiedBy: User;
+}

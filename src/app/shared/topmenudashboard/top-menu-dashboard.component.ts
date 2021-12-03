@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
 import {MemberOf, UserInfo} from "../../domain/userInfo";
-import {UserService} from "../../../catalogue-ui/services/user.service";
+import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
 
 @Component({
