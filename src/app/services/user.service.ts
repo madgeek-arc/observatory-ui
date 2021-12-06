@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {MemberOf, StakeholdersMembers, UserInfo} from "../domain/userInfo";
-import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {Paging} from "../../catalogue-ui/domain/paging";
 import {Survey} from "../domain/survey";
 
@@ -24,6 +24,10 @@ export class UserService {
 
   getUserInfo() {
     return this.http.get<UserInfo>(this.base + '/user/info');
+  }
+
+  setUserConsent(value: boolean) {
+    return this.http.patch(this.base + `/user/consent?consent=${value}`, null);
   }
 
   getUserSurveys(type: string) {

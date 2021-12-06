@@ -30,7 +30,7 @@ export class SurveyCardComponent implements OnChanges {
           this.surveyService.getLatestAnswer(this.currentGroup.id, this.survey.id).subscribe(
             next => {
               this.answer = next;
-              this.surveyService.getPermissions(this.answer.id, this.userService.userId).subscribe(
+              this.surveyService.getPermissions(this.answer.id).subscribe(
                 next => {
                   this.permissions = next;
                   console.log(next);

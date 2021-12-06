@@ -5,6 +5,11 @@ import {SurveyFormComponent} from "./pages/contributions-dashboard/my-surveys/su
 
 const routes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'home'
+  },
+  {
     path: 'home',
     component: HomeComponent
   },
