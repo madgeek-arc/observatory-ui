@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  beta: false,
+  beta: true,
   MATOMO_URL: '',
   MATOMO_SITE: -1,
-  API_LOGIN: 'http://localhost:8280/observatory',
+  API_LOGIN: 'http://audrey.athenarc.gr:8080/observatory',
   API_ENDPOINT: '/observatory',
   API_TOKEN_ENDPOINT: '',
   projectName: 'Observatory',

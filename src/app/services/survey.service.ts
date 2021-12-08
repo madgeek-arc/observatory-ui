@@ -1,7 +1,8 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {SurveyAnswer} from "../domain/survey";
+import {Survey, SurveyAnswer} from "../domain/survey";
+import {Paging} from "../../catalogue-ui/domain/paging";
 
 @Injectable()
 export class SurveyService {
@@ -12,7 +13,11 @@ export class SurveyService {
   constructor(public http: HttpClient) {}
 
   getLatestAnswer(stakeHolderId: string, surveyId: string) {
-    return this.http.get<SurveyAnswer>(this.base + `/answers/latest?stakeholderId=${stakeHolderId}&surveyId=${surveyId}`);
+    return this.http.get<SurveyAnswer>(this.base + `/answers/latest?stakeholderId=${stakeHolderId}&surveyId=${surveyId}`, this.options);
+  }
+
+  getSurveys(type: string) {
+    return this.http.get<Paging<Survey>>(this.base + `/surveys?type=${type}`);
   }
 
   getPermissions(resourceId: string) {

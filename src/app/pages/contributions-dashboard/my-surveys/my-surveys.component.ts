@@ -4,10 +4,12 @@ import {UserService} from "../../../services/user.service";
 import {Paging} from "../../../../catalogue-ui/domain/paging";
 import {Survey} from "../../../domain/survey";
 import {Subject} from "rxjs";
+import {SurveyService} from "../../../services/survey.service";
 
 @Component({
   selector: 'app-contributions-my-surveys',
-  templateUrl: './my-surveys.component.html'
+  templateUrl: './my-surveys.component.html',
+  providers: [SurveyService]
 })
 
 export class MySurveysComponent implements OnInit{
@@ -15,7 +17,7 @@ export class MySurveysComponent implements OnInit{
   currentGroup: MemberOf = null;
   surveys: Paging<Survey>;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private surveyService: SurveyService) {
   }
 
   ngOnInit() {
@@ -23,7 +25,7 @@ export class MySurveysComponent implements OnInit{
       next => {
         this.currentGroup = next;
         if (this.currentGroup !== null) {
-          this.userService.getUserSurveys(this.currentGroup.type).subscribe(
+          this.surveyService.getSurveys(this.currentGroup.type).subscribe(
             next => {
               this.surveys = next;
             });

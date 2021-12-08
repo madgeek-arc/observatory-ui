@@ -30,10 +30,6 @@ export class UserService {
     return this.http.patch(this.base + `/user/consent?consent=${value}`, null);
   }
 
-  getUserSurveys(type: string) {
-    return this.http.get<Paging<Survey>>(this.base + `/surveys/type/${type}`);
-  }
-
   getStakeholdersMembers(id: string) {
     return this.http.get<StakeholdersMembers>(this.base + `/stakeholders/${id}/members`);
   }
