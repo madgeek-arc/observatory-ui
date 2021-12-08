@@ -21,7 +21,7 @@ const contributionsDashboardRoutes: Routes = [
         component: MySurveysComponent,
       },
       {
-        path: 'surveys/:id',
+        path: 'surveys/:surveyId/answer/:answerId',
         component: SurveyFormComponent,
       },
       {

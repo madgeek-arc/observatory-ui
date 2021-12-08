@@ -21,19 +21,17 @@ export class SurveyCardComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
+    console.log(this.survey);
     this.userService.currentStakeholderGroup.subscribe(
       next => {
         this.currentGroup = next;
         if (this.currentGroup !== null) {
-          console.log(this.currentGroup);
           this.surveyService.getLatestAnswer(this.currentGroup.id, this.survey.id).subscribe(
             next => {
               this.answer = next;
               this.surveyService.getPermissions(this.answer.id).subscribe(
                 next => {
                   this.permissions = next;
-                  console.log(next);
                 });
             });
         }

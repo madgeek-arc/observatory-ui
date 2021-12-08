@@ -16,6 +16,7 @@ export class SurveyFormComponent implements OnInit {
   private sub: Subscription;
   tabsHeader: string = null;
   answerValue: Object = null;
+  surveyId: string = null;
 
   constructor(private surveyService: SurveyService, private route: ActivatedRoute) {
   }
@@ -23,9 +24,10 @@ export class SurveyFormComponent implements OnInit {
   ngOnInit() {
     this.tabsHeader = 'Sections';
     this.sub = this.route.params.subscribe(params => {
-      this.surveyService.getAnswerValues(params['id']).subscribe(
+      this.surveyId = params['surveyId'];
+      this.surveyService.getAnswerValues(params['answerId']).subscribe(
         res => {
-          console.log(res)
+          // console.log(res)
           this.answerValue = res;
         });
     });
