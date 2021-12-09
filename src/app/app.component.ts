@@ -19,8 +19,4 @@ export class AppComponent {
     return (this.router.url.startsWith('/contributions'));
   }
 
-  logInButton() {
-    this.loginService.login();
-    // window.location.href = 'http://localhost:8280/observatory/login';
-  }
 }

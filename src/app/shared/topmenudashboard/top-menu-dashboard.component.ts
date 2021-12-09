@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core"
 import {MemberOf, UserInfo} from "../../domain/userInfo";
 import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
+import {LoginService} from "../../services/login.service";
 
 @Component({
   selector: 'app-top-menu-dashboard',
@@ -14,7 +15,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges {
 
   currentGroup: MemberOf = null;
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private userService: UserService, private loginService: LoginService, private router: Router) {
   }
 
   ngOnInit() {
@@ -46,7 +47,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges {
   }
 
   logout() {
-    // this.authService.logout();
+    this.loginService.logout();
   }
 
   change() {
