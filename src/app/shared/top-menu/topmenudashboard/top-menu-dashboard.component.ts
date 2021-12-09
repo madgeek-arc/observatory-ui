@@ -1,13 +1,13 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
-import {MemberOf, UserInfo} from "../../domain/userInfo";
-import {UserService} from "../../services/user.service";
+import {MemberOf, UserInfo} from "../../../domain/userInfo";
+import {UserService} from "../../../services/user.service";
 import {Router} from "@angular/router";
-import {LoginService} from "../../services/login.service";
+import {LoginService} from "../../../services/login.service";
 
 @Component({
   selector: 'app-top-menu-dashboard',
   templateUrl: 'top-menu-dashboard.component.html',
-  styleUrls: ['./top-menu-dashboard.component.css']
+  styleUrls: ['../top-menu.component.css']
 })
 
 export class TopMenuDashboardComponent implements OnInit, OnChanges {
