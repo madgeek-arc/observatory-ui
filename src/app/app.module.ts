@@ -9,6 +9,7 @@ import {SurveyFormComponent} from "./pages/contributions-dashboard/my-surveys/su
 import {DynamicFormModule} from "../catalogue-ui/pages/dynamic-form/dynamic-form.module";
 import {ContributionsDashboardComponent} from "./pages/contributions-dashboard/contributions-dashboard.component";
 import {ReusableComponentsModule} from "./shared/reusablecomponents/reusable-components.module";
+import {UserService} from "./services/user.service";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import {ReusableComponentsModule} from "./shared/reusablecomponents/reusable-com
     DynamicFormModule,
     ReusableComponentsModule,
   ],
-  providers: [],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,7 +9,7 @@ import * as UIkit from 'uikit';
 @Component({
   selector: 'app-contributions-dashboard',
   templateUrl: 'contributions-dashboard.component.html',
-  providers: [UserService, LoginService]
+  providers: [LoginService]
 })
 
 export class ContributionsDashboardComponent implements OnInit{
@@ -39,7 +39,6 @@ export class ContributionsDashboardComponent implements OnInit{
   }
 
   updateConsent(value: boolean) {
-      console.log(value);
       this.userService.setUserConsent(value).subscribe(
         next => {
           UIkit.modal('#consent-modal').hide();

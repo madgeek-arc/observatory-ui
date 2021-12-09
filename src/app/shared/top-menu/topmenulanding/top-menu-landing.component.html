@@ -16,43 +16,15 @@
 
           <div class="uk-navbar-right">
             <div id="navigation">
-              <ul *ngIf="userInfo" class="uk-navbar-nav user_actions">
-                <li>
-                  <div>
-                    <a class="uk-icon ng-star-inserted" aria-expanded="false">
-                      <span *ngIf="currentGroup" class="uk-text-small uk-margin-small-right">{{currentGroup.name}}</span>
-                      <svg height="60" width="60">
-                        <circle cx="30" cy="30" r="20" stroke-width="1"></circle>
-                        <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%" class="ng-star-inserted"> {{ parseUsername() }} </text>
-                      </svg>
-                      <!--<i class="material-icons">keyboard_arrow_down</i>-->
-                    </a>
-                    <div class="uk-padding-remove-horizontal ng-star-inserted uk-dropdown" uk-dropdown="mode: click; offset: -2; delay-hide: 0; flip: false; pos: bottom-right">
-                      <ul class="uk-nav uk-dropdown-nav">
-                        <li class="user-info">
-                          <div>
-                            <div class="uk-text-bold">{{userInfo.user.fullname}}</div>
-                            <div class="uk-text-meta">{{userInfo.user.email}}</div>
-                          </div>
-                        </li>
-                        <hr>
-                        <li class="groups" *ngFor="let group of userInfo.memberOf">
-                          <a (click)="setGroup(group)"><span class="material-icons uk-margin-right">group</span>{{group.name}}</a>
-                        </li>
-                        <hr>
-                        <li>
-                          <a id="logout" (click)="logout()">Log out</a>
-                        </li>
-                      </ul>
-                    </div><!---->
-                    <div id="logout2"></div>
-                  </div>
-                </li>
-              </ul>
-              <ul *ngIf="!userInfo" class="uk-navbar-nav user_actions">
-                <li>
+              <ul class="uk-navbar-nav user_actions">
+                <li *ngIf="showLogin">
                   <div>
                     <a class="uk-button uk-button-link" (click)="logInButton()">Login</a>
+                  </div>
+                </li>
+                <li *ngIf="!showLogin">
+                  <div>
+                    <a class="uk-button uk-button-link" [routerLink]="'/contributions/home'">Go to Dashboard</a>
                   </div>
                 </li>
               </ul>

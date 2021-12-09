@@ -8,11 +8,6 @@ import {LoginService} from "../services/login.service";
 
 export class HomeComponent {
 
-  constructor(private loginService: LoginService) {
-  }
-
-  logInButton() {
-    this.loginService.login();
-    // window.location.href = 'http://localhost:8280/observatory/login';
+  constructor() {
   }
 }

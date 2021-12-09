@@ -7,42 +7,24 @@ import {LoginService} from "../../../services/login.service";
 @Component({
   selector: 'app-top-menu-landing',
   templateUrl: 'top-menu-landing.component.html',
-  styleUrls: ['../top-menu.component.css']
+  styleUrls: ['../top-menu.component.css'],
+  providers: [LoginService]
 })
 
 export class TopMenuLandingComponent implements OnInit {
-  @Input() userInfo: UserInfo = null;
 
-  currentGroup: MemberOf = null;
+  showLogin = true;
 
-  constructor(private userService: UserService, private loginService: LoginService, private router: Router) {
+  constructor(private userService: UserService, private loginService: LoginService) {
   }
 
   ngOnInit() {
-    this.userService.currentStakeholderGroup.subscribe(next => {
-      this.currentGroup = next;
+    this.userService.getUserInfo().subscribe(next => {
+      this.showLogin = false
     });
-  }
-
-  setGroup(group: MemberOf) {
-    this.userService.changeCurrentGroup(group);
-    this.router.navigate(['/contributions/home']);
-  }
-
-  parseUsername() {
-    let firstLetters = "";
-    let matches = this.userInfo.user.fullname.match(/\b(\w)/g);
-    if(matches)
-      firstLetters += matches.join('');
-    return firstLetters;
-  }
-
-  logout() {
-    this.loginService.logout();
   }
 
   logInButton() {
     this.loginService.login();
-    // window.location.href = 'http://localhost:8280/observatory/login';
   }
 }
