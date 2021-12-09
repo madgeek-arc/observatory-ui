@@ -21,7 +21,6 @@ export class SurveyCardComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(this.survey);
     this.userService.currentStakeholderGroup.subscribe(
       next => {
         this.currentGroup = next;

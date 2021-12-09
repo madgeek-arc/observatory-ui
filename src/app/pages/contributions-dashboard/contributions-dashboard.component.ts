@@ -25,7 +25,6 @@ export class ContributionsDashboardComponent implements OnInit{
         this.userService.changeCurrentGroup(this.userInfo.memberOf[0]);
         this.userService.userId = this.userInfo.user.email;
       }, error => {
-        console.log('skata');
         this.router.navigate(['/home']);
       },
       () => {

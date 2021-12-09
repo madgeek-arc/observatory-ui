@@ -30,10 +30,10 @@ export class MySurveysComponent implements OnInit{
               this.surveys = next;
             });
         }
-        console.log(this.currentGroup);
       },
       error => {console.error(error)},
-      () => {});
+      () => {}
+    );
   }
 
 }
