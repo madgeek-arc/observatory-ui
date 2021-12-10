@@ -3,14 +3,13 @@
     <div class="uk-card uk-card-default uk-card-body">
 
       <div class="uk-flex uk-flex-right">
-        <button class="uk-button uk-button-primary">Add new contributor</button>
+        <button class="uk-button uk-button-primary" type="button" uk-toggle="target: #add-contributor-modal">Add new contributor</button>
       </div>
 
       <div class="uk-overflow-auto uk-margin-medium-top">
         <table *ngIf="members" class="uk-table uk-table-hover uk-table-middle uk-table-divider">
           <thead>
           <tr>
-            <!--<th class=""><input class="uk-checkbox" type="checkbox"></th>-->
             <th class="">Name</th>
             <th class="">Email</th>
             <th class="">Role</th>
@@ -55,3 +54,16 @@
   </div>
 </div>
 
+<!-- add contributor modal -->
+<div id="add-contributor-modal" uk-modal="esc-close: false; bg-close: false">
+  <div class="uk-modal-dialog uk-modal-body">
+    <h4 class="uk-modal-title">Add contributor</h4>
+    <p>By giving the email you consent for storing the data</p>
+    <p *ngIf="errorMessage" class="uk-text-warning">{{errorMessage}}</p>
+    <input [(ngModel)]="contributorEmail" class="uk-input" type="email" placeholder="User email">
+    <p class="uk-text-right">
+      <button class="uk-button uk-button-primary uk-modal-close" (click)="closeModal()" type="button">Cancel</button>
+      <button class="uk-button uk-button-primary" (click)="addContributor()" type="button">Add</button>
+    </p>
+  </div>
+</div>

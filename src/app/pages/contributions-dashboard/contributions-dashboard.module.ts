@@ -7,12 +7,14 @@ import { ContributionsHomeComponent } from "./home/contributions-home.component"
 import { MySurveysComponent } from "./my-surveys/my-surveys.component";
 import { MyGroupComponent } from "./my-group/my-group.component";
 import {SurveyCardComponent} from "./my-surveys/survey-card/survey-card.component";
+import {FormsModule} from "@angular/forms";
 
 @NgModule ({
   imports: [
     CommonModule,
     ContributionsDashboardRoutingModule,
     ReusableComponentsModule,
+    FormsModule,
   ],
   declarations: [
     ContributionsHomeComponent,
