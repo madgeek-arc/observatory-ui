@@ -14,17 +14,23 @@ import {LoginService} from "../../../services/login.service";
 export class TopMenuLandingComponent implements OnInit {
 
   showLogin = true;
+  userInfo: UserInfo = null;
 
   constructor(private userService: UserService, private loginService: LoginService) {
   }
 
   ngOnInit() {
     this.userService.getUserInfo().subscribe(next => {
+      this.userInfo = next;
       this.showLogin = false
     });
   }
 
   logInButton() {
     this.loginService.login();
+  }
+
+  logout() {
+    this.loginService.logout();
   }
 }

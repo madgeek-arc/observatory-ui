@@ -31,7 +31,7 @@ export class UserService {
   }
 
   getStakeholdersMembers(id: string) {
-    return this.http.get<StakeholdersMembers>(this.base + `/stakeholders/${id}/members`);
+    return this.http.get<StakeholdersMembers>(this.base + `/stakeholders/${id}/members`, this.options);
   }
 
 }

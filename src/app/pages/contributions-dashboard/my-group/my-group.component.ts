@@ -37,10 +37,11 @@ export class MyGroupComponent implements OnInit {
     if (this.validateEmail(this.contributorEmail)) {
       this.surveyService.addContributor(this.currentGroup.id, this.contributorEmail).subscribe(
         next => {
-          this.members = next;
+            this.members = next;
         },
         error => {
           console.log(error)
+          this.errorMessage = error.error;
         },
         () => {
           this.errorMessage = null;
@@ -50,6 +51,15 @@ export class MyGroupComponent implements OnInit {
     } else {
       this.errorMessage = 'Please give a valid email address.'
     }
+  }
+
+  isManager(email: string): boolean {
+    for (let i = 0; i < this.members.managers.length; i++) {
+      if (this.members.managers[i].email === email) {
+        return true;
+      }
+    }
+    return false;
   }
 
   closeModal() {
