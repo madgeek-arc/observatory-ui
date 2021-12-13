@@ -14,10 +14,6 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'form',
-    component: SurveyFormComponent
-  },
-  {
     path: 'contributions',
     loadChildren: () => import('./pages/contributions-dashboard/contributions-dashboard.module').then(m => m.ContributionsDashboardModule),
     // canActivate: [AuthGuardService]
