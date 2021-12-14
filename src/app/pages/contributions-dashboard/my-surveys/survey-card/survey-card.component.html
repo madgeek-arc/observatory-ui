@@ -15,6 +15,12 @@
 
   <div *ngIf="permissions" class="uk-card-footer uk-flex">
 
+    <a [routerLink]="['./', survey.id, 'answer', answer.id, 'view']" *ngIf="permissions.includes('write')">
+      <div class="uk-margin-right uk-flex uk-flex-middle">
+        <span class="material-icons uk-margin-small-right">visibility</span>
+        View
+      </div>
+    </a>
     <a [routerLink]="['./', survey.id, 'answer', answer.id]" *ngIf="permissions.includes('write')">
       <div class="uk-margin-right uk-flex uk-flex-middle">
         <span class="material-icons uk-margin-small-right">edit</span>

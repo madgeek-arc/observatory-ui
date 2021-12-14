@@ -47,7 +47,9 @@ export class MyGroupComponent implements OnInit {
     if (this.validateEmail(this.contributorEmail)) {
       this.surveyService.addContributor(this.currentGroup.id, this.contributorEmail).subscribe(
         next => {
-            this.members = next;
+          this.members = next;
+          this.errorMessage = null;
+          UIkit.modal('#add-contributor-modal').hide();
         },
         error => {
           console.log(error)
@@ -56,11 +58,33 @@ export class MyGroupComponent implements OnInit {
         () => {
           this.errorMessage = null;
           UIkit.modal('#add-contributor-modal').hide();
-        },
-      );
+        });
     } else {
       this.errorMessage = 'Please give a valid email address.'
     }
+  }
+
+  removeContributor() {
+    console.log(this.contributorEmail);
+    this.surveyService.removeContributor(this.currentGroup.id, this.contributorEmail).subscribe(
+      next => {
+        this.members = next;
+        this.errorMessage = null;
+        UIkit.modal('#remove-contributor-modal').hide();
+      },
+      error => {
+        console.log(error)
+        this.errorMessage = error.error;
+      },
+      () => {
+        this.errorMessage = null;
+        UIkit.modal('#remove-contributor-modal').hide();
+      });
+  }
+
+  showRemoveModal(email: string) {
+    this.contributorEmail = email
+    UIkit.modal('#remove-contributor-modal').show();
   }
 
   checkIfManager(email: string): boolean {

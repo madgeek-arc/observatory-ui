@@ -32,4 +32,15 @@ export class SurveyService {
   addContributor(stakeholderId: string, email: string) {
     return this.http.post<StakeholdersMembers>(this.base + `/stakeholders/${stakeholderId}/contributors`, email, this.options);
   }
+
+  removeContributor(stakeholderId: string, email: string) {
+    const options = {
+      withCredentials: true,
+      body: {
+        email
+      },
+    };
+    console.log(options);
+    return this.http.delete<StakeholdersMembers>(this.base + `/stakeholders/${stakeholderId}/contributors`, options);
+  }
 }

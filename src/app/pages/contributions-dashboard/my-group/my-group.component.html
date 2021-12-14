@@ -42,7 +42,7 @@
                 Contributor
               </td>
               <td *ngIf="members" class="uk-text-nowrap">
-                <a *ngIf="isManager"><span class="material-icons">delete</span></a>
+                <a *ngIf="isManager" (click)="showRemoveModal(member.email)"><span class="material-icons">delete</span></a>
               </td>
             </tr>
           </tbody>
@@ -64,6 +64,19 @@
     <p class="uk-text-right">
       <button class="uk-button uk-button-primary uk-modal-close" (click)="closeModal()" type="button">Cancel</button>
       <button class="uk-button uk-button-primary" (click)="addContributor()" type="button">Add</button>
+    </p>
+  </div>
+</div>
+
+<!-- add contributor modal -->
+<div id="remove-contributor-modal" uk-modal="esc-close: false; bg-close: false">
+  <div class="uk-modal-dialog uk-modal-body">
+    <h4 class="uk-modal-title">Remove contributor</h4>
+    <p>The contributor with email {{contributorEmail}} will be removed</p>
+    <p *ngIf="errorMessage" class="uk-text-warning">{{errorMessage}}</p>
+    <p class="uk-text-right">
+      <button class="uk-button uk-button-primary uk-modal-close" (click)="closeModal()" type="button">Cancel</button>
+      <button class="uk-button uk-button-primary" (click)="removeContributor()" type="button">Remove</button>
     </p>
   </div>
 </div>

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from "@angular/core";
 import {DynamicFormEditComponent} from "../../../../../catalogue-ui/pages/dynamic-form/dynamic-form-edit.component";
 import {SurveyService} from "../../../../services/survey.service";
 import {Subscription} from "rxjs";
-import {ActivatedRoute, Route} from "@angular/router";
+import {ActivatedRoute, Route, Router} from "@angular/router";
 
 @Component({
   selector: 'app-survey-form',
@@ -16,13 +16,17 @@ export class SurveyFormComponent implements OnInit {
   private sub: Subscription;
   tabsHeader: string = null;
   answerValue: Object = null;
+  readonly: boolean = null;
   surveyId: string = null;
 
-  constructor(private surveyService: SurveyService, private route: ActivatedRoute) {
+  constructor(private surveyService: SurveyService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
     this.tabsHeader = 'Sections';
+    if (this.router.url.includes('/view')) {
+      this.readonly = true;
+    }
     this.sub = this.route.params.subscribe(params => {
       this.surveyId = params['surveyId'];
       this.surveyService.getAnswerValues(params['answerId']).subscribe(
