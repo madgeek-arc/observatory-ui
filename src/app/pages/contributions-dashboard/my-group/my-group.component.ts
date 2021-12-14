@@ -16,6 +16,8 @@ export class MyGroupComponent implements OnInit {
   currentGroup: MemberOf = null;
   members: StakeholdersMembers = null
   contributorEmail: string = null;
+  userEmail: string = null;
+  isManager: boolean = null;
   errorMessage: string = null;
 
   constructor(private userService: UserService, private surveyService: SurveyService) {
@@ -28,7 +30,15 @@ export class MyGroupComponent implements OnInit {
         this.userService.getStakeholdersMembers(this.currentGroup.id).subscribe(
           next => {
             this.members = next;
-          });
+          },
+          error => {
+            console.log(error);
+          },
+          () => {
+            this.userEmail = this.userService.userId;
+            this.isManager = this.checkIfManager(this.userEmail);
+          }
+        );
       }
     });
   }
@@ -53,7 +63,7 @@ export class MyGroupComponent implements OnInit {
     }
   }
 
-  isManager(email: string): boolean {
+  checkIfManager(email: string): boolean {
     for (let i = 0; i < this.members.managers.length; i++) {
       if (this.members.managers[i].email === email) {
         return true;

@@ -16,7 +16,6 @@ export class ContributionsDashboardComponent implements OnInit{
 
   open: boolean = true;
   userInfo: UserInfo;
-  currentStakeholderGroup: MemberOf = null;
 
   constructor(public userService: UserService, public loginService: LoginService, public router: Router) {
     this.userService.getUserInfo().subscribe(

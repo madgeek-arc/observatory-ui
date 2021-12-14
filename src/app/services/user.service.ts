@@ -3,8 +3,6 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {MemberOf, StakeholdersMembers, UserInfo} from "../domain/userInfo";
 import {BehaviorSubject} from "rxjs";
-import {Paging} from "../../catalogue-ui/domain/paging";
-import {Survey} from "../domain/survey";
 
 @Injectable()
 export class UserService {
