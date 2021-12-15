@@ -24,7 +24,11 @@ export class ContributionsDashboardComponent implements OnInit{
         this.userService.changeCurrentGroup(this.userInfo.memberOf[0]);
         this.userService.userId = this.userInfo.user.email;
       }, error => {
-        this.router.navigate(['/home']);
+        console.log(error.status);
+        if (error.status === 401) {
+          // this.loginService.login(this.router.url);
+          this.router.navigate(['/home']);
+        }
       },
       () => {
         if (!this.userInfo.user.consent) {

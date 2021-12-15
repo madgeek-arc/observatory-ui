@@ -8,11 +8,16 @@ export class LoginService {
 
   constructor() {}
 
-  login() {
-    window.location.href = this.base + '/oauth2/authorization/eosc';
+  login(redirectUrl?: string) {
+    if (redirectUrl) {
+      window.location.href = this.base + `/oauth2/authorization/eosc?redirectUrl=${redirectUrl}`;
+    }
+    else
+      window.location.href = this.base + '/oauth2/authorization/eosc';
   }
 
   logout() {
     window.location.href = this.base + '/logout';
   }
+
 }

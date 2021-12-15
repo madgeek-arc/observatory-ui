@@ -49,14 +49,16 @@ export class MyGroupComponent implements OnInit {
         next => {
           this.members = next;
           this.errorMessage = null;
+          this.contributorEmail = null;
           UIkit.modal('#add-contributor-modal').hide();
         },
         error => {
           console.log(error)
-          this.errorMessage = error.error;
+          this.errorMessage = error.error.error;
         },
         () => {
           this.errorMessage = null;
+          this.contributorEmail = null;
           UIkit.modal('#add-contributor-modal').hide();
         });
     } else {
@@ -65,19 +67,20 @@ export class MyGroupComponent implements OnInit {
   }
 
   removeContributor() {
-    console.log(this.contributorEmail);
     this.surveyService.removeContributor(this.currentGroup.id, this.contributorEmail).subscribe(
       next => {
         this.members = next;
         this.errorMessage = null;
+        this.contributorEmail = null;
         UIkit.modal('#remove-contributor-modal').hide();
       },
       error => {
         console.log(error)
-        this.errorMessage = error.error;
+        this.errorMessage = error.error.error;
       },
       () => {
         this.errorMessage = null;
+        this.contributorEmail = null;
         UIkit.modal('#remove-contributor-modal').hide();
       });
   }
