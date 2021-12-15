@@ -17,6 +17,10 @@ export class SurveyService {
     return this.http.get<SurveyAnswer>(this.base + `/answers/latest?stakeholderId=${stakeHolderId}&surveyId=${surveyId}`, this.options);
   }
 
+  changeAnswerValidStatus(answerId: string, valid: boolean) {
+    return this.http.patch<SurveyAnswer>(this.base + `/answers/${answerId}/validation?validated=${valid}`, null, this.options);
+  }
+
   getSurveys(type: string) {
     return this.http.get<Paging<Survey>>(this.base + `/surveys?type=${type}`);
   }
@@ -34,13 +38,7 @@ export class SurveyService {
   }
 
   removeContributor(stakeholderId: string, email: string) {
-    const options = {
-      withCredentials: true,
-      body: {
-        email
-      },
-    };
-    console.log(options);
-    return this.http.delete<StakeholdersMembers>(this.base + `/stakeholders/${stakeholderId}/contributors`, options);
+    return this.http.delete<StakeholdersMembers>(this.base + `/stakeholders/${stakeholderId}/contributors/${email}`, this.options);
   }
+
 }

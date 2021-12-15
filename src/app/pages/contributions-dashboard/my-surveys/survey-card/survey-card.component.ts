@@ -39,4 +39,23 @@ export class SurveyCardComponent implements OnChanges {
       () => {});
   }
 
+  changeValidStatus(answerId: string, valid: boolean) {
+    this.surveyService.changeAnswerValidStatus(answerId, !valid).subscribe(
+      next => {
+        this.answer = next;
+        this.surveyService.getPermissions(this.answer.id).subscribe(
+          next => {
+            this.permissions = next;
+          },
+          error => {
+            console.error(error)
+          },
+          () => {});
+      },
+      error => {
+        console.error(error)
+      },
+      () => {});
+  }
+
 }
