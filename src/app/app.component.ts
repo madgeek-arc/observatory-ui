@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
-import {UserService} from "./services/user.service";
-import {LoginService} from "./services/login.service";
+import {AuthenticationService} from "./services/authentication.service";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +10,8 @@ import {LoginService} from "./services/login.service";
 export class AppComponent {
   title = 'observatory-ui';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private auth: AuthenticationService) {
+    this.auth.redirect();
   }
 
   isContributionsDashboardRoute() {

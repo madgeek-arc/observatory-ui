@@ -1,14 +1,12 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
-import {MemberOf, UserInfo} from "../../../domain/userInfo";
+import {Component, OnInit} from "@angular/core";
+import {UserInfo} from "../../../domain/userInfo";
 import {UserService} from "../../../services/user.service";
-import {Router} from "@angular/router";
-import {LoginService} from "../../../services/login.service";
+import {AuthenticationService} from "../../../services/authentication.service";
 
 @Component({
   selector: 'app-top-menu-landing',
   templateUrl: 'top-menu-landing.component.html',
   styleUrls: ['../top-menu.component.css'],
-  providers: [LoginService]
 })
 
 export class TopMenuLandingComponent implements OnInit {
@@ -16,7 +14,7 @@ export class TopMenuLandingComponent implements OnInit {
   showLogin = true;
   userInfo: UserInfo = null;
 
-  constructor(private userService: UserService, private loginService: LoginService) {
+  constructor(private userService: UserService, private authentication: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -27,10 +25,10 @@ export class TopMenuLandingComponent implements OnInit {
   }
 
   logInButton() {
-    this.loginService.login();
+    this.authentication.login();
   }
 
   logout() {
-    this.loginService.logout();
+    this.authentication.logout();
   }
 }

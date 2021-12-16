@@ -2,14 +2,13 @@ import {Component, OnInit, ViewChild} from "@angular/core";
 import {UserService} from "../../services/user.service";
 import {MemberOf, UserInfo} from "../../domain/userInfo";
 import {Router} from "@angular/router";
-import {LoginService} from "../../services/login.service";
 
 import * as UIkit from 'uikit';
+import {AuthenticationService} from "../../services/authentication.service";
 
 @Component({
   selector: 'app-contributions-dashboard',
   templateUrl: 'contributions-dashboard.component.html',
-  providers: [LoginService]
 })
 
 export class ContributionsDashboardComponent implements OnInit{
@@ -17,18 +16,14 @@ export class ContributionsDashboardComponent implements OnInit{
   open: boolean = true;
   userInfo: UserInfo;
 
-  constructor(public userService: UserService, public loginService: LoginService, public router: Router) {
+  constructor(public userService: UserService, public authentication: AuthenticationService, public router: Router) {
     this.userService.getUserInfo().subscribe(
       res => {
         this.userInfo = res;
         this.userService.changeCurrentGroup(this.userInfo.memberOf[0]);
         this.userService.userId = this.userInfo.user.email;
       }, error => {
-        console.log(error.status);
-        if (error.status === 401) {
-          // this.loginService.login(this.router.url);
-          this.router.navigate(['/home']);
-        }
+        console.log(error);
       },
       () => {
         if (!this.userInfo.user.consent) {
@@ -46,13 +41,13 @@ export class ContributionsDashboardComponent implements OnInit{
         next => {
           UIkit.modal('#consent-modal').hide();
           if (!value) {
-            this.loginService.logout();
+            this.authentication.logout();
           }
         },
         error => {
           console.log(error);
           UIkit.modal('#consent-modal').hide()
-          this.loginService.logout();
+          this.authentication.logout();
         },
         () => {UIkit.modal('#consent-modal').hide()}
       );

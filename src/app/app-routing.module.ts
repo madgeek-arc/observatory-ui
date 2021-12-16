@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {HomeComponent} from "./pages/home.component";
 import {SurveyFormComponent} from "./pages/contributions-dashboard/my-surveys/survey-form/survey-form.component";
+import {AuthenticationGuardService} from "./services/authentication-guard.service";
 
 const routes: Routes = [
   {
@@ -16,7 +17,6 @@ const routes: Routes = [
   {
     path: 'contributions',
     loadChildren: () => import('./pages/contributions-dashboard/contributions-dashboard.module').then(m => m.ContributionsDashboardModule),
-    // canActivate: [AuthGuardService]
   },
 ];
 

@@ -1,8 +1,8 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {MemberOf, UserInfo} from "../../../domain/userInfo";
 import {UserService} from "../../../services/user.service";
 import {Router} from "@angular/router";
-import {LoginService} from "../../../services/login.service";
+import {AuthenticationService} from "../../../services/authentication.service";
 
 @Component({
   selector: 'app-top-menu-dashboard',
@@ -10,27 +10,20 @@ import {LoginService} from "../../../services/login.service";
   styleUrls: ['../top-menu.component.css']
 })
 
-export class TopMenuDashboardComponent implements OnInit, OnChanges {
+export class TopMenuDashboardComponent implements OnInit {
   @Input() userInfo: UserInfo = null;
 
   currentGroup: MemberOf = null;
 
-  constructor(private userService: UserService, private loginService: LoginService, private router: Router) {
+  constructor(private userService: UserService,
+              private authentication: AuthenticationService,
+              private router: Router) {
   }
 
   ngOnInit() {
     this.userService.currentStakeholderGroup.subscribe(next => {
       this.currentGroup = next;
     });
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    // if (changes.userInfo.currentValue) {
-    //    this.currentGroup = changes.userInfo.currentValue.memberOf[0];
-    //    this.currentStakeholderGroup.emit(this.currentGroup);
-    //    console.log()
-    //    // this.parseUsername();
-    // }
   }
 
   parseUsername() {
@@ -47,7 +40,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges {
   }
 
   logout() {
-    this.loginService.logout();
+    this.authentication.logout();
   }
 
   change() {
