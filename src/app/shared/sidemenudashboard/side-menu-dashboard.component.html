@@ -5,24 +5,10 @@
 
       <li [routerLinkActive]="['current_section']" class="">
         <a [routerLink]="['contributions/home']" class="uk-flex uk-flex-middle">
-          <!--<a [routerLink]="['/register']">-->
-          <!--<span class="menu_icon_circle_letter">R</span>-->
           <span class="material-icons uk-margin-right">home</span>
           <span class="menu_title">Home</span>
         </a>
       </li>
-
-      <!--<li class="submenu_trigger" [ngClass]="{'act_section': checkIfCollapsed(2) }" routerLinkActive="current_section">-->
-      <!--<li class="submenu_trigger" [ngClass]="{'act_section': checkIfCollapsed(2) }">-->
-        <!--<a (click)="setToggle(2)">-->
-          <!--<span class="menu_icon_circle_letter">V</span>-->
-          <!--<span class="menu_title">Validator</span>-->
-        <!--</a>-->
-        <!--<ul [ngClass]="{'uk-display-block': checkIfCollapsed(2)}">-->
-          <!--<li routerLinkActive="act_item"><a [routerLink]="['/compatibility', 'validate']">Validate</a></li>-->
-          <!--<li routerLinkActive="act_item"><a [routerLink]="['/compatibility', 'browseHistory']">Validation History</a></li>-->
-        <!--</ul>-->
-      <!--</li>-->
 
     </ul>
   </div>
@@ -31,9 +17,7 @@
     <ul>
 
       <li [routerLinkActive]="['current_section']" class="">
-        <a [routerLink]="['contributions/surveys']" class="uk-flex uk-flex-middle">
-          <!--<a [routerLink]="['/register']">-->
-          <!--<span class="menu_icon_circle_letter">R</span>-->
+        <a [routerLink]="['contributions/mySurveys']" class="uk-flex uk-flex-middle">
           <span class="material-icons uk-margin-right">assignment</span>
           <span class="menu_title">My Surveys</span>
         </a>
@@ -41,81 +25,22 @@
 
       <li [routerLinkActive]="['current_section']" class="">
         <a [routerLink]="['contributions/group']" class="uk-flex uk-flex-middle">
-          <!--<a [routerLink]="['/register']">-->
-          <!--<span class="menu_icon_circle_letter">R</span>-->
           <span class="material-icons uk-margin-right">group</span>
           <span class="menu_title">My Group</span>
         </a>
       </li>
 
     </ul>
+    <ul>
+
+      <li [routerLinkActive]="['current_section']" class="">
+        <a [routerLink]="['contributions/surveys']" class="uk-flex uk-flex-middle">
+          <span class="material-icons uk-margin-right">assignment</span>
+          <span class="menu_title">Surveys</span>
+        </a>
+      </li>
+
+    </ul>
   </div>
 
-  <!--<div *ngIf="reposOfUser && reposOfUser.length>0" class="menu_section border_top">-->
-    <!--<div class="sidebar_heading">REPOSITORIES</div>-->
-    <!--<ul>-->
-
-      <!--<li *ngFor="let repo of visibleReposOfUser" [routerLinkActive]="['current_section']" class="">-->
-        <!--&lt;!&ndash;<a [routerLink]="['/repository', '{{repo.id}}']">&ndash;&gt;-->
-        <!--<a [routerLink]="['/repository/' + repo.id]">-->
-          <!--<span *ngIf="!repo.logoUrl" class="menu_icon_circle" style="background-image: url('../../../assets/imgs/yourLogoHere.jpg')">-->
-          <!--</span>-->
-          <!--<span *ngIf="repo.logoUrl" class="menu_icon_circle" [ngStyle]="{'background-image': 'url(' + repo.logoUrl + ')'}">-->
-          <!--</span>-->
-          <!--&lt;!&ndash;<span class="menu_title ellipsis">{{repo.officialname}}</span>&ndash;&gt;-->
-          <!--<span *ngIf="repo.officialname.length>30" class="menu_title">{{repo.officialname.substr(0,30)}}...</span>-->
-          <!--<span *ngIf="repo.officialname.length<=30" class="menu_title">{{repo.officialname}}</span>-->
-        <!--</a>-->
-      <!--</li>-->
-
-      <!--<li *ngIf="reposOfUser.length>5 && !allReposVisible" class="">-->
-        <!--<a (click)="showMoreRepos()">-->
-          <!--<span class="menu_icon"><i class="material-icons">keyboard_arrow_down</i></span>-->
-          <!--<span class="menu_title">Show more</span>-->
-        <!--</a>-->
-      <!--</li>-->
-
-      <!--<li *ngIf="reposOfUser.length>5 && allReposVisible" class="">-->
-        <!--<a (click)="showLessRepos()">-->
-          <!--<span class="menu_icon"><i class="material-icons">keyboard_arrow_up</i></span>-->
-          <!--<span class="menu_title">Show less</span>-->
-        <!--</a>-->
-      <!--</li>-->
-
-
-    <!--</ul>-->
-  <!--</div>-->
-
-  <!--<div *ngIf="getIsUserAdmin()" class="menu_section admin_menu_section border_top">-->
-    <!--<div class="sidebar_heading">ADMIN</div>-->
-    <!--<ul>-->
-
-      <!--<li [routerLinkActive]="['current_section']" class="">-->
-        <!--<a href="{{adminHomePage}}" target="_blank">-->
-          <!--<span class="menu_icon_circle_letter">H</span>-->
-          <!--<span class="menu_title">Help Texts</span>-->
-        <!--</a>-->
-      <!--</li>-->
-      <!--&lt;!&ndash;<li class="">&ndash;&gt;-->
-      <!--<li [routerLinkActive]="['current_section']" class="">-->
-        <!--<a [routerLink]="['/admin/registrations']">-->
-          <!--<span class="menu_icon_circle_letter">R</span>-->
-          <!--<span class="menu_title">Registrations</span>-->
-        <!--</a>-->
-        <!--<ul [ngClass]="{'uk-display-block': visibleAdminRepo}">-->
-          <!--<li class="act_item">-->
-            <!--<a *ngIf="adminRepository?.officialName && adminRepository.officialName.length>30" [routerLink]="['/repositoryAdmin/' + adminRepository.id]">{{adminRepository.officialName.substr(0,30)}}...</a>-->
-            <!--<a *ngIf="adminRepository?.officialName && adminRepository.officialName.length<=30" [routerLink]="['/repositoryAdmin/' + adminRepository.id]">{{adminRepository.officialName}}</a>-->
-          <!--</li>-->
-        <!--</ul>-->
-      <!--</li>-->
-      <!--<li [routerLinkActive]="['current_section']" class="">-->
-        <!--<a [routerLink]="['/admin/metrics']">-->
-          <!--<span class="menu_icon_circle_letter">M</span>-->
-          <!--<span class="menu_title">Metrics</span>-->
-        <!--</a>-->
-      <!--</li>-->
-
-    <!--</ul>-->
-  <!--</div>-->
 </aside><!-- main sidebar end -->
