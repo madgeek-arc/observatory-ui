@@ -9,6 +9,7 @@ import { MyGroupComponent } from "./my-group/my-group.component";
 import {SurveyCardComponent} from "./my-surveys/survey-card/survey-card.component";
 import {FormsModule} from "@angular/forms";
 import {CoordinatorsComponent} from "./coordinators/coordinators.component";
+import {NgSelectModule} from "@ng-select/ng-select";
 
 @NgModule ({
   imports: [
@@ -16,6 +17,7 @@ import {CoordinatorsComponent} from "./coordinators/coordinators.component";
     ContributionsDashboardRoutingModule,
     ReusableComponentsModule,
     FormsModule,
+    NgSelectModule,
   ],
   declarations: [
     ContributionsHomeComponent,

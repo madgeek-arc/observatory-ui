@@ -253,6 +253,24 @@ dd {
 }
 
 /* ========================================================================
+   Progress
+ ========================================================================== */
+
+.uk-progress {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+//.uk-progress { // this is its background, you could add those to your created classes if you want to also modify this color
+//  &::-webkit-progress-bar { background-color: grey; }
+//  &::-moz-progress-bar { background-color: grey; }
+//}
+
+.uk-progress-secondary { // created class for customisation
+  &::-webkit-progress-value { background-color: #ffcd00; } // those are the overflowing colors
+  &::-ms-fill { background-color: #ffcd00; }
+}
+
+/* ========================================================================
    Divider
  ========================================================================== */
 
@@ -467,6 +485,11 @@ a.uk-icon-button {
 .ng-select {
   background-color: #fff;
   border: 1px solid var(--default-element-bg);
+  border-radius: 4px;
+}
+
+.uk-select {
+  height: 40px !important;
 }
 
 .uk-form-description {
