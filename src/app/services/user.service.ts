@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
-import {MemberOf, StakeholdersMembers, UserInfo} from "../domain/userInfo";
+import {Coordinator, Stakeholder, StakeholdersMembers, UserInfo} from "../domain/userInfo";
 import {BehaviorSubject} from "rxjs";
 
 @Injectable()
@@ -11,13 +11,20 @@ export class UserService {
   base = environment.API_ENDPOINT;
 
   userId = null;
-  currentStakeholderGroup = new BehaviorSubject<MemberOf>(null);
+  currentStakeholder = new BehaviorSubject<Stakeholder>(null);
+  currentCoordinator = new BehaviorSubject<Coordinator>(null);
 
   constructor(public http: HttpClient) {}
 
 
-  changeCurrentGroup(currentGroup: MemberOf) {
-    this.currentStakeholderGroup.next(currentGroup);
+  changeCurrentStakeholder(currentGroup: Stakeholder) {
+    this.currentStakeholder.next(currentGroup);
+    this.currentCoordinator.next(null);
+  }
+
+  changeCurrentCoordinator(currentCoordinator: Coordinator) {
+    this.currentCoordinator.next(currentCoordinator);
+    this.currentStakeholder.next(null);
   }
 
   getUserInfo() {

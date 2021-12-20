@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {SurveyAnswer, Survey} from "../../../../domain/survey";
 import {UserService} from "../../../../services/user.service";
-import {MemberOf} from "../../../../domain/userInfo";
+import {Stakeholder} from "../../../../domain/userInfo";
 import {SurveyService} from "../../../../services/survey.service";
 
 @Component({
@@ -13,7 +13,7 @@ import {SurveyService} from "../../../../services/survey.service";
 export class SurveyCardComponent implements OnChanges {
   @Input() survey: Survey;
 
-  currentGroup: MemberOf = null;
+  currentGroup: Stakeholder = null;
   answer: SurveyAnswer = null
   permissions: string[] = null;
 
@@ -21,7 +21,7 @@ export class SurveyCardComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.userService.currentStakeholderGroup.subscribe(
+    this.userService.currentStakeholder.subscribe(
       next => {
         this.currentGroup = next;
         if (this.currentGroup !== null) {

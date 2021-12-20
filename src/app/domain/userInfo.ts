@@ -1,9 +1,10 @@
 export class UserInfo {
-  memberOf: MemberOf[];
+  stakeholders: Stakeholder[];
+  coordinators: Coordinator[];
   user: User;
 }
 
-export class MemberOf {
+export class Stakeholder {
   associationMember: string;
   contributors: string[];
   country: string;
@@ -12,6 +13,13 @@ export class MemberOf {
   name: string;
   subType: string;
   type: string;
+}
+
+export class Coordinator {
+  id: string;
+  name: string;
+  type: string;
+  members: string[];
 }
 
 export class User {

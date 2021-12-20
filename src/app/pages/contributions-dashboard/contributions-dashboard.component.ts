@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {UserService} from "../../services/user.service";
-import {MemberOf, UserInfo} from "../../domain/userInfo";
+import {Stakeholder, UserInfo} from "../../domain/userInfo";
 import {Router} from "@angular/router";
 
 import * as UIkit from 'uikit';
@@ -20,7 +20,7 @@ export class ContributionsDashboardComponent implements OnInit{
     this.userService.getUserInfo().subscribe(
       res => {
         this.userInfo = res;
-        this.userService.changeCurrentGroup(this.userInfo.memberOf[0]);
+        this.userService.changeCurrentStakeholder(this.userInfo.stakeholders[0]);
         this.userService.userId = this.userInfo.user.email;
       }, error => {
         console.log(error);

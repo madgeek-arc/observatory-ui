@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from "@angular/core";
-import {MemberOf} from "../../domain/userInfo";
+import {Coordinator, Stakeholder} from "../../domain/userInfo";
 import {UserService} from "../../services/user.service";
 
 @Component({
@@ -11,27 +11,19 @@ import {UserService} from "../../services/user.service";
 export class SideMenuDashboardComponent implements OnInit {
 
   toggle: number[] = [];
-  currentGroup: MemberOf = null;
+  currentStakeholder: Stakeholder = null;
+  currentCoordinator: Coordinator = null;
 
   constructor(private userService: UserService) {
   }
 
   ngOnInit() {
-    this.userService.currentStakeholderGroup.subscribe(next => {
-      this.currentGroup = next;
+    this.userService.currentStakeholder.subscribe(next => {
+      this.currentStakeholder = next;
     });
-  }
-
-  setToggle(position: number) {
-    if (this.toggle[position] === position) {
-      this.toggle[position] = 0;
-    } else {
-      this.toggle[position] = position;
-    }
-  }
-
-  checkIfCollapsed(position: number) {
-    return this.toggle[position] === position;
+    this.userService.currentCoordinator.subscribe(next => {
+      this.currentCoordinator = next;
+    });
   }
 
 }

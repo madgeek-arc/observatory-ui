@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {MemberOf} from "../../../domain/userInfo";
+import {Stakeholder} from "../../../domain/userInfo";
 import {UserService} from "../../../services/user.service";
 import {Paging} from "../../../../catalogue-ui/domain/paging";
 import {Survey} from "../../../domain/survey";
@@ -14,14 +14,14 @@ import {SurveyService} from "../../../services/survey.service";
 
 export class MySurveysComponent implements OnInit{
 
-  currentGroup: MemberOf = null;
+  currentGroup: Stakeholder = null;
   surveys: Paging<Survey>;
 
   constructor(private userService: UserService, private surveyService: SurveyService) {
   }
 
   ngOnInit() {
-    this.userService.currentStakeholderGroup.subscribe(
+    this.userService.currentStakeholder.subscribe(
       next => {
         this.currentGroup = next;
         if (this.currentGroup !== null) {

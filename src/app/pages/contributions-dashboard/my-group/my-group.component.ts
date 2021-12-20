@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {UserService} from "../../../services/user.service";
-import {MemberOf, StakeholdersMembers} from "../../../domain/userInfo";
+import {Stakeholder, StakeholdersMembers} from "../../../domain/userInfo";
 
 import UIkit from 'uikit';
 import {SurveyService} from "../../../services/survey.service";
@@ -13,7 +13,7 @@ import {SurveyService} from "../../../services/survey.service";
 
 export class MyGroupComponent implements OnInit {
 
-  currentGroup: MemberOf = null;
+  currentGroup: Stakeholder = null;
   members: StakeholdersMembers = null
   contributorEmail: string = null;
   userEmail: string = null;
@@ -24,7 +24,7 @@ export class MyGroupComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.currentStakeholderGroup.subscribe(next => {
+    this.userService.currentStakeholder.subscribe(next => {
       this.currentGroup = next;
       if (this.currentGroup !== null) {
         this.userService.getStakeholdersMembers(this.currentGroup.id).subscribe(

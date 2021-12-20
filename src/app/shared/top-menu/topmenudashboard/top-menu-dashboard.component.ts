@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {MemberOf, UserInfo} from "../../../domain/userInfo";
+import {Coordinator, Stakeholder, UserInfo} from "../../../domain/userInfo";
 import {UserService} from "../../../services/user.service";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../../services/authentication.service";
@@ -13,7 +13,9 @@ import {AuthenticationService} from "../../../services/authentication.service";
 export class TopMenuDashboardComponent implements OnInit {
   @Input() userInfo: UserInfo = null;
 
-  currentGroup: MemberOf = null;
+  currentStakeholder: Stakeholder = null;
+  currentCoordinator: Coordinator = null;
+  name: string = null;
 
   constructor(private userService: UserService,
               private authentication: AuthenticationService,
@@ -21,8 +23,11 @@ export class TopMenuDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.currentStakeholderGroup.subscribe(next => {
-      this.currentGroup = next;
+    this.userService.currentStakeholder.subscribe(next => {
+      this.currentStakeholder = next;
+    });
+    this.userService.currentCoordinator.subscribe(next => {
+      this.currentCoordinator = next;
     });
   }
 
@@ -34,8 +39,13 @@ export class TopMenuDashboardComponent implements OnInit {
     return firstLetters;
   }
 
-  setGroup(group: MemberOf) {
-    this.userService.changeCurrentGroup(group);
+  setGroup(group: Stakeholder) {
+    this.userService.changeCurrentStakeholder(group);
+    this.router.navigate(['/contributions/home']);
+  }
+
+  setCoordinator(coordinator: Coordinator){
+    this.userService.changeCurrentCoordinator(coordinator);
     this.router.navigate(['/contributions/home']);
   }
 
