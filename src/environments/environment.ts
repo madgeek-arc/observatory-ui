@@ -8,7 +8,7 @@ export const environment = {
   MATOMO_URL: '',
   MATOMO_SITE: -1,
   API_LOGIN: 'http://localhost:8280/observatory',
-  API_ENDPOINT: '/observatory',
+  API_ENDPOINT: '/catalogue',
   API_TOKEN_ENDPOINT: '',
   projectName: 'Observatory',
   projectMail: 'example@oac.eu',

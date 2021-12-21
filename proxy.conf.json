@@ -1,6 +1,6 @@
 {
-  "/observatory/*": {
-  "target": "http://localhost:8280/",
+  "/catalogue/*": {
+  "target": "http://localhost:8080/",
   "secure": false,
   "logLevel": "debug",
   "changeOrigin": true
