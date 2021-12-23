@@ -100,17 +100,19 @@ export class StringFieldComponent implements OnInit {
     this.hasChanges = true;
   }
 
-  enableDisableField(value: boolean) {
-    if (!value) {
+  enableDisableField(value) {
+    console.log(value);
+    if (value === true || value === 'Other, please specify') {
+      this.formControl.enable();
+      this.hideField = false;
+
+    } else {
       this.formControl.disable();
       this.formControl.reset();
       this.hideField = true;
       // maybe add this if the remaining empty fields are a problem
       // (this.formControl as unknown as FormArray).clear();
 
-    } else {
-      this.formControl.enable();
-      this.hideField = false;
     }
   }
 
