@@ -12,6 +12,7 @@ import {ReusableComponentsModule} from "./shared/reusablecomponents/reusable-com
 import {UserService} from "./services/user.service";
 import {AuthenticationService} from "./services/authentication.service";
 import {AuthenticationGuardService} from "./services/authentication-guard.service";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {AuthenticationGuardService} from "./services/authentication-guard.servic
     AppRoutingModule,
     DynamicFormModule,
     ReusableComponentsModule,
+    FormsModule,
   ],
   providers: [
     UserService,

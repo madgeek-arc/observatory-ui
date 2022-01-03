@@ -1,6 +1,6 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {UserService} from "../../services/user.service";
-import {Stakeholder, UserInfo} from "../../domain/userInfo";
+import {UserInfo} from "../../domain/userInfo";
 import {Router} from "@angular/router";
 
 import * as UIkit from 'uikit';
@@ -14,6 +14,7 @@ import {AuthenticationService} from "../../services/authentication.service";
 export class ContributionsDashboardComponent implements OnInit{
 
   open: boolean = true;
+  consent: boolean = false;
   userInfo: UserInfo;
 
   constructor(public userService: UserService, public authentication: AuthenticationService, public router: Router) {
@@ -36,11 +37,11 @@ export class ContributionsDashboardComponent implements OnInit{
   ngOnInit() {
   }
 
-  updateConsent(value: boolean) {
-      this.userService.setUserConsent(value).subscribe(
+  updateConsent() {
+      this.userService.setUserConsent(this.consent).subscribe(
         next => {
           UIkit.modal('#consent-modal').hide();
-          if (!value) {
+          if (!this.consent) {
             this.authentication.logout();
           }
         },
