@@ -21,8 +21,12 @@ export class SurveyService {
     return this.http.patch<SurveyAnswer>(this.base + `/answers/${answerId}/validation?validated=${valid}`, null, this.options);
   }
 
-  getSurveys(type: string) {
-    return this.http.get<Paging<Survey>>(this.base + `/surveys?type=${type}`);
+  getSurveys(id: string) {
+    return this.http.get<Paging<Survey>>(this.base + `/surveys?stakeholderId=${id}`);
+  }
+
+  getSurvey(surveyId: string) {
+    return this.http.get<Survey>(this.base + `/surveys/${surveyId}`);
   }
 
   getPermissions(resourceId: string) {

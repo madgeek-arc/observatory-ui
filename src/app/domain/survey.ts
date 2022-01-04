@@ -4,6 +4,7 @@ export class Survey {
   id: string;
   name: string;
   description: string;
+  notice: string;
   type: string;
   creationDate: string;
   createdBy: User;
