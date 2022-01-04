@@ -31,7 +31,8 @@ export class SurveyFormComponent implements OnInit {
     }
     this.sub = this.route.params.subscribe(params => {
       this.surveyId = params['surveyId'];
-      this.surveyService.getAnswerValues(this.surveyId).subscribe(
+      console.log(params['answerId']);
+      this.surveyService.getAnswerValues(params['answerId']).subscribe(
         res => {
           // console.log(res)
           this.answerValue = res;

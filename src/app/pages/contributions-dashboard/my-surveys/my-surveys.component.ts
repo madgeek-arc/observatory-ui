@@ -25,7 +25,7 @@ export class MySurveysComponent implements OnInit{
       next => {
         this.currentGroup = next;
         if (this.currentGroup !== null) {
-          this.surveyService.getSurveys(this.currentGroup.type).subscribe(
+          this.surveyService.getSurveys(this.currentGroup.id).subscribe(
             next => {
               this.surveys = next;
             });
