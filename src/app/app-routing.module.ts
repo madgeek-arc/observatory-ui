@@ -14,6 +14,10 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
+    path: 'form',
+    component: DynamicFormComponent
+  },
+  {
     path: 'contributions',
     loadChildren: () => import('./pages/contributions-dashboard/contributions-dashboard.module').then(m => m.ContributionsDashboardModule),
   },

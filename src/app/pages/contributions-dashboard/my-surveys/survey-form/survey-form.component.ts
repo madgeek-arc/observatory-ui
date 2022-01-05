@@ -15,6 +15,8 @@ export class SurveyFormComponent implements OnInit {
 
   private sub: Subscription;
   tabsHeader: string = null;
+  notice: string = null;
+  name: string = null;
   answerValue: Object = null;
   readonly: boolean = null;
   surveyId: string = null;
@@ -29,11 +31,18 @@ export class SurveyFormComponent implements OnInit {
     }
     this.sub = this.route.params.subscribe(params => {
       this.surveyId = params['surveyId'];
+      console.log(params['answerId']);
       this.surveyService.getAnswerValues(params['answerId']).subscribe(
         res => {
           // console.log(res)
           this.answerValue = res;
         });
+      this.surveyService.getSurvey(this.surveyId).subscribe(
+        res => {
+          this.name = res.name;
+          this.notice = res.notice;
+        }
+      )
     });
   }
 
