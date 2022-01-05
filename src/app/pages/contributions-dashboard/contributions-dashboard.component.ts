@@ -21,8 +21,8 @@ export class ContributionsDashboardComponent implements OnInit{
     this.userService.getUserInfo().subscribe(
       res => {
         this.userInfo = res;
-        this.userService.changeCurrentStakeholder(this.userInfo.stakeholders[0]);
         this.userService.userId = this.userInfo.user.email;
+        this.setGroup();
       }, error => {
         console.log(error);
       },
@@ -35,6 +35,32 @@ export class ContributionsDashboardComponent implements OnInit{
   }
 
   ngOnInit() {
+  }
+
+  setGroup() {
+    if (sessionStorage.getItem('currentStakeholder')) {
+      console.log('stakeHolder');
+      const stakeholderId = sessionStorage.getItem('currentStakeholder');
+      for (let stakeholder of this.userInfo.stakeholders) {
+        if (stakeholderId === stakeholder.id) {
+          this.userService.changeCurrentStakeholder(stakeholder);
+        }
+      }
+    } else if (sessionStorage.getItem('currentCoordinator')) {
+      console.log('Coordinator');
+      const coordinatorId = sessionStorage.getItem('currentCoordinator');
+      for (let coordinator of this.userInfo.coordinators) {
+        if (coordinatorId === coordinator.id) {
+          this.userService.changeCurrentCoordinator(coordinator);
+        }
+      }
+    } else {
+      if (this.userInfo.stakeholders.length) {
+        this.userService.changeCurrentStakeholder(this.userInfo.stakeholders[0]);
+      } else {
+        this.userService.changeCurrentCoordinator(this.userInfo.coordinators[0]);
+      }
+    }
   }
 
   updateConsent() {

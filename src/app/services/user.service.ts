@@ -19,11 +19,15 @@ export class UserService {
 
   changeCurrentStakeholder(currentGroup: Stakeholder) {
     this.currentStakeholder.next(currentGroup);
+    sessionStorage.setItem('currentStakeholder', currentGroup.id);
+    sessionStorage.removeItem('currentCoordinator');
     this.currentCoordinator.next(null);
   }
 
   changeCurrentCoordinator(currentCoordinator: Coordinator) {
     this.currentCoordinator.next(currentCoordinator);
+    sessionStorage.setItem('currentCoordinator', currentCoordinator.id);
+    sessionStorage.removeItem('currentStakeholder');
     this.currentStakeholder.next(null);
   }
 
