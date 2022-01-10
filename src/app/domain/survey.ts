@@ -1,4 +1,5 @@
 import {User} from "./userInfo";
+import {Chapter} from "../../catalogue-ui/domain/dynamic-form-model";
 
 export class Survey {
   id: string;
@@ -13,12 +14,6 @@ export class Survey {
   chapters: Chapter[];
 }
 
-export class Chapter {
-  id: string;
-  name: string;
-  description: string;
-  sections: string[];
-}
 
 export class SurveyAnswer {
   surveyId: string;

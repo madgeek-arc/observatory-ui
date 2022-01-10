@@ -39,7 +39,6 @@ export class ContributionsDashboardComponent implements OnInit{
 
   setGroup() {
     if (sessionStorage.getItem('currentStakeholder')) {
-      console.log('stakeHolder');
       const stakeholderId = sessionStorage.getItem('currentStakeholder');
       for (let stakeholder of this.userInfo.stakeholders) {
         if (stakeholderId === stakeholder.id) {
