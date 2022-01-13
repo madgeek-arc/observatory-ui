@@ -14,27 +14,35 @@
 
   </div>
 
-  <div *ngIf="permissions" class="uk-card-footer uk-flex">
+  <div *ngIf="permissions" class="uk-card-footer uk-flex uk-flex-wrap">
 
-    <a [routerLink]="['./', survey.id, 'answer/view']">
-      <div class="uk-margin-right uk-flex uk-flex-middle" style="border-right: 1px solid #e5e5e5; padding-right: 20px;">
-        <span class="material-icons uk-margin-small-right">visibility</span>
-        View
-      </div>
-    </a>
-    <a [routerLink]="['./', survey.id, 'answer']" *ngIf="checkForWrite()">
-      <div class="uk-margin-right uk-flex uk-flex-middle" style="border-right: 1px solid #e5e5e5; padding-right: 20px;">
-        <span class="material-icons uk-margin-small-right">edit</span>
-        Edit
-      </div>
-    </a>
-<!--    TODO fix when api call is ready-->
-<!--    <a *ngIf="permissions.includes('manage')" (click)="changeValidStatus(answer.id, answer.validated)">-->
-<!--      <div class="uk-flex uk-flex-middle">-->
-<!--        <span class="material-icons uk-margin-small-right">{{answer.validated ? 'lock_open' : 'task_alt'}}</span>-->
-<!--        {{answer.validated ? 'Open' : 'Validate'}}-->
-<!--      </div>-->
-<!--    </a>-->
+    <div class="uk-margin-small-top">
+      <a [routerLink]="['./', survey.id, 'answer/view']">
+        <div class="uk-margin-right uk-flex uk-flex-middle" style="border-right: 1px solid #e5e5e5; padding-right: 20px;">
+          <span class="material-icons uk-margin-small-right">visibility</span>
+          View
+        </div>
+      </a>
+    </div>
+
+    <div class="uk-margin-small-top">
+      <a [routerLink]="['./', survey.id, 'answer']" *ngIf="checkForWrite()">
+        <div class="uk-margin-right uk-flex uk-flex-middle" style="border-right: 1px solid #e5e5e5; padding-right: 20px;">
+          <span class="material-icons uk-margin-small-right">edit</span>
+          Edit
+        </div>
+      </a>
+    </div>
+
+    <!--TODO fix when api call is ready-->
+    <!--<div>-->
+      <!--<a *ngIf="permissions.includes('manage')" (click)="changeValidStatus(answer.id, answer.validated)">-->
+        <!--<div class="uk-flex uk-flex-middle">-->
+          <!--<span class="material-icons uk-margin-small-right">{{answer.validated ? 'lock_open' : 'task_alt'}}</span>-->
+          <!--{{answer.validated ? 'Open' : 'Validate'}}-->
+        <!--</div>-->
+      <!--</a>-->
+    <!--</div>-->
 
   </div>
 
