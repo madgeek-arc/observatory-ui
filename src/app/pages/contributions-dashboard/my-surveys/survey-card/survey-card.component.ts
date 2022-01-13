@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
-import {SurveyAnswer, Survey} from "../../../../domain/survey";
+import {SurveyAnswer, Survey, ResourcePermission} from "../../../../domain/survey";
 import {UserService} from "../../../../services/user.service";
 import {Stakeholder} from "../../../../domain/userInfo";
 import {SurveyService} from "../../../../services/survey.service";
@@ -14,8 +14,9 @@ export class SurveyCardComponent implements OnChanges {
   @Input() survey: Survey;
 
   currentGroup: Stakeholder = null;
-  answer: SurveyAnswer = null
-  permissions: string[] = null;
+  answer: SurveyAnswer[] = null
+  permissions: ResourcePermission[] = null;
+  chapterIds: string[] = [];
 
   constructor(private userService: UserService, private surveyService: SurveyService) {
   }
@@ -28,7 +29,10 @@ export class SurveyCardComponent implements OnChanges {
           this.surveyService.getLatestAnswer(this.currentGroup.id, this.survey.id).subscribe(
             next => {
               this.answer = next;
-              this.surveyService.getPermissions(this.answer.id).subscribe(
+              for (const chapter of next) {
+                this.chapterIds.push(chapter.id);
+              }
+              this.surveyService.getPermissions(this.chapterIds).subscribe(
                 next => {
                   this.permissions = next;
                 });
@@ -39,18 +43,26 @@ export class SurveyCardComponent implements OnChanges {
       () => {});
   }
 
+  checkForWrite(): boolean {
+    for (const permission of this.permissions) {
+      if (permission.permissions.includes('write'))
+        return true;
+    }
+    return false;
+  }
+
   changeValidStatus(answerId: string, valid: boolean) {
     this.surveyService.changeAnswerValidStatus(answerId, !valid).subscribe(
-      next => {
-        this.answer = next;
-        this.surveyService.getPermissions(this.answer.id).subscribe(
-          next => {
-            this.permissions = next;
-          },
-          error => {
-            console.error(error)
-          },
-          () => {});
+      next => { // TODO fix when api is ready
+        // this.answer = next;
+        // this.surveyService.getPermissions(this.answer.id).subscribe(
+        //   next => {
+        //     this.permissions = next;
+        //   },
+        //   error => {
+        //     console.error(error)
+        //   },
+        //   () => {});
       },
       error => {
         console.error(error)

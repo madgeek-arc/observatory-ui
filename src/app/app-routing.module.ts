@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {HomeComponent} from "./pages/home.component";
-import {DynamicFormComponent} from "../catalogue-ui/pages/dynamic-form/dynamic-form.component";
+import {ChapterComponent} from "../catalogue-ui/pages/dynamic-form/chapter.component";
 
 const routes: Routes = [
   {
@@ -15,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'form',
-    component: DynamicFormComponent
+    component: ChapterComponent
   },
   {
     path: 'contributions',

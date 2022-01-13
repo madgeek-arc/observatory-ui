@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
-import {Survey, SurveyAnswer} from "../domain/survey";
+import {ResourcePermission, Survey, SurveyAnswer} from "../domain/survey";
 import {Paging} from "../../catalogue-ui/domain/paging";
 import {StakeholdersMembers} from "../domain/userInfo";
 
@@ -14,7 +14,7 @@ export class SurveyService {
   constructor(public http: HttpClient) {}
 
   getLatestAnswer(stakeHolderId: string, surveyId: string) {
-    return this.http.get<SurveyAnswer>(this.base + `/answers/latest?stakeholderId=${stakeHolderId}&surveyId=${surveyId}`, this.options);
+    return this.http.get<SurveyAnswer[]>(this.base + `/answers/latest?stakeholderId=${stakeHolderId}&surveyId=${surveyId}`, this.options);
   }
 
   changeAnswerValidStatus(answerId: string, valid: boolean) {
@@ -29,8 +29,8 @@ export class SurveyService {
     return this.http.get<Survey>(this.base + `/surveys/${surveyId}`);
   }
 
-  getPermissions(resourceId: string) {
-    return this.http.get<string[]>(this.base + `/permissions?resourceId=${resourceId}`);
+  getPermissions(resourceIds: string[]) {
+    return this.http.get<ResourcePermission[]>(this.base + `/permissions?resourceIds=${resourceIds}`);
   }
 
   getAnswerValues(answerId: string) {

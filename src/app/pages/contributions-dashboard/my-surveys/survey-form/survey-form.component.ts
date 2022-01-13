@@ -1,8 +1,11 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
-import {DynamicFormEditComponent} from "../../../../../catalogue-ui/pages/dynamic-form/dynamic-form-edit.component";
+import {ChapterEditComponent} from "../../../../../catalogue-ui/pages/dynamic-form/chapter-edit.component";
 import {SurveyService} from "../../../../services/survey.service";
 import {Subscription} from "rxjs";
 import {ActivatedRoute, Route, Router} from "@angular/router";
+import {Stakeholder} from "../../../../domain/userInfo";
+import {SurveyAnswer} from "../../../../domain/survey";
+import {UserService} from "../../../../services/user.service";
 
 @Component({
   selector: 'app-survey-form',
@@ -11,31 +14,43 @@ import {ActivatedRoute, Route, Router} from "@angular/router";
 })
 
 export class SurveyFormComponent implements OnInit {
-  @ViewChild(DynamicFormEditComponent) child: DynamicFormEditComponent
+  @ViewChild(ChapterEditComponent) child: ChapterEditComponent
 
   private sub: Subscription;
+  currentGroup: Stakeholder = null;
   tabsHeader: string = null;
   notice: string = null;
   name: string = null;
+  surveyAnswers: SurveyAnswer[] = null
   answerValue: Object = null;
   readonly: boolean = null;
   surveyId: string = null;
 
-  constructor(private surveyService: SurveyService, private route: ActivatedRoute, private router: Router) {
+  constructor(private surveyService: SurveyService, private userService: UserService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
     this.tabsHeader = 'Sections';
-    if (this.router.url.includes('/view')) {
-      this.readonly = true;
-    }
+
     this.sub = this.route.params.subscribe(params => {
       this.surveyId = params['surveyId'];
-      this.surveyService.getAnswerValues(params['answerId']).subscribe(
-        res => {
-          // console.log(res)
-          this.answerValue = res;
-        });
+      this.userService.currentStakeholder.subscribe(
+        next => {
+          this.currentGroup = next;
+          if (this.currentGroup !== null) {
+            this.surveyService.getLatestAnswer(this.currentGroup.id, this.surveyId).subscribe(
+              next => {
+                this.surveyAnswers = next;
+              });
+          }
+        },
+        error => {console.error(error)},
+        () => {});
+      // this.surveyService.getAnswerValues(params['answerId']).subscribe(
+      //   res => {
+      //     // console.log(res)
+      //     this.answerValue = res;
+      //   });
       this.surveyService.getSurvey(this.surveyId).subscribe(
         res => {
           this.name = res.name;

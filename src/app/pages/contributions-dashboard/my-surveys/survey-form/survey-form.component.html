@@ -4,7 +4,8 @@
     <h5>{{name}}</h5>
     <p>{{notice}}</p>
 
-    <app-dynamic-form-edit [answerValue]="answerValue" [readonly]="readonly" [surveyId]="surveyId" [tabsHeader]="tabsHeader"></app-dynamic-form-edit>
+    <app-survey [surveyAnswers]="surveyAnswers" [tabsHeader]="tabsHeader"></app-survey>
+<!--    <app-dynamic-form-edit [answerValue]="answerValue" [readonly]="readonly" [surveyId]="surveyId" [tabsHeader]="tabsHeader"></app-dynamic-form-edit>-->
 
   </div>
 </div>

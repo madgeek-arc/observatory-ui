@@ -22,7 +22,13 @@ export class SurveyAnswer {
   metadata: Metadata;
   validated: boolean;
   published: boolean;
+  chapterId: string;
   id: string;
+}
+
+export class ResourcePermission {
+  resourceId: string;
+  permissions: string[];
 }
 
 export class Metadata {

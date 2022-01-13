@@ -29,12 +29,12 @@ const contributionsDashboardRoutes: Routes = [
         canActivate: [AuthenticationGuardService]
       },
       {
-        path: 'mySurveys/:surveyId/answer/:answerId',
+        path: 'mySurveys/:surveyId/answer',
         component: SurveyFormComponent,
         canActivate: [AuthenticationGuardService]
       },
       {
-        path: 'mySurveys/:surveyId/answer/:answerId/view',
+        path: 'mySurveys/:surveyId/answer/view',
         component: SurveyFormComponent,
         canActivate: [AuthenticationGuardService]
       },
