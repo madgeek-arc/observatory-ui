@@ -59,8 +59,7 @@ export class ReadMoreComponent implements AfterContentInit {
     `]
 })
 export class ReadMoreTextComponent extends ReadMoreComponent implements OnChanges, AfterViewInit {
-    @Input()
-    text: string = "";
+    @Input() text: string = "";
 
     ngAfterViewInit(): void {
         this.ngAfterContentInit();
