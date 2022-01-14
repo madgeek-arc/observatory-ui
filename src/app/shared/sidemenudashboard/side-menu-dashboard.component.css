@@ -1,4 +1,5 @@
 #sidebar_main {
+  overflow: auto;
   top: 88px !important;
   box-shadow: 0 0 16px 2px #00000029;
   background: #fff;
@@ -17,6 +18,13 @@
   overflow: auto;
   flex: 1;
   margin-bottom: 45px;
+}
+
+#sidebar_main .menu_section.sidebar-footer {
+  border-bottom: none;
+  margin-bottom: 100px;
+  position: absolute;
+  bottom: 0;
 }
 
 #sidebar_main .menu_section.border_top {
@@ -56,8 +64,20 @@
 }
 
 .material-icons {
-  width: 24px;
-  height: 24px;
+  /*width: 24px;*/
+  /*height: 24px;*/
   /*vertical-align: middle;*/
   color: #6b6b6b;
 }
+
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/*.material-icons-small {*/
+  /*width: 12px !important;*/
+  /*height: 12px !important;*/
+  /*!*vertical-align: middle;*!*/
+  /*color: #6b6b6b;*/
+/*}*/
