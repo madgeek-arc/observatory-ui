@@ -14,7 +14,7 @@ export class SurveyCardComponent implements OnChanges {
   @Input() survey: Survey;
 
   currentGroup: Stakeholder = null;
-  answer: SurveyAnswer[] = null
+  answer: SurveyAnswer = null
   permissions: ResourcePermission[] = null;
   chapterIds: string[] = [];
 
@@ -29,8 +29,10 @@ export class SurveyCardComponent implements OnChanges {
           this.surveyService.getLatestAnswer(this.currentGroup.id, this.survey.id).subscribe(
             next => {
               this.answer = next;
-              for (const chapter of next) {
-                this.chapterIds.push(chapter.id);
+              for (const chapter in this.answer.chapterAnswers) {
+                // console.log(`${chapter}: `);
+                // console.log(this.answer.chapterAnswers[chapter].chapterId);
+                this.chapterIds.push(chapter); // send chapter answer id array
               }
               this.surveyService.getPermissions(this.chapterIds).subscribe(
                 next => {

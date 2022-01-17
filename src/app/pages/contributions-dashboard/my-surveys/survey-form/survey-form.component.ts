@@ -21,7 +21,7 @@ export class SurveyFormComponent implements OnInit {
   tabsHeader: string = null;
   notice: string = null;
   name: string = null;
-  surveyAnswers: SurveyAnswer[] = null
+  surveyAnswers: SurveyAnswer = null
   answerValue: Object = null;
   readonly: boolean = null;
   surveyId: string = null;

@@ -14,7 +14,7 @@ export class SurveyService {
   constructor(public http: HttpClient) {}
 
   getLatestAnswer(stakeHolderId: string, surveyId: string) {
-    return this.http.get<SurveyAnswer[]>(this.base + `/answers/latest?stakeholderId=${stakeHolderId}&surveyId=${surveyId}`, this.options);
+    return this.http.get<SurveyAnswer>(this.base + `/answers/latest?stakeholderId=${stakeHolderId}&surveyId=${surveyId}`, this.options);
   }
 
   changeAnswerValidStatus(answerId: string, valid: boolean) {

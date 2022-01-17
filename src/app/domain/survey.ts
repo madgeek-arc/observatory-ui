@@ -16,14 +16,14 @@ export class Survey {
 
 
 export class SurveyAnswer {
+  id: string;
   surveyId: string;
   stakeholderId: string;
-  answer: Object;
+  chapterAnswers: Object;
   metadata: Metadata;
   validated: boolean;
   published: boolean;
   chapterId: string;
-  id: string;
 }
 
 export class ResourcePermission {

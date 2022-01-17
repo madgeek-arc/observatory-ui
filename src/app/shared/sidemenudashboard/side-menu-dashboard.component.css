@@ -63,18 +63,6 @@
   color: #1A1A1A !important;
 }
 
-.material-icons {
-  /*width: 24px;*/
-  /*height: 24px;*/
-  /*vertical-align: middle;*/
-  color: #6b6b6b;
-}
-
-.material-icons.md-18 { font-size: 18px; }
-.material-icons.md-24 { font-size: 24px; }
-.material-icons.md-36 { font-size: 36px; }
-.material-icons.md-48 { font-size: 48px; }
-
 /*.material-icons-small {*/
   /*width: 12px !important;*/
   /*height: 12px !important;*/
