@@ -42,7 +42,9 @@
                         </li>
                         <hr>
                         <li class="groups" *ngFor="let stakeholder of userInfo.stakeholders">
-                          <a (click)="setGroup(stakeholder)"><span class="material-icons uk-margin-right">group</span>{{stakeholder.name}}</a>
+                          <a (click)="setGroup(stakeholder)"><span class="material-icons uk-margin-right">group</span>
+                            {{stakeholder.name + (stakeholder.type === 'association' ? (', EOSC Association '+ (stakeholder.country ? '(' + stakeholder.country + ')': '')) : '') }}
+                          </a>
                         </li>
                         <hr>
                         <li class="groups" *ngFor="let coordinator of userInfo.coordinators">
