@@ -25,7 +25,7 @@
     </div>
 
     <div class="uk-margin-small-top">
-      <a [routerLink]="['./', survey.id, 'answer']" *ngIf="checkForWrite()">
+      <a [routerLink]="['./', survey.id, 'answer']" *ngIf="checkForPermission('write')">
         <div class="uk-margin-right uk-flex uk-flex-middle" style="border-right: 1px solid #e5e5e5; padding-right: 20px;">
           <span class="material-icons uk-margin-small-right">edit</span>
           Edit
@@ -33,15 +33,14 @@
       </a>
     </div>
 
-    <!--TODO fix when api call is ready-->
-    <!--<div>-->
-      <!--<a *ngIf="permissions.includes('manage')" (click)="changeValidStatus(answer.id, answer.validated)">-->
-        <!--<div class="uk-flex uk-flex-middle">-->
-          <!--<span class="material-icons uk-margin-small-right">{{answer.validated ? 'lock_open' : 'task_alt'}}</span>-->
-          <!--{{answer.validated ? 'Open' : 'Validate'}}-->
-        <!--</div>-->
-      <!--</a>-->
-    <!--</div>-->
+    <div class="uk-margin-small-top">
+      <a *ngIf="checkForPermission('manage')" (click)="changeValidStatus(surveyAnswer.id, surveyAnswer.validated)">
+        <div class="uk-flex uk-flex-middle">
+          <span class="material-icons uk-margin-small-right">{{surveyAnswer.validated ? 'lock_open' : 'task_alt'}}</span>
+          {{surveyAnswer.validated ? 'Open' : 'Validate'}}
+        </div>
+      </a>
+    </div>
 
   </div>
 

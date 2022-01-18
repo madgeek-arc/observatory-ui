@@ -14,7 +14,7 @@ export class SurveyCardComponent implements OnChanges {
   @Input() survey: Survey;
 
   currentGroup: Stakeholder = null;
-  answer: SurveyAnswer = null
+  surveyAnswer: SurveyAnswer = null
   permissions: ResourcePermission[] = null;
   chapterIds: string[] = [];
 
@@ -28,8 +28,8 @@ export class SurveyCardComponent implements OnChanges {
         if (this.currentGroup !== null) {
           this.surveyService.getLatestAnswer(this.currentGroup.id, this.survey.id).subscribe(
             next => {
-              this.answer = next;
-              for (const chapter in this.answer.chapterAnswers) {
+              this.surveyAnswer = next;
+              for (const chapter in this.surveyAnswer.chapterAnswers) {
                 // console.log(`${chapter}: `);
                 // console.log(this.answer.chapterAnswers[chapter].chapterId);
                 this.chapterIds.push(chapter); // send chapter answer id array
@@ -45,9 +45,9 @@ export class SurveyCardComponent implements OnChanges {
       () => {});
   }
 
-  checkForWrite(): boolean {
+  checkForPermission(right: string): boolean {
     for (const permission of this.permissions) {
-      if (permission.permissions.includes('write'))
+      if (permission.permissions.includes(right))
         return true;
     }
     return false;
@@ -56,15 +56,15 @@ export class SurveyCardComponent implements OnChanges {
   changeValidStatus(answerId: string, valid: boolean) {
     this.surveyService.changeAnswerValidStatus(answerId, !valid).subscribe(
       next => { // TODO fix when api is ready
-        // this.answer = next;
-        // this.surveyService.getPermissions(this.answer.id).subscribe(
-        //   next => {
-        //     this.permissions = next;
-        //   },
-        //   error => {
-        //     console.error(error)
-        //   },
-        //   () => {});
+        this.surveyAnswer = next;
+        this.surveyService.getPermissions(this.chapterIds).subscribe(
+          next => {
+            this.permissions = next;
+          },
+          error => {
+            console.error(error)
+          },
+          () => {});
       },
       error => {
         console.error(error)

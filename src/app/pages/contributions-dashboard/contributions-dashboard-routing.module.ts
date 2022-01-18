@@ -39,6 +39,11 @@ const contributionsDashboardRoutes: Routes = [
         canActivate: [AuthenticationGuardService]
       },
       {
+        path: 'mySurveys/:surveyId/answer/validate',
+        component: SurveyFormComponent,
+        canActivate: [AuthenticationGuardService]
+      },
+      {
         path: 'group',
         component: MyGroupComponent,
         canActivate: [AuthenticationGuardService]
