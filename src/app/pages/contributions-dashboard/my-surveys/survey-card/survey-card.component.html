@@ -17,7 +17,7 @@
 
     <div class="uk-margin-small-top">
       <a [routerLink]="['./', survey.id, 'answer', 'view']">
-        <div class="uk-margin-right uk-flex uk-flex-middle" style="border-right: 1px solid #e5e5e5; padding-right: 20px;">
+        <div class="uk-margin-right uk-flex uk-flex-middle uk-animation-scale-up" style="border-right: 1px solid #e5e5e5; padding-right: 20px;">
           <span class="material-icons uk-margin-small-right">visibility</span>
           View
         </div>
@@ -25,8 +25,8 @@
     </div>
 
     <div class="uk-margin-small-top">
-      <a [routerLink]="['./', survey.id, 'answer']" *ngIf="checkForPermission('write')">
-        <div class="uk-margin-right uk-flex uk-flex-middle" style="border-right: 1px solid #e5e5e5; padding-right: 20px;">
+      <a [routerLink]="['./', survey.id, 'answer']" *ngIf="!surveyAnswer.validated && checkForPermission('write')">
+        <div class="uk-margin-right uk-flex uk-flex-middle uk-animation-scale-up" style="border-right: 1px solid #e5e5e5; padding-right: 20px;">
           <span class="material-icons uk-margin-small-right">edit</span>
           Edit
         </div>
@@ -35,9 +35,9 @@
 
     <div class="uk-margin-small-top">
       <a *ngIf="checkForPermission('manage')" (click)="changeValidStatus(surveyAnswer.id, surveyAnswer.validated)">
-        <div class="uk-flex uk-flex-middle">
-          <span class="material-icons uk-margin-small-right">{{surveyAnswer.validated ? 'lock_open' : 'task_alt'}}</span>
-          {{surveyAnswer.validated ? 'Open' : 'Validate'}}
+        <div class="uk-flex uk-flex-middle uk-animation-scale-up">
+          <span class="material-icons uk-margin-small-right">
+            {{surveyAnswer.validated ? 'lock_open' : 'task_alt'}}</span>{{surveyAnswer.validated ? 'Open' : 'Validate'}}
         </div>
       </a>
     </div>
