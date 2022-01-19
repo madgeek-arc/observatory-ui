@@ -4,7 +4,7 @@ import {SurveyService} from "../../../../services/survey.service";
 import {Subscription} from "rxjs";
 import {ActivatedRoute, Route, Router} from "@angular/router";
 import {Stakeholder} from "../../../../domain/userInfo";
-import {SurveyAnswer} from "../../../../domain/survey";
+import {Survey, SurveyAnswer} from "../../../../domain/survey";
 import {UserService} from "../../../../services/user.service";
 
 @Component({
@@ -19,11 +19,8 @@ export class SurveyFormComponent implements OnInit {
   private sub: Subscription;
   currentGroup: Stakeholder = null;
   tabsHeader: string = null;
-  notice: string = null;
-  name: string = null;
+  survey: Survey = null;
   surveyAnswers: SurveyAnswer = null
-  answerValue: Object = null;
-  readonly: boolean = null;
   surveyId: string = null;
 
   constructor(private surveyService: SurveyService, private userService: UserService, private route: ActivatedRoute, private router: Router) {
@@ -53,8 +50,7 @@ export class SurveyFormComponent implements OnInit {
       //   });
       this.surveyService.getSurvey(this.surveyId).subscribe(
         res => {
-          this.name = res.name;
-          this.notice = res.notice;
+          this.survey = res;
         }
       )
     });

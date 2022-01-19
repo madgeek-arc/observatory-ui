@@ -3,6 +3,7 @@ import {SurveyAnswer, Survey, ResourcePermission} from "../../../../domain/surve
 import {UserService} from "../../../../services/user.service";
 import {Stakeholder} from "../../../../domain/userInfo";
 import {SurveyService} from "../../../../services/survey.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-survey-card',
@@ -18,7 +19,7 @@ export class SurveyCardComponent implements OnChanges {
   permissions: ResourcePermission[] = null;
   chapterIds: string[] = [];
 
-  constructor(private userService: UserService, private surveyService: SurveyService) {
+  constructor(private userService: UserService, private surveyService: SurveyService, private router: Router) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -54,22 +55,28 @@ export class SurveyCardComponent implements OnChanges {
   }
 
   changeValidStatus(answerId: string, valid: boolean) {
-    this.surveyService.changeAnswerValidStatus(answerId, !valid).subscribe(
-      next => {
-        this.surveyAnswer = next;
-        this.surveyService.getPermissions(this.chapterIds).subscribe(
-          next => {
-            this.permissions = next;
-          },
-          error => {
-            console.error(error)
-          },
-          () => {});
-      },
-      error => {
-        console.error(error)
-      },
-      () => {});
+    if (valid) {
+      this.surveyService.changeAnswerValidStatus(answerId, !valid).subscribe(
+        next => {
+          this.surveyAnswer = next;
+          this.surveyService.getPermissions(this.chapterIds).subscribe(
+            next => {
+              this.permissions = next;
+            },
+            error => {
+              console.error(error)
+            },
+            () => {
+            });
+        },
+        error => {
+          console.error(error)
+        },
+        () => {
+        });
+    } else {
+      this.router.navigate([`contributions/mySurveys/${this.survey.id}/answer/validate`]);
+    }
   }
 
 }

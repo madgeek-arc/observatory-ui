@@ -475,7 +475,7 @@ a.uk-icon-button {
   font-weight: normal;
 }
 
-.uk-input:not([class*="menuSearch"]) {
+.uk-input:not([class*="menuSearch"]):not([class*="uk-form-danger"]) {
   background-color: #fff;
   border: 1px solid var(--default-element-bg);
   border-radius: 4px;

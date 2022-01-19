@@ -19,11 +19,18 @@ export class SurveyAnswer {
   id: string;
   surveyId: string;
   stakeholderId: string;
-  chapterAnswers: Object;
+  chapterAnswers: Map<string, ChapterAnswer>;
   metadata: Metadata;
   validated: boolean;
   published: boolean;
   chapterId: string;
+}
+
+export class ChapterAnswer {
+  chapterId: string;
+  answer: Object;
+  metadata: Metadata;
+  id: string;
 }
 
 export class ResourcePermission {
