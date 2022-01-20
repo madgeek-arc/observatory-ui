@@ -1,9 +1,10 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {ResourcePermission, Survey, SurveyAnswer} from "../domain/survey";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {ResourcePermission, Survey, SurveyAnswer, SurveyInfo} from "../domain/survey";
 import {Paging} from "../../catalogue-ui/domain/paging";
 import {StakeholdersMembers} from "../domain/userInfo";
+import {URLParameter} from "../../catalogue-ui/domain/url-parameter";
 
 @Injectable()
 export class SurveyService {
@@ -43,6 +44,21 @@ export class SurveyService {
 
   removeContributor(stakeholderId: string, email: string) {
     return this.http.delete<StakeholdersMembers>(this.base + `/stakeholders/${stakeholderId}/contributors/${email}`, this.options);
+  }
+
+  getSurveyEntries(urlParameters: URLParameter[]) {
+    let searchQuery = new HttpParams();
+    for (const urlParameter of urlParameters) {
+      for (const value of urlParameter.values) {
+        searchQuery = searchQuery.append(urlParameter.key, value);
+      }
+    }
+    searchQuery.delete('to');
+
+    if(searchQuery.toString()=='')
+      return this.http.get<Paging<SurveyInfo>>(this.base + `/coordinators/surveys`);
+    else
+      return this.http.get<Paging<SurveyInfo>>(this.base + `/coordinators/surveys${'?' + searchQuery.toString()}`);
   }
 
 }

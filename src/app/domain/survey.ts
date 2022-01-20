@@ -1,4 +1,4 @@
-import {User} from "./userInfo";
+import {Stakeholder, User} from "./userInfo";
 import {Chapter} from "../../catalogue-ui/domain/dynamic-form-model";
 
 export class Survey {
@@ -43,4 +43,22 @@ export class Metadata {
   createdDy: User;
   modificationDate: string;
   modifiedBy: User;
+}
+
+export class SurveyInfo {
+  surveyId: string;
+  surveyAnswerId: string;
+  surveyName: string;
+  validated: boolean;
+  published: boolean;
+  lastUpdate: Date;
+  editedBy: string[];
+  progressRequired: Progress;
+  progressTotal: Progress;
+  stakeholder: Stakeholder;
+}
+
+export class Progress {
+  current: number;
+  total: number;
 }
