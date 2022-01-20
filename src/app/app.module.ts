@@ -13,6 +13,7 @@ import {UserService} from "./services/user.service";
 import {AuthenticationService} from "./services/authentication.service";
 import {AuthenticationGuardService} from "./services/authentication-guard.service";
 import {FormsModule} from "@angular/forms";
+import {SurveyService} from "./services/survey.service";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {FormsModule} from "@angular/forms";
   providers: [
     UserService,
     AuthenticationService,
-    AuthenticationGuardService
+    AuthenticationGuardService,
+    SurveyService
   ],
   bootstrap: [AppComponent]
 })

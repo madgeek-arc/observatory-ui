@@ -1,125 +1,122 @@
 <div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 90vh;">
   <div class="uk-container uk-container-expand uk-margin-left uk-margin-right uk-margin-top">
 
-    <div class="uk-card uk-card-default uk-card-body">
-
-      <form class="uk-grid-small" uk-grid>
-        <div class="uk-width-1-4">
-          <div class="uk-form-controls">
-            <div class="uk-form-controls">
-              <ng-select class="uk-select"
-                         [items]="surveysList"
-                         [placeholder]="'Select survey..'"
-                         bindLabel="name"
-                         bindValue="id"
-                         clearAllText="Clear">
-              </ng-select>
-            </div>
-          </div>
-        </div>
-        <div class="uk-width-1-4">
-          <div class="uk-form-controls">
-            <ng-select class="uk-select"
-                       [items]="eoscSBMembers"
-                       [placeholder]="'Select EOSC SB member..'"
-                       bindLabel="name"
-                       bindValue="id"
-                       clearAllText="Clear">
-            </ng-select>
-          </div>
-        </div>
-        <div class="uk-width-1-4">
-        </div>
-        <div class="uk-width-1-4">
-          <!--<button class="uk-button uk-button-default" type="button">Dropdown</button>-->
-          <!--<div uk-dropdown>-->
-            <!--<ul class="uk-nav uk-dropdown-nav">-->
-              <!--<li class="uk-active"><a href="#">Active</a></li>-->
-              <!--<li><a href="#">Item</a></li>-->
-              <!--<li class="uk-nav-header">Header</li>-->
-              <!--<li><a href="#">Item</a></li>-->
-              <!--<li><a href="#">Item</a></li>-->
-              <!--<li class="uk-nav-divider"></li>-->
-              <!--<li><a href="#">Item</a></li>-->
-            <!--</ul>-->
+    <!--<form class="uk-grid-small uk-margin-medium-bottom" uk-grid>-->
+      <!--<div class="uk-width-1-4">-->
+        <!--<div class="uk-form-controls">-->
+          <!--<div class="uk-form-controls">-->
+            <!--<ng-select class="uk-select"-->
+                       <!--[items]="surveysList"-->
+                       <!--[placeholder]="'Select survey..'"-->
+                       <!--bindLabel="name"-->
+                       <!--bindValue="id"-->
+                       <!--clearAllText="Clear">-->
+            <!--</ng-select>-->
           <!--</div>-->
-        </div>
-      </form>
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="uk-width-1-4">-->
+        <!--<div class="uk-form-controls">-->
+          <!--<ng-select class="uk-select"-->
+                     <!--[items]="eoscSBMembers"-->
+                     <!--[placeholder]="'Select EOSC SB member..'"-->
+                     <!--bindLabel="name"-->
+                     <!--bindValue="id"-->
+                     <!--clearAllText="Clear">-->
+          <!--</ng-select>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="uk-width-1-4">-->
+      <!--</div>-->
+      <!--<div class="uk-width-1-4">-->
+        <!--&lt;!&ndash;<button class="uk-button uk-button-default" type="button">Dropdown</button>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div uk-dropdown>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ul class="uk-nav uk-dropdown-nav">&ndash;&gt;-->
+        <!--&lt;!&ndash;<li class="uk-active"><a href="#">Active</a></li>&ndash;&gt;-->
+        <!--&lt;!&ndash;<li><a href="#">Item</a></li>&ndash;&gt;-->
+        <!--&lt;!&ndash;<li class="uk-nav-header">Header</li>&ndash;&gt;-->
+        <!--&lt;!&ndash;<li><a href="#">Item</a></li>&ndash;&gt;-->
+        <!--&lt;!&ndash;<li><a href="#">Item</a></li>&ndash;&gt;-->
+        <!--&lt;!&ndash;<li class="uk-nav-divider"></li>&ndash;&gt;-->
+        <!--&lt;!&ndash;<li><a href="#">Item</a></li>&ndash;&gt;-->
+        <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--</div>-->
+    <!--</form>-->
 
-      <div class="uk-overflow-auto uk-margin-medium-top">
-        <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
-          <thead>
-          <tr>
-            <th class="uk-table-shrink"><input class="uk-checkbox" type="checkbox"></th>
-            <th class="">EOSC SB member</th>
-            <th class="">Survey</th>
-            <th class="">Validated</th>
-            <th class="">Published</th>
-            <th class="">Progress</th>
-            <th class="">Actions</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td><input class="uk-checkbox" type="checkbox"></td>
-            <td>EOSC SB (Greece)</td>
-            <td class="">
-              National Contributions to EOSC
-            </td>
-            <td class=""><span class="material-icons">done</span></td>
-            <td class=""><span class="material-icons">remove</span></td>
-            <td class="">
-              <progress class="uk-progress uk-progress-secondary" value="83" max="100"></progress>
-              <!--<div class="percentageNumber" style="margin-left: 10%;">10%</div>-->
-            </td>
-            <td class="uk-flex">
-              <span class="uk-flex uk-flex-middle"><span class="material-icons uk-margin-small-right">visibility</span>View</span>
-              <span class="uk-flex uk-flex-middle uk-margin-left"><span class="material-icons uk-margin-small-right">email</span>Notify</span>
-            </td>
-          </tr>
-          <tr>
-            <td><input class="uk-checkbox" type="checkbox"></td>
-            <td>EOSC SB (France)</td>
-            <td class="">
-              National Contributions to EOSC
-            </td>
-            <td class=""><span class="material-icons">remove</span></td>
-            <td class=""><span class="material-icons">remove</span></td>
-            <td class="">
-              <progress class="uk-progress" value="70" max="100"></progress>
-            </td>
-            <td class="uk-flex uk-flex-middle"><span class="material-icons uk-margin-small-right">visibility</span>View</td>
-          </tr>
-          <tr>
-            <td><input class="uk-checkbox" type="checkbox"></td>
-            <td>EOSC SB (Italy)</td>
-            <td class="">
-              National Contributions to EOSC
-            </td>
-            <td class=""><span class="material-icons">remove</span></td>
-            <td class=""><span class="material-icons">remove</span></td>
-            <td class="">
-              <progress class="uk-progress" value="40" max="100"></progress>
-            </td>
-            <td class="uk-flex uk-flex-middle"><span class="material-icons uk-margin-small-right">visibility</span>View</td>
-          </tr>
-          <tr>
-            <td><input class="uk-checkbox" type="checkbox"></td>
-            <td>EOSC SB (Ireland)</td>
-            <td class="">
-              National Contributions to EOSC
-            </td>
-            <td class=""><span class="material-icons">done</span></td>
-            <td class=""><span class="material-icons">done</span></td>
-            <td class="">
-              <progress class="uk-progress" value="80" max="100"></progress>
-            </td>
-            <td class="uk-flex uk-flex-middle"><span class="material-icons uk-margin-small-right">visibility</span>View</td>
-          </tr>
-          </tbody>
-        </table>
+    <div *ngIf="surveyEntries">
+
+      <div class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">
+        <div class="uk-width-1-1">
+
+          <div class="uk-flex uk-flex-between uk-flex-middle">
+
+            <p class="big-text uk-margin-remove">
+              <span class="uk-text-bold">{{surveyEntries.total}}</span> Survey answers, Page <span class="uk-text-bold">{{currentPage}}</span> of {{totalPages}}
+            </p>
+
+            <ul class="uk-pagination uk-visible@m">
+              <li *ngIf="currentPage>2 && pageTotal>5"><a (click)="goToPage(1)"><span uk-pagination-previous></span><span uk-pagination-previous></span></a></li>
+              <li *ngIf="currentPage!==1"><a (click)="previousPage()"><span uk-pagination-previous></span></a></li>
+              <li *ngFor="let i of pages" [ngClass]="i === currentPage ? 'uk-active': ''">
+                <a (click)="goToPage(i)">{{i}}</a>
+              </li>
+              <li *ngIf="currentPage!==pageTotal"><a (click)="nextPage()"><span uk-pagination-next></span></a></li>
+              <li *ngIf="currentPage<pageTotal-1 && pageTotal>5"><a (click)="goToPage(pageTotal)"><span uk-pagination-next></span><span uk-pagination-next></span></a></li>
+            </ul>
+
+          </div>
+        </div>
+
       </div>
+
+      <div class="uk-card uk-card-default uk-card-body">
+
+        <div class="uk-overflow-auto">
+          <table class="uk-table uk-table-hover uk-table-middle uk-table-divider" *ngIf="surveyEntriesResults">
+            <thead>
+            <tr>
+              <th class="uk-table-shrink"><input class="uk-checkbox" type="checkbox"></th>
+              <th class="">EOSC SB member</th>
+              <th class="">Survey</th>
+              <th class="">Validated</th>
+              <th class="">Published</th>
+              <th class="">Progress</th>
+              <th class="">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let surveyEntry of surveyEntriesResults">
+              <td><input class="uk-checkbox" type="checkbox"></td>
+              <td>{{surveyEntry.stakeholder.name}}</td>
+              <td class="">
+                {{surveyEntry.surveyName}}
+              </td>
+              <td class="">
+                <span *ngIf="surveyEntry.validated" class="material-icons">done</span>
+                <span *ngIf="!surveyEntry.validated" class="material-icons">remove</span>
+              </td>
+              <td class="">
+                <span *ngIf="surveyEntry.published" class="material-icons">done</span>
+                <span *ngIf="!surveyEntry.published" class="material-icons">remove</span>
+              </td>
+              <td class="">
+                <!--<progress class="uk-progress uk-progress-secondary" value="83" max="100"></progress>-->
+                <div class="percentageNumber" style="margin-left: 10%;">{{surveyEntry.progressTotal.current}} of {{surveyEntry.progressTotal.total}}</div>
+              </td>
+              <td class="uk-flex">
+                <span class="uk-flex uk-flex-middle"><span class="material-icons uk-margin-small-right">visibility</span>View</span>
+                <span class="uk-flex uk-flex-middle uk-margin-left"><span class="material-icons uk-margin-small-right">email</span>Notify</span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
+
+
 
   </div>
 </div>
