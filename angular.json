@@ -32,7 +32,8 @@
               "src/catalogue-ui/assets"
             ],
             "styles": [
-              "src/styles/styles.scss"
+              "src/styles/styles.scss",
+              "./node_modules/@angular/cdk/overlay-prebuilt.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
