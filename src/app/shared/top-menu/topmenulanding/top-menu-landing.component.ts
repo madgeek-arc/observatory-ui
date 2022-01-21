@@ -12,16 +12,26 @@ import {AuthenticationService} from "../../../services/authentication.service";
 export class TopMenuLandingComponent implements OnInit {
 
   showLogin = true;
+  ready = false;
   userInfo: UserInfo = null;
 
   constructor(private userService: UserService, private authentication: AuthenticationService) {
   }
 
   ngOnInit() {
-    this.userService.getUserInfo().subscribe(next => {
-      this.userInfo = next;
-      this.showLogin = false
-    });
+    if (this.authentication.authenticated) {
+      this.userService.getUserInfo().subscribe(next => {
+          this.userInfo = next;
+          this.showLogin = false
+          this.ready = true;
+        },
+        error => {
+          console.log(error);
+          this.ready = true;
+        });
+    } else {
+      this.ready = true;
+    }
   }
 
   logInButton() {

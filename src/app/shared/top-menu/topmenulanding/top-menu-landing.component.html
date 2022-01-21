@@ -7,7 +7,6 @@
         <nav class="uk-navbar fixed-navbar">
 
           <div class="uk-navbar-left">
-
             <a class="logo" [routerLink]="['home']">
               <img src="https://providers.eosc-portal.eu/assets/images/EOSC_Portal_Logo.png">
               <span class="uk-margin-left">EOSC Observatory</span>
@@ -15,19 +14,14 @@
           </div>
 
           <div class="uk-navbar-right">
-            <div id="navigation">
+            <div *ngIf="ready" id="navigation">
               <ul *ngIf="userInfo" class="uk-navbar-nav user_actions">
                 <li>
                   <div>
-                    <a class="uk-icon ng-star-inserted" aria-expanded="false">
+                    <a class="uk-icon uk-animation-fade" aria-expanded="false">
                       <span class="uk-text-small uk-margin-small-right">{{userInfo.user.fullname}}</span>
-                      <!--                        <svg height="60" width="60">-->
-                      <!--                          <circle cx="30" cy="30" r="20" stroke-width="1"></circle>-->
-                      <!--                          <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%" class="ng-star-inserted"> {{ parseUsername() }} </text>-->
-                      <!--                        </svg>-->
-                      <!--<i class="material-icons">keyboard_arrow_down</i>-->
                     </a>
-                    <div class="uk-padding-remove-horizontal ng-star-inserted uk-dropdown"
+                    <div class="uk-padding-remove-horizontal uk-dropdown"
                          uk-dropdown="mode: click; offset: -2; delay-hide: 0; flip: false; pos: bottom-right">
                       <ul class="uk-nav uk-dropdown-nav">
                         <li class="user-info">
@@ -51,7 +45,7 @@
                 </li>
               </ul>
               <ul class="uk-navbar-nav user_actions">
-                <li *ngIf="showLogin">
+                <li *ngIf="showLogin" class="uk-animation-fade">
                   <div>
                     <a class="uk-button uk-button-link" (click)="logInButton()">Login</a>
                   </div>
@@ -63,7 +57,6 @@
         </nav>
 
       </div>
-
     </div>
 
   </div>

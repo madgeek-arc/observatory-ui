@@ -14,6 +14,8 @@ import {AuthenticationService} from "./services/authentication.service";
 import {AuthenticationGuardService} from "./services/authentication-guard.service";
 import {FormsModule} from "@angular/forms";
 import {SurveyService} from "./services/survey.service";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {HttpInterceptorService} from "./services/http-interceptor.service";
 
 @NgModule({
   declarations: [
@@ -31,9 +33,14 @@ import {SurveyService} from "./services/survey.service";
     FormsModule,
   ],
   providers: [
-    UserService,
     AuthenticationService,
     AuthenticationGuardService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true
+    },
+    UserService,
     SurveyService
   ],
   bootstrap: [AppComponent]
