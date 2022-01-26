@@ -12,16 +12,3 @@
   </div>
 
 </div>
-
-<!-- Consent modal -->
-<div id="consent-modal" uk-modal="esc-close: false; bg-close: false ">
-  <div class="uk-modal-dialog uk-modal-body">
-<!--    <h2 class="uk-modal-title">Headline</h2>-->
-    <label><input class="uk-checkbox" type="checkbox" [(ngModel)]="consent">
-       I consent to my personal data being processed as described in the <a href="https://eosc-portal.eu/privacy-policy-summary">EOSC Portal Privacy Policy</a>
-    </label>
-    <p class="uk-text-right">
-      <button class="uk-button uk-button-primary" type="button" (click)="updateConsent()">Save my choice</button>
-    </p>
-  </div>
-</div>

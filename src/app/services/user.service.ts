@@ -35,8 +35,8 @@ export class UserService {
     return this.http.get<UserInfo>(this.base + '/user/info');
   }
 
-  setUserConsent(value: boolean) {
-    return this.http.patch(this.base + `/user/consent?consent=${value}`, null);
+  setUserConsent(id: string) {
+    return this.http.patch(this.base + `/user/policies/${id}`, null);
   }
 
   getStakeholdersMembers(id: string) {

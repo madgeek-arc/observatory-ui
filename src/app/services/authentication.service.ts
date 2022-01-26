@@ -28,7 +28,8 @@ export class AuthenticationService {
   }
 
   logout() {
-    deleteCookie('AccessToken')
+    deleteCookie('AccessToken');
+    sessionStorage.clear();
     window.location.href = this.base + '/logout';
   }
 
