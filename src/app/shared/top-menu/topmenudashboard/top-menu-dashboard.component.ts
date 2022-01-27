@@ -48,7 +48,6 @@ export class TopMenuDashboardComponent implements OnInit {
     this.userService.currentCoordinator.subscribe(next => {
       this.currentCoordinator = next;
       if (this.currentCoordinator !== null) {
-        console.log(this.currentCoordinator.type);
         this.privacyPolicy.hasAcceptedPolicy(this.currentCoordinator.type).subscribe(
           next => {
             this.acceptedPrivacyPolicy = next;
@@ -73,12 +72,12 @@ export class TopMenuDashboardComponent implements OnInit {
 
   setGroup(group: Stakeholder) {
     this.userService.changeCurrentStakeholder(group);
-    this.router.navigate(['/contributions/home']);
+    this.router.navigate([`/contributions/${group.id}/home`]);
   }
 
   setCoordinator(coordinator: Coordinator){
     this.userService.changeCurrentCoordinator(coordinator);
-    this.router.navigate(['/contributions/home']);
+    this.router.navigate([`/contributions/${coordinator.id}/home`]);
   }
 
   logout() {

@@ -14,11 +14,7 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'form',
-    component: ChapterComponent
-  },
-  {
-    path: 'contributions',
+    path: 'contributions/:id',
     loadChildren: () => import('./pages/contributions-dashboard/contributions-dashboard.module').then(m => m.ContributionsDashboardModule),
   },
 ];

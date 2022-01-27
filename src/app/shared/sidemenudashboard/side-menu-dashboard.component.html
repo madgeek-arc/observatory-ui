@@ -4,7 +4,7 @@
     <ul>
 
       <li [routerLinkActive]="['current_section']" class="">
-        <a [routerLink]="['contributions/home']" class="uk-flex uk-flex-middle">
+        <a [routerLink]="['contributions/'+(currentStakeholder ? currentStakeholder.id : currentCoordinator.id)+'/home']" class="uk-flex uk-flex-middle">
           <span class="material-icons uk-margin-right">home</span>
           <span class="menu_title">Home</span>
         </a>
@@ -17,14 +17,14 @@
     <ul *ngIf="currentStakeholder">
 
       <li [routerLinkActive]="['current_section']" class="">
-        <a [routerLink]="['contributions/mySurveys']" class="uk-flex uk-flex-middle">
+        <a [routerLink]="['contributions/'+currentStakeholder.id+'/mySurveys']" class="uk-flex uk-flex-middle">
           <span class="material-icons uk-margin-right">assignment</span>
           <span class="menu_title">My Surveys</span>
         </a>
       </li>
 
       <li [routerLinkActive]="['current_section']" class="">
-        <a [routerLink]="['contributions/group']" class="uk-flex uk-flex-middle">
+        <a [routerLink]="['contributions/'+currentStakeholder.id+'/group']" class="uk-flex uk-flex-middle">
           <span class="material-icons uk-margin-right">group</span>
           <span class="menu_title">My Group</span>
         </a>
@@ -34,7 +34,7 @@
     <ul *ngIf="currentCoordinator">
 
       <li [routerLinkActive]="['current_section']" class="">
-        <a [routerLink]="['contributions/surveys']" class="uk-flex uk-flex-middle">
+        <a [routerLink]="['contributions/'+currentCoordinator.id+'/surveys']" class="uk-flex uk-flex-middle">
           <span class="material-icons uk-margin-right">assignment</span>
           <span class="menu_title">Surveys</span>
         </a>

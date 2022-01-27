@@ -30,9 +30,21 @@
                             <div class="uk-text-meta">{{userInfo.user.email}}</div>
                           </div>
                         </li>
+<!--                        <hr>-->
+<!--                        <li class="groups" *ngIf="userInfo.stakeholders.length > 0">-->
+<!--                          <span>Go to Dashboard</span>-->
+<!--                        </li>-->
                         <hr>
-                        <li class="groups" *ngIf="userInfo.stakeholders.length > 0">
-                          <a class="" [routerLink]="'/contributions/home'">Go to Dashboard</a>
+                        <li class="groups" *ngFor="let stakeholder of userInfo.stakeholders">
+                          <a (click)="setGroup(stakeholder)"><span class="material-icons uk-margin-right">group</span>
+                            {{stakeholder.name + (stakeholder.type === 'association' ? (', EOSC Association '+ (stakeholder.country ? '(' + stakeholder.country + ')': '')) : '') }}
+                          </a>
+                        </li>
+                        <hr>
+                        <li class="groups" *ngFor="let coordinator of userInfo.coordinators">
+                          <a (click)="setCoordinator(coordinator)">
+                            <span class="material-icons uk-margin-right">group</span>{{coordinator.name}}
+                          </a>
                         </li>
                         <hr>
                         <li>
