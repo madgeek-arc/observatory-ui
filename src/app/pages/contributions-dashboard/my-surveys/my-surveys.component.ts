@@ -3,7 +3,6 @@ import {Stakeholder} from "../../../domain/userInfo";
 import {UserService} from "../../../services/user.service";
 import {Paging} from "../../../../catalogue-ui/domain/paging";
 import {Survey} from "../../../domain/survey";
-import {Subject} from "rxjs";
 import {SurveyService} from "../../../services/survey.service";
 
 @Component({

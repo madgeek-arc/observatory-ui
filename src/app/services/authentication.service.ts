@@ -15,11 +15,11 @@ export class AuthenticationService {
 
   tryLogin() {
     if (getCookie(this.cookieName) === null) {
-      // console.log('Didn\'t find cookie, user is not logged in.' )
+      console.log('Didn\'t find cookie, user is not logged in.' )
       sessionStorage.setItem('redirectUrl', window.location.pathname);
       this.login();
     } else {
-      // console.log('found cookie, user is logged in');
+      console.log('found cookie, user is logged in');
     }
   }
 
@@ -28,7 +28,7 @@ export class AuthenticationService {
   }
 
   logout() {
-    deleteCookie('AccessToken');
+    deleteCookie(this.cookieName);
     sessionStorage.clear();
     window.location.href = this.base + '/logout';
   }

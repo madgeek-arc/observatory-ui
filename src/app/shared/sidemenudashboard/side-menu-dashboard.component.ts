@@ -13,6 +13,7 @@ export class SideMenuDashboardComponent implements OnInit {
   toggle: number[] = [];
   currentStakeholder: Stakeholder = null;
   currentCoordinator: Coordinator = null;
+  ready = false;
 
   constructor(private userService: UserService) {
   }
@@ -20,9 +21,15 @@ export class SideMenuDashboardComponent implements OnInit {
   ngOnInit() {
     this.userService.currentStakeholder.subscribe(next => {
       this.currentStakeholder = next;
+      if (this.currentStakeholder !== null) {
+        this.ready = true;
+      }
     });
     this.userService.currentCoordinator.subscribe(next => {
       this.currentCoordinator = next;
+      if (this.currentCoordinator !== null) {
+        this.ready = true;
+      }
     });
   }
 

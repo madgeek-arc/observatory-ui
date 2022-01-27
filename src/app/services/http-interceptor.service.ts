@@ -19,8 +19,8 @@ export class HttpInterceptorService implements HttpInterceptor {
           console.error('An error occurred:', response.error.message);
         } else {
           if (response.status === 401) {
+            // console.log('trying to login');
             this.authenticationService.tryLogin();
-            // this.router.navigate(['/home']);
           }
         }
         return throwError(response.message);
