@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {HomeComponent} from "./pages/home.component";
-import {ChapterComponent} from "../catalogue-ui/pages/dynamic-form/chapter.component";
+import {AcceptInvitationComponent} from "./pages/accept-invitation.component.ts/accept-invitation.component";
+import {AuthenticationGuardService} from "./services/authentication-guard.service";
 
 const routes: Routes = [
   {
@@ -12,6 +13,11 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent
+  },
+  {
+    path: 'invitation/accept/:invitationToken',
+    component: AcceptInvitationComponent,
+    canActivate: [AuthenticationGuardService]
   },
   {
     path: 'contributions/:id',

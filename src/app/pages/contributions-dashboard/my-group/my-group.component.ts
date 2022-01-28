@@ -1,9 +1,10 @@
 import {Component, OnInit} from "@angular/core";
 import {UserService} from "../../../services/user.service";
 import {Stakeholder, StakeholdersMembers} from "../../../domain/userInfo";
+import {SurveyService} from "../../../services/survey.service";
+import {ActivatedRoute} from "@angular/router";
 
 import UIkit from 'uikit';
-import {SurveyService} from "../../../services/survey.service";
 
 @Component({
   selector: 'app-contributions-my-group',
@@ -17,8 +18,10 @@ export class MyGroupComponent implements OnInit {
   members: StakeholdersMembers = null
   contributorEmail: string = null;
   userEmail: string = null;
+  invitationToken: string = null;
   isManager: boolean = null;
   errorMessage: string = null;
+  title = 'copy to clipboard';
 
   constructor(private userService: UserService, private surveyService: SurveyService) {
   }
@@ -43,14 +46,15 @@ export class MyGroupComponent implements OnInit {
     });
   }
 
-  addContributor() {
+  addContributor(contributor: string = 'contributor') {
     if (this.validateEmail(this.contributorEmail)) {
-      this.surveyService.addContributor(this.currentGroup.id, this.contributorEmail).subscribe(
+      // this.surveyService.addContributor(this.currentGroup.id, this.contributorEmail).subscribe(
+      this.surveyService.getInvitationToken(this.contributorEmail, contributor, this.currentGroup.id).subscribe(
         next => {
-          this.members = next;
+          this.invitationToken = location.origin + '/invitation/accept/' + next.toString();
           this.errorMessage = null;
           this.contributorEmail = null;
-          UIkit.modal('#add-contributor-modal').hide();
+          // UIkit.modal('#add-contributor-modal').hide();
         },
         error => {
           console.log(error)
@@ -59,11 +63,16 @@ export class MyGroupComponent implements OnInit {
         () => {
           this.errorMessage = null;
           this.contributorEmail = null;
-          UIkit.modal('#add-contributor-modal').hide();
+          // UIkit.modal('#add-contributor-modal').hide();
         });
     } else {
       this.errorMessage = 'Please give a valid email address.'
     }
+  }
+
+  copyToClipboard() {
+    navigator.clipboard.writeText(this.invitationToken);
+    this.title = 'copied to clipboard';
   }
 
   removeContributor() {
@@ -101,6 +110,7 @@ export class MyGroupComponent implements OnInit {
 
   closeModal() {
     this.contributorEmail = null;
+    this.invitationToken = null;
     this.errorMessage = null;
   }
 

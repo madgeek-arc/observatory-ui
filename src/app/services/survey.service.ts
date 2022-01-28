@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {ResourcePermission, Survey, SurveyAnswer, SurveyInfo} from "../domain/survey";
 import {Paging} from "../../catalogue-ui/domain/paging";
 import {StakeholdersMembers} from "../domain/userInfo";
@@ -40,6 +40,14 @@ export class SurveyService {
 
   addContributor(stakeholderId: string, email: string) {
     return this.http.post<StakeholdersMembers>(this.base + `/stakeholders/${stakeholderId}/contributors`, email, this.options);
+  }
+
+  getInvitationToken(inviteeEmail: string, inviteeRole: string, stakeholder: string) {
+    return this.http.get(this.base + `/invitation?inviteeEmail=${inviteeEmail}&inviteeRole=${inviteeRole}&stakeholder=${stakeholder}`, { responseType: 'text'});
+  }
+
+  acceptInvitation(token: string) {
+    return this.http.get(this.base + `/invitation/accept?invitationToken=${token}`);
   }
 
   removeContributor(stakeholderId: string, email: string) {

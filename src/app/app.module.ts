@@ -16,13 +16,15 @@ import {FormsModule} from "@angular/forms";
 import {SurveyService} from "./services/survey.service";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {HttpInterceptorService} from "./services/http-interceptor.service";
+import {AcceptInvitationComponent} from "./pages/accept-invitation.component.ts/accept-invitation.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     SurveyFormComponent,
-    ContributionsDashboardComponent
+    ContributionsDashboardComponent,
+    AcceptInvitationComponent
   ],
   imports: [
     BrowserModule,

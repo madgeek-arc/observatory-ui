@@ -60,19 +60,27 @@
     <h4 class="uk-modal-title">Add contributor</h4>
     <p>By giving the email you consent for storing the data</p>
     <p *ngIf="errorMessage" class="uk-text-warning">{{errorMessage}}</p>
-    <input [(ngModel)]="contributorEmail" class="uk-input" type="email" placeholder="User email">
+    <input *ngIf="!invitationToken; else showToken;" [(ngModel)]="contributorEmail" class="uk-input" type="email" placeholder="New contributor email">
+    <ng-template #showToken>
+      <textarea class="uk-form-controls uk-textarea" type="textarea" [(ngModel)]="invitationToken" disabled></textarea>
+    </ng-template>
     <p class="uk-text-right">
-      <button class="uk-button uk-button-primary uk-modal-close" (click)="closeModal()" type="button">Cancel</button>
-      <button class="uk-button uk-button-primary" (click)="addContributor()" type="button">Add</button>
+      <button class="uk-button uk-button-secondary uk-modal-close" (click)="closeModal()" type="button">Close</button>
+      <button *ngIf="!invitationToken; else copyToCb;" class="uk-button uk-button-primary" (click)="addContributor()" type="button">Get invitation token</button>
+      <ng-template #copyToCb>
+        <a class="" (click)="copyToClipboard()" [title]="title" type="button">
+          <span class="material-icons">content_copy</span>
+        </a>
+      </ng-template>
     </p>
   </div>
 </div>
 
-<!-- add contributor modal -->
+<!-- remove contributor modal -->
 <div id="remove-contributor-modal" uk-modal="esc-close: false; bg-close: false">
   <div class="uk-modal-dialog uk-modal-body">
     <h4 class="uk-modal-title">Remove contributor</h4>
-    <p>The contributor with email {{contributorEmail}} will be removed</p>
+    <p>The contributor with email {{contributorEmail}} will be removed.</p>
     <p *ngIf="errorMessage" class="uk-text-warning">{{errorMessage}}</p>
     <p class="uk-text-right">
       <button class="uk-button uk-button-primary uk-modal-close" (click)="closeModal()" type="button">Cancel</button>
