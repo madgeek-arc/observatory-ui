@@ -63,7 +63,6 @@
             </div>
           </div>
 
-
         </nav>
 
       </div>
@@ -80,7 +79,7 @@
     <p>Click the link below and read it carefully. By pressing I agree you acknowledge that you have read and agree to
       the following terms.</p>
     <hr>
-    <a target="_blank" href="https://eosc-portal.eu/privacy-policy-summary">EOSC Portal Privacy Policy</a>
+    <a *ngIf="acceptedPrivacyPolicy" target="_blank" href="{{acceptedPrivacyPolicy.privacyPolicy.id}}">EOSC Observatory Privacy Policy</a>
     <p class="uk-text-right">
       <button class="uk-button uk-button-secondary" type="button" (click)="closeModal()">Close</button>
       <button class="uk-button uk-button-primary" type="button" (click)="updateConsent()">I agree</button>
