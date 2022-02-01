@@ -71,8 +71,43 @@ export class MyGroupComponent implements OnInit {
   }
 
   copyToClipboard() {
-    navigator.clipboard.writeText(this.invitationToken);
-    this.title = 'copied to clipboard';
+    // navigator clipboard api needs a secure context (https)
+    if (!navigator.clipboard) {
+      this.fallbackCopyTextToClipboard(this.invitationToken);
+      return;
+    }
+    navigator.clipboard.writeText(this.invitationToken).then( ()=> {
+      this.title = 'copied to clipboard';
+      // console.log('Async: Copying to clipboard was successful!');
+    }).catch((err)=> {
+      console.error('Async: Could not copy text: ', err);
+    });
+  }
+
+  fallbackCopyTextToClipboard(text) { // this is deprecated support is not guaranteed
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+
+    // Avoid scrolling to bottom
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      if (successful)
+        this.title = 'copied to clipboard';
+      // const msg = successful ? 'successful' : 'unsuccessful';
+      // console.log('Fallback: Copying text command was ' + msg);
+    } catch (err) {
+      console.error('Fallback: Oops, unable to copy', err);
+    }
+
+    document.body.removeChild(textArea);
   }
 
   removeContributor() {
