@@ -2,7 +2,6 @@ import {Component, OnInit} from "@angular/core";
 import {UserService} from "../../../services/user.service";
 import {Stakeholder, StakeholdersMembers} from "../../../domain/userInfo";
 import {SurveyService} from "../../../services/survey.service";
-import {ActivatedRoute} from "@angular/router";
 
 import UIkit from 'uikit';
 
@@ -153,7 +152,7 @@ export class MyGroupComponent implements OnInit {
     return String(email)
       .toLowerCase()
       .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
 }
