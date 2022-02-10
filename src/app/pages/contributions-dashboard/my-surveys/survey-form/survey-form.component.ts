@@ -30,7 +30,7 @@ export class SurveyFormComponent implements OnInit {
     this.tabsHeader = 'Sections';
 
     this.sub = this.route.params.subscribe(params => {
-      console.log(params);
+      // console.log(params);
       this.surveyId = params['surveyId'];
       this.userService.currentStakeholder.subscribe(
         next => {
