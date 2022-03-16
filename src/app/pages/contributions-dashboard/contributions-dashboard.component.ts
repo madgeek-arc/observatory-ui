@@ -13,7 +13,6 @@ import {AuthenticationService} from "../../services/authentication.service";
 export class ContributionsDashboardComponent implements OnInit{
 
   open: boolean = true;
-  consent: boolean = false;
   userInfo: UserInfo;
 
   constructor(public userService: UserService,

@@ -27,8 +27,7 @@ export class User {
   fullname: string;
   name: string;
   sub: string;
-  surname: string
-  consent: boolean;
+  surname: string;
 }
 
 export class StakeholdersMembers {
