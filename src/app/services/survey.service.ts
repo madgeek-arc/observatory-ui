@@ -54,7 +54,7 @@ export class SurveyService {
     return this.http.delete<StakeholdersMembers>(this.base + `/stakeholders/${stakeholderId}/contributors/${email}`, this.options);
   }
 
-  getSurveyEntries(urlParameters: URLParameter[]) {
+  getSurveyEntries(id: string, urlParameters: URLParameter[]) {
     let searchQuery = new HttpParams();
     for (const urlParameter of urlParameters) {
       for (const value of urlParameter.values) {
@@ -64,9 +64,9 @@ export class SurveyService {
     searchQuery.delete('to');
 
     if(searchQuery.toString()=='')
-      return this.http.get<Paging<SurveyInfo>>(this.base + `/coordinators/surveys`);
+      return this.http.get<Paging<SurveyInfo>>(this.base + `/coordinators/${id}/surveys`);
     else
-      return this.http.get<Paging<SurveyInfo>>(this.base + `/coordinators/surveys${'?' + searchQuery.toString()}`);
+      return this.http.get<Paging<SurveyInfo>>(this.base + `/coordinators//${id}surveys${'?' + searchQuery.toString()}`);
   }
 
 }

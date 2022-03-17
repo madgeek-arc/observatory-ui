@@ -1,6 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SurveyService} from "../../services/survey.service";
+import {AuthenticationService} from "../../services/authentication.service";
+import {UserService} from "../../services/user.service";
 
 
 @Component({
@@ -15,7 +17,8 @@ export class AcceptInvitationComponent implements OnInit {
   message: string = 'You are being registered';
   error: string = null;
 
-  constructor(private route: ActivatedRoute, private router: Router, private surveyService: SurveyService) {
+  constructor(private route: ActivatedRoute, private router: Router, private userService: UserService,
+              private surveyService: SurveyService, private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -26,13 +29,18 @@ export class AcceptInvitationComponent implements OnInit {
         this.surveyService.acceptInvitation(this.token).subscribe(
           res => {
             this.loading = false;
-            this.router.navigate(['/']);
+
           },
           error => {
             this.message = 'Something went wrong, server replied: ';
             this.error = error;
             this.loading = false;
             console.error(error);
+          },
+          () => {
+            this.authenticationService.login();
+            // this.userService.getUserInfo();
+            this.router.navigate(['/']);
           });
       }
     });

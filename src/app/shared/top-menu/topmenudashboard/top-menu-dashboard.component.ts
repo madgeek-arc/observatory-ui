@@ -57,7 +57,7 @@ export class TopMenuDashboardComponent implements OnInit {
           },
           error => { console.log(error)},
           () => {}
-        )
+        );
       }
     });
   }

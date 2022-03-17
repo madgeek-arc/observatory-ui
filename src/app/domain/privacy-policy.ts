@@ -2,6 +2,7 @@
 export class PrivacyPolicy {
   id: string;
   type: string;
+  filename: string;
   activationDate: string;
 }
 

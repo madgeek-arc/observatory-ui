@@ -14,14 +14,12 @@ import {ActivatedRoute, Router} from "@angular/router";
 
 export class CoordinatorsComponent implements OnInit{
 
-  public surveysList = [];
-  public eoscSBMembers = [];
-
   sub: Subscription;
   urlParameters: URLParameter[] = [];
 
   surveyEntries: Paging<SurveyInfo>;
   surveyEntriesResults: SurveyInfo[];
+  coordinatorId: string = null;
 
   pageSize = 10;
   totalPages = 0;
@@ -43,34 +41,23 @@ export class CoordinatorsComponent implements OnInit{
   }
 
   ngOnInit() {
-
-    this.surveysList = [
-      { id: 1, name: 'National Contributions to EOSC' }
-    ];
-
-    this.eoscSBMembers = [
-      { id: 1, name: 'EOSC SB (Greece)' },
-      { id: 2, name: 'EOSC SB (France)' },
-      { id: 3, name: 'EOSC SB (Ireland)' },
-      { id: 4, name: 'EOSC SB (Italy)' },
-    ];
-
     this.sub = this.route.params.subscribe(params => {
-      this.urlParameters.splice(0, this.urlParameters.length);
-      // this.foundResults = true;
-      for (const obj in params) {
-        if (params.hasOwnProperty(obj)) {
-          const urlParameter: URLParameter = {
-            key: obj,
-            values: params[obj].split(',')
-          };
-          this.urlParameters.push(urlParameter);
-        }
-      }
+      this.coordinatorId = params['id'];
+      // this.urlParameters.splice(0, this.urlParameters.length);
+      // // this.foundResults = true;
+      // for (const obj in params) {
+      //   if (params.hasOwnProperty(obj)) {
+      //     const urlParameter: URLParameter = {
+      //       key: obj,
+      //       values: params[obj].split(',')
+      //     };
+      //     this.urlParameters.push(urlParameter);
+      //   }
+      // }
 
       // request results from the registry
       // this.loading = true; // Uncomment for spinner
-      this.surveyService.getSurveyEntries(this.urlParameters).subscribe(
+      this.surveyService.getSurveyEntries(this.coordinatorId, this.urlParameters).subscribe(
         surveyEntries => {
           // this.surveyEntries = next;
           // this.surveyEntriesResults = this.surveyEntries.results;
@@ -91,44 +78,8 @@ export class CoordinatorsComponent implements OnInit{
 
     // INITIALISATIONS
 
-    // this.errorMessage = null;
     this.surveyEntries = searchResults;
     this.surveyEntriesResults = this.surveyEntries.results;
-    // this.searchResultsSnippets.facets.sort();
-    // this.isFirstPageDisabled = false;
-    // this.isPreviousPageDisabled = false;
-    // this.isLastPageDisabled = false;
-    // this.isNextPageDisabled = false;
-    // if (this.searchResultsSnippets.results.length === 0) {
-    //   this.foundResults = false;
-    // } else {
-    //   this.sortFacets.transform(this.searchResultsSnippets.facets,['Portfolios', 'Users', 'TRL', 'Life Cycle Status'])
-    // }
-
-    // // update form values using URLParameters
-    // for (const urlParameter of this.urlParameters) {
-    //   if (urlParameter.key === 'searchFields') {
-    //     this.searchForm.get('searchFields').setValue(urlParameter.values[0]);
-    //   }
-    //   if (urlParameter.key === 'query') {
-    //     this.searchForm.get('query').setValue(urlParameter.values[0]);
-    //   } else if (urlParameter.key === 'advanced') {
-    //     this.advanced = urlParameter.values[0] === 'true';
-    //   } else {
-    //     for (const facet of this.searchResultsSnippets.facets) {
-    //       if (facet.field === urlParameter.key) {
-    //         //
-    //         for (const parameterValue of urlParameter.values) {
-    //           for (const facetValue of facet.values) {
-    //             if (parameterValue === facetValue.value) {
-    //               facetValue.isChecked = true;
-    //             }
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
 
     this.updatePagingURLParametersQuantity(this.pageSize);
     this.currentPage = (searchResults.from / this.pageSize) + 1;

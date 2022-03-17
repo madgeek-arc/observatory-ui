@@ -1,49 +1,6 @@
 <div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 90vh;">
   <div class="uk-container uk-container-expand uk-margin-left uk-margin-right uk-margin-top">
 
-    <!--<form class="uk-grid-small uk-margin-medium-bottom" uk-grid>-->
-      <!--<div class="uk-width-1-4">-->
-        <!--<div class="uk-form-controls">-->
-          <!--<div class="uk-form-controls">-->
-            <!--<ng-select class="uk-select"-->
-                       <!--[items]="surveysList"-->
-                       <!--[placeholder]="'Select survey..'"-->
-                       <!--bindLabel="name"-->
-                       <!--bindValue="id"-->
-                       <!--clearAllText="Clear">-->
-            <!--</ng-select>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<div class="uk-width-1-4">-->
-        <!--<div class="uk-form-controls">-->
-          <!--<ng-select class="uk-select"-->
-                     <!--[items]="eoscSBMembers"-->
-                     <!--[placeholder]="'Select EOSC SB member..'"-->
-                     <!--bindLabel="name"-->
-                     <!--bindValue="id"-->
-                     <!--clearAllText="Clear">-->
-          <!--</ng-select>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<div class="uk-width-1-4">-->
-      <!--</div>-->
-      <!--<div class="uk-width-1-4">-->
-        <!--&lt;!&ndash;<button class="uk-button uk-button-default" type="button">Dropdown</button>&ndash;&gt;-->
-        <!--&lt;!&ndash;<div uk-dropdown>&ndash;&gt;-->
-        <!--&lt;!&ndash;<ul class="uk-nav uk-dropdown-nav">&ndash;&gt;-->
-        <!--&lt;!&ndash;<li class="uk-active"><a href="#">Active</a></li>&ndash;&gt;-->
-        <!--&lt;!&ndash;<li><a href="#">Item</a></li>&ndash;&gt;-->
-        <!--&lt;!&ndash;<li class="uk-nav-header">Header</li>&ndash;&gt;-->
-        <!--&lt;!&ndash;<li><a href="#">Item</a></li>&ndash;&gt;-->
-        <!--&lt;!&ndash;<li><a href="#">Item</a></li>&ndash;&gt;-->
-        <!--&lt;!&ndash;<li class="uk-nav-divider"></li>&ndash;&gt;-->
-        <!--&lt;!&ndash;<li><a href="#">Item</a></li>&ndash;&gt;-->
-        <!--&lt;!&ndash;</ul>&ndash;&gt;-->
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--</div>-->
-    <!--</form>-->
-
     <div *ngIf="surveyEntries">
 
       <div class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">
@@ -82,7 +39,7 @@
               <th class="">Validated</th>
               <th class="">Published</th>
               <th class="">Progress</th>
-              <th class="">Actions</th>
+<!--              <th class="">Actions</th>-->
             </tr>
             </thead>
             <tbody>
@@ -104,10 +61,12 @@
                 <!--<progress class="uk-progress uk-progress-secondary" value="83" max="100"></progress>-->
                 <div class="percentageNumber" style="margin-left: 10%;">{{surveyEntry.progressTotal.current}} of {{surveyEntry.progressTotal.total}}</div>
               </td>
-              <td class="uk-flex">
-                <span class="uk-flex uk-flex-middle"><span class="material-icons uk-margin-small-right">visibility</span>View</span>
-                <span class="uk-flex uk-flex-middle uk-margin-left"><span class="material-icons uk-margin-small-right">email</span>Notify</span>
-              </td>
+<!--              <td class="uk-flex">-->
+<!--                <a [routerLink]="['/contributions', surveyEntry.stakeholder.id, 'mySurveys', surveyEntry.surveyId, 'answer', 'view']">-->
+<!--                  <span class="uk-flex uk-flex-middle"><span class="material-icons uk-margin-small-right">visibility</span>View</span>-->
+<!--                </a>-->
+<!--                <span class="uk-flex uk-flex-middle uk-margin-left"><span class="material-icons uk-margin-small-right">email</span>Notify</span>-->
+<!--              </td>-->
             </tr>
             </tbody>
           </table>
@@ -115,8 +74,6 @@
       </div>
 
     </div>
-
-
 
   </div>
 </div>
