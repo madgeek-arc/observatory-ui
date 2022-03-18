@@ -22,38 +22,33 @@ export class SurveyFormComponent implements OnInit {
   survey: Survey = null;
   surveyAnswers: SurveyAnswer = null
   surveyId: string = null;
+  stakeholderId: string = null;
 
-  constructor(private surveyService: SurveyService, private userService: UserService, private route: ActivatedRoute, private router: Router) {
-  }
+  constructor(private surveyService: SurveyService, private userService: UserService, private route: ActivatedRoute,
+              private router: Router) {}
 
   ngOnInit() {
     this.tabsHeader = 'Sections';
 
     this.sub = this.route.params.subscribe(params => {
-      // console.log(params);
       this.surveyId = params['surveyId'];
-      this.userService.currentStakeholder.subscribe(
+      if (params['stakeholderId']) {
+        this.stakeholderId = params['stakeholderId'];
+      } else {
+        this.stakeholderId = params['id'];
+      }
+
+      this.surveyService.getLatestAnswer(this.stakeholderId, this.surveyId).subscribe(
         next => {
-          this.currentGroup = next;
-          if (this.currentGroup !== null) {
-            this.surveyService.getLatestAnswer(this.currentGroup.id, this.surveyId).subscribe(
-              next => {
-                this.surveyAnswers = next;
-              });
-          }
-        },
-        error => {console.error(error)},
-        () => {});
-      // this.surveyService.getAnswerValues(params['answerId']).subscribe(
-      //   res => {
-      //     // console.log(res)
-      //     this.answerValue = res;
-      //   });
+          this.surveyAnswers = next;
+        }
+      );
+
       this.surveyService.getSurvey(this.surveyId).subscribe(
         res => {
           this.survey = res;
         }
-      )
+      );
     });
   }
 

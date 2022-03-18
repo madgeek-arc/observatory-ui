@@ -39,6 +39,11 @@ const contributionsDashboardRoutes: Routes = [
         canActivate: [AuthenticationGuardService]
       },
       {
+        path: 'stakeholder/:stakeholderId/survey/:surveyId/view',
+        component: SurveyFormComponent,
+        canActivate: [AuthenticationGuardService]
+      },
+      {
         path: 'mySurveys/:surveyId/answer/validate',
         component: SurveyFormComponent,
         canActivate: [AuthenticationGuardService]

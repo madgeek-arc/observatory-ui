@@ -1,6 +1,9 @@
 <div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 90vh;">
   <div class="uk-container uk-container-expand uk-margin-left uk-margin-right uk-margin-top">
 
+    <ng-template [ngIf]="loading" class="whiteFilm">
+      <i class="loader-big" aria-hidden="true"></i>
+    </ng-template>
     <div *ngIf="surveyEntries">
 
       <div class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">
@@ -39,7 +42,7 @@
               <th class="">Validated</th>
               <th class="">Published</th>
               <th class="">Progress</th>
-<!--              <th class="">Actions</th>-->
+              <th class="">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -61,12 +64,12 @@
                 <!--<progress class="uk-progress uk-progress-secondary" value="83" max="100"></progress>-->
                 <div class="percentageNumber" style="margin-left: 10%;">{{surveyEntry.progressTotal.current}} of {{surveyEntry.progressTotal.total}}</div>
               </td>
-<!--              <td class="uk-flex">-->
-<!--                <a [routerLink]="['/contributions', surveyEntry.stakeholder.id, 'mySurveys', surveyEntry.surveyId, 'answer', 'view']">-->
-<!--                  <span class="uk-flex uk-flex-middle"><span class="material-icons uk-margin-small-right">visibility</span>View</span>-->
-<!--                </a>-->
+              <td class="uk-flex">
+                <a [routerLink]="['/contributions', coordinatorId, 'stakeholder', surveyEntry.stakeholder.id, 'survey', surveyEntry.surveyId, 'view']">
+                  <span class="uk-flex uk-flex-middle"><span class="material-icons uk-margin-small-right">visibility</span>View</span>
+                </a>
 <!--                <span class="uk-flex uk-flex-middle uk-margin-left"><span class="material-icons uk-margin-small-right">email</span>Notify</span>-->
-<!--              </td>-->
+              </td>
             </tr>
             </tbody>
           </table>

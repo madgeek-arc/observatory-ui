@@ -41,34 +41,18 @@ export class CoordinatorsComponent implements OnInit{
   }
 
   ngOnInit() {
+    this.loading = true; // Uncomment for spinner
     this.sub = this.route.params.subscribe(params => {
       this.coordinatorId = params['id'];
-      // this.urlParameters.splice(0, this.urlParameters.length);
-      // // this.foundResults = true;
-      // for (const obj in params) {
-      //   if (params.hasOwnProperty(obj)) {
-      //     const urlParameter: URLParameter = {
-      //       key: obj,
-      //       values: params[obj].split(',')
-      //     };
-      //     this.urlParameters.push(urlParameter);
-      //   }
-      // }
-
-      // request results from the registry
-      // this.loading = true; // Uncomment for spinner
       this.surveyService.getSurveyEntries(this.coordinatorId, this.urlParameters).subscribe(
         surveyEntries => {
-          // this.surveyEntries = next;
-          // this.surveyEntriesResults = this.surveyEntries.results;
           this.updateSurveyEntriesList(surveyEntries);
-
         },
-      error => {},
-      () => {
-        this.paginationInit();
-        this.loading = false;
-      }
+        error => {console.log(error)},
+        () => {
+          this.paginationInit();
+          this.loading = false;
+        }
       );
     });
 
