@@ -41,7 +41,7 @@ export class CoordinatorsComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.loading = true; // Uncomment for spinner
+    this.loading = true;
     this.sub = this.route.params.subscribe(params => {
       this.coordinatorId = params['id'];
       this.surveyService.getSurveyEntries(this.coordinatorId, this.urlParameters).subscribe(
@@ -173,7 +173,7 @@ export class CoordinatorsComponent implements OnInit{
       map[urlParameter.key] = urlParameter.values.join(',');
     }
     // console.log(map);
-    return this.router.navigate(['/contributions/surveys', map]);
+    return this.router.navigate([`/contributions/${this.coordinatorId}/surveys`, map]);
   }
 
 }
