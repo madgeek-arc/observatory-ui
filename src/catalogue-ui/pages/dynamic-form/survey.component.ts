@@ -37,6 +37,7 @@ export class SurveyComponent implements OnInit, OnChanges {
   sortedSurveyAnswers: Object = {};
   vocabularies: Map<string, string[]>;
   subVocabularies: UiVocabulary[] = [];
+  flatFields: Map<string, Field> = new Map<string, Field>();
   editMode = false;
   bitset: Tabs = new Tabs;
 
@@ -50,7 +51,6 @@ export class SurveyComponent implements OnInit, OnChanges {
 
   constructor(private formControlService: FormControlService, private fb: FormBuilder,
               private router: Router, private surveyService: SurveyService) {
-    this.form = this.fb.group({});
   }
 
   ngOnInit() {
@@ -90,11 +90,17 @@ export class SurveyComponent implements OnInit, OnChanges {
           this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
         },
         () => {
+          this.form = this.fb.group({});
+          this.createFieldMap(this.surveyModel);
           for (let i = 0; i < this.surveyModel.chapters.length; i++) {
             this.form.addControl(this.surveyModel.chapters[i].name, this.formControlService.toFormGroup(this.surveyModel.chapters[i].sections, true));
-            this.prepareForm(this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]], this.surveyModel.chapters[i].sections)
-            this.form.get(this.surveyModel.chapters[i].name).patchValue(this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]]);
+            this.prepareForm(this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]], this.surveyModel.chapters[i]);
+            // setTimeout( () => { // this removes ExpressionChangedAfterItHasBeenCheckedError, not the best solution, but it is what it is
+              this.form.get(this.surveyModel.chapters[i].name).patchValue(this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]]);
+            // }, 0);
+
           }
+          // console.log(this.form.value);
           if (this.surveyAnswers.validated) {
             this.readonly = true;
             this.validate = false;
@@ -194,63 +200,43 @@ export class SurveyComponent implements OnInit, OnChanges {
   }
 
   /** create additional fields for arrays if needed --> **/
-  prepareForm(form: Object, fields: GroupedFields[]) {
-    for (let key in form) {
-      for (let formElementKey in form[key]) {
-        if(form[key].hasOwnProperty(formElementKey)) {
-          if(Array.isArray(form[key][formElementKey])) {
-            // console.log(form[key][formElementKey]);
-            // console.log(formElementKey);
-            let formFieldData = this.getModelData(fields, formElementKey);
-            let i = 1;
-            if (formFieldData.typeInfo.type === 'composite') { // In order for the fields to be enabled
-              this.popComposite(key, formElementKey)  // remove it first
-              i = 0;  // increase the loops
-            }
-            let count = 0;
-            for (i; i < form[key][formElementKey].length; i++) {
-              if (formFieldData.typeInfo.type === 'composite') {
-                this.pushComposite(key, formElementKey, formFieldData.subFields);
-                // for (let formSubElementKey in form[key][formElementKey]) { // Special case when composite contains array
-                for (let formSubElementName in form[key][formElementKey][count]) {
-                  if(form[key][formElementKey][count].hasOwnProperty(formSubElementName)) {
-                    if(Array.isArray(form[key][formElementKey][count][formSubElementName])) {
-                      // console.log('Key: ' + key + ' formElementKey: ' + formElementKey + ' count: ' + count + ' formSubElementName: ' + formSubElementName);
-                      const control = <FormArray>this.form.get([key,formElementKey,count,formSubElementName]);
-                      // console.log(control);
-                      let required = false;
-                      for (let j = 0; j < formFieldData.subFields.length; j++) {
-                        if (formFieldData.subFields[j].name === formSubElementName) {
-                          required = formFieldData.subFields[j].form.mandatory;
-                        }
-                      }
-                      for (let j = 0; j < form[key][formElementKey][count][formSubElementName].length - 1; j++) {
-                        control.push(required ? new FormControl('', Validators.required) : new FormControl(''));
-                      }
-                    }
-                  }
-                }
-                // }
-                count++;
-              } else {
-                this.push(key, formElementKey, formFieldData.form.mandatory);
-              }
-            }
+  prepareForm(form: Object, chapter: Chapter) {
+    for (const [key, value] of Object.entries(form)) {
+      // console.log(`${key}: ${value}`);
+      if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
+        // console.log(key + ' is object');
+        this.prepareForm(value, chapter);
+      } else if (Array.isArray(value)) {
+        // console.log(key + ' is array');
+        for (let i = 0; i < value.length-1; i++) {
+          let path = this.createAccessPath(this.flatFields.get(key).name);
+          this.push(path, this.flatFields.get(key).form.mandatory, chapter.name);
+          if (typeof value[i] === 'object' && !Array.isArray(value[i])) {
+            this.prepareForm(value[i], chapter);
           }
         }
+      } else if (value === null) {
+        // console.log(key+ ' is null');
       }
     }
   }
 
-  getModelData(model: GroupedFields[], name: string): Field {
-    for (let i = 0; i < model.length; i++) {
-      for (let j = 0; j < model[i].fields.length; j++) {
-        if(model[i].fields[j].name === name) {
-          return model[i].fields[j];
-        }
+  createFieldMap(model: Model) {
+    for (const chapter of model.chapters) {
+      for (const section of chapter.sections) {
+        this.createFieldMapRecursion(section.fields);
       }
     }
-    return null;
+  }
+
+  createFieldMapRecursion(fields: Field[]) {
+    for (const field of fields) {
+      if (field.typeInfo.multiplicity)
+        this.flatFields.set(field.name, field);
+      if (field.subFields.length > 0) {
+        this.createFieldMapRecursion(field.subFields);
+      }
+    }
   }
 
   popComposite(group: string, field: string) {
@@ -258,9 +244,26 @@ export class SurveyComponent implements OnInit, OnChanges {
     tmpArr.removeAt(0);
   }
 
-  push(group: string, field: string, required: boolean) {
-    let tmpArr = this.form.get(group).get(field) as FormArray;
-    tmpArr.push(required ? new FormControl('', Validators.required) : new FormControl(''));
+  createAccessPath(fieldName: string) { // super junk method it only works if the name of the fields has a specific structure!
+    let str = fieldName.split('-');
+    let path = '';
+    let subString = '';
+    for (let i = 0; i < str.length; i++) {
+      if (i === 0) {
+        subString = str[i];
+        path = subString;
+      }
+      else {
+        subString = subString.concat('-', str[i]);
+        path = path.concat('.', subString);
+      }
+    }
+    return path;
+  }
+
+  push(path: string, mandatory: boolean, chapterName: string) {
+    let tmpArr = this.form.get(chapterName).get(path) as FormArray;
+    tmpArr.push(mandatory ? new FormControl('', Validators.required) : new FormControl(''));
   }
 
   pushComposite(group: string, field: string, subFields: Field[]) {
