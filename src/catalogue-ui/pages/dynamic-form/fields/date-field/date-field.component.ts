@@ -20,6 +20,9 @@ export class DateFieldComponent implements OnInit {
   formControl!: FormControl;
   form!: FormGroup;
   hideFields: boolean = null;
+  datePickerConfig = {
+    format: 'DD-MM-YYYY'
+  }
 
   constructor(private rootFormGroup: FormGroupDirective) {
   }
