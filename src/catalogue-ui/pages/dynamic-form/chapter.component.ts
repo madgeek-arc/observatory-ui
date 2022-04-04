@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 
 import {FormControlService} from '../../services/form-control.service';
@@ -16,6 +16,7 @@ import {PremiumSortPipe} from '../../shared/pipes/premium-sort.pipe';
 import {zip} from 'rxjs/internal/observable/zip';
 import {Router} from "@angular/router";
 import {SurveyService} from "../../../app/services/survey.service";
+import {Subscriber} from "rxjs";
 
 declare var UIkit: any;
 
@@ -24,7 +25,7 @@ declare var UIkit: any;
   template: '',
   providers: [FormControlService]
 })
-export class ChapterComponent implements OnInit {
+export class ChapterComponent implements OnInit, OnDestroy {
 
   @Input() tabsHeader: string;
   @Input() surveyId: string = null;
@@ -33,6 +34,7 @@ export class ChapterComponent implements OnInit {
   @Input() chapter: Chapter = null;
   @Input() fields: GroupedFields[] = null;
 
+  subscriptions = [];
   chapters: Chapter[] = [];
   vocabularies: Map<string, string[]>;
   subVocabularies: UiVocabulary[] = [];
@@ -61,42 +63,54 @@ export class ChapterComponent implements OnInit {
 
   ngOnInit() {
     this.ready = false;
-    zip(
-      this.formControlService.getUiVocabularies(),
-      this.formControlService.getFormModel(this.surveyId)
-    ).subscribe(res => {
-        this.vocabularies = res[0];
-        // TODO handle it properly
-        this.fields = res[1][Object.keys(res[1])[0]];
-        // this.fields = res[1];
-      },
-      error => {
-        this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
-      },
-      () => {
-        this.initializations();
-        this.ready = true;
-      });
+    this.subscriptions.push(
+      zip(
+        this.formControlService.getUiVocabularies(),
+        this.formControlService.getFormModel(this.surveyId)
+      ).subscribe(res => {
+          this.vocabularies = res[0];
+          // TODO handle it properly
+          this.fields = res[1][Object.keys(res[1])[0]];
+          // this.fields = res[1];
+        },
+        error => {
+          this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
+        },
+        () => {
+          this.initializations();
+          this.ready = true;
+        }
+      )
+    );
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription instanceof Subscriber) {
+        subscription.unsubscribe();
+      }
+    });
+  }
 
   onSubmit(tempSave: boolean, pendingService?: boolean) {
     // if (this.form.valid) {
       window.scrollTo(0, 0);
       // console.log(this.form.getRawValue());
       this.showLoader = true;
-      this.formControlService.postItem(this.surveyId, this.form.getRawValue(), this.editMode).subscribe(
-        res => {
-          this.router.navigate(['/contributions/surveys']);
-        },
-        error => {
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(error.error.error);
-          this.showLoader = false;
-          console.log(error);
-        },
-        () => {
-          this.showLoader = false;
-        }
+      this.subscriptions.push(
+        this.formControlService.postItem(this.surveyId, this.form.getRawValue(), this.editMode).subscribe(
+          res => {
+            this.router.navigate(['/contributions/surveys']);
+          },
+          error => {
+            this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(error.error.error);
+            this.showLoader = false;
+            console.log(error);
+          },
+          () => {
+            this.showLoader = false;
+          }
+        )
       );
     // } else {
     //   this.errorMessage = 'Please check if all the required fields have a value.';
@@ -112,16 +126,18 @@ export class ChapterComponent implements OnInit {
 
   validateSurvey() {
     if (this.form.valid) {
-      this.surveyService.changeAnswerValidStatus(this.surveyId, this.validate).subscribe(
-        next => {
-          UIkit.modal('#validation-modal').hide();
-          this.router.navigate(['/contributions/mySurveys'])
-        },
-        error => {
-          console.error(error)
-        },
-        () => {
-        }
+      this.subscriptions.push(
+        this.surveyService.changeAnswerValidStatus(this.surveyId, this.validate).subscribe(
+          next => {
+            UIkit.modal('#validation-modal').hide();
+            this.router.navigate(['/contributions/mySurveys'])
+          },
+          error => {
+            console.error(error)
+          },
+          () => {
+          }
+        )
       );
     }
   }

@@ -30,17 +30,13 @@
                             <div class="uk-text-meta">{{userInfo.user.email}}</div>
                           </div>
                         </li>
-<!--                        <hr>-->
-<!--                        <li class="groups" *ngIf="userInfo.stakeholders.length > 0">-->
-<!--                          <span>Go to Dashboard</span>-->
-<!--                        </li>-->
-                        <hr>
+                        <hr *ngIf="userInfo?.stakeholders">
                         <li class="groups" *ngFor="let stakeholder of userInfo.stakeholders">
                           <a (click)="setGroup(stakeholder)"><span class="material-icons uk-margin-right">group</span>
                             {{stakeholder.name + (stakeholder.type === 'association' ? (', EOSC Association '+ (stakeholder.country ? '(' + stakeholder.country + ')': '')) : '') }}
                           </a>
                         </li>
-                        <hr>
+                        <hr *ngIf="userInfo?.coordinators">
                         <li class="groups" *ngFor="let coordinator of userInfo.coordinators">
                           <a (click)="setCoordinator(coordinator)">
                             <span class="material-icons uk-margin-right">group</span>{{coordinator.name}}
@@ -52,7 +48,6 @@
                         </li>
                       </ul>
                     </div>
-                    <div id="logout2"></div>
                   </div>
                 </li>
               </ul>

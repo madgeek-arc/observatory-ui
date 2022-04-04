@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {Subscription} from "rxjs";
+import {Subscriber, Subscription} from "rxjs";
 import {Paging} from '../../domain/paging';
 import {URLParameter} from '../../domain/url-parameter';
 import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
@@ -15,7 +15,9 @@ import {SearchService} from "../../services/search.service";
   // styleUrls: ['../../../lib/pages/search/search.component.css']
 })
 
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
+
+  subscriptions = [];
   private sortFacets = new PremiumSortFacetsPipe();
   canAddOrEditService: boolean;
   // myProviders:  Provider[] = [];
@@ -51,32 +53,44 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      this.urlParameters.splice(0, this.urlParameters.length);
-      this.foundResults = true;
-      for (const obj in params) {
-        if (params.hasOwnProperty(obj)) {
-          const urlParameter: URLParameter = {
-            key: obj,
-            values: params[obj].split(',')
-          };
-          this.urlParameters.push(urlParameter);
+    this.subscriptions.push(
+      this.route.params.subscribe(params => {
+        this.urlParameters.splice(0, this.urlParameters.length);
+        this.foundResults = true;
+        for (const obj in params) {
+          if (params.hasOwnProperty(obj)) {
+            const urlParameter: URLParameter = {
+              key: obj,
+              values: params[obj].split(',')
+            };
+            this.urlParameters.push(urlParameter);
+          }
         }
-      }
 
-      // request results from the registry
-      // this.loading = true; // Uncomment for spinner
-      return this.searchService.searchSnippets(this.urlParameters).subscribe(
-        searchResults => {
-          // console.log(searchResults);
-          this.updateSearchResultsSnippets(searchResults);
-        },
-        error => {},
-        () => {
-          this.paginationInit();
-          this.loading = false;
-        }
-      );
+        // request results from the registry
+        // this.loading = true; // Uncomment for spinner
+        this.subscriptions.push(
+          this.searchService.searchSnippets(this.urlParameters).subscribe(
+            searchResults => {
+              // console.log(searchResults);
+              this.updateSearchResultsSnippets(searchResults);
+            },
+            error => {},
+            () => {
+              this.paginationInit();
+              this.loading = false;
+            }
+          )
+        );
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription instanceof Subscriber) {
+        subscription.unsubscribe();
+      }
     });
   }
 

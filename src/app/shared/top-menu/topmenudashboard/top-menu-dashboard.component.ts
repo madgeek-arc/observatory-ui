@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, Input, OnDestroy, OnInit} from "@angular/core";
 import {Coordinator, Stakeholder, UserInfo} from "../../../domain/userInfo";
 import {UserService} from "../../../services/user.service";
 import {Router} from "@angular/router";
@@ -7,6 +7,7 @@ import {PrivacyPolicyService} from "../../../services/privacy-policy.service";
 
 import * as UIkit from 'uikit';
 import {AcceptedPrivacyPolicy} from "../../../domain/privacy-policy";
+import {Subscriber} from "rxjs";
 
 @Component({
   selector: 'app-top-menu-dashboard',
@@ -15,9 +16,10 @@ import {AcceptedPrivacyPolicy} from "../../../domain/privacy-policy";
   providers: [PrivacyPolicyService]
 })
 
-export class TopMenuDashboardComponent implements OnInit {
+export class TopMenuDashboardComponent implements OnInit, OnDestroy {
   @Input() userInfo: UserInfo = null;
 
+  subscriptions = [];
   currentStakeholder: Stakeholder = null;
   currentCoordinator: Coordinator = null;
   acceptedPrivacyPolicy: AcceptedPrivacyPolicy = null;
@@ -30,34 +32,50 @@ export class TopMenuDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.currentStakeholder.subscribe(next => {
-      this.currentStakeholder = next;
-      if (this.currentStakeholder !== null) {
-        this.privacyPolicy.hasAcceptedPolicy(this.currentStakeholder.type).subscribe(
-          next => {
-            this.acceptedPrivacyPolicy = next;
-            if (!this.acceptedPrivacyPolicy.accepted) {
-              UIkit.modal('#consent-modal').show();
-            }
-          },
-          error => { console.log(error)},
-          () => {}
-        )
-      }
-    });
-    this.userService.currentCoordinator.subscribe(next => {
-      this.currentCoordinator = next;
-      if (this.currentCoordinator !== null) {
-        this.privacyPolicy.hasAcceptedPolicy(this.currentCoordinator.type).subscribe(
-          next => {
-            this.acceptedPrivacyPolicy = next;
-            if (!this.acceptedPrivacyPolicy.accepted) {
-              UIkit.modal('#consent-modal').show();
-            }
-          },
-          error => { console.log(error)},
-          () => {}
-        );
+    this.subscriptions.push(
+      this.userService.currentStakeholder.subscribe(next => {
+        this.currentStakeholder = next;
+        if (this.currentStakeholder !== null) {
+          this.subscriptions.push(
+            this.privacyPolicy.hasAcceptedPolicy(this.currentStakeholder.type).subscribe(
+              next => {
+                this.acceptedPrivacyPolicy = next;
+                if (!this.acceptedPrivacyPolicy.accepted) {
+                  UIkit.modal('#consent-modal').show();
+                }
+              },
+              error => { console.log(error)},
+              () => {}
+            )
+          );
+        }
+      })
+    );
+    this.subscriptions.push(
+      this.userService.currentCoordinator.subscribe(next => {
+        this.currentCoordinator = next;
+        if (this.currentCoordinator !== null) {
+          this.subscriptions.push(
+            this.privacyPolicy.hasAcceptedPolicy(this.currentCoordinator.type).subscribe(
+              next => {
+                this.acceptedPrivacyPolicy = next;
+                if (!this.acceptedPrivacyPolicy.accepted) {
+                  UIkit.modal('#consent-modal').show();
+                }
+              },
+              error => { console.log(error)},
+              () => {}
+            )
+          );
+        }
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription instanceof Subscriber) {
+        subscription.unsubscribe();
       }
     });
   }
@@ -98,19 +116,21 @@ export class TopMenuDashboardComponent implements OnInit {
   }
 
   updateConsent() {
-    this.userService.setUserConsent(this.acceptedPrivacyPolicy.privacyPolicy.id).subscribe(
-      next => {
-        UIkit.modal('#consent-modal').hide();
-        // if (!this.consent) {
-        //   this.authentication.logout();
-        // }
-      },
-      error => {
-        console.log(error);
-        UIkit.modal('#consent-modal').hide()
-        this.logout();
-      },
-      () => {UIkit.modal('#consent-modal').hide()}
+    this.subscriptions.push(
+      this.userService.setUserConsent(this.acceptedPrivacyPolicy.privacyPolicy.id).subscribe(
+        next => {
+          UIkit.modal('#consent-modal').hide();
+          // if (!this.consent) {
+          //   this.authentication.logout();
+          // }
+        },
+        error => {
+          console.log(error);
+          UIkit.modal('#consent-modal').hide()
+          this.logout();
+        },
+        () => {UIkit.modal('#consent-modal').hide()}
+      )
     );
   }
 

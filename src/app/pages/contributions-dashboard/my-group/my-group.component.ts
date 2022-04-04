@@ -1,9 +1,10 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {UserService} from "../../../services/user.service";
 import {Stakeholder, StakeholdersMembers} from "../../../domain/userInfo";
 import {SurveyService} from "../../../services/survey.service";
 
 import UIkit from 'uikit';
+import {Subscriber} from "rxjs";
 
 @Component({
   selector: 'app-contributions-my-group',
@@ -11,8 +12,9 @@ import UIkit from 'uikit';
   providers: [SurveyService]
 })
 
-export class MyGroupComponent implements OnInit {
+export class MyGroupComponent implements OnInit, OnDestroy {
 
+  subscriptions = [];
   currentGroup: Stakeholder = null;
   members: StakeholdersMembers = null
   contributorEmail: string = null;
@@ -26,44 +28,57 @@ export class MyGroupComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.currentStakeholder.subscribe(next => {
-      this.currentGroup = next;
-      if (this.currentGroup !== null) {
-        this.userService.getStakeholdersMembers(this.currentGroup.id).subscribe(
-          next => {
-            this.members = next;
-          },
-          error => {
-            console.log(error);
-          },
-          () => {
-            this.userEmail = this.userService.userId;
-            this.isManager = this.checkIfManager(this.userEmail);
-          }
-        );
+    this.subscriptions.push(
+      this.userService.currentStakeholder.subscribe(next => {
+        this.currentGroup = next;
+        if (this.currentGroup !== null) {
+          this.subscriptions.push(
+            this.userService.getStakeholdersMembers(this.currentGroup.id).subscribe(next => {
+                this.members = next;
+              },
+              error => {
+                console.log(error);
+              },
+              () => {
+                this.userEmail = this.userService.userId;
+                this.isManager = this.checkIfManager(this.userEmail);
+              }
+            )
+          );
+        }
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription instanceof Subscriber) {
+        subscription.unsubscribe();
       }
     });
   }
 
   addContributor(contributor: string = 'contributor') {
     if (this.validateEmail(this.contributorEmail)) {
-      // this.surveyService.addContributor(this.currentGroup.id, this.contributorEmail).subscribe(
-      this.surveyService.getInvitationToken(this.contributorEmail, contributor, this.currentGroup.id).subscribe(
-        next => {
-          this.invitationToken = location.origin + '/invitation/accept/' + next.toString();
-          this.errorMessage = null;
-          this.contributorEmail = null;
-          // UIkit.modal('#add-contributor-modal').hide();
-        },
-        error => {
-          console.log(error)
-          this.errorMessage = error.error.error;
-        },
-        () => {
-          this.errorMessage = null;
-          this.contributorEmail = null;
-          // UIkit.modal('#add-contributor-modal').hide();
-        });
+      this.subscriptions.push(
+        this.surveyService.getInvitationToken(this.contributorEmail, contributor, this.currentGroup.id).subscribe(
+          next => {
+            this.invitationToken = location.origin + '/invitation/accept/' + next.toString();
+            this.errorMessage = null;
+            this.contributorEmail = null;
+            // UIkit.modal('#add-contributor-modal').hide();
+          },
+          error => {
+            console.log(error);
+            this.errorMessage = error.error.error;
+          },
+          () => {
+            this.errorMessage = null;
+            this.contributorEmail = null;
+            // UIkit.modal('#add-contributor-modal').hide();
+          }
+        )
+      );
     } else {
       this.errorMessage = 'Please give a valid email address.'
     }
@@ -110,22 +125,25 @@ export class MyGroupComponent implements OnInit {
   }
 
   removeContributor() {
-    this.surveyService.removeContributor(this.currentGroup.id, this.contributorEmail).subscribe(
-      next => {
-        this.members = next;
-        this.errorMessage = null;
-        this.contributorEmail = null;
-        UIkit.modal('#remove-contributor-modal').hide();
-      },
-      error => {
-        console.log(error)
-        this.errorMessage = error.error.error;
-      },
-      () => {
-        this.errorMessage = null;
-        this.contributorEmail = null;
-        UIkit.modal('#remove-contributor-modal').hide();
-      });
+    this.subscriptions.push(
+      this.surveyService.removeContributor(this.currentGroup.id, this.contributorEmail).subscribe(
+        next => {
+          this.members = next;
+          this.errorMessage = null;
+          this.contributorEmail = null;
+          UIkit.modal('#remove-contributor-modal').hide();
+        },
+        error => {
+          console.log(error)
+          this.errorMessage = error.error.error;
+        },
+        () => {
+          this.errorMessage = null;
+          this.contributorEmail = null;
+          UIkit.modal('#remove-contributor-modal').hide();
+        }
+      )
+    );
   }
 
   showRemoveModal(email: string) {

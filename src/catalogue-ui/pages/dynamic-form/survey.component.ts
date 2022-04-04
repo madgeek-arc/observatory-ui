@@ -16,6 +16,7 @@ import {
 import BitSet from "bitset";
 
 import UIkit from "uikit";
+import {Subscriber} from "rxjs";
 
 @Component({
   selector: 'app-survey',
@@ -29,6 +30,7 @@ export class SurveyComponent implements OnInit, OnChanges {
   @Input() survey: Survey = null;
   @Input() tabsHeader : string = null;
 
+  subscriptions = [];
   surveyModel: Model;
   chapters: Chapter[] = [];
   chapterChangeMap: Map<string,boolean> = new Map<string, boolean>();
@@ -66,56 +68,66 @@ export class SurveyComponent implements OnInit, OnChanges {
     if (this.surveyAnswers) {
       this.editMode = true;
 
-      zip(
-        this.formControlService.getUiVocabularies(),
-        this.formControlService.getFormModel(this.surveyAnswers.surveyId)
-      ).subscribe(res => {
-          this.vocabularies = res[0];
-          res[1].chapters.sort((a, b) => a.order - b.order);
-          this.surveyModel = res[1];
-          this.chapters = [];
-          for (const model of this.surveyModel.chapters) {
-            for (const surveyAnswer in this.surveyAnswers.chapterAnswers) {
-              if (model.id === this.surveyAnswers.chapterAnswers[surveyAnswer].chapterId) {
-                this.chapters.push(model);
-                this.chapterChangeMap.set(model.id, false);
-                this.sortedSurveyAnswers[model.id] = this.surveyAnswers.chapterAnswers[surveyAnswer].answer;
-                break;
+      this.subscriptions.push(
+        zip(
+          this.formControlService.getUiVocabularies(),
+          this.formControlService.getFormModel(this.surveyAnswers.surveyId)
+        ).subscribe(res => {
+            this.vocabularies = res[0];
+            res[1].chapters.sort((a, b) => a.order - b.order);
+            this.surveyModel = res[1];
+            this.chapters = [];
+            for (const model of this.surveyModel.chapters) {
+              for (const surveyAnswer in this.surveyAnswers.chapterAnswers) {
+                if (model.id === this.surveyAnswers.chapterAnswers[surveyAnswer].chapterId) {
+                  this.chapters.push(model);
+                  this.chapterChangeMap.set(model.id, false);
+                  this.sortedSurveyAnswers[model.id] = this.surveyAnswers.chapterAnswers[surveyAnswer].answer;
+                  break;
+                }
               }
             }
-          }
-          this.currentChapter = this.surveyModel.chapters[0];
-        },
-        error => {
-          this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
-        },
-        () => {
-          this.form = this.fb.group({});
-          this.createFieldMap(this.surveyModel);
-          for (let i = 0; i < this.surveyModel.chapters.length; i++) {
-            this.form.addControl(this.surveyModel.chapters[i].name, this.formControlService.toFormGroup(this.surveyModel.chapters[i].sections, true));
-            this.prepareForm(this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]], this.surveyModel.chapters[i]);
-            // setTimeout( () => { // this removes ExpressionChangedAfterItHasBeenCheckedError, not the best solution, but it is what it is
-              this.form.get(this.surveyModel.chapters[i].name).patchValue(this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]]);
-            // }, 0);
+            this.currentChapter = this.surveyModel.chapters[0];
+          },
+          error => {
+            this.errorMessage = 'Something went bad while getting the data for page initialization. ' + JSON.stringify(error.error.error);
+          },
+          () => {
+            this.form = this.fb.group({});
+            this.createFieldMap(this.surveyModel);
+            for (let i = 0; i < this.surveyModel.chapters.length; i++) {
+              this.form.addControl(this.surveyModel.chapters[i].name, this.formControlService.toFormGroup(this.surveyModel.chapters[i].sections, true));
+              this.prepareForm(this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]], this.surveyModel.chapters[i]);
+              // setTimeout( () => { // this removes ExpressionChangedAfterItHasBeenCheckedError, not the best solution, but it is what it is
+                this.form.get(this.surveyModel.chapters[i].name).patchValue(this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]]);
+              // }, 0);
 
-          }
-          // console.log(this.form.value);
-          if (this.surveyAnswers.validated) {
-            this.readonly = true;
-            this.validate = false;
-          } else if (this.validate) {
-            UIkit.modal('#validation-modal').show();
-          }
-
-          setTimeout(() => {
-            if (this.readonly) {
-              this.form.disable();
             }
-          }, 0);
-          this.ready = true;
-        });
+            // console.log(this.form.value);
+            if (this.surveyAnswers.validated) {
+              this.readonly = true;
+              this.validate = false;
+            } else if (this.validate) {
+              UIkit.modal('#validation-modal').show();
+            }
+
+            setTimeout(() => {
+              if (this.readonly) {
+                this.form.disable();
+              }
+            }, 0);
+            this.ready = true;
+          })
+      );
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription instanceof Subscriber) {
+        subscription.unsubscribe();
+      }
+    });
   }
 
   validateSurvey() {
@@ -127,15 +139,18 @@ export class SurveyComponent implements OnInit, OnChanges {
       }
     }
     if (this.form.valid) {
-      this.surveyService.changeAnswerValidStatus(this.surveyAnswers.id, !this.surveyAnswers.validated).subscribe(
-        next => {
-          UIkit.modal('#validation-modal').hide();
-          this.router.navigate(['/contributions/mySurveys']);
-        },
-        error => {
-          console.error(error);
-        },
-        () => {});
+      this.subscriptions.push(
+        this.surveyService.changeAnswerValidStatus(this.surveyAnswers.id, !this.surveyAnswers.validated).subscribe(
+          next => {
+            UIkit.modal('#validation-modal').hide();
+            this.router.navigate(['/contributions/mySurveys']);
+          },
+          error => {
+            console.error(error);
+          },
+          () => {}
+        )
+      );
     } else {
       UIkit.modal('#validation-modal').hide();
       console.log('Invalid form');
@@ -158,24 +173,26 @@ export class SurveyComponent implements OnInit, OnChanges {
   onSubmit() {
     window.scrollTo(0, 0);
     // this.showLoader = true;
-    this.formControlService.postItem(this.surveyAnswers.id, this.form.get(this.chapterForSubmission.name).value, this.editMode).subscribe(
-      res => {
-        this.successMessage = 'Updated successfully!';
-        this.chapterChangeMap.set(this.chapterForSubmission.id, false);
-        UIkit.modal('#unsaved-changes-modal').hide();
-      },
-      error => {
-        this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(error?.error?.error);
-        // this.showLoader = false;
-        UIkit.modal('#unsaved-changes-modal').hide();
-        console.log(error);
-      },
-      () => {
-        setTimeout(() => {
-          UIkit.alert('#successMessage').close();
-        }, 4000);
-        // this.showLoader = false;
-      }
+    this.subscriptions.push(
+      this.formControlService.postItem(this.surveyAnswers.id, this.form.get(this.chapterForSubmission.name).value, this.editMode).subscribe(
+        res => {
+          this.successMessage = 'Updated successfully!';
+          this.chapterChangeMap.set(this.chapterForSubmission.id, false);
+          UIkit.modal('#unsaved-changes-modal').hide();
+        },
+        error => {
+          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(error?.error?.error);
+          // this.showLoader = false;
+          UIkit.modal('#unsaved-changes-modal').hide();
+          console.log(error);
+        },
+        () => {
+          setTimeout(() => {
+            UIkit.alert('#successMessage').close();
+          }, 4000);
+          // this.showLoader = false;
+        }
+      )
     );
   }
 

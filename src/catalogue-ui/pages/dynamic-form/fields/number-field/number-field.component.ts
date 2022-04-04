@@ -1,8 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
 import {Field, HandleBitSet} from "../../../../domain/dynamic-form-model";
 import {FormArray, FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {FormControlService} from "../../../../services/form-control.service";
 import {urlAsyncValidator, URLValidator} from "../../../../shared/validators/generic.validator";
+import {Subscriber} from "rxjs";
 
 
 @Component({
@@ -11,7 +12,7 @@ import {urlAsyncValidator, URLValidator} from "../../../../shared/validators/gen
   styles: ['.clear-style { height: 0 !important;}']
 })
 
-export class NumberFieldComponent implements OnInit {
+export class NumberFieldComponent implements OnInit, OnDestroy {
   @Input() fieldData: Field;
   @Input() editMode: any;
   @Input() position?: number = null;
@@ -20,6 +21,7 @@ export class NumberFieldComponent implements OnInit {
   @Output() handleBitSets = new EventEmitter<Field>();
   @Output() handleBitSetsOfComposite = new EventEmitter<HandleBitSet>();
 
+  subscriptions = [];
   formControl!: FormControl;
   form!: FormGroup;
   hideField: boolean = null;
@@ -39,10 +41,20 @@ export class NumberFieldComponent implements OnInit {
       // console.log(this.fieldData.form.dependsOn);
       this.enableDisableField(this.form.get(this.fieldData.form.dependsOn.name).value);
 
-      this.form.get(this.fieldData.form.dependsOn.name).valueChanges.subscribe(value => {
-        this.enableDisableField(value);
-      });
+      this.subscriptions.push(
+        this.form.get(this.fieldData.form.dependsOn.name).valueChanges.subscribe(value => {
+          this.enableDisableField(value);
+        })
+      );
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription instanceof Subscriber) {
+        subscription.unsubscribe();
+      }
+    });
   }
 
   /** Handle Arrays --> **/

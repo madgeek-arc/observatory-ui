@@ -1,13 +1,14 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
 import {Field, HandleBitSet, UiVocabulary} from "../../../../domain/dynamic-form-model";
 import {FormArray, FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
+import {Subscriber} from "rxjs";
 
 @Component({
   selector: 'app-composite-field',
   templateUrl: './composite-field.component.html'
 })
 
-export class CompositeFieldComponent implements OnInit {
+export class CompositeFieldComponent implements OnInit, OnDestroy {
   @Input() fieldData: Field;
   @Input() vocabularies: Map<string, string[]>;
   @Input() subVocabularies: UiVocabulary[];
@@ -18,6 +19,7 @@ export class CompositeFieldComponent implements OnInit {
   @Output() handleBitSets = new EventEmitter<Field>();
   @Output() handleBitSetsOfComposite = new EventEmitter<HandleBitSet>();
 
+  subscriptions = [];
   form: FormGroup;
   hideField: boolean = null;
 
@@ -32,16 +34,25 @@ export class CompositeFieldComponent implements OnInit {
       this.form = this.rootFormGroup.control.controls[this.position].get(this.fieldData.name) as FormGroup;
     } else {
       this.form = this.rootFormGroup.control.get(this.fieldData.name) as FormGroup;
-      // console.log(this.form);
     }
     // console.log(this.form);
     if(this.fieldData.form.dependsOn) { // specific changes for composite field, maybe revise it
       this.enableDisableField(this.rootFormGroup.form.get(this.fieldData.form.dependsOn.name).value);
 
-      this.rootFormGroup.form.get(this.fieldData.form.dependsOn.name).valueChanges.subscribe(value => {
-        this.enableDisableField(value);
-      });
+      this.subscriptions.push(
+        this.rootFormGroup.form.get(this.fieldData.form.dependsOn.name).valueChanges.subscribe(value => {
+          this.enableDisableField(value);
+        })
+      );
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription instanceof Subscriber) {
+        subscription.unsubscribe();
+      }
+    });
   }
 
   /** Handle Arrays --> **/

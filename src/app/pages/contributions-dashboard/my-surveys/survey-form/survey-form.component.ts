@@ -1,7 +1,7 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {ChapterEditComponent} from "../../../../../catalogue-ui/pages/dynamic-form/chapter-edit.component";
 import {SurveyService} from "../../../../services/survey.service";
-import {Subscription} from "rxjs";
+import {Subscriber} from "rxjs";
 import {ActivatedRoute, Route, Router} from "@angular/router";
 import {Stakeholder} from "../../../../domain/userInfo";
 import {Survey, SurveyAnswer} from "../../../../domain/survey";
@@ -13,10 +13,10 @@ import {UserService} from "../../../../services/user.service";
   providers: [SurveyService]
 })
 
-export class SurveyFormComponent implements OnInit {
+export class SurveyFormComponent implements OnInit, OnDestroy {
   @ViewChild(ChapterEditComponent) child: ChapterEditComponent
 
-  private sub: Subscription;
+  subscriptions = [];
   currentGroup: Stakeholder = null;
   tabsHeader: string = null;
   survey: Survey = null;
@@ -30,25 +30,35 @@ export class SurveyFormComponent implements OnInit {
   ngOnInit() {
     this.tabsHeader = 'Sections';
 
-    this.sub = this.route.params.subscribe(params => {
-      this.surveyId = params['surveyId'];
-      if (params['stakeholderId']) {
-        this.stakeholderId = params['stakeholderId'];
-      } else {
-        this.stakeholderId = params['id'];
+    this.subscriptions.push(
+      this.route.params.subscribe(params => {
+        this.surveyId = params['surveyId'];
+        if (params['stakeholderId']) {
+          this.stakeholderId = params['stakeholderId'];
+        } else {
+          this.stakeholderId = params['id'];
+        }
+
+        this.subscriptions.push(
+          this.surveyService.getLatestAnswer(this.stakeholderId, this.surveyId).subscribe(next => {
+            this.surveyAnswers = next;
+          })
+        );
+
+        this.subscriptions.push(
+          this.surveyService.getSurvey(this.surveyId).subscribe(res => {
+            this.survey = res;
+          })
+        );
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription instanceof Subscriber) {
+        subscription.unsubscribe();
       }
-
-      this.surveyService.getLatestAnswer(this.stakeholderId, this.surveyId).subscribe(
-        next => {
-          this.surveyAnswers = next;
-        }
-      );
-
-      this.surveyService.getSurvey(this.surveyId).subscribe(
-        res => {
-          this.survey = res;
-        }
-      );
     });
   }
 

@@ -1,20 +1,20 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {SurveyService} from "../../../services/survey.service";
 import {UserService} from "../../../services/user.service";
 import {Paging} from "../../../../catalogue-ui/domain/paging";
 import {Survey, SurveyInfo} from "../../../domain/survey";
-import {Subscription} from "rxjs/internal/Subscription";
 import {URLParameter} from "../../../../catalogue-ui/domain/url-parameter";
 import {ActivatedRoute, Router} from "@angular/router";
+import {Subscriber} from "rxjs";
 
 @Component({
   selector: 'app-contributors-dashboard',
   templateUrl: './coordinators.component.html'
 })
 
-export class CoordinatorsComponent implements OnInit{
+export class CoordinatorsComponent implements OnInit, OnDestroy{
 
-  sub: Subscription;
+  subscriptions = [];
   urlParameters: URLParameter[] = [];
 
   surveyEntries: Paging<SurveyInfo>;
@@ -42,20 +42,31 @@ export class CoordinatorsComponent implements OnInit{
 
   ngOnInit() {
     this.loading = true;
-    this.sub = this.route.params.subscribe(params => {
-      this.coordinatorId = params['id'];
-      this.surveyService.getSurveyEntries(this.coordinatorId, this.urlParameters).subscribe(
-        surveyEntries => {
-          this.updateSurveyEntriesList(surveyEntries);
-        },
-        error => {console.log(error)},
-        () => {
-          this.paginationInit();
-          this.loading = false;
-        }
-      );
-    });
+    this.subscriptions.push(
+      this.route.params.subscribe(params => {
+        this.coordinatorId = params['id'];
+        this.subscriptions.push(
+          this.surveyService.getSurveyEntries(this.coordinatorId, this.urlParameters).subscribe(surveyEntries => {
+              this.updateSurveyEntriesList(surveyEntries);
+            },
+            error => {console.log(error)},
+            () => {
+              this.paginationInit();
+              this.loading = false;
+            }
+          )
+        );
+      })
+    );
 
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription instanceof Subscriber) {
+        subscription.unsubscribe();
+      }
+    });
   }
 
   updateSurveyEntriesList(searchResults: Paging<SurveyInfo>) {

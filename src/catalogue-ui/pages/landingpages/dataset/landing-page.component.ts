@@ -10,24 +10,30 @@ import {LandingPageService} from "../../../services/landing-page.service";
 })
 
 export class LandingPageComponent implements OnInit {
-  private sub: Subscription;
+  subscriptions = [];
   dataset: Object = null;
   instances: Object[] = null;
 
   constructor(protected route: ActivatedRoute, protected landingPageService: LandingPageService) {}
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      this.landingPageService.getDataset(params['id']).subscribe(
-        res => {
-          this.dataset = res;
-          this.landingPageService.searchDatasetInstance('dataset_instance', 'type=' + this.dataset['name']).subscribe(
+    this.subscriptions.push(
+      this.route.params.subscribe(params => {
+        this.subscriptions.push(
+          this.landingPageService.getDataset(params['id']).subscribe(
             res => {
-              this.instances = res['results'];
+              this.dataset = res;
+              this.subscriptions.push(
+                this.landingPageService.searchDatasetInstance('dataset_instance', 'type=' + this.dataset['name']).subscribe(
+                  res => {
+                    this.instances = res['results'];
+                  }
+                )
+              );
             }
           )
-        }
-      );
-    });
+        );
+      })
+    );
   }
 }

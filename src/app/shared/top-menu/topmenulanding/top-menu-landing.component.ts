@@ -1,8 +1,9 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {Coordinator, Stakeholder, UserInfo} from "../../../domain/userInfo";
 import {UserService} from "../../../services/user.service";
 import {AuthenticationService} from "../../../services/authentication.service";
 import {Router} from "@angular/router";
+import {Subscriber} from "rxjs";
 
 @Component({
   selector: 'app-top-menu-landing',
@@ -10,8 +11,9 @@ import {Router} from "@angular/router";
   styleUrls: ['../top-menu.component.css'],
 })
 
-export class TopMenuLandingComponent implements OnInit {
+export class TopMenuLandingComponent implements OnInit, OnDestroy {
 
+  subscriptions = [];
   showLogin = true;
   ready = false;
   userInfo: UserInfo = null;
@@ -21,18 +23,30 @@ export class TopMenuLandingComponent implements OnInit {
 
   ngOnInit() {
     if (this.authentication.authenticated) {
-      this.userService.getUserInfo().subscribe(next => {
-          this.userInfo = next;
-          this.showLogin = false
-          this.ready = true;
-        },
-        error => {
-          console.log(error);
-          this.ready = true;
-        });
+      this.subscriptions.push(
+        this.userService.getUserInfo().subscribe(
+          next => {
+            this.userInfo = next;
+            this.showLogin = false
+            this.ready = true;
+          },
+          error => {
+            console.log(error);
+            this.ready = true;
+          }
+        )
+      );
     } else {
       this.ready = true;
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription instanceof Subscriber) {
+        subscription.unsubscribe();
+      }
+    });
   }
 
   setGroup(group: Stakeholder) {

@@ -1,13 +1,14 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
 import {Field, HandleBitSet} from "../../../../domain/dynamic-form-model";
 import {FormArray, FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
+import {Subscriber} from "rxjs";
 
 @Component({
   selector: 'app-date-field',
   templateUrl: 'date-field.component.html'
 })
 
-export class DateFieldComponent implements OnInit {
+export class DateFieldComponent implements OnInit, OnDestroy {
 
   @Input() fieldData: Field;
   @Input() editMode: any;
@@ -17,6 +18,7 @@ export class DateFieldComponent implements OnInit {
   @Output() handleBitSets = new EventEmitter<Field>();
   @Output() handleBitSetsOfComposite = new EventEmitter<HandleBitSet>();
 
+  subscriptions = [];
   formControl!: FormControl;
   form!: FormGroup;
   hideFields: boolean = null;
@@ -39,14 +41,24 @@ export class DateFieldComponent implements OnInit {
       // console.log(this.fieldData.form.dependsOn);
       this.enableDisableField(this.form.get(this.fieldData.form.dependsOn.name).value);
 
-      this.form.get(this.fieldData.form.dependsOn.name).valueChanges.subscribe(value => {
-        this.enableDisableField(value);
-      });
+      this.subscriptions.push(
+        this.form.get(this.fieldData.form.dependsOn.name).valueChanges.subscribe(value => {
+          this.enableDisableField(value);
+        })
+      );
     }
 
     // console.log(this.fieldData);
     // console.log(this.form);
     // console.log(this.formControl);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription instanceof Subscriber) {
+        subscription.unsubscribe();
+      }
+    });
   }
 
   /** Handle Arrays --> **/

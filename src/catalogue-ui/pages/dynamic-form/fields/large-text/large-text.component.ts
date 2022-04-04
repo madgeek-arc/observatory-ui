@@ -1,13 +1,14 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
 import {FormControl, FormGroup, FormGroupDirective} from "@angular/forms";
 import {Field, HandleBitSet} from "../../../../domain/dynamic-form-model";
+import {Subscriber} from "rxjs";
 
 @Component({
   selector: 'app-large-text',
   templateUrl: './large-text.component.html'
 })
 
-export class LargeTextComponent implements OnInit {
+export class LargeTextComponent implements OnInit, OnDestroy {
   @Input() fieldData: Field;
   @Input() editMode: any;
   @Input() position?: number = null;
@@ -16,6 +17,7 @@ export class LargeTextComponent implements OnInit {
   @Output() handleBitSets = new EventEmitter<Field>();
   @Output() handleBitSetsOfComposite = new EventEmitter<HandleBitSet>();
 
+  subscriptions = [];
   formControl!: FormControl;
   form!: FormGroup;
   hideField: boolean = null;
@@ -38,10 +40,20 @@ export class LargeTextComponent implements OnInit {
       // console.log(this.fieldData.form.dependsOn);
       this.enableDisableField(this.form.get(this.fieldData.form.dependsOn.name).value);
 
-      this.form.get(this.fieldData.form.dependsOn.name).valueChanges.subscribe(value => {
-        this.enableDisableField(value);
-      });
+      this.subscriptions.push(
+        this.form.get(this.fieldData.form.dependsOn.name).valueChanges.subscribe(value => {
+          this.enableDisableField(value);
+        })
+      );
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription instanceof Subscriber) {
+        subscription.unsubscribe();
+      }
+    });
   }
 
   /** check fields validity--> **/

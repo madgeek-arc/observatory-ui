@@ -1,9 +1,10 @@
-import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
+import {Component, Input, OnChanges, OnDestroy, SimpleChanges} from "@angular/core";
 import {SurveyAnswer, Survey, ResourcePermission} from "../../../../domain/survey";
 import {UserService} from "../../../../services/user.service";
 import {Stakeholder} from "../../../../domain/userInfo";
 import {SurveyService} from "../../../../services/survey.service";
 import {Router} from "@angular/router";
+import {Subscriber} from "rxjs";
 
 @Component({
   selector: 'app-survey-card',
@@ -11,9 +12,10 @@ import {Router} from "@angular/router";
   providers: [SurveyService]
 })
 
-export class SurveyCardComponent implements OnChanges {
+export class SurveyCardComponent implements OnChanges, OnDestroy {
   @Input() survey: Survey;
 
+  subscriptions = [];
   currentGroup: Stakeholder = null;
   surveyAnswer: SurveyAnswer = null
   permissions: ResourcePermission[] = null;
@@ -23,27 +25,40 @@ export class SurveyCardComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.userService.currentStakeholder.subscribe(
-      next => {
-        this.currentGroup = next;
-        if (this.currentGroup !== null) {
-          this.surveyService.getLatestAnswer(this.currentGroup.id, this.survey.id).subscribe(
-            next => {
-              this.surveyAnswer = next;
-              for (const chapter in this.surveyAnswer.chapterAnswers) {
-                // console.log(`${chapter}: `);
-                // console.log(this.answer.chapterAnswers[chapter].chapterId);
-                this.chapterIds.push(chapter); // send chapter answer id array
-              }
-              this.surveyService.getPermissions(this.chapterIds).subscribe(
+    this.subscriptions.push(
+      this.userService.currentStakeholder.subscribe(
+        next => {
+          this.currentGroup = next;
+          if (this.currentGroup !== null) {
+            this.subscriptions.push(
+              this.surveyService.getLatestAnswer(this.currentGroup.id, this.survey.id).subscribe(
                 next => {
-                  this.permissions = next;
-                });
-            });
-        }
-      },
-      error => {console.error(error)},
-      () => {});
+                  this.surveyAnswer = next;
+                  for (const chapter in this.surveyAnswer.chapterAnswers) {
+                    // console.log(`${chapter}: `);
+                    // console.log(this.answer.chapterAnswers[chapter].chapterId);
+                    this.chapterIds.push(chapter); // send chapter answer id array
+                  }
+                  this.subscriptions.push(
+                    this.surveyService.getPermissions(this.chapterIds).subscribe(next => {
+                      this.permissions = next;
+                    })
+                  )
+                })
+            );
+          }
+        },
+        error => {console.error(error)},
+        () => {})
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription instanceof Subscriber) {
+        subscription.unsubscribe();
+      }
+    });
   }
 
   checkForPermission(right: string): boolean {
@@ -56,24 +71,26 @@ export class SurveyCardComponent implements OnChanges {
 
   changeValidStatus(answerId: string, valid: boolean) {
     if (valid) {
-      this.surveyService.changeAnswerValidStatus(answerId, !valid).subscribe(
-        next => {
+      this.subscriptions.push(
+        this.surveyService.changeAnswerValidStatus(answerId, !valid).subscribe(next => {
           this.surveyAnswer = next;
-          this.surveyService.getPermissions(this.chapterIds).subscribe(
-            next => {
+          this.subscriptions.push(
+            this.surveyService.getPermissions(this.chapterIds).subscribe(next => {
               this.permissions = next;
             },
             error => {
               console.error(error)
             },
             () => {
-            });
+            })
+          );
         },
         error => {
           console.error(error)
         },
         () => {
-        });
+        })
+      );
     } else {
       this.router.navigate([`contributions/mySurveys/${this.survey.id}/answer/validate`]);
     }
