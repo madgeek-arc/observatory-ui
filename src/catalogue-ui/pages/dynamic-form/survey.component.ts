@@ -4,11 +4,10 @@ import {zip} from "rxjs/internal/observable/zip";
 import {FormControlService} from "../../services/form-control.service";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {SurveyService} from "../../../app/services/survey.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {
   Chapter,
   Field,
-  GroupedFields,
   Model,
   Tabs,
   UiVocabulary
@@ -29,6 +28,7 @@ export class SurveyComponent implements OnInit, OnChanges {
   @Input() surveyAnswers: SurveyAnswer = null;
   @Input() survey: Survey = null;
   @Input() tabsHeader : string = null;
+  stakeholderId = null;
 
   subscriptions = [];
   surveyModel: Model;
@@ -52,7 +52,7 @@ export class SurveyComponent implements OnInit, OnChanges {
   form: FormGroup;
 
   constructor(private formControlService: FormControlService, private fb: FormBuilder,
-              private router: Router, private surveyService: SurveyService) {
+              private router: Router, private surveyService: SurveyService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -140,16 +140,22 @@ export class SurveyComponent implements OnInit, OnChanges {
     }
     if (this.form.valid) {
       this.subscriptions.push(
-        this.surveyService.changeAnswerValidStatus(this.surveyAnswers.id, !this.surveyAnswers.validated).subscribe(
-          next => {
-            UIkit.modal('#validation-modal').hide();
-            this.router.navigate(['/contributions/mySurveys']);
-          },
-          error => {
-            console.error(error);
-          },
-          () => {}
-        )
+        this.route.params.subscribe( params => {
+          this.stakeholderId = params['id'];
+          console.log(this.stakeholderId);
+          this.subscriptions.push(
+            this.surveyService.changeAnswerValidStatus(this.surveyAnswers.id, !this.surveyAnswers.validated).subscribe(
+              next => {
+                UIkit.modal('#validation-modal').hide();
+                this.router.navigate([`/contributions/${this.stakeholderId}/mySurveys`]);
+              },
+              error => {
+                console.error(error);
+              },
+              () => {}
+            )
+          );
+        })
       );
     } else {
       UIkit.modal('#validation-modal').hide();

@@ -92,7 +92,7 @@ export class SurveyCardComponent implements OnChanges, OnDestroy {
         })
       );
     } else {
-      this.router.navigate([`contributions/mySurveys/${this.survey.id}/answer/validate`]);
+      this.router.navigate([`contributions/${this.currentGroup.id}/mySurveys/${this.survey.id}/answer/validate`]);
     }
   }
 
