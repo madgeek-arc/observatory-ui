@@ -43,25 +43,28 @@
 <!--<pre *ngIf="form">{{form.getRawValue() | json}}</pre>-->
 
 <!-- Validation modal -->
-<div id="validation-modal" uk-modal="esc-close: false; bg-close: false">
+<div *ngIf="showValidation" class="uk-modal {{showValidation ? 'uk-open' : ''}}" id="validation-modal" uk-modal="esc-close: false; bg-close: false"
+     [ngStyle]="{'display': showValidation ? 'block' : 'none'}">
   <div class="uk-modal-dialog uk-modal-body">
     <h2 class="uk-modal-title">Survey validation</h2>
     <p>The survey fields will be validated and if all required fields are present it will be locked and it will not be
     editable until unlocked.</p>
     <p class="uk-text-right">
-      <button class="uk-button uk-button-secondary uk-modal-close" type="button">Close</button>
+      <button class="uk-button uk-button-secondary uk-modal-close" type="button" (click)="showValidation = false">Close</button>
       <button class="uk-button uk-button-primary" type="button" (click)="validateSurvey()">I agree</button>
     </p>
   </div>
 </div>
 
 <!-- Unsaved changes modal -->
-<div id="unsaved-changes-modal" uk-modal="esc-close: false; bg-close: false">
+{{showUnsavedChanges}}
+<div id="unsaved-changes-modal" class="uk-modal {{showUnsavedChanges ? 'uk-open' : ''}}" uk-modal="esc-close: false; bg-close: false"
+     [ngStyle]="{'display': showUnsavedChanges ? 'block' : 'none'}">
   <div class="uk-modal-dialog uk-modal-body">
 <!--    <h2 class="uk-modal-title"></h2>-->
     <p>There are unsaved changes, do you want to submit them before moving on;</p>
     <p class="uk-text-right">
-      <button class="uk-button uk-button-secondary uk-modal-close" type="button">I will do it later</button>
+      <button class="uk-button uk-button-secondary" type="button" (click)="this.showUnsavedChanges = false">I will do it later</button>
       <button class="uk-button uk-button-primary" type="button" (click)="onSubmit()">Submit now</button>
     </p>
   </div>

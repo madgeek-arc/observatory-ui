@@ -41,6 +41,8 @@ export class SurveyComponent implements OnInit, OnChanges {
   subVocabularies: UiVocabulary[] = [];
   flatFields: Map<string, Field> = new Map<string, Field>();
   editMode = false;
+  showValidation = false;
+  showUnsavedChanges = false;
   bitset: Tabs = new Tabs;
 
   ready = false;
@@ -100,22 +102,22 @@ export class SurveyComponent implements OnInit, OnChanges {
               if (this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]]) {
                 this.prepareForm(this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]], this.surveyModel.chapters[i]);
               }
-              // setTimeout( () => { // this removes ExpressionChangedAfterItHasBeenCheckedError, not the best solution, but it is what it is
+              setTimeout( () => { // this removes ExpressionChangedAfterItHasBeenCheckedError, not the best solution, but it is what it is
                 this.form.get(this.surveyModel.chapters[i].name).patchValue(this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]]);
-              // }, 0);
+              }, 0);
 
-            }
-            // console.log(this.form.value);
-            if (this.surveyAnswers.validated) {
-              this.readonly = true;
-              this.validate = false;
-            } else if (this.validate) {
-              UIkit.modal('#validation-modal').show();
             }
 
             setTimeout(() => {
               if (this.readonly) {
                 this.form.disable();
+              }
+              if (this.surveyAnswers.validated) {
+                this.readonly = true;
+                this.validate = false;
+              } else if (this.validate) {
+                // UIkit.modal('#validation-modal').show();
+                this.showValidation = true;
               }
             }, 0);
             this.ready = true;
@@ -135,12 +137,15 @@ export class SurveyComponent implements OnInit, OnChanges {
   validateSurvey() {
     for (const chapterChangeMapElement of this.chapterChangeMap) {
       if (chapterChangeMapElement[1]) {
-        UIkit.modal('#validation-modal').hide();
+        console.log('Unsaved changes')
+        // UIkit.modal('#validation-modal').hide();
+        this.showValidation = false;
         this.errorMessage = 'There are unsaved changes, please submit all changes first and then validate.';
         return;
       }
     }
     if (this.form.valid) {
+      console.log('Valid form');
       this.subscriptions.push(
         this.route.params.subscribe( params => {
           this.stakeholderId = params['id'];
@@ -148,7 +153,8 @@ export class SurveyComponent implements OnInit, OnChanges {
           this.subscriptions.push(
             this.surveyService.changeAnswerValidStatus(this.surveyAnswers.id, !this.surveyAnswers.validated).subscribe(
               next => {
-                UIkit.modal('#validation-modal').hide();
+                // UIkit.modal('#validation-modal').hide();
+                this.showValidation = false;
                 this.router.navigate([`/contributions/${this.stakeholderId}/mySurveys`]);
               },
               error => {
@@ -160,8 +166,9 @@ export class SurveyComponent implements OnInit, OnChanges {
         })
       );
     } else {
-      UIkit.modal('#validation-modal').hide();
-      // console.log('Invalid form');
+      // UIkit.modal('#validation-modal').hide();
+      this.showValidation = false;
+      console.log('Invalid form');
       this.form.markAllAsTouched();
       let str = '';
       for (let key in this.form.value) {
@@ -185,12 +192,14 @@ export class SurveyComponent implements OnInit, OnChanges {
         res => {
           this.successMessage = 'Updated successfully!';
           this.chapterChangeMap.set(this.chapterForSubmission.id, false);
-          UIkit.modal('#unsaved-changes-modal').hide();
+          // UIkit.modal('#unsaved-changes-modal').hide();
+          this.showUnsavedChanges = false;
         },
         error => {
           this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(error?.error?.error);
           // this.showLoader = false;
-          UIkit.modal('#unsaved-changes-modal').hide();
+          // UIkit.modal('#unsaved-changes-modal').hide();
+          this.showUnsavedChanges = false;
           console.log(error);
         },
         () => {
@@ -204,9 +213,12 @@ export class SurveyComponent implements OnInit, OnChanges {
   }
 
   showUnsavedChangesPrompt(chapter: Chapter) {
+    console.log(this.chapterChangeMap);
+    console.log(this.currentChapter.id);
     if (this.chapterChangeMap.get(this.currentChapter.id)) {
       this.chapterForSubmission = this.currentChapter;
-      UIkit.modal('#unsaved-changes-modal').show();
+      // UIkit.modal('#unsaved-changes-modal').show();
+      this.showUnsavedChanges = true;
     }
     this.currentChapter = chapter;
   }
