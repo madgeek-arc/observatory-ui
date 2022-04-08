@@ -161,17 +161,16 @@ export class SurveyComponent implements OnInit, OnChanges {
       );
     } else {
       UIkit.modal('#validation-modal').hide();
-      console.log('Invalid form');
+      // console.log('Invalid form');
       this.form.markAllAsTouched();
       let str = '';
       for (let key in this.form.value) {
-        // console.log(this.form.get('extras.'+key));
-        console.log(key + ': '+ this.form.get(key).valid);
+        // console.log(key + ': '+ this.form.get(key).valid);
         if (!this.form.get(key).valid) {
           str =  str + '\n\t-> ' + key;
         }
         for (const keyElement in this.form.get(key).value) {
-          console.log(keyElement + ': '+ this.form.get(key+'.'+keyElement).valid);
+          // console.log(keyElement + ': '+ this.form.get(key+'.'+keyElement).valid);
         }
       }
       this.errorMessage = 'There are missing fields at chapters ' + str;
