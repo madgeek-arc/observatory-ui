@@ -97,7 +97,9 @@ export class SurveyComponent implements OnInit, OnChanges {
             this.createFieldMap(this.surveyModel);
             for (let i = 0; i < this.surveyModel.chapters.length; i++) {
               this.form.addControl(this.surveyModel.chapters[i].name, this.formControlService.toFormGroup(this.surveyModel.chapters[i].sections, true));
-              this.prepareForm(this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]], this.surveyModel.chapters[i]);
+              if (this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]]) {
+                this.prepareForm(this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]], this.surveyModel.chapters[i]);
+              }
               // setTimeout( () => { // this removes ExpressionChangedAfterItHasBeenCheckedError, not the best solution, but it is what it is
                 this.form.get(this.surveyModel.chapters[i].name).patchValue(this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]]);
               // }, 0);
