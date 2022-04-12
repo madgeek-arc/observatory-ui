@@ -12,8 +12,6 @@ export class FormControlService implements OnInit{
   base = environment.API_ENDPOINT;
   private options = {withCredentials: true};
   urlRegEx = urlRegEx;
-  numbersOfDecimals = '1';
-  numberRegEx = `^(\\d)*(\\.)?([0-9]{${this.numbersOfDecimals}})?$`;
 
   ngOnInit() {
   }
@@ -76,10 +74,9 @@ export class FormControlService implements OnInit{
                 new FormControl('', Validators.compose([Validators.required, Validators.pattern('[+]?\\d+$')]))
                 : new FormControl('', Validators.pattern('[+]?\\d+$'));
             } else if (formField.typeInfo.type === 'number') {
-              this.numbersOfDecimals = this.calculateNumberOfDecimals(formField.typeInfo.values);
               group[formField.name] = formField.form.mandatory ?
-                new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.numberRegEx)]))
-                : new FormControl('', Validators.pattern(this.numberRegEx));
+                new FormControl('', [Validators.required, Validators.pattern(this.calculateNumberOfDecimals(formField.typeInfo.values))])
+                : new FormControl('', Validators.pattern(this.calculateNumberOfDecimals(formField.typeInfo.values)));
             } else {
               group[formField.name] = formField.form.mandatory ? new FormControl(null, Validators.required)
                 : new FormControl(null);

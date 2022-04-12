@@ -102,10 +102,9 @@ export class SurveyComponent implements OnInit, OnChanges {
               if (this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]]) {
                 this.prepareForm(this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]], this.surveyModel.chapters[i]);
               }
-              setTimeout( () => { // this removes ExpressionChangedAfterItHasBeenCheckedError, not the best solution, but it is what it is
+              // setTimeout( () => { // this removes ExpressionChangedAfterItHasBeenCheckedError, not the best solution, but it is what it is
                 this.form.get(this.surveyModel.chapters[i].name).patchValue(this.sortedSurveyAnswers[Object.keys(this.sortedSurveyAnswers)[i]]);
-              }, 0);
-
+              // }, 0);
             }
 
             setTimeout(() => {
@@ -213,8 +212,8 @@ export class SurveyComponent implements OnInit, OnChanges {
   }
 
   showUnsavedChangesPrompt(chapter: Chapter) {
-    console.log(this.chapterChangeMap);
-    console.log(this.currentChapter.id);
+    // console.log(this.chapterChangeMap);
+    // console.log(this.currentChapter.id);
     if (this.chapterChangeMap.get(this.currentChapter.id)) {
       this.chapterForSubmission = this.currentChapter;
       // UIkit.modal('#unsaved-changes-modal').show();
