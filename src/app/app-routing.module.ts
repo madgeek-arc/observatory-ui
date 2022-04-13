@@ -28,6 +28,10 @@ const routes: Routes = [
     path: 'contributions/:id',
     loadChildren: () => import('./pages/contributions-dashboard/contributions-dashboard.module').then(m => m.ContributionsDashboardModule),
   },
+  {
+    path: 'nationalContributionsToEOSC',
+    loadChildren: () => import('./pages/national-contributions-to-eosc-dashboard/national-contributions-to-eosc-dashboard.module').then(m => m.NationalContributionsToEOSCDashboardModule),
+  },
 ];
 
 @NgModule({

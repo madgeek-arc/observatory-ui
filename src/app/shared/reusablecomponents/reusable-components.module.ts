@@ -12,6 +12,8 @@ import { TopMenuDashboardComponent } from "../top-menu/topmenudashboard/top-menu
 import { SideMenuDashboardComponent } from "../sidemenudashboard/side-menu-dashboard.component";
 import { FooterComponent } from "../footer/footer.component";
 import { TopMenuLandingComponent } from "../top-menu/topmenulanding/top-menu-landing.component";
+import { HighchartsChartModule } from "highcharts-angular";
+import { HighchartsTilemapComponent } from "./charts/highcharts-tilemap.component";
 // import { SideMenuComponent } from "../sidemenu/sidemenu.component";
 
 @NgModule({
@@ -23,6 +25,7 @@ import { TopMenuLandingComponent } from "../top-menu/topmenulanding/top-menu-lan
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    HighchartsChartModule
   ],
   declarations: [
     TopMenuLandingComponent,
@@ -33,6 +36,7 @@ import { TopMenuLandingComponent } from "../top-menu/topmenulanding/top-menu-lan
     ForbiddenPageComponent,
     ReadMoreComponent,
     ReadMoreTextComponent,
+    HighchartsTilemapComponent
   ],
   exports: [
     TopMenuLandingComponent,
@@ -43,6 +47,7 @@ import { TopMenuLandingComponent } from "../top-menu/topmenulanding/top-menu-lan
     ForbiddenPageComponent,
     ReadMoreComponent,
     ReadMoreTextComponent,
+    HighchartsTilemapComponent
   ],
   providers: [
     // HelpContentService

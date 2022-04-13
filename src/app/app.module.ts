@@ -17,6 +17,7 @@ import {SurveyService} from "./services/survey.service";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {HttpInterceptorService} from "./services/http-interceptor.service";
 import {AcceptInvitationComponent} from "./pages/accept-invitation.component.ts/accept-invitation.component";
+import {NationalContributionsToEOSCDashboardComponent} from "./pages/national-contributions-to-eosc-dashboard/national-contributions-to-eosc-dashboard.component";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {AcceptInvitationComponent} from "./pages/accept-invitation.component.ts/
     HomeComponent,
     SurveyFormComponent,
     ContributionsDashboardComponent,
-    AcceptInvitationComponent
+    AcceptInvitationComponent,
+    // NationalContributionsToEOSCDashboardComponent
   ],
   imports: [
     BrowserModule,
