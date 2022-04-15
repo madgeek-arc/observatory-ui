@@ -6,6 +6,7 @@ import {NationalContributionsToEOSCDashboardComponent} from "./national-contribu
 import {NCTEPoliciesComponent} from "./policies/ncte-policies.component";
 import {NCTEFundingComponent} from "./funding/ncte-funding.component";
 import {HighchartsChartModule} from "highcharts-angular";
+import {DataService} from "../../services/data.service";
 
 @NgModule({
   declarations: [
@@ -18,6 +19,9 @@ import {HighchartsChartModule} from "highcharts-angular";
     ReusableComponentsModule,
     NationalContributionsToEOSCDashboardRouting,
     HighchartsChartModule
+  ],
+  providers: [
+    DataService,
   ],
 })
 

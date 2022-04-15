@@ -35,6 +35,21 @@
   --grey-900: #2C2C2C;
   --grey-700: #6E6E6E;
 
+  /* Alternative Pills*/
+  --placeholder-color: #8E8E8E;
+  --light-color: #FFFFFF;
+  --shadow-main: -15px -15px 20px rgba(255, 255, 255, 0.6), 15px 15px 20px rgba(0, 0, 0, 0.07);
+  --secondary-color: #3086ED;
+  --primary-light-color: #4687E6;
+  --primary-dark-color: #1F2379;
+  --pill-alt-color: var(--placeholder-color);
+  --pill-alt-background: var(--light-color);
+  --pill-alt-shadow: var(--shadow-main);
+  --pill-alt-color-hover: var(--secondary-color);
+  --pill-alt-background-active: none;
+  --pill-alt-background-active-image: linear-gradient(122deg, var(--primary-light-color) 0, var(--primary-dark-color) 100%);
+  --pill-alt-color-active: var(--light-color);
+
 
   --primary-color: #004494;
   /*--primary-color: #AD20E7;*/
@@ -493,6 +508,55 @@ a.sub-menu-item:hover {
 .uk-card-default .uk-card-title {
   color: var(--black);
 }
+
+
+/* ========================================================================
+   Subnav pills
+ ========================================================================== */
+
+.uk-subnav-pill-alt {
+  background: var(--pill-alt-background);
+  border-radius: 56px;
+  box-shadow: var(--pill-alt-shadow);
+  padding: 4px;
+}
+
+.uk-subnav-pill-alt > * > :first-child {
+  padding: 10px 20px;
+  color: var(--pill-alt-color);
+  border-radius: 56px;
+}
+
+.uk-subnav.uk-subnav-pill-alt > :first-child {
+  padding-left: 0;
+}
+
+.uk-subnav-pill-alt > :hover > a {
+  color: var(--pill-alt-color-hover);
+  border-color: unset;
+  position: relative;
+}
+
+.uk-subnav-pill-alt > :hover > a:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--pill-alt-background-active);
+  background-image: var(--pill-alt-background-active-image);
+  opacity: 0.1;
+  border-radius: inherit;
+}
+
+.uk-subnav-pill-alt > .uk-active > a {
+  background-color: var(--pill-alt-background-active);
+  color: var(--pill-alt-color-active);
+  border-color: unset;
+  background-image: var(--pill-alt-background-active-image);
+}
+
 
 /* ========================================================================
    Forms

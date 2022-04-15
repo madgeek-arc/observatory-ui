@@ -16,7 +16,9 @@ export const environment = {
   hasUserConsent: true,
   showHelpContent: false,
   privacyPolicyURL: '',
-  marketplaceBaseURL: ''
+  marketplaceBaseURL: '',
+  STATS_API_ENDPOINT: 'https://stats.madgik.di.uoa.gr/stats-api/',
+  profileName: 'eosc-obs'
 };
 
 /*
