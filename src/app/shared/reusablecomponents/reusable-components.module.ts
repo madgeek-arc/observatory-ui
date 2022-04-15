@@ -14,6 +14,7 @@ import { FooterComponent } from "../footer/footer.component";
 import { TopMenuLandingComponent } from "../top-menu/topmenulanding/top-menu-landing.component";
 import { HighchartsChartModule } from "highcharts-angular";
 import { HighchartsTilemapComponent } from "./charts/highcharts-tilemap.component";
+import { HighchartsCategoryMapComponent } from "./charts/highcharts-category-map.component";
 // import { SideMenuComponent } from "../sidemenu/sidemenu.component";
 
 @NgModule({
@@ -36,7 +37,8 @@ import { HighchartsTilemapComponent } from "./charts/highcharts-tilemap.componen
     ForbiddenPageComponent,
     ReadMoreComponent,
     ReadMoreTextComponent,
-    HighchartsTilemapComponent
+    HighchartsTilemapComponent,
+    HighchartsCategoryMapComponent
   ],
   exports: [
     TopMenuLandingComponent,
@@ -47,7 +49,8 @@ import { HighchartsTilemapComponent } from "./charts/highcharts-tilemap.componen
     ForbiddenPageComponent,
     ReadMoreComponent,
     ReadMoreTextComponent,
-    HighchartsTilemapComponent
+    HighchartsTilemapComponent,
+    HighchartsCategoryMapComponent
   ],
   providers: [
     // HelpContentService
