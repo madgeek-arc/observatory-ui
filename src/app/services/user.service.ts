@@ -11,6 +11,7 @@ export class UserService {
   base = environment.API_ENDPOINT;
 
   userId = null;
+  userInfo: UserInfo = null;
   currentStakeholder = new BehaviorSubject<Stakeholder>(null);
   currentCoordinator = new BehaviorSubject<Coordinator>(null);
 
@@ -33,6 +34,10 @@ export class UserService {
 
   getUserInfo() {
     return this.http.get<UserInfo>(this.base + '/user/info');
+  }
+
+  setUserInfo(userInfo: UserInfo){
+    this.userInfo = userInfo;
   }
 
   setUserConsent(id: string) {

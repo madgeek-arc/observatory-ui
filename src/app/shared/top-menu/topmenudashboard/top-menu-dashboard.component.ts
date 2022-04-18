@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from "@angular/core";
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from "@angular/core";
 import {Coordinator, Stakeholder, UserInfo} from "../../../domain/userInfo";
 import {UserService} from "../../../services/user.service";
 import {Router} from "@angular/router";
@@ -16,7 +16,7 @@ import {Subscriber} from "rxjs";
   providers: [PrivacyPolicyService]
 })
 
-export class TopMenuDashboardComponent implements OnInit, OnDestroy {
+export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
   @Input() userInfo: UserInfo = null;
 
   subscriptions = [];
@@ -24,6 +24,7 @@ export class TopMenuDashboardComponent implements OnInit, OnDestroy {
   currentCoordinator: Coordinator = null;
   acceptedPrivacyPolicy: AcceptedPrivacyPolicy = null;
   name: string = null;
+  showNationalContributionsToEOSC: boolean = null;
 
   constructor(private userService: UserService,
               private privacyPolicy: PrivacyPolicyService,
@@ -72,6 +73,11 @@ export class TopMenuDashboardComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.userInfo)
+      this.showNationalContributionsToEOSC = this.coordinatorContains('country');
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => {
       if (subscription instanceof Subscriber) {
@@ -96,6 +102,10 @@ export class TopMenuDashboardComponent implements OnInit, OnDestroy {
   setCoordinator(coordinator: Coordinator){
     this.userService.changeCurrentCoordinator(coordinator);
     this.router.navigate([`/contributions/${coordinator.id}/home`]);
+  }
+
+  coordinatorContains(name: string) {
+    return this.userInfo.coordinators.filter(c => c.type === name).length > 0;
   }
 
   logout() {

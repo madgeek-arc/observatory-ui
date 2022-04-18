@@ -18,6 +18,7 @@ import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {HttpInterceptorService} from "./services/http-interceptor.service";
 import {AcceptInvitationComponent} from "./pages/accept-invitation.component.ts/accept-invitation.component";
 import {NationalContributionsToEOSCDashboardComponent} from "./pages/national-contributions-to-eosc-dashboard/national-contributions-to-eosc-dashboard.component";
+import {NationalContributionsToEOSCGuardService} from "./services/nationalContributionsToEOSC-guard.service";
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {NationalContributionsToEOSCDashboardComponent} from "./pages/national-co
       useClass: HttpInterceptorService,
       multi: true
     },
+    NationalContributionsToEOSCGuardService,
     UserService,
     SurveyService
   ],

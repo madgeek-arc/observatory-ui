@@ -3,14 +3,13 @@ import {NgModule} from '@angular/core';
 import {NationalContributionsToEOSCDashboardComponent} from "./national-contributions-to-eosc-dashboard.component";
 import {NCTEPoliciesComponent} from "./policies/ncte-policies.component";
 import {NCTEFundingComponent} from "./funding/ncte-funding.component";
+import {NationalContributionsToEOSCGuardService} from "../../services/nationalContributionsToEOSC-guard.service";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
     path: '',
     component: NationalContributionsToEOSCDashboardComponent,
-    // data: {
-    //   breadcrumb: 'Service'
-    // },
+    canActivate: [NationalContributionsToEOSCGuardService],
     children: [
       {
         path: '',

@@ -24,6 +24,7 @@ export class ContributionsDashboardComponent implements OnDestroy{
     this.subscriptions.push(
       this.userService.getUserInfo().subscribe(
         res => {
+          this.userService.setUserInfo(res);
           this.userInfo = res;
           this.userService.userId = this.userInfo.user.email;
         }, error => {
