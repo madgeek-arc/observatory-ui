@@ -2,15 +2,15 @@ import * as Highcharts from "highcharts/highmaps";
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_tilemap from 'highcharts/modules/tilemap';
 import {Component, OnInit} from "@angular/core";
+import {DataHandlerService} from "../../../services/data-handler.service";
+import {DataService} from "../../../services/data.service";
+import {CategorizedAreaData} from "../../../domain/categorizedAreaData";
+import {SeriesOptionsType} from "highcharts/highmaps";
 HC_exporting(Highcharts);
 HC_tilemap(Highcharts);
 
 declare var require: any;
 const worldMap = require('@highcharts/map-collection/custom/world.topo.json');
-
-interface ExtendedPointOptionsObject extends Highcharts.PointOptionsObject {
-  country: string;
-}
 
 @Component({
   selector: 'app-highcharts-category-map',
@@ -22,14 +22,34 @@ export class HighchartsCategoryMapComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options;
   chartConstructor = "mapChart";
+  mapData: CategorizedAreaData;
+  colorPallet = ['#2A9D8F', '#E76F51', '#E9C46A', '#F4A261', '#8085e9'];
+  ready = false;
 
-  ngOnInit() {
-    // setTimeout(this.createMap(), 3000)
-    this.createMap();
-    this.chartOptions;
+  constructor(private dataService: DataService, private dataHandlerService: DataHandlerService) {
   }
 
-  createMap() {
+  ngOnInit() {
+    this.dataService.getFinancialContrToEOSCLinkedToPolicies().subscribe(
+      rawData => {
+        this.mapData = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData);
+        for (let i = 0; i < this.mapData.series.length; i++) {
+          this.mapData.series[i].data = this.mapData.series[i].data.map(code => ({ code }));
+          this.mapData.series[i].color = this.colorPallet[i];
+        }
+        this.mapData.series[0].allAreas = true;
+
+      }, error => {
+        console.log(error);
+      },
+      () => {
+        this.createMap(this.mapData);
+        this.ready = true;
+      }
+    );
+  }
+
+  createMap(mapData: CategorizedAreaData) {
     this.chartOptions = {
 
       chart: {
@@ -68,40 +88,8 @@ export class HighchartsCategoryMapComponent implements OnInit {
           }
         }
       },
-      series: [{
-        allAreas: true,
-        name: 'Yes',
-        type: undefined,
-        color: '#2A9D8F',
-        data: ['IE', 'IS', 'GB', 'PT'].map(code => ({ code }))
-      }, {
-        allAreas: false,
-        name: 'No',
-        type: undefined,
-        color: '#E76F51',
-        data: [
-          'NO', 'SE', 'DK', 'DE', 'NL', 'BE', 'LU', 'ES', 'FR', 'PL',
-          'CZ', 'AT', 'CH', 'LI', 'SK', 'HU', 'SI', 'IT', 'SM', 'HR',
-          'BA', 'YF', 'ME', 'AL', 'MK'
-        ].map(code => ({ code }))
-      }, {
-        allAreas: false,
-        name: 'Partly',
-        type: undefined,
-        color: '#E9C46A',
-        data: [
-          'FI', 'EE', 'LV', 'LT', 'BY', 'UA', 'MD', 'RO', 'BG', 'GR',
-          'TR', 'CY'
-        ].map(code => ({ code }))
-      }, {
-        allAreas: false,
-        name: 'In Planning',
-        color: '#F4A261',
-        type: undefined,
-        data: [
-          'RU'
-        ].map(code => ({ code }))
-      }]
+
+      series: mapData.series as SeriesOptionsType[],
     }
   }
 

@@ -20,8 +20,11 @@
     <tr *ngFor="let countryOverview of countries">
       <td class=""><span>{{countryOverview.name}}</span></td>
       <td class="uk-text-center">
-        <ng-container *ngIf="countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies===null">--</ng-container>
-        <ng-container *ngIf="countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies!=null">
+        <ng-container *ngIf="countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies===null
+                            || countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies==='null'">--
+        </ng-container>
+        <ng-container *ngIf="countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies!==null
+                            && countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies!=='null'">
           {{countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies}}
         </ng-container>
       </td>

@@ -22,4 +22,5 @@ export class DataService {
     const financialContrToEOSCLinkedToPoliciesQuery = `{"series":[{"query":{"name":"eosc.obs.question5","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(financialContrToEOSCLinkedToPoliciesQuery), headerOptions);
   }
+
 }
