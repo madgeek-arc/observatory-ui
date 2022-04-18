@@ -46,8 +46,10 @@
   --pill-alt-background: var(--light-color);
   --pill-alt-shadow: var(--shadow-main);
   --pill-alt-color-hover: var(--secondary-color);
-  --pill-alt-background-active: none;
-  --pill-alt-background-active-image: linear-gradient(122deg, var(--primary-light-color) 0, var(--primary-dark-color) 100%);
+  //--pill-alt-background-active: none;
+  --pill-alt-background-active: var(--eosc-dark-color);
+  //--pill-alt-background-active-image: linear-gradient(122deg, var(--primary-light-color) 0, var(--primary-dark-color) 100%);
+  --pill-alt-background-active-image: none;
   --pill-alt-color-active: var(--light-color);
 
 
@@ -496,7 +498,8 @@ a.sub-menu-item:hover {
 }
 
 .uk-card-default {
-  background: var(--light-grey) 0 0 no-repeat padding-box;
+  //background: var(--light-grey) 0 0 no-repeat padding-box;
+  background: #fff;
   /*box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);*/
   border-radius: 6px;
   opacity: 1;
@@ -555,6 +558,10 @@ a.sub-menu-item:hover {
   color: var(--pill-alt-color-active);
   border-color: unset;
   background-image: var(--pill-alt-background-active-image);
+}
+
+.uk-subnav > * > :first-child {
+  text-transform: none;
 }
 
 

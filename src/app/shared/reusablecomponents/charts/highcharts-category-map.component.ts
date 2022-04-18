@@ -24,8 +24,9 @@ export class HighchartsCategoryMapComponent implements OnInit {
   chartConstructor = "mapChart";
 
   ngOnInit() {
+    // setTimeout(this.createMap(), 3000)
     this.createMap();
-    this.chartOptions
+    this.chartOptions;
   }
 
   createMap() {
@@ -33,12 +34,12 @@ export class HighchartsCategoryMapComponent implements OnInit {
 
       chart: {
         map: worldMap,
-        spacingBottom: 20
+        spacingBottom: 20,
+        backgroundColor: 'rgba(0,0,0,0)'
       },
-
       mapView: {
-        center: [13, 48],
-        zoom: 4.5
+        center: [30, 51],
+        zoom: 3.5
       },
 
       title: {
@@ -67,7 +68,6 @@ export class HighchartsCategoryMapComponent implements OnInit {
           }
         }
       },
-
       series: [{
         allAreas: true,
         name: 'Yes',

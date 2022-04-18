@@ -7,12 +7,15 @@ import {NCTEPoliciesComponent} from "./policies/ncte-policies.component";
 import {NCTEFundingComponent} from "./funding/ncte-funding.component";
 import {HighchartsChartModule} from "highcharts-angular";
 import {DataService} from "../../services/data.service";
+import {CountriesTableComponent} from "./countries-table.component";
+import {DataHandlerService} from "../../services/data-handler.service";
 
 @NgModule({
   declarations: [
     NationalContributionsToEOSCDashboardComponent,
     NCTEPoliciesComponent,
     NCTEFundingComponent,
+    CountriesTableComponent
   ],
   imports: [
     CommonModule,
@@ -22,6 +25,7 @@ import {DataService} from "../../services/data.service";
   ],
   providers: [
     DataService,
+    DataHandlerService
   ],
 })
 
