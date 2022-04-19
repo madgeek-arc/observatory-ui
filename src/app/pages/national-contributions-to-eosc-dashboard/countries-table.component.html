@@ -9,15 +9,15 @@
         Country
       </th>
       <th *ngIf="tableType === 'funding'" class="uk-text-center" (click)="sortBy('dedicatedFinancialContributionsToEOSCLinkedToPolicies')">
-        <span *ngIf="!isSortedBy || isSortedBy!='repositories'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
-        <span *ngIf="isSortedBy && isSortedBy=='repositories' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
-        <span *ngIf="isSortedBy && isSortedBy=='repositories' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
+        <span *ngIf="!isSortedBy || isSortedBy!='dedicatedFinancialContributionsToEOSCLinkedToPolicies'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
+        <span *ngIf="isSortedBy && isSortedBy=='dedicatedFinancialContributionsToEOSCLinkedToPolicies' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
+        <span *ngIf="isSortedBy && isSortedBy=='dedicatedFinancialContributionsToEOSCLinkedToPolicies' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
         Dedicated financial contributions to EOSC linked to policies
       </th>
-      <th *ngIf="tableType === 'mandate'" class="uk-text-center" (click)="sortBy('dedicatedFinancialContributionsToEOSCLinkedToPolicies')">
-        <span *ngIf="!isSortedBy || isSortedBy!='repositories'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
-        <span *ngIf="isSortedBy && isSortedBy=='repositories' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
-        <span *ngIf="isSortedBy && isSortedBy=='repositories' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
+      <th *ngIf="tableType === 'mandate'" class="uk-text-center" (click)="sortBy('hasAppointedMandatedOrganization')">
+        <span *ngIf="!isSortedBy || isSortedBy!='hasAppointedMandatedOrganization'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
+        <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
+        <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
         Has appointed Mandated organization
       </th>
     </tr>
@@ -27,7 +27,7 @@
       <td class=""><span>{{countryOverview.name}}</span></td>
       <td *ngIf="tableType === 'funding'" class="uk-text-center">
         <ng-container *ngIf="countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies===null
-                            || countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies==='null'">--
+                            || countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies==='null'">Awaiting data
         </ng-container>
         <ng-container *ngIf="countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies!==null
                             && countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies!=='null'">
@@ -36,7 +36,7 @@
       </td>
       <td *ngIf="tableType === 'mandate'" class="uk-text-center">
         <ng-container *ngIf="countryOverview.hasAppointedMandatedOrganization===null
-                            || countryOverview.hasAppointedMandatedOrganization==='null'">--
+                            || countryOverview.hasAppointedMandatedOrganization==='null'">Awaiting data
         </ng-container>
         <ng-container *ngIf="countryOverview.hasAppointedMandatedOrganization!==null
                             && countryOverview.hasAppointedMandatedOrganization!=='null'">
