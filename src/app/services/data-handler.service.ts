@@ -72,4 +72,19 @@ export class DataHandlerService {
     return mapData
   }
 
+  public convertRawDataToNumber(rawData: RawData) {
+
+    let data: string = null;
+
+    for (const series of rawData.datasets) {
+
+      for (const rowResult of series.series.result) {
+
+        data = rowResult.row[0];
+      }
+    }
+
+    return data;
+  }
+
 }

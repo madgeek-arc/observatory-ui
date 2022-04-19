@@ -18,6 +18,8 @@ export class NCTEFundingComponent implements OnInit {
   tableAbsoluteData: CountryTableData[];
   loadingAbsoluteTable: boolean = true;
 
+  totalFundingForEOSC: string = null;
+
   financialContrToEOSCPieChartURL: SafeResourceUrl;
 
   constructor(private dataService: DataService, private dataHandlerService: DataHandlerService, private sanitizer: DomSanitizer) {}
@@ -25,12 +27,21 @@ export class NCTEFundingComponent implements OnInit {
   ngOnInit() {
     this.dataService.getFinancialContrToEOSCLinkedToPolicies().subscribe(
       rawData => {
-        console.log('RawData', rawData);
+        // console.log('RawData', rawData);
         this.tableAbsoluteData = this.dataHandlerService.convertRawDataToTableData(rawData);
         this.loadingAbsoluteTable = false;
       }, error => {
         console.log(error);
         this.loadingAbsoluteTable = false;
+      }
+    );
+
+    this.dataService.getTotalFundingForEOSC().subscribe(
+      rawData => {
+        console.log('RawData', rawData);
+        this.totalFundingForEOSC = this.dataHandlerService.convertRawDataToNumber(rawData);
+      }, error => {
+        console.log(error);
       }
     );
 
