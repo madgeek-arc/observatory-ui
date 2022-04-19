@@ -23,4 +23,13 @@ export class DataService {
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(financialContrToEOSCLinkedToPoliciesQuery), headerOptions);
   }
 
+  public getMandatedStatus(): Observable<RawData> {
+    const mandatedStatusQuery = `{"series":[{"query":{"name":"eosc.obs.question17","profile":"${this.profileName}"}}],"verbose":true}`;
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(mandatedStatusQuery), headerOptions);
+  }
+
+  public getTotalFundingForEOSC(): Observable<RawData> {
+    const totalFundingForEOSCQuery = `{"series":[{"query":{"name":"eosc.obs.question6.sum","profile":"${this.profileName}"}}],"verbose":true}`;
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(totalFundingForEOSCQuery), headerOptions);
+  }
 }
