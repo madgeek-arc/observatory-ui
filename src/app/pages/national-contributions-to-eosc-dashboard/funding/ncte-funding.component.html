@@ -33,7 +33,7 @@
             <div class="uk-width-3-5">
               <!--<app-highcharts-category-map></app-highcharts-category-map>-->
               <div class="uk-card uk-card-default uk-card-body" style="height: 600px">
-                <app-highcharts-category-map></app-highcharts-category-map>
+                <app-highcharts-category-map [mapData]="mapData"></app-highcharts-category-map>
               </div>
             </div>
 
@@ -55,7 +55,7 @@
         <div class="uk-margin-medium-top">
           <div class="uk-card uk-card-default uk-card-body">
             <div *ngIf="loadingAbsoluteTable" class="whiteFilm"><i class="fa fa-spinner fa-spin fa-2x loader" aria-hidden="true"></i></div>
-            <app-countries-table *ngIf="tableAbsoluteData" [countries]="tableAbsoluteData"></app-countries-table>
+            <app-countries-table *ngIf="tableAbsoluteData" [countries]="tableAbsoluteData" [tableType]="'funding'"></app-countries-table>
           </div>
         </div>
       </li>

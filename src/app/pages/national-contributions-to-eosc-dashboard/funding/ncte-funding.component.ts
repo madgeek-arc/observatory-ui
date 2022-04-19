@@ -4,6 +4,7 @@ import {CountryTableData} from "../../../domain/country-table-data";
 import {DataHandlerService} from "../../../services/data-handler.service";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {environment} from "../../../../environments/environment";
+import {CategorizedAreaData} from "../../../domain/categorizedAreaData";
 
 @Component({
   selector: 'app-ncte-funding',
@@ -16,6 +17,8 @@ export class NCTEFundingComponent implements OnInit {
   private profileName = environment.profileName;
 
   tableAbsoluteData: CountryTableData[];
+  mapData: CategorizedAreaData;
+  colorPallet = ['#2A9D8F', '#E76F51', '#E9C46A', '#F4A261', '#8085e9'];
   loadingAbsoluteTable: boolean = true;
 
   totalFundingForEOSC: string = null;
@@ -30,6 +33,13 @@ export class NCTEFundingComponent implements OnInit {
         // console.log('RawData', rawData);
         this.tableAbsoluteData = this.dataHandlerService.convertRawDataToTableData(rawData);
         this.loadingAbsoluteTable = false;
+        this.mapData = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData);
+        for (let i = 0; i < this.mapData.series.length; i++) {
+          this.mapData.series[i].data = this.mapData.series[i].data.map(code => ({ code }));
+          this.mapData.series[i].color = this.colorPallet[i];
+        }
+        this.mapData.series[0].allAreas = true;
+
       }, error => {
         console.log(error);
         this.loadingAbsoluteTable = false;

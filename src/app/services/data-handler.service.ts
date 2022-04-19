@@ -15,19 +15,16 @@ export class DataHandlerService {
       for (const rowResult of series.series.result) {
 
         const countryTableData: CountryTableData = new CountryTableData();
-        countryTableData.dedicatedFinancialContributionsToEOSCLinkedToPolicies = rowResult.row[1];
+        if (series.series.query.name === 'eosc.obs.question17') {
+          countryTableData.hasAppointedMandatedOrganization = rowResult.row[1];
+        } else {
+          countryTableData.dedicatedFinancialContributionsToEOSCLinkedToPolicies = rowResult.row[1];
+        }
         countryTableData.name = rowResult.row[0];
         countryTableData.code = rowResult.row[0];
         tableData.push(countryTableData);
       }
     }
-
-    // const tableData: CountryTableData[] = [];
-    //
-    // mapTableData.forEach((value: CountryTableData, key: string) => {
-    //   // console.log(key, value);
-    //   tableData.push(value);
-    // });
 
     return tableData;
   }

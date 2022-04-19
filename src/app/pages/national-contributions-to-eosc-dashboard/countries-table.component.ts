@@ -11,6 +11,7 @@ export class CountriesTableComponent implements OnChanges {
 
   @Input() countries: CountryTableData[];
   @Input() entity: string;
+  @Input() tableType: string;
 
   isSortedBy: string;
   isDescending: boolean = true;
@@ -19,7 +20,7 @@ export class CountriesTableComponent implements OnChanges {
 
   ngOnChanges() {
     this.countries.sort((a, b) => (a['name'] > b['name']) ? 1 : -1);
-    console.log('countries ->', this.countries);
+    // console.log('countries ->', this.countries);
   }
 
   sortBy(field: string) {

@@ -2,6 +2,7 @@ export class CountryTableData {
   name: string = null;
   code: string = null;
   dedicatedFinancialContributionsToEOSCLinkedToPolicies: string = null;
+  hasAppointedMandatedOrganization: string = null;
   // publications: number = null;
   // datasets: number = null;
   // software: number = null;

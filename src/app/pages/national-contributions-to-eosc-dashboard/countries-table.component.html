@@ -8,24 +8,39 @@
         <span *ngIf="isSortedBy && isSortedBy=='country' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
         Country
       </th>
-      <th class="uk-text-center" (click)="sortBy('dedicatedFinancialContributionsToEOSCLinkedToPolicies')">
+      <th *ngIf="tableType === 'funding'" class="uk-text-center" (click)="sortBy('dedicatedFinancialContributionsToEOSCLinkedToPolicies')">
         <span *ngIf="!isSortedBy || isSortedBy!='repositories'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
         <span *ngIf="isSortedBy && isSortedBy=='repositories' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
         <span *ngIf="isSortedBy && isSortedBy=='repositories' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
         Dedicated financial contributions to EOSC linked to policies
+      </th>
+      <th *ngIf="tableType === 'mandate'" class="uk-text-center" (click)="sortBy('dedicatedFinancialContributionsToEOSCLinkedToPolicies')">
+        <span *ngIf="!isSortedBy || isSortedBy!='repositories'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
+        <span *ngIf="isSortedBy && isSortedBy=='repositories' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
+        <span *ngIf="isSortedBy && isSortedBy=='repositories' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
+        Has appointed Mandated organization
       </th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let countryOverview of countries">
       <td class=""><span>{{countryOverview.name}}</span></td>
-      <td class="uk-text-center">
+      <td *ngIf="tableType === 'funding'" class="uk-text-center">
         <ng-container *ngIf="countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies===null
                             || countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies==='null'">--
         </ng-container>
         <ng-container *ngIf="countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies!==null
                             && countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies!=='null'">
           {{countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies}}
+        </ng-container>
+      </td>
+      <td *ngIf="tableType === 'mandate'" class="uk-text-center">
+        <ng-container *ngIf="countryOverview.hasAppointedMandatedOrganization===null
+                            || countryOverview.hasAppointedMandatedOrganization==='null'">--
+        </ng-container>
+        <ng-container *ngIf="countryOverview.hasAppointedMandatedOrganization!==null
+                            && countryOverview.hasAppointedMandatedOrganization!=='null'">
+          {{countryOverview.hasAppointedMandatedOrganization}}
         </ng-container>
       </td>
     </tr>

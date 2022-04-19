@@ -1,0 +1,52 @@
+import {Component} from "@angular/core";
+import {environment} from "../../../../environments/environment";
+import {CountryTableData} from "../../../domain/country-table-data";
+import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
+import {DataService} from "../../../services/data.service";
+import {DataHandlerService} from "../../../services/data-handler.service";
+import {CategorizedAreaData} from "../../../domain/categorizedAreaData";
+
+
+@Component({
+  selector: 'app-mandate',
+  templateUrl: 'ncte-mandate.html'
+})
+
+export class NCTEMandate {
+
+  private chartsURL = environment.STATS_API_ENDPOINT + 'chart?json=';
+  private profileName = environment.profileName;
+
+  tableAbsoluteData: CountryTableData[];
+  mapData: CategorizedAreaData;
+  colorPallet = ['#2A9D8F', '#E76F51', '#E9C46A', '#F4A261', '#8085e9'];
+  loadingAbsoluteTable: boolean = true;
+
+  mandatedStatusPieChartURL: SafeResourceUrl;
+
+  constructor(private dataService: DataService, private dataHandlerService: DataHandlerService, private sanitizer: DomSanitizer) {}
+
+  ngOnInit() {
+    this.dataService.getMandatedStatus().subscribe(
+      rawData => {
+        // console.log('RawData', rawData);
+        this.tableAbsoluteData = this.dataHandlerService.convertRawDataToTableData(rawData);
+        this.loadingAbsoluteTable = false;
+        this.mapData = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData);
+        for (let i = 0; i < this.mapData.series.length; i++) {
+          this.mapData.series[i].data = this.mapData.series[i].data.map(code => ({ code }));
+          this.mapData.series[i].color = this.colorPallet[i];
+        }
+        this.mapData.series[0].allAreas = true;
+      }, error => {
+        console.log(error);
+        this.loadingAbsoluteTable = false;
+      }
+    );
+
+    if(!this.mandatedStatusPieChartURL) {
+      this.mandatedStatusPieChartURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.chartsURL + encodeURIComponent(`{"library":"HighCharts","chartDescription":{"queries":[{"name":"","type":"pie","query":{"name":"eosc.obs.question17.pie","profile":"eosc-obs"}}],"chart":{"type":"line","polar":false,"backgroundColor":"#FFFFFFFF","borderColor":"#335cadff","borderRadius":0,"borderWidth":0,"plotBorderColor":"#ccccccff","plotBorderWidth":0,"zoomType":"xy"},"title":{"style":{"color":"#333333FF","fontSize":"18px"},"text":"Countries with dedicated financial contributions to the EOSC linked to the policies","margin":15,"align":"center"},"subtitle":{"style":{"color":"#666666FF","fontSize":"12px"},"align":"center"},"yAxis":{"title":{"style":{"color":"#666666FF","fontSize":"11px"}},"zoomEnabled":false,"reversedStacks":false},"xAxis":{"title":{"style":{"color":"#666666FF","fontSize":"11px"}},"zoomEnabled":false},"lang":{"noData":"No Data available for the Query"},"exporting":{"enabled":true},"plotOptions":{"series":{"dataLabels":{"enabled":true,"style":{"textOutline":"2px contrast","stroke-width":0,"color":"#000000ff"}}}},"legend":{"layout":"horizontal","align":"center","verticalAlign":"bottom","enabled":true},"credits":{"enabled":false,"href":null},"tooltip":{"style":{}}}}`));
+    }
+  }
+
+}

@@ -1,7 +1,7 @@
 import * as Highcharts from "highcharts/highmaps";
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_tilemap from 'highcharts/modules/tilemap';
-import {Component, OnInit} from "@angular/core";
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
 import {DataHandlerService} from "../../../services/data-handler.service";
 import {DataService} from "../../../services/data.service";
 import {CategorizedAreaData} from "../../../domain/categorizedAreaData";
@@ -17,36 +17,20 @@ const worldMap = require('@highcharts/map-collection/custom/world.topo.json');
   templateUrl: './highcharts-category-map.component.html'
 })
 
-export class HighchartsCategoryMapComponent implements OnInit {
+export class HighchartsCategoryMapComponent implements OnChanges {
 
+  @Input() mapData: CategorizedAreaData = null;
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options;
   chartConstructor = "mapChart";
-  mapData: CategorizedAreaData;
-  colorPallet = ['#2A9D8F', '#E76F51', '#E9C46A', '#F4A261', '#8085e9'];
   ready = false;
 
-  constructor(private dataService: DataService, private dataHandlerService: DataHandlerService) {
-  }
-
-  ngOnInit() {
-    this.dataService.getFinancialContrToEOSCLinkedToPolicies().subscribe(
-      rawData => {
-        this.mapData = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData);
-        for (let i = 0; i < this.mapData.series.length; i++) {
-          this.mapData.series[i].data = this.mapData.series[i].data.map(code => ({ code }));
-          this.mapData.series[i].color = this.colorPallet[i];
-        }
-        this.mapData.series[0].allAreas = true;
-
-      }, error => {
-        console.log(error);
-      },
-      () => {
-        this.createMap(this.mapData);
-        this.ready = true;
-      }
-    );
+  ngOnChanges(changes: SimpleChanges) {
+    this.ready = false;
+    if (this.mapData) {
+      this.createMap(this.mapData);
+      this.ready = true;
+    }
   }
 
   createMap(mapData: CategorizedAreaData) {
