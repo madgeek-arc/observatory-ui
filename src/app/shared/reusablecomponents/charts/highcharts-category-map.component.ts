@@ -35,7 +35,7 @@ export class HighchartsCategoryMapComponent implements OnChanges {
     if (this.mapData) {
       this.premiumSort.transform(this.mapData.series, this.datasetOrder);
       for (let i = 0; i < this.mapData.series.length; i++) {
-        this.mapData.series[i].color = this.colorPallet[i];
+        this.mapData.series[i].color = this.colorPallet[this.datasetOrder.indexOf(this.mapData.series[i].name)];
       }
       this.mapData.series[0].allAreas = true;
       this.createMap(this.mapData);
