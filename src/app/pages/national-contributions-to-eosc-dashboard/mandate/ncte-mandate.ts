@@ -19,7 +19,6 @@ export class NCTEMandate {
 
   tableAbsoluteData: CountryTableData[];
   mapData: CategorizedAreaData;
-  colorPallet = ['#2A9D8F', '#E76F51', '#E9C46A', '#F4A261', '#8085e9'];
   loadingAbsoluteTable: boolean = true;
 
   mandatedStatusPieChartURL: SafeResourceUrl;
@@ -35,9 +34,7 @@ export class NCTEMandate {
         this.mapData = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData);
         for (let i = 0; i < this.mapData.series.length; i++) {
           this.mapData.series[i].data = this.mapData.series[i].data.map(code => ({ code }));
-          this.mapData.series[i].color = this.colorPallet[i];
         }
-        this.mapData.series[0].allAreas = true;
       }, error => {
         console.log(error);
         this.loadingAbsoluteTable = false;

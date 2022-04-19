@@ -6,6 +6,7 @@ import {DataHandlerService} from "../../../services/data-handler.service";
 import {DataService} from "../../../services/data.service";
 import {CategorizedAreaData} from "../../../domain/categorizedAreaData";
 import {SeriesOptionsType} from "highcharts/highmaps";
+import {PremiumSortPipe} from "../../../../catalogue-ui/shared/pipes/premium-sort.pipe";
 HC_exporting(Highcharts);
 HC_tilemap(Highcharts);
 
@@ -22,12 +23,20 @@ export class HighchartsCategoryMapComponent implements OnChanges {
   @Input() mapData: CategorizedAreaData = null;
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options;
+  colorPallet = ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#A9A9A9'];
+  datasetOrder = [ 'Yes', 'Partly', 'In planning', 'No', 'Awaiting data' ];
+  premiumSort = new PremiumSortPipe();
   chartConstructor = "mapChart";
   ready = false;
 
   ngOnChanges(changes: SimpleChanges) {
     this.ready = false;
     if (this.mapData) {
+      this.premiumSort.transform(this.mapData.series, this.datasetOrder);
+      for (let i = 0; i < this.mapData.series.length; i++) {
+        this.mapData.series[i].color = this.colorPallet[i];
+      }
+      this.mapData.series[0].allAreas = true;
       this.createMap(this.mapData);
       this.ready = true;
     }
