@@ -9,12 +9,14 @@ import {HighchartsChartModule} from "highcharts-angular";
 import {DataService} from "../../services/data.service";
 import {CountriesTableComponent} from "./countries-table.component";
 import {DataHandlerService} from "../../services/data-handler.service";
+import {NCTEResourcesAndSupportComponent} from "./mandate/ncte-resourcesAndSupport.component";
 
 @NgModule({
   declarations: [
     NationalContributionsToEOSCDashboardComponent,
     NCTEPoliciesComponent,
     NCTEFundingComponent,
+    NCTEResourcesAndSupportComponent,
     CountriesTableComponent
   ],
   imports: [

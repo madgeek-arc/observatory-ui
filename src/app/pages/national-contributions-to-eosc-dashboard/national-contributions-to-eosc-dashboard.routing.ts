@@ -4,6 +4,7 @@ import {NationalContributionsToEOSCDashboardComponent} from "./national-contribu
 import {NCTEPoliciesComponent} from "./policies/ncte-policies.component";
 import {NCTEFundingComponent} from "./funding/ncte-funding.component";
 import {NationalContributionsToEOSCGuardService} from "../../services/nationalContributionsToEOSC-guard.service";
+import {NCTEResourcesAndSupportComponent} from "./mandate/ncte-resourcesAndSupport.component";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
@@ -24,10 +25,10 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
         path: 'funding',
         component: NCTEFundingComponent,
       },
-      // {
-      //   path: 'resourcesAndSupport',
-      //   component: ResourcesAndSupportComponent,
-      // },
+      {
+        path: 'resourcesAndSupport',
+        component: NCTEResourcesAndSupportComponent,
+      },
       // {
       //   path: 'miscellaneous',
       //   component: MiscellaneousComponent,
