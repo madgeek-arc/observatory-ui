@@ -10,6 +10,8 @@ import {DataService} from "../../services/data.service";
 import {CountriesTableComponent} from "./countries-table.component";
 import {DataHandlerService} from "../../services/data-handler.service";
 import {NCTEMandate} from "./mandate/ncte-mandate";
+import {NCTEOpenAccessComponent} from "./open-access/ncte-open-access.component";
+import {NCTEMonitoringComponent} from "./monitoring/ncte-monitoring.component";
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import {NCTEMandate} from "./mandate/ncte-mandate";
     NCTEPoliciesComponent,
     NCTEFundingComponent,
     NCTEMandate,
+    NCTEMonitoringComponent,
+    NCTEOpenAccessComponent,
     CountriesTableComponent
   ],
   imports: [
