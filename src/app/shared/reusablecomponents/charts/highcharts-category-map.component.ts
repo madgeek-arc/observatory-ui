@@ -20,6 +20,7 @@ const worldMap = require('@highcharts/map-collection/custom/world.topo.json');
 export class HighchartsCategoryMapComponent implements OnChanges {
 
   @Input() mapData: CategorizedAreaData = null;
+  @Input() title: string = null;
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options;
   chartConstructor = "mapChart";
@@ -47,7 +48,7 @@ export class HighchartsCategoryMapComponent implements OnChanges {
       },
 
       title: {
-        text: 'Countries which have dedicated financial contributions to the EOSC linked to policies'
+        text: this.title
       },
 
       legend: {
