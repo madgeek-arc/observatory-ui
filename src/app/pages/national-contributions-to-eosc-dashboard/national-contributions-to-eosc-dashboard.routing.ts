@@ -5,6 +5,8 @@ import {NCTEPoliciesComponent} from "./policies/ncte-policies.component";
 import {NCTEFundingComponent} from "./funding/ncte-funding.component";
 import {NationalContributionsToEOSCGuardService} from "../../services/nationalContributionsToEOSC-guard.service";
 import {NCTEMandate} from "./mandate/ncte-mandate";
+import {NCTEOpenAccessComponent} from "./open-access/ncte-open-access.component";
+import {NCTEMonitoringComponent} from "./monitoring/ncte-monitoring.component";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
@@ -26,8 +28,16 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
         component: NCTEFundingComponent,
       },
       {
-        path: 'resourcesAndSupport',
+        path: 'mandate',
         component: NCTEMandate,
+      },
+      {
+        path: 'monitoring',
+        component: NCTEMonitoringComponent,
+      },
+      {
+        path: 'openAccess',
+        component: NCTEOpenAccessComponent,
       },
       // {
       //   path: 'miscellaneous',

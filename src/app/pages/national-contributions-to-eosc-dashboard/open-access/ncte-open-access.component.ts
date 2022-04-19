@@ -7,7 +7,7 @@ import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-ncte-open-access',
-  templateUrl: './open-access.component.html'
+  templateUrl: './ncte-open-access.component.html'
 })
 
 export class NCTEOpenAccessComponent implements OnInit {
