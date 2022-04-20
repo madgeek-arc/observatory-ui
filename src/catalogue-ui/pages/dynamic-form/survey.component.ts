@@ -246,7 +246,7 @@ export class SurveyComponent implements OnInit, OnChanges {
         for (let i = 0; i < value.length-1; i++) {
           let path = this.createAccessPath(this.flatFields.get(key).name);
           this.push(path, this.flatFields.get(key).form.mandatory, chapter.name);
-          if (typeof value[i] === 'object' && !Array.isArray(value[i])) {
+          if (typeof value[i] === 'object' && !Array.isArray(value[i]) && value[i] !== null) {
             this.prepareForm(value[i], chapter);
           }
         }
