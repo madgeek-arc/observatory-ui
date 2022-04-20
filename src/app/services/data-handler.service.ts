@@ -18,6 +18,8 @@ export class DataHandlerService {
         const countryTableData: CountryTableData = new CountryTableData();
         if (series.series.query.name === 'eosc.obs.question17') {
           countryTableData.hasAppointedMandatedOrganization = rowResult.row[1];
+        } else if (series.series.query.name === 'eosc.obs.question3') {
+          countryTableData.EOSCRelevantPoliciesInPlace = rowResult.row.slice(2);
         } else {
           countryTableData.dedicatedFinancialContributionsToEOSCLinkedToPolicies = rowResult.row[1];
         }

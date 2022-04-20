@@ -1,12 +1,31 @@
 <div class="uk-section uk-section-primary uk-preserve-color">
   <div class="uk-container uk-container-expand">
 
-    <h3>Polcies</h3>
+    <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove" data-uk-switcher="{connect:'#map-vs-table-view', animation: 'fade'}">
+      <!--<li [ngClass]="(subCategory.alias === activeSubCategory.alias)?'uk-active':''">-->
+      <li class="uk-active">
+        <a class="uk-margin-remove-bottom"><span>Graph view</span></a>
+      </li>
+      <li class="">
+        <a class="uk-margin-remove-bottom"><span>Table view</span></a>
+      </li>
+    </ul>
 
-    <div>
-      <app-highcharts-tilemap></app-highcharts-tilemap>
-
-    </div>
+    <ul id="map-vs-table-view" class="uk-switcher uk-margin">
+      <li aria-hidden="false" class="uk-active" style="animation-duration: 200ms;">
+        <div class="">
+          <app-highcharts-tilemap></app-highcharts-tilemap>
+        </div>
+      </li>
+      <li aria-hidden="true" style="animation-duration: 200ms;" class="">
+        <div class="uk-margin-medium-top">
+          <div class="uk-card uk-card-default uk-card-body">
+            <div *ngIf="loadingAbsoluteTable" class="whiteFilm"><i class="fa fa-spinner fa-spin fa-2x loader" aria-hidden="true"></i></div>
+            <app-countries-table *ngIf="tableAbsoluteData" [countries]="tableAbsoluteData" [tableType]="'policies'"></app-countries-table>
+          </div>
+        </div>
+      </li>
+    </ul>
 
   </div>
 </div>

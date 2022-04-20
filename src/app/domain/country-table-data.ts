@@ -3,6 +3,7 @@ export class CountryTableData {
   code: string = null;
   dedicatedFinancialContributionsToEOSCLinkedToPolicies: string = null;
   hasAppointedMandatedOrganization: string = null;
+  EOSCRelevantPoliciesInPlace: string[] = [];
   // publications: number = null;
   // datasets: number = null;
   // software: number = null;

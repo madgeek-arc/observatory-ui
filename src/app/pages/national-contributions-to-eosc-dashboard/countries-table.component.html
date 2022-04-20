@@ -20,6 +20,80 @@
         <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
         Has appointed Mandated organization
       </th>
+      <ng-container *ngIf="tableType === 'policies'">
+        <th class="uk-text-center" (click)="sortBy('hasAppointedMandatedOrganization')">
+          <span *ngIf="!isSortedBy || isSortedBy!='hasAppointedMandatedOrganization'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
+          There are one or more policies relevant for the EOSC in place
+        </th>
+        <th class="uk-text-center" (click)="sortBy('hasAppointedMandatedOrganization')">
+          <span *ngIf="!isSortedBy || isSortedBy!='hasAppointedMandatedOrganization'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
+          There are one or more policies relevant for the EOSC in place
+        </th>
+        <th class="uk-text-center" (click)="sortBy('hasAppointedMandatedOrganization')">
+          <span *ngIf="!isSortedBy || isSortedBy!='hasAppointedMandatedOrganization'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
+          One or more of the open science policies explicitly mentions EOSC
+        </th>
+        <th class="uk-text-center" (click)="sortBy('hasAppointedMandatedOrganization')">
+          <span *ngIf="!isSortedBy || isSortedBy!='hasAppointedMandatedOrganization'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
+          Policy addresses Open access to data, data management and/or FAIR
+        </th>
+        <th class="uk-text-center" (click)="sortBy('hasAppointedMandatedOrganization')">
+          <span *ngIf="!isSortedBy || isSortedBy!='hasAppointedMandatedOrganization'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
+          Policy addresses FAIRisation of data
+        </th>
+        <th class="uk-text-center" (click)="sortBy('hasAppointedMandatedOrganization')">
+          <span *ngIf="!isSortedBy || isSortedBy!='hasAppointedMandatedOrganization'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
+          Policy addresses Open access to software
+        </th>
+        <th class="uk-text-center" (click)="sortBy('hasAppointedMandatedOrganization')">
+          <span *ngIf="!isSortedBy || isSortedBy!='hasAppointedMandatedOrganization'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
+          Policy addresses Preservation and reuse of scientific information
+        </th>
+        <th class="uk-text-center" (click)="sortBy('hasAppointedMandatedOrganization')">
+          <span *ngIf="!isSortedBy || isSortedBy!='hasAppointedMandatedOrganization'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
+          Policy addresses Infrastructures that include aspects of open science
+        </th>
+        <th class="uk-text-center" (click)="sortBy('hasAppointedMandatedOrganization')">
+          <span *ngIf="!isSortedBy || isSortedBy!='hasAppointedMandatedOrganization'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
+          Policy addresses Incentives and competencies
+        </th>
+        <th class="uk-text-center" (click)="sortBy('hasAppointedMandatedOrganization')">
+          <span *ngIf="!isSortedBy || isSortedBy!='hasAppointedMandatedOrganization'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
+          Policy addresses Incentives and rewards
+        </th>
+        <th class="uk-text-center" (click)="sortBy('hasAppointedMandatedOrganization')">
+          <span *ngIf="!isSortedBy || isSortedBy!='hasAppointedMandatedOrganization'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
+          Policy addresses Citizen science
+        </th>
+        <th class="uk-text-center" (click)="sortBy('hasAppointedMandatedOrganization')">
+          <span *ngIf="!isSortedBy || isSortedBy!='hasAppointedMandatedOrganization'" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-descending.svg"></span>
+          <span *ngIf="isSortedBy && isSortedBy=='hasAppointedMandatedOrganization' && !isDescending" class="uk-margin-small-right"><img src="../../../assets/images/icons/sort-ascending.svg"></span>
+          Other
+        </th>
+      </ng-container>
     </tr>
     </thead>
     <tbody>
@@ -43,6 +117,16 @@
           {{countryOverview.hasAppointedMandatedOrganization}}
         </ng-container>
       </td>
+      <ng-container *ngIf="tableType === 'policies'">
+        <td class="uk-text-center" *ngFor="let policy of countryOverview.EOSCRelevantPoliciesInPlace">
+          <ng-container *ngIf="policy === null || policy === 'null' || policy === 'false'">
+            --
+          </ng-container>
+          <ng-container *ngIf="(policy !== null || policy !== 'null') && policy === 'true'">
+            Yes
+          </ng-container>
+        </td>
+      </ng-container>
     </tr>
     </tbody>
   </table>
