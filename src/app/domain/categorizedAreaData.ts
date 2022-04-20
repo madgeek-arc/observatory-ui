@@ -1,7 +1,6 @@
 export class CategorizedAreaData {
   series: Series[];
 
-
   constructor() {
     this.series = [];
   }
@@ -13,7 +12,6 @@ export class Series {
   type: string;
   color: string;
   data: any[]
-
 
   constructor(name) {
     this.allAreas = false;
