@@ -25,6 +25,8 @@ export class CountriesTableComponent implements OnChanges {
 
   sortBy(field: string) {
 
+    console.log('Sort clicked, field: ', field);
+
     if (field === this.isSortedBy) {
       this.isDescending = !this.isDescending;
     } else {
@@ -33,20 +35,26 @@ export class CountriesTableComponent implements OnChanges {
 
     this.isSortedBy = field;
 
-    if (field === 'publicationsAffiliatedPeerReviewed' || field === 'publicationsAffiliated'
-      || field === 'publicationsDepositedPeerReviewed' || field === 'publicationsDeposited') {
+    if (field === 'oaSharePublicationsAffiliatedPeerReviewed' || field === 'oaSharePublicationsAffiliated'
+      || field === 'oaSharePublicationsDepositedPeerReviewed' || field === 'oaSharePublicationsDeposited') {
+
+      console.log('sorting number');
       if (this.isDescending) {
         this.countries.sort((a, b) => b[field] - a[field]);
       } else {
         this.countries.sort((a, b) => a[field] - b[field]);
       }
     } else if (field !== 'country') {
+
+      console.log('sorting string');
       if (this.isDescending) {
-        this.countries.sort((a, b) => b[field] - a[field]);
+        this.countries.sort((a, b) => (a[field] < b[field]) ? 1 : -1);
       } else {
-        this.countries.sort((a, b) => a[field] - b[field]);
+        this.countries.sort((a, b) => (a[field] > b[field]) ? 1 : -1);
       }
     } else {
+
+      console.log('sorting country');
       if (this.isDescending) {
         this.countries.sort((a, b) => (a['name'] < b['name']) ? 1 : -1);
       } else {
