@@ -2,8 +2,9 @@ import * as Highcharts from "highcharts/highmaps";
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_tilemap from 'highcharts/modules/tilemap';
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
+import {HighlightedAreaSeries} from "../../../domain/categorizedAreaData";
 import {SeriesOptionsType} from "highcharts/highmaps";
-import {PremiumSortPipe} from "../../../../catalogue-ui/shared/pipes/premium-sort.pipe";
+
 HC_exporting(Highcharts);
 HC_tilemap(Highcharts);
 
@@ -17,22 +18,32 @@ const worldMap = require('@highcharts/map-collection/custom/world.topo.json');
 
 export class HighchartsHighlightedAreasMapComponent implements OnChanges, OnInit {
 
-  // @Input() mapData: CategorizedAreaData = null;
+  @Input() mapData: HighlightedAreaSeries[] = null;
   @Input() title: string = null;
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options;
   colorPallet = ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#A9A9A9'];
   chartConstructor = "mapChart";
+  ready = false;
+
 
   ngOnInit() {
-    this.createMap();
+    if (this.mapData) {
+      console.log(this.mapData);
+      this.createMap(this.mapData);
+    }
+    this.createMap(this.mapData);
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.createMap();
+    if (this.mapData) {
+      console.log(this.mapData);
+      this.ready = true;
+      this.createMap(this.mapData);
+    }
   }
 
-  createMap() {
+  createMap(mapData: HighlightedAreaSeries[]) {
     this.chartOptions = {
 
       chart: {
@@ -57,30 +68,32 @@ export class HighchartsHighlightedAreasMapComponent implements OnChanges, OnInit
         enabled: false
       },
 
-      series: [{
-        name: 'Country',
-        type: 'map',
-        data: [
-          ['is', 1],
-          ['no', 1],
-          ['se', 1],
-          ['dk', 1],
-          ['fi', 1]
-        ],
-        // dataLabels: {
-        //   enabled: true,
-        //   color: '#FFFFFF',
-        //   // formatter: function () {
-        //   //   if (this.point.value) {
-        //   //     return this.point.name;
-        //   //   }
-        //   // }
-        // },
-        tooltip: {
-          headerFormat: '',
-          pointFormat: '{point.name}'
-        }
-      }]
+      series: mapData as SeriesOptionsType[],
+
+      // series: [{
+      //   name: 'Country',
+      //   type: 'map',
+      //   data: [
+      //     ['is', 1],
+      //     ['no', 1],
+      //     ['se', 1],
+      //     ['dk', 1],
+      //     ['fi', 1]
+      //   ],
+      //   // dataLabels: {
+      //   //   enabled: true,
+      //   //   color: '#FFFFFF',
+      //   //   // formatter: function () {
+      //   //   //   if (this.point.value) {
+      //   //   //     return this.point.name;
+      //   //   //   }
+      //   //   // }
+      //   // },
+      //   tooltip: {
+      //     headerFormat: '',
+      //     pointFormat: '{point.name}'
+      //   }
+      // }]
 
     }
   }

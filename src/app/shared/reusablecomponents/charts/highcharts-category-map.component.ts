@@ -2,8 +2,6 @@ import * as Highcharts from "highcharts/highmaps";
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_tilemap from 'highcharts/modules/tilemap';
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
-import {DataHandlerService} from "../../../services/data-handler.service";
-import {DataService} from "../../../services/data.service";
 import {CategorizedAreaData} from "../../../domain/categorizedAreaData";
 import {SeriesOptionsType} from "highcharts/highmaps";
 import {PremiumSortPipe} from "../../../../catalogue-ui/shared/pipes/premium-sort.pipe";
