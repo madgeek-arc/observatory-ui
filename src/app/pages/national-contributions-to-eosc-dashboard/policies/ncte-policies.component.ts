@@ -44,17 +44,10 @@ export class NCTEPoliciesComponent implements OnInit{
     let countryCodeArray = [];
     for (let i = 0; i < this.tableAbsoluteData.length; i++) {
       if (this.tableAbsoluteData[i].EOSCRelevantPoliciesInPlace[index] === 'true') {
-        countryCodeArray.push([this.tableAbsoluteData[i].code, index]);
+        countryCodeArray.push([this.tableAbsoluteData[i].code.toLocaleLowerCase(), index]);
       }
     }
     this.countryCodeArray[0].data = countryCodeArray;
-    // this.countryCodeArray[0].data = [
-    //     ['is', 1],
-    //     ['no', 1],
-    //     ['se', 1],
-    //     ['dk', 1],
-    //     ['fi', 1]
-    //   ];
   }
 
 }
