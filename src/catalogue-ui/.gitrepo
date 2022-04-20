@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:madgeek-arc/catalogue-ui.git
 	branch = feature_form_builder
-	commit = a9257862b9ebe7b97cc3d211e7dc124813aa4314
-	parent = bcbde8ea5dd181a2ee770e0365b26aab527f8c8f
+	commit = 34d70f870981b7c6ad1f4214998cb2b19d60606f
+	parent = 60fbe4331e024d7c341678b3bc57825586894c97
 	method = merge
 	cmdver = 0.4.3
