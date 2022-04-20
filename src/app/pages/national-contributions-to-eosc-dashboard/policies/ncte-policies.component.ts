@@ -15,6 +15,7 @@ export class NCTEPoliciesComponent implements OnInit{
 
   tableAbsoluteData: CountryTableData[];
   countryCodeArray: HighlightedAreaSeries[] = null;
+  mapSubtitle: string = null;
   loadingAbsoluteTable: boolean = true;
 
   constructor(private dataService: DataService, private dataHandlerService: DataHandlerService, private sanitizer: DomSanitizer) {}
@@ -38,6 +39,9 @@ export class NCTEPoliciesComponent implements OnInit{
   }
 
   createMapDataset(index: number) {
+
+    this.createMapSubtitle(index);
+
     this.countryCodeArray = [];
     this.countryCodeArray[0] = new HighlightedAreaSeries('Country');
 
@@ -48,6 +52,47 @@ export class NCTEPoliciesComponent implements OnInit{
       }
     }
     this.countryCodeArray[0].data = countryCodeArray;
+  }
+
+  createMapSubtitle(index: number) {
+    switch (index) {
+      case 0:
+        this.mapSubtitle = 'There are one or more policies relevant for the EOSC in place';
+        break;
+      case 1:
+        this.mapSubtitle = 'Policy in planning';
+        break;
+      case 2:
+        this.mapSubtitle = 'One or more of the open science policies explicitly mentions EOSC';
+        break;
+      case 3:
+        this.mapSubtitle = 'Policy addresses Open access to data, data management and/or FAIR';
+        break;
+      case 4:
+        this.mapSubtitle = 'Policy addresses FAIRisation of data';
+        break;
+      case 5:
+        this.mapSubtitle = 'Policy addresses Open access to software';
+        break;
+      case 6:
+        this.mapSubtitle = 'Policy addresses Preservation and reuse of scientific information';
+        break;
+      case 7:
+        this.mapSubtitle = 'Policy addresses Infrastructures that include aspects of open science';
+        break;
+      case 8:
+        this.mapSubtitle = 'Policy addresses Skills and competencies';
+        break;
+      case 9:
+        this.mapSubtitle = 'Policy addresses Incentives and rewards';
+        break;
+      case 10:
+        this.mapSubtitle = 'Policy addresses Citizen science';
+        break;
+      case 11:
+        this.mapSubtitle = 'Other';
+        break;
+    }
   }
 
 }

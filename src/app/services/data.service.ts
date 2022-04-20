@@ -15,6 +15,8 @@ export class DataService {
 
   private statsAPIURL = environment.STATS_API_ENDPOINT + 'raw?json=';
   private profileName = environment.profileName;
+  private OSOStatsAPIURL = environment.OSO_STATS_API_ENDPOINT + 'raw?json=';
+  private osoProfileName = environment.osoStatsProfileName;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -39,4 +41,8 @@ export class DataService {
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(EOSCRelevantPoliciesQuery), headerOptions);
   }
 
+  public getOAPublicationPerCountry(): Observable<RawData> {
+    const OAPublicationsPerCountryQuery = `{"series":[{"query":{"name":"oso.results.oa_percentage.affiliated.peer_reviewed.bycountry","parameters":["publication"],"profile":"${this.osoProfileName}"}},{"query":{"name":"oso.results.oa_percentage.bycountry","parameters":["publication"],"profile":"${this.osoProfileName}"}},{"query":{"name":"oso.results.oa_percentage.deposited.peer_reviewed.bycountry","parameters":["publication"],"profile":"${this.osoProfileName}"}},{"query":{"name":"oso.results.oa_percentage.deposited.bycountry","parameters":["publication"],"profile":"${this.osoProfileName}"}}],"verbose":true}`;
+    return this.httpClient.get<RawData>(this.OSOStatsAPIURL + encodeURIComponent(OAPublicationsPerCountryQuery), headerOptions);
+  }
 }

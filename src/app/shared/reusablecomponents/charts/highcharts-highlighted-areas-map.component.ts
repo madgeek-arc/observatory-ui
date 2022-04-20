@@ -20,6 +20,7 @@ export class HighchartsHighlightedAreasMapComponent implements OnChanges, OnInit
 
   @Input() mapData: HighlightedAreaSeries[] = null;
   @Input() title: string = null;
+  @Input() subtitle: string = null;
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options;
   colorPallet = ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#A9A9A9'];
@@ -57,11 +58,11 @@ export class HighchartsHighlightedAreasMapComponent implements OnChanges, OnInit
       },
 
       title: {
-        text: 'Nordic countries'
+        text: this.title
       },
 
       subtitle: {
-        text: 'Demo of drawing all areas in the map, only highlighting partial data'
+        text: this.subtitle
       },
 
       legend: {

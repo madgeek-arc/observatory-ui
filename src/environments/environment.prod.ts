@@ -15,4 +15,6 @@ export const environment = {
   marketplaceBaseURL: '',
   STATS_API_ENDPOINT: '/stats/api/',
   profileName: 'eosc-obs',
+  OSO_STATS_API_ENDPOINT: 'https://services.openaire.eu/stats-tool/',
+  osoStatsProfileName: 'observatory'
 };

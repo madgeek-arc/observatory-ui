@@ -12,6 +12,7 @@ import {DataHandlerService} from "../../services/data-handler.service";
 import {NCTEMandate} from "./mandate/ncte-mandate";
 import {NCTEOpenAccessComponent} from "./open-access/ncte-open-access.component";
 import {NCTEMonitoringComponent} from "./monitoring/ncte-monitoring.component";
+import {StakeholdersService} from "../../services/stakeholders.service";
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {NCTEMonitoringComponent} from "./monitoring/ncte-monitoring.component";
   ],
   providers: [
     DataService,
-    DataHandlerService
+    DataHandlerService,
+    StakeholdersService
   ],
 })
 

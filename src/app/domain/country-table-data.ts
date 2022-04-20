@@ -4,7 +4,13 @@ export class CountryTableData {
   dedicatedFinancialContributionsToEOSCLinkedToPolicies: string = null;
   hasAppointedMandatedOrganization: string = null;
   EOSCRelevantPoliciesInPlace: string[] = [];
-  // publications: number = null;
+
+  oaSharePublicationsAffiliatedPeerReviewed: number = null;
+  oaSharePublicationsAffiliated: number = null;
+  oaSharePublicationsDepositedPeerReviewed: number = null;
+  oaSharePublicationsDeposited: number = null;
+
+
   // datasets: number = null;
   // software: number = null;
   // other: number = null;
