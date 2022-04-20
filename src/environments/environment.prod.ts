@@ -13,6 +13,6 @@ export const environment = {
   showHelpContent: false,
   privacyPolicyURL: '',
   marketplaceBaseURL: '',
-  STATS_API_ENDPOINT: 'https://stats.madgik.di.uoa.gr/stats-api/',
+  STATS_API_ENDPOINT: '/stats/api/',
   profileName: 'eosc-obs',
 };
