@@ -28,8 +28,8 @@ export class DataService {
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(mandatedStatusQuery), headerOptions);
   }
 
-  public getTotalFundingForEOSC(): Observable<RawData> {
-    const totalFundingForEOSCQuery = `{"series":[{"query":{"name":"eosc.obs.question6.sum","profile":"${this.profileName}"}}],"verbose":true}`;
+  public getFundingForEOSCSums(): Observable<RawData> {
+    const totalFundingForEOSCQuery = `{"series":[{"query":{"name":"eosc.obs.question6.sum","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question7.sum","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question8.sum","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(totalFundingForEOSCQuery), headerOptions);
   }
 }

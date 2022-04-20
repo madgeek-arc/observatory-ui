@@ -36,7 +36,7 @@ export class NCTEOpenAccessComponent implements OnInit {
     //   }
     // );
     //
-    // this.dataService.getTotalFundingForEOSC().subscribe(
+    // this.dataService.getFundingForEOSCSums().subscribe(
     //   rawData => {
     //     console.log('RawData', rawData);
     //     this.totalFundingForEOSC = this.dataHandlerService.convertRawDataToNumber(rawData);

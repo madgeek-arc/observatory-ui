@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { RawData } from '../domain/raw-data';
 import { CountryTableData } from '../domain/country-table-data';
 import {CategorizedAreaData, Series} from "../domain/categorizedAreaData";
+import {FundingForEOSCSums} from "../domain/funding-for-eosc";
 
 @Injectable ()
 export class DataHandlerService {
@@ -69,19 +70,34 @@ export class DataHandlerService {
     return mapData
   }
 
-  public convertRawDataToNumber(rawData: RawData) {
+  public convertRawDataToFundingForEOSCSums(rawData: RawData) {
 
-    let data: string = null;
+    let fundingForEOSCSums: FundingForEOSCSums = new FundingForEOSCSums();
 
     for (const series of rawData.datasets) {
 
-      for (const rowResult of series.series.result) {
+      if (series.series.query.name.includes('eosc.obs.question6.sum')) {
 
-        data = rowResult.row[0];
+        for (const rowResult of series.series.result) {
+          fundingForEOSCSums.totalFundingForEOSC = rowResult.row[0];
+        }
+
+      } else if (series.series.query.name.includes('eosc.obs.question7.sum')) {
+
+        for (const rowResult of series.series.result) {
+          fundingForEOSCSums.fundingToOrganisationsInEOSCA = rowResult.row[0];
+        }
+
+      } else if (series.series.query.name.includes('eosc.obs.question8.sum')) {
+
+        for (const rowResult of series.series.result) {
+          fundingForEOSCSums.fundingToOrganisationsOutsideEOSCA = rowResult.row[0];
+        }
       }
+
     }
 
-    return data;
+    return fundingForEOSCSums;
   }
 
 }
