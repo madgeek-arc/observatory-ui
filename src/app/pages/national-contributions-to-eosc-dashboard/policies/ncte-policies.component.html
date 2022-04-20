@@ -1,4 +1,4 @@
-<div class="uk-section uk-section-primary uk-preserve-color">
+<div class="uk-section uk-section-primary uk-preserve-color" xmlns="http://www.w3.org/1999/html">
   <div class="uk-container uk-container-expand">
 
     <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove" data-uk-switcher="{connect:'#map-vs-table-view', animation: 'fade'}">
@@ -13,8 +13,41 @@
 
     <ul id="map-vs-table-view" class="uk-switcher uk-margin">
       <li aria-hidden="false" class="uk-active" style="animation-duration: 200ms;">
-        <div class="">
-          <app-highcharts-tilemap></app-highcharts-tilemap>
+        <div class="uk-margin-large-top">
+<!--          <app-highcharts-tilemap></app-highcharts-tilemap>-->
+          <div class="uk-card uk-card-default uk-card-body">
+            <div class="uk-grid uk-grid-match">
+              <div class="uk-width-1-3 uk-margin-top">
+                <label><input class="uk-margin-small-bottom" type="radio" name="policy" checked (click)="createMapDataset(0)">
+                  There are one or more policies relevant for the EOSC in place</label>
+                <label><input class="uk-margin-small-bottom" type="radio" name="policy" (click)="createMapDataset(1)">
+                  Policy in planning</label>
+                <label><input class="uk-margin-small-bottom" type="radio" name="policy" (click)="createMapDataset(2)">
+                  One or more of the open science policies explicitly mentions EOSC</label>
+                <label><input class="uk-margin-small-bottom" type="radio" name="policy" (click)="createMapDataset(3)">
+                  Policy addresses Open access to data, data management and/or FAIR</label>
+                <label><input class="uk-margin-small-bottom" type="radio" name="policy" (click)="createMapDataset(4)">
+                  Policy addresses FAIRisation of data</label>
+                <label><input class="uk-margin-small-bottom" type="radio" name="policy" (click)="createMapDataset(5)">
+                  Policy addresses Open access to software</label>
+                <label><input class="uk-margin-small-bottom" type="radio" name="policy" (click)="createMapDataset(6)">
+                  Policy addresses Preservation and reuse of scientific information</label>
+                <label><input class="uk-margin-small-bottom" type="radio" name="policy" (click)="createMapDataset(7)">
+                  Policy addresses Infrastructures that include aspects of open science</label>
+                <label><input class="uk-margin-small-bottom" type="radio" name="policy" (click)="createMapDataset(8)">
+                  Policy addresses Incentives and competencies</label>
+                <label><input class="uk-margin-small-bottom" type="radio" name="policy" (click)="createMapDataset(9)">
+                  Policy addresses Incentives and rewards</label>
+                <label><input class="uk-margin-small-bottom" type="radio" name="policy" (click)="createMapDataset(10)">
+                  Policy addresses Citizen science</label>
+                <label><input class="uk-margin-small-bottom" type="radio" name="policy" (click)="createMapDataset(11)">
+                  Other</label>
+              </div>
+              <div class="uk-width-2-3" style="height: 500px">
+                <app-highcharts-highlighted-areas-map [mapData]="countryCodeArray"></app-highcharts-highlighted-areas-map>
+              </div>
+            </div>
+          </div>
         </div>
       </li>
       <li aria-hidden="true" style="animation-duration: 200ms;" class="">
