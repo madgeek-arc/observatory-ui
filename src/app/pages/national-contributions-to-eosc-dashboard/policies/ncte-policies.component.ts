@@ -25,7 +25,6 @@ export class NCTEPoliciesComponent implements OnInit{
     this.dataService.getEOSCRelevantPolicies().subscribe(
       rawData => {
         this.tableAbsoluteData = this.dataHandlerService.convertRawDataToTableData(rawData);
-        console.log(this.tableAbsoluteData);
         this.loadingAbsoluteTable = false;
       },
       error => {
