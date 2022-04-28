@@ -16,25 +16,51 @@ const worldMap = require('@highcharts/map-collection/custom/world-highres3.topo.
   templateUrl: './highcharts-category-map.component.html'
 })
 
-export class HighchartsCategoryMapComponent implements OnChanges {
+export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
 
   @Input() mapData: CategorizedAreaData = null;
   @Input() title: string = null;
   @Input() subtitle: string = null;
+
+  chart;
+  chartCallback;
+  updateFlag = false;
   Highcharts: typeof Highcharts = Highcharts;
-  chartOptions: Highcharts.Options;
   colorPallet = ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#A9A9A9'];
   datasetOrder = [ 'Yes', 'Partly', 'In planning', 'No', 'Awaiting data' ];
   premiumSort = new PremiumSortPipe();
   chartConstructor = "mapChart";
   ready = false;
+  chartOptions: Highcharts.Options;
+
+  constructor() {
+    const self = this;
+
+    this.createMap();
+    this.chartCallback = chart => {
+      // saving chart reference
+      self.chart = chart;
+      // console.log(self.chart);
+    };
+  }
+
+  ngOnInit() {
+    this.createMap();
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     this.ready = false;
     if (this.mapData) {
+      const self = this, chart = this.chart;
+      // chart.showLoading();
+
       this.premiumSort.transform(this.mapData.series, this.datasetOrder);
+
       if (this.title === 'EOSC-relevant policies in place at national or regional level') {
         this.mapData.series[1].color = this.colorPallet[4];
+        self.chartOptions.subtitle.text = this.subtitle;
+        self.chartOptions.legend.enabled = false;
+        self.chartOptions.plotOptions.map.tooltip.pointFormat = '{point.name}';
       } else {
         for (let i = 0; i < this.mapData.series.length; i++) {
           this.mapData.series[i].color = this.colorPallet[this.datasetOrder.indexOf(this.mapData.series[i].name)];
@@ -42,13 +68,19 @@ export class HighchartsCategoryMapComponent implements OnChanges {
       }
 
       this.mapData.series[0].allAreas = true;
-      // console.log(this.mapData);
-      this.createMap(this.mapData);
-      this.ready = true;
+      // setTimeout(() => {
+        self.chartOptions.title.text = this.title;
+        self.chartOptions.series = this.mapData.series as SeriesOptionsType[];
+        // console.log(self.chartOptions.series)
+        // chart.hideLoading();
+        self.updateFlag = true;
+        this.ready = true;
+      // }, 0);
+
     }
   }
 
-  createMap(mapData: CategorizedAreaData) {
+  createMap() {
     this.chartOptions = {
 
       chart: {
@@ -100,7 +132,7 @@ export class HighchartsCategoryMapComponent implements OnChanges {
         }
       },
 
-      series: mapData.series as SeriesOptionsType[],
+      series: [] as SeriesOptionsType[],
     }
   }
 

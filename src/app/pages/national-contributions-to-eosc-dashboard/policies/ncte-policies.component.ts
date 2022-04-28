@@ -2,9 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {CountryTableData} from "../../../domain/country-table-data";
 import {DataService} from "../../../services/data.service";
 import {DataHandlerService} from "../../../services/data-handler.service";
-import {DomSanitizer} from "@angular/platform-browser";
-import {SeriesMapDataOptions} from "highcharts/highmaps";
-import {CategorizedAreaData, HighlightedAreaSeries, Series} from "../../../domain/categorizedAreaData";
+import {CategorizedAreaData, Series} from "../../../domain/categorizedAreaData";
 import {StakeholdersService} from "../../../services/stakeholders.service";
 
 @Component({

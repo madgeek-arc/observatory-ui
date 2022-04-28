@@ -20,15 +20,3 @@ export class Series {
     this.data = [];
   }
 }
-
-export class HighlightedAreaSeries {
-  name: string;
-  type: string;
-  data: any[]
-
-  constructor(name) {
-    this.name = name;
-    this.type = 'map';
-    this.data = [];
-  }
-}

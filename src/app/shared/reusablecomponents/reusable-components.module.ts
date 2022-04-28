@@ -16,7 +16,6 @@ import { HighchartsChartModule } from "highcharts-angular";
 import { HighchartsTilemapComponent } from "./charts/highcharts-tilemap.component";
 import { HighchartsCategoryMapComponent } from "./charts/highcharts-category-map.component";
 import {HighchartsPieComponent} from "./charts/highcharts-pie.component";
-import {HighchartsHighlightedAreasMapComponent} from "./charts/highcharts-highlighted-areas-map.component";
 // import { SideMenuComponent } from "../sidemenu/sidemenu.component";
 
 @NgModule({
@@ -41,7 +40,6 @@ import {HighchartsHighlightedAreasMapComponent} from "./charts/highcharts-highli
     ReadMoreTextComponent,
     HighchartsTilemapComponent,
     HighchartsCategoryMapComponent,
-    HighchartsHighlightedAreasMapComponent,
     HighchartsPieComponent
   ],
   exports: [
@@ -55,7 +53,6 @@ import {HighchartsHighlightedAreasMapComponent} from "./charts/highcharts-highli
     ReadMoreTextComponent,
     HighchartsTilemapComponent,
     HighchartsCategoryMapComponent,
-    HighchartsHighlightedAreasMapComponent,
     HighchartsPieComponent
   ],
   providers: [
