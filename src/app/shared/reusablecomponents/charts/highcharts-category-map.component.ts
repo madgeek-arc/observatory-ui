@@ -9,7 +9,7 @@ HC_exporting(Highcharts);
 HC_tilemap(Highcharts);
 
 declare var require: any;
-const worldMap = require('@highcharts/map-collection/custom/world.topo.json');
+const worldMap = require('@highcharts/map-collection/custom/world-highres3.topo.json');
 
 @Component({
   selector: 'app-highcharts-category-map',
@@ -20,6 +20,7 @@ export class HighchartsCategoryMapComponent implements OnChanges {
 
   @Input() mapData: CategorizedAreaData = null;
   @Input() title: string = null;
+  @Input() subtitle: string = null;
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options;
   colorPallet = ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#A9A9A9'];
@@ -32,10 +33,16 @@ export class HighchartsCategoryMapComponent implements OnChanges {
     this.ready = false;
     if (this.mapData) {
       this.premiumSort.transform(this.mapData.series, this.datasetOrder);
-      for (let i = 0; i < this.mapData.series.length; i++) {
-        this.mapData.series[i].color = this.colorPallet[this.datasetOrder.indexOf(this.mapData.series[i].name)];
+      if (this.title === 'EOSC-relevant policies in place at national or regional level') {
+        this.mapData.series[1].color = this.colorPallet[4];
+      } else {
+        for (let i = 0; i < this.mapData.series.length; i++) {
+          this.mapData.series[i].color = this.colorPallet[this.datasetOrder.indexOf(this.mapData.series[i].name)];
+        }
       }
+
       this.mapData.series[0].allAreas = true;
+      // console.log(this.mapData);
       this.createMap(this.mapData);
       this.ready = true;
     }
@@ -58,8 +65,15 @@ export class HighchartsCategoryMapComponent implements OnChanges {
         text: this.title
       },
 
+      subtitle: {
+        text: this.subtitle
+      },
+
       legend: {
-        enabled: true
+        enabled: true,
+        accessibility: {
+          enabled: false
+        }
       },
 
       plotOptions: {
@@ -69,6 +83,11 @@ export class HighchartsCategoryMapComponent implements OnChanges {
             headerFormat: '',
             pointFormat: '{point.name}: <b>{series.name}</b>'
           },
+          events: {
+            legendItemClick: function () {
+              return false;
+            }
+          }
         },
         series: {
           point: {

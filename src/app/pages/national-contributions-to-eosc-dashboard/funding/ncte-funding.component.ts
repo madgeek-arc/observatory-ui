@@ -46,7 +46,7 @@ export class NCTEFundingComponent implements OnInit {
 
     this.dataService.getFundingForEOSCSums().subscribe(
       rawData => {
-        console.log('RawData', rawData);
+        // console.log('RawData', rawData);
         this.fundingForEOSCSums = this.dataHandlerService.convertRawDataToFundingForEOSCSums(rawData);
       }, error => {
         console.log(error);

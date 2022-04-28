@@ -4,7 +4,8 @@ import {DataService} from "../../../services/data.service";
 import {DataHandlerService} from "../../../services/data-handler.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {SeriesMapDataOptions} from "highcharts/highmaps";
-import {HighlightedAreaSeries} from "../../../domain/categorizedAreaData";
+import {CategorizedAreaData, HighlightedAreaSeries, Series} from "../../../domain/categorizedAreaData";
+import {StakeholdersService} from "../../../services/stakeholders.service";
 
 @Component({
   selector: 'app-ncte-policies',
@@ -14,11 +15,13 @@ import {HighlightedAreaSeries} from "../../../domain/categorizedAreaData";
 export class NCTEPoliciesComponent implements OnInit{
 
   tableAbsoluteData: CountryTableData[];
-  countryCodeArray: HighlightedAreaSeries[] = null;
+  countryCodeArray: CategorizedAreaData = null;
   mapSubtitle: string = null;
   loadingAbsoluteTable: boolean = true;
+  countriesArray: string[] = [];
 
-  constructor(private dataService: DataService, private dataHandlerService: DataHandlerService, private sanitizer: DomSanitizer) {}
+  constructor(private dataService: DataService, private dataHandlerService: DataHandlerService,
+              private stakeholdersService: StakeholdersService) {}
 
   ngOnInit() {
     this.loadingAbsoluteTable = true;
@@ -26,13 +29,21 @@ export class NCTEPoliciesComponent implements OnInit{
       rawData => {
         this.tableAbsoluteData = this.dataHandlerService.convertRawDataToTableData(rawData);
         this.loadingAbsoluteTable = false;
+        this.stakeholdersService.getEOSCSBCountries().subscribe(
+          res => {
+            this.countriesArray = res;
+          },
+          error => console.log(error),
+          () => {
+            this.createMapDataset(0);
+          }
+        );
       },
       error => {
         console.log(error);
         this.loadingAbsoluteTable = false;
       },
       () => {
-        this.createMapDataset(0);
       }
     );
   }
@@ -41,16 +52,23 @@ export class NCTEPoliciesComponent implements OnInit{
 
     this.createMapSubtitle(index);
 
-    this.countryCodeArray = [];
-    this.countryCodeArray[0] = new HighlightedAreaSeries('Country');
+    this.countryCodeArray = new CategorizedAreaData();
+    this.countryCodeArray.series[0] = new Series('Has Policy');
 
     let countryCodeArray = [];
     for (let i = 0; i < this.tableAbsoluteData.length; i++) {
       if (this.tableAbsoluteData[i].EOSCRelevantPoliciesInPlace[index] === 'true') {
-        countryCodeArray.push([this.tableAbsoluteData[i].code.toLocaleLowerCase(), index]);
+        countryCodeArray.push(this.tableAbsoluteData[i].code);
       }
     }
-    this.countryCodeArray[0].data = countryCodeArray;
+    this.countryCodeArray.series[0].data = countryCodeArray;
+
+    this.countryCodeArray.series[1] = new Series('No Policy');
+    this.countryCodeArray.series[1].data = this.countriesArray.filter( code => !countryCodeArray.includes(code));
+
+    for (let i = 0; i < this.countryCodeArray.series.length; i++) {
+      this.countryCodeArray.series[i].data = this.countryCodeArray.series[i].data.map(code => ({ code }));
+    }
   }
 
   createMapSubtitle(index: number) {

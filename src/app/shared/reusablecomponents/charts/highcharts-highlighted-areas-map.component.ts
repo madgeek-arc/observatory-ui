@@ -62,8 +62,9 @@ export class HighchartsHighlightedAreasMapComponent implements OnChanges, OnInit
       const self = this, chart = this.chart;
       // chart.showLoading();
       // chart.hideLoading();
-      self.chartOptions.series = this.mapData as SeriesOptionsType[];
-      self.updateFlag = true;
+      // self.chartOptions.series = this.mapData as SeriesOptionsType[];
+      console.log(self.chartOptions.series);
+      // self.updateFlag = true;
     }
 
   }
@@ -78,7 +79,7 @@ export class HighchartsHighlightedAreasMapComponent implements OnChanges, OnInit
         // events: {
         //   load: function () {
         //     this.series[0].data = this.series[0].data.map((el) => {
-        //       // console.log(el);
+        //       console.log(el);
         //       if (countries.includes(el['hc-key'])) {
         //         el.color = '#A9A9A9';
         //         return el;
@@ -114,12 +115,32 @@ export class HighchartsHighlightedAreasMapComponent implements OnChanges, OnInit
       series: [{
         name: 'Country',
         type: 'map',
-        data: [],
+        data: [
+          ['is', 1],
+          ['no', 1],
+          ['se', 1],
+          ['dk', 1],
+          ['fi', 1]
+        ],
         tooltip: {
           headerFormat: '',
           pointFormat: '{point.name}'
         }
-      }]
+      },
+      // {
+      //   name: 'Country2',
+      //   type: 'map',
+      //   data: [
+      //     ['is', 1],
+      //     ['dk', 1],
+      //     ['fi', 1]
+      //   ],
+      //   tooltip: {
+      //   headerFormat: '',
+      //     pointFormat: '{point.name}'
+      //   }
+      // },
+      ]
 
     }
   }
