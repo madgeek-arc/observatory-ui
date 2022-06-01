@@ -4,6 +4,7 @@ export class CountryTableData {
   dedicatedFinancialContributionsToEOSCLinkedToPolicies: string = null;
   hasAppointedMandatedOrganization: string = null;
   EOSCRelevantPoliciesInPlace: string[] = [];
+  mapPointData: string[] = [];
 
   oaSharePublicationsAffiliatedPeerReviewed: number = null;
   oaSharePublicationsAffiliated: number = null;

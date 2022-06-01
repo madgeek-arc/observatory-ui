@@ -20,6 +20,8 @@ export class DataHandlerService {
           countryTableData.hasAppointedMandatedOrganization = rowResult.row[1];
         } else if (series.series.query.name === 'eosc.obs.question3') {
           countryTableData.EOSCRelevantPoliciesInPlace = rowResult.row.slice(2);
+        } else if (series.series.query.name === 'eosc.obs.question20') {
+          countryTableData.mapPointData = Array(3).fill(null).concat(rowResult.row.slice(2, 10).concat(rowResult.row.slice(11)));
         } else {
           countryTableData.dedicatedFinancialContributionsToEOSCLinkedToPolicies = rowResult.row[1];
         }
@@ -48,7 +50,7 @@ export class DataHandlerService {
             }
           }
           if (!found) {
-            mapSeries.push(new Series('Awaiting data'));
+            mapSeries.push(new Series('Awaiting data', false));
             mapSeries[mapSeries.length-1].data.push(rowResult.row[0]);
           }
         } else {
@@ -60,7 +62,7 @@ export class DataHandlerService {
             }
           }
           if (!found) {
-            mapSeries.push(new Series(rowResult.row[1]));
+            mapSeries.push(new Series(rowResult.row[1], false));
             mapSeries[mapSeries.length-1].data.push(rowResult.row[0]);
           }
         }

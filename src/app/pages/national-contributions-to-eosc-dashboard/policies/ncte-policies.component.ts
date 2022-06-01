@@ -4,6 +4,7 @@ import {DataService} from "../../../services/data.service";
 import {DataHandlerService} from "../../../services/data-handler.service";
 import {CategorizedAreaData, Series} from "../../../domain/categorizedAreaData";
 import {StakeholdersService} from "../../../services/stakeholders.service";
+import {latlong} from "../../../domain/countries-lat-lon";
 
 @Component({
   selector: 'app-ncte-policies',
@@ -13,6 +14,7 @@ import {StakeholdersService} from "../../../services/stakeholders.service";
 export class NCTEPoliciesComponent implements OnInit{
 
   tableAbsoluteData: CountryTableData[];
+  mapPointData: CountryTableData[];
   countryCodeArray: CategorizedAreaData = null;
   mapSubtitle: string = null;
   loadingAbsoluteTable: boolean = true;
@@ -30,7 +32,9 @@ export class NCTEPoliciesComponent implements OnInit{
 
         this.dataService.getUseCasesAndPracticesByDimension().subscribe(
           rawData1 => {
-
+            console.log(rawData1);
+            this.mapPointData = this.dataHandlerService.convertRawDataToTableData(rawData1)
+            console.log(this.mapPointData);
 
             this.stakeholdersService.getEOSCSBCountries().subscribe(
               res => {
@@ -61,7 +65,7 @@ export class NCTEPoliciesComponent implements OnInit{
     this.createMapSubtitle(index);
 
     this.countryCodeArray = new CategorizedAreaData();
-    this.countryCodeArray.series[0] = new Series('Has Policy');
+    this.countryCodeArray.series[0] = new Series('Has Policy', false);
 
     let countryCodeArray = [];
     for (let i = 0; i < this.tableAbsoluteData.length; i++) {
@@ -71,12 +75,26 @@ export class NCTEPoliciesComponent implements OnInit{
     }
     this.countryCodeArray.series[0].data = countryCodeArray;
 
-    this.countryCodeArray.series[1] = new Series('No Policy');
+    this.countryCodeArray.series[1] = new Series('No Policy', false);
     this.countryCodeArray.series[1].data = this.countriesArray.filter( code => !countryCodeArray.includes(code));
 
     for (let i = 0; i < this.countryCodeArray.series.length; i++) {
       this.countryCodeArray.series[i].data = this.countryCodeArray.series[i].data.map(code => ({ code }));
     }
+
+    if (index > 2) {
+      let mapPointArray = [];
+      for (let i = 0; i < this.mapPointData.length; i++) {
+        if (this.mapPointData[i].mapPointData[index] === 'true') {
+          mapPointArray.push({name: this.mapPointData[i].code, lat: latlong.get(this.mapPointData[i].code).latitude, lon: latlong.get(this.mapPointData[i].code).longitude});
+        }
+      }
+      this.countryCodeArray.series[2] = new Series('Map Point', null, 'mappoint', {radius: 5, fillColor: 'red'});
+      this.countryCodeArray.series[2].data = mapPointArray;
+    }
+
+    console.log(this.countryCodeArray);
+
   }
 
   createMapSubtitle(index: number) {

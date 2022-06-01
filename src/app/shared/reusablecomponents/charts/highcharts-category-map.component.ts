@@ -3,8 +3,9 @@ import HC_exporting from 'highcharts/modules/exporting';
 import HC_tilemap from 'highcharts/modules/tilemap';
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
 import {CategorizedAreaData} from "../../../domain/categorizedAreaData";
-import {SeriesOptionsType} from "highcharts/highmaps";
+import {SeriesMappointOptions, SeriesOptionsType} from "highcharts/highmaps";
 import {PremiumSortPipe} from "../../../../catalogue-ui/shared/pipes/premium-sort.pipe";
+import proj4 from "proj4";
 HC_exporting(Highcharts);
 HC_tilemap(Highcharts);
 
@@ -54,8 +55,6 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       const self = this, chart = this.chart;
       // chart.showLoading();
 
-      this.premiumSort.transform(this.mapData.series, this.datasetOrder);
-
       if (this.title === 'EOSC-relevant policies in place at national or regional level') {
         this.mapData.series[1].color = this.colorPallet[4];
         self.chartOptions.subtitle.text = this.subtitle;
@@ -63,6 +62,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
         self.chartOptions.plotOptions.map.tooltip.pointFormat = '{point.name}';
       } else {
         for (let i = 0; i < this.mapData.series.length; i++) {
+          this.premiumSort.transform(this.mapData.series, this.datasetOrder);
           this.mapData.series[i].color = this.colorPallet[this.datasetOrder.indexOf(this.mapData.series[i].name)];
         }
       }
@@ -70,8 +70,11 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       this.mapData.series[0].allAreas = true;
       // setTimeout(() => {
         self.chartOptions.title.text = this.title;
-        self.chartOptions.series = this.mapData.series as SeriesOptionsType[];
-        // console.log(self.chartOptions.series)
+        self.chartOptions.series = this.mapData.series as undefined[];
+        // if (self.chartOptions.series.length === 3) {
+        //   self.chartOptions.series[2] = this.mapData.series[2] as SeriesMappointOptions
+        // }
+        console.log(self.chartOptions.series)
         // chart.hideLoading();
         self.updateFlag = true;
         this.ready = true;
@@ -85,6 +88,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
 
       chart: {
         map: worldMap,
+        proj4: proj4,
         spacingBottom: 20,
         backgroundColor: 'rgba(0,0,0,0)'
       },
