@@ -11,7 +11,7 @@ export class Series {
   name: string;
   type: string;
   color: string;
-  data: any[]
+  data: any[];
 
   constructor(name) {
     this.allAreas = false;

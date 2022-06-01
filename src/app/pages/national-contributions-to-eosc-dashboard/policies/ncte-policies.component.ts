@@ -27,13 +27,23 @@ export class NCTEPoliciesComponent implements OnInit{
       rawData => {
         this.tableAbsoluteData = this.dataHandlerService.convertRawDataToTableData(rawData);
         this.loadingAbsoluteTable = false;
-        this.stakeholdersService.getEOSCSBCountries().subscribe(
-          res => {
-            this.countriesArray = res;
+
+        this.dataService.getUseCasesAndPracticesByDimension().subscribe(
+          rawData1 => {
+
+
+            this.stakeholdersService.getEOSCSBCountries().subscribe(
+              res => {
+                this.countriesArray = res;
+              },
+              error => console.log(error),
+              () => {
+                this.createMapDataset(0);
+              }
+            );
           },
-          error => console.log(error),
-          () => {
-            this.createMapDataset(0);
+          error => {
+            console.log(error);
           }
         );
       },

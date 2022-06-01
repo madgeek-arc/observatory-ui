@@ -41,6 +41,11 @@ export class DataService {
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(EOSCRelevantPoliciesQuery), headerOptions);
   }
 
+  public getUseCasesAndPracticesByDimension(): Observable<RawData> {
+    const UseCasesAndPracticesByDimension = `{"series":[{"query":{"name":"eosc.obs.question20","profile":"${this.profileName}"}}],"verbose":true}`;
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(UseCasesAndPracticesByDimension), headerOptions);
+  }
+
   public getOAPublicationPerCountry(): Observable<RawData> {
     const OAPublicationsPerCountryQuery = `{"series":[{"query":{"name":"oso.results.oa_percentage.affiliated.peer_reviewed.bycountry","parameters":["publication"],"profile":"${this.osoProfileName}"}},{"query":{"name":"oso.results.oa_percentage.bycountry","parameters":["publication"],"profile":"${this.osoProfileName}"}},{"query":{"name":"oso.results.oa_percentage.deposited.peer_reviewed.bycountry","parameters":["publication"],"profile":"${this.osoProfileName}"}},{"query":{"name":"oso.results.oa_percentage.deposited.bycountry","parameters":["publication"],"profile":"${this.osoProfileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.OSOStatsAPIURL + encodeURIComponent(OAPublicationsPerCountryQuery), headerOptions);
