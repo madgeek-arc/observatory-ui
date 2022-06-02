@@ -32,9 +32,7 @@ export class NCTEPoliciesComponent implements OnInit{
 
         this.dataService.getUseCasesAndPracticesByDimension().subscribe(
           rawData1 => {
-            console.log(rawData1);
             this.mapPointData = this.dataHandlerService.convertRawDataToTableData(rawData1)
-            console.log(this.mapPointData);
 
             this.stakeholdersService.getEOSCSBCountries().subscribe(
               res => {
@@ -89,11 +87,12 @@ export class NCTEPoliciesComponent implements OnInit{
           mapPointArray.push({name: this.mapPointData[i].code, lat: latlong.get(this.mapPointData[i].code).latitude, lon: latlong.get(this.mapPointData[i].code).longitude});
         }
       }
-      this.countryCodeArray.series[2] = new Series('Map Point', null, 'mappoint', {radius: 5, fillColor: 'red'});
-      this.countryCodeArray.series[2].data = mapPointArray;
+      const pos = this.countryCodeArray.series.length
+      this.countryCodeArray.series[pos] = new Series('Countries', false, 'mappoint');
+      this.countryCodeArray.series[pos].data = mapPointArray;
     }
 
-    console.log(this.countryCodeArray);
+    // console.log(this.countryCodeArray);
 
   }
 

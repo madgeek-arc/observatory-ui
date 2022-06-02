@@ -11,7 +11,7 @@ export class Series {
   name: string;
   type: string;
   color: string;
-  marker: Marker;
+  // marker: Marker;
   data: any[];
 
   constructor(name: string, allAreas: boolean, type?: string, marker?: Marker) {
@@ -22,10 +22,10 @@ export class Series {
     if (type) {
       this.type = type;
     }
-    this.marker = null;
-    if (marker) {
-      this.marker = new Marker(marker.radius, marker.fillColor);
-    }
+    // this.marker = null;
+    // if (marker) {
+    //   this.marker = new Marker(marker.radius, marker.fillColor);
+    // }
   }
 }
 

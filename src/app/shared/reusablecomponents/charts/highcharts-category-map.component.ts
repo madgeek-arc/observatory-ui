@@ -3,9 +3,9 @@ import HC_exporting from 'highcharts/modules/exporting';
 import HC_tilemap from 'highcharts/modules/tilemap';
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
 import {CategorizedAreaData} from "../../../domain/categorizedAreaData";
-import {SeriesMappointOptions, SeriesOptionsType} from "highcharts/highmaps";
+import {SeriesOptionsType} from "highcharts/highmaps";
 import {PremiumSortPipe} from "../../../../catalogue-ui/shared/pipes/premium-sort.pipe";
-import proj4 from "proj4";
+
 HC_exporting(Highcharts);
 HC_tilemap(Highcharts);
 
@@ -54,6 +54,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
     if (this.mapData) {
       const self = this, chart = this.chart;
       // chart.showLoading();
+      self.chartOptions.series = [];
 
       if (this.title === 'EOSC-relevant policies in place at national or regional level') {
         this.mapData.series[1].color = this.colorPallet[4];
@@ -68,17 +69,17 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       }
 
       this.mapData.series[0].allAreas = true;
-      // setTimeout(() => {
+      setTimeout(() => {
         self.chartOptions.title.text = this.title;
-        self.chartOptions.series = this.mapData.series as undefined[];
-        // if (self.chartOptions.series.length === 3) {
-        //   self.chartOptions.series[2] = this.mapData.series[2] as SeriesMappointOptions
-        // }
-        console.log(self.chartOptions.series)
+        self.chartOptions.series = this.mapData.series as SeriesOptionsType[];
+        if (this.mapData.series.length === 3) {
+          self.chartOptions.series[2].color = '#2A9D8F'
+        }
+        // console.log(self.chartOptions.series)
         // chart.hideLoading();
-        self.updateFlag = true;
         this.ready = true;
-      // }, 0);
+        self.updateFlag = true;
+      }, 0);
 
     }
   }
@@ -88,7 +89,6 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
 
       chart: {
         map: worldMap,
-        proj4: proj4,
         spacingBottom: 20,
         backgroundColor: 'rgba(0,0,0,0)'
       },
@@ -110,6 +110,13 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
         accessibility: {
           enabled: false
         }
+      },
+
+      tooltip: {
+        // enabled: false,
+        headerFormat: '',
+        pointFormat: '<b>{point.name}</b>'
+        // pointFormat:
       },
 
       plotOptions: {
