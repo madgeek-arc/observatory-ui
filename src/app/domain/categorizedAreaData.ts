@@ -1,3 +1,5 @@
+import {DataLabelsOptions} from "highcharts";
+
 export class CategorizedAreaData {
   series: Series[];
 
@@ -11,6 +13,8 @@ export class Series {
   name: string;
   type: string;
   color: string;
+  showInLegend: boolean;
+  dataLabels: DataLabelsOptions = {};
   // marker: Marker;
   data: any[];
 
@@ -18,6 +22,8 @@ export class Series {
     this.allAreas = allAreas;
     this.name = name;
     this.data = [];
+    this.dataLabels.enabled = false;
+    this.showInLegend = false;
     this.type = undefined;
     if (type) {
       this.type = type;

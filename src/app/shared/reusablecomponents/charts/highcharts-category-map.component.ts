@@ -59,7 +59,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       if (this.title === 'EOSC-relevant policies in place at national or regional level') {
         this.mapData.series[1].color = this.colorPallet[4];
         self.chartOptions.subtitle.text = this.subtitle;
-        self.chartOptions.legend.enabled = false;
+        // self.chartOptions.legend.enabled = false;
         self.chartOptions.plotOptions.map.tooltip.pointFormat = '{point.name}';
       } else {
         for (let i = 0; i < this.mapData.series.length; i++) {
@@ -72,9 +72,6 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       setTimeout(() => {
         self.chartOptions.title.text = this.title;
         self.chartOptions.series = this.mapData.series as SeriesOptionsType[];
-        if (this.mapData.series.length === 3) {
-          self.chartOptions.series[2].color = '#2A9D8F'
-        }
         // console.log(self.chartOptions.series)
         // chart.hideLoading();
         this.ready = true;
@@ -108,15 +105,13 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       legend: {
         enabled: true,
         accessibility: {
-          enabled: false
+          enabled: true
         }
       },
 
       tooltip: {
-        // enabled: false,
         headerFormat: '',
         pointFormat: '<b>{point.name}</b>'
-        // pointFormat:
       },
 
       plotOptions: {
@@ -127,8 +122,9 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
             pointFormat: '{point.name}: <b>{series.name}</b>'
           },
           events: {
-            legendItemClick: function () {
-              return false;
+            legendItemClick: function(e) {
+              console.log(e);
+              e.preventDefault();
             }
           }
         },

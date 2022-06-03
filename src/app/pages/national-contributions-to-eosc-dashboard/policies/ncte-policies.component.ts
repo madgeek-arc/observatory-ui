@@ -5,6 +5,7 @@ import {DataHandlerService} from "../../../services/data-handler.service";
 import {CategorizedAreaData, Series} from "../../../domain/categorizedAreaData";
 import {StakeholdersService} from "../../../services/stakeholders.service";
 import {latlong} from "../../../domain/countries-lat-lon";
+import {zip} from "rxjs";
 
 @Component({
   selector: 'app-ncte-policies',
@@ -15,6 +16,9 @@ export class NCTEPoliciesComponent implements OnInit{
 
   tableAbsoluteData: CountryTableData[];
   mapPointData: CountryTableData[];
+  question3: CountryTableData[];
+  question12: CountryTableData[];
+  question14: CountryTableData[];
   countryCodeArray: CategorizedAreaData = null;
   mapSubtitle: string = null;
   loadingAbsoluteTable: boolean = true;
@@ -25,35 +29,26 @@ export class NCTEPoliciesComponent implements OnInit{
 
   ngOnInit() {
     this.loadingAbsoluteTable = true;
-    this.dataService.getEOSCRelevantPolicies().subscribe(
-      rawData => {
-        this.tableAbsoluteData = this.dataHandlerService.convertRawDataToTableData(rawData);
-        this.loadingAbsoluteTable = false;
-
-        this.dataService.getUseCasesAndPracticesByDimension().subscribe(
-          rawData1 => {
-            this.mapPointData = this.dataHandlerService.convertRawDataToTableData(rawData1)
-
-            this.stakeholdersService.getEOSCSBCountries().subscribe(
-              res => {
-                this.countriesArray = res;
-              },
-              error => console.log(error),
-              () => {
-                this.createMapDataset(0);
-              }
-            );
-          },
-          error => {
-            console.log(error);
-          }
-        );
-      },
-      error => {
-        console.log(error);
-        this.loadingAbsoluteTable = false;
-      },
+    zip(
+      this.dataService.getEOSCRelevantPolicies(),
+      this.dataService.getUseCasesAndPracticesByDimension(),
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.dataService.getQuestion3(),
+      this.dataService.getQuestion12(),
+      this.dataService.getQuestion14()
+      ).subscribe(
+        next => {
+          this.tableAbsoluteData = this.dataHandlerService.convertRawDataToTableData(next[0]);
+          this.loadingAbsoluteTable = false;
+          this.mapPointData = this.dataHandlerService.convertRawDataToTableData(next[1]);
+          this.countriesArray = next[2];
+          this.question3 = this.dataHandlerService.convertRawDataToTableData(next[3]);
+          this.question12 = this.dataHandlerService.convertRawDataToTableData(next[4]);
+          this.question14 = this.dataHandlerService.convertRawDataToTableData(next[5]);
+        },
+      error => {},
       () => {
+        this.createMapDataset(0);
       }
     );
   }
@@ -80,6 +75,42 @@ export class NCTEPoliciesComponent implements OnInit{
       this.countryCodeArray.series[i].data = this.countryCodeArray.series[i].data.map(code => ({ code }));
     }
 
+    if (index === 0) {
+      let mapPointArray = [];
+      for (let i = 0; i < this.question3.length; i++) {
+        mapPointArray.push({name: this.question3[i].code, lat: latlong.get(this.question3[i].code).latitude, lon: latlong.get(this.question3[i].code).longitude});
+      }
+      const pos = this.countryCodeArray.series.length
+      this.countryCodeArray.series[pos] = new Series('Question3', false, 'mappoint');
+      this.countryCodeArray.series[pos].data = mapPointArray;
+      this.countryCodeArray.series[pos].color = '#E9C46A';
+      this.countryCodeArray.series[pos].showInLegend = true;
+    }
+
+    if (index === 4) {
+      let mapPointArray = [];
+      for (let i = 0; i < this.question12.length; i++) {
+        mapPointArray.push({name: this.question12[i].code, lat: latlong.get(this.question12[i].code).latitude, lon: latlong.get(this.question12[i].code).longitude});
+      }
+      const pos = this.countryCodeArray.series.length
+      this.countryCodeArray.series[pos] = new Series('Question12', false, 'mappoint');
+      this.countryCodeArray.series[pos].data = mapPointArray;
+      this.countryCodeArray.series[pos].color = '#F4A261';
+      this.countryCodeArray.series[pos].showInLegend = true;
+    }
+
+    if (index === 7) {
+      let mapPointArray = [];
+      for (let i = 0; i < this.question14.length; i++) {
+        mapPointArray.push({name: this.question14[i].code, lat: latlong.get(this.question14[i].code).latitude, lon: latlong.get(this.question14[i].code).longitude});
+      }
+      const pos = this.countryCodeArray.series.length
+      this.countryCodeArray.series[pos] = new Series('Question14', false, 'mappoint');
+      this.countryCodeArray.series[pos].data = mapPointArray;
+      this.countryCodeArray.series[pos].color = '#E76F51';
+      this.countryCodeArray.series[pos].showInLegend = true;
+    }
+
     if (index > 2) {
       let mapPointArray = [];
       for (let i = 0; i < this.mapPointData.length; i++) {
@@ -88,8 +119,10 @@ export class NCTEPoliciesComponent implements OnInit{
         }
       }
       const pos = this.countryCodeArray.series.length
-      this.countryCodeArray.series[pos] = new Series('Countries', false, 'mappoint');
+      this.countryCodeArray.series[pos] = new Series('Question20', false, 'mappoint');
       this.countryCodeArray.series[pos].data = mapPointArray;
+      this.countryCodeArray.series[pos].color = '#2A9D8F'
+      this.countryCodeArray.series[pos].showInLegend = true;
     }
 
     // console.log(this.countryCodeArray);

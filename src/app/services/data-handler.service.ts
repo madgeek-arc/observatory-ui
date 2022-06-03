@@ -22,6 +22,21 @@ export class DataHandlerService {
           countryTableData.EOSCRelevantPoliciesInPlace = rowResult.row.slice(2);
         } else if (series.series.query.name === 'eosc.obs.question20') {
           countryTableData.mapPointData = Array(3).fill(null).concat(rowResult.row.slice(2, 10).concat(rowResult.row.slice(11)));
+        } else if (series.series.query.name === 'eosc.obs.question5') {
+          if (rowResult.row[1] === 'Yes')
+            countryTableData.mapPointData.push(rowResult.row[1]);
+          else
+            continue;
+        } else if (series.series.query.name === 'eosc.obs.question14') {
+          if (rowResult.row[1] === 'true')
+            countryTableData.mapPointData.push(rowResult.row[1]);
+          else
+            continue;
+        } else if (series.series.query.name === 'eosc.obs.question16') {
+          if (rowResult.row[2] === 'true')
+            countryTableData.mapPointData.push(rowResult.row[2]);
+          else
+            continue;
         } else {
           countryTableData.dedicatedFinancialContributionsToEOSCLinkedToPolicies = rowResult.row[1];
         }
