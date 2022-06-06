@@ -120,20 +120,20 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
           tooltip: {
             headerFormat: '',
             pointFormat: '{point.name}: <b>{series.name}</b>'
-          },
-          events: {
-            legendItemClick: function(e) {
-              console.log(e);
-              e.preventDefault();
-            }
           }
         },
         series: {
+          events: {
+            legendItemClick: function(e) {
+              // console.log(e);
+              e.preventDefault(); // disable legend item click
+            }
+          },
           point: {
             events: {
               click: function () {
                 console.log(this);
-              }
+              },
             }
           }
         }
