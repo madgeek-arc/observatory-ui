@@ -85,7 +85,7 @@ export class NCTEPoliciesComponent implements OnInit{
       const pos = this.countryCodeArray.series.length
       this.countryCodeArray.series[pos] = new Series('Countries with use cases and best practices relevant to the policy', false, 'mappoint');
       this.countryCodeArray.series[pos].data = mapPointArray;
-      this.countryCodeArray.series[pos].color = '#2A9D8F';
+      this.countryCodeArray.series[pos].color = '#7CFC00';
       this.countryCodeArray.series[pos].marker.symbol = 'circle';
       this.countryCodeArray.series[pos].showInLegend = true;
     }
@@ -114,7 +114,7 @@ export class NCTEPoliciesComponent implements OnInit{
       const pos = this.countryCodeArray.series.length
       this.countryCodeArray.series[pos] = new Series('Countries with financial strategies linked to the policy', false, 'mappoint');
       this.countryCodeArray.series[pos].data = mapPointArray;
-      this.countryCodeArray.series[pos].color = '#E76F51';
+      this.countryCodeArray.series[pos].color = '#FFEF00';
       this.countryCodeArray.series[pos].marker.symbol = 'diamond';
       this.countryCodeArray.series[pos].showInLegend = true;
     }
