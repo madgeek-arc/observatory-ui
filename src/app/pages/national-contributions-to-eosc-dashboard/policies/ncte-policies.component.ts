@@ -75,42 +75,6 @@ export class NCTEPoliciesComponent implements OnInit{
       this.countryCodeArray.series[i].data = this.countryCodeArray.series[i].data.map(code => ({ code }));
     }
 
-    if (index === 0) {
-      let mapPointArray = [];
-      for (let i = 0; i < this.question3.length; i++) {
-        mapPointArray.push({name: this.question3[i].code, lat: latlong.get(this.question3[i].code).latitude, lon: latlong.get(this.question3[i].code).longitude});
-      }
-      const pos = this.countryCodeArray.series.length
-      this.countryCodeArray.series[pos] = new Series('Question3', false, 'mappoint');
-      this.countryCodeArray.series[pos].data = mapPointArray;
-      this.countryCodeArray.series[pos].color = '#E9C46A';
-      this.countryCodeArray.series[pos].showInLegend = true;
-    }
-
-    if (index === 4) {
-      let mapPointArray = [];
-      for (let i = 0; i < this.question12.length; i++) {
-        mapPointArray.push({name: this.question12[i].code, lat: latlong.get(this.question12[i].code).latitude, lon: latlong.get(this.question12[i].code).longitude});
-      }
-      const pos = this.countryCodeArray.series.length
-      this.countryCodeArray.series[pos] = new Series('Question12', false, 'mappoint');
-      this.countryCodeArray.series[pos].data = mapPointArray;
-      this.countryCodeArray.series[pos].color = '#F4A261';
-      this.countryCodeArray.series[pos].showInLegend = true;
-    }
-
-    if (index === 7) {
-      let mapPointArray = [];
-      for (let i = 0; i < this.question14.length; i++) {
-        mapPointArray.push({name: this.question14[i].code, lat: latlong.get(this.question14[i].code).latitude, lon: latlong.get(this.question14[i].code).longitude});
-      }
-      const pos = this.countryCodeArray.series.length
-      this.countryCodeArray.series[pos] = new Series('Question14', false, 'mappoint');
-      this.countryCodeArray.series[pos].data = mapPointArray;
-      this.countryCodeArray.series[pos].color = '#E76F51';
-      this.countryCodeArray.series[pos].showInLegend = true;
-    }
-
     if (index > 2) {
       let mapPointArray = [];
       for (let i = 0; i < this.mapPointData.length; i++) {
@@ -119,13 +83,43 @@ export class NCTEPoliciesComponent implements OnInit{
         }
       }
       const pos = this.countryCodeArray.series.length
-      this.countryCodeArray.series[pos] = new Series('Question20', false, 'mappoint');
+      this.countryCodeArray.series[pos] = new Series('Countries with use cases and best practices relevant to the policy', false, 'mappoint');
       this.countryCodeArray.series[pos].data = mapPointArray;
-      this.countryCodeArray.series[pos].color = '#2A9D8F'
+      this.countryCodeArray.series[pos].color = '#2A9D8F';
+      this.countryCodeArray.series[pos].marker.symbol = 'circle';
       this.countryCodeArray.series[pos].showInLegend = true;
     }
 
-    // console.log(this.countryCodeArray);
+    if (index === 0 || index === 4 || index === 7) {
+
+      let mapPointArray = [];
+      if (index === 0) {
+        for (let i = 0; i < this.question3.length; i++) {
+          mapPointArray.push({name: this.question3[i].code, lat: latlong.get(this.question3[i].code).latitude, lon: latlong.get(this.question3[i].code).longitude});
+        }
+      }
+
+      if (index === 4) {
+        for (let i = 0; i < this.question12.length; i++) {
+          mapPointArray.push({name: this.question12[i].code, lat: latlong.get(this.question12[i].code).latitude, lon: latlong.get(this.question12[i].code).longitude});
+        }
+      }
+
+      if (index === 7) {
+        for (let i = 0; i < this.question14.length; i++) {
+          mapPointArray.push({name: this.question14[i].code, lat: latlong.get(this.question14[i].code).latitude, lon: latlong.get(this.question14[i].code).longitude});
+        }
+      }
+
+      const pos = this.countryCodeArray.series.length
+      this.countryCodeArray.series[pos] = new Series('Countries with financial strategies linked to the policy', false, 'mappoint');
+      this.countryCodeArray.series[pos].data = mapPointArray;
+      this.countryCodeArray.series[pos].color = '#E76F51';
+      this.countryCodeArray.series[pos].marker.symbol = 'diamond';
+      this.countryCodeArray.series[pos].showInLegend = true;
+    }
+
+        // console.log(this.countryCodeArray);
 
   }
 

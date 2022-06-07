@@ -1,4 +1,4 @@
-import {DataLabelsOptions} from "highcharts";
+import {DataLabelsOptions, PointMarkerOptionsObject} from "highcharts";
 
 export class CategorizedAreaData {
   series: Series[];
@@ -15,10 +15,10 @@ export class Series {
   color: string;
   showInLegend: boolean;
   dataLabels: DataLabelsOptions = {};
-  // marker: Marker;
+  marker: PointMarkerOptionsObject = {};
   data: any[];
 
-  constructor(name: string, allAreas: boolean, type?: string, marker?: Marker) {
+  constructor(name: string, allAreas: boolean, type?: string) {
     this.allAreas = allAreas;
     this.name = name;
     this.data = [];
@@ -35,12 +35,3 @@ export class Series {
   }
 }
 
-export class Marker {
-  radius: number;
-  fillColor: string
-
-  constructor(radius: number, fillColor: string) {
-    this.radius = radius;
-    this.fillColor = fillColor;
-  }
-}
