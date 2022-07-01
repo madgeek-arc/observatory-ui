@@ -70,6 +70,10 @@ export class CoordinatorsComponent implements OnInit, OnDestroy{
     });
   }
 
+  exportToCsv() {
+    this.surveyService.exportToCsv(this.surveyEntriesResults[0].surveyId);
+  }
+
   updateSurveyEntriesList(searchResults: Paging<SurveyInfo>) {
 
     // INITIALISATIONS

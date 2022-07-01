@@ -69,4 +69,9 @@ export class SurveyService {
       return this.http.get<Paging<SurveyInfo>>(this.base + `/answers/info?${searchQuery.toString()}`);
   }
 
+  exportToCsv(surveyId: string) {
+    // return this.http.get(this.base + `/csv/export/answers/${surveyId}`, { responseType: 'text'});
+    window.open(this.base + `/csv/export/answers/${surveyId}`, '_blank');
+  }
+
 }
