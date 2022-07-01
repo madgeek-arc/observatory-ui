@@ -8,7 +8,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Subscriber} from "rxjs";
 
 @Component({
-  selector: 'app-contributors-dashboard',
+  selector: 'app-coordinator-dashboard',
   templateUrl: './coordinators.component.html'
 })
 
@@ -19,7 +19,7 @@ export class CoordinatorsComponent implements OnInit, OnDestroy{
 
   surveyEntries: Paging<SurveyInfo>;
   surveyEntriesResults: SurveyInfo[];
-  coordinatorId: string = null;
+  id: string = null;
 
   pageSize = 10;
   totalPages = 0;
@@ -44,9 +44,10 @@ export class CoordinatorsComponent implements OnInit, OnDestroy{
     this.loading = true;
     this.subscriptions.push(
       this.route.params.subscribe(params => {
-        this.coordinatorId = params['id'];
+        this.id = params['id'];
+        this.updateCoordinatorStakeholderParameter(this.id);
         this.subscriptions.push(
-          this.surveyService.getSurveyEntries(this.coordinatorId, this.urlParameters).subscribe(surveyEntries => {
+          this.surveyService.getSurveyEntries(this.id, this.urlParameters).subscribe(surveyEntries => {
               this.updateSurveyEntriesList(surveyEntries);
             },
             error => {console.log(error)},
@@ -86,6 +87,34 @@ export class CoordinatorsComponent implements OnInit, OnDestroy{
     if (this.currentPage === this.totalPages) {
       this.isLastPageDisabled = true;
       this.isNextPageDisabled = true;
+    }
+  }
+
+  updateCoordinatorStakeholderParameter(id: string) {
+    let key: string;
+    if (id.substring(0,2) === 'co') {
+      key = 'coordinator';
+      if (this.urlParameters.find(param => param.key === key)) {
+        this.urlParameters.find(param => param.key === key).values.push(id);
+      } else {
+        const parameter: URLParameter = {
+          key: 'coordinator',
+          values: [id]
+        };
+        this.urlParameters.push(parameter);
+      }
+    }
+    else {
+      key = 'stakeholder';
+      if (this.urlParameters.find(param => param.key === key)) {
+        this.urlParameters.find(param => param.key === key).values.push(id);
+      } else {
+        const parameter: URLParameter = {
+          key: 'stakeholder',
+          values: [id]
+        };
+        this.urlParameters.push(parameter);
+      }
     }
   }
 
@@ -184,7 +213,7 @@ export class CoordinatorsComponent implements OnInit, OnDestroy{
       map[urlParameter.key] = urlParameter.values.join(',');
     }
     // console.log(map);
-    return this.router.navigate([`/contributions/${this.coordinatorId}/surveys`, map]);
+    return this.router.navigate([`/contributions/${this.id}/surveys`, map]);
   }
 
 }

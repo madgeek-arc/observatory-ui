@@ -29,6 +29,13 @@
         </a>
       </li>
 
+      <li *ngIf="isManager" [routerLinkActive]="['current_section']">
+        <a [routerLink]="['contributions/'+currentStakeholder.id+'/surveys']" class="uk-flex uk-flex-middle">
+          <span class="material-icons uk-margin-right">assignment</span>
+          <span class="menu_title">Surveys</span>
+        </a>
+      </li>
+
     </ul>
     <ul *ngIf="currentCoordinator">
 

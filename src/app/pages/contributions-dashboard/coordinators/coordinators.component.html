@@ -9,6 +9,10 @@
       <div class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">
         <div class="uk-width-1-1">
 
+          <div class="uk-flex uk-flex-right uk-margin-bottom">
+            <button class="uk-button uk-button-primary">Export to csv</button>
+          </div>
+
           <div class="uk-flex uk-flex-between uk-flex-middle">
 
             <p class="big-text uk-margin-remove">
@@ -65,7 +69,7 @@
                 <div class="percentageNumber" style="margin-left: 10%;">{{surveyEntry.progressTotal.current}} of {{surveyEntry.progressTotal.total}}</div>
               </td>
               <td class="uk-flex">
-                <a [routerLink]="['/contributions', coordinatorId, 'stakeholder', surveyEntry.stakeholder.id, 'survey', surveyEntry.surveyId, 'view']">
+                <a [routerLink]="['/contributions', id, 'stakeholder', surveyEntry.stakeholder.id, 'survey', surveyEntry.surveyId, 'view']">
                   <span class="uk-flex uk-flex-middle"><span class="material-icons uk-margin-small-right">visibility</span>View</span>
                 </a>
 <!--                <span class="uk-flex uk-flex-middle uk-margin-left"><span class="material-icons uk-margin-small-right">email</span>Notify</span>-->

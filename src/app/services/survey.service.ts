@@ -64,9 +64,9 @@ export class SurveyService {
     searchQuery.delete('to');
 
     if(searchQuery.toString()=='')
-      return this.http.get<Paging<SurveyInfo>>(this.base + `/coordinators/${id}/surveys`);
+      return this.http.get<Paging<SurveyInfo>>(this.base + `/answers/info?coordinator=${id}`);
     else
-      return this.http.get<Paging<SurveyInfo>>(this.base + `/coordinators/${id}/surveys${'?' + searchQuery.toString()}`);
+      return this.http.get<Paging<SurveyInfo>>(this.base + `/answers/info?${searchQuery.toString()}`);
   }
 
 }

@@ -16,6 +16,7 @@ export class SideMenuDashboardComponent implements OnInit {
   currentStakeholder: Stakeholder = null;
   currentCoordinator: Coordinator = null;
   ready = false;
+  isManager = false;
 
   constructor(private userService: UserService) {
   }
@@ -26,6 +27,7 @@ export class SideMenuDashboardComponent implements OnInit {
         this.currentStakeholder = next;
         if (this.currentStakeholder !== null) {
           this.ready = true;
+          this.isManager = this.checkIfManager();
         }
       })
     );
@@ -39,6 +41,18 @@ export class SideMenuDashboardComponent implements OnInit {
     );
   }
 
+  checkIfManager(): boolean {
+    if (this.currentStakeholder) {
+      for (const manager of this.currentStakeholder.managers) {
+        if (this.userService.userInfo.user.email === manager){
+          return true;
+        }
+      }
+      return false;
+    }
+    return false;
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => {
       if (subscription instanceof Subscriber) {
@@ -46,5 +60,7 @@ export class SideMenuDashboardComponent implements OnInit {
       }
     });
   }
+
+
 
 }

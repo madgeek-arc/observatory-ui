@@ -34,13 +34,13 @@
                         <div class="uk-text-meta">{{userInfo.user.email}}</div>
                       </div>
                     </li>
-                    <hr *ngIf="userInfo?.stakeholders">
+                    <hr *ngIf="userInfo?.stakeholders.length > 0">
                     <li class="groups" *ngFor="let stakeholder of userInfo.stakeholders">
                       <a (click)="setGroup(stakeholder)"><span class="material-icons uk-margin-right">group</span>
                         {{stakeholder.name + (stakeholder.type === 'association' ? (', EOSC Association '+ (stakeholder.country ? '(' + stakeholder.country + ')': '')) : '') }}
                       </a>
                     </li>
-                    <hr *ngIf="userInfo?.coordinators">
+                    <hr *ngIf="userInfo?.coordinators.length > 0">
                     <li class="groups" *ngFor="let coordinator of userInfo.coordinators">
                       <a (click)="setCoordinator(coordinator)">
                         <span class="material-icons uk-margin-right">group</span>{{coordinator.name}}
