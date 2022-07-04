@@ -19,6 +19,7 @@ export class NCTEFundingComponent implements OnInit {
 
   tableAbsoluteData: CountryTableData[];
   mapData: CategorizedAreaData;
+  bubbleMapSeries: any[] = null;
   loadingAbsoluteTable: boolean = true;
 
   fundingForEOSCSums: FundingForEOSCSums;
@@ -44,13 +45,21 @@ export class NCTEFundingComponent implements OnInit {
       }
     );
 
-    this.dataService.getFundingForEOSCSums().subscribe(
+    this.dataService.getFundingForEOSC().subscribe(
       rawData => {
         // console.log('RawData', rawData);
-        this.fundingForEOSCSums = this.dataHandlerService.convertRawDataToFundingForEOSCSums(rawData);
+        // this.fundingForEOSCSums = this.dataHandlerService.convertRawDataToFundingForEOSCSums(rawData);
+        this.fundingForEOSCSums = this.dataHandlerService.convertRawDataToFundingForEOSCSumsCustom(rawData);
       }, error => {
         console.log(error);
       }
+    )
+
+    this.dataService.getFundingForEOSCBubbleSeries().subscribe(
+      rawData => {
+        this.bubbleMapSeries = this.dataHandlerService.convertRawDataToBubbleMapSeries(rawData);
+      },
+      error => {console.log(error)}
     );
 
     if(!this.financialContrToEOSCPieChartURL) {

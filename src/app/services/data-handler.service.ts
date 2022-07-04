@@ -3,6 +3,8 @@ import { RawData } from '../domain/raw-data';
 import { CountryTableData } from '../domain/country-table-data';
 import {CategorizedAreaData, Series} from "../domain/categorizedAreaData";
 import {FundingForEOSCSums} from "../domain/funding-for-eosc";
+import {isNumeric} from "rxjs/internal-compatibility";
+import {SeriesMapbubbleDataOptions, SeriesMapbubbleOptions} from "highcharts";
 
 @Injectable ()
 export class DataHandlerService {
@@ -117,6 +119,70 @@ export class DataHandlerService {
     }
 
     return fundingForEOSCSums;
+  }
+
+  public convertRawDataToFundingForEOSCSumsCustom(rawData: RawData) {
+    let fundingForEOSCSums: FundingForEOSCSums = new FundingForEOSCSums();
+    for (const series of rawData.datasets) {
+      if (series.series.query.name.includes('eosc.obs.question6')) {
+        let sum = 0.0;
+        for (const rowResult of series.series.result) {
+          if (isNumeric(rowResult.row[1])) {
+            sum += +rowResult.row[1];
+          }
+        }
+        fundingForEOSCSums.totalFundingForEOSC = sum.toString();
+
+      } else if (series.series.query.name.includes('eosc.obs.question7')) {
+        let sum = 0.0;
+        for (const rowResult of series.series.result) {
+          if (isNumeric(rowResult.row[1])) {
+            sum += +rowResult.row[1];
+          }
+        }
+        fundingForEOSCSums.fundingToOrganisationsInEOSCA = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
+
+      } else if (series.series.query.name.includes('eosc.obs.question8')) {
+        let sum = 0.0;
+        for (const rowResult of series.series.result) {
+          if (isNumeric(rowResult.row[1])) {
+            sum += +rowResult.row[1];
+          }
+        }
+        fundingForEOSCSums.fundingToOrganisationsOutsideEOSCA = sum.toString();
+      }
+    }
+    return fundingForEOSCSums;
+  }
+
+  public convertRawDataToBubbleMapSeries(rawData: RawData) {
+    let series = [];
+    for (const dataset of rawData.datasets) {
+      let dataOptions:SeriesMapbubbleDataOptions[] = [];
+      for (const row of dataset.series.result) {
+        if (isNumeric(row.row[1])) {
+          let data: SeriesMapbubbleDataOptions = new class implements SeriesMapbubbleDataOptions {
+            id: string;
+            name: string;
+            z: number | null;
+          };
+          data.id = row.row[0];
+          data.name = row.row[0];
+          data.z = +row.row[1];
+          dataOptions.push(data);
+        }
+      }
+      series.push(dataOptions);
+    }
+    // console.log(series);
+    return series;
+  }
+
+  isNumeric(str) {
+    if (typeof str != "string") return false // we only process strings!
+    // @ts-ignore
+    return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+      !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
   }
 
   public convertRawDataToPercentageTableData(rawData: RawData, eoscSBCountries: string[]) {
