@@ -23,8 +23,8 @@ export class HighchartsBubbleMapComponent implements OnChanges {
   updateFlag = false;
   Highcharts: typeof Highcharts = Highcharts;
   chartConstructor = "mapChart";
-  ready = false;
-  chartOptions: Highcharts.Options
+  ready = true;
+  chartOptions: Highcharts.Options = null
   colorPallet = ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#A9A9A9'];
   bubbleData = [{ id: "NO", name: "NO", z: 0.2 }, { id: "TR", name: "NO", z: 0.9 }];
 
@@ -36,36 +36,34 @@ export class HighchartsBubbleMapComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     const self = this;
     if (this.legend && this.series) {
+      this.loadMap(this.series[0], this.legend[0], this.colorPallet[0]);
       this.chartCallback = chart => {
         // saving chart reference
         self.chart = chart;
         // console.log(self.chart);
       };
-      this.loadMap(this.series[0], this.legend[0], this.colorPallet[0])
       // this.changeView(0);
-      this.ready = true;
+      // this.ready = true;
     }
   }
 
   changeView(view: number) {
+    // this.ready = false;
     const self = this, chart = this.chart;
-    this.ready = false;
     this.activeView = view;
     // setTimeout(() => {
-    console.log(this.chartOptions.series[1]['data']);
-    console.log(this.series[view]);
-    // @ts-ignore
-    self.chartOptions.series[1] = {
-      name: this.legend[view],
-      color: this.colorPallet[view],
-      data: this.series[view]
-    };
-    console.log(this.chartOptions.series[1]['data']);
-    self.updateFlag = true;
-    this.ready = true
+      console.log(view);
+      // @ts-ignore
+      self.chartOptions.series[1] = {
+        name: this.legend[view],
+        color: this.colorPallet[view],
+        data: [...this.series[view]]
+      };
+      console.log(self.chartOptions.series);
+      // this.loadMap(this.series[view], this.legend[view], this.colorPallet[view]);
+      self.updateFlag = true;
+      // this.ready = true
     // }, 0);
-    // this.loadMap(this.series[view], 'test', 'red');
-    // this.updateMapData();
   }
 
   loadMap(data, seriesName, seriesColor) {
@@ -122,6 +120,8 @@ export class HighchartsBubbleMapComponent implements OnChanges {
           // @ts-ignore
           joinBy: ["iso-a2", "id"],
           data: data,
+          minSize: 4,
+          maxSize: '12%',
           marker: {
             fillOpacity: 0.6,
           },
