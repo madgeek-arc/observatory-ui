@@ -6,6 +6,7 @@ import {Survey, SurveyInfo} from "../../../domain/survey";
 import {URLParameter} from "../../../../catalogue-ui/domain/url-parameter";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscriber} from "rxjs";
+import {Stakeholder} from "../../../domain/userInfo";
 
 @Component({
   selector: 'app-coordinator-dashboard',
@@ -16,6 +17,7 @@ export class CoordinatorsComponent implements OnInit, OnDestroy{
 
   subscriptions = [];
   urlParameters: URLParameter[] = [];
+  stakeholder: Stakeholder = null;
 
   surveyEntries: Paging<SurveyInfo>;
   surveyEntriesResults: SurveyInfo[];
@@ -58,6 +60,11 @@ export class CoordinatorsComponent implements OnInit, OnDestroy{
           )
         );
       })
+    );
+    this.subscriptions.push(
+      this.userService.currentStakeholder.subscribe(
+        next => this.stakeholder = next
+      )
     );
 
   }

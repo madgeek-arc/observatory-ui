@@ -7,12 +7,25 @@
     <div *ngIf="surveyEntries">
 
       <div class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">
-        <div class="uk-width-1-1">
 
-          <div class="uk-flex uk-flex-right uk-margin-bottom">
-            <button (click)="exportToCsv()" class="uk-button uk-button-primary">Export to csv</button>
+        <div class="uk-width-4-5">
+          <div *ngIf="stakeholder" class="uk-alert uk-alert-info">
+              <p>Please note that for the first survey (2021):</p>
+              <ol>
+                <li>EOSC-SB Members are invited to re-use the Observatory dashboard visualisations.</li>
+                <li>EOSC-SB Members are invited to analyse the survey data to improve their policy development and deployment.</li>
+                <li>Details of individual country surveys, such as country specific financial information, should not be shared outside the EOSC-SB, since the methodology to calculate financial investments is still being developed.</li>
+              </ol>
           </div>
+        </div>
 
+        <div class="uk-width-1-5">
+          <div *ngIf="stakeholder?.country != 'CH'" class="uk-flex uk-flex-right uk-margin-bottom">
+            <button (click)="exportToCsv()" class="uk-button uk-button-primary">Export to tsv</button>
+          </div>
+        </div>
+
+        <div class="uk-width-1-1 uk-margin-small-top">
           <div class="uk-flex uk-flex-between uk-flex-middle">
 
             <p class="big-text uk-margin-remove">
