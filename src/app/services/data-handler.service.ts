@@ -131,7 +131,7 @@ export class DataHandlerService {
             sum += +rowResult.row[1];
           }
         }
-        fundingForEOSCSums.totalFundingForEOSC = sum.toString();
+        fundingForEOSCSums.totalFundingForEOSC = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
 
       } else if (series.series.query.name.includes('eosc.obs.question7')) {
         let sum = 0.0;
@@ -149,7 +149,7 @@ export class DataHandlerService {
             sum += +rowResult.row[1];
           }
         }
-        fundingForEOSCSums.fundingToOrganisationsOutsideEOSCA = sum.toString();
+        fundingForEOSCSums.fundingToOrganisationsOutsideEOSCA = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
       }
     }
     return fundingForEOSCSums;
