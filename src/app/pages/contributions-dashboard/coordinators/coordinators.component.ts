@@ -106,7 +106,7 @@ export class CoordinatorsComponent implements OnInit, OnDestroy{
     if (id.substring(0,2) === 'co') {
       key = 'coordinator';
       if (this.urlParameters.find(param => param.key === key)) {
-        this.urlParameters.find(param => param.key === key).values.push(id);
+        this.urlParameters.find(param => param.key === key).values = [id];
       } else {
         const parameter: URLParameter = {
           key: 'coordinator',
@@ -118,7 +118,7 @@ export class CoordinatorsComponent implements OnInit, OnDestroy{
     else {
       key = 'stakeholder';
       if (this.urlParameters.find(param => param.key === key)) {
-        this.urlParameters.find(param => param.key === key).values.push(id);
+        this.urlParameters.find(param => param.key === key).values = [id];
       } else {
         const parameter: URLParameter = {
           key: 'stakeholder',
