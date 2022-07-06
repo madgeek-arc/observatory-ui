@@ -16,7 +16,7 @@ export class NCTEFundingComponent implements OnInit {
 
   private chartsURL = environment.STATS_API_ENDPOINT + 'chart?json=';
   private profileName = environment.profileName;
-  private dev = !environment.production;
+  dev = !environment.production;
 
   tableAbsoluteData: CountryTableData[];
   mapData: CategorizedAreaData;
