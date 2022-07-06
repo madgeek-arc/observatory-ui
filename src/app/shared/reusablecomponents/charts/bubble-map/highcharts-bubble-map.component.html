@@ -14,7 +14,7 @@
     <ul class="uk-nav uk-nav-side uk-nav-horizontal uk-nav-parent-icon" data-uk-nav="{multiple:true}">
       <li *ngFor="let label of legend; let i=index">
         <a (click)="changeView(i)">
-          <span class="uk-nav-label" style="background-color: #F8D5E3 !important; border: 1px solid #F17AA9;"></span>
+          <span class="uk-nav-label" [ngStyle]="{'background-color': colorPallet[i]}"></span>
           <span class="text {{activeView === i ? 'active' : ''}}">{{label}}</span>
         </a>
       </li>

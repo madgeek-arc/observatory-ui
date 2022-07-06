@@ -1,7 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import * as Highcharts from "highcharts/highmaps";
 import HC_exporting from 'highcharts/modules/exporting';
-import {SeriesMapbubbleOptions} from "highcharts";
 
 HC_exporting(Highcharts);
 
@@ -11,12 +10,13 @@ const worldMap = require('@highcharts/map-collection/custom/world-highres3.topo.
 
 @Component({
   selector: 'app-highcharts-bubble-map',
-  templateUrl: 'highcharts-bubble-map.component.html'
+  templateUrl: 'highcharts-bubble-map.component.html',
+  styleUrls: ['highcharts-bubble-map.component.scss']
 })
 
 export class HighchartsBubbleMapComponent implements OnChanges {
   @Input() legend: string[] = null;
-  @Input() series: any[] = null;
+  @Input() dataArray: any[] = null;
 
   chart;
   chartCallback;
@@ -26,44 +26,38 @@ export class HighchartsBubbleMapComponent implements OnChanges {
   ready = true;
   chartOptions: Highcharts.Options = null
   colorPallet = ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#A9A9A9'];
-  bubbleData = [{ id: "NO", name: "NO", z: 0.2 }, { id: "TR", name: "NO", z: 0.9 }];
 
   data: any;
-  activeView = 0;
+  activeView:number = null;
 
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
     const self = this;
-    if (this.legend && this.series) {
-      this.loadMap(this.series[0], this.legend[0], this.colorPallet[0]);
+    if (this.legend && this.dataArray) {
+      const tmpArray = [];
+      this.loadMap(tmpArray, this.legend[0], this.colorPallet[0]);
       this.chartCallback = chart => {
         // saving chart reference
         self.chart = chart;
-        // console.log(self.chart);
       };
-      // this.changeView(0);
-      // this.ready = true;
+      this.changeView(0);
     }
   }
 
   changeView(view: number) {
-    // this.ready = false;
     const self = this, chart = this.chart;
-    this.activeView = view;
-    // setTimeout(() => {
-      console.log(view);
-      // @ts-ignore
-      self.chartOptions.series[1] = {
-        name: this.legend[view],
-        color: this.colorPallet[view],
-        data: [...this.series[view]]
-      };
-      console.log(self.chartOptions.series);
-      // this.loadMap(this.series[view], this.legend[view], this.colorPallet[view]);
-      self.updateFlag = true;
-      // this.ready = true
-    // }, 0);
+    if (view !== this.activeView) {
+      this.activeView = view;
+      setTimeout(() => {
+        self.chartOptions.series[1] = {
+          name: this.legend[view],
+          color: this.colorPallet[view],
+          data: this.dataArray[view] as Highcharts.SeriesMapbubbleDataOptions[]
+        } as Highcharts.SeriesMapbubbleOptions;
+        self.updateFlag = true;
+      }, 0);
+    }
   }
 
   loadMap(data, seriesName, seriesColor) {
@@ -119,7 +113,7 @@ export class HighchartsBubbleMapComponent implements OnChanges {
           color: seriesColor,
           // @ts-ignore
           joinBy: ["iso-a2", "id"],
-          data: data,
+          data: data as Highcharts.SeriesMapbubbleDataOptions[],
           minSize: 4,
           maxSize: '12%',
           marker: {

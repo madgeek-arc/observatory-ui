@@ -65,11 +65,10 @@
               </div>
             </div>
 
-            <div *ngIf="dev" class="uk-width-1-1 uk-margin-top">
-              <!--<app-highcharts-category-map></app-highcharts-category-map>-->
+            <div class="uk-width-1-1 uk-margin-top">
               <div class="uk-card uk-card-default uk-card-body" style="height: 600px">
                 <app-highcharts-bubble-map [legend]="['Open Science funding in general','EOSC funding only', 'EOSC funding from European Structural and Investment Funds']"
-                                           [series]="bubbleMapSeries">
+                                           [dataArray]="bubbleMapSeries">
                 </app-highcharts-bubble-map>
               </div>
             </div>
