@@ -7,9 +7,9 @@
 </div>
 
 <!--Chapter Selection-->
-<div *ngIf="surveyModel?.chapters.length > 0" [ngClass]="{'uk-display-none': surveyModel.chapters.length === 1}">
+<div *ngIf="model?.sections.length > 0" [ngClass]="{'uk-display-none': model.sections[0].fields !== null}">
   <ul uk-tab="connect: #top-navigation-tabs; animation: uk-animation-fade" class="chapter-tabs">
-    <li class="" *ngFor="let chapter of chapters">
+    <li class="" *ngFor="let chapter of model.sections">
       <a (click)="showUnsavedChangesPrompt(chapter)">{{chapter.name}}
         <span *ngIf="chapterChangeMap.get(chapter.id)" class="material-icons md-10 uk-margin-small-left">circle</span></a>
     </li>
@@ -27,12 +27,25 @@
 
 <div *ngIf="ready; else showLoader">
   <ul id="top-navigation-tabs" class="uk-switcher">
-    <li *ngFor="let answer of this.sortedSurveyAnswers | keyvalue; let i = index">
-      <app-chapter-edit [answerValue]="answer.value" [form]="getFormGroup(i)" [readonly] = readonly [validate] = validate
-                        [tabsHeader]="tabsHeader" [chapter]="surveyModel.chapters[i]" [fields]="surveyModel.chapters[i].sections"
-                        [surveyAnswerId]="this.surveyAnswers.id" (chapterHasChanges)="setChapterChangesMap($event)">
-      </app-chapter-edit>
-    </li>
+<!--    <li *ngFor="let answer of this.sortedSurveyAnswers | keyvalue; let i = index">-->
+    <div *ngIf="model.sections[0].fields === null else singleDepth">
+      <li *ngFor="let answer of model.sections let i = index">
+        <app-chapter-edit [answerValue]="" [form]="getFormGroup(i)" [readonly]="readonly" [validate]="validate"
+                          [tabsHeader]="tabsHeader" [chapter]="model"
+                          [fields]="model.sections[i].subSections" [vocabularies]="vocabularies"
+                          [surveyAnswerId]="" (chapterHasChanges)="setChapterChangesMap($event)">
+        </app-chapter-edit>
+      </li>
+    </div>
+    <ng-template #singleDepth>
+      <li>
+        <app-chapter-edit [answerValue]="" [form]="getFormGroup()" [readonly]="readonly" [validate]="validate"
+                          [tabsHeader]="tabsHeader" [chapter]="model"
+                          [fields]="model.sections" [vocabularies]="vocabularies"
+                          [surveyAnswerId]="" (chapterHasChanges)="setChapterChangesMap($event)">
+        </app-chapter-edit>
+      </li>
+    </ng-template>
   </ul>
 </div>
 
@@ -43,27 +56,25 @@
 <!--<pre *ngIf="form">{{form.getRawValue() | json}}</pre>-->
 
 <!-- Validation modal -->
-<div *ngIf="showValidation" class="uk-modal {{showValidation ? 'uk-open' : ''}}" id="validation-modal" uk-modal="esc-close: false; bg-close: false"
-     [ngStyle]="{'display': showValidation ? 'block' : 'none'}">
+<div id="validation-modal" uk-modal="esc-close: false; bg-close: false">
   <div class="uk-modal-dialog uk-modal-body">
     <h2 class="uk-modal-title">Survey validation</h2>
     <p>The survey fields will be validated and if all required fields are present it will be locked and it will not be
     editable until unlocked.</p>
     <p class="uk-text-right">
-      <button class="uk-button uk-button-secondary uk-modal-close" type="button" (click)="showValidation = false">Close</button>
+      <button class="uk-button uk-button-secondary uk-modal-close" type="button">Close</button>
       <button class="uk-button uk-button-primary" type="button" (click)="validateSurvey()">I agree</button>
     </p>
   </div>
 </div>
 
 <!-- Unsaved changes modal -->
-<div id="unsaved-changes-modal" class="uk-modal {{showUnsavedChanges ? 'uk-open' : ''}}" uk-modal="esc-close: false; bg-close: false"
-     [ngStyle]="{'display': showUnsavedChanges ? 'block' : 'none'}">
+<div id="unsaved-changes-modal" uk-modal="esc-close: false; bg-close: false">
   <div class="uk-modal-dialog uk-modal-body">
 <!--    <h2 class="uk-modal-title"></h2>-->
     <p>There are unsaved changes, do you want to submit them before moving on;</p>
     <p class="uk-text-right">
-      <button class="uk-button uk-button-secondary" type="button" (click)="this.showUnsavedChanges = false">I will do it later</button>
+      <button class="uk-button uk-button-secondary uk-modal-close" type="button">I will do it later</button>
       <button class="uk-button uk-button-primary" type="button" (click)="onSubmit()">Submit now</button>
     </p>
   </div>

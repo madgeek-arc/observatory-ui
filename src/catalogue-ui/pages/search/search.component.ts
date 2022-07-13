@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {Subscriber, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {Paging} from '../../domain/paging';
 import {URLParameter} from '../../domain/url-parameter';
 import {PremiumSortFacetsPipe} from '../../shared/pipes/premium-sort.pipe';
@@ -12,12 +12,10 @@ import {SearchService} from "../../services/search.service";
   selector: 'app-search',
   templateUrl: './search.component.html',
   providers: [SearchService]
-  // styleUrls: ['../../../lib/pages/search/search.component.css']
+  // styleUrls: ['../../../lib/pages/search/search.component.scss']
 })
 
-export class SearchComponent implements OnInit, OnDestroy {
-
-  subscriptions = [];
+export class SearchComponent implements OnInit {
   private sortFacets = new PremiumSortFacetsPipe();
   canAddOrEditService: boolean;
   // myProviders:  Provider[] = [];
@@ -53,44 +51,32 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscriptions.push(
-      this.route.params.subscribe(params => {
-        this.urlParameters.splice(0, this.urlParameters.length);
-        this.foundResults = true;
-        for (const obj in params) {
-          if (params.hasOwnProperty(obj)) {
-            const urlParameter: URLParameter = {
-              key: obj,
-              values: params[obj].split(',')
-            };
-            this.urlParameters.push(urlParameter);
-          }
+    this.sub = this.route.params.subscribe(params => {
+      this.urlParameters.splice(0, this.urlParameters.length);
+      this.foundResults = true;
+      for (const obj in params) {
+        if (params.hasOwnProperty(obj)) {
+          const urlParameter: URLParameter = {
+            key: obj,
+            values: params[obj].split(',')
+          };
+          this.urlParameters.push(urlParameter);
         }
-
-        // request results from the registry
-        // this.loading = true; // Uncomment for spinner
-        this.subscriptions.push(
-          this.searchService.searchSnippets(this.urlParameters).subscribe(
-            searchResults => {
-              // console.log(searchResults);
-              this.updateSearchResultsSnippets(searchResults);
-            },
-            error => {},
-            () => {
-              this.paginationInit();
-              this.loading = false;
-            }
-          )
-        );
-      })
-    );
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => {
-      if (subscription instanceof Subscriber) {
-        subscription.unsubscribe();
       }
+
+      // request results from the registry
+      // this.loading = true; // Uncomment for spinner
+      return this.searchService.searchSnippets(this.urlParameters).subscribe(
+        searchResults => {
+          // console.log(searchResults);
+          this.updateSearchResultsSnippets(searchResults);
+        },
+        error => {},
+        () => {
+          this.paginationInit();
+          this.loading = false;
+        }
+      );
     });
   }
 
@@ -152,6 +138,7 @@ export class SearchComponent implements OnInit, OnDestroy {
             for (const parameterValue of urlParameter.values) {
               for (const facetValue of facet.values) {
                 if (parameterValue === facetValue.value) {
+                  this[facet.field+'Filters'].push(facetValue.value);
                   facetValue.isChecked = true;
                 }
               }

@@ -1,17 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {FormControl, FormGroup, FormGroupDirective} from "@angular/forms";
 import {Field, HandleBitSet} from "../../../../domain/dynamic-form-model";
-import {FormArray, FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
-import {FormControlService} from "../../../../services/form-control.service";
-import {urlAsyncValidator, URLValidator} from "../../../../shared/validators/generic.validator";
-
 
 @Component({
-  selector: 'app-number-field',
-  templateUrl: './number-field.component.html',
-  styles: ['.clear-style { height: 0 !important;}']
+  selector: 'app-large-text-field',
+  templateUrl: './large-text-field.component.html'
 })
 
-export class NumberFieldComponent implements OnInit {
+export class LargeTextFieldComponent implements OnInit {
   @Input() fieldData: Field;
   @Input() editMode: any;
   @Input() position?: number = null;
@@ -24,7 +20,7 @@ export class NumberFieldComponent implements OnInit {
   form!: FormGroup;
   hideField: boolean = null;
 
-  constructor(private rootFormGroup: FormGroupDirective, private formControlService: FormControlService) {
+  constructor(private rootFormGroup: FormGroupDirective) {
   }
 
   ngOnInit() {
@@ -33,9 +29,12 @@ export class NumberFieldComponent implements OnInit {
     } else {
       this.form = this.rootFormGroup.control;
     }
-    this.formControl = this.form.get(this.fieldData.name) as FormControl;
+    // console.log(this.form);
 
-    if (this.fieldData.form.dependsOn) {
+    this.formControl = this.form.get(this.fieldData.name) as FormControl;
+    // console.log(this.formControl);
+
+    if(this.fieldData.form.dependsOn) {
       // console.log(this.fieldData.form.dependsOn);
       this.enableDisableField(this.form.get(this.fieldData.form.dependsOn.name).value);
 
@@ -45,54 +44,30 @@ export class NumberFieldComponent implements OnInit {
     }
   }
 
-  /** Handle Arrays --> **/
-
-  fieldAsFormArray() {
-    return this.formControl as unknown as FormArray;
-  }
-
-  push(field: string, required: boolean, type: string) {
-    switch (type) {
-      case 'url':
-        this.fieldAsFormArray().push(required ? new FormControl('', Validators.compose([Validators.required, URLValidator]), urlAsyncValidator(this.formControlService))
-          : new FormControl('', URLValidator, urlAsyncValidator(this.formControlService)));
-        break;
-      default:
-        this.fieldAsFormArray().push(required ? new FormControl('', Validators.required) : new FormControl(''));
-    }
-  }
-
-  remove(field: string, i: number) {
-    this.fieldAsFormArray().removeAt(i);
-  }
-
   /** check fields validity--> **/
 
   checkFormValidity(): boolean {
     return (!this.formControl.valid && (this.formControl.touched || this.formControl.dirty));
   }
 
-  checkFormArrayValidity(name: string, position: number, edit: boolean, groupName?: string): boolean {
-    if (groupName) {
-      return (!this.fieldAsFormArray()?.get([position])?.get(groupName).valid
-        && (edit || this.fieldAsFormArray()?.get([position])?.get(groupName).dirty));
-
-    }
-    return (!this.fieldAsFormArray().get([position]).valid
-      && (edit || this.fieldAsFormArray().get([position]).dirty));
-  }
 
   /** Bitsets--> **/
 
   updateBitSet(fieldData: Field) {
-    if (fieldData.form.mandatory) {
-      this.handleBitSets.emit(fieldData);
-    }
+    this.timeOut(200).then(() => { // Needed for radio buttons strange behaviour
+      if (fieldData.form.mandatory) {
+        this.handleBitSets.emit(fieldData);
+      }
+    });
   }
 
   /** other stuff--> **/
   unsavedChangesPrompt() {
     this.hasChanges.emit(true);
+  }
+
+  timeOut(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   enableDisableField(value) {
@@ -112,3 +87,5 @@ export class NumberFieldComponent implements OnInit {
   }
 
 }
+
+

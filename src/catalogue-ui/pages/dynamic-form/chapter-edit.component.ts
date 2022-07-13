@@ -1,37 +1,26 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  Output,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {FormControlService} from '../../services/form-control.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {
-  Chapter,
+  Section,
   Field,
   GroupedFields,
   HandleBitSet,
   Tab, Tabs,
-  UiVocabulary
+  UiVocabulary, Model
 } from '../../domain/dynamic-form-model';
 import BitSet from "bitset";
 import {PremiumSortPipe} from "../../shared/pipes/premium-sort.pipe";
 
 import UIkit from 'uikit';
-import {Subscriber} from "rxjs";
 
 @Component({
   selector: 'app-chapter-edit',
   templateUrl: './chapter.component.html',
   providers: [FormControlService]
 })
-export class ChapterEditComponent implements OnChanges, OnDestroy {
+export class ChapterEditComponent implements OnChanges{
 
   @Input() answerValue: Object = null;
   @Input() form: FormGroup = null;
@@ -39,15 +28,14 @@ export class ChapterEditComponent implements OnChanges, OnDestroy {
   @Input() surveyAnswerId: string = null;
   @Input() readonly : boolean = null;
   @Input() validate : boolean = null;
-  @Input() chapter: Chapter = null;
-  @Input() fields: GroupedFields[] = null;
+  @Input() vocabularies: Map<string, string[]> = null;
+  @Input() chapter: Model = null;
+  @Input() fields: Section[] = null;
 
   @Output() chapterHasChanges = new EventEmitter<string[]>();
 
   @ViewChild('sections') sections: ElementRef<HTMLElement>;
 
-  subscriptions = [];
-  vocabularies: Map<string, string[]>;
   subVocabularies: UiVocabulary[] = [];
   editMode = true;
 
@@ -72,45 +60,41 @@ export class ChapterEditComponent implements OnChanges, OnDestroy {
               protected router: Router) {
   }
 
+  ngOnInit() {
+    // super.ngOnInit();
+  }
+
   ngOnChanges(changes:SimpleChanges) {
-    this.ready=false
+    // remove later
+    this.initializations();
+    this.ready=true
     if (this.answerValue) {
       this.initializations();
       this.ready = true
     }
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => {
-      if (subscription instanceof Subscriber) {
-        subscription.unsubscribe();
-      }
-    });
-  }
-
   onSubmit(tempSave: boolean, pendingService?: boolean) {
     // if (this.form.valid) {
     window.scrollTo(0, 0);
     this.showLoader = true;
-    this.subscriptions.push(
-      this.formControlService.postItem(this.surveyAnswerId, this.form.getRawValue(), this.editMode).subscribe(
-        res => {
-          // this.router.navigate(['/contributions/mySurveys']);
-        },
-        error => {
-          this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(error.error.error);
-          this.showLoader = false;
-          console.log(error);
-        },
-        () => {
-          this.successMessage = 'Updated successfully!';
-          setTimeout( () => {
-            UIkit.alert('#successMessage').close();
-          }, 4000);
-          this.showLoader = false;
-          this.unsavedChangesPrompt(true, 'notNull');
-        }
-      )
+    this.formControlService.postGenericItem(this.chapter.resourceType, this.form.getRawValue(), this.editMode).subscribe(
+      res => {
+        // this.router.navigate(['/contributions/mySurveys']);
+      },
+      error => {
+        this.errorMessage = 'Something went bad, server responded: ' + JSON.stringify(error.error.error);
+        this.showLoader = false;
+        console.log(error);
+      },
+      () => {
+        this.successMessage = 'Updated successfully!';
+        setTimeout( () => {
+          UIkit.alert('#successMessage').close();
+        }, 4000);
+        this.showLoader = false;
+        this.unsavedChangesPrompt(true, 'notNull');
+      }
     );
     // } else {
     //   this.errorMessage = 'Please check if all the required fields have a value.';

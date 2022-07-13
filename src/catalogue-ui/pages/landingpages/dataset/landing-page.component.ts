@@ -1,20 +1,22 @@
-import {Component, OnInit} from "@angular/core";
-import {Subscription} from "rxjs";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {LandingPageService} from "../../../services/landing-page.service";
+import {Subscriber} from "rxjs";
+
 
 @Component({
   selector: 'app-dataset',
-  templateUrl: 'dataset-landing-page.component.ts.html',
+  templateUrl: 'dataset-landing-page.component.html',
   providers: [LandingPageService]
 })
 
-export class LandingPageComponent implements OnInit {
+export class LandingPageComponent implements OnInit, OnDestroy {
   subscriptions = [];
   dataset: Object = null;
   instances: Object[] = null;
 
-  constructor(protected route: ActivatedRoute, protected landingPageService: LandingPageService) {}
+  constructor(protected route: ActivatedRoute,
+              protected landingPageService: LandingPageService) {}
 
   ngOnInit() {
     this.subscriptions.push(
@@ -23,8 +25,9 @@ export class LandingPageComponent implements OnInit {
           this.landingPageService.getDataset(params['id']).subscribe(
             res => {
               this.dataset = res;
+              // console.log(this.dataset);
               this.subscriptions.push(
-                this.landingPageService.searchDatasetInstance('dataset_instance', 'type=' + this.dataset['name']).subscribe(
+                this.landingPageService.searchDatasetInstance('dataset_instance', this.dataset['name']).subscribe(
                   res => {
                     this.instances = res['results'];
                   }
@@ -36,4 +39,13 @@ export class LandingPageComponent implements OnInit {
       })
     );
   }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      if (subscription instanceof Subscriber) {
+        subscription.unsubscribe();
+      }
+    });
+  }
+
 }

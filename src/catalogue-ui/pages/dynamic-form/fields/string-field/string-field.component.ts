@@ -1,9 +1,8 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {Field, HandleBitSet} from "../../../../domain/dynamic-form-model";
 import {FormArray, FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {urlAsyncValidator, URLValidator} from "../../../../shared/validators/generic.validator";
 import {FormControlService} from "../../../../services/form-control.service";
-import {Subscriber} from "rxjs";
 
 @Component({
   selector: 'app-string-url-email-field',
@@ -11,7 +10,7 @@ import {Subscriber} from "rxjs";
   styles: ['.clear-style { height: 0 !important;}']
 })
 
-export class StringFieldComponent implements OnInit, OnDestroy {
+export class StringFieldComponent implements OnInit {
   @Input() fieldData: Field;
   @Input() editMode: any;
   @Input() position?: number = null;
@@ -20,7 +19,6 @@ export class StringFieldComponent implements OnInit, OnDestroy {
   @Output() handleBitSets = new EventEmitter<Field>();
   @Output() handleBitSetsOfComposite = new EventEmitter<HandleBitSet>();
 
-  subscriptions = [];
   formControl!: FormControl;
   form!: FormGroup;
   hideField: boolean = null;
@@ -40,24 +38,14 @@ export class StringFieldComponent implements OnInit, OnDestroy {
       // console.log(this.fieldData.form.dependsOn);
       this.enableDisableField(this.form.get(this.fieldData.form.dependsOn.name).value);
 
-      this.subscriptions.push(
-        this.form.get(this.fieldData.form.dependsOn.name).valueChanges.subscribe(value => {
-          this.enableDisableField(value);
-        })
-      );
+      this.form.get(this.fieldData.form.dependsOn.name).valueChanges.subscribe(value => {
+        this.enableDisableField(value);
+      });
     }
 
     // console.log(this.fieldData);
     // console.log(this.form);
     // console.log(this.formControl);
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => {
-      if (subscription instanceof Subscriber) {
-        subscription.unsubscribe();
-      }
-    });
   }
 
   /** Handle Arrays --> **/
@@ -108,7 +96,7 @@ export class StringFieldComponent implements OnInit, OnDestroy {
 
   /** other stuff--> **/
   unsavedChangesPrompt() {
-    console.log('string-field.component emitting to parent->');
+    // console.log('string-field.component emitting to parent->');
     this.hasChanges.emit(true);
   }
 
