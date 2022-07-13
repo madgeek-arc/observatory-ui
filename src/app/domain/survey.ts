@@ -1,5 +1,5 @@
 import {Stakeholder, User} from "./userInfo";
-import {Chapter} from "../../catalogue-ui/domain/dynamic-form-model";
+import {Section} from "../../catalogue-ui/domain/dynamic-form-model";
 
 export class Survey {
   id: string;
@@ -11,13 +11,13 @@ export class Survey {
   createdBy: User;
   modificationDate: string;
   modifiedBy: User;
-  chapters: Chapter[];
+  chapters: Section[];
 }
 
 
 export class SurveyAnswer {
   id: string;
-  surveyId: string;
+  modelId: string;
   stakeholderId: string;
   chapterAnswers: Map<string, ChapterAnswer>;
   metadata: Metadata;
