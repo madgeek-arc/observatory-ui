@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
 import {SurveyService} from "../../../services/survey.service";
 import {UserService} from "../../../services/user.service";
-import {Paging} from "../../../../catalogue-ui/domain/paging";
-import {Survey, SurveyInfo} from "../../../domain/survey";
-import {URLParameter} from "../../../../catalogue-ui/domain/url-parameter";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Subscriber} from "rxjs";
+import {SurveyInfo} from "../../../domain/survey";
 import {Stakeholder} from "../../../domain/userInfo";
+import {Paging} from "../../../../catalogue-ui/domain/paging";
+import {URLParameter} from "../../../../catalogue-ui/domain/url-parameter";
+import {Subscriber} from "rxjs";
 
 @Component({
   selector: 'app-coordinator-dashboard',

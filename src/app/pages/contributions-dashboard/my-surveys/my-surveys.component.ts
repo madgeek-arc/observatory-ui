@@ -2,8 +2,8 @@ import {Component, OnDestroy, OnInit} from "@angular/core";
 import {Stakeholder} from "../../../domain/userInfo";
 import {UserService} from "../../../services/user.service";
 import {Paging} from "../../../../catalogue-ui/domain/paging";
-import {Survey} from "../../../domain/survey";
 import {SurveyService} from "../../../services/survey.service";
+import {Model} from "../../../../catalogue-ui/domain/dynamic-form-model";
 import {Subscriber} from "rxjs";
 
 @Component({
@@ -16,7 +16,7 @@ export class MySurveysComponent implements OnInit, OnDestroy{
 
   subscriptions = [];
   currentGroup: Stakeholder = null;
-  surveys: Paging<Survey>;
+  surveys: Paging<Model>;
 
   constructor(private userService: UserService, private surveyService: SurveyService) {
   }

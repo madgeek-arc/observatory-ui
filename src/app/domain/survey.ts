@@ -1,23 +1,8 @@
 import {Stakeholder, User} from "./userInfo";
-import {Section} from "../../catalogue-ui/domain/dynamic-form-model";
-
-export class Survey {
-  id: string;
-  name: string;
-  description: string;
-  notice: string;
-  type: string;
-  creationDate: string;
-  createdBy: User;
-  modificationDate: string;
-  modifiedBy: User;
-  chapters: Section[];
-}
-
 
 export class SurveyAnswer {
   id: string;
-  modelId: string;
+  surveyId: string;
   stakeholderId: string;
   chapterAnswers: Map<string, ChapterAnswer>;
   metadata: Metadata;

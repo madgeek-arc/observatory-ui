@@ -4,8 +4,10 @@ import {SurveyService} from "../../../../services/survey.service";
 import {Subscriber} from "rxjs";
 import {ActivatedRoute, Route, Router} from "@angular/router";
 import {Stakeholder} from "../../../../domain/userInfo";
-import {Survey, SurveyAnswer} from "../../../../domain/survey";
+import {SurveyAnswer} from "../../../../domain/survey";
 import {UserService} from "../../../../services/user.service";
+import {zip} from "rxjs/internal/observable/zip";
+import {Model} from "../../../../../catalogue-ui/domain/dynamic-form-model";
 
 @Component({
   selector: 'app-survey-form',
@@ -19,15 +21,17 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
   subscriptions = [];
   currentGroup: Stakeholder = null;
   tabsHeader: string = null;
-  survey: Survey = null;
+  survey: Model = null;
   surveyAnswers: SurveyAnswer = null
   surveyId: string = null;
   stakeholderId: string = null;
+  ready = false;
 
   constructor(private surveyService: SurveyService, private userService: UserService, private route: ActivatedRoute,
               private router: Router) {}
 
   ngOnInit() {
+    this.ready = false;
     this.tabsHeader = 'Sections';
 
     this.subscriptions.push(
@@ -40,15 +44,14 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
         }
 
         this.subscriptions.push(
-          this.surveyService.getLatestAnswer(this.stakeholderId, this.surveyId).subscribe(next => {
-            this.surveyAnswers = next;
-          })
-        );
-
-        this.subscriptions.push(
-          this.surveyService.getSurvey(this.surveyId).subscribe(res => {
-            this.survey = res;
-          })
+          zip(
+            this.surveyService.getLatestAnswer(this.stakeholderId, this.surveyId),
+            this.surveyService.getSurvey(this.surveyId),
+          ).subscribe( next => {
+            this.surveyAnswers = next[0];
+            this.survey = next[1];
+          }, error => {console.log(error)},
+          () => { this.ready = true; })
         );
       })
     );

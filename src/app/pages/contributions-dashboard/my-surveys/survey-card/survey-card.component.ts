@@ -1,10 +1,11 @@
 import {Component, Input, OnChanges, OnDestroy, SimpleChanges} from "@angular/core";
-import {SurveyAnswer, Survey, ResourcePermission} from "../../../../domain/survey";
+import {SurveyAnswer, ResourcePermission} from "../../../../domain/survey";
 import {UserService} from "../../../../services/user.service";
 import {Stakeholder} from "../../../../domain/userInfo";
 import {SurveyService} from "../../../../services/survey.service";
 import {Router} from "@angular/router";
 import {Subscriber} from "rxjs";
+import {Model} from "../../../../../catalogue-ui/domain/dynamic-form-model";
 
 @Component({
   selector: 'app-survey-card',
@@ -13,7 +14,7 @@ import {Subscriber} from "rxjs";
 })
 
 export class SurveyCardComponent implements OnChanges, OnDestroy {
-  @Input() survey: Survey;
+  @Input() survey: Model;
 
   subscriptions = [];
   currentGroup: Stakeholder = null;

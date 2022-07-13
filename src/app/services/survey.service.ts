@@ -1,10 +1,11 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {ResourcePermission, Survey, SurveyAnswer, SurveyInfo} from "../domain/survey";
+import {ResourcePermission, SurveyAnswer, SurveyInfo} from "../domain/survey";
 import {Paging} from "../../catalogue-ui/domain/paging";
 import {StakeholdersMembers} from "../domain/userInfo";
 import {URLParameter} from "../../catalogue-ui/domain/url-parameter";
+import {Model} from "../../catalogue-ui/domain/dynamic-form-model";
 
 @Injectable()
 export class SurveyService {
@@ -23,11 +24,11 @@ export class SurveyService {
   }
 
   getSurveys(id: string) {
-    return this.http.get<Paging<Survey>>(this.base + `/surveys?stakeholderId=${id}`);
+    return this.http.get<Paging<Model>>(this.base + `/surveys?stakeholderId=${id}`);
   }
 
   getSurvey(surveyId: string) {
-    return this.http.get<Survey>(this.base + `/surveys/${surveyId}`);
+    return this.http.get<Model>(this.base + `/surveys/${surveyId}`);
   }
 
   getPermissions(resourceIds: string[]) {
