@@ -32,7 +32,7 @@
     "ngx-markdown-editor": "^3.3.3",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
-    "uikit": "^3.9.2",
+    "uikit": "3.12.2",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
