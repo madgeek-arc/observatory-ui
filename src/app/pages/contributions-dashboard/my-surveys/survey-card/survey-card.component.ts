@@ -35,16 +35,11 @@ export class SurveyCardComponent implements OnChanges, OnDestroy {
               this.surveyService.getLatestAnswer(this.currentGroup.id, this.survey.id).subscribe(
                 next => {
                   this.surveyAnswer = next;
-                  for (const chapter in this.surveyAnswer.chapterAnswers) {
-                    // console.log(`${chapter}: `);
-                    // console.log(this.answer.chapterAnswers[chapter].chapterId);
-                    this.chapterIds.push(chapter); // send chapter answer id array
-                  }
                   this.subscriptions.push(
-                    this.surveyService.getPermissions(this.chapterIds).subscribe(next => {
+                    this.surveyService.getPermissions([this.surveyAnswer.id]).subscribe(next => {
                       this.permissions = next;
                     })
-                  )
+                  );
                 })
             );
           }
@@ -76,21 +71,15 @@ export class SurveyCardComponent implements OnChanges, OnDestroy {
         this.surveyService.changeAnswerValidStatus(answerId, !valid).subscribe(next => {
           this.surveyAnswer = next;
           this.subscriptions.push(
-            this.surveyService.getPermissions(this.chapterIds).subscribe(next => {
+            this.surveyService.getPermissions([this.surveyAnswer.id]).subscribe(next => {
               this.permissions = next;
             },
-            error => {
-              console.error(error)
-            },
-            () => {
-            })
+            error => {console.error(error)}
+            )
           );
         },
-        error => {
-          console.error(error)
-        },
-        () => {
-        })
+        error => {console.error(error)}
+        )
       );
     } else {
       this.router.navigate([`contributions/${this.currentGroup.id}/mySurveys/${this.survey.id}/answer/validate`]);

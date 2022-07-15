@@ -4,11 +4,12 @@ export class SurveyAnswer {
   id: string;
   surveyId: string;
   stakeholderId: string;
-  chapterAnswers: Map<string, ChapterAnswer>;
+  type: string;
+  answer: Object;
   metadata: Metadata;
+  history: Object;
   validated: boolean;
   published: boolean;
-  chapterId: string;
 }
 
 export class ChapterAnswer {
