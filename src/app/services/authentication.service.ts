@@ -14,7 +14,7 @@ export class AuthenticationService {
   constructor(private router: Router, private http: HttpClient) {
     setInterval( ()=> {
       this.http.head(this.base + '/refreshLogin', {withCredentials: true}).subscribe(
-        suc => {console.log('Refreshed login' + suc)},
+        suc => {console.log('Refreshed login ' + suc)},
         error => {console.log(error)}
       );
     }, 1000 * 60 * 10);
