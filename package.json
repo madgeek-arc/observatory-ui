@@ -28,6 +28,7 @@
     "bitset": "^5.1.1",
     "highcharts": "^10.0.0",
     "highcharts-angular": "^3.0.0",
+    "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "ng2-date-picker": "^13.1.1",
     "ngx-markdown-editor": "^3.3.3",

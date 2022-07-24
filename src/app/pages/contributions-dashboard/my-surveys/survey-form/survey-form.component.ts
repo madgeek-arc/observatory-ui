@@ -26,6 +26,7 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
   surveyId: string = null;
   stakeholderId: string = null;
   ready = false;
+  printPDf = false;
 
   constructor(private surveyService: SurveyService, private userService: UserService, private route: ActivatedRoute,
               private router: Router) {}
@@ -33,6 +34,8 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.ready = false;
     this.tabsHeader = 'Sections';
+    if (this.router.url.includes('printPdf'))
+      this.printPDf = true;
 
     this.subscriptions.push(
       this.route.params.subscribe(params => {
