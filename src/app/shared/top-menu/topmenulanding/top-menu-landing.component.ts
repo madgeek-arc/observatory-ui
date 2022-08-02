@@ -69,7 +69,7 @@ export class TopMenuLandingComponent implements OnInit, OnDestroy {
       let stakeHolders: Stakeholder[] = this.userInfo.stakeholders.filter(c => c.type === name);
       for (const stakeHolder of stakeHolders) {
         // console.log(stakeHolder.name);
-        if (stakeHolder.managers.indexOf(this.userService.userInfo.user.email) > 0)
+        if (stakeHolder.managers.indexOf(this.userService.userInfo.user.email) >= 0)
           return true;
       }
       return false

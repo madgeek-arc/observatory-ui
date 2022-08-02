@@ -21,7 +21,7 @@ export class NationalContributionsToEOSCGuardService implements CanActivate {
       } else if (this.userService.userInfo.stakeholders.filter(c => c.type === 'country').length > 0) {
         let stakeHolders: Stakeholder[] = this.userService.userInfo.stakeholders.filter(c => c.type === 'country');
         for (const stakeHolder of stakeHolders) {
-          if (stakeHolder.managers.indexOf(this.userService.userInfo.user.email) > 0)
+          if (stakeHolder.managers.indexOf(this.userService.userInfo.user.email) >= 0)
             return true;
         }
         return this.fail();
