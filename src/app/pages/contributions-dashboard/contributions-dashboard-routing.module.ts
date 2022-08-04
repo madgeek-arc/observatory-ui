@@ -1,6 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { ContributionsDashboardComponent } from "./contributions-dashboard.component";
 import { SurveyFormComponent } from "./my-surveys/survey-form/survey-form.component";
 import { ContributionsHomeComponent } from "./home/contributions-home.component";
 import { MySurveysComponent } from "./my-surveys/my-surveys.component";
@@ -11,8 +10,6 @@ import {CoordinatorsComponent} from "./coordinators/coordinators.component";
 const contributionsDashboardRoutes: Routes = [
   {
     path: '',
-    // component: ContributionsDashboardComponent,
-    // redirectTo: '/403-forbidden',
     children: [
       {
         path: '',
