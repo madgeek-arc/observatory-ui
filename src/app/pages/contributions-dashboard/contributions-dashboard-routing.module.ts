@@ -7,7 +7,6 @@ import { MySurveysComponent } from "./my-surveys/my-surveys.component";
 import { MyGroupComponent } from "./my-group/my-group.component";
 import {AuthenticationGuardService} from "../../services/authentication-guard.service";
 import {CoordinatorsComponent} from "./coordinators/coordinators.component";
-import {PrintToPdfComponent} from "../../../catalogue-ui/pages/printToPDF/print-to-pdf.component";
 
 const contributionsDashboardRoutes: Routes = [
   {
