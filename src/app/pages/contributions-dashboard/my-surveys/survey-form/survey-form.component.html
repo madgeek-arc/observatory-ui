@@ -1,8 +1,6 @@
 <div *ngIf="ready" class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom" style="min-height: 90vh;">
   <div class="uk-container uk-container-expand uk-margin-left uk-margin-right uk-margin-top">
-<!--    <app-printPdf *ngIf="printPDf; else elseBlock" [answer]="surveyAnswers" [survey]="survey" [tabsHeader]="tabsHeader"></app-printPdf>-->
-<!--    <ng-template #elseBlock>-->
-      <app-survey [answer]="surveyAnswers" [survey]="survey" [tabsHeader]="tabsHeader"></app-survey>
-<!--    </ng-template>-->
+    <app-survey [answer]="surveyAnswers" [survey]="survey" [tabsHeader]="tabsHeader"
+     (valid)="validateSurveyAnswer($event)"></app-survey>
   </div>
 </div>

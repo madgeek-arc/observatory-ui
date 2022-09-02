@@ -2,11 +2,13 @@ import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {ChapterEditComponent} from "../../../../../catalogue-ui/pages/dynamic-form/chapter-edit.component";
 import {SurveyService} from "../../../../services/survey.service";
 import {Subscriber} from "rxjs";
-import {ActivatedRoute, Route, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {SurveyAnswer} from "../../../../domain/survey";
 import {UserService} from "../../../../services/user.service";
 import {zip} from "rxjs/internal/observable/zip";
 import {Model} from "../../../../../catalogue-ui/domain/dynamic-form-model";
+
+import UIkit from "uikit";
 
 @Component({
   selector: 'app-survey-form',
@@ -61,6 +63,19 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
         subscription.unsubscribe();
       }
     });
+  }
+
+  validateSurveyAnswer(valid: boolean) {
+    console.log('Is valid: ', valid);
+    this.surveyService.changeAnswerValidStatus(this.surveyAnswers.id, !this.surveyAnswers.validated).subscribe(
+      next => {
+        UIkit.modal('#validation-modal').hide();
+        this.router.navigate([`/contributions/${this.stakeholderId}/mySurveys`]);
+      },
+      error => {
+        console.error(error);
+      },
+      () => {});
   }
 
   callChildFnc() {
