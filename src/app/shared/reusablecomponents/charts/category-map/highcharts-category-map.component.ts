@@ -1,13 +1,13 @@
 import * as Highcharts from "highcharts/highmaps";
 import HC_exporting from 'highcharts/modules/exporting';
-import HC_tilemap from 'highcharts/modules/tilemap';
+import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
 import {CategorizedAreaData} from "../../../../domain/categorizedAreaData";
 import {SeriesOptionsType} from "highcharts/highmaps";
 import {PremiumSortPipe} from "../../../../../catalogue-ui/shared/pipes/premium-sort.pipe";
 
 HC_exporting(Highcharts);
-HC_tilemap(Highcharts);
+HC_ExportingOffline(Highcharts);
 
 declare var require: any;
 const worldMap = require('@highcharts/map-collection/custom/world-highres3.topo.json');
