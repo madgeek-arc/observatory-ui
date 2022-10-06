@@ -20,9 +20,11 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
   @ViewChild(ChapterEditComponent) child: ChapterEditComponent
 
   subscriptions = [];
-  tabsHeader: string = null;
   survey: Model = null;
   surveyAnswers: SurveyAnswer = null
+  tabsHeader: string = null;
+  mandatoryFieldsText: string = 'Fields with (*) are mandatory and must be completed in order for the survey to be validated.';
+  downloadPDF: boolean = true;
   surveyId: string = null;
   stakeholderId: string = null;
   ready = false;
