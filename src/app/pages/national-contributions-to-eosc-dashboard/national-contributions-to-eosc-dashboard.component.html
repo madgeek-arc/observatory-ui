@@ -7,21 +7,11 @@
       <!--<div class="uk-navbar-container uk-navbar-transparent">-->
       <div class="uk-container uk-container-large">
         <nav class="uk-navbar" uk-navbar="{&quot;align&quot;:&quot;left&quot;}">
-
-          <!--<div *ngIf="!loading" class="uk-navbar-left" style="padding-top: 20px; padding-bottom: 20px;">-->
-            <!--<img src="{{form.get('service.logo').value}}" style="max-width: 210px; height: 70px;">-->
-          <!--</div>-->
-
           <div class="uk-navbar-center">
             <ul class="uk-navbar-nav">
-              <!--<li [ngClass]="{'uk-active': path === 'overview'}"><a [routerLink]="'./overview'" class="">Overview</a></li>-->
               <li [routerLinkActive]="['uk-active']"><a [routerLink]="'./policies'" class="sub-menu-item">Policies</a></li>
-              <li [routerLinkActive]="['uk-active']"><a [routerLink]="'./funding'" class="sub-menu-item">Funding</a></li>
-              <li [routerLinkActive]="['uk-active']"><a [routerLink]="'./mandate'" class="sub-menu-item">Mandate</a></li>
-              <li [routerLinkActive]="['uk-active']"><a [routerLink]="'./monitoring'" class="sub-menu-item">Monitoring</a></li>
-              <li [routerLinkActive]="['uk-active']"><a [routerLink]="'./openAccess'" class="sub-menu-item">Open Access</a></li>
-              <!--<li [ngClass]="{'uk-active': path === 'resourcesAndSupport'}"><a [routerLink]="'./resourcesAndSupport'" class="">Monitoring</a></li>-->
-              <!--<li [ngClass]="{'uk-active': path === 'resourcesAndSupport'}"><a [routerLink]="'./resourcesAndSupport'" class="">Open Access Publications</a></li>-->
+              <li [routerLinkActive]="['uk-active']"><a [routerLink]="'./practices'" class="sub-menu-item">Practices</a></li>
+              <li [routerLinkActive]="['uk-active']"><a [routerLink]="'./archive'" class="sub-menu-item">Archive</a></li>
             </ul>
           </div>
         </nav>

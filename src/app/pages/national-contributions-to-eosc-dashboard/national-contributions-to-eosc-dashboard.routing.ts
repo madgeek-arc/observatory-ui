@@ -1,12 +1,9 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {NationalContributionsToEOSCDashboardComponent} from "./national-contributions-to-eosc-dashboard.component";
-import {NCTEPoliciesComponent} from "./policies/ncte-policies.component";
-import {NCTEFundingComponent} from "./funding/ncte-funding.component";
 import {NationalContributionsToEOSCGuardService} from "../../services/nationalContributionsToEOSC-guard.service";
-import {NCTEMandate} from "./mandate/ncte-mandate";
-import {NCTEOpenAccessComponent} from "./open-access/ncte-open-access.component";
-import {NCTEMonitoringComponent} from "./monitoring/ncte-monitoring.component";
+import {PoliciesComponent} from "./policies/policies.component";
+import {PracticesComponent} from "./practices/practices.component";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
@@ -21,28 +18,16 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
       },
       {
         path: 'policies',
-        component: NCTEPoliciesComponent,
+        component: PoliciesComponent,
       },
       {
-        path: 'funding',
-        component: NCTEFundingComponent,
+        path: 'practices',
+        component: PracticesComponent,
       },
       {
-        path: 'mandate',
-        component: NCTEMandate,
-      },
-      {
-        path: 'monitoring',
-        component: NCTEMonitoringComponent,
-      },
-      {
-        path: 'openAccess',
-        component: NCTEOpenAccessComponent,
-      },
-      // {
-      //   path: 'miscellaneous',
-      //   component: MiscellaneousComponent,
-      // }
+        path: 'archive',
+        loadChildren: () => import('./archive/archive.module').then(m => m.ArchiveModule)
+      }
     ],
     runGuardsAndResolvers: 'always'
   }

@@ -1,10 +1,10 @@
 import {Component, OnInit} from "@angular/core";
-import {DataService} from "../../../services/data.service";
-import {CountryTableData} from "../../../domain/country-table-data";
-import {DataHandlerService} from "../../../services/data-handler.service";
+import {DataService} from "../../../../services/data.service";
+import {CountryTableData} from "../../../../domain/country-table-data";
+import {DataHandlerService} from "../../../../services/data-handler.service";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
-import {environment} from "../../../../environments/environment";
-import {StakeholdersService} from "../../../services/stakeholders.service";
+import {environment} from "../../../../../environments/environment";
+import {StakeholdersService} from "../../../../services/stakeholders.service";
 
 @Component({
   selector: 'app-ncte-open-access',
