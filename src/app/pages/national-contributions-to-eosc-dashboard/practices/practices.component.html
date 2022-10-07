@@ -1,5 +1,24 @@
 <div class="uk-section uk-section-primary uk-section-small uk-preserve-color">
   <div class="uk-container uk-container-expand">
-    Practices
+    <div class="uk-grid">
+      <div class="uk-width-1-6">
+        <ul class="uk-width-1-1 uk-margin-remove uk-tab uk-tab-left form-tabs"
+            data-uk-tab="connect: #left-tabs; animation: uk-animation-fade">
+          <li><a href="#">Question 15</a></li>
+          <li><a href="#">Question 16</a></li>
+          <li><a href="#">Question 17</a></li>
+          <li><a href="#">Question 18</a></li>
+        </ul>
+      </div>
+      <div class="uk-width-5-6">
+        <ul id="left-tabs" class="uk-switcher">
+          <li>
+            <div class="uk-card uk-card-default uk-card-body" style="height: 600px">
+              <app-highcharts-category-map [mapData]="q15Data" [title]="'Has the country appointed a Mandated Organisation to the EOSC Association?'"></app-highcharts-category-map>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>

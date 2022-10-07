@@ -35,6 +35,9 @@ import {StakeholdersService} from "../../../services/stakeholders.service";
     DataHandlerService,
     StakeholdersService
   ],
+  exports: [
+    NCTEPoliciesComponent
+  ]
 })
 
 export class ArchiveModule {}

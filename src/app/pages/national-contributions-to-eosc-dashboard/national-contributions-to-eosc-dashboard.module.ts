@@ -9,6 +9,7 @@ import {DataHandlerService} from "../../services/data-handler.service";
 import {StakeholdersService} from "../../services/stakeholders.service";
 import {PoliciesComponent} from "./policies/policies.component";
 import {PracticesComponent} from "./practices/practices.component";
+import {ArchiveModule} from "./archive/archive.module";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {PracticesComponent} from "./practices/practices.component";
     CommonModule,
     ReusableComponentsModule,
     NationalContributionsToEOSCDashboardRouting,
-    HighchartsChartModule
+    HighchartsChartModule,
+    ArchiveModule
   ],
   providers: [
     DataService,
