@@ -1,7 +1,11 @@
 import {Component, OnInit} from "@angular/core";
-import {CategorizedAreaData} from "../../../domain/categorizedAreaData";
+import {CategorizedAreaData, Series} from "../../../domain/categorizedAreaData";
 import {DataService} from "../../../services/data.service";
 import {DataHandlerService} from "../../../services/data-handler.service";
+import {zip} from "rxjs/internal/observable/zip";
+import {StakeholdersService} from "../../../services/stakeholders.service";
+import {CountryTableData} from "../../../domain/country-table-data";
+import {mapSubtitles} from "../../../domain/mapSubtitles";
 
 @Component({
   selector: 'app-policies',
@@ -10,23 +14,69 @@ import {DataHandlerService} from "../../../services/data-handler.service";
 
 export class PracticesComponent implements OnInit {
 
-  q15Data: CategorizedAreaData;
+  questionsDataArray: CategorizedAreaData[] = [];
+  tableAbsoluteDataArray: CountryTableData[][] = [];
+  mapSubtitle: string = null;
+  countriesArray: string[] = [];
 
-  constructor(private dataService: DataService, private dataHandlerService: DataHandlerService) {
+  constructor(private dataService: DataService, private dataHandlerService: DataHandlerService,
+              private stakeholdersService: StakeholdersService) {
   }
 
   ngOnInit() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.dataService.getEOSCRelevantPolicies(),
+      this.dataService.getEOSCRelevantPolicies(),
+      this.dataService.getEOSCRelevantPolicies()).subscribe(
+      rawData => {
+        this.countriesArray = rawData[0];
+        this.tableAbsoluteDataArray[4] = this.dataHandlerService.convertRawDataToTableData(rawData[1]);
+        this.createMapDataset(0, 4);
+        this.tableAbsoluteDataArray[5] = this.dataHandlerService.convertRawDataToTableData(rawData[2]);
+        this.createMapDataset(0, 5);
+        this.tableAbsoluteDataArray[6] = this.dataHandlerService.convertRawDataToTableData(rawData[3]);
+        this.createMapDataset(0, 6);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
     this.dataService.getMandatedStatus().subscribe(
       rawData => {
-        this.q15Data = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData);
-        for (let i = 0; i < this.q15Data.series.length; i++) {
-          this.q15Data.series[i].data = this.q15Data.series[i].data.map(code => ({ code }));
+        this.questionsDataArray[15] = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData);
+        for (let i = 0; i < this.questionsDataArray[15].series.length; i++) {
+          this.questionsDataArray[15].series[i].data = this.questionsDataArray[15].series[i].data.map(code => ({ code }));
         }
       },
       error => {
         console.log(error);
       }
     );
+  }
+
+  createMapDataset(index: number, mapCount: number) {
+    this.mapSubtitle = mapSubtitles[mapCount][0];
+
+    this.questionsDataArray[mapCount] = new CategorizedAreaData();
+    this.questionsDataArray[mapCount].series[0] = new Series('Has Policy', false);
+
+    let countryCodeArray = [];
+    for (let i = 0; i < this.tableAbsoluteDataArray[mapCount].length; i++) {
+      if (this.tableAbsoluteDataArray[mapCount][i].EOSCRelevantPoliciesInPlace[index] === 'true') {
+        countryCodeArray.push(this.tableAbsoluteDataArray[mapCount][i].code);
+      }
+    }
+    this.questionsDataArray[mapCount].series[0].data = countryCodeArray;
+
+    this.questionsDataArray[mapCount].series[1] = new Series('No Policy', false);
+    this.questionsDataArray[mapCount].series[1].data = this.countriesArray.filter( code => !countryCodeArray.includes(code));
+
+    for (let i = 0; i < this.questionsDataArray[mapCount].series.length; i++) {
+      this.questionsDataArray[mapCount].series[i].data = this.questionsDataArray[mapCount].series[i].data.map(code => ({ code }));
+    }
+
   }
 
 }
