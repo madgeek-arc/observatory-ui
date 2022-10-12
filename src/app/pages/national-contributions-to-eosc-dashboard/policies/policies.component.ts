@@ -17,7 +17,7 @@ export class PoliciesComponent implements OnInit{
   questionsDataArray: CategorizedAreaData[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];
   countriesArray: string[] = [];
-  mapSubtitle: string = null;
+  mapSubtitles: string[] = [];
 
   constructor(private dataService: DataService, private dataHandlerService: DataHandlerService,
               private stakeholdersService: StakeholdersService) {
@@ -25,15 +25,15 @@ export class PoliciesComponent implements OnInit{
 
   ngOnInit() {
     zip(
-    this.stakeholdersService.getEOSCSBCountries(),
-    this.dataService.getEOSCRelevantPolicies(),
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.dataService.getEOSCRelevantPolicies(),
       this.dataService.getEOSCRelevantPolicies(),).subscribe(
       rawData => {
         this.countriesArray = rawData[0];
+        this.tableAbsoluteDataArray[0] = this.dataHandlerService.convertRawDataToTableData(rawData[1]);
+        this.createMapDataset(0, 0);
         this.tableAbsoluteDataArray[1] = this.dataHandlerService.convertRawDataToTableData(rawData[1]);
         this.createMapDataset(0, 1);
-        this.tableAbsoluteDataArray[2] = this.dataHandlerService.convertRawDataToTableData(rawData[1]);
-        this.createMapDataset(0, 2);
       },
       error => {
         console.log(error);
@@ -53,7 +53,7 @@ export class PoliciesComponent implements OnInit{
   }
 
   createMapDataset(index: number, mapCount: number) {
-    this.mapSubtitle = mapSubtitles[mapCount][0];
+    this.mapSubtitles[mapCount] = mapSubtitles[mapCount][index];
 
     this.questionsDataArray[mapCount] = new CategorizedAreaData();
     this.questionsDataArray[mapCount].series[0] = new Series('Has Policy', false);

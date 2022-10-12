@@ -16,7 +16,7 @@ export class PracticesComponent implements OnInit {
 
   questionsDataArray: CategorizedAreaData[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];
-  mapSubtitle: string = null;
+  mapSubtitles: string[] = [];
   countriesArray: string[] = [];
 
   constructor(private dataService: DataService, private dataHandlerService: DataHandlerService,
@@ -57,7 +57,7 @@ export class PracticesComponent implements OnInit {
   }
 
   createMapDataset(index: number, mapCount: number) {
-    this.mapSubtitle = mapSubtitles[mapCount][0];
+    this.mapSubtitles[mapCount] = mapSubtitles[mapCount][index];
 
     this.questionsDataArray[mapCount] = new CategorizedAreaData();
     this.questionsDataArray[mapCount].series[0] = new Series('Has Policy', false);

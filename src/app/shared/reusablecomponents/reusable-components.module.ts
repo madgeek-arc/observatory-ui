@@ -17,6 +17,7 @@ import {HighchartsTilemapComponent} from "./charts/highcharts-tilemap.component"
 import {HighchartsCategoryMapComponent} from "./charts/category-map/highcharts-category-map.component";
 import {HighchartsPieComponent} from "./charts/pie-chart/highcharts-pie.component";
 import {HighchartsBubbleMapComponent} from "./charts/bubble-map/highcharts-bubble-map.component";
+import {HighchartsColorAxisMapComponent} from "./charts/color-axis-map/highcharts-color-axis-map.component";
 // import { SideMenuComponent } from "../sidemenu/sidemenu.component";
 
 @NgModule({
@@ -42,7 +43,8 @@ import {HighchartsBubbleMapComponent} from "./charts/bubble-map/highcharts-bubbl
     HighchartsTilemapComponent,
     HighchartsCategoryMapComponent,
     HighchartsBubbleMapComponent,
-    HighchartsPieComponent
+    HighchartsPieComponent,
+    HighchartsColorAxisMapComponent
   ],
   exports: [
     TopMenuLandingComponent,
@@ -56,7 +58,8 @@ import {HighchartsBubbleMapComponent} from "./charts/bubble-map/highcharts-bubbl
     HighchartsTilemapComponent,
     HighchartsCategoryMapComponent,
     HighchartsPieComponent,
-    HighchartsBubbleMapComponent
+    HighchartsBubbleMapComponent,
+    HighchartsColorAxisMapComponent
   ],
   providers: [
     // HelpContentService

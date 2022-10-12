@@ -30,33 +30,33 @@
                     <div class="uk-text-meta uk-margin-bottom uk-text-italic">
                       Select one of the following to change the view of the map
                     </div>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" checked (click)="createMapDataset(0,1)">
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" checked (click)="createMapDataset(0,0)">
                       There are one or more policies relevant for the EOSC in place</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(1, 1)">
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(1, 0)">
                       Policy in planning</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(2, 1)">
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(2, 0)">
                       One or more of the open science policies explicitly mentions EOSC</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(3, 1)">
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(3, 0)">
                       Policy addresses Open access to data, data management and/or FAIR</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(4, 1)">
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(4, 0)">
                       Policy addresses FAIRisation of data</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(5, 1)">
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(5, 0)">
                       Policy addresses Open access to software</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(6, 1)">
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(6, 0)">
                       Policy addresses Preservation and reuse of scientific information</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(7, 1)">
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(7, 0)">
                       Policy addresses Infrastructures that include aspects of open science</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(8, 1)">
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(8, 0)">
                       Policy addresses Skills and competencies</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(9, 1)">
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(9, 0)">
                       Policy addresses Incentives and rewards</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(10, 1)">
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(10, 0)">
                       Policy addresses Citizen science</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(11, 1)">
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map1" (click)="createMapDataset(11, 0)">
                       Other</label>
                   </div>
                   <div class="uk-width-2-3" style="height: 500px">
-                    <app-highcharts-category-map [mapData]="questionsDataArray[1]" [subtitle]="mapSubtitle"
+                    <app-highcharts-category-map [mapData]="questionsDataArray[0]" [subtitle]="mapSubtitles[0]"
                                                  [title]="'EOSC-relevant policies in place at national or regional level'">
                     </app-highcharts-category-map>
                   </div>
@@ -72,33 +72,17 @@
                     <div class="uk-text-meta uk-margin-bottom uk-text-italic">
                       Select one of the following to change the view of the map
                     </div>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" checked (click)="createMapDataset(0, 2)">
-                      There are one or more policies relevant for the EOSC in place</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" (click)="createMapDataset(1, 2)">
-                      Policy in planning</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" (click)="createMapDataset(2, 2)">
-                      One or more of the open science policies explicitly mentions EOSC</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" (click)="createMapDataset(3, 2)">
-                      Policy addresses Open access to data, data management and/or FAIR</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" (click)="createMapDataset(4, 2)">
-                      Policy addresses FAIRisation of data</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" (click)="createMapDataset(5, 2)">
-                      Policy addresses Open access to software</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" (click)="createMapDataset(6, 2)">
-                      Policy addresses Preservation and reuse of scientific information</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" (click)="createMapDataset(7, 2)">
-                      Policy addresses Infrastructures that include aspects of open science</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" (click)="createMapDataset(8, 2)">
-                      Policy addresses Skills and competencies</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" (click)="createMapDataset(9, 2)">
-                      Policy addresses Incentives and rewards</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" (click)="createMapDataset(10, 2)">
-                      Policy addresses Citizen science</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" (click)="createMapDataset(11, 2)">
-                      Other</label>
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" checked (click)="createMapDataset(0, 1)">
+                      Action plan</label>
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" (click)="createMapDataset(1, 1)">
+                      Concrete objectives</label>
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" (click)="createMapDataset(2, 1)">
+                      Indicators to monitor progress</label>
+                    <label><input class="uk-margin-small-bottom" type="radio" name="map2" (click)="createMapDataset(3, 1)">
+                      Associated financial planning</label>
                   </div>
                   <div class="uk-width-2-3" style="height: 500px">
-                    <app-highcharts-category-map [mapData]="questionsDataArray[2]" [subtitle]="mapSubtitle"
+                    <app-highcharts-category-map [mapData]="questionsDataArray[1]" [subtitle]="mapSubtitles[1]"
                                                  [title]="'EOSC-relevant policies in place include measures to ensure implementation'">
                     </app-highcharts-category-map>
                   </div>
@@ -109,6 +93,11 @@
           <li>
             <div class="uk-card uk-card-default uk-card-body" style="height: 600px">
               <app-highcharts-category-map [mapData]="questionsDataArray[3]" [title]="'Does the country have dedicated financial contributions to the EOSC linked to the policies?'"></app-highcharts-category-map>
+            </div>
+          </li>
+          <li>
+            <div class="uk-card uk-card-default uk-card-body" style="height: 600px">
+              <app-highcharts-color-axis [title]="'Color axis demo'"></app-highcharts-color-axis>
             </div>
           </li>
         </ul>

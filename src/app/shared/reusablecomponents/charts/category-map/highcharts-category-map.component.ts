@@ -55,10 +55,11 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       const self = this, chart = this.chart;
       // chart.showLoading();
       self.chartOptions.series = [];
-
+      if (this.subtitle) {
+        self.chartOptions.subtitle.text = this.subtitle;
+      }
       if (this.title === 'EOSC-relevant policies in place at national or regional level') {
         this.mapData.series[1].color = this.colorPallet[4];
-        self.chartOptions.subtitle.text = this.subtitle;
         // self.chartOptions.legend.enabled = false;
         self.chartOptions.plotOptions.map.tooltip.pointFormat = '{point.name}';
       } else {
