@@ -32,7 +32,7 @@ export class PoliciesComponent implements OnInit{
         this.countriesArray = rawData[0];
         this.tableAbsoluteDataArray[0] = this.dataHandlerService.convertRawDataToTableData(rawData[1]);
         this.createMapDataset(0, 0);
-        this.tableAbsoluteDataArray[1] = this.dataHandlerService.convertRawDataToTableData(rawData[1]);
+        this.tableAbsoluteDataArray[1] = this.dataHandlerService.convertRawDataToTableData(rawData[2]);
         this.createMapDataset(0, 1);
       },
       error => {

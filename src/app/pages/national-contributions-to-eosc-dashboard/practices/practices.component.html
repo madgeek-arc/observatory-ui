@@ -1,25 +1,24 @@
 <div class="uk-section uk-section-primary uk-section-small uk-preserve-color">
   <div class="uk-container uk-container-expand">
     <div class="uk-grid">
-      <div class="uk-width-1-6">
-        <ul class="uk-width-1-1 uk-margin-remove uk-tab uk-tab-left form-tabs"
-            data-uk-tab="connect: #left-tabs; animation: uk-animation-fade">
+      <div class="uk-width-1-1">
+        <ul class="uk-width-1-1 uk-margin-remove uk-tab form-tabs uk-flex uk-flex-center"
+            data-uk-tab="connect: #tabs; animation: uk-animation-fade">
           <li><a href="#">Question 15</a></li>
           <li><a href="#">Question 16</a></li>
           <li><a href="#">Question 17</a></li>
           <li><a href="#">Question 18</a></li>
         </ul>
       </div>
-      <div class="uk-width-5-6">
-        <ul id="left-tabs" class="uk-switcher">
-          <li>
+      <div class="uk-width-1-1">
+        <ul id="tabs" class="uk-switcher">
+          <li class="uk-margin-medium-top">
             <div class="uk-card uk-card-default uk-card-body" style="height: 600px">
               <app-highcharts-category-map [mapData]="questionsDataArray[15]" [title]="'Has the country appointed a Mandated Organisation to the EOSC Association?'"></app-highcharts-category-map>
             </div>
           </li>
-          <li>
-            <div class="uk-margin-medium-top">
-              <div class="uk-card uk-card-default uk-card-body">
+          <li class="uk-margin-medium-top">
+            <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-grid uk-grid-match">
                   <div class="uk-width-1-3 uk-margin-medium-top">
                     <div class="uk-text-meta uk-margin-bottom uk-text-italic">
@@ -55,10 +54,8 @@
                   </div>
                 </div>
               </div>
-            </div>
           </li>
-          <li>
-            <div class="uk-margin-medium-top">
+          <li class="uk-margin-medium-top">
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-grid uk-grid-match">
                   <div class="uk-width-1-3 uk-margin-medium-top">
@@ -79,11 +76,9 @@
                   </div>
                 </div>
               </div>
-            </div>
           </li>
-          <li>
-            <div class="uk-margin-medium-top">
-              <div class="uk-card uk-card-default uk-card-body">
+          <li class="uk-margin-medium-top">
+            <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-grid uk-grid-match">
                   <div class="uk-width-1-3 uk-margin-medium-top">
                     <div class="uk-text-meta uk-margin-bottom uk-text-italic">
@@ -117,7 +112,6 @@
                   </div>
                 </div>
               </div>
-            </div>
           </li>
         </ul>
       </div>

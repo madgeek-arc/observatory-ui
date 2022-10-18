@@ -36,7 +36,8 @@ import {StakeholdersService} from "../../../services/stakeholders.service";
     StakeholdersService
   ],
   exports: [
-    NCTEPoliciesComponent
+    NCTEPoliciesComponent,
+    CountriesTableComponent
   ]
 })
 
