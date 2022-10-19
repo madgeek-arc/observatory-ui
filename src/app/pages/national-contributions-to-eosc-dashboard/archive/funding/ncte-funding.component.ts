@@ -30,7 +30,7 @@ export class NCTEFundingComponent implements OnInit {
   constructor(private dataService: DataService, private dataHandlerService: DataHandlerService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
-    this.dataService.getQuestion3().subscribe(
+    this.dataService.getQuestion5().subscribe(
       rawData => {
         this.tableAbsoluteData = this.dataHandlerService.convertRawDataToTableData(rawData);
         this.loadingAbsoluteTable = false;

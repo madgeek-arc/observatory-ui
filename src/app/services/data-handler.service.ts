@@ -5,6 +5,7 @@ import {CategorizedAreaData, Series} from "../domain/categorizedAreaData";
 import {FundingForEOSCSums} from "../domain/funding-for-eosc";
 import {isNumeric} from "rxjs/internal-compatibility";
 import {SeriesMapbubbleDataOptions, SeriesMapbubbleOptions} from "highcharts";
+import {SeriesMapDataOptions} from "highcharts/highmaps";
 
 @Injectable ()
 export class DataHandlerService {
@@ -20,7 +21,7 @@ export class DataHandlerService {
         const countryTableData: CountryTableData = new CountryTableData();
         if (series.series.query.name === 'eosc.obs.question17') {
           countryTableData.hasAppointedMandatedOrganization = rowResult.row[1];
-        } else if (series.series.query.name === 'eosc.obs.question3') {
+        } else if (series.series.query.name === 'eosc.obs.question3' || series.series.query.name === 'eosc.obs.question4') {
           countryTableData.EOSCRelevantPoliciesInPlace = rowResult.row.slice(2);
         } else if (series.series.query.name === 'eosc.obs.question20') {
           countryTableData.mapPointData = Array(3).fill(null).concat(rowResult.row.slice(2, 10).concat(rowResult.row.slice(11)));
@@ -89,6 +90,16 @@ export class DataHandlerService {
     }
 
     return mapData
+  }
+
+  public covertRawDataToColorAxisMap(rawData: RawData) {
+    let tmpDataArray: (number | SeriesMapDataOptions | [string, number])[] = [];
+    for (const data of rawData.datasets[0].series.result) {
+      if (isNumeric(data.row[1]))
+        tmpDataArray.push([data.row[0].toLowerCase(), parseFloat(data.row[1])])
+    }
+    console.log(tmpDataArray);
+    return tmpDataArray;
   }
 
   public convertRawDataToFundingForEOSCSums(rawData: RawData) {

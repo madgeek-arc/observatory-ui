@@ -91,8 +91,8 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
         backgroundColor: 'rgba(0,0,0,0)'
       },
       mapView: {
-        center: [30, 51],
-        zoom: 3.5
+        center: [15, 50],
+        zoom: 4.1
       },
 
       title: {

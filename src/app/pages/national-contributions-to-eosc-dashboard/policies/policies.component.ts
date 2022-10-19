@@ -14,7 +14,7 @@ import {mapSubtitles} from "../../../domain/mapSubtitles";
 
 export class PoliciesComponent implements OnInit{
 
-  questionsDataArray: CategorizedAreaData[] = [];
+  questionsDataArray: any[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];
   countriesArray: string[] = [];
   mapSubtitles: string[] = [];
@@ -27,7 +27,7 @@ export class PoliciesComponent implements OnInit{
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.dataService.getEOSCRelevantPolicies(),
-      this.dataService.getEOSCRelevantPolicies(),).subscribe(
+      this.dataService.getQuestion4(),).subscribe(
       rawData => {
         this.countriesArray = rawData[0];
         this.tableAbsoluteDataArray[0] = this.dataHandlerService.convertRawDataToTableData(rawData[1]);
@@ -39,17 +39,21 @@ export class PoliciesComponent implements OnInit{
         console.log(error);
       }
     );
-    this.dataService.getQuestion3().subscribe(
-      rawData => {
-          this.questionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData);
-          for (let i = 0; i < this.questionsDataArray[3].series.length; i++) {
-            this.questionsDataArray[3].series[i].data = this.questionsDataArray[3].series[i].data.map(code => ({ code }));
-          }
-        },
-      error => {
-        console.log(error);
-      }
-    );
+    zip(
+      this.dataService.getQuestion5(),
+      this.dataService.getQuestion6(),).subscribe(
+        rawData => {
+            this.questionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData[0]);
+            for (let i = 0; i < this.questionsDataArray[3].series.length; i++) {
+              this.questionsDataArray[3].series[i].data = this.questionsDataArray[3].series[i].data.map(code => ({ code }));
+            }
+            this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[1]);
+
+          },
+        error => {
+          console.log(error);
+        }
+      );
   }
 
   createMapDataset(index: number, mapCount: number) {

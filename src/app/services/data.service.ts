@@ -61,18 +61,28 @@ export class DataService {
     return this.httpClient.get<RawData>(this.OSOStatsAPIURL + encodeURIComponent(OAPublicationsPerCountryQuery), headerOptions);
   }
 
-  public getQuestion14(): Observable<RawData> {
+  public getQuestion16(): Observable<RawData> {
     const UseCasesAndPracticesByDimension = `{"series":[{"query":{"name":"eosc.obs.question16","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(UseCasesAndPracticesByDimension), headerOptions);
   }
 
-  public getQuestion12(): Observable<RawData> {
+  public getQuestion14(): Observable<RawData> {
     const UseCasesAndPracticesByDimension = `{"series":[{"query":{"name":"eosc.obs.question14","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(UseCasesAndPracticesByDimension), headerOptions);
   }
 
-  public getQuestion3(): Observable<RawData> {
+  public getQuestion6(): Observable<RawData> {
+    const UseCasesAndPracticesByDimension = `{"series":[{"query":{"name":"eosc.obs.question6","profile":"${this.profileName}"}}],"verbose":true}`;
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(UseCasesAndPracticesByDimension), headerOptions);
+  }
+
+  public getQuestion5(): Observable<RawData> {
     const UseCasesAndPracticesByDimension = `{"series":[{"query":{"name":"eosc.obs.question5","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(UseCasesAndPracticesByDimension), headerOptions);
+  }
+
+  public getQuestion4(): Observable<RawData> {
+    const query = `{"series":[{"query":{"name":"eosc.obs.question4","profile":"${this.profileName}"}}],"verbose":true}`;
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 }

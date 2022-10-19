@@ -13,39 +13,72 @@
       <div class="uk-width-1-1">
         <ul id="tabs" class="uk-switcher">
           <li class="uk-margin-medium-top">
-            <div class="uk-card uk-card-default uk-card-body" style="height: 600px">
+            <div class="uk-card uk-card-default uk-card-body" style="height: 700px">
               <app-highcharts-category-map [mapData]="questionsDataArray[15]" [title]="'Has the country appointed a Mandated Organisation to the EOSC Association?'"></app-highcharts-category-map>
             </div>
           </li>
           <li class="uk-margin-medium-top">
-            <div class="uk-card uk-card-default uk-card-body">
+            <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
+                data-uk-switcher="{connect:'#map-vs-table-4', animation: 'fade'}">
+              <li>
+                <a class="uk-margin-remove-bottom"><span>Graph view</span></a>
+              </li>
+              <li>
+                <a class="uk-margin-remove-bottom"><span>Table view</span></a>
+              </li>
+            </ul>
+            <ul id="map-vs-table-4" class="uk-switcher uk-margin">
+              <li>
+                <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-grid uk-grid-match">
                   <div class="uk-width-1-3 uk-margin-medium-top">
                     <div class="uk-text-meta uk-margin-bottom uk-text-italic">
                       Select one of the following to change the view of the map
                     </div>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map4" checked (click)="createMapDataset(0,4)">
-                      Open Access to data, data management and/or FAIR</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map4" (click)="createMapDataset(1, 4)">
-                      FAIRisation of data</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map4" (click)="createMapDataset(2, 4)">
-                      Open Access to software</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map4" (click)="createMapDataset(3, 4)">
-                      Preservation and reuse of scientific information</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map4" (click)="createMapDataset(4, 4)">
-                      Infrastructures that include aspects of open science</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map4" (click)="createMapDataset(5, 4)">
-                      Skills and competencies</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map4" (click)="createMapDataset(6, 4)">
-                      Incentives and rewards</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map4" (click)="createMapDataset(7, 4)">
-                      Citizen science</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map4" (click)="createMapDataset(8, 4)">
-                      Monitoring or Mapping exercise in planning</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map4" (click)="createMapDataset(9, 4)">
-                      No monitoring takes place</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map4" (click)="createMapDataset(10, 4)">
-                      Other</label>
+                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <input type="radio" name="map4" checked (click)="createMapDataset(0,4)">
+                      <label>Open Access to data, data management and/or FAIR</label>
+                    </div>
+                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <input type="radio" name="map4" (click)="createMapDataset(1, 4)">
+                      <label>FAIRisation of data</label>
+                    </div>
+                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <input type="radio" name="map4" (click)="createMapDataset(2, 4)">
+                      <label>Open Access to software</label>
+                    </div>
+                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <input type="radio" name="map4" (click)="createMapDataset(3, 4)">
+                      <label>Preservation and reuse of scientific information</label>
+                    </div>
+                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <input type="radio" name="map4" (click)="createMapDataset(4, 4)">
+                      <label>Infrastructures that include aspects of open science</label>
+                    </div>
+                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <input type="radio" name="map4" (click)="createMapDataset(5, 4)">
+                      <label>Skills and competencies</label>
+                    </div>
+                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <input type="radio" name="map4" (click)="createMapDataset(6, 4)">
+                      <label>Incentives and rewards</label>
+                    </div>
+                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <input type="radio" name="map4" (click)="createMapDataset(7, 4)">
+                      <label>Citizen science</label>
+                    </div>
+                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <input type="radio" name="map4" (click)="createMapDataset(8, 4)">
+                      <label>Monitoring or Mapping exercise in planning</label>
+                    </div>
+                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <input type="radio" name="map4" (click)="createMapDataset(9, 4)">
+                      <label>No monitoring takes place</label>
+                    </div>
+                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <input type="radio" name="map4" (click)="createMapDataset(10, 4)">
+                      <label>Other</label>
+                    </div>
                   </div>
                   <div class="uk-width-2-3" style="height: 500px">
                     <app-highcharts-category-map [mapData]="questionsDataArray[4]" [subtitle]="mapSubtitles[4]"
@@ -54,20 +87,46 @@
                   </div>
                 </div>
               </div>
+              </li>
+              <li>
+                <div class="uk-card uk-card-default uk-card-body">
+                  <app-countries-table *ngIf="tableAbsoluteDataArray[4]" [countries]="tableAbsoluteDataArray[4]"
+                                       [tableType]="'policies'">
+                  </app-countries-table>
+                </div>
+              </li>
+            </ul>
           </li>
           <li class="uk-margin-medium-top">
-              <div class="uk-card uk-card-default uk-card-body">
+            <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
+                data-uk-switcher="{connect:'#map-vs-table-5', animation: 'fade'}">
+              <li>
+                <a class="uk-margin-remove-bottom"><span>Graph view</span></a>
+              </li>
+              <li>
+                <a class="uk-margin-remove-bottom"><span>Table view</span></a>
+              </li>
+            </ul>
+            <ul id="map-vs-table-5" class="uk-switcher uk-margin">
+              <li>
+                <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-grid uk-grid-match">
                   <div class="uk-width-1-3 uk-margin-medium-top">
                     <div class="uk-text-meta uk-margin-bottom uk-text-italic">
                       Select one of the following to change the view of the map
                     </div>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map5" checked (click)="createMapDataset(0, 5)">
-                      Periodic reports</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map5" (click)="createMapDataset(1, 5)">
-                      Mapping exercise</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map5" (click)="createMapDataset(2, 5)">
-                      Dashboard</label>
+                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <input type="radio" name="map5" checked (click)="createMapDataset(0, 5)">
+                      <label>Periodic reports</label>
+                    </div>
+                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <input type="radio" name="map5" (click)="createMapDataset(1, 5)">
+                      <label>Mapping exercise</label>
+                    </div>
+                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <input type="radio" name="map5" (click)="createMapDataset(2, 5)">
+                      <label>Dashboard</label>
+                    </div>
                   </div>
                   <div class="uk-width-2-3" style="height: 500px">
                     <app-highcharts-category-map [mapData]="questionsDataArray[5]" [subtitle]="mapSubtitles[5]"
@@ -76,44 +135,96 @@
                   </div>
                 </div>
               </div>
+              </li>
+              <li>
+                <div class="uk-card uk-card-default uk-card-body">
+                  <app-countries-table *ngIf="tableAbsoluteDataArray[5]" [countries]="tableAbsoluteDataArray[5]"
+                                       [tableType]="'policies'">
+                  </app-countries-table>
+                </div>
+              </li>
+            </ul>
           </li>
           <li class="uk-margin-medium-top">
-            <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-grid uk-grid-match">
-                  <div class="uk-width-1-3 uk-margin-medium-top">
-                    <div class="uk-text-meta uk-margin-bottom uk-text-italic">
-                      Select one of the following to change the view of the map
+            <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
+                data-uk-switcher="{connect:'#map-vs-table-6', animation: 'fade'}">
+              <li>
+                <a class="uk-margin-remove-bottom"><span>Graph view</span></a>
+              </li>
+              <li>
+                <a class="uk-margin-remove-bottom"><span>Table view</span></a>
+              </li>
+            </ul>
+
+            <ul id="map-vs-table-6" class="uk-switcher uk-margin">
+              <li>
+                <div class="uk-card uk-card-default uk-card-body">
+                  <div class="uk-grid uk-grid-match">
+                    <div class="uk-width-1-3 uk-margin-medium-top">
+                      <div class="uk-text-meta uk-margin-bottom uk-text-italic">
+                        Select one of the following to change the view of the map
+                      </div>
+                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                        <input type="radio" name="map6" checked (click)="createMapDataset(0,6)">
+                        <label>Open Access to data, Research data management, and FAIR</label>
+                      </div>
+                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                        <input type="radio" name="map6" (click)="createMapDataset(1, 6)">
+                        <label>FAIRisation of data</label>
+                      </div>
+                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                        <input type="radio" name="map6" (click)="createMapDataset(2,6)">
+                        <label>Open Access to software</label>
+                      </div>
+                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                        <input type="radio" name="map6" (click)="createMapDataset(3,6 )">
+                        <label>Preservation and reuse of scientific information</label>
+                      </div>
+                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                        <input type="radio" name="map6" (click)="createMapDataset(4,6)">
+                        <label>Infrastructures that include aspects of open science</label>
+                      </div>
+                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                        <input type="radio" name="map6" (click)="createMapDataset(5, 6)">
+                        <label>Skills and competencies</label>
+                      </div>
+                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                        <input type="radio" name="map6" (click)="createMapDataset(6, 6)">
+                        <label>Incentives and rewards</label>
+                      </div>
+                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                        <input type="radio" name="map6" (click)="createMapDataset(7, 6)">
+                        <label>Citizen science</label>
+                      </div>
+                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                        <input type="radio" name="map6" (click)="createMapDataset(8, 6)">
+                        <label>None</label>
+                      </div>
+                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                        <input type="radio" name="map6" (click)="createMapDataset(9, 6)">
+                        <label>Other</label>
+                      </div>
                     </div>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map6" checked (click)="createMapDataset(0,6)">
-                      Open Access to data, Research data management, and FAIR</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map6" (click)="createMapDataset(1, 6)">
-                      FAIRisation of data</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map6" (click)="createMapDataset(2,6)">
-                      Open Access to software</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map6" (click)="createMapDataset(3,6 )">
-                      Preservation and reuse of scientific information</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map6" (click)="createMapDataset(4,6)">
-                      Infrastructures that include aspects of open science</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map6" (click)="createMapDataset(5, 6)">
-                      Skills and competencies</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map6" (click)="createMapDataset(6, 6)">
-                      Incentives and rewards</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map6" (click)="createMapDataset(7, 6)">
-                      Citizen science</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map6" (click)="createMapDataset(8, 6)">
-                      None</label>
-                    <label><input class="uk-margin-small-bottom" type="radio" name="map6" (click)="createMapDataset(9, 6)">
-                      Other</label>
-                  </div>
-                  <div class="uk-width-2-3" style="height: 500px">
-                    <app-highcharts-category-map [mapData]="questionsDataArray[6]" [subtitle]="mapSubtitles[6]"
-                                                 [title]="'Open science dimensions with use cases and best practices present'">
-                    </app-highcharts-category-map>
+                    <div class="uk-width-2-3" style="height: 500px">
+                      <app-highcharts-category-map [mapData]="questionsDataArray[6]" [subtitle]="mapSubtitles[6]"
+                                                   [title]="'Open science dimensions with use cases and best practices present'">
+                      </app-highcharts-category-map>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </li>
+              <li>
+                <div class="uk-card uk-card-default uk-card-body">
+                  <app-countries-table *ngIf="tableAbsoluteDataArray[6]" [countries]="tableAbsoluteDataArray[6]"
+                                       [tableType]="'policies'">
+                  </app-countries-table>
+                </div>
+              </li>
+            </ul>
+
           </li>
         </ul>
+
       </div>
     </div>
   </div>
