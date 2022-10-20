@@ -1,4 +1,5 @@
 export const mapSubtitles: string[][] = [
+  [],
   [
     'There are one or more policies relevant for the EOSC in place',
     'Policy in planning',
@@ -19,6 +20,10 @@ export const mapSubtitles: string[][] = [
     'Indicators to monitor progress',
     'Associated financial planning'
   ],
+  [],
+  [],
+  [],
+  [],
   [
     'Input/calculations from ministry',
     'Input from RPO',
@@ -31,6 +36,28 @@ export const mapSubtitles: string[][] = [
     'Direct governmental investment at institutional level',
     'Other'
   ],
+  [],
+  [],
+  [],
+  [
+    'Provision of making FAIR data searchable with the EOSC.',
+    'FAIRisation of data.',
+    'Open data from government and non-profit organizations (Public Sector Information Directive).',
+    'Further EOSC-relevant activities targeting data.',
+  ],
+  [
+    'Services provided by computing- and data centres.',
+    'Services provided by national network (NREN).',
+    'Support for the private sector to participate in EOSC-relevant activities.',
+    'Further EOSC-relevant activities targeting services.'
+  ],
+  [
+    'E-infrastructures like computing and data centres.',
+    'National Research infrastructures.',
+    'National contributions to international organisations contributing to the EOSC development, incl. European Research Infrastructures.',
+    'Further EOSC-relevant activities targeting infrastructures.'
+  ],
+  [],
   [
     'Open Access to data, data management and/or FAIR',
     'FAIRisation of data', 'Open Access to software',

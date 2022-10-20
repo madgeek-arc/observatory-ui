@@ -30,7 +30,6 @@ export class HighchartsColorAxisMapComponent {
   chartConstructor = "mapChart";
   chartOptions: Highcharts.Options;
   dataForInitialization = colorAxisDataWithZeroValue;
-  // data: (number | SeriesMapDataOptions | [string, number])[] = [];
 
   ready: boolean = false;
 
@@ -54,7 +53,6 @@ export class HighchartsColorAxisMapComponent {
         self.chartOptions.title.text = this.title;
         self.chartOptions.subtitle.text = this.subtitle;
         this.mapData = [...this.mapData, ...this.dataForInitialization];
-        console.log(this.mapData);
         self.chartOptions.series[0]['data'] = this.mapData;
         // console.log(self.chartOptions.series)
         // chart.hideLoading();

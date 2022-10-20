@@ -98,7 +98,7 @@ export class DataHandlerService {
       if (isNumeric(data.row[1]))
         tmpDataArray.push([data.row[0].toLowerCase(), parseFloat(data.row[1])])
     }
-    console.log(tmpDataArray);
+    // console.log(tmpDataArray);
     return tmpDataArray;
   }
 

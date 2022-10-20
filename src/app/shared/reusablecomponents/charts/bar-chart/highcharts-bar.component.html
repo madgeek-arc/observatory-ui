@@ -1,1 +1,7 @@
-<div id="chart-bar"></div>
+<highcharts-chart *ngIf="ready" #chart
+                  [Highcharts]="Highcharts"
+                  [callbackFunction]="chartCallback"
+                  [options]="chartOptions"
+                  [(update)]="updateFlag" style="display: block; height: 100%; width: 100%">
+</highcharts-chart>
+

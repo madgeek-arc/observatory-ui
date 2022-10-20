@@ -1,8 +1,9 @@
-import {AfterViewInit, Component, Input} from "@angular/core";
+import {AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild} from "@angular/core";
 import * as Highcharts from "highcharts";
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
-import {SeriesMapDataOptions} from "highcharts/highmaps";
+import {SeriesMapDataOptions, SeriesOptionsType} from "highcharts/highmaps";
+import {Options, XrangePointOptionsObject} from "highcharts";
 
 HC_exporting(Highcharts);
 HC_ExportingOffline(Highcharts);
@@ -12,18 +13,28 @@ HC_ExportingOffline(Highcharts);
   templateUrl: './highcharts-bar.component.html'
 })
 
-export class HighchartsBarComponent implements AfterViewInit{
+export class HighchartsBarComponent implements OnChanges{
 
   @Input() mapData: (number | SeriesMapDataOptions | [string, number])[] = [];
   @Input() title: string = null;
 
-  public ngAfterViewInit(): void {
-    this.createChartBar();
+  @ViewChild('chart') componentRef;
+  Highcharts: typeof Highcharts = Highcharts;
+  chartOptions: Highcharts.Options = {}
+  chartRef;
+  updateFlag;
+  ready = false;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.mapData?.length > 0) {
+      this.createChartBar()
+      this.ready =true
+    }
   }
 
   private createChartBar(): void {
 
-    const chart = Highcharts.chart('chart-bar' as any, {
+    this.chartOptions =  {
       chart: {
         type: 'bar',
       },
@@ -58,14 +69,14 @@ export class HighchartsBarComponent implements AfterViewInit{
       },
       series: [{
         name: 'Amount in millions',
-        data: [
-          ['gr', 30],
-          ['tr', 50],
-          ['cy', 40],
-          ['sp', 80]
-        ],
+        type: 'bar',
+        data: this.mapData,
       }],
-    } as any);
+    }
   }
+
+  chartCallback: Highcharts.ChartCallbackFunction = chart => {
+    this.chartRef = chart;
+  };
 
 }

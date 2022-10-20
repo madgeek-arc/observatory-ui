@@ -18,6 +18,7 @@ export class PoliciesComponent implements OnInit{
   tableAbsoluteDataArray: CountryTableData[][] = [];
   countriesArray: string[] = [];
   mapSubtitles: string[] = [];
+  mapSubtitlesArray: string[][] = mapSubtitles;
 
   constructor(private dataService: DataService, private dataHandlerService: DataHandlerService,
               private stakeholdersService: StakeholdersService) {
@@ -27,13 +28,28 @@ export class PoliciesComponent implements OnInit{
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.dataService.getEOSCRelevantPolicies(),
-      this.dataService.getQuestion4(),).subscribe(
+      this.dataService.getQuestion4(),
+      this.dataService.getQuestion9(),
+      this.dataService.getQuestion10(),
+      this.dataService.getQuestion14(),
+      this.dataService.getQuestion15(),
+      this.dataService.getQuestion16()).subscribe(
       rawData => {
         this.countriesArray = rawData[0];
-        this.tableAbsoluteDataArray[0] = this.dataHandlerService.convertRawDataToTableData(rawData[1]);
-        this.createMapDataset(0, 0);
-        this.tableAbsoluteDataArray[1] = this.dataHandlerService.convertRawDataToTableData(rawData[2]);
+        this.tableAbsoluteDataArray[1] = this.dataHandlerService.convertRawDataToTableData(rawData[1]);
         this.createMapDataset(0, 1);
+        this.tableAbsoluteDataArray[2] = this.dataHandlerService.convertRawDataToTableData(rawData[2]);
+        this.createMapDataset(0, 2);
+        this.tableAbsoluteDataArray[7] = this.dataHandlerService.convertRawDataToTableData(rawData[3]);
+        this.createMapDataset(0, 7);
+        this.tableAbsoluteDataArray[8] = this.dataHandlerService.convertRawDataToTableData(rawData[4]);
+        this.createMapDataset(0, 8);
+        this.tableAbsoluteDataArray[12] = this.dataHandlerService.convertRawDataToTableData(rawData[5]);
+        this.createMapDataset(0, 12);
+        this.tableAbsoluteDataArray[13] = this.dataHandlerService.convertRawDataToTableData(rawData[6]);
+        this.createMapDataset(0, 13);
+        this.tableAbsoluteDataArray[14] = this.dataHandlerService.convertRawDataToTableData(rawData[7]);
+        this.createMapDataset(0, 14);
       },
       error => {
         console.log(error);
@@ -41,14 +57,24 @@ export class PoliciesComponent implements OnInit{
     );
     zip(
       this.dataService.getQuestion5(),
-      this.dataService.getQuestion6(),).subscribe(
+      this.dataService.getQuestion6(),
+      this.dataService.getQuestion7(),
+      this.dataService.getQuestion8(),
+      this.dataService.getQuestion11(),
+      this.dataService.getQuestion12(),
+      this.dataService.getQuestion13(),
+      ).subscribe(
         rawData => {
             this.questionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData[0]);
             for (let i = 0; i < this.questionsDataArray[3].series.length; i++) {
               this.questionsDataArray[3].series[i].data = this.questionsDataArray[3].series[i].data.map(code => ({ code }));
             }
             this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[1]);
-
+            this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[2]);
+            this.questionsDataArray[6] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[3]);
+            this.questionsDataArray[9] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[4]);
+            this.questionsDataArray[10] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[5]);
+            this.questionsDataArray[11] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[6]);
           },
         error => {
           console.log(error);

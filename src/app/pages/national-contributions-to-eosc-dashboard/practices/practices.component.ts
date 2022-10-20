@@ -26,17 +26,17 @@ export class PracticesComponent implements OnInit {
   ngOnInit() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.dataService.getEOSCRelevantPolicies(),
-      this.dataService.getEOSCRelevantPolicies(),
-      this.dataService.getEOSCRelevantPolicies()).subscribe(
+      this.dataService.getQuestion18(),
+      this.dataService.getQuestion19(),
+      this.dataService.getUseCasesAndPracticesByDimension()).subscribe(
       rawData => {
         this.countriesArray = rawData[0];
-        this.tableAbsoluteDataArray[4] = this.dataHandlerService.convertRawDataToTableData(rawData[1]);
-        this.createMapDataset(0, 4);
-        this.tableAbsoluteDataArray[5] = this.dataHandlerService.convertRawDataToTableData(rawData[2]);
-        this.createMapDataset(0, 5);
-        this.tableAbsoluteDataArray[6] = this.dataHandlerService.convertRawDataToTableData(rawData[3]);
-        this.createMapDataset(0, 6);
+        this.tableAbsoluteDataArray[16] = this.dataHandlerService.convertRawDataToTableData(rawData[1]);
+        this.createMapDataset(0, 16);
+        this.tableAbsoluteDataArray[17] = this.dataHandlerService.convertRawDataToTableData(rawData[2]);
+        this.createMapDataset(0, 17);
+        this.tableAbsoluteDataArray[18] = this.dataHandlerService.convertRawDataToTableData(rawData[3]);
+        this.createMapDataset(0, 18);
       },
       error => {
         console.log(error);
