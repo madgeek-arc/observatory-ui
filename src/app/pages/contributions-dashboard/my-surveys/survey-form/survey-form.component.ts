@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
-import {ChapterEditComponent} from "../../../../../catalogue-ui/pages/dynamic-form/chapter-edit.component";
+import {SurveyComponent} from "../../../../../catalogue-ui/pages/dynamic-form/survey.component";
 import {SurveyService} from "../../../../services/survey.service";
 import {Subscriber} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SurveyAnswer} from "../../../../domain/survey";
 import {UserService} from "../../../../services/user.service";
+import {FormGroup} from "@angular/forms";
 import {zip} from "rxjs/internal/observable/zip";
 import {Model} from "../../../../../catalogue-ui/domain/dynamic-form-model";
 
@@ -17,7 +18,7 @@ import UIkit from "uikit";
 })
 
 export class SurveyFormComponent implements OnInit, OnDestroy {
-  @ViewChild(ChapterEditComponent) child: ChapterEditComponent
+  @ViewChild(SurveyComponent) child: SurveyComponent
 
   subscriptions = [];
   survey: Model = null;
@@ -80,8 +81,8 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
       () => {});
   }
 
-  callChildFnc() {
-    this.child.onSubmit(false);
+  submitForm(form: FormGroup) {
+    this.child.onSubmit();
   }
 
 }
