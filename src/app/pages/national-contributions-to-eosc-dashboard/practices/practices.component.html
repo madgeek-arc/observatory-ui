@@ -14,7 +14,10 @@
         <ul id="tabs" class="uk-switcher">
           <li class="uk-margin-medium-top">
             <div class="uk-card uk-card-default uk-card-body" style="height: 700px">
-              <app-highcharts-category-map [mapData]="questionsDataArray[15]" [title]="'Has the country appointed a Mandated Organisation to the EOSC Association?'"></app-highcharts-category-map>
+              <app-highcharts-category-map [mapData]="questionsDataArray[15]"
+                                           [title]="'Has the country appointed a Mandated Organisation to the EOSC Association?'"
+                                           [pointFormat]="'{point.name}: <b>{series.name}</b>'">
+              </app-highcharts-category-map>
             </div>
           </li>
           <li class="uk-margin-medium-top">
@@ -189,7 +192,7 @@
                         <label>Skills and competencies</label>
                       </div>
                       <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map10" (click)="createMapDataset(6, 6)">
+                        <input type="radio" name="map10" (click)="createMapDataset(6, 18)">
                         <label>Incentives and rewards</label>
                       </div>
                       <div class="uk-flex uk-flex-top uk-margin-small-bottom">

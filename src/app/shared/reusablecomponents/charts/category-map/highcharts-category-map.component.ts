@@ -22,6 +22,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   @Input() mapData: CategorizedAreaData = null;
   @Input() title: string = null;
   @Input() subtitle: string = null;
+  @Input() pointFormat: string = null;
 
   chart;
   chartCallback;
@@ -58,15 +59,16 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       if (this.subtitle) {
         self.chartOptions.subtitle.text = this.subtitle;
       }
-      if (this.title === 'EOSC-relevant policies in place at national or regional level') {
-        this.mapData.series[1].color = this.colorPallet[4];
-        // self.chartOptions.legend.enabled = false;
-        self.chartOptions.plotOptions.map.tooltip.pointFormat = '{point.name}';
-      } else {
+      if (this.pointFormat) {
+        self.chartOptions.plotOptions.map.tooltip.pointFormat = this.pointFormat;
+      }
+      if (this.mapData.series.length > 2) {
         for (let i = 0; i < this.mapData.series.length; i++) {
           this.premiumSort.transform(this.mapData.series, this.datasetOrder);
           this.mapData.series[i].color = this.colorPallet[this.datasetOrder.indexOf(this.mapData.series[i].name)];
         }
+      } else {
+        this.mapData.series[1].color = this.colorPallet[4];
       }
 
       this.mapData.series[0].allAreas = true;
@@ -120,7 +122,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
           joinBy: ['iso-a2', 'code'],
           tooltip: {
             headerFormat: '',
-            pointFormat: '{point.name}: <b>{series.name}</b>'
+            pointFormat: '{point.name}'
           }
         },
         series: {

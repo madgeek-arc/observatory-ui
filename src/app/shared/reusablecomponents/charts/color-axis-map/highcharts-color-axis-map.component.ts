@@ -52,7 +52,22 @@ export class HighchartsColorAxisMapComponent {
       setTimeout(() => {
         self.chartOptions.title.text = this.title;
         self.chartOptions.subtitle.text = this.subtitle;
-        this.mapData = [...this.mapData, ...this.dataForInitialization];
+        let tmpArray: (number | SeriesMapDataOptions | [string, number])[] = [];
+        let found = false;
+        for (let i = 0; i < this.dataForInitialization.length; i++) {
+          found = false;
+          for (let j = 0; j < this.mapData.length; j++) {
+            if (this.dataForInitialization[i][0] === this.mapData[j][0]) {
+              tmpArray.push(this.mapData[j]);
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            tmpArray.push(this.dataForInitialization[i]);
+          }
+        }
+        this.mapData = tmpArray;
         self.chartOptions.series[0]['data'] = this.mapData;
         // console.log(self.chartOptions.series)
         // chart.hideLoading();
@@ -86,9 +101,15 @@ export class HighchartsColorAxisMapComponent {
     legend: {
       enabled: true
     },
-    colorAxis: {
-      min: 0
-    },
+      colorAxis: {
+        min: 0,
+        max: 15,
+        tickInterval: 3,
+        // stops: [[0, '#F1EEF6'], [0.65, '#900037'], [1, '#500007']],
+        // labels: {
+        //   format: '{value}%'
+        // }
+      },
     plotOptions: {
       series: {
         point: {
