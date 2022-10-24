@@ -23,6 +23,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   @Input() title: string = null;
   @Input() subtitle: string = null;
   @Input() pointFormat: string = null;
+  @Input() mapType: string = null;
 
   chart;
   chartCallback;
@@ -62,7 +63,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       if (this.pointFormat) {
         self.chartOptions.plotOptions.map.tooltip.pointFormat = this.pointFormat;
       }
-      if (this.mapData.series.length > 2) {
+      if (this.mapType === 'Categorization') {
         for (let i = 0; i < this.mapData.series.length; i++) {
           this.premiumSort.transform(this.mapData.series, this.datasetOrder);
           this.mapData.series[i].color = this.colorPallet[this.datasetOrder.indexOf(this.mapData.series[i].name)];

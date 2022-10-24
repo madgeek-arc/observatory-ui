@@ -23,7 +23,10 @@
             <div class="uk-width-3-5">
               <!--<app-highcharts-category-map></app-highcharts-category-map>-->
               <div class="uk-card uk-card-default uk-card-body" style="height: 600px">
-                <app-highcharts-category-map [mapData]="mapData" [title]="'Has the country appointed a Mandated Organisation to the EOSC Association?'"></app-highcharts-category-map>
+                <app-highcharts-category-map [mapData]="mapData" [mapType]="'Categorization'"
+                                             [pointFormat]="'{point.name}: <b>{series.name}</b>'"
+                                             [title]="'Has the country appointed a Mandated Organisation to the EOSC Association?'">
+                </app-highcharts-category-map>
               </div>
             </div>
 
