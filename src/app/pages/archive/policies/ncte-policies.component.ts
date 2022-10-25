@@ -1,10 +1,10 @@
 import {Component, OnInit} from "@angular/core";
-import {CountryTableData} from "../../../../domain/country-table-data";
-import {DataService} from "../../../../services/data.service";
-import {DataHandlerService} from "../../../../services/data-handler.service";
-import {CategorizedAreaData, Series} from "../../../../domain/categorizedAreaData";
-import {StakeholdersService} from "../../../../services/stakeholders.service";
-import {latlong} from "../../../../domain/countries-lat-lon";
+import {CountryTableData} from "../../../domain/country-table-data";
+import {DataService} from "../../../services/data.service";
+import {DataHandlerService} from "../../../services/data-handler.service";
+import {CategorizedAreaData, Series} from "../../../domain/categorizedAreaData";
+import {StakeholdersService} from "../../../services/stakeholders.service";
+import {latlong} from "../../../domain/countries-lat-lon";
 import {zip} from "rxjs";
 
 @Component({

@@ -29,6 +29,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/contributions-dashboard/contributions-dashboard.module').then(m => m.ContributionsDashboardModule),
   },
   {
+    path: 'archive',
+    loadChildren: () => import('./pages/archive/archive.module').then(m => m.ArchiveModule)
+  },
+  {
     path: 'nationalContributionsToEOSC',
     loadChildren: () => import('./pages/national-contributions-to-eosc-dashboard/national-contributions-to-eosc-dashboard.module').then(m => m.NationalContributionsToEOSCDashboardModule),
   },

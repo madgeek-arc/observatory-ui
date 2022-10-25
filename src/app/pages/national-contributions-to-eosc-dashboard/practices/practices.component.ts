@@ -43,17 +43,17 @@ export class PracticesComponent implements OnInit {
       }
     );
 
-    this.dataService.getMandatedStatus().subscribe(
-      rawData => {
-        this.questionsDataArray[15] = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData);
-        for (let i = 0; i < this.questionsDataArray[15].series.length; i++) {
-          this.questionsDataArray[15].series[i].data = this.questionsDataArray[15].series[i].data.map(code => ({ code }));
-        }
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    // this.dataService.getMandatedStatus().subscribe(
+    //   rawData => {
+    //     this.questionsDataArray[15] = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData);
+    //     for (let i = 0; i < this.questionsDataArray[15].series.length; i++) {
+    //       this.questionsDataArray[15].series[i].data = this.questionsDataArray[15].series[i].data.map(code => ({ code }));
+    //     }
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   }
+    // );
   }
 
   createMapDataset(index: number, mapCount: number) {

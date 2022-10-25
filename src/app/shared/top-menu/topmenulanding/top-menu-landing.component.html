@@ -16,6 +16,11 @@
           <div class="uk-navbar-right" uk-grid>
 
             <ul class="uk-navbar-nav user_actions">
+              <li *ngIf="ready && userInfo && showArchive">
+                <a class="uk-icon uk-animation-fade" [routerLink]="['/archive']" aria-expanded="false">
+                  <span class="uk-text-small uk-margin-small-right">Archive</span>
+                </a>
+              </li>
               <li *ngIf="ready && userInfo && showNationalContributionsToEOSC">
                 <a class="uk-icon uk-animation-fade" [routerLink]="['/nationalContributionsToEOSC']" aria-expanded="false">
                   <span class="uk-text-small uk-margin-small-right">National Contributions to EOSC</span>

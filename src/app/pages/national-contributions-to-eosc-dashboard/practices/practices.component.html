@@ -12,13 +12,8 @@
       </div>
       <div class="uk-width-1-1">
         <ul id="tabs" class="uk-switcher">
-          <li class="uk-margin-medium-top">
-            <div class="uk-card uk-card-default uk-card-body" style="height: 700px">
-              <app-highcharts-category-map [mapData]="questionsDataArray[15]" [mapType]="'Categorization'"
-                                           [title]="'Has the country appointed a Mandated Organisation to the EOSC Association?'"
-                                           [pointFormat]="'{point.name}: <b>{series.name}</b>'">
-              </app-highcharts-category-map>
-            </div>
+          <li class="">
+            <app-mandate></app-mandate>
           </li>
           <li class="uk-margin-medium-top">
             <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"

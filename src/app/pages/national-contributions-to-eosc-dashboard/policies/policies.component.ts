@@ -65,10 +65,10 @@ export class PoliciesComponent implements OnInit{
       this.dataService.getQuestion13(),
       ).subscribe(
         rawData => {
-            this.questionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData[0]);
-            for (let i = 0; i < this.questionsDataArray[3].series.length; i++) {
-              this.questionsDataArray[3].series[i].data = this.questionsDataArray[3].series[i].data.map(code => ({ code }));
-            }
+            // this.questionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData[0]);
+            // for (let i = 0; i < this.questionsDataArray[3].series.length; i++) {
+            //   this.questionsDataArray[3].series[i].data = this.questionsDataArray[3].series[i].data.map(code => ({ code }));
+            // }
             this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[1]);
             this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[2]);
             this.questionsDataArray[6] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[3]);

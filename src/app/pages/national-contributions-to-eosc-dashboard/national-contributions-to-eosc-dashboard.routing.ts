@@ -23,10 +23,6 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
       {
         path: 'practices',
         component: PracticesComponent,
-      },
-      {
-        path: 'archive',
-        loadChildren: () => import('./archive/archive.module').then(m => m.ArchiveModule)
       }
     ],
     runGuardsAndResolvers: 'always'

@@ -16,6 +16,7 @@ export class TopMenuLandingComponent implements OnInit, OnDestroy {
   subscriptions = [];
   showLogin = true;
   showNationalContributionsToEOSC: boolean = null;
+  showArchive: boolean = null;
   ready = false;
   userInfo: UserInfo = null;
 
@@ -31,7 +32,8 @@ export class TopMenuLandingComponent implements OnInit, OnDestroy {
             this.userInfo = next;
             this.showLogin = false
             this.ready = true;
-            this.showNationalContributionsToEOSC = this.coordinatorContains('country');
+            this.showNationalContributionsToEOSC = this.coordinatorOrManager('country');
+            this.showArchive = this.coordinatorContains('country');
           },
           error => {
             console.log(error);
@@ -62,7 +64,7 @@ export class TopMenuLandingComponent implements OnInit, OnDestroy {
     this.router.navigate([`/contributions/${coordinator.id}/home`]);
   }
 
-  coordinatorContains(name: string) {
+  coordinatorOrManager(name: string) {
     if (this.userInfo.coordinators.filter(c => c.type === name).length > 0) {
       return true;
     } else if (this.userInfo.stakeholders.filter(c => c.type === name).length > 0) {
@@ -77,6 +79,10 @@ export class TopMenuLandingComponent implements OnInit, OnDestroy {
       return false
     }
 
+  }
+
+  coordinatorContains(name: string): boolean {
+    return this.userInfo.coordinators.filter(c => c.type === name).length > 0;
   }
 
   logInButton() {

@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {ArchiveComponent} from "./archive.component";
 import {NCTEPoliciesComponent} from "./policies/ncte-policies.component";
 import {NCTEFundingComponent} from "./funding/ncte-funding.component";
-import {NationalContributionsToEOSCGuardService} from "../../../services/nationalContributionsToEOSC-guard.service";
+import {NationalContributionsToEOSCGuardService} from "../../services/nationalContributionsToEOSC-guard.service";
 import {NCTEMandate} from "./mandate/ncte-mandate";
 import {NCTEOpenAccessComponent} from "./open-access/ncte-open-access.component";
 import {NCTEMonitoringComponent} from "./monitoring/ncte-monitoring.component";
