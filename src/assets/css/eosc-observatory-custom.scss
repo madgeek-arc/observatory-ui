@@ -1,6 +1,9 @@
 @import url("https://use.typekit.net/dwa4ieu.css");
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap');
+//@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+//@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap');
+
+@import url('http://fonts.cdnfonts.com/css/helvetica-neue-55');
+@import url('http://fonts.cdnfonts.com/css/ubuntu-title');
 
 /*:root {*/
   /*--primary-color: #004494;*/
@@ -18,14 +21,15 @@
   --eosc-dark-color: #004494;
 
 
-  --main-font-family: 'Aileron';
-  --secondary-font-family: 'Bitter';
+  --main-font-family: 'Helvetica Neue';
+  --secondary-font-family: 'Ubuntu';
   --black: #1A1A1A;
   --grey: #6E6E6E;
   --catalogue-light-purple: #AD20E7;
   --catalogue-dark-purple: #1D193C;
   --light-grey: #F9F9F9;
-  --medium-grey: #F5F5F5;
+  //--medium-grey: #F5F5F5;
+  --medium-grey: #F3F4F5;
   --dark-grey: #2B2B2B;
   --eosc-blue: #3A75AB;
   --openaire-light-blue: #3086ED;
@@ -138,27 +142,27 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font: normal normal 600 66px/83px var(--main-font-family) !important;
+  font: normal normal 600 66px/83px var(--secondary-font-family) !important;
 }
 
 h2 {
-  font: normal normal 600 52px/65px var(--main-font-family) !important;
+  font: normal normal 600 52px/65px var(--secondary-font-family) !important;
 }
 
 h3 {
-  font: normal normal 600 41px/51px var(--main-font-family) !important;
+  font: normal normal 600 41px/51px var(--secondary-font-family) !important;
 }
 
 h4 {
-  font: normal normal 600 32px/40px var(--main-font-family) !important;
+  font: normal normal 600 32px/40px var(--secondary-font-family) !important;
 }
 
 h5 {
-  font: normal normal 600 26px/33px var(--main-font-family) !important;
+  font: normal normal 600 26px/33px var(--secondary-font-family) !important;
 }
 
 h6 {
-  font: normal normal 600 20px/27px var(--main-font-family) !important;
+  font: normal normal 600 20px/27px var(--secondary-font-family) !important;
 }
 
 .h1-subHeader {
