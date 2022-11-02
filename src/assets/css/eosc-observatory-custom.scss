@@ -3,7 +3,7 @@
 //@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap');
 
 @import url('http://fonts.cdnfonts.com/css/helvetica-neue-55');
-@import url('http://fonts.cdnfonts.com/css/ubuntu-title');
+@import url('http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin');
 
 /*:root {*/
   /*--primary-color: #004494;*/
@@ -17,8 +17,13 @@
 /*}*/
 
 :root {
-  --eosc-light-color: #ffcd00;
-  --eosc-dark-color: #004494;
+  //--eosc-light-color: #ffcd00;
+  //--eosc-dark-color: #004494;
+
+  --eosc-observatory-primary-color: #008792;
+  --eosc-observatory-secondary-color: #EB5C80;
+
+  --sidebar-width: 360px;
 
 
   --main-font-family: 'Helvetica Neue';
@@ -34,6 +39,7 @@
   --eosc-blue: #3A75AB;
   --openaire-light-blue: #3086ED;
   --default-element-bg: #DEDEDE;
+  --white: #fff;
 
 
   --grey-900: #2C2C2C;
@@ -46,12 +52,12 @@
   --secondary-color: #3086ED;
   --primary-light-color: #4687E6;
   --primary-dark-color: #1F2379;
-  --pill-alt-color: var(--placeholder-color);
+  --pill-alt-color: var(--grey-900);
   --pill-alt-background: var(--light-color);
   --pill-alt-shadow: var(--shadow-main);
   --pill-alt-color-hover: var(--secondary-color);
   //--pill-alt-background-active: none;
-  --pill-alt-background-active: var(--eosc-dark-color);
+  --pill-alt-background-active: var(--eosc-observatory-secondary-color);
   //--pill-alt-background-active-image: linear-gradient(122deg, var(--primary-light-color) 0, var(--primary-dark-color) 100%);
   --pill-alt-background-active-image: none;
   --pill-alt-color-active: var(--light-color);
@@ -71,7 +77,7 @@
 body {
   font-family: var(--main-font-family), sans-serif !important;
   color: var(--black) !important;
-  background-color: var(--light-grey) !important;
+  background-color: var(--medium-grey) !important;
   font-size: 16px;
   opacity: 1;
 }
@@ -114,7 +120,7 @@ body {
 }
 
 .sidebar_main_active #page_content {
-  margin-left: 280px;
+  margin-left: var(--sidebar-width);
 }
 
 
@@ -166,9 +172,18 @@ h6 {
 }
 
 .h1-subHeader {
-  color: var(--catalogue-light-purple);
+  color: var(--eosc-observatory-secondary-color);
   /*text-align: left;*/
-  font: normal normal normal 20px/27px var(--main-font-family);
+  font: normal normal normal 26px/33px var(--main-font-family);
+  letter-spacing: 0px;
+  opacity: 1;
+  margin-bottom: 0.5em;
+}
+
+.h1-subHeader-primary {
+  color: var(--eosc-observatory-primary-color);
+  /*text-align: left;*/
+  font: normal normal normal 26px/33px var(--main-font-family);
   letter-spacing: 0px;
   opacity: 1;
   margin-bottom: 0.5em;
@@ -184,7 +199,7 @@ h6 {
 }
 
 .h5-subheader {
-  color: var(--catalogue-light-purple);
+  color: var(--eosc-observatory-secondary-color);
   /*text-align: left;*/
   font: normal normal normal 16px/24px var(--main-font-family);
   letter-spacing: 0px;
@@ -263,7 +278,20 @@ dd {
 }
 
 .uk-text-primary {
-  color: var(--catalogue-light-purple) !important;
+  color: var(--eosc-observatory-primary-color) !important;
+}
+
+.uk-text-secondary {
+  color: var(--eosc-observatory-secondary-color) !important;
+}
+
+.big-number {
+  font-size: 150px;
+}
+
+.primary-card-header {
+  color: var(--eosc-observatory-primary-color) !important;
+  font: normal normal bold 22px/29px var(--main-font-family);
 }
 
 .line-clamp {
@@ -332,7 +360,8 @@ a.footerLink:hover {
 .uk-button {
   /*font: normal normal bold 12px/15px var(--main-font-family);*/
   /*letter-spacing: 0px;*/
-  font-size: 14px;
+  font-size: 16px;
+  padding: 5px 35px;
 }
 
 .uk-card-media {
@@ -360,15 +389,17 @@ a.footerLink:hover {
 
 .uk-button-primary {
   //background-color: #004494;
-  border-radius: 60px;
-  background-color: #0c2bd5;
-  border-color: #fff;
-  background-image: linear-gradient(135deg,#05cae7,#0c2bd5);
+  //border-radius: 60px;
+  //background-color: #0c2bd5;
+  //border-color: #fff;
+  //background-image: linear-gradient(135deg,#05cae7,#0c2bd5);
+  border-radius: 6px;
+  background: var(--eosc-observatory-primary-color) 0% 0% no-repeat padding-box;
 }
 
 .uk-button-primary:hover {
   background-color: #1e95b0;
-  background-color: #0c2bd5;
+  //background-color: #0c2bd5;
   border-color: #fff;
   background-image: unset;
 }
@@ -441,7 +472,7 @@ a.uk-icon-button {
 /*}*/
 
 .sub-menu .uk-navbar-container {
-  background-color: var(--eosc-dark-color);
+  background-color: var(--eosc-observatory-secondary-color);
   color: #fff;
 }
 
@@ -465,7 +496,7 @@ a.uk-icon-button {
 
 .uk-active > .sub-menu-item {
   font: normal normal 600 14px/22px var(--main-font-family) !important;
-  color: var(--eosc-light-color) !important;
+  color: var(--eosc-observatory-primary-color) !important;
   text-decoration-line: underline !important;
   text-underline-offset: 5px;
   text-decoration-thickness: 1.5px;
@@ -476,7 +507,7 @@ a.sub-menu-item:hover {
 }
 
 .sub-menu > .uk-active .uk-active > .sub-menu-item {
-  color: var(--eosc-light-color) !important;
+  color: var(--eosc-observatory-primary-color) !important;
 }
 
 .sub-menu > :not(.uk-active) .uk-navbar-left {
@@ -508,7 +539,8 @@ a.sub-menu-item:hover {
   border-radius: 6px;
   opacity: 1;
   color: var(--black);
-  font: normal normal normal 14px/22px var(--main-font-family);
+  //font: normal normal normal 14px/22px var(--main-font-family);
+  font: normal normal normal 16px/22px var(--main-font-family);
   letter-spacing: 0.14px;
 }
 
@@ -522,9 +554,9 @@ a.sub-menu-item:hover {
  ========================================================================== */
 
 .uk-subnav-pill-alt {
-  background: var(--pill-alt-background);
+  //background: var(--pill-alt-background);
   border-radius: 56px;
-  box-shadow: var(--pill-alt-shadow);
+  //box-shadow: var(--pill-alt-shadow);
   padding: 4px;
 }
 
@@ -574,7 +606,8 @@ a.sub-menu-item:hover {
  ========================================================================== */
 
 .titleAndActionsBar {
-  background: rgba(255, 205, 0, 0.7) 0% 0% no-repeat padding-box;
+  //background: rgba(255, 205, 0, 0.7) 0% 0% no-repeat padding-box;
+  background: var(--eosc-observatory-primary-color) 0% 0% no-repeat padding-box;
   //background: rgba(0, 68, 148, 0.9) 0% 0% no-repeat padding-box;
 }
 
@@ -588,9 +621,11 @@ a.sub-menu-item:hover {
 }
 
 .uk-tab > .uk-active > a {
-  background-color: rgba(255, 205, 0, 0.7);
+  //background-color: rgba(255, 205, 0, 0.7);
+  background-color: var(--eosc-observatory-primary-color);
   //background-color: rgba(0, 68, 148, 0.9);
-  color: var(--black) !important;
+  //color: var(--black) !important;
+  color: var(--white) !important;
   border-color: transparent;
   font-weight: normal;
 }

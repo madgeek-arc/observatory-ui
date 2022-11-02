@@ -6,6 +6,7 @@ import {CountryTableData} from "../../../domain/country-table-data";
 import {StakeholdersService} from "../../../services/stakeholders.service";
 import {zip} from "rxjs/internal/observable/zip";
 import {mapSubtitles} from "../../../domain/mapSubtitles";
+import {FundingForEOSCSums} from "../../../domain/funding-for-eosc";
 
 @Component({
   selector: 'app-policies',
@@ -19,6 +20,8 @@ export class PoliciesComponent implements OnInit{
   countriesArray: string[] = [];
   mapSubtitles: string[] = [];
   mapSubtitlesArray: string[][] = mapSubtitles;
+
+  fundingForEOSCSums: FundingForEOSCSums;
 
   constructor(private dataService: DataService, private dataHandlerService: DataHandlerService,
               private stakeholdersService: StakeholdersService) {
@@ -80,6 +83,16 @@ export class PoliciesComponent implements OnInit{
           console.log(error);
         }
       );
+
+    this.dataService.getFundingForEOSC().subscribe(
+      rawData => {
+        // console.log('RawData', rawData);
+        // this.fundingForEOSCSums = this.dataHandlerService.convertRawDataToFundingForEOSCSums(rawData);
+        this.fundingForEOSCSums = this.dataHandlerService.convertRawDataToFundingForEOSCSumsCustom(rawData);
+      }, error => {
+        console.log(error);
+      }
+    );
   }
 
   createMapDataset(index: number, mapCount: number) {

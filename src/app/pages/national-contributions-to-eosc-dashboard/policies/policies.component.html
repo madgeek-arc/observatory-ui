@@ -3,10 +3,12 @@
     <div class="uk-grid">
       <div class="uk-width-1-1">
         <ul id="policies-tabs" class="uk-switcher">
+<!--          EOSC-relevant Policies-->
           <li class="">
             <app-ncte-policies></app-ncte-policies>
           </li>
-          <li class="uk-margin-medium-top">
+<!--          Implementation Measures-->
+          <li class="">
             <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
                 data-uk-switcher="{connect:'#map-vs-table-2', animation: 'fade'}">
               <li>
@@ -18,31 +20,31 @@
             </ul>
             <ul id="map-vs-table-2" class="uk-switcher uk-margin">
               <li>
-                <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-grid uk-grid-match">
+                <div class="">
+                <div class="uk-grid">
                   <div class="uk-width-1-3 uk-margin-medium-top">
                     <div class="uk-text-meta uk-margin-bottom uk-text-italic">
                       Select one of the following to change the view of the map
                     </div>
-                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                    <div class="uk-flex uk-flex-top uk-margin-bottom">
                       <input type="radio" name="map2" checked (click)="createMapDataset(0, 2)">
                       <label>Action plan</label>
                     </div>
-                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                    <div class="uk-flex uk-flex-top uk-margin-bottom">
                       <input type="radio" name="map2" (click)="createMapDataset(1, 2)">
                       <label>Concrete objectives</label>
                     </div>
-                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                    <div class="uk-flex uk-flex-top uk-margin-bottom">
                       <input type="radio" name="map2" (click)="createMapDataset(2, 2)">
                       <label>Indicators to monitor progress</label>
                     </div>
-                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                    <div class="uk-flex uk-flex-top uk-margin-bottom">
                       <input type="radio" name="map2" (click)="createMapDataset(3, 2)">
                       <label>Associated financial planning</label>
                     </div>
                   </div>
                   <div class="uk-width-2-3" style="height: 700px">
-                    <app-highcharts-category-map [mapData]="questionsDataArray[2]" [subtitle]="mapSubtitles[1]"
+                    <app-highcharts-category-map [mapData]="questionsDataArray[2]" [subtitle]="mapSubtitles[2]"
                                                  [title]="'EOSC-relevant policies in place include measures to ensure implementation'">
                     </app-highcharts-category-map>
                   </div>
@@ -58,46 +60,78 @@
               </li>
             </ul>
           </li>
+<!--          Financial Strategies-->
           <li class="">
             <app-ncte-funding></app-ncte-funding>
           </li>
-          <li class="uk-margin-medium-top">
+<!--          National Contributions-->
+          <li class="">
             <div class="uk-grid">
-              <div class="uk-card uk-card-default uk-card-body uk-width-2-3" style="height: 800px">
-                <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [title]="'Color axis demo'"></app-highcharts-color-axis>
+              <div class="uk-width-2-3" style="height: 800px">
+                <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [title]="'Total amount of national contributions to EOSC spent in 2020'"></app-highcharts-color-axis>
               </div>
               <div class="uk-width-1-3">
+
+                <div class="uk-margin-medium-bottom">
+                  <div class="uk-card uk-card-default uk-card-body indicator-card">
+                    <div class="indicator-label">Total amount of national contributions to EOSC spent in 2020</div>
+                    <div *ngIf="!fundingForEOSCSums || !fundingForEOSCSums.totalFundingForEOSC" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                    <div *ngIf="fundingForEOSCSums?.totalFundingForEOSC" class="uk-text-lead uk-margin-small-top"><strong>{{fundingForEOSCSums.totalFundingForEOSC}} M</strong></div>
+                  </div>
+                </div>
+
                 <div class="uk-card uk-card-default uk-card-body" style="height: 800px">
-                  <app-bar-chart [mapData]="questionsDataArray[4]"></app-bar-chart>
+                  <app-bar-chart [mapData]="questionsDataArray[4]" [title]="'Total amount of national contributions to EOSC spent in 2020'"></app-bar-chart>
                 </div>
               </div>
             </div>
           </li>
-          <li class="uk-margin-medium-top">
+<!--          EOSC-A Members-->
+          <li class="">
             <div class="uk-grid">
-              <div class="uk-card uk-card-default uk-card-body uk-width-2-3" style="height: 800px">
-                <app-highcharts-color-axis [mapData]="questionsDataArray[5]" [title]="'Color axis demo'"></app-highcharts-color-axis>
+              <div class="uk-width-2-3" style="height: 800px">
+                <app-highcharts-color-axis [mapData]="questionsDataArray[5]" [title]="'Amount of funds allocated to EOSC Association organisations in 2020'"></app-highcharts-color-axis>
               </div>
               <div class="uk-width-1-3">
+
+                <div class="uk-margin-medium-bottom">
+                  <div class="uk-card uk-card-default uk-card-body indicator-card">
+                    <div class="indicator-label">Amount of funds allocated to EOSC Association organisations in 2020</div>
+                    <div *ngIf="!fundingForEOSCSums || !fundingForEOSCSums.fundingToOrganisationsInEOSCA" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                    <div *ngIf="fundingForEOSCSums?.fundingToOrganisationsInEOSCA" class="uk-text-lead uk-margin-small-top"><strong>{{fundingForEOSCSums.fundingToOrganisationsInEOSCA}} M</strong></div>
+                  </div>
+                </div>
+
                 <div class="uk-card uk-card-default uk-card-body" style="height: 800px">
-                  <app-bar-chart [mapData]="questionsDataArray[5]"></app-bar-chart>
+                  <app-bar-chart [mapData]="questionsDataArray[5]" [title]="'Amount of funds allocated to EOSC Association organisations in 2020'"></app-bar-chart>
                 </div>
               </div>
             </div>
           </li>
-          <li class="uk-margin-medium-top">
+<!--          Other Contributions-->
+          <li class="">
             <div class="uk-grid">
-              <div class="uk-card uk-card-default uk-card-body uk-width-2-3" style="height: 800px">
-                <app-highcharts-color-axis [mapData]="questionsDataArray[6]" [title]="'Color axis demo'"></app-highcharts-color-axis>
+              <div class="uk-width-2-3" style="height: 800px">
+                <app-highcharts-color-axis [mapData]="questionsDataArray[6]" [title]="'Amount of funds allocated to non-EOSC Association organisations in 2020'"></app-highcharts-color-axis>
               </div>
               <div class="uk-width-1-3">
+
+                <div class="uk-margin-medium-bottom">
+                  <div class="uk-card uk-card-default uk-card-body indicator-card">
+                    <div class="indicator-label">Amount of funds allocated to non-EOSC Association organisations in 2020</div>
+                    <div *ngIf="!fundingForEOSCSums || !fundingForEOSCSums.fundingToOrganisationsOutsideEOSCA" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                    <div *ngIf="fundingForEOSCSums?.fundingToOrganisationsOutsideEOSCA" class="uk-text-lead uk-margin-small-top"><strong>{{fundingForEOSCSums.fundingToOrganisationsOutsideEOSCA}} M</strong></div>
+                  </div>
+                </div>
+
                 <div class="uk-card uk-card-default uk-card-body" style="height: 800px">
-                  <app-bar-chart [mapData]="questionsDataArray[6]"></app-bar-chart>
+                  <app-bar-chart [mapData]="questionsDataArray[6]" [title]="'Amount of funds allocated to non-EOSC Association organisations in 2020'"></app-bar-chart>
                 </div>
               </div>
             </div>
           </li>
-          <li class="uk-margin-medium-top">
+<!--          Contributions Sources-->
+          <li class="">
             <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
                 data-uk-switcher="{connect:'#map-vs-table-3', animation: 'fade'}">
               <li>
@@ -109,32 +143,32 @@
             </ul>
             <ul id="map-vs-table-3" class="uk-switcher uk-margin">
               <li>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <div class="uk-grid uk-grid-match">
+                <div class="">
+                  <div class="uk-grid">
                     <div class="uk-width-1-3 uk-margin-medium-top">
                       <div class="uk-text-meta uk-margin-bottom uk-text-italic">
                         Select one of the following to change the view of the map
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map3" checked (click)="createMapDataset(0,7)">
                         <label>{{mapSubtitlesArray[7][0]}}</label>
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map3" (click)="createMapDataset(1, 7)">
                         <label>{{mapSubtitlesArray[7][1]}}</label>
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map3" (click)="createMapDataset(2, 7)">
                         <label>{{mapSubtitlesArray[7][2]}}</label>
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map3" (click)="createMapDataset(3, 7)">
                         <label>{{mapSubtitlesArray[7][3]}}</label>
                       </div>
                     </div>
                     <div class="uk-width-2-3" style="height: 700px">
                       <app-highcharts-category-map [mapData]="questionsDataArray[7]" [subtitle]="mapSubtitles[7]"
-                                                   [title]="'The sources for the estimate'">
+                                                   [title]="'Sources for estimates of national contributions to EOSC in 2020'">
                       </app-highcharts-category-map>
                     </div>
                   </div>
@@ -149,7 +183,8 @@
               </li>
             </ul>
           </li>
-          <li class="uk-margin-medium-top">
+<!--          Contribution Level-->
+          <li class="">
             <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
                 data-uk-switcher="{connect:'#map-vs-table-4', animation: 'fade'}">
               <li>
@@ -161,32 +196,32 @@
             </ul>
             <ul id="map-vs-table-4" class="uk-switcher uk-margin">
               <li>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <div class="uk-grid uk-grid-match">
+                <div class="">
+                  <div class="uk-grid">
                     <div class="uk-width-1-3 uk-margin-medium-top">
                       <div class="uk-text-meta uk-margin-bottom uk-text-italic">
                         Select one of the following to change the view of the map
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map4" checked (click)="createMapDataset(0,8)">
                         <label>{{mapSubtitlesArray[8][0]}}</label>
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map4" (click)="createMapDataset(1, 8)">
                         <label>{{mapSubtitlesArray[8][1]}}</label>
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map4" (click)="createMapDataset(2, 8)">
                         <label>{{mapSubtitlesArray[8][2]}}</label>
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map4" (click)="createMapDataset(3, 8)">
                         <label>{{mapSubtitlesArray[8][3]}}</label>
                       </div>
                     </div>
                     <div class="uk-width-2-3" style="height: 700px">
                       <app-highcharts-category-map [mapData]="questionsDataArray[8]" [subtitle]="mapSubtitles[8]"
-                                                   [title]="'The sources for the estimate'">
+                                                   [title]="'Implementation level of national contributions to EOSC in 2020'">
                       </app-highcharts-category-map>
                     </div>
                   </div>
@@ -201,43 +236,47 @@
               </li>
             </ul>
           </li>
-          <li class="uk-margin-medium-top">
+<!--          Earmarked Contributions-->
+          <li class="">
             <div class="uk-grid">
-              <div class="uk-card uk-card-default uk-card-body uk-width-2-3" style="height: 800px">
-                <app-highcharts-color-axis [mapData]="questionsDataArray[9]" [title]="'Color axis demo'"></app-highcharts-color-axis>
+              <div class="uk-width-2-3" style="height: 800px">
+                <app-highcharts-color-axis [mapData]="questionsDataArray[9]" [title]="'Earmarked funding for EOSC and Open Science activities in 2020'"></app-highcharts-color-axis>
               </div>
               <div class="uk-width-1-3">
                 <div class="uk-card uk-card-default uk-card-body" style="height: 800px">
-                  <app-bar-chart [mapData]="questionsDataArray[9]"></app-bar-chart>
+                  <app-bar-chart [mapData]="questionsDataArray[9]" [title]="'Earmarked funding for EOSC and Open Science activities in 2020'"></app-bar-chart>
                 </div>
               </div>
             </div>
           </li>
-          <li class="uk-margin-medium-top">
+<!--          Non-earmarked Contributions-->
+          <li class="">
             <div class="uk-grid">
-              <div class="uk-card uk-card-default uk-card-body uk-width-2-3" style="height: 800px">
-                <app-highcharts-color-axis [mapData]="questionsDataArray[10]" [title]="'Color axis demo'"></app-highcharts-color-axis>
+              <div class="uk-width-2-3" style="height: 800px">
+                <app-highcharts-color-axis [mapData]="questionsDataArray[10]" [title]="'Non-earmarked funding for EOSC and Open Science activities in 2020'"></app-highcharts-color-axis>
               </div>
               <div class="uk-width-1-3">
                 <div class="uk-card uk-card-default uk-card-body" style="height: 800px">
-                  <app-bar-chart [mapData]="questionsDataArray[10]"></app-bar-chart>
+                  <app-bar-chart [mapData]="questionsDataArray[10]" [title]="'Non-earmarked funding for EOSC and Open Science activities in 2020'"></app-bar-chart>
                 </div>
               </div>
             </div>
           </li>
-          <li class="uk-margin-medium-top">
+<!--          Structural/Investment Funds-->
+          <li class="">
             <div class="uk-grid">
-              <div class="uk-card uk-card-default uk-card-body uk-width-2-3" style="height: 800px">
-                <app-highcharts-color-axis [mapData]="questionsDataArray[11]" [title]="'Color axis demo'"></app-highcharts-color-axis>
+              <div class="uk-width-2-3" style="height: 800px">
+                <app-highcharts-color-axis [mapData]="questionsDataArray[11]" [title]="'Amount of European structural/investment funds allocated for EOSC in 2020'"></app-highcharts-color-axis>
               </div>
               <div class="uk-width-1-3">
                 <div class="uk-card uk-card-default uk-card-body" style="height: 800px">
-                  <app-bar-chart [mapData]="questionsDataArray[11]"></app-bar-chart>
+                  <app-bar-chart [mapData]="questionsDataArray[11]" [title]="'Amount of European structural/investment funds allocated for EOSC in 2020'"></app-bar-chart>
                 </div>
               </div>
             </div>
           </li>
-          <li class="uk-margin-medium-top">
+<!--          EOSC-relevant Activities-->
+          <li class="">
             <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
                 data-uk-switcher="{connect:'#map-vs-table-5', animation: 'fade'}">
               <li>
@@ -249,32 +288,32 @@
             </ul>
             <ul id="map-vs-table-5" class="uk-switcher uk-margin">
               <li>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <div class="uk-grid uk-grid-match">
+                <div class="">
+                  <div class="uk-grid">
                     <div class="uk-width-1-3 uk-margin-medium-top">
                       <div class="uk-text-meta uk-margin-bottom uk-text-italic">
                         Select one of the following to change the view of the map
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map5" checked (click)="createMapDataset(0,12)">
                         <label>{{mapSubtitlesArray[12][0]}}</label>
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map5" (click)="createMapDataset(1, 12)">
                         <label>{{mapSubtitlesArray[12][1]}}</label>
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map5" (click)="createMapDataset(2, 12)">
                         <label>{{mapSubtitlesArray[12][2]}}</label>
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map5" (click)="createMapDataset(3, 12)">
                         <label>{{mapSubtitlesArray[12][3]}}</label>
                       </div>
                     </div>
                     <div class="uk-width-2-3" style="height: 700px">
                       <app-highcharts-category-map [mapData]="questionsDataArray[12]" [subtitle]="mapSubtitles[12]"
-                                                   [title]="'The sources for the estimate'">
+                                                   [title]="'EOSC-relevant activities included in national contributions in 2020'">
                       </app-highcharts-category-map>
                     </div>
                   </div>
@@ -289,7 +328,8 @@
               </li>
             </ul>
           </li>
-          <li class="uk-margin-medium-top">
+<!--          EOSC-relevant Services-->
+          <li class="">
             <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
                 data-uk-switcher="{connect:'#map-vs-table-6', animation: 'fade'}">
               <li>
@@ -301,32 +341,32 @@
             </ul>
             <ul id="map-vs-table-6" class="uk-switcher uk-margin">
               <li>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <div class="uk-grid uk-grid-match">
+                <div class="">
+                  <div class="uk-grid">
                     <div class="uk-width-1-3 uk-margin-medium-top">
                       <div class="uk-text-meta uk-margin-bottom uk-text-italic">
                         Select one of the following to change the view of the map
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map6" checked (click)="createMapDataset(0,13)">
                         <label>{{mapSubtitlesArray[13][0]}}</label>
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map6" (click)="createMapDataset(1, 13)">
                         <label>{{mapSubtitlesArray[13][1]}}</label>
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map6" (click)="createMapDataset(2, 13)">
                         <label>{{mapSubtitlesArray[13][2]}}</label>
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map6" (click)="createMapDataset(3, 13)">
                         <label>{{mapSubtitlesArray[13][3]}}</label>
                       </div>
                     </div>
                     <div class="uk-width-2-3" style="height: 700px">
                       <app-highcharts-category-map [mapData]="questionsDataArray[13]" [subtitle]="mapSubtitles[13]"
-                                                   [title]="'The sources for the estimate'">
+                                                   [title]="'EOSC-relevant services included in national contributions in 2020'">
                       </app-highcharts-category-map>
                     </div>
                   </div>
@@ -341,7 +381,8 @@
               </li>
             </ul>
           </li>
-          <li class="uk-margin-medium-top">
+<!--          EOSC-relevant Infrastructure-->
+          <li class="">
             <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
                 data-uk-switcher="{connect:'#map-vs-table-7', animation: 'fade'}">
               <li>
@@ -353,32 +394,32 @@
             </ul>
             <ul id="map-vs-table-7" class="uk-switcher uk-margin">
               <li>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <div class="uk-grid uk-grid-match">
+                <div class="">
+                  <div class="uk-grid">
                     <div class="uk-width-1-3 uk-margin-medium-top">
                       <div class="uk-text-meta uk-margin-bottom uk-text-italic">
                         Select one of the following to change the view of the map
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map7" checked (click)="createMapDataset(0,13)">
                         <label>{{mapSubtitlesArray[13][0]}}</label>
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map7" (click)="createMapDataset(1, 13)">
                         <label>{{mapSubtitlesArray[13][1]}}</label>
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map7" (click)="createMapDataset(2, 13)">
                         <label>{{mapSubtitlesArray[13][2]}}</label>
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <div class="uk-flex uk-flex-top uk-margin-bottom">
                         <input type="radio" name="map7" (click)="createMapDataset(3, 13)">
                         <label>{{mapSubtitlesArray[13][3]}}</label>
                       </div>
                     </div>
                     <div class="uk-width-2-3" style="height: 700px">
                       <app-highcharts-category-map [mapData]="questionsDataArray[13]" [subtitle]="mapSubtitles[13]"
-                                                   [title]="'The sources for the estimate'">
+                                                   [title]="'EOSC-relevant infrastructures included in national contributions in 2020'">
                       </app-highcharts-category-map>
                     </div>
                   </div>

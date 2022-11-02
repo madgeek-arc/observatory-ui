@@ -80,7 +80,8 @@ export class HighchartsColorAxisMapComponent {
   createMap() {
     this.chartOptions = {
     chart: {
-      map: worldMap
+      map: worldMap,
+      backgroundColor: 'rgba(0,0,0,0)'
     },
     mapView: {
       center: [30, 50],
@@ -90,7 +91,7 @@ export class HighchartsColorAxisMapComponent {
       text: this.title
     },
     subtitle: {
-      text: this.subtitle
+      text: '(in millions of Euro)',
     },
     mapNavigation: {
       enabled: false,
@@ -103,9 +104,9 @@ export class HighchartsColorAxisMapComponent {
     },
       colorAxis: {
         min: 0,
-        max: 15,
-        tickInterval: 3,
-        // stops: [[0, '#F1EEF6'], [0.65, '#900037'], [1, '#500007']],
+        max: 25,
+        // tickInterval: 3,
+        stops: [[0, '#F1EEF6'], [1, '#008792']],
         // labels: {
         //   format: '{value}%'
         // }
@@ -127,7 +128,7 @@ export class HighchartsColorAxisMapComponent {
         name: "Random data",
         states: {
           hover: {
-            color: "#BADA55"
+            color: "#8E8E8E"
           }
         },
         dataLabels: {
@@ -135,7 +136,7 @@ export class HighchartsColorAxisMapComponent {
           // format: "{point.value}",
           formatter: function () {
             if (this.point.value > 0)
-              return this.point.value;
+              return this.point.value + ' M';
             else
               return '';
           }

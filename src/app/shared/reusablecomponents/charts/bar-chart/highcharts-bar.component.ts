@@ -37,9 +37,13 @@ export class HighchartsBarComponent implements OnChanges{
     this.chartOptions =  {
       chart: {
         type: 'bar',
+        backgroundColor: 'rgba(0,0,0,0)'
       },
       title: {
-        text: 'Bar Chart',
+        text: this.title,
+      },
+      subtitle: {
+        text: '(in millions of Euro)',
       },
       credits: {
         enabled: false,
@@ -56,7 +60,7 @@ export class HighchartsBarComponent implements OnChanges{
       },
       tooltip: {
         headerFormat: `<div>Country: {point.key}</div>`,
-        pointFormat: `<div>{series.name}: {point.y}</div>`,
+        pointFormat: `<div>{series.name}: {point.y} M</div>`,
         shared: true,
         useHTML: true,
       },
@@ -70,6 +74,7 @@ export class HighchartsBarComponent implements OnChanges{
       series: [{
         name: 'Amount in millions',
         type: 'bar',
+        color: '#008792',
         data: this.mapData,
       }],
     }

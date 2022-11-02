@@ -69,6 +69,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
           this.mapData.series[i].color = this.colorPallet[this.datasetOrder.indexOf(this.mapData.series[i].name)];
         }
       } else {
+        this.mapData.series[0].color = '#008792';
         this.mapData.series[1].color = this.colorPallet[4];
       }
 
