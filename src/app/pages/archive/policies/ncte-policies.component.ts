@@ -42,9 +42,9 @@ export class NCTEPoliciesComponent implements OnInit{
           this.loadingAbsoluteTable = false;
           this.mapPointData = this.dataHandlerService.convertRawDataToTableData(next[1]);
           this.countriesArray = next[2];
-          this.question3 = this.dataHandlerService.convertRawDataToTableData(next[3]);
-          this.question12 = this.dataHandlerService.convertRawDataToTableData(next[4]);
-          this.question14 = this.dataHandlerService.convertRawDataToTableData(next[5]);
+          this.question3 = this.dataHandlerService.convertRawDataToMapPoint(next[3]);
+          this.question12 = this.dataHandlerService.convertRawDataToMapPoint(next[4]);
+          this.question14 = this.dataHandlerService.convertRawDataToMapPoint(next[5]);
         },
       error => {},
       () => {

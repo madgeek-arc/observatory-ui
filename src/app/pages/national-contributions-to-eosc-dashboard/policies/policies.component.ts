@@ -16,6 +16,7 @@ import {FundingForEOSCSums} from "../../../domain/funding-for-eosc";
 export class PoliciesComponent implements OnInit{
 
   questionsDataArray: any[] = [];
+  tmpQuestionsDataArray: any[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];
   countriesArray: string[] = [];
   mapSubtitles: string[] = [];
@@ -68,10 +69,12 @@ export class PoliciesComponent implements OnInit{
       this.dataService.getQuestion13(),
       ).subscribe(
         rawData => {
-            // this.questionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData[0]);
-            // for (let i = 0; i < this.questionsDataArray[3].series.length; i++) {
-            //   this.questionsDataArray[3].series[i].data = this.questionsDataArray[3].series[i].data.map(code => ({ code }));
-            // }
+            this.tableAbsoluteDataArray[3] = this.dataHandlerService.convertRawDataToTableData(rawData[0]);
+            this.tmpQuestionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData[0]);
+            for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
+              this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
+            }
+            this.createMapDataFromCategorization(0,3);
             this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[1]);
             this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[2]);
             this.questionsDataArray[6] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[3]);
@@ -115,6 +118,29 @@ export class PoliciesComponent implements OnInit{
     for (let i = 0; i < this.questionsDataArray[mapCount].series.length; i++) {
       this.questionsDataArray[mapCount].series[i].data = this.questionsDataArray[mapCount].series[i].data.map(code => ({ code }));
     }
+
+  }
+
+  createMapDataFromCategorization(index: number, mapCount: number) {
+    this.mapSubtitles[mapCount] = mapSubtitles[mapCount][index];
+
+    this.questionsDataArray[mapCount] = new CategorizedAreaData();
+
+    for (let i = 0; i < this.tmpQuestionsDataArray[mapCount].series.length; i++) {
+      if (this.tmpQuestionsDataArray[mapCount].series[i].name === this.mapSubtitles[mapCount]){
+        this.questionsDataArray[mapCount].series[0] = new Series(this.mapSubtitles[mapCount], false);
+        this.questionsDataArray[mapCount].series[0].data = this.tmpQuestionsDataArray[mapCount].series[i].data;
+        break;
+      }
+    }
+    let countryCodeArray = [];
+    for (const data of this.questionsDataArray[mapCount].series[0].data) {
+      countryCodeArray.push(data.code)
+    }
+
+    this.questionsDataArray[mapCount].series[1] = new Series('Other', false);
+    this.questionsDataArray[mapCount].series[1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
+    this.questionsDataArray[mapCount].series[1].data = this.questionsDataArray[mapCount].series[1].data.map(code => ({ code }));
 
   }
 

@@ -32,6 +32,26 @@ export class DataHandlerService {
         if (series.series.query.name === 'eosc.obs.question20') {
           countryTableData.mapPointData = Array(3).fill(null).concat(rowResult.row.slice(2, 10).concat(rowResult.row.slice(11)));
         }
+
+        countryTableData.dedicatedFinancialContributionsToEOSCLinkedToPolicies = rowResult.row[1];
+
+        countryTableData.name = rowResult.row[0];
+        countryTableData.code = rowResult.row[0];
+        tableData.push(countryTableData);
+      }
+    }
+
+    return tableData;
+  }
+
+  public convertRawDataToMapPoint(rawData: RawData) {
+    const tableData: CountryTableData[] = [];
+
+    for (const series of rawData.datasets) {
+
+      for (const rowResult of series.series.result) {
+
+        const countryTableData: CountryTableData = new CountryTableData();
         if (series.series.query.name === 'eosc.obs.question5') {
           if (rowResult.row[1] === 'Yes')
             countryTableData.mapPointData.push(rowResult.row[1]);
@@ -50,14 +70,11 @@ export class DataHandlerService {
           else
             continue;
         }
-          countryTableData.dedicatedFinancialContributionsToEOSCLinkedToPolicies = rowResult.row[1];
-
         countryTableData.name = rowResult.row[0];
         countryTableData.code = rowResult.row[0];
         tableData.push(countryTableData);
       }
     }
-
     return tableData;
   }
 

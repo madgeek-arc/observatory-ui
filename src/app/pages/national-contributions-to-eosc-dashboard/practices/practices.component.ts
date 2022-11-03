@@ -15,8 +15,10 @@ import {mapSubtitles} from "../../../domain/mapSubtitles";
 export class PracticesComponent implements OnInit {
 
   questionsDataArray: CategorizedAreaData[] = [];
+  tmpQuestionsDataArray: CategorizedAreaData[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];
   mapSubtitles: string[] = [];
+  mapSubtitlesArray: string[][] = mapSubtitles;
   countriesArray: string[] = [];
 
   constructor(private dataService: DataService, private dataHandlerService: DataHandlerService,
@@ -28,7 +30,8 @@ export class PracticesComponent implements OnInit {
       this.stakeholdersService.getEOSCSBCountries(),
       this.dataService.getQuestion18(),
       this.dataService.getQuestion19(),
-      this.dataService.getUseCasesAndPracticesByDimension()).subscribe(
+      this.dataService.getUseCasesAndPracticesByDimension(),
+      this.dataService.getMandatedStatus()).subscribe(
       rawData => {
         this.countriesArray = rawData[0];
         this.tableAbsoluteDataArray[16] = this.dataHandlerService.convertRawDataToTableData(rawData[1]);
@@ -37,23 +40,17 @@ export class PracticesComponent implements OnInit {
         this.createMapDataset(0, 17);
         this.tableAbsoluteDataArray[18] = this.dataHandlerService.convertRawDataToTableData(rawData[3]);
         this.createMapDataset(0, 18);
+        this.tableAbsoluteDataArray[15] = this.dataHandlerService.convertRawDataToTableData(rawData[4]);
+        this.tmpQuestionsDataArray[15] = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData[4]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[15].series.length; i++) {
+          this.tmpQuestionsDataArray[15].series[i].data = this.tmpQuestionsDataArray[15].series[i].data.map(code => ({ code }));
+        }
+        this.createMapDataFromCategorization(0,15);
       },
       error => {
         console.log(error);
       }
     );
-
-    // this.dataService.getMandatedStatus().subscribe(
-    //   rawData => {
-    //     this.questionsDataArray[15] = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData);
-    //     for (let i = 0; i < this.questionsDataArray[15].series.length; i++) {
-    //       this.questionsDataArray[15].series[i].data = this.questionsDataArray[15].series[i].data.map(code => ({ code }));
-    //     }
-    //   },
-    //   error => {
-    //     console.log(error);
-    //   }
-    // );
   }
 
   createMapDataset(index: number, mapCount: number) {
@@ -76,6 +73,29 @@ export class PracticesComponent implements OnInit {
     for (let i = 0; i < this.questionsDataArray[mapCount].series.length; i++) {
       this.questionsDataArray[mapCount].series[i].data = this.questionsDataArray[mapCount].series[i].data.map(code => ({ code }));
     }
+
+  }
+
+  createMapDataFromCategorization(index: number, mapCount: number) {
+    this.mapSubtitles[mapCount] = mapSubtitles[mapCount][index];
+
+    this.questionsDataArray[mapCount] = new CategorizedAreaData();
+
+    for (let i = 0; i < this.tmpQuestionsDataArray[mapCount].series.length; i++) {
+      if (this.tmpQuestionsDataArray[mapCount].series[i].name === this.mapSubtitles[mapCount]){
+        this.questionsDataArray[mapCount].series[0] = new Series(this.mapSubtitles[mapCount], false);
+        this.questionsDataArray[mapCount].series[0].data = this.tmpQuestionsDataArray[mapCount].series[i].data;
+        break;
+      }
+    }
+    let countryCodeArray = [];
+    for (const data of this.questionsDataArray[mapCount].series[0].data) {
+      countryCodeArray.push(data.code)
+    }
+
+    this.questionsDataArray[mapCount].series[1] = new Series('Other', false);
+    this.questionsDataArray[mapCount].series[1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
+    this.questionsDataArray[mapCount].series[1].data = this.questionsDataArray[mapCount].series[1].data.map(code => ({ code }));
 
   }
 
