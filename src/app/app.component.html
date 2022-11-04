@@ -1,13 +1,26 @@
 <!--<router-outlet></router-outlet>-->
 
-<ng-container *ngIf="isContributionsDashboardRoute() ; else landing">
+<ng-container *ngIf="isContributionsDashboardRoute() ; else public">
   <app-contributions-dashboard></app-contributions-dashboard>
 </ng-container>
 
-<ng-template #landing>
-  <app-top-menu-landing></app-top-menu-landing>
-<!--  <div style="margin-top: 90px"></div>-->
-  <div style="margin-top: 83px"></div>
-  <router-outlet></router-outlet>
-<!--  <app-footer></app-footer>-->
+<ng-template #public>
+
+  <ng-container *ngIf="isEOSCReadinessDashboardRoute() ; else home">
+    <app-top-menu-public-dashboard></app-top-menu-public-dashboard>
+    <div style="margin-top: 83px"></div>
+    <router-outlet></router-outlet>
+    <div style="margin-left: 280px">
+      <app-footer></app-footer>
+    </div>
+  </ng-container>
+
+  <ng-template #home>
+    <app-top-menu-landing></app-top-menu-landing>
+    <!--  <div style="margin-top: 90px"></div>-->
+    <div style="margin-top: 83px"></div>
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
+  </ng-template>
+
 </ng-template>

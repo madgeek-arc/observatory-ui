@@ -23,61 +23,107 @@
 <!--<router-outlet></router-outlet>-->
 
 <div id="sidebar_main_content" class="sidebar_main_swipe sidebar_main_active" [class.sidebar_main_active]="open">
-  <aside id="sidebar_main" class="no-print">
-    <div class="menu_section">
-      <ul>
 
-        <li [routerLinkActive]="['current_section']" class="">
-          <a [routerLink]="'./policies'" class="uk-flex uk-flex-middle">
-            <span class="material-icons uk-margin-right">policy</span>
-            <span class="menu_title">EOSC policies and financial investments</span>
-          </a>
-          <ul class="uk-margin-remove uk-tab form-tabs uk-flex"
-              data-uk-tab="connect: #policies-tabs; animation: uk-animation-fade">
-            <li><a href="#">EOSC-relevant Policies</a></li>
-            <li><a href="#">Implementation Measures</a></li>
-            <li><a href="#">Financial Strategies</a></li>
-            <li><a href="#">National Contributions</a></li>
-            <li><a href="#">EOSC-A Members</a></li>
-            <li><a href="#">Other Contributions</a></li>
-            <li><a href="#">Contributions Sources</a></li>
-            <li><a href="#">Contribution Level</a></li>
-            <li><a href="#">Earmarked Contributions</a></li>
-            <li><a href="#">Non-earmarked Contributions</a></li>
-            <li><a href="#">Structural/Investment Funds</a></li>
-            <li><a href="#">EOSC-relevant Activities</a></li>
-            <li><a href="#">EOSC-relevant Services</a></li>
-            <li><a href="#">EOSC-relevant Infrastructure</a></li>
-          </ul>
-        </li>
-
-        <li [routerLinkActive]="['current_section']" class="">
-          <a [routerLink]="'./practices'" class="uk-flex uk-flex-middle">
-            <span class="material-icons uk-margin-right">assignment</span>
-            <span class="menu_title">EOSC practices</span>
-          </a>
-          <ul class="uk-width-1-1 uk-margin-remove uk-tab form-tabs uk-flex"
-              data-uk-tab="connect: #practices-tabs; animation: uk-animation-fade">
-            <li><a href="#">Mandated Organisations</a></li>
-            <li><a href="#">National Monitoring</a></li>
-            <li><a href="#">Monitoring Reporting</a></li>
-            <li><a href="#">Use Cases</a></li>
-          </ul>
-        </li>
-
-      </ul>
-    </div>
-
-<!--    <div class="menu_section border_top">-->
+<!--  <aside id="sidebar_main" class="no-print">-->
+<!--    <div class="menu_section">-->
 <!--      <ul>-->
 
-<!--        -->
+<!--        <li [routerLinkActive]="['current_section']" class="">-->
+<!--          <a [routerLink]="'./policies'" class="uk-flex uk-flex-middle">-->
+<!--            <span class="material-icons uk-margin-right">policy</span>-->
+<!--            <span class="menu_title">EOSC policies and financial investments</span>-->
+<!--          </a>-->
+<!--          <ul class="uk-margin-remove uk-tab form-tabs uk-flex"-->
+<!--              data-uk-tab="connect: #policies-tabs; animation: uk-animation-fade">-->
+<!--            <li><a href="#">EOSC-relevant Policies</a></li>-->
+<!--            <li><a href="#">Implementation Measures</a></li>-->
+<!--            <li><a href="#">Financial Strategies</a></li>-->
+<!--            <li><a href="#">National Contributions</a></li>-->
+<!--            <li><a href="#">EOSC-A Members</a></li>-->
+<!--            <li><a href="#">Other Contributions</a></li>-->
+<!--            <li><a href="#">Contributions Sources</a></li>-->
+<!--            <li><a href="#">Contribution Level</a></li>-->
+<!--            <li><a href="#">Earmarked Contributions</a></li>-->
+<!--            <li><a href="#">Non-earmarked Contributions</a></li>-->
+<!--            <li><a href="#">Structural/Investment Funds</a></li>-->
+<!--            <li><a href="#">EOSC-relevant Activities</a></li>-->
+<!--            <li><a href="#">EOSC-relevant Services</a></li>-->
+<!--            <li><a href="#">EOSC-relevant Infrastructure</a></li>-->
+<!--          </ul>-->
+<!--        </li>-->
+
+<!--        <li [routerLinkActive]="['current_section']" class="">-->
+<!--          <a [routerLink]="'./practices'" class="uk-flex uk-flex-middle">-->
+<!--            <span class="material-icons uk-margin-right">assignment</span>-->
+<!--            <span class="menu_title">EOSC practices</span>-->
+<!--          </a>-->
+<!--          <ul class="uk-width-1-1 uk-margin-remove uk-tab form-tabs uk-flex"-->
+<!--              data-uk-tab="connect: #practices-tabs; animation: uk-animation-fade">-->
+<!--            <li><a href="#">Mandated Organisations</a></li>-->
+<!--            <li><a href="#">National Monitoring</a></li>-->
+<!--            <li><a href="#">Monitoring Reporting</a></li>-->
+<!--            <li><a href="#">Use Cases</a></li>-->
+<!--          </ul>-->
+<!--        </li>-->
 
 <!--      </ul>-->
-
 <!--    </div>-->
+<!--  </aside>-->
 
-  </aside><!-- main sidebar end -->
+  <aside id="sidebar_main">
+    <div id="sidebar_content">
+      <div  class="menu_section uk-margin-top" style="min-height: 30vh">
+        <ul #nav class="uk-list uk-nav uk-nav-default uk-nav-parent-icon" uk-nav="duration: 500">
+          <li  [routerLinkActive]="['current_section']" class="uk-parent">
+            <a [routerLink]="'./policies'">
+              <div class="uk-flex uk-flex-middle uk-flex-center">
+                <div class="uk-width-auto">
+                  <span class="material-icons">policy</span>
+<!--                  <icon class="menu-icon" [customClass]="item.icon.class" [name]="item.icon.name" ratio="0.8" [svg]="item.icon.svg" [flex]="true"></icon>-->
+                </div>
+                <span [class.uk-text-bolder]="isPoliciesActive" class="uk-width-expand uk-text-truncate uk-margin-small-left" title="EOSC policies and financial investments">EOSC policies and financial investments</span>
+                <span></span>
+              </div>
+            </a>
+            <ul class="uk-nav-sub" data-uk-tab="connect: #policies-tabs; animation: uk-animation-fade">
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">EOSC-relevant Policies</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">Implementation Measures</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">Financial Strategies</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">National Contributions</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">EOSC-A Members</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">Other Contributions</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">Contributions Sources</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">Contribution Level</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">Earmarked Contributions</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">Non-earmarked Contributions</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">Structural/Investment Funds</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">EOSC-relevant Activities</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">EOSC-relevant Services</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">EOSC-relevant Infrastructure</span></a></li>
+            </ul>
+          </li>
+          <li  [routerLinkActive]="['current_section']" class="uk-parent">
+            <a [routerLink]="'./practices'">
+              <div class="uk-flex uk-flex-middle uk-flex-center">
+                <div class="uk-width-auto">
+                  <span class="material-icons">assignment</span>
+                  <!--                  <icon class="menu-icon" [customClass]="item.icon.class" [name]="item.icon.name" ratio="0.8" [svg]="item.icon.svg" [flex]="true"></icon>-->
+                </div>
+                <span [class.uk-text-bolder]="!isPoliciesActive" class="uk-width-expand uk-text-truncate uk-margin-small-left">EOSC practices</span>
+                <span></span>
+              </div>
+            </a>
+            <ul class="uk-nav-sub" data-uk-tab="connect: #practices-tabs; animation: uk-animation-fade">
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">Mandated Organisations</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">National Monitoring</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">Monitoring Reporting</span></a></li>
+              <li [routerLinkActive]="['current_section']" class="uk-width-1-1"><a href="#"><span class="uk-text-truncate">Use Cases</span></a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
 
   <div id="page_content" class="dashboard">
     <router-outlet></router-outlet>

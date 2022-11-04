@@ -33,7 +33,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/archive/archive.module').then(m => m.ArchiveModule)
   },
   {
-    path: 'nationalContributionsToEOSC',
+    path: 'eoscreadiness',
     loadChildren: () => import('./pages/national-contributions-to-eosc-dashboard/national-contributions-to-eosc-dashboard.module').then(m => m.NationalContributionsToEOSCDashboardModule),
   },
 ];

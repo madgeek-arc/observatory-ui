@@ -7,9 +7,16 @@
         <nav class="uk-navbar fixed-navbar">
 
           <div class="uk-navbar-left">
+
+            <div id="hamburger" class="hamburger change" (click)="change()">
+              <div class="icon-bar1"></div>
+              <div class="icon-bar2"></div>
+              <div class="icon-bar3"></div>
+            </div>
+
             <a class="logo" [routerLink]="['home']">
               <img src="../../../../assets/images/eosc_logo_bw.png">
-<!--              <span class="uk-margin-left">EOSC Observatory</span>-->
+              <!--              <span class="uk-margin-left">EOSC Observatory</span>-->
             </a>
           </div>
 
@@ -22,7 +29,7 @@
                 </a>
               </li>
               <li *ngIf="ready && userInfo && showNationalContributionsToEOSC">
-                <a class="uk-icon uk-animation-fade" [routerLink]="['/eoscreadiness']" aria-expanded="false">
+                <a class="uk-icon uk-animation-fade" [routerLink]="['/nationalContributionsToEOSC']" aria-expanded="false">
                   <span class="uk-text-small uk-margin-small-right">EOSC Readiness</span>
                 </a>
               </li>
