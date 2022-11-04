@@ -91,7 +91,7 @@ export class HighchartsColorAxisMapComponent {
       text: this.title
     },
     subtitle: {
-      text: '(in millions of Euro)',
+      text: this.subtitle,
     },
     mapNavigation: {
       enabled: false,
