@@ -10,12 +10,14 @@ import {StakeholdersService} from "../../services/stakeholders.service";
 import {PoliciesComponent} from "./policies/policies.component";
 import {PracticesComponent} from "./practices/practices.component";
 import {ArchiveModule} from "../archive/archive.module";
+import {InvestmentsComponent} from "./investments/investments.component";
 
 @NgModule({
   declarations: [
     NationalContributionsToEOSCDashboardComponent,
     PoliciesComponent,
-    PracticesComponent
+    PracticesComponent,
+    InvestmentsComponent
   ],
   imports: [
     CommonModule,

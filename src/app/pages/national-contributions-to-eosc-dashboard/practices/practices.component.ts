@@ -6,6 +6,8 @@ import {zip} from "rxjs/internal/observable/zip";
 import {StakeholdersService} from "../../../services/stakeholders.service";
 import {CountryTableData} from "../../../domain/country-table-data";
 import {mapSubtitles} from "../../../domain/mapSubtitles";
+import {ActivatedRoute} from "@angular/router";
+import UIkit from "uikit";
 
 @Component({
   selector: 'app-policies',
@@ -22,10 +24,18 @@ export class PracticesComponent implements OnInit {
   countriesArray: string[] = [];
 
   constructor(private dataService: DataService, private dataHandlerService: DataHandlerService,
-              private stakeholdersService: StakeholdersService) {
+              private route: ActivatedRoute, private stakeholdersService: StakeholdersService) {
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(
+      queryParams => {
+        if (queryParams['chart'])
+          UIkit.switcher('#practices-tabs').show(queryParams['chart']);
+        else
+          UIkit.switcher('#practices-tabs').show(0);
+      }
+    );
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.dataService.getQuestion18(),

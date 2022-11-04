@@ -21,8 +21,9 @@
                   <span class="uk-text-small uk-margin-small-right">Archive</span>
                 </a>
               </li>
-              <li *ngIf="ready && userInfo && showNationalContributionsToEOSC">
-                <a class="uk-icon uk-animation-fade" [routerLink]="['/eoscreadiness']" aria-expanded="false">
+              <li *ngIf="ready">
+                <a class="uk-icon uk-animation-fade" [routerLink]="['/eoscreadiness/policies']" [queryParams]="{chart: '0'}"
+                   aria-expanded="false">
                   <span class="uk-text-small uk-margin-small-right">EOSC Readiness</span>
                 </a>
               </li>
