@@ -66,7 +66,8 @@ export const mapSubtitles: string[][] = [
   [
     'Yes',
     'No',
-    'In planning'
+    'In planning',
+    'Awaiting data'
   ],
   [
     'Open Access to data, data management and/or FAIR',

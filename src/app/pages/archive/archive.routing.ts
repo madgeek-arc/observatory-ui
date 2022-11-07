@@ -7,12 +7,13 @@ import {NationalContributionsToEOSCGuardService} from "../../services/nationalCo
 import {NCTEMandate} from "./mandate/ncte-mandate";
 import {NCTEOpenAccessComponent} from "./open-access/ncte-open-access.component";
 import {NCTEMonitoringComponent} from "./monitoring/ncte-monitoring.component";
+import {ArchiveGuardService} from "../../services/archiveGuard.service";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
     path: '',
     component: ArchiveComponent,
-    canActivate: [NationalContributionsToEOSCGuardService],
+    canActivateChild: [ArchiveGuardService],
     children: [
       {
         path: '',
@@ -38,11 +39,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
       {
         path: 'openAccess',
         component: NCTEOpenAccessComponent,
-      },
-      // {
-      //   path: 'miscellaneous',
-      //   component: MiscellaneousComponent,
-      // }
+      }
     ],
     runGuardsAndResolvers: 'always'
   }

@@ -5,19 +5,19 @@
   <aside id="sidebar_main">
     <div id="sidebar_content">
       <div  class="menu_section uk-margin-top" style="min-height: 30vh">
+        <div class="" style="padding-left: 23px;"><h6>National contributions 2021</h6></div>
         <ul #nav class="uk-list uk-nav uk-nav-default uk-nav-parent-icon" uk-nav="duration: 500">
           <li  [routerLinkActive]="['current_section']" class="uk-parent">
             <a [routerLink]="'./policies'">
               <div class="uk-flex uk-flex-middle uk-flex-center">
                 <div class="uk-width-auto">
                   <span class="material-icons">policy</span>
-<!--                  <icon class="menu-icon" [customClass]="item.icon.class" [name]="item.icon.name" ratio="0.8" [svg]="item.icon.svg" [flex]="true"></icon>-->
                 </div>
                 <span [class.uk-text-bolder]="isPoliciesActive" class="uk-width-expand uk-text-truncate uk-margin-small-left" title="EOSC policies and financial investments">EOSC Policies</span>
                 <span></span>
               </div>
             </a>
-            <ul class="uk-nav-sub" >
+            <ul class="uk-nav-sub" data-uk-tab="connect: #policies-tabs;">
               <li [routerLinkActive]="['current_section']" class="uk-width-1-1" (click)="updateUrlPathParam(0)">
                 <a><span class="uk-text-truncate">EOSC-relevant Policies</span></a>
               </li>
@@ -49,7 +49,7 @@
                 <span></span>
               </div>
             </a>
-            <ul class="uk-nav-sub">
+            <ul class="uk-nav-sub" data-uk-tab="connect: #practices-tabs;">
               <li [routerLinkActive]="['current_section']" class="uk-width-1-1" (click)="updateUrlPathParam(0)">
                 <a><span class="uk-text-truncate">Mandated Organisations</span></a>
               </li>
@@ -73,7 +73,7 @@
                 <span [class.uk-text-bolder]="isInvestmentsActive" class="uk-width-expand uk-text-truncate uk-margin-small-left">EOSC Investments</span>
               </div>
             </a>
-            <ul class="uk-nav-sub">
+            <ul class="uk-nav-sub" data-uk-tab="connect: #investments-tabs;">
               <li [routerLinkActive]="['current_section']" class="uk-width-1-1" (click)="updateUrlPathParam(0)">
                 <a><span class="uk-text-truncate">National Contributions</span></a>
               </li>

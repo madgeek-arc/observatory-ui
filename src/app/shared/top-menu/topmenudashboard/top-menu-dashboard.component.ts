@@ -24,7 +24,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
   currentCoordinator: Coordinator = null;
   acceptedPrivacyPolicy: AcceptedPrivacyPolicy = null;
   name: string = null;
-  showNationalContributionsToEOSC: boolean = null;
+  showArchive: boolean = false;
 
   constructor(private userService: UserService,
               private privacyPolicy: PrivacyPolicyService,
@@ -75,7 +75,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.userInfo)
-      this.showNationalContributionsToEOSC = this.coordinatorContains('country');
+      this.showArchive = this.coordinatorContains('country');
   }
 
   ngOnDestroy() {
