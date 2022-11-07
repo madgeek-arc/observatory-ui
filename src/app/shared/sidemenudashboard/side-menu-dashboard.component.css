@@ -278,7 +278,7 @@ ul.uk-nav-sub {
   left: 50%;
   transform: translate(-50%, -50%);
   position: absolute;
-  padding-left: calc(280px - 100px);
+  padding-left: calc(var(--sidebar-width) - 100px);
   padding-right: 20px;
   text-align: center;
 }
