@@ -13,7 +13,7 @@
                   <span class="material-icons">policy</span>
 <!--                  <icon class="menu-icon" [customClass]="item.icon.class" [name]="item.icon.name" ratio="0.8" [svg]="item.icon.svg" [flex]="true"></icon>-->
                 </div>
-                <span [class.uk-text-bolder]="isPoliciesActive" class="uk-width-expand uk-text-truncate uk-margin-small-left" title="EOSC policies and financial investments">EOSC policies and financial investments</span>
+                <span [class.uk-text-bolder]="isPoliciesActive" class="uk-width-expand uk-text-truncate uk-margin-small-left" title="EOSC policies and financial investments">EOSC Policies</span>
                 <span></span>
               </div>
             </a>
@@ -45,7 +45,7 @@
                   <span class="material-icons">assignment</span>
                   <!--                  <icon class="menu-icon" [customClass]="item.icon.class" [name]="item.icon.name" ratio="0.8" [svg]="item.icon.svg" [flex]="true"></icon>-->
                 </div>
-                <span [class.uk-text-bolder]="isPracticesActive" class="uk-width-expand uk-text-truncate uk-margin-small-left">EOSC practices</span>
+                <span [class.uk-text-bolder]="isPracticesActive" class="uk-width-expand uk-text-truncate uk-margin-small-left">EOSC Practices</span>
                 <span></span>
               </div>
             </a>
@@ -64,16 +64,16 @@
               </li>
             </ul>
           </li>
-          <li  [routerLinkActive]="['current_section']" class="uk-parent">
+          <li *ngIf="showInvestments" [routerLinkActive]="['current_section']" class="uk-parent">
             <a [routerLink]="'./investments'">
               <div class="uk-flex uk-flex-middle uk-flex-center">
                 <div class="uk-width-auto">
                   <span class="material-icons">assignment</span>
                 </div>
-                <span [class.uk-text-bolder]="isInvestmentsActive" class="uk-width-expand uk-text-truncate uk-margin-small-left">EOSC investments</span>
+                <span [class.uk-text-bolder]="isInvestmentsActive" class="uk-width-expand uk-text-truncate uk-margin-small-left">EOSC Investments</span>
               </div>
             </a>
-            <ul class="uk-nav-sub" >
+            <ul class="uk-nav-sub">
               <li [routerLinkActive]="['current_section']" class="uk-width-1-1" (click)="updateUrlPathParam(0)">
                 <a><span class="uk-text-truncate">National Contributions</span></a>
               </li>
@@ -99,6 +99,7 @@
                 <a><span class="uk-text-truncate">Structural/Investment Funds</span></a>
               </li>
             </ul>
+          </li>
         </ul>
       </div>
     </div>
