@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Stakeholder, UserInfo} from "../../domain/userInfo";
 import {UserService} from "../../services/user.service";
 import {AuthenticationService} from "../../services/authentication.service";
+import {query} from "@angular/animations";
 
 declare var UIkit;
 
@@ -18,11 +19,12 @@ export class NationalContributionsToEOSCDashboardComponent {
 
   subscriptions = [];
   open: boolean = true;
-  isPoliciesActive: boolean = true;
+  isPoliciesActive: boolean = false;
   isPracticesActive: boolean = false;
   isInvestmentsActive: boolean = false;
   showInvestments: boolean = false;
   userInfo: UserInfo = null;
+  activeLink: number = 0;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private userService: UserService, private authentication: AuthenticationService) {}
@@ -44,6 +46,13 @@ export class NationalContributionsToEOSCDashboardComponent {
       // console.log(this.isPoliciesActive);
     });
 
+    this.route.queryParams.subscribe(
+      queryParams => {
+        console.log(queryParams['chart']);
+        this.activeLink = queryParams['chart'];
+      }
+    );
+
     if (this.authentication.authenticated) {
       this.subscriptions.push(
         this.userService.getUserInfo().subscribe(
@@ -58,6 +67,7 @@ export class NationalContributionsToEOSCDashboardComponent {
         )
       );
     }
+
   }
 
   updateUrlPathParam(chartId: number) {
