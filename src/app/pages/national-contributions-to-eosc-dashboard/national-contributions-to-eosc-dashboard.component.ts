@@ -31,25 +31,35 @@ export class NationalContributionsToEOSCDashboardComponent {
 
   ngAfterViewInit() {
     // UIkit.nav(this.nav.nativeElement).toggle(this.activeIndex, false);
-    UIkit.nav(this.nav.nativeElement).toggle(0, false);
+    if (this.isPoliciesActive)
+      UIkit.nav(this.nav.nativeElement).toggle(0, false);
+    if (this.isPracticesActive)
+      UIkit.nav(this.nav.nativeElement).toggle(1, false);
+    if (this.isInvestmentsActive)
+      UIkit.nav(this.nav.nativeElement).toggle(2, false);
   }
 
   ngOnInit(): void {
+    this.route.children[0].url.subscribe( url => {
+      this.isPoliciesActive = (url[0]['path'] === 'policies');
+      this.isPracticesActive = (url[0]['path'] === 'practices');
+      this.isInvestmentsActive = (url[0]['path'] === 'investments');
+    })
 
     this.router.events.subscribe((url:any) =>  {
-      // console.log(url.url);
       if (url.url) {
         this.isPoliciesActive = (url.url.indexOf('policies') > -1);
         this.isPracticesActive = (url.url.indexOf('practices') > -1);
         this.isInvestmentsActive = (url.url.indexOf('investments') > -1);
       }
-      // console.log(this.isPoliciesActive);
     });
 
     this.route.queryParams.subscribe(
       queryParams => {
-        console.log(queryParams['chart']);
-        this.activeLink = queryParams['chart'];
+        if (queryParams['chart'])
+          this.activeLink = queryParams['chart'];
+        else
+          this.updateUrlPathParam(0);
       }
     );
 

@@ -1,7 +1,8 @@
 <div class="uk-section uk-section-default uk-preserve-color uk-padding-remove" xmlns="http://www.w3.org/1999/html">
   <div class="uk-container uk-container-expand">
 
-    <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove" data-uk-switcher="{connect:'#map-vs-table-view', animation: 'fade'}">
+    <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
+        data-uk-switcher="{connect:'#policies-map-vs-table-view', animation: 'fade'}">
       <!--<li [ngClass]="(subCategory.alias === activeSubCategory.alias)?'uk-active':''">-->
       <li class="uk-active">
         <a class="uk-margin-remove-bottom"><span>Graph view</span></a>
@@ -11,7 +12,7 @@
       </li>
     </ul>
 
-    <ul id="map-vs-table-view" class="uk-switcher uk-margin">
+    <ul id="policies-map-vs-table-view" class="uk-switcher uk-margin">
       <li aria-hidden="false" class="uk-active" style="animation-duration: 200ms;">
         <div class="uk-margin-medium-top">
           <div class="">
@@ -21,7 +22,7 @@
                   Select one of the following to change the view of the map
                 </div>
                 <div class="uk-flex uk-flex-top uk-margin-bottom">
-                  <input class="uk-margin-bottom" type="radio" name="policy" checked (click)="createMapDataset(0)">
+                  <input type="radio" name="policy" checked (click)="createMapDataset(0)">
                   <label>There are one or more policies relevant for the EOSC in place</label>
                 </div>
 <!--                <label><input class="uk-margin-bottom" type="radio" name="policy" checked (click)="createMapDataset(0)">-->

@@ -94,7 +94,7 @@ export class HighchartsColorAxisMapComponent {
       text: this.subtitle,
     },
     mapNavigation: {
-      enabled: false,
+      enabled: true,
       buttonOptions: {
         alignTo: "spacingBox"
       }

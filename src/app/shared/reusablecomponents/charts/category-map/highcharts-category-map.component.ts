@@ -107,6 +107,13 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
         text: this.subtitle
       },
 
+      mapNavigation: {
+        enabled: true,
+        buttonOptions: {
+          alignTo: "spacingBox"
+        }
+      },
+
       legend: {
         enabled: true,
         accessibility: {

@@ -27,8 +27,11 @@ export class HighchartsBarComponent implements OnChanges{
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.mapData?.length > 0) {
+      this.mapData = this.mapData.filter((element) => {
+        return element[1] > 0;
+      });
       this.createChartBar()
-      this.ready =true
+      this.ready = true
     }
   }
 
@@ -75,6 +78,9 @@ export class HighchartsBarComponent implements OnChanges{
         name: 'Amount in millions',
         type: 'bar',
         color: '#008792',
+        dataSorting: {
+          enabled: true
+        },
         data: this.mapData,
       }],
     }

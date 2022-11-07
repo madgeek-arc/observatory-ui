@@ -19,6 +19,7 @@ import {zip} from "rxjs/internal/observable/zip";
 export class InvestmentsComponent implements OnInit {
 
   questionsDataArray: any[] = [];
+  questionsDataArrayForBarChart: any[] = [];
   tmpQuestionsDataArray: any[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];
   countriesArray: string[] = [];
@@ -51,15 +52,21 @@ export class InvestmentsComponent implements OnInit {
       this.dataService.getQuestion13()).subscribe(
       rawData => {
         this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[0]);
+        this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[0]);
         this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[1]);
+        this.questionsDataArrayForBarChart[5] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[1]);
         this.questionsDataArray[6] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[2]);
+        this.questionsDataArrayForBarChart[6] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[2]);
         this.tableAbsoluteDataArray[7] = this.dataHandlerService.convertRawDataToTableData(rawData[3]);
         this.createMapDataset(0, 7);
         this.tableAbsoluteDataArray[8] = this.dataHandlerService.convertRawDataToTableData(rawData[4]);
         this.createMapDataset(0, 8);
         this.questionsDataArray[9] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[5]);
+        this.questionsDataArrayForBarChart[9] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[5]);
         this.questionsDataArray[10] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[6]);
+        this.questionsDataArrayForBarChart[10] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[6]);
         this.questionsDataArray[11] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[7]);
+        this.questionsDataArrayForBarChart[11] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[7]);
       },
       error => {
         console.log(error);
