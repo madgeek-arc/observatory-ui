@@ -71,6 +71,11 @@ export class HighchartsBarComponent implements OnChanges{
         bar: {
           dataLabels: {
             enabled: true,
+            style: {
+              // textOutline: "2px contrast",
+              // stroke-width: 0,
+              color: '#000'
+            }
           },
         },
       },
