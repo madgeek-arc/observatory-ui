@@ -66,6 +66,13 @@
 
 #sidebar_main .menu_section .material-icons {
   padding: 3px;
+  background-color: transparent;
+  border-radius: 6px;
+  color: var(--grey-700);
+}
+
+#sidebar_main .menu_section .current_section .material-icons {
+  padding: 3px;
   background-color: var(--eosc-observatory-secondary-color);
   border-radius: 6px;
   color: var(--white);
