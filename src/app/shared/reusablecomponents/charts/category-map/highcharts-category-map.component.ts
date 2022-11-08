@@ -111,7 +111,8 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
         enabled: true,
         buttonOptions: {
           alignTo: "spacingBox"
-        }
+        },
+        enableMouseWheelZoom: false
       },
 
       legend: {

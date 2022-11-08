@@ -97,7 +97,8 @@ export class HighchartsColorAxisMapComponent {
       enabled: true,
       buttonOptions: {
         alignTo: "spacingBox"
-      }
+      },
+      enableMouseWheelZoom: false
     },
     legend: {
       enabled: true

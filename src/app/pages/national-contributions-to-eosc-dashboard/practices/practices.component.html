@@ -16,34 +16,20 @@
             </ul>
             <ul id="map-vs-table-9" class="uk-switcher uk-margin">
               <li>
-                <div class="">
-                  <div class="uk-grid">
-                    <div class="uk-width-1-3 uk-margin-medium-top">
-                      <div class="uk-text-meta uk-margin-bottom uk-text-italic">
-                        Select one of the following to change the view of the map
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-bottom">
-                        <input type="radio" name="map11" checked (click)="createMapDataFromCategorization(0, 15)">
-                        <label>{{mapSubtitlesArray[15][0]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-bottom">
-                        <input type="radio" name="map11" (click)="createMapDataFromCategorization(1, 15)">
-                        <label>{{mapSubtitlesArray[15][1]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-bottom">
-                        <input type="radio" name="map11" (click)="createMapDataFromCategorization(2, 15)">
-                        <label>{{mapSubtitlesArray[15][2]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-bottom">
-                        <input type="radio" name="map11" (click)="createMapDataFromCategorization(3, 15)">
-                        <label>{{mapSubtitlesArray[15][3]}}</label>
-                      </div>
+                <div class="uk-grid">
+                  <div class="uk-width-1-3 uk-margin-medium-top">
+                    <div class="uk-text-meta uk-margin-bottom uk-text-italic">
+                      Select one of the following to change the view of the map
                     </div>
-                    <div class="uk-width-2-3" style="height: 700px">
-                      <app-highcharts-category-map [mapData]="questionsDataArray[15]" [subtitle]="mapSubtitles[15]"
-                                                   [title]="'Mandated organisation appointed by the country in EOSC Association'">
-                      </app-highcharts-category-map>
+                    <div *ngFor="let mapSubtitle of mapSubtitlesArray[15]; let i=index" class="uk-flex uk-flex-top uk-margin-bottom">
+                      <input id="chart11-{{i}}" type="radio" name="map11" [checked]="i===0" (click)="createMapDataFromCategorization(i, 15)">
+                      <label for="chart11-{{i}}">{{mapSubtitle}}</label>
                     </div>
+                  </div>
+                  <div class="uk-width-2-3" style="height: 700px">
+                    <app-highcharts-category-map [mapData]="questionsDataArray[15]" [subtitle]="mapSubtitles[15]"
+                                                 [title]="'Mandated organisation appointed by the country in EOSC Association'">
+                    </app-highcharts-category-map>
                   </div>
                 </div>
               </li>
@@ -76,49 +62,9 @@
                     <div class="uk-text-meta uk-margin-bottom uk-text-italic">
                       Select one of the following to change the view of the map
                     </div>
-                    <div class="uk-flex uk-flex-top uk-margin-bottom">
-                      <input type="radio" name="map8" checked (click)="createMapDataset(0,16)">
-                      <label>Open Access to data, data management and/or FAIR</label>
-                    </div>
-                    <div class="uk-flex uk-flex-top uk-margin-bottom">
-                      <input type="radio" name="map8" (click)="createMapDataset(1, 16)">
-                      <label>FAIRisation of data</label>
-                    </div>
-                    <div class="uk-flex uk-flex-top uk-margin-bottom">
-                      <input type="radio" name="map8" (click)="createMapDataset(2, 16)">
-                      <label>Open Access to software</label>
-                    </div>
-                    <div class="uk-flex uk-flex-top uk-margin-bottom">
-                      <input type="radio" name="map8" (click)="createMapDataset(3, 16)">
-                      <label>Preservation and reuse of scientific information</label>
-                    </div>
-                    <div class="uk-flex uk-flex-top uk-margin-bottom">
-                      <input type="radio" name="map8" (click)="createMapDataset(4, 16)">
-                      <label>Infrastructures that include aspects of open science</label>
-                    </div>
-                    <div class="uk-flex uk-flex-top uk-margin-bottom">
-                      <input type="radio" name="map8" (click)="createMapDataset(5, 16)">
-                      <label>Skills and competencies</label>
-                    </div>
-                    <div class="uk-flex uk-flex-top uk-margin-bottom">
-                      <input type="radio" name="map8" (click)="createMapDataset(6, 16)">
-                      <label>Incentives and rewards</label>
-                    </div>
-                    <div class="uk-flex uk-flex-top uk-margin-bottom">
-                      <input type="radio" name="map8" (click)="createMapDataset(7, 16)">
-                      <label>Citizen science</label>
-                    </div>
-                    <div class="uk-flex uk-flex-top uk-margin-bottom">
-                      <input type="radio" name="map8" (click)="createMapDataset(8, 16)">
-                      <label>Monitoring or Mapping exercise in planning</label>
-                    </div>
-                    <div class="uk-flex uk-flex-top uk-margin-bottom">
-                      <input type="radio" name="map8" (click)="createMapDataset(9, 16)">
-                      <label>No monitoring takes place</label>
-                    </div>
-                    <div class="uk-flex uk-flex-top uk-margin-bottom">
-                      <input type="radio" name="map8" (click)="createMapDataset(10, 16)">
-                      <label>Other</label>
+                    <div *ngFor="let mapSubtitle of mapSubtitlesArray[16]; let i=index" class="uk-flex uk-flex-top uk-margin-bottom">
+                      <input id="chart8-{{i}}" type="radio" name="map8" [checked]="i===0" (click)="createMapDataset(i,16)">
+                      <label for="chart8-{{i}}">{{mapSubtitle}}</label>
                     </div>
                   </div>
                   <div class="uk-width-2-3" style="height: 700px">
@@ -152,23 +98,14 @@
             </ul>
             <ul id="map-vs-table-5" class="uk-switcher uk-margin">
               <li>
-                <div class="">
                 <div class="uk-grid">
                   <div class="uk-width-1-3 uk-margin-medium-top">
                     <div class="uk-text-meta uk-margin-bottom uk-text-italic">
                       Select one of the following to change the view of the map
                     </div>
-                    <div class="uk-flex uk-flex-top uk-margin-bottom">
-                      <input type="radio" name="map9" checked (click)="createMapDataset(0, 17)">
-                      <label>Periodic reports</label>
-                    </div>
-                    <div class="uk-flex uk-flex-top uk-margin-bottom">
-                      <input type="radio" name="map9" (click)="createMapDataset(1, 17)">
-                      <label>Mapping exercise</label>
-                    </div>
-                    <div class="uk-flex uk-flex-top uk-margin-bottom">
-                      <input type="radio" name="map9" (click)="createMapDataset(2, 17)">
-                      <label>Dashboard</label>
+                    <div *ngFor="let mapSubtitle of mapSubtitlesArray[17]; let i=index" class="uk-flex uk-flex-top uk-margin-bottom">
+                      <input id="chart9-{{i}}" type="radio" name="map9" [checked]="i===0" (click)="createMapDataset(i, 17)">
+                      <label for="chart9-{{i}}">{{mapSubtitle}}</label>
                     </div>
                   </div>
                   <div class="uk-width-2-3" style="height: 700px">
@@ -177,7 +114,6 @@
                     </app-highcharts-category-map>
                   </div>
                 </div>
-              </div>
               </li>
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
@@ -200,61 +136,22 @@
                 <a class="uk-margin-remove-bottom"><span>Table view</span></a>
               </li>
             </ul>
-
             <ul id="map-vs-table-6" class="uk-switcher uk-margin">
               <li>
-                <div class="">
-                  <div class="uk-grid">
-                    <div class="uk-width-1-3 uk-margin-medium-top">
-                      <div class="uk-text-meta uk-margin-bottom uk-text-italic">
-                        Select one of the following to change the view of the map
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-bottom">
-                        <input type="radio" name="map10" checked (click)="createMapDataset(0,18)">
-                        <label>Open Access to data, Research data management, and FAIR</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-bottom">
-                        <input type="radio" name="map10" (click)="createMapDataset(1, 18)">
-                        <label>FAIRisation of data</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-bottom">
-                        <input type="radio" name="map10" (click)="createMapDataset(2,18)">
-                        <label>Open Access to software</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-bottom">
-                        <input type="radio" name="map10" (click)="createMapDataset(3,18)">
-                        <label>Preservation and reuse of scientific information</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-bottom">
-                        <input type="radio" name="map10" (click)="createMapDataset(4,18)">
-                        <label>Infrastructures that include aspects of open science</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-bottom">
-                        <input type="radio" name="map10" (click)="createMapDataset(5, 18)">
-                        <label>Skills and competencies</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-bottom">
-                        <input type="radio" name="map10" (click)="createMapDataset(6, 18)">
-                        <label>Incentives and rewards</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-bottom">
-                        <input type="radio" name="map10" (click)="createMapDataset(7, 18)">
-                        <label>Citizen science</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-bottom">
-                        <input type="radio" name="map10" (click)="createMapDataset(8, 18)">
-                        <label>None</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-bottom">
-                        <input type="radio" name="map10" (click)="createMapDataset(9, 18)">
-                        <label>Other</label>
-                      </div>
+                <div class="uk-grid">
+                  <div class="uk-width-1-3 uk-margin-medium-top">
+                    <div class="uk-text-meta uk-margin-bottom uk-text-italic">
+                      Select one of the following to change the view of the map
                     </div>
-                    <div class="uk-width-2-3" style="height: 700px">
-                      <app-highcharts-category-map [mapData]="questionsDataArray[18]" [subtitle]="mapSubtitles[18]"
-                                                   [title]="'Use cases present on Open Science activities'">
-                      </app-highcharts-category-map>
+                    <div *ngFor="let mapSubtitle of mapSubtitlesArray[18]; let i=index" class="uk-flex uk-flex-top uk-margin-bottom">
+                      <input id="chart10-{{i}}" type="radio" name="map10" [checked]="i===0" (click)="createMapDataset(i,18)">
+                      <label for="chart10-{{i}}">{{mapSubtitle}}</label>
                     </div>
+                  </div>
+                  <div class="uk-width-2-3" style="height: 700px">
+                    <app-highcharts-category-map [mapData]="questionsDataArray[18]" [subtitle]="mapSubtitles[18]"
+                                                 [title]="'Use cases present on Open Science activities'">
+                    </app-highcharts-category-map>
                   </div>
                 </div>
               </li>

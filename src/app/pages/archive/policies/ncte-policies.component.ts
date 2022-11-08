@@ -35,8 +35,7 @@ export class NCTEPoliciesComponent implements OnInit{
       this.stakeholdersService.getEOSCSBCountries(),
       this.dataService.getQuestion5(),
       this.dataService.getQuestion14(),
-      this.dataService.getQuestion16()
-      ).subscribe(
+      this.dataService.getQuestion16()).subscribe(
         next => {
           this.tableAbsoluteData = this.dataHandlerService.convertRawDataToTableData(next[0]);
           this.loadingAbsoluteTable = false;
