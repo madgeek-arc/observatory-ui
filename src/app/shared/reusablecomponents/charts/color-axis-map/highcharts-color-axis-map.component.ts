@@ -126,7 +126,7 @@ export class HighchartsColorAxisMapComponent {
     series: [
       {
         type: "map",
-        name: "Random data",
+        name: "Amount",
         states: {
           hover: {
             color: "#8E8E8E"

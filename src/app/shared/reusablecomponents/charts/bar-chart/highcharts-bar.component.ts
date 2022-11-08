@@ -75,7 +75,7 @@ export class HighchartsBarComponent implements OnChanges{
         },
       },
       series: [{
-        name: 'Amount in millions',
+        name: 'Amount',
         type: 'bar',
         color: '#008792',
         dataSorting: {
