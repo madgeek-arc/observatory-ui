@@ -144,6 +144,12 @@ export class HighchartsColorAxisMapComponent {
         },
         allAreas: false,
         data: [],
+        // tooltip: {
+        //   pointFormat: '{point.code}: {point.value} M'
+        // }
+        tooltip: {
+          valueSuffix: ' M'
+        },
       }
     ]
   }
