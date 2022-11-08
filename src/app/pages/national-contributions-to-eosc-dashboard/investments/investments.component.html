@@ -161,6 +161,15 @@
                                            [subtitle]="'(in millions of Euro)'"></app-highcharts-color-axis>
               </div>
               <div class="uk-width-1-3">
+
+                <div class="uk-margin-medium-bottom">
+                  <div class="uk-card uk-card-default uk-card-body indicator-card">
+                    <div class="indicator-label">Amount of earmarked funding for EOSC and Open Science activities in 2020 (in millions of Euro)</div>
+                    <div *ngIf="!fundingForEOSCSums || !fundingForEOSCSums.earmarkedContributions" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                    <div *ngIf="fundingForEOSCSums?.earmarkedContributions" class="uk-text-lead uk-margin-small-top"><strong>{{fundingForEOSCSums.earmarkedContributions}} M</strong></div>
+                  </div>
+                </div>
+
                 <div class="uk-card uk-card-default uk-card-body" style="height: 800px">
                   <app-bar-chart [mapData]="questionsDataArrayForBarChart[9]" [title]="'Amount of Earmarked funding for EOSC and Open Science activities in 2020'"></app-bar-chart>
                 </div>
@@ -175,6 +184,15 @@
                                            [subtitle]="'(in millions of Euro)'"></app-highcharts-color-axis>
               </div>
               <div class="uk-width-1-3">
+
+                <div class="uk-margin-medium-bottom">
+                  <div class="uk-card uk-card-default uk-card-body indicator-card">
+                    <div class="indicator-label">Amount of non-earmarked funding for EOSC and Open Science activities in 2020 (in millions of Euro)</div>
+                    <div *ngIf="!fundingForEOSCSums || !fundingForEOSCSums.nonEarmarkedContributions" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                    <div *ngIf="fundingForEOSCSums?.nonEarmarkedContributions" class="uk-text-lead uk-margin-small-top"><strong>{{fundingForEOSCSums.nonEarmarkedContributions}} M</strong></div>
+                  </div>
+                </div>
+
                 <div class="uk-card uk-card-default uk-card-body" style="height: 800px">
                   <app-bar-chart [mapData]="questionsDataArrayForBarChart[10]" [title]="'Amount of non-earmarked funding for EOSC and Open Science activities in 2020'"></app-bar-chart>
                 </div>
@@ -189,6 +207,15 @@
                                            [subtitle]="'(in millions of Euro)'"></app-highcharts-color-axis>
               </div>
               <div class="uk-width-1-3">
+
+                <div class="uk-margin-medium-bottom">
+                  <div class="uk-card uk-card-default uk-card-body indicator-card">
+                    <div class="indicator-label">Amount of European structural/investment funds allocated for EOSC in 2020 (in millions of Euro)</div>
+                    <div *ngIf="!fundingForEOSCSums || !fundingForEOSCSums.structuralInvestmentFunds" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                    <div *ngIf="fundingForEOSCSums?.structuralInvestmentFunds" class="uk-text-lead uk-margin-small-top"><strong>{{fundingForEOSCSums.structuralInvestmentFunds}} M</strong></div>
+                  </div>
+                </div>
+
                 <div class="uk-card uk-card-default uk-card-body" style="height: 800px">
                   <app-bar-chart [mapData]="questionsDataArrayForBarChart[11]" [title]="'Amount of European structural/investment funding allocated to EOSC in 2020'"></app-bar-chart>
                 </div>

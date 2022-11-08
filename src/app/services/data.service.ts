@@ -37,7 +37,7 @@ export class DataService {
   }
 
   public getFundingForEOSC(): Observable<RawData> {
-    const totalFundingForEOSCQuery = `{"series":[{"query":{"name":"eosc.obs.question6","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question7","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question8","profile":"${this.profileName}"}}],"verbose":true}`;
+    const totalFundingForEOSCQuery = `{"series":[{"query":{"name":"eosc.obs.question6","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question7","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question8","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question11","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question12","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question13","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(totalFundingForEOSCQuery), headerOptions);
   }
 

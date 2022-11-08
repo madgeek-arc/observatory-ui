@@ -187,6 +187,30 @@ export class DataHandlerService {
           }
         }
         fundingForEOSCSums.fundingToOrganisationsOutsideEOSCA = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
+      } else if (series.series.query.name.includes('eosc.obs.question11')) {
+        let sum = 0.0;
+        for (const rowResult of series.series.result) {
+          if (isNumeric(rowResult.row[1])) {
+            sum += +rowResult.row[1];
+          }
+        }
+        fundingForEOSCSums.earmarkedContributions = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
+      } else if (series.series.query.name.includes('eosc.obs.question12')) {
+        let sum = 0.0;
+        for (const rowResult of series.series.result) {
+          if (isNumeric(rowResult.row[1])) {
+            sum += +rowResult.row[1];
+          }
+        }
+        fundingForEOSCSums.nonEarmarkedContributions = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
+      } else if (series.series.query.name.includes('eosc.obs.question13')) {
+        let sum = 0.0;
+        for (const rowResult of series.series.result) {
+          if (isNumeric(rowResult.row[1])) {
+            sum += +rowResult.row[1];
+          }
+        }
+        fundingForEOSCSums.structuralInvestmentFunds = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
       }
     }
     return fundingForEOSCSums;
