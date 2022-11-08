@@ -30,7 +30,6 @@ export class PoliciesComponent implements OnInit{
   mapSubtitles: string[] = [];
   mapSubtitlesArray: string[][] = mapSubtitles;
 
-  fundingForEOSCSums: FundingForEOSCSums;
 
   constructor(private dataService: DataService, private dataHandlerService: DataHandlerService,
               private route: ActivatedRoute, private stakeholdersService: StakeholdersService) {
@@ -109,15 +108,6 @@ export class PoliciesComponent implements OnInit{
       }
     );
 
-    this.dataService.getFundingForEOSC().subscribe(
-      rawData => {
-        // console.log('RawData', rawData);
-        // this.fundingForEOSCSums = this.dataHandlerService.convertRawDataToFundingForEOSCSums(rawData);
-        this.fundingForEOSCSums = this.dataHandlerService.convertRawDataToFundingForEOSCSumsCustom(rawData);
-      }, error => {
-        console.log(error);
-      }
-    );
   }
 
   createMapDataset(index: number, mapCount: number) {

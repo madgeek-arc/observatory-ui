@@ -72,6 +72,15 @@ export class InvestmentsComponent implements OnInit {
         console.log(error);
       }
     );
+
+    this.dataService.getFundingForEOSC().subscribe(
+     rawData => {
+        this.fundingForEOSCSums = this.dataHandlerService.convertRawDataToFundingForEOSCSumsCustom(rawData);
+      },
+     error => {
+        console.log(error);
+      }
+    );
   }
 
   createMapDataset(index: number, mapCount: number) {
