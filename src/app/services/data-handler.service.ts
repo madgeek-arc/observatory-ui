@@ -27,10 +27,11 @@ export class DataHandlerService {
           || series.series.query.name === 'eosc.obs.question14' || series.series.query.name === 'eosc.obs.question15'
           || series.series.query.name === 'eosc.obs.question16' || series.series.query.name === 'eosc.obs.question18'
           || series.series.query.name === 'eosc.obs.question19' || series.series.query.name === 'eosc.obs.question20') {
-          countryTableData.EOSCRelevantPoliciesInPlace = rowResult.row.slice(2);
+          countryTableData.EOSCRelevantPoliciesInPlace = rowResult.row.slice(3);
         }
         if (series.series.query.name === 'eosc.obs.question20') {
-          countryTableData.mapPointData = Array(3).fill(null).concat(rowResult.row.slice(2, 10).concat(rowResult.row.slice(11)));
+          countryTableData.mapPointData = Array(3).fill(null).concat(rowResult.row.slice(3, 11).concat(rowResult.row.slice(12)));
+          console.log(countryTableData.mapPointData);
         }
 
         countryTableData.dedicatedFinancialContributionsToEOSCLinkedToPolicies = rowResult.row[1];
