@@ -138,9 +138,9 @@ export class PoliciesComponent implements OnInit{
 
     this.questionsDataArray[mapCount] = new CategorizedAreaData();
 
+    this.questionsDataArray[mapCount].series[0] = new Series(this.mapSubtitles[mapCount], false);
     for (let i = 0; i < this.tmpQuestionsDataArray[mapCount].series.length; i++) {
       if (this.tmpQuestionsDataArray[mapCount].series[i].name === this.mapSubtitles[mapCount]){
-        this.questionsDataArray[mapCount].series[0] = new Series(this.mapSubtitles[mapCount], false);
         this.questionsDataArray[mapCount].series[0].data = this.tmpQuestionsDataArray[mapCount].series[i].data;
         break;
       }

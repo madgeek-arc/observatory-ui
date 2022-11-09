@@ -85,6 +85,7 @@ export class DataHandlerService {
     // mapSeries.push(new Series('In'));
     for (const series of rawData.datasets) {
       for (const rowResult of series.series.result) {
+        // console.log(rowResult);
         if (rowResult.row[1] === null || rowResult.row[1] === 'null') {
           let found = false;
           for (const series of mapSeries) {

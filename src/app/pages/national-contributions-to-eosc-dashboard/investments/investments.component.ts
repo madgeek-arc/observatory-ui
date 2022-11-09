@@ -49,8 +49,10 @@ export class InvestmentsComponent implements OnInit {
       this.dataService.getQuestion10(),
       this.dataService.getQuestion11(),
       this.dataService.getQuestion12(),
-      this.dataService.getQuestion13()).subscribe(
+      this.dataService.getQuestion13(),
+      this.stakeholdersService.getEOSCSBCountries()).subscribe(
       rawData => {
+        this.countriesArray = rawData[8];
         this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[0]);
         this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[0]);
         this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[1]);
@@ -67,6 +69,7 @@ export class InvestmentsComponent implements OnInit {
         this.questionsDataArrayForBarChart[10] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[6]);
         this.questionsDataArray[11] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[7]);
         this.questionsDataArrayForBarChart[11] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[7]);
+
       },
       error => {
         console.log(error);
