@@ -1,9 +1,10 @@
 @import url("https://use.typekit.net/dwa4ieu.css");
 //@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
-//@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap');
 
 @import url('http://fonts.cdnfonts.com/css/helvetica-neue-55');
 @import url('http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400&display=swap');
 
 /*:root {*/
   /*--primary-color: #004494;*/
@@ -27,8 +28,8 @@
   //--sidebar-width: 280px;
   --header-height: 80px;
 
-  --main-font-family: 'Helvetica Neue';
-  --secondary-font-family: 'Ubuntu';
+  --main-font-family: 'Helvetica Neue', 'Montserrat', 'Open Sans', sans-serif;
+  --secondary-font-family: 'Ubuntu', sans-serif;
   --black: #1A1A1A;
   --grey: #6E6E6E;
   --catalogue-light-purple: #AD20E7;
