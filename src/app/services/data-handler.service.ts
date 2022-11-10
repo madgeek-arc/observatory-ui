@@ -31,7 +31,6 @@ export class DataHandlerService {
         }
         if (series.series.query.name === 'eosc.obs.question20') {
           countryTableData.mapPointData = Array(3).fill(null).concat(rowResult.row.slice(3, 11).concat(rowResult.row.slice(12)));
-          console.log(countryTableData.mapPointData);
         }
 
         countryTableData.dedicatedFinancialContributionsToEOSCLinkedToPolicies = rowResult.row[1];
