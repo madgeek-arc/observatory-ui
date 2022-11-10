@@ -32,8 +32,9 @@
 
 .user_actions circle, .user_actions svg {
   /*stroke: #707070;*/
-  stroke: #004494;
-  fill: #004494;
+  /*stroke: #004494;*/
+  stroke: var(--eosc-observatory-primary-color);
+  fill: var(--eosc-observatory-primary-color);
 }
 
 .user_actions text {
@@ -43,7 +44,8 @@
 }
 
 .logo img {
-  width: 200px;
+  /*width: 200px;*/
+  width: 319px;
   padding: 10px;
 }
 

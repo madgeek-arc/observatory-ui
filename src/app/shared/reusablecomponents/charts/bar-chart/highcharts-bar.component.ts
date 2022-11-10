@@ -27,8 +27,11 @@ export class HighchartsBarComponent implements OnChanges{
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.mapData?.length > 0) {
+      this.mapData = this.mapData.filter((element) => {
+        return element[1] > 0;
+      });
       this.createChartBar()
-      this.ready =true
+      this.ready = true
     }
   }
 
@@ -37,9 +40,13 @@ export class HighchartsBarComponent implements OnChanges{
     this.chartOptions =  {
       chart: {
         type: 'bar',
+        backgroundColor: 'rgba(0,0,0,0)'
       },
       title: {
-        text: 'Bar Chart',
+        text: this.title,
+      },
+      subtitle: {
+        text: '(in millions of Euro)',
       },
       credits: {
         enabled: false,
@@ -56,7 +63,7 @@ export class HighchartsBarComponent implements OnChanges{
       },
       tooltip: {
         headerFormat: `<div>Country: {point.key}</div>`,
-        pointFormat: `<div>{series.name}: {point.y}</div>`,
+        pointFormat: `<div>{series.name}: {point.y} M</div>`,
         shared: true,
         useHTML: true,
       },
@@ -64,12 +71,21 @@ export class HighchartsBarComponent implements OnChanges{
         bar: {
           dataLabels: {
             enabled: true,
+            style: {
+              // textOutline: "2px contrast",
+              // stroke-width: 0,
+              color: '#000'
+            }
           },
         },
       },
       series: [{
-        name: 'Amount in millions',
+        name: 'Amount',
         type: 'bar',
+        color: '#008792',
+        dataSorting: {
+          enabled: true
+        },
         data: this.mapData,
       }],
     }

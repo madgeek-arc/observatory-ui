@@ -4,12 +4,13 @@ import {NationalContributionsToEOSCDashboardComponent} from "./national-contribu
 import {NationalContributionsToEOSCGuardService} from "../../services/nationalContributionsToEOSC-guard.service";
 import {PoliciesComponent} from "./policies/policies.component";
 import {PracticesComponent} from "./practices/practices.component";
+import {InvestmentsComponent} from "./investments/investments.component";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
     path: '',
     component: NationalContributionsToEOSCDashboardComponent,
-    canActivate: [NationalContributionsToEOSCGuardService],
+    // canActivateChild: [NationalContributionsToEOSCGuardService],
     children: [
       {
         path: '',
@@ -25,8 +26,9 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
         component: PracticesComponent,
       },
       {
-        path: 'archive',
-        loadChildren: () => import('./archive/archive.module').then(m => m.ArchiveModule)
+        path: 'investments',
+        component: InvestmentsComponent,
+        canActivate: [NationalContributionsToEOSCGuardService]
       }
     ],
     runGuardsAndResolvers: 'always'

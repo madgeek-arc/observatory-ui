@@ -15,10 +15,10 @@ import {TopMenuLandingComponent} from "../top-menu/topmenulanding/top-menu-landi
 import {HighchartsChartModule} from "highcharts-angular";
 import {HighchartsTilemapComponent} from "./charts/highcharts-tilemap.component";
 import {HighchartsCategoryMapComponent} from "./charts/category-map/highcharts-category-map.component";
-import {HighchartsPieComponent} from "./charts/pie-chart/highcharts-pie.component";
 import {HighchartsBubbleMapComponent} from "./charts/bubble-map/highcharts-bubble-map.component";
 import {HighchartsColorAxisMapComponent} from "./charts/color-axis-map/highcharts-color-axis-map.component";
 import {HighchartsBarComponent} from "./charts/bar-chart/highcharts-bar.component";
+import {TopMenuPublicDashboardComponent} from "../top-menu/topmenupublicdashboard/top-menu-public-dashboard.component";
 // import { SideMenuComponent } from "../sidemenu/sidemenu.component";
 
 @NgModule({
@@ -35,6 +35,7 @@ import {HighchartsBarComponent} from "./charts/bar-chart/highcharts-bar.componen
   declarations: [
     TopMenuLandingComponent,
     TopMenuDashboardComponent,
+    TopMenuPublicDashboardComponent,
     SideMenuDashboardComponent,
     // SideMenuComponent,
     FooterComponent,
@@ -44,13 +45,13 @@ import {HighchartsBarComponent} from "./charts/bar-chart/highcharts-bar.componen
     HighchartsTilemapComponent,
     HighchartsCategoryMapComponent,
     HighchartsBubbleMapComponent,
-    HighchartsPieComponent,
     HighchartsColorAxisMapComponent,
     HighchartsBarComponent
   ],
   exports: [
     TopMenuLandingComponent,
     TopMenuDashboardComponent,
+    TopMenuPublicDashboardComponent,
     SideMenuDashboardComponent,
     // SideMenuComponent,
     FooterComponent,
@@ -59,7 +60,6 @@ import {HighchartsBarComponent} from "./charts/bar-chart/highcharts-bar.componen
     ReadMoreTextComponent,
     HighchartsTilemapComponent,
     HighchartsCategoryMapComponent,
-    HighchartsPieComponent,
     HighchartsBubbleMapComponent,
     HighchartsColorAxisMapComponent,
     HighchartsBarComponent

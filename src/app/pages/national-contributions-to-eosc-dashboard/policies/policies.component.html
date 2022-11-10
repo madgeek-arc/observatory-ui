@@ -1,28 +1,11 @@
-<div class="uk-section uk-section-primary uk-section-small uk-preserve-color">
+<div class="uk-section uk-section-default uk-section-small uk-preserve-color">
   <div class="uk-container uk-container-expand">
     <div class="uk-grid">
       <div class="uk-width-1-1">
-        <ul class="uk-width-1-1 uk-margin-remove uk-tab form-tabs uk-flex uk-flex-center"
-            data-uk-tab="connect: #tabs; animation: uk-animation-fade">
-          <li><a href="#">Question 1</a></li>
-          <li><a href="#">Question 2</a></li>
-          <li><a href="#">Question 3</a></li>
-          <li><a href="#">Question 4</a></li>
-          <li><a href="#">Question 5</a></li>
-          <li><a href="#">Question 6</a></li>
-          <li><a href="#">Question 7</a></li>
-          <li><a href="#">Question 8</a></li>
-          <li><a href="#">Question 9</a></li>
-          <li><a href="#">Question 10</a></li>
-          <li><a href="#">Question 11</a></li>
-          <li><a href="#">Question 12</a></li>
-          <li><a href="#">Question 13</a></li>
-          <li><a href="#">Question 14</a></li>
-        </ul>
-      </div>
-      <div class="uk-width-1-1">
-        <ul id="tabs" class="uk-switcher">
-          <li class="uk-margin-medium-top">
+        <ul id="policies-tabs" class="uk-switcher">
+<!--          EOSC-relevant Policies-->
+          <li class="uk-animation-fade">
+<!--            <app-ncte-policies></app-ncte-policies>-->
             <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
                 data-uk-switcher="{connect:'#map-vs-table-1', animation: 'fade'}">
               <li>
@@ -34,66 +17,20 @@
             </ul>
             <ul id="map-vs-table-1" class="uk-switcher uk-margin">
               <li>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <div class="uk-grid uk-grid-match">
-                    <div class="uk-width-1-3 uk-margin-medium-top">
-                      <div class="uk-text-meta uk-margin-bottom uk-text-italic">
-                        Select one of the following to change the view of the map
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map1" checked (click)="createMapDataset(0,1)">
-                        <label>There are one or more policies relevant for the EOSC in place</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map1" (click)="createMapDataset(1, 1)">
-                        <label>Policy in planning</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map1" (click)="createMapDataset(2, 1)">
-                        <label>One or more of the open science policies explicitly mentions EOSC</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map1" (click)="createMapDataset(3, 1)">
-                        <label>Policy addresses Open access to data, data management and/or FAIR</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map1" (click)="createMapDataset(4, 1)">
-                        <label>Policy addresses FAIRisation of data</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map1" (click)="createMapDataset(5, 1)">
-                        <label>Policy addresses Open access to software</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map1" (click)="createMapDataset(6, 1)">
-                        <label>Policy addresses Preservation and reuse of scientific information</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map1" (click)="createMapDataset(7, 1)">
-                        <label>Policy addresses Infrastructures that include aspects of open science</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map1" (click)="createMapDataset(8, 1)">
-                        <label>Policy addresses Skills and competencies</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map1" (click)="createMapDataset(9, 1)">
-                        <label>Policy addresses Incentives and rewards</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map1" (click)="createMapDataset(10, 1)">
-                        <label>Policy addresses Citizen science</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map1" (click)="createMapDataset(11, 1)">
-                        <label>Other</label>
-                      </div>
+                <div class="uk-grid">
+                  <div class="uk-width-1-3 uk-margin-medium-top">
+                    <div class="uk-text-meta uk-margin-bottom uk-text-italic">
+                      Select one of the following to change the view of the map
                     </div>
-                    <div class="uk-width-2-3" style="height: 700px">
-                      <app-highcharts-category-map [mapData]="questionsDataArray[1]" [subtitle]="mapSubtitles[0]"
-                                                   [title]="'EOSC-relevant policies in place at national or regional level'">
-                      </app-highcharts-category-map>
+                    <div *ngFor="let mapSubtitle of mapSubtitlesArray[1]; let i=index" class="uk-flex uk-flex-top uk-margin-small-bottom">
+                      <input id="chart1-{{i}}" type="radio" name="map1" [checked]="i===0" (click)="createComplexMapDataset(i,1)">
+                      <label for="chart1-{{i}}">{{mapSubtitle}}</label>
                     </div>
+                  </div>
+                  <div class="uk-width-2-3" style="height: 700px">
+                    <app-highcharts-category-map [mapData]="questionsDataArray[1]" [subtitle]="mapSubtitles[1]"
+                                                 [title]="'EOSC-relevant Policies in Place at National or Regional Level'">
+                    </app-highcharts-category-map>
                   </div>
                 </div>
               </li>
@@ -106,7 +43,8 @@
               </li>
             </ul>
           </li>
-          <li class="uk-margin-medium-top">
+<!--          Implementation Measures-->
+          <li class="uk-animation-fade">
             <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
                 data-uk-switcher="{connect:'#map-vs-table-2', animation: 'fade'}">
               <li>
@@ -118,90 +56,37 @@
             </ul>
             <ul id="map-vs-table-2" class="uk-switcher uk-margin">
               <li>
-                <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-grid uk-grid-match">
+                <div class="uk-grid">
                   <div class="uk-width-1-3 uk-margin-medium-top">
                     <div class="uk-text-meta uk-margin-bottom uk-text-italic">
                       Select one of the following to change the view of the map
                     </div>
-                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                      <input type="radio" name="map2" checked (click)="createMapDataset(0, 2)">
-                      <label>Action plan</label>
-                    </div>
-                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                      <input type="radio" name="map2" (click)="createMapDataset(1, 2)">
-                      <label>Concrete objectives</label>
-                    </div>
-                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                      <input type="radio" name="map2" (click)="createMapDataset(2, 2)">
-                      <label>Indicators to monitor progress</label>
-                    </div>
-                    <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                      <input type="radio" name="map2" (click)="createMapDataset(3, 2)">
-                      <label>Associated financial planning</label>
+                    <div *ngFor="let mapSubtitle of mapSubtitlesArray[2]; let i=index" class="uk-flex uk-flex-top uk-margin-bottom">
+                      <input id="chart2-{{i}}" type="radio" name="map2" [checked]="i===0" (click)="createMapDataset(i, 2)">
+                      <label for="chart2-{{i}}">{{mapSubtitle}}</label>
                     </div>
                   </div>
                   <div class="uk-width-2-3" style="height: 700px">
-                    <app-highcharts-category-map [mapData]="questionsDataArray[2]" [subtitle]="mapSubtitles[1]"
-                                                 [title]="'EOSC-relevant policies in place include measures to ensure implementation'">
+                    <app-highcharts-category-map [mapData]="questionsDataArray[2]" [subtitle]="mapSubtitles[2]"
+                                                 [title]="'EOSC-relevant Policies Include Measures to Ensure Implementation'">
                     </app-highcharts-category-map>
                   </div>
                 </div>
-              </div>
               </li>
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
-                  <app-countries-table *ngIf="tableAbsoluteDataArray[2]" [countries]="tableAbsoluteDataArray[2]"
-                                       [tableType]="'policies'">
-                  </app-countries-table>
+                  <span>Coming soon...</span>
+<!--                  <app-countries-table *ngIf="tableAbsoluteDataArray[2]" [countries]="tableAbsoluteDataArray[2]"-->
+<!--                                       [tableType]="'policies'">-->
+<!--                  </app-countries-table>-->
                 </div>
               </li>
             </ul>
           </li>
-          <li class="uk-margin-medium-top">
-            <div class="uk-card uk-card-default uk-card-body" style="height: 700px">
-              <app-highcharts-category-map [mapData]="questionsDataArray[3]" [title]="'Does the country have dedicated financial contributions to the EOSC linked to the policies?'"></app-highcharts-category-map>
-            </div>
-          </li>
-          <li class="uk-margin-medium-top">
-            <div class="uk-grid">
-              <div class="uk-card uk-card-default uk-card-body uk-width-2-3" style="height: 800px">
-                <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [title]="'Color axis demo'"></app-highcharts-color-axis>
-              </div>
-              <div class="uk-width-1-3">
-                <div class="uk-card uk-card-default uk-card-body" style="height: 800px">
-                  <app-bar-chart [mapData]="questionsDataArray[4]"></app-bar-chart>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="uk-margin-medium-top">
-            <div class="uk-grid">
-              <div class="uk-card uk-card-default uk-card-body uk-width-2-3" style="height: 800px">
-                <app-highcharts-color-axis [mapData]="questionsDataArray[5]" [title]="'Color axis demo'"></app-highcharts-color-axis>
-              </div>
-              <div class="uk-width-1-3">
-                <div class="uk-card uk-card-default uk-card-body" style="height: 800px">
-                  <app-bar-chart [mapData]="questionsDataArray[5]"></app-bar-chart>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="uk-margin-medium-top">
-            <div class="uk-grid">
-              <div class="uk-card uk-card-default uk-card-body uk-width-2-3" style="height: 800px">
-                <app-highcharts-color-axis [mapData]="questionsDataArray[6]" [title]="'Color axis demo'"></app-highcharts-color-axis>
-              </div>
-              <div class="uk-width-1-3">
-                <div class="uk-card uk-card-default uk-card-body" style="height: 800px">
-                  <app-bar-chart [mapData]="questionsDataArray[6]"></app-bar-chart>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="uk-margin-medium-top">
+<!--          Financial Strategies-->
+          <li class="uk-animation-fade">
             <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
-                data-uk-switcher="{connect:'#map-vs-table-3', animation: 'fade'}">
+                data-uk-switcher="{connect:'#map-vs-table-8', animation: 'fade'}">
               <li>
                 <a class="uk-margin-remove-bottom"><span>Graph view</span></a>
               </li>
@@ -209,137 +94,37 @@
                 <a class="uk-margin-remove-bottom"><span>Table view</span></a>
               </li>
             </ul>
-            <ul id="map-vs-table-3" class="uk-switcher uk-margin">
+            <ul id="map-vs-table-8" class="uk-switcher uk-margin">
               <li>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <div class="uk-grid uk-grid-match">
-                    <div class="uk-width-1-3 uk-margin-medium-top">
-                      <div class="uk-text-meta uk-margin-bottom uk-text-italic">
-                        Select one of the following to change the view of the map
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map3" checked (click)="createMapDataset(0,7)">
-                        <label>{{mapSubtitlesArray[7][0]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map3" (click)="createMapDataset(1, 7)">
-                        <label>{{mapSubtitlesArray[7][1]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map3" (click)="createMapDataset(2, 7)">
-                        <label>{{mapSubtitlesArray[7][2]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map3" (click)="createMapDataset(3, 7)">
-                        <label>{{mapSubtitlesArray[7][3]}}</label>
-                      </div>
+                <div class="uk-grid">
+                  <div class="uk-width-1-3 uk-margin-medium-top">
+                    <div class="uk-text-meta uk-margin-bottom uk-text-italic">
+                      Select one of the following to change the view of the map
                     </div>
-                    <div class="uk-width-2-3" style="height: 700px">
-                      <app-highcharts-category-map [mapData]="questionsDataArray[7]" [subtitle]="mapSubtitles[7]"
-                                                   [title]="'The sources for the estimate'">
-                      </app-highcharts-category-map>
+                    <div *ngFor="let mapSubtitle of mapSubtitlesArray[3]; let i=index" class="uk-flex uk-flex-top uk-margin-bottom">
+                      <input id="chart8-{{i}}" type="radio" name="map8" [checked]="i===0" (click)="createMapDataFromCategorization(i,3)">
+                      <label for="chart8-{{i}}">{{mapSubtitle}}</label>
                     </div>
+                  </div>
+                  <div class="uk-width-2-3" style="height: 700px">
+                    <app-highcharts-category-map [mapData]="questionsDataArray[3]" [subtitle]="mapSubtitles[3]"
+                                                 [title]="'National Contributions to EOSC Linked to Policies and Actions'">
+                    </app-highcharts-category-map>
                   </div>
                 </div>
               </li>
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
-                  <app-countries-table *ngIf="tableAbsoluteDataArray[7]" [countries]="tableAbsoluteDataArray[7]"
-                                       [tableType]="'policies'">
+                  <app-countries-table *ngIf="tableAbsoluteDataArray[3]" [countries]="tableAbsoluteDataArray[3]"
+                                       [tableType]="'funding'">
                   </app-countries-table>
                 </div>
               </li>
             </ul>
+<!--            <app-ncte-funding></app-ncte-funding>-->
           </li>
-          <li class="uk-margin-medium-top">
-            <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
-                data-uk-switcher="{connect:'#map-vs-table-4', animation: 'fade'}">
-              <li>
-                <a class="uk-margin-remove-bottom"><span>Graph view</span></a>
-              </li>
-              <li>
-                <a class="uk-margin-remove-bottom"><span>Table view</span></a>
-              </li>
-            </ul>
-            <ul id="map-vs-table-4" class="uk-switcher uk-margin">
-              <li>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <div class="uk-grid uk-grid-match">
-                    <div class="uk-width-1-3 uk-margin-medium-top">
-                      <div class="uk-text-meta uk-margin-bottom uk-text-italic">
-                        Select one of the following to change the view of the map
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map4" checked (click)="createMapDataset(0,8)">
-                        <label>{{mapSubtitlesArray[8][0]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map4" (click)="createMapDataset(1, 8)">
-                        <label>{{mapSubtitlesArray[8][1]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map4" (click)="createMapDataset(2, 8)">
-                        <label>{{mapSubtitlesArray[8][2]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map4" (click)="createMapDataset(3, 8)">
-                        <label>{{mapSubtitlesArray[8][3]}}</label>
-                      </div>
-                    </div>
-                    <div class="uk-width-2-3" style="height: 700px">
-                      <app-highcharts-category-map [mapData]="questionsDataArray[8]" [subtitle]="mapSubtitles[8]"
-                                                   [title]="'The sources for the estimate'">
-                      </app-highcharts-category-map>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <app-countries-table *ngIf="tableAbsoluteDataArray[8]" [countries]="tableAbsoluteDataArray[8]"
-                                       [tableType]="'policies'">
-                  </app-countries-table>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <li class="uk-margin-medium-top">
-            <div class="uk-grid">
-              <div class="uk-card uk-card-default uk-card-body uk-width-2-3" style="height: 800px">
-                <app-highcharts-color-axis [mapData]="questionsDataArray[9]" [title]="'Color axis demo'"></app-highcharts-color-axis>
-              </div>
-              <div class="uk-width-1-3">
-                <div class="uk-card uk-card-default uk-card-body" style="height: 800px">
-                  <app-bar-chart [mapData]="questionsDataArray[9]"></app-bar-chart>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="uk-margin-medium-top">
-            <div class="uk-grid">
-              <div class="uk-card uk-card-default uk-card-body uk-width-2-3" style="height: 800px">
-                <app-highcharts-color-axis [mapData]="questionsDataArray[10]" [title]="'Color axis demo'"></app-highcharts-color-axis>
-              </div>
-              <div class="uk-width-1-3">
-                <div class="uk-card uk-card-default uk-card-body" style="height: 800px">
-                  <app-bar-chart [mapData]="questionsDataArray[10]"></app-bar-chart>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="uk-margin-medium-top">
-            <div class="uk-grid">
-              <div class="uk-card uk-card-default uk-card-body uk-width-2-3" style="height: 800px">
-                <app-highcharts-color-axis [mapData]="questionsDataArray[11]" [title]="'Color axis demo'"></app-highcharts-color-axis>
-              </div>
-              <div class="uk-width-1-3">
-                <div class="uk-card uk-card-default uk-card-body" style="height: 800px">
-                  <app-bar-chart [mapData]="questionsDataArray[11]"></app-bar-chart>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="uk-margin-medium-top">
+<!--          EOSC-relevant Activities-->
+          <li class="uk-animation-fade">
             <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
                 data-uk-switcher="{connect:'#map-vs-table-5', animation: 'fade'}">
               <li>
@@ -351,47 +136,35 @@
             </ul>
             <ul id="map-vs-table-5" class="uk-switcher uk-margin">
               <li>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <div class="uk-grid uk-grid-match">
+                <div class="uk-grid">
                     <div class="uk-width-1-3 uk-margin-medium-top">
                       <div class="uk-text-meta uk-margin-bottom uk-text-italic">
                         Select one of the following to change the view of the map
                       </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map5" checked (click)="createMapDataset(0,12)">
-                        <label>{{mapSubtitlesArray[12][0]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map5" (click)="createMapDataset(1, 12)">
-                        <label>{{mapSubtitlesArray[12][1]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map5" (click)="createMapDataset(2, 12)">
-                        <label>{{mapSubtitlesArray[12][2]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map5" (click)="createMapDataset(3, 12)">
-                        <label>{{mapSubtitlesArray[12][3]}}</label>
+                      <div *ngFor="let mapSubtitle of mapSubtitlesArray[12]; let i=index" class="uk-flex uk-flex-top uk-margin-bottom">
+                        <input id="chart5-{{i}}" type="radio" name="map5" [checked]="i===0" (click)="createMapDataset(i,12)">
+                        <label for="chart5-{{i}}">{{mapSubtitle}}</label>
                       </div>
                     </div>
                     <div class="uk-width-2-3" style="height: 700px">
                       <app-highcharts-category-map [mapData]="questionsDataArray[12]" [subtitle]="mapSubtitles[12]"
-                                                   [title]="'The sources for the estimate'">
+                                                   [title]="'EOSC-relevant Activities Included in National Contributions in 2020'">
                       </app-highcharts-category-map>
                     </div>
                   </div>
-                </div>
               </li>
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
-                  <app-countries-table *ngIf="tableAbsoluteDataArray[4]" [countries]="tableAbsoluteDataArray[4]"
-                                       [tableType]="'policies'">
-                  </app-countries-table>
+                  <span>Coming soon...</span>
+<!--                  <app-countries-table *ngIf="tableAbsoluteDataArray[12]" [countries]="tableAbsoluteDataArray[12]"-->
+<!--                                       [tableType]="'policies'">-->
+<!--                  </app-countries-table>-->
                 </div>
               </li>
             </ul>
           </li>
-          <li class="uk-margin-medium-top">
+<!--          EOSC-relevant Services-->
+          <li class="uk-animation-fade">
             <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
                 data-uk-switcher="{connect:'#map-vs-table-6', animation: 'fade'}">
               <li>
@@ -403,47 +176,35 @@
             </ul>
             <ul id="map-vs-table-6" class="uk-switcher uk-margin">
               <li>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <div class="uk-grid uk-grid-match">
-                    <div class="uk-width-1-3 uk-margin-medium-top">
-                      <div class="uk-text-meta uk-margin-bottom uk-text-italic">
-                        Select one of the following to change the view of the map
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map6" checked (click)="createMapDataset(0,13)">
-                        <label>{{mapSubtitlesArray[13][0]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map6" (click)="createMapDataset(1, 13)">
-                        <label>{{mapSubtitlesArray[13][1]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map6" (click)="createMapDataset(2, 13)">
-                        <label>{{mapSubtitlesArray[13][2]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map6" (click)="createMapDataset(3, 13)">
-                        <label>{{mapSubtitlesArray[13][3]}}</label>
-                      </div>
+                <div class="uk-grid">
+                  <div class="uk-width-1-3 uk-margin-medium-top">
+                    <div class="uk-text-meta uk-margin-bottom uk-text-italic">
+                      Select one of the following to change the view of the map
                     </div>
-                    <div class="uk-width-2-3" style="height: 700px">
-                      <app-highcharts-category-map [mapData]="questionsDataArray[13]" [subtitle]="mapSubtitles[13]"
-                                                   [title]="'The sources for the estimate'">
-                      </app-highcharts-category-map>
+                    <div *ngFor="let mapSubtitle of mapSubtitlesArray[13]; let i=index" class="uk-flex uk-flex-top uk-margin-bottom">
+                      <input id="chart6-{{i}}" type="radio" name="map6" [checked]="i===0" (click)="createMapDataset(i,13)">
+                      <label for="chart6-{{i}}">{{mapSubtitle}}</label>
                     </div>
+                  </div>
+                  <div class="uk-width-2-3" style="height: 700px">
+                    <app-highcharts-category-map [mapData]="questionsDataArray[13]" [subtitle]="mapSubtitles[13]"
+                                                 [title]="'EOSC-relevant Services Included in National Contributions in 2020'">
+                    </app-highcharts-category-map>
                   </div>
                 </div>
               </li>
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
-                  <app-countries-table *ngIf="tableAbsoluteDataArray[13]" [countries]="tableAbsoluteDataArray[13]"
-                                       [tableType]="'policies'">
-                  </app-countries-table>
+                  <span>Coming soon...</span>
+<!--                  <app-countries-table *ngIf="tableAbsoluteDataArray[13]" [countries]="tableAbsoluteDataArray[13]"-->
+<!--                                       [tableType]="'policies'">-->
+<!--                  </app-countries-table>-->
                 </div>
               </li>
             </ul>
           </li>
-          <li class="uk-margin-medium-top">
+<!--          EOSC-relevant Infrastructure-->
+          <li class="uk-animation-fade">
             <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill-alt uk-margin-remove"
                 data-uk-switcher="{connect:'#map-vs-table-7', animation: 'fade'}">
               <li>
@@ -455,42 +216,29 @@
             </ul>
             <ul id="map-vs-table-7" class="uk-switcher uk-margin">
               <li>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <div class="uk-grid uk-grid-match">
-                    <div class="uk-width-1-3 uk-margin-medium-top">
-                      <div class="uk-text-meta uk-margin-bottom uk-text-italic">
-                        Select one of the following to change the view of the map
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map7" checked (click)="createMapDataset(0,13)">
-                        <label>{{mapSubtitlesArray[13][0]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map7" (click)="createMapDataset(1, 13)">
-                        <label>{{mapSubtitlesArray[13][1]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map7" (click)="createMapDataset(2, 13)">
-                        <label>{{mapSubtitlesArray[13][2]}}</label>
-                      </div>
-                      <div class="uk-flex uk-flex-top uk-margin-small-bottom">
-                        <input type="radio" name="map7" (click)="createMapDataset(3, 13)">
-                        <label>{{mapSubtitlesArray[13][3]}}</label>
-                      </div>
+                <div class="uk-grid">
+                  <div class="uk-width-1-3 uk-margin-medium-top">
+                    <div class="uk-text-meta uk-margin-bottom uk-text-italic">
+                      Select one of the following to change the view of the map
                     </div>
-                    <div class="uk-width-2-3" style="height: 700px">
-                      <app-highcharts-category-map [mapData]="questionsDataArray[13]" [subtitle]="mapSubtitles[13]"
-                                                   [title]="'The sources for the estimate'">
-                      </app-highcharts-category-map>
+                    <div *ngFor="let mapSubtitle of mapSubtitlesArray[14]; let i=index" class="uk-flex uk-flex-top uk-margin-bottom">
+                      <input id="chart7-{{i}}" type="radio" name="map7" [checked]="i===0" (click)="createMapDataset(i,14)">
+                      <label for="chart7-{{i}}">{{mapSubtitle}}</label>
                     </div>
+                  </div>
+                  <div class="uk-width-2-3" style="height: 700px">
+                    <app-highcharts-category-map [mapData]="questionsDataArray[14]" [subtitle]="mapSubtitles[14]"
+                                                 [title]="'EOSC-relevant Infrastructures Included in National Contributions in 2020'">
+                    </app-highcharts-category-map>
                   </div>
                 </div>
               </li>
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
-                  <app-countries-table *ngIf="tableAbsoluteDataArray[13]" [countries]="tableAbsoluteDataArray[13]"
-                                       [tableType]="'policies'">
-                  </app-countries-table>
+                  <span>Coming soon...</span>
+<!--                  <app-countries-table *ngIf="tableAbsoluteDataArray[13]" [countries]="tableAbsoluteDataArray[13]"-->
+<!--                                       [tableType]="'policies'">-->
+<!--                  </app-countries-table>-->
                 </div>
               </li>
             </ul>

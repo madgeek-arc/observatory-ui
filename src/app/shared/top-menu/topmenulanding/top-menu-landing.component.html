@@ -8,17 +8,23 @@
 
           <div class="uk-navbar-left">
             <a class="logo" [routerLink]="['home']">
-              <img src="https://providers.eosc-portal.eu/assets/images/EOSC_Portal_Logo.png">
-              <span class="uk-margin-left">EOSC Observatory</span>
+              <img src="../../../../assets/images/eosc-logo-bw.svg" width="220px">
+<!--              <span class="uk-margin-left">EOSC Observatory</span>-->
             </a>
           </div>
 
           <div class="uk-navbar-right" uk-grid>
 
             <ul class="uk-navbar-nav user_actions">
-              <li *ngIf="ready && userInfo && showNationalContributionsToEOSC">
-                <a class="uk-icon uk-animation-fade" [routerLink]="['/nationalContributionsToEOSC']" aria-expanded="false">
-                  <span class="uk-text-small uk-margin-small-right">National Contributions to EOSC</span>
+              <li *ngIf="ready && userInfo && showArchive">
+                <a class="uk-icon uk-animation-fade" [routerLink]="['/archive']" aria-expanded="false">
+                  <span class="uk-text-small uk-margin-small-right">Archive</span>
+                </a>
+              </li>
+              <li *ngIf="ready">
+                <a class="uk-icon uk-animation-fade" [routerLink]="['/eoscreadiness/policies']" [queryParams]="{chart: '0'}"
+                   aria-expanded="false">
+                  <span class="uk-text-small uk-margin-small-right">EOSC Readiness</span>
                 </a>
               </li>
               <li *ngIf="ready && userInfo">

@@ -1,10 +1,10 @@
 import {Component, OnInit} from "@angular/core";
-import {CountryTableData} from "../../../../domain/country-table-data";
-import {DataService} from "../../../../services/data.service";
-import {DataHandlerService} from "../../../../services/data-handler.service";
-import {CategorizedAreaData, Series} from "../../../../domain/categorizedAreaData";
-import {StakeholdersService} from "../../../../services/stakeholders.service";
-import {latlong} from "../../../../domain/countries-lat-lon";
+import {CountryTableData} from "../../../domain/country-table-data";
+import {DataService} from "../../../services/data.service";
+import {DataHandlerService} from "../../../services/data-handler.service";
+import {CategorizedAreaData, Series} from "../../../domain/categorizedAreaData";
+import {StakeholdersService} from "../../../services/stakeholders.service";
+import {latlong} from "../../../domain/countries-lat-lon";
 import {zip} from "rxjs";
 
 @Component({
@@ -35,16 +35,15 @@ export class NCTEPoliciesComponent implements OnInit{
       this.stakeholdersService.getEOSCSBCountries(),
       this.dataService.getQuestion5(),
       this.dataService.getQuestion14(),
-      this.dataService.getQuestion16()
-      ).subscribe(
+      this.dataService.getQuestion16()).subscribe(
         next => {
           this.tableAbsoluteData = this.dataHandlerService.convertRawDataToTableData(next[0]);
           this.loadingAbsoluteTable = false;
           this.mapPointData = this.dataHandlerService.convertRawDataToTableData(next[1]);
           this.countriesArray = next[2];
-          this.question3 = this.dataHandlerService.convertRawDataToTableData(next[3]);
-          this.question12 = this.dataHandlerService.convertRawDataToTableData(next[4]);
-          this.question14 = this.dataHandlerService.convertRawDataToTableData(next[5]);
+          this.question3 = this.dataHandlerService.convertRawDataToMapPoint(next[3]);
+          this.question12 = this.dataHandlerService.convertRawDataToMapPoint(next[4]);
+          this.question14 = this.dataHandlerService.convertRawDataToMapPoint(next[5]);
         },
       error => {},
       () => {

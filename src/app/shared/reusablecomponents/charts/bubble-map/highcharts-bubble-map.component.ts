@@ -80,6 +80,14 @@ export class HighchartsBubbleMapComponent implements OnChanges {
         text: ""
       },
 
+      mapNavigation: {
+        enabled: true,
+        buttonOptions: {
+          alignTo: "spacingBox"
+        },
+        enableMouseWheelZoom: false
+      },
+
       plotOptions: {
         series: {
           // general options for all series

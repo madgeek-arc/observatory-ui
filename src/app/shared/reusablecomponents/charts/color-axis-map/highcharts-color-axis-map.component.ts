@@ -52,7 +52,22 @@ export class HighchartsColorAxisMapComponent {
       setTimeout(() => {
         self.chartOptions.title.text = this.title;
         self.chartOptions.subtitle.text = this.subtitle;
-        this.mapData = [...this.mapData, ...this.dataForInitialization];
+        let tmpArray: (number | SeriesMapDataOptions | [string, number])[] = [];
+        let found = false;
+        for (let i = 0; i < this.dataForInitialization.length; i++) {
+          found = false;
+          for (let j = 0; j < this.mapData.length; j++) {
+            if (this.dataForInitialization[i][0] === this.mapData[j][0]) {
+              tmpArray.push(this.mapData[j]);
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            tmpArray.push(this.dataForInitialization[i]);
+          }
+        }
+        this.mapData = tmpArray;
         self.chartOptions.series[0]['data'] = this.mapData;
         // console.log(self.chartOptions.series)
         // chart.hideLoading();
@@ -65,7 +80,8 @@ export class HighchartsColorAxisMapComponent {
   createMap() {
     this.chartOptions = {
     chart: {
-      map: worldMap
+      map: worldMap,
+      backgroundColor: 'rgba(0,0,0,0)'
     },
     mapView: {
       center: [30, 50],
@@ -75,20 +91,27 @@ export class HighchartsColorAxisMapComponent {
       text: this.title
     },
     subtitle: {
-      text: this.subtitle
+      text: this.subtitle,
     },
     mapNavigation: {
-      enabled: false,
+      enabled: true,
       buttonOptions: {
         alignTo: "spacingBox"
-      }
+      },
+      enableMouseWheelZoom: false
     },
     legend: {
       enabled: true
     },
-    colorAxis: {
-      min: 0
-    },
+      colorAxis: {
+        min: 0,
+        max: 25,
+        // tickInterval: 3,
+        stops: [[0, '#F1EEF6'], [1, '#008792']],
+        // labels: {
+        //   format: '{value}%'
+        // }
+      },
     plotOptions: {
       series: {
         point: {
@@ -103,10 +126,10 @@ export class HighchartsColorAxisMapComponent {
     series: [
       {
         type: "map",
-        name: "Random data",
+        name: "Amount",
         states: {
           hover: {
-            color: "#BADA55"
+            color: "#8E8E8E"
           }
         },
         dataLabels: {
@@ -114,13 +137,19 @@ export class HighchartsColorAxisMapComponent {
           // format: "{point.value}",
           formatter: function () {
             if (this.point.value > 0)
-              return this.point.value;
+              return this.point.value + ' M';
             else
               return '';
           }
         },
         allAreas: false,
         data: [],
+        // tooltip: {
+        //   pointFormat: '{point.code}: {point.value} M'
+        // }
+        tooltip: {
+          valueSuffix: ' M'
+        },
       }
     ]
   }

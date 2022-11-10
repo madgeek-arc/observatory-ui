@@ -17,8 +17,9 @@ import {SurveyService} from "./services/survey.service";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {HttpInterceptorService} from "./services/http-interceptor.service";
 import {AcceptInvitationComponent} from "./pages/accept-invitation.component.ts/accept-invitation.component";
-import {ArchiveComponent} from "./pages/national-contributions-to-eosc-dashboard/archive/archive.component";
+import {ArchiveComponent} from "./pages/archive/archive.component";
 import {NationalContributionsToEOSCGuardService} from "./services/nationalContributionsToEOSC-guard.service";
+import {ArchiveGuardService} from "./services/archiveGuard.service";
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import {NationalContributionsToEOSCGuardService} from "./services/nationalContri
       multi: true
     },
     NationalContributionsToEOSCGuardService,
+    ArchiveGuardService,
     UserService,
     SurveyService
   ],

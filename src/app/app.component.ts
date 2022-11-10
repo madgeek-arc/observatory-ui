@@ -18,4 +18,8 @@ export class AppComponent {
     return (this.router.url.startsWith('/contributions'));
   }
 
+  isEOSCReadinessDashboardRoute() {
+    return (this.router.url.startsWith('/eoscreadiness'));
+  }
+
 }

@@ -20,7 +20,13 @@ export const mapSubtitles: string[][] = [
     'Indicators to monitor progress',
     'Associated financial planning'
   ],
-  [],
+  [
+    'Yes',
+    'Partly',
+    'No',
+    'In planning',
+    'Awaiting data'
+  ],
   [],
   [],
   [],
@@ -57,7 +63,12 @@ export const mapSubtitles: string[][] = [
     'National contributions to international organisations contributing to the EOSC development, incl. European Research Infrastructures.',
     'Further EOSC-relevant activities targeting infrastructures.'
   ],
-  [],
+  [
+    'Yes',
+    'No',
+    'In planning',
+    'Awaiting data'
+  ],
   [
     'Open Access to data, data management and/or FAIR',
     'FAIRisation of data', 'Open Access to software',
