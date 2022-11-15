@@ -7,12 +7,12 @@
     <div class="uk-first-column">
       <div class="uk-padding-large uk-margin-large-left@m uk-margin-large-left@l uk-margin-large-top">
 <!--        <div class="h1-subHeader ng-star-inserted">Monitoring European Open Science Cloud</div>-->
-        <h1>EOSC Observatory - Monitoring the European Open Science Cloud (EOSC)</h1>
+        <h1>Monitoring the European Open Science Cloud (EOSC)</h1>
         <p class="big-text uk-margin-medium-top">The EOSC Observatory is <span class="uk-text-primary">a policy intelligence tool</span>
           being developed by the EOSC Future project for monitoring policies,  practices, and impacts related to the
-          European Open Science Cloud (EOSC). The EOSC Observatory will support the EOSC community in tracking the implementation
-          of EOSC and will support policy makers in developing actionable policies.</p>
-        <button class="uk-button uk-button-primary uk-margin-medium-top" [routerLink]="['/eoscreadiness']">Explore the EOSC Observatory</button>
+          European Open Science Cloud (EOSC). It will support the EOSC community in tracking the implementation of EOSC
+          and the policy makers in developing actionable policies.</p>
+        <a class="uk-button uk-button-primary uk-margin-medium-top" [routerLink]="['/eoscreadiness']">Explore the EOSC Observatory</a>
       </div>
 
     </div>
@@ -41,11 +41,13 @@
 
       <div>
         <div class="uk-card uk-card-default uk-card-body">
-          <div><img src="../../assets/images/icons/number1.svg" width="100"></div>
-<!--          <div class="big-number uk-text-secondary uk-text-bolder">1</div>-->
-          <p class="primary-card-header">Indicators to Monitor EOSC Readiness</p>
-          <p>The EOSC Steering Board has developed indicators to monitor the EOSC readiness of countries in Europe via an
-            annual survey on National Contributions to EOSC</p>
+          <a [routerLink]="['/eoscreadiness']">
+            <div><img src="../../assets/images/icons/number1.svg" width="100"></div>
+            <!--          <div class="big-number uk-text-secondary uk-text-bolder">1</div>-->
+            <p class="primary-card-header">Indicators to Monitor EOSC Readiness</p>
+            <p>The EOSC Steering Board has developed indicators to monitor the EOSC readiness of countries in Europe via an
+              annual survey on National Contributions to EOSC</p>
+          </a>
         </div>
       </div>
 
@@ -70,7 +72,7 @@
       </div>
 
       <div>
-        <div class="uk-card uk-card-default uk-card-body">
+        <div class="uk-card uk-card-default uk-card-body" style="opacity: 0.4">
 <!--          <div class="big-number uk-text-secondary uk-text-bolder">4</div>-->
           <div><img src="../../assets/images/icons/number4.svg" width="90"></div>
           <p class="primary-card-header">Policies Relevant for EOSC Ecosystem</p>

@@ -10,7 +10,7 @@
     </filter>
   </defs>
   <g data-type="innerShadowGroup">
-    <text id="Long_headline_to_tur-2" data-name="Long headline to tur" transform="translate(0 123)" fill="#eb5c80" font-size="126" font-family="HelveticaNeue-Bold, Helvetica Neue" font-weight="700"><tspan x="0" y="0">4</tspan></text>
+    <text id="Long_headline_to_tur-2" data-name="Long headline to tur" transform="translate(0 123)" fill="#8E8E8E" font-size="126" font-family="HelveticaNeue-Bold, Helvetica Neue" font-weight="700"><tspan x="0" y="0">4</tspan></text>
     <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Long_headline_to_tur)">
       <text id="Long_headline_to_tur-3" data-name="Long headline to tur" transform="translate(0 123)" fill="#fff" font-size="126" font-family="HelveticaNeue-Bold, Helvetica Neue" font-weight="700"><tspan x="0" y="0">4</tspan></text>
     </g>
