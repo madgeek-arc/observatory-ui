@@ -9,6 +9,7 @@ import {SurveyCardComponent} from "./my-surveys/survey-card/survey-card.componen
 import {FormsModule} from "@angular/forms";
 import {CoordinatorsComponent} from "./coordinators/coordinators.component";
 import {NgSelectModule} from "@ng-select/ng-select";
+import {SurveysListComponent} from "./coordinators/surveys-list/surveys-list.component";
 
 @NgModule ({
   imports: [
@@ -23,7 +24,8 @@ import {NgSelectModule} from "@ng-select/ng-select";
     MySurveysComponent,
     MyGroupComponent,
     SurveyCardComponent,
-    CoordinatorsComponent
+    CoordinatorsComponent,
+    SurveysListComponent
   ],
   providers: [],
 })

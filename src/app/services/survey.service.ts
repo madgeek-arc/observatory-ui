@@ -23,8 +23,10 @@ export class SurveyService {
     return this.http.patch<SurveyAnswer>(this.base + `/answers/${answerId}/validation?validated=${valid}`, null, this.options);
   }
 
-  getSurveys(id: string) {
-    return this.http.get<Paging<Model>>(this.base + `/surveys?stakeholderId=${id}`);
+  getSurveys(type: string, id: string) {
+    let params = new HttpParams();
+    params = params.append(type, id);
+    return this.http.get<Paging<Model>>(this.base + `/surveys`, {params});
   }
 
   getSurvey(surveyId: string) {

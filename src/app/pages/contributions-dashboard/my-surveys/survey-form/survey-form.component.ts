@@ -1,13 +1,13 @@
 import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
-import {SurveyComponent} from "../../../../../catalogue-ui/pages/dynamic-form/survey.component";
-import {SurveyService} from "../../../../services/survey.service";
-import {Subscriber} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
-import {SurveyAnswer} from "../../../../domain/survey";
-import {UserService} from "../../../../services/user.service";
 import {FormGroup} from "@angular/forms";
-import {zip} from "rxjs/internal/observable/zip";
+import {SurveyComponent} from "../../../../../catalogue-ui/pages/dynamic-form/survey.component";
 import {Model} from "../../../../../catalogue-ui/domain/dynamic-form-model";
+import {SurveyService} from "../../../../services/survey.service";
+import {UserService} from "../../../../services/user.service";
+import {SurveyAnswer} from "../../../../domain/survey";
+import {Subscriber} from "rxjs";
+import {zip} from "rxjs/internal/observable/zip";
 
 import UIkit from "uikit";
 
@@ -28,6 +28,7 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
   downloadPDF: boolean = true;
   surveyId: string = null;
   stakeholderId: string = null;
+  freeView = false;
   ready = false;
 
   constructor(private surveyService: SurveyService, private userService: UserService, private route: ActivatedRoute,
@@ -38,26 +39,46 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
     this.tabsHeader = 'Sections';
 
     this.subscriptions.push(
-      this.route.params.subscribe(params => {
-        this.surveyId = params['surveyId'];
-        if (params['stakeholderId']) {
-          this.stakeholderId = params['stakeholderId'];
-        } else {
-          this.stakeholderId = params['id'];
-        }
+      this.route.url.subscribe(
+        next => {
+          this.freeView = (next[next.length - 1].path === 'freeView');
 
-        this.subscriptions.push(
-          zip(
-            this.surveyService.getLatestAnswer(this.stakeholderId, this.surveyId),
-            this.surveyService.getSurvey(this.surveyId),
-          ).subscribe( next => {
-            this.surveyAnswers = next[0];
-            this.survey = next[1];
-          }, error => {console.log(error)},
-          () => { this.ready = true; })
-        );
-      })
+          this.subscriptions.push(
+            this.route.params.subscribe(params => {
+              this.surveyId = params['surveyId'];
+              if (params['stakeholderId']) {
+                this.stakeholderId = params['stakeholderId'];
+              } else {
+                this.stakeholderId = params['id'];
+              }
+
+              if (!this.freeView) {
+
+                this.subscriptions.push(
+                  zip(
+                    this.surveyService.getLatestAnswer(this.stakeholderId, this.surveyId),
+                    this.surveyService.getSurvey(this.surveyId)).subscribe(
+                    next => {
+                      this.surveyAnswers = next[0];
+                      this.survey = next[1];
+                    },
+                    error => {console.log(error)},
+                    () => { this.ready = true; }
+                  )
+                );
+              } else {
+                this.surveyService.getSurvey(this.surveyId).subscribe(
+                  next => {this.survey = next;},
+                  error => {console.log(error)},
+                  () => { this.ready = true; }
+                );
+              }
+            })
+          );
+        }
+      )
     );
+
   }
 
   ngOnDestroy() {
@@ -82,7 +103,11 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
   }
 
   submitForm(form: FormGroup) {
-    this.child.onSubmit();
+    if (this.freeView) {
+      return;
+    } else {
+      this.child.onSubmit();
+    }
   }
 
 }

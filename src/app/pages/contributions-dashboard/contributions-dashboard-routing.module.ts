@@ -6,6 +6,7 @@ import { MySurveysComponent } from "./my-surveys/my-surveys.component";
 import { MyGroupComponent } from "./my-group/my-group.component";
 import {AuthenticationGuardService} from "../../services/authentication-guard.service";
 import {CoordinatorsComponent} from "./coordinators/coordinators.component";
+import {SurveysListComponent} from "./coordinators/surveys-list/surveys-list.component";
 
 const contributionsDashboardRoutes: Routes = [
   {
@@ -27,6 +28,11 @@ const contributionsDashboardRoutes: Routes = [
       },
       {
         path: 'mySurveys/:surveyId/answer',
+        component: SurveyFormComponent,
+        canActivate: [AuthenticationGuardService]
+      },
+      {
+        path: 'surveyList/:surveyId/freeView',
         component: SurveyFormComponent,
         canActivate: [AuthenticationGuardService]
       },
@@ -58,6 +64,11 @@ const contributionsDashboardRoutes: Routes = [
       {
         path: 'surveys',
         component: CoordinatorsComponent,
+        canActivate: [AuthenticationGuardService]
+      },
+      {
+        path: 'surveyList',
+        component: SurveysListComponent,
         canActivate: [AuthenticationGuardService]
       },
     ]

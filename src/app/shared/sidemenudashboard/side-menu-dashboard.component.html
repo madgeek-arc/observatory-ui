@@ -46,6 +46,13 @@
         </a>
       </li>
 
+      <li [routerLinkActive]="['current_section']" class="">
+        <a [routerLink]="['contributions/'+currentCoordinator.id+'/surveyList']" class="uk-flex uk-flex-middle">
+          <span class="material-icons uk-margin-right">assignment</span>
+          <span class="menu_title">Surveys List</span>
+        </a>
+      </li>
+
     </ul>
   </div>
 

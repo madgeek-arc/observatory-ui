@@ -28,7 +28,7 @@ export class MySurveysComponent implements OnInit, OnDestroy{
           this.currentGroup = next;
           if (this.currentGroup !== null) {
             this.subscriptions.push(
-              this.surveyService.getSurveys(this.currentGroup.id).subscribe(next => {
+              this.surveyService.getSurveys('stakeholderId', this.currentGroup.id).subscribe(next => {
                 this.surveys = next;
               })
             );
