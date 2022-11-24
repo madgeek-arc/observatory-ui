@@ -8,7 +8,8 @@ import {HttpClient} from "@angular/common/http";
 @Injectable()
 export class AuthenticationService {
 
-  base = environment.API_LOGIN;
+  base = environment.API_ENDPOINT;
+  loginRoute = environment.API_LOGIN;
   cookieName = 'AccessToken';
 
   constructor(private router: Router, private http: HttpClient) {
@@ -31,7 +32,7 @@ export class AuthenticationService {
   }
 
   login() {
-    window.location.href = this.base + '/oauth2/authorization/eosc';
+    window.location.href = this.loginRoute;
   }
 
   logout() {

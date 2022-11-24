@@ -20,6 +20,8 @@ import {AcceptInvitationComponent} from "./pages/accept-invitation.component.ts/
 import {ArchiveComponent} from "./pages/archive/archive.component";
 import {NationalContributionsToEOSCGuardService} from "./services/nationalContributionsToEOSC-guard.service";
 import {ArchiveGuardService} from "./services/archiveGuard.service";
+import { NgxMatomoTrackerModule } from '@ngx-matomo/tracker';
+import { NgxMatomoRouterModule } from '@ngx-matomo/router';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import {ArchiveGuardService} from "./services/archiveGuard.service";
     DynamicFormModule,
     ReusableComponentsModule,
     FormsModule,
+    NgxMatomoTrackerModule.forRoot({ trackerUrl: '', siteId: '' }),
+    NgxMatomoRouterModule,
   ],
   providers: [
     AuthenticationService,

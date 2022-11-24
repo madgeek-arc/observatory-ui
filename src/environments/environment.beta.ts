@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   beta: true,
-  API_LOGIN: '/api',
+  API_LOGIN: '/api/oauth2/authorization/eosc',
   API_ENDPOINT: '/api',
   projectName: 'Observatory',
   STATS_API_ENDPOINT: 'https://stats.madgik.di.uoa.gr/stats-api/',
