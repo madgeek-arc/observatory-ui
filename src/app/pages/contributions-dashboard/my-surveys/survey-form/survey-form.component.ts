@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
-import {FormGroup} from "@angular/forms";
 import {SurveyComponent} from "../../../../../catalogue-ui/pages/dynamic-form/survey.component";
 import {Model} from "../../../../../catalogue-ui/domain/dynamic-form-model";
 import {SurveyService} from "../../../../services/survey.service";
@@ -102,7 +101,7 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
       () => {});
   }
 
-  submitForm(form: FormGroup) {
+  submitForm(value) {
     if (this.freeView) {
       return;
     } else {
