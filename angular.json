@@ -29,16 +29,19 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/catalogue-ui/assets"
+              "src/observatoryUI/assets",
+              "src/observatoryUI/catalogue-ui/assets"
             ],
             "styles": [
               "src/styles/styles.scss",
+              "src/observatoryUI/styles/styles.scss",
               "./node_modules/@angular/cdk/overlay-prebuilt.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "./node_modules/uikit/src/scss",
-                "src/styles"
+                "src/styles",
+                "src/observatoryUI/styles",
+                "./node_modules/uikit/src/scss"
               ]
             },
             "scripts": [
