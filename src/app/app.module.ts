@@ -24,7 +24,7 @@ import {UserService} from "../observatoryUI/app/services/user.service";
     NgxMatomoTrackerModule.forRoot({ trackerUrl: '', siteId: '' }),
     NgxMatomoRouterModule,
   ],
-  providers: [UserService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
