@@ -4,6 +4,7 @@ import {TopMenuLandingComponent} from "./top-menu/topmenulanding/top-menu-landin
 import {TopMenuDashboardComponent} from "./top-menu/topmenudashboard/top-menu-dashboard.component";
 import {TopMenuPublicDashboardComponent} from "./top-menu/topmenupublicdashboard/top-menu-public-dashboard.component";
 import {RouterModule} from "@angular/router";
+import {FooterComponent} from "./footer/footer.component";
 
 @NgModule({
   imports: [
@@ -11,14 +12,16 @@ import {RouterModule} from "@angular/router";
     RouterModule,
   ],
   exports: [
+    TopMenuLandingComponent,
     TopMenuDashboardComponent,
     TopMenuPublicDashboardComponent,
-    TopMenuLandingComponent
+    FooterComponent
   ],
   declarations: [
     TopMenuLandingComponent,
     TopMenuDashboardComponent,
     TopMenuPublicDashboardComponent,
+    FooterComponent
   ]
 })
 
