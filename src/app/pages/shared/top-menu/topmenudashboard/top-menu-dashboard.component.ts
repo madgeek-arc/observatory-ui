@@ -1,12 +1,12 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from "@angular/core";
-import {Coordinator, Stakeholder, UserInfo} from "../../../domain/userInfo";
-import {UserService} from "../../../services/user.service";
+import {Coordinator, Stakeholder, UserInfo} from "../../../../../observatoryUI/app/domain/userInfo";
+import {UserService} from "../../../../../observatoryUI/app/services/user.service";
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../../../services/authentication.service";
-import {PrivacyPolicyService} from "../../../services/privacy-policy.service";
+import {AuthenticationService} from "../../../../../observatoryUI/app/services/authentication.service";
+import {PrivacyPolicyService} from "../../../../../observatoryUI/app/services/privacy-policy.service";
 
 import * as UIkit from 'uikit';
-import {AcceptedPrivacyPolicy} from "../../../domain/privacy-policy";
+import {AcceptedPrivacyPolicy} from "../../../../../observatoryUI/app/domain/privacy-policy";
 import {Subscriber} from "rxjs";
 
 @Component({

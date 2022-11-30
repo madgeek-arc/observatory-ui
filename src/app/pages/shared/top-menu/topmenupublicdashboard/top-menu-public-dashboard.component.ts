@@ -1,18 +1,22 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
-import {Coordinator, Stakeholder, UserInfo} from "../../../domain/userInfo";
-import {UserService} from "../../../services/user.service";
-import {AuthenticationService} from "../../../services/authentication.service";
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from "@angular/core";
+import {Coordinator, Stakeholder, UserInfo} from "../../../../../observatoryUI/app/domain/userInfo";
+import {UserService} from "../../../../../observatoryUI/app/services/user.service";
 import {Router} from "@angular/router";
+import {AuthenticationService} from "../../../../../observatoryUI/app/services/authentication.service";
+import {PrivacyPolicyService} from "../../../../../observatoryUI/app/services/privacy-policy.service";
+
+import * as UIkit from 'uikit';
+import {AcceptedPrivacyPolicy} from "../../../../../observatoryUI/app/domain/privacy-policy";
 import {Subscriber} from "rxjs";
 
 @Component({
-  selector: 'app-top-menu-landing',
-  templateUrl: 'top-menu-landing.component.html',
+  selector: 'app-top-menu-public-dashboard',
+  templateUrl: 'top-menu-public-dashboard.component.html',
   styleUrls: ['../top-menu.component.css'],
+  providers: [PrivacyPolicyService]
 })
 
-export class TopMenuLandingComponent implements OnInit, OnDestroy {
-
+export class TopMenuPublicDashboardComponent implements OnInit, OnDestroy {
   subscriptions = [];
   showLogin = true;
   showNationalContributionsToEOSC: boolean = null;
@@ -55,6 +59,7 @@ export class TopMenuLandingComponent implements OnInit, OnDestroy {
   }
 
   setGroup(group: Stakeholder) {
+    // console.log(group)
     this.userService.changeCurrentStakeholder(group);
     this.router.navigate([`/contributions/${group.id}/home`]);
   }
@@ -91,5 +96,18 @@ export class TopMenuLandingComponent implements OnInit, OnDestroy {
 
   logout() {
     this.authentication.logout();
+  }
+
+  change() {
+    const el: HTMLElement = document.getElementById('hamburger');
+    if(el.classList.contains('change')) {
+      el.classList.remove('change');
+      const el1: HTMLElement = document.getElementById('sidebar_main_content');
+      el1.classList.remove('sidebar_main_active');
+    } else {
+      el.classList.add('change');
+      const el1: HTMLElement = document.getElementById('sidebar_main_content');
+      el1.classList.add('sidebar_main_active');
+    }
   }
 }
