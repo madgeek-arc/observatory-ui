@@ -29,18 +29,18 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/observatoryUI/assets",
-              "src/observatoryUI/catalogue-ui/assets"
+              "src/survey-tool/assets",
+              "src/survey-tool/catalogue-ui/assets"
             ],
             "styles": [
               "src/styles/styles.scss",
-              "src/observatoryUI/styles/styles.scss",
+              "src/survey-tool/styles/styles.scss",
               "./node_modules/@angular/cdk/overlay-prebuilt.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src/styles",
-                "src/observatoryUI/styles",
+                "src/survey-tool/styles",
                 "./node_modules/uikit/src/scss"
               ]
             },
