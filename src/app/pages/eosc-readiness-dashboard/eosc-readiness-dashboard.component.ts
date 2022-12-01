@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from "@angular/core";
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Stakeholder, UserInfo} from "../../../survey-tool/app/domain/userInfo";
 import {UserService} from "../../../survey-tool/app/services/user.service";
@@ -13,7 +13,7 @@ declare var UIkit;
   styleUrls: ['../../../survey-tool/app/shared/sidemenudashboard/side-menu-dashboard.component.css','./eosc-readiness-dashboard.component.css']
 })
 
-export class EoscReadinessDashboardComponent {
+export class EoscReadinessDashboardComponent implements OnInit, AfterViewInit{
 
   @ViewChild("nav") nav: ElementRef;
 
@@ -30,7 +30,6 @@ export class EoscReadinessDashboardComponent {
               private userService: UserService, private authentication: AuthenticationService) {}
 
   ngAfterViewInit() {
-    // UIkit.nav(this.nav.nativeElement).toggle(this.activeIndex, false);
     if (this.isPoliciesActive)
       UIkit.nav(this.nav.nativeElement).toggle(0, false);
     if (this.isPracticesActive)
@@ -64,18 +63,7 @@ export class EoscReadinessDashboardComponent {
     );
 
     if (this.authentication.authenticated) {
-      this.subscriptions.push(
-        this.userService.getUserInfo().subscribe(
-          next => {
-            this.userService.setUserInfo(next);
-            this.userInfo = next;
-            this.showInvestments = this.coordinatorOrManager('country');
-          },
-          error => {
-            console.log(error);
-          }
-        )
-      );
+      this.showInvestments = this.coordinatorOrManager('country');
     }
 
   }
@@ -91,13 +79,15 @@ export class EoscReadinessDashboardComponent {
   }
 
   coordinatorOrManager(name: string) {
-    if (this.userInfo.coordinators.filter(c => c.type === name).length > 0) {
+    let userInfo: UserInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    if (userInfo.coordinators.filter(c => c.type === name).length > 0) {
       return true;
-    } else if (this.userInfo.stakeholders.filter(c => c.type === name).length > 0) {
-      let stakeHolders: Stakeholder[] = this.userInfo.stakeholders.filter(c => c.type === name);
+    } else if (userInfo.stakeholders.filter(c => c.type === name).length > 0) {
+      let stakeHolders: Stakeholder[] = userInfo.stakeholders.filter(c => c.type === name);
+      // let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
       for (const stakeHolder of stakeHolders) {
         // console.log(stakeHolder.name);
-        if (stakeHolder.managers.indexOf(this.userService.userInfo.user.email) >= 0)
+        if (stakeHolder.managers.indexOf(userInfo.user.email) >= 0)
           return true;
       }
       return false

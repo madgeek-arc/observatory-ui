@@ -7,6 +7,7 @@
       <div  class="menu_section uk-margin-top" style="min-height: 30vh">
         <div class="" style="padding-left: 23px;"><h6>National contributions 2021</h6></div>
         <ul #nav class="uk-list uk-nav uk-nav-default uk-nav-parent-icon" uk-nav="duration: 500">
+
           <li [ngClass]="{'uk-active current_section': isPoliciesActive}" class="uk-parent">
             <a [routerLink]="'./policies'">
               <div class="uk-flex uk-flex-middle uk-flex-center">
@@ -37,6 +38,7 @@
               </li>
             </ul>
           </li>
+
           <li [ngClass]="{'uk-active current_section': isPracticesActive}" class="uk-parent">
             <a [routerLink]="'./practices'">
               <div class="uk-flex uk-flex-middle uk-flex-center">
@@ -61,6 +63,7 @@
               </li>
             </ul>
           </li>
+
           <li *ngIf="showInvestments" [ngClass]="{'uk-active current_section': isInvestmentsActive}" class="uk-parent">
             <a [routerLink]="'./investments'">
               <div class="uk-flex uk-flex-middle uk-flex-center">
@@ -71,32 +74,33 @@
               </div>
             </a>
             <ul class="uk-nav-sub" data-uk-tab="connect: #investments-tabs;">
-              <li [routerLinkActive]="['current_section']" class="uk-width-1-1" (click)="updateUrlPathParam(0)">
+              <li [ngClass]="{'uk-active current_section': activeLink == 0}" class="uk-width-1-1" (click)="updateUrlPathParam(0)">
                 <a><span class="uk-text-truncate">National Contributions</span></a>
               </li>
-              <li [routerLinkActive]="['current_section']" class="uk-width-1-1" (click)="updateUrlPathParam(1)">
+              <li [ngClass]="{'uk-active current_section': activeLink == 1}" class="uk-width-1-1" (click)="updateUrlPathParam(1)">
                 <a><span class="uk-text-truncate">EOSC-A Members</span></a>
               </li>
-              <li [routerLinkActive]="['current_section']" class="uk-width-1-1" (click)="updateUrlPathParam(2)">
+              <li [ngClass]="{'uk-active current_section': activeLink == 2}" class="uk-width-1-1" (click)="updateUrlPathParam(2)">
                 <a><span class="uk-text-truncate">Other Contributions</span></a>
               </li>
-              <li [routerLinkActive]="['current_section']" class="uk-width-1-1" (click)="updateUrlPathParam(3)">
+              <li [ngClass]="{'uk-active current_section': activeLink == 3}" class="uk-width-1-1" (click)="updateUrlPathParam(3)">
                 <a><span class="uk-text-truncate">Contribution Sources</span></a>
               </li>
-              <li [routerLinkActive]="['current_section']" class="uk-width-1-1" (click)="updateUrlPathParam(4)">
+              <li [ngClass]="{'uk-active current_section': activeLink == 4}" class="uk-width-1-1" (click)="updateUrlPathParam(4)">
                 <a><span class="uk-text-truncate">Contribution Level</span></a>
               </li>
-              <li [routerLinkActive]="['current_section']" class="uk-width-1-1" (click)="updateUrlPathParam(5)">
+              <li [ngClass]="{'uk-active current_section': activeLink == 5}" class="uk-width-1-1" (click)="updateUrlPathParam(5)">
                 <a><span class="uk-text-truncate">Earmarked Contributions</span></a>
               </li>
-              <li [routerLinkActive]="['current_section']" class="uk-width-1-1" (click)="updateUrlPathParam(6)">
+              <li [ngClass]="{'uk-active current_section': activeLink == 6}" class="uk-width-1-1" (click)="updateUrlPathParam(6)">
                 <a><span class="uk-text-truncate">Non-earmarked Contributions</span></a>
               </li>
-              <li [routerLinkActive]="['current_section']" class="uk-width-1-1" (click)="updateUrlPathParam(7)">
+              <li [ngClass]="{'uk-active current_section': activeLink == 7}" class="uk-width-1-1" (click)="updateUrlPathParam(7)">
                 <a><span class="uk-text-truncate">Structural/Investment Funds</span></a>
               </li>
             </ul>
           </li>
+
         </ul>
       </div>
     </div>
