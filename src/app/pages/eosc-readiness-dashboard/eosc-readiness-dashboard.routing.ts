@@ -1,7 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {EoscReadinessDashboardComponent} from "./eosc-readiness-dashboard.component";
-import {NationalContributionsToEOSCGuardService} from "../../../survey-tool/app/services/nationalContributionsToEOSC-guard.service";
+import {EoscReadinessGuardService} from "../services/eosc-readiness-guard.service";
 import {PoliciesComponent} from "./policies/policies.component";
 import {PracticesComponent} from "./practices/practices.component";
 import {InvestmentsComponent} from "./investments/investments.component";
@@ -10,7 +10,6 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
     path: '',
     component: EoscReadinessDashboardComponent,
-    // canActivateChild: [NationalContributionsToEOSCGuardService],
     children: [
       {
         path: '',
@@ -28,7 +27,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
       {
         path: 'investments',
         component: InvestmentsComponent,
-        canActivate: [NationalContributionsToEOSCGuardService]
+        canActivate: [EoscReadinessGuardService]
       }
     ],
     runGuardsAndResolvers: 'always'
@@ -37,7 +36,8 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(nationalContributionsToEOSCDashboardRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [EoscReadinessGuardService]
 })
 
 export class EoscReadinessDashboardRouting {}

@@ -1,11 +1,11 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
-import {UserService} from "./user.service";
-import {Stakeholder} from "../domain/userInfo";
+import {UserService} from "../../../survey-tool/app/services/user.service";
+import {Stakeholder} from "../../../survey-tool/app/domain/userInfo";
 
 
 @Injectable()
-export class NationalContributionsToEOSCGuardService implements CanActivate {
+export class EoscReadinessGuardService implements CanActivate {
 
   constructor(private userService: UserService, private router: Router) {
   }

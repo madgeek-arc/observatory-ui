@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {CountryTableData} from "../../../../survey-tool/app/domain/country-table-data";
-import {DataService} from "../../../../survey-tool/app/services/data.service";
-import {DataHandlerService} from "../../../../survey-tool/app/services/data-handler.service";
+import {DataService} from "../../services/data.service";
+import {DataHandlerService} from "../../services/data-handler.service";
 import {CategorizedAreaData, Series} from "../../../../survey-tool/app/domain/categorizedAreaData";
 import {StakeholdersService} from "../../../../survey-tool/app/services/stakeholders.service";
 import {latlong} from "../../../../survey-tool/app/domain/countries-lat-lon";

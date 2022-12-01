@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivateChild, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
 import {Observable} from "rxjs";
-import {UserService} from "./user.service";
+import {UserService} from "../../../survey-tool/app/services/user.service";
 
 @Injectable()
 export class ArchiveGuardService implements CanActivateChild {

@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
-import {DataService} from "../../../../survey-tool/app/services/data.service";
-import {DataHandlerService} from "../../../../survey-tool/app/services/data-handler.service";
+import {DataService} from "../../services/data.service";
+import {DataHandlerService} from "../../services/data-handler.service";
 import {StakeholdersService} from "../../../../survey-tool/app/services/stakeholders.service";
 import {mapSubtitles} from "../../../../survey-tool/app/domain/mapSubtitles";
 

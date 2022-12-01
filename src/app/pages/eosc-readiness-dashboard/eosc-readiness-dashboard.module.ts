@@ -4,8 +4,8 @@ import {ReusableComponentsModule} from "../../../survey-tool/app/shared/reusable
 import {EoscReadinessDashboardRouting} from "./eosc-readiness-dashboard.routing";
 import {EoscReadinessDashboardComponent} from "./eosc-readiness-dashboard.component";
 import {HighchartsChartModule} from "highcharts-angular";
-import {DataService} from "../../../survey-tool/app/services/data.service";
-import {DataHandlerService} from "../../../survey-tool/app/services/data-handler.service";
+import {DataService} from "../services/data.service";
+import {DataHandlerService} from "../services/data-handler.service";
 import {StakeholdersService} from "../../../survey-tool/app/services/stakeholders.service";
 import {PoliciesComponent} from "./policies/policies.component";
 import {PracticesComponent} from "./practices/practices.component";

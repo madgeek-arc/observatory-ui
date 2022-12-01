@@ -2,8 +2,8 @@ import {Component} from "@angular/core";
 import {environment} from "../../../../environments/environment";
 import {CountryTableData} from "../../../../survey-tool/app/domain/country-table-data";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
-import {DataService} from "../../../../survey-tool/app/services/data.service";
-import {DataHandlerService} from "../../../../survey-tool/app/services/data-handler.service";
+import {DataService} from "../../services/data.service";
+import {DataHandlerService} from "../../services/data-handler.service";
 import {CategorizedAreaData} from "../../../../survey-tool/app/domain/categorizedAreaData";
 
 

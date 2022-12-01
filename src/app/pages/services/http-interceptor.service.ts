@@ -3,7 +3,7 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse}
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {Router} from "@angular/router";
-import {AuthenticationService} from "./authentication.service";
+import {AuthenticationService} from "../../../survey-tool/app/services/authentication.service";
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {

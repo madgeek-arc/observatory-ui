@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
-import {DataService} from "../../../../survey-tool/app/services/data.service";
+import {DataService} from "../../services/data.service";
 import {CountryTableData} from "../../../../survey-tool/app/domain/country-table-data";
-import {DataHandlerService} from "../../../../survey-tool/app/services/data-handler.service";
+import {DataHandlerService} from "../../services/data-handler.service";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {environment} from "../../../../environments/environment";
 import {StakeholdersService} from "../../../../survey-tool/app/services/stakeholders.service";

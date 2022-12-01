@@ -3,11 +3,10 @@ import {NgModule} from '@angular/core';
 import {ArchiveComponent} from "./archive.component";
 import {NCTEPoliciesComponent} from "./policies/ncte-policies.component";
 import {NCTEFundingComponent} from "./funding/ncte-funding.component";
-import {NationalContributionsToEOSCGuardService} from "../../../survey-tool/app/services/nationalContributionsToEOSC-guard.service";
 import {NCTEMandate} from "./mandate/ncte-mandate";
 import {NCTEOpenAccessComponent} from "./open-access/ncte-open-access.component";
 import {NCTEMonitoringComponent} from "./monitoring/ncte-monitoring.component";
-import {ArchiveGuardService} from "../../../survey-tool/app/services/archiveGuard.service";
+import {ArchiveGuardService} from "../services/archiveGuard.service";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
