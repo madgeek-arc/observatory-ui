@@ -1,14 +1,28 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from "../observatoryUI/app/pages/home.component";
-import {AcceptInvitationComponent} from "../observatoryUI/app/pages/accept-invitation.component.ts/accept-invitation.component";
-import {AuthenticationGuardService} from "../observatoryUI/app/services/authentication-guard.service";
-import {FormBuilderComponent} from "../observatoryUI/catalogue-ui/pages/form-builder/form-builder.component";
+import {HomeComponent} from "./pages/home/home.component";
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('../observatoryUI/app/observatoryUi.module').then(m => m.ObservatoryUiModule)
+    pathMatch: 'full',
+    redirectTo: 'home'
+  },
+  {
+    path: 'home',
+    component: HomeComponent
+  },
+  {
+    path: 'eoscreadiness',
+    loadChildren: () => import('./pages/eosc-readiness-dashboard/eosc-readiness-dashboard.module').then(m => m.EoscReadinessDashboardModule),
+  },
+  {
+    path: 'archive',
+    loadChildren: () => import('./pages/archive/archive.module').then(m => m.ArchiveModule)
+  },
+  {
+    path: '',
+    loadChildren: () => import('../survey-tool/app/observatoryUi.module').then(m => m.ObservatoryUiModule)
   }
 ];
 

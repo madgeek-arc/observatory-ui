@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../observatoryUI/app/services/authentication.service";
+import {AuthenticationService} from "../survey-tool/app/services/authentication.service";
 
 @Component({
   selector: 'app-root',
