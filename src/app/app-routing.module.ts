@@ -22,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    loadChildren: () => import('../survey-tool/app/observatoryUi.module').then(m => m.ObservatoryUiModule)
+    loadChildren: () => import('../survey-tool/app/survey-tool.module').then(m => m.SurveyToolModule)
   }
 ];
 
