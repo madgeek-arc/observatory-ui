@@ -1,0 +1,59 @@
+:root {
+  //--eosc-light-color: #ffcd00;
+  //--eosc-dark-color: #004494;
+
+  --eosc-observatory-primary-color: #008792;
+  --eosc-observatory-secondary-color: #EB5C80;
+
+  --sidebar-width: 320px;
+  //--sidebar-width: 280px;
+  --header-height: 80px;
+
+  //--main-font-family: 'Helvetica Neue', 'Montserrat', 'Open Sans', sans-serif;
+  --main-font-family: 'Montserrat', 'Open Sans', sans-serif;
+  --secondary-font-family: 'Ubuntu', sans-serif;
+  --black: #1A1A1A;
+  --grey: #6E6E6E;
+  --catalogue-light-purple: #AD20E7;
+  --catalogue-dark-purple: #1D193C;
+  --light-grey: #F9F9F9;
+  //--medium-grey: #F5F5F5;
+  --medium-grey: #F3F4F5;
+  --dark-grey: #2B2B2B;
+  --eosc-blue: #3A75AB;
+  --openaire-light-blue: #3086ED;
+  --default-element-bg: #DEDEDE;
+  --white: #fff;
+
+
+  --grey-900: #2C2C2C;
+  --grey-700: #6E6E6E;
+
+  /* Alternative Pills*/
+  --placeholder-color: #8E8E8E;
+  --light-color: #FFFFFF;
+  --shadow-main: -15px -15px 20px rgba(255, 255, 255, 0.6), 15px 15px 20px rgba(0, 0, 0, 0.07);
+  --secondary-color: #3086ED;
+  --primary-light-color: #4687E6;
+  --primary-dark-color: #1F2379;
+  --pill-alt-color: var(--grey-900);
+  --pill-alt-background: var(--light-color);
+  --pill-alt-shadow: var(--shadow-main);
+  --pill-alt-color-hover: var(--secondary-color);
+  //--pill-alt-background-active: none;
+  --pill-alt-background-active: var(--eosc-observatory-secondary-color);
+  //--pill-alt-background-active-image: linear-gradient(122deg, var(--primary-light-color) 0, var(--primary-dark-color) 100%);
+  --pill-alt-background-active-image: none;
+  --pill-alt-color-active: var(--light-color);
+
+
+  --primary-color: #004494;
+  /*--primary-color: #AD20E7;*/
+  --link-color: #2D72D6;
+  --link-hover-color: #3665ab;
+  --breadcrumb-active-color: #4687E6;
+  --button-primary-hover-background-color: #9FCC52;
+  --button-secondary-color: #fff;
+  --button-secondary-background-color: #3086ED;
+  --button-secondary-hover-background-color: #0053ba;
+}
