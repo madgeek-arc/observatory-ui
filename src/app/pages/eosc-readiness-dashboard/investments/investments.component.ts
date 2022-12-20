@@ -72,7 +72,7 @@ export class InvestmentsComponent implements OnInit {
 
       },
       error => {
-        console.log(error);
+        console.error(error);
       }
     );
 
@@ -81,7 +81,7 @@ export class InvestmentsComponent implements OnInit {
         this.fundingForEOSCSums = this.dataHandlerService.convertRawDataToFundingForEOSCSumsCustom(rawData);
       },
      error => {
-        console.log(error);
+        console.error(error);
       }
     );
   }

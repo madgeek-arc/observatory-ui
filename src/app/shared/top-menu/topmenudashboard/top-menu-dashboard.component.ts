@@ -45,7 +45,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
                   UIkit.modal('#consent-modal').show();
                 }
               },
-              error => { console.log(error)},
+              error => { console.error(error)},
               () => {}
             )
           );
@@ -64,7 +64,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
                   UIkit.modal('#consent-modal').show();
                 }
               },
-              error => { console.log(error)},
+              error => { console.error(error)},
               () => {}
             )
           );
@@ -135,7 +135,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
           // }
         },
         error => {
-          console.log(error);
+          console.error(error);
           UIkit.modal('#consent-modal').hide()
           this.logout();
         },

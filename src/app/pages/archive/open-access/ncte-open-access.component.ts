@@ -38,7 +38,7 @@ export class NCTEOpenAccessComponent implements OnInit {
             // console.log('Table data', this.tablePercentageData);
             this.loadingPercentageTable = false;
           }, error => {
-            console.log(error);
+            console.error(error);
             this.loadingPercentageTable = false;
           }
         );

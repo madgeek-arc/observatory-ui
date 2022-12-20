@@ -58,7 +58,7 @@ export class PracticesComponent implements OnInit {
         this.createMapDataFromCategorization(0,15);
       },
       error => {
-        console.log(error);
+        console.error(error);
       }
     );
   }

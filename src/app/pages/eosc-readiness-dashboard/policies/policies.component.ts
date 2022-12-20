@@ -62,7 +62,7 @@ export class PoliciesComponent implements OnInit{
         this.createMapDataset(0, 14);
       },
       error => {
-        console.log(error);
+        console.error(error);
       }
     );
     zip(this.stakeholdersService.getEOSCSBCountries(),
@@ -83,7 +83,7 @@ export class PoliciesComponent implements OnInit{
           // this.questionsDataArray[11] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[6]);
         },
         error => {
-          console.log(error);
+          console.error(error);
         }
       );
 

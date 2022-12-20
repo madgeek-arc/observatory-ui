@@ -36,7 +36,7 @@ export class NCTEMandate {
           this.mapData.series[i].data = this.mapData.series[i].data.map(code => ({ code }));
         }
       }, error => {
-        console.log(error);
+        console.error(error);
         this.loadingAbsoluteTable = false;
       }
     );

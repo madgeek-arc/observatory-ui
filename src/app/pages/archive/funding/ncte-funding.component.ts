@@ -40,7 +40,7 @@ export class NCTEFundingComponent implements OnInit {
         }
 
       }, error => {
-        console.log(error);
+        console.error(error);
         this.loadingAbsoluteTable = false;
       }
     );
@@ -59,7 +59,7 @@ export class NCTEFundingComponent implements OnInit {
       rawData => {
         this.bubbleMapSeries = this.dataHandlerService.convertRawDataToBubbleMapSeries(rawData);
       },
-      error => {console.log(error)}
+      error => {console.error(error)}
     );
 
     if(!this.financialContrToEOSCPieChartURL) {

@@ -40,7 +40,7 @@ export class TopMenuPublicDashboardComponent implements OnInit, OnDestroy {
             this.showArchive = this.coordinatorContains('country');
           },
           error => {
-            console.log(error);
+            console.error(error);
             this.ready = true;
           }
         )
