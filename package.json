@@ -25,6 +25,8 @@
     "@ckeditor/ckeditor5-build-classic": "^32.0.0",
     "@highcharts/map-collection": "^2.0.0",
     "@ng-select/ng-select": "^8.1.1",
+    "@ngx-matomo/router": "^2.6.0",
+    "@ngx-matomo/tracker": "^2.6.0",
     "bitset": "^5.1.1",
     "highcharts": "^10.0.0",
     "highcharts-angular": "^3.0.0",

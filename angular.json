@@ -29,16 +29,19 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/catalogue-ui/assets"
+              "src/survey-tool/assets",
+              "src/survey-tool/catalogue-ui/assets"
             ],
             "styles": [
+              "src/survey-tool/styles/styles.scss",
               "src/styles/styles.scss",
               "./node_modules/@angular/cdk/overlay-prebuilt.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "./node_modules/uikit/src/scss",
-                "src/styles"
+                "src/styles",
+                "src/survey-tool/styles",
+                "./node_modules/uikit/src/scss"
               ]
             },
             "scripts": [

@@ -1,12 +1,12 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from "@angular/core";
-import {Coordinator, Stakeholder, UserInfo} from "../../../domain/userInfo";
-import {UserService} from "../../../services/user.service";
+import {Coordinator, Stakeholder, UserInfo} from "../../../../survey-tool/app/domain/userInfo";
+import {UserService} from "../../../../survey-tool/app/services/user.service";
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../../../services/authentication.service";
-import {PrivacyPolicyService} from "../../../services/privacy-policy.service";
+import {AuthenticationService} from "../../../../survey-tool/app/services/authentication.service";
+import {PrivacyPolicyService} from "../../../../survey-tool/app/services/privacy-policy.service";
 
 import * as UIkit from 'uikit';
-import {AcceptedPrivacyPolicy} from "../../../domain/privacy-policy";
+import {AcceptedPrivacyPolicy} from "../../../../survey-tool/app/domain/privacy-policy";
 import {Subscriber} from "rxjs";
 
 @Component({
@@ -35,7 +35,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.subscriptions.push(
       this.userService.currentStakeholder.subscribe(next => {
-        this.currentStakeholder = next;
+        this.currentStakeholder = !!next ? next : JSON.parse(sessionStorage.getItem('currentStakeholder'));
         if (this.currentStakeholder !== null) {
           this.subscriptions.push(
             this.privacyPolicy.hasAcceptedPolicy(this.currentStakeholder.type).subscribe(
@@ -45,7 +45,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
                   UIkit.modal('#consent-modal').show();
                 }
               },
-              error => { console.log(error)},
+              error => { console.error(error)},
               () => {}
             )
           );
@@ -54,7 +54,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
     );
     this.subscriptions.push(
       this.userService.currentCoordinator.subscribe(next => {
-        this.currentCoordinator = next;
+        this.currentCoordinator = !!next ? next : JSON.parse(sessionStorage.getItem('currentCoordinator'));
         if (this.currentCoordinator !== null) {
           this.subscriptions.push(
             this.privacyPolicy.hasAcceptedPolicy(this.currentCoordinator.type).subscribe(
@@ -64,7 +64,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
                   UIkit.modal('#consent-modal').show();
                 }
               },
-              error => { console.log(error)},
+              error => { console.error(error)},
               () => {}
             )
           );
@@ -135,7 +135,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
           // }
         },
         error => {
-          console.log(error);
+          console.error(error);
           UIkit.modal('#consent-modal').hide()
           this.logout();
         },

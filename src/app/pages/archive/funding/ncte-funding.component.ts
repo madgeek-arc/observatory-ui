@@ -1,11 +1,11 @@
 import {Component, OnInit} from "@angular/core";
-import {DataService} from "../../../services/data.service";
-import {CountryTableData} from "../../../domain/country-table-data";
-import {DataHandlerService} from "../../../services/data-handler.service";
+import {DataService} from "../../services/data.service";
+import {CountryTableData} from "../../../../survey-tool/app/domain/country-table-data";
+import {DataHandlerService} from "../../services/data-handler.service";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {environment} from "../../../../environments/environment";
-import {CategorizedAreaData} from "../../../domain/categorizedAreaData";
-import {FundingForEOSCSums} from "../../../domain/funding-for-eosc";
+import {CategorizedAreaData} from "../../../../survey-tool/app/domain/categorizedAreaData";
+import {FundingForEOSCSums} from "../../../../survey-tool/app/domain/funding-for-eosc";
 
 @Component({
   selector: 'app-ncte-funding',
@@ -40,7 +40,7 @@ export class NCTEFundingComponent implements OnInit {
         }
 
       }, error => {
-        console.log(error);
+        console.error(error);
         this.loadingAbsoluteTable = false;
       }
     );
@@ -59,7 +59,7 @@ export class NCTEFundingComponent implements OnInit {
       rawData => {
         this.bubbleMapSeries = this.dataHandlerService.convertRawDataToBubbleMapSeries(rawData);
       },
-      error => {console.log(error)}
+      error => {console.error(error)}
     );
 
     if(!this.financialContrToEOSCPieChartURL) {

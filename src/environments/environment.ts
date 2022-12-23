@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   beta: false,
-  API_LOGIN: 'http://localhost:8280/observatory',
+  API_LOGIN: 'http://localhost:8280/observatory/login',
   API_ENDPOINT: '/observatory',
   projectName: 'Observatory',
   // STATS_API_ENDPOINT: 'https://stats.madgik.di.uoa.gr/stats-api/',

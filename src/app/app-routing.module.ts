@@ -1,9 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from "./pages/home.component";
-import {AcceptInvitationComponent} from "./pages/accept-invitation.component.ts/accept-invitation.component";
-import {AuthenticationGuardService} from "./services/authentication-guard.service";
-import {FormBuilderComponent} from "../catalogue-ui/pages/form-builder/form-builder.component";
+import {HomeComponent} from "./pages/home/home.component";
 
 const routes: Routes = [
   {
@@ -16,26 +13,17 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'fb',
-    component: FormBuilderComponent
-  },
-  {
-    path: 'invitation/accept/:invitationToken',
-    component: AcceptInvitationComponent,
-    canActivate: [AuthenticationGuardService]
-  },
-  {
-    path: 'contributions/:id',
-    loadChildren: () => import('./pages/contributions-dashboard/contributions-dashboard.module').then(m => m.ContributionsDashboardModule),
+    path: 'eoscreadiness',
+    loadChildren: () => import('./pages/eosc-readiness-dashboard/eosc-readiness-dashboard.module').then(m => m.EoscReadinessDashboardModule),
   },
   {
     path: 'archive',
     loadChildren: () => import('./pages/archive/archive.module').then(m => m.ArchiveModule)
   },
   {
-    path: 'eoscreadiness',
-    loadChildren: () => import('./pages/national-contributions-to-eosc-dashboard/national-contributions-to-eosc-dashboard.module').then(m => m.NationalContributionsToEOSCDashboardModule),
-  },
+    path: '',
+    loadChildren: () => import('../survey-tool/app/survey-tool.module').then(m => m.SurveyToolModule)
+  }
 ];
 
 @NgModule({

@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   beta: false,
-  API_LOGIN: '/api',
+  API_LOGIN: '/api/oauth2/authorization/eosc',
   API_ENDPOINT: '/api',
   projectName: 'Observatory',
   STATS_API_ENDPOINT: '/stats/api/',

@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:madgeek-arc/observatoryUI-subrepo.git
+	branch = master
+	commit = b884de3a9a354dcb23109fdeba7306396ffd7e54
+	method = merge
+	cmdver = 0.4.3
+	parent = 75e0a0a3d6cc96871798b4a2bc222f53b8028100

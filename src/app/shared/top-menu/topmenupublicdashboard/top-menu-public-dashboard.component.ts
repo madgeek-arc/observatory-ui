@@ -1,12 +1,12 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from "@angular/core";
-import {Coordinator, Stakeholder, UserInfo} from "../../../domain/userInfo";
-import {UserService} from "../../../services/user.service";
+import {Coordinator, Stakeholder, UserInfo} from "../../../../survey-tool/app/domain/userInfo";
+import {UserService} from "../../../../survey-tool/app/services/user.service";
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../../../services/authentication.service";
-import {PrivacyPolicyService} from "../../../services/privacy-policy.service";
+import {AuthenticationService} from "../../../../survey-tool/app/services/authentication.service";
+import {PrivacyPolicyService} from "../../../../survey-tool/app/services/privacy-policy.service";
 
 import * as UIkit from 'uikit';
-import {AcceptedPrivacyPolicy} from "../../../domain/privacy-policy";
+import {AcceptedPrivacyPolicy} from "../../../../survey-tool/app/domain/privacy-policy";
 import {Subscriber} from "rxjs";
 
 @Component({
@@ -40,7 +40,7 @@ export class TopMenuPublicDashboardComponent implements OnInit, OnDestroy {
             this.showArchive = this.coordinatorContains('country');
           },
           error => {
-            console.log(error);
+            console.error(error);
             this.ready = true;
           }
         )
@@ -59,6 +59,7 @@ export class TopMenuPublicDashboardComponent implements OnInit, OnDestroy {
   }
 
   setGroup(group: Stakeholder) {
+    // console.log(group)
     this.userService.changeCurrentStakeholder(group);
     this.router.navigate([`/contributions/${group.id}/home`]);
   }
@@ -73,9 +74,10 @@ export class TopMenuPublicDashboardComponent implements OnInit, OnDestroy {
       return true;
     } else if (this.userInfo.stakeholders.filter(c => c.type === name).length > 0) {
       let stakeHolders: Stakeholder[] = this.userInfo.stakeholders.filter(c => c.type === name);
+      let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
       for (const stakeHolder of stakeHolders) {
         // console.log(stakeHolder.name);
-        if (stakeHolder.managers.indexOf(this.userService.userInfo.user.email) >= 0)
+        if (stakeHolder.managers.indexOf(userInfo.user.email) >= 0)
           return true;
       }
       return false

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
-import {Coordinator, Stakeholder, UserInfo} from "../../../domain/userInfo";
-import {UserService} from "../../../services/user.service";
-import {AuthenticationService} from "../../../services/authentication.service";
+import {Coordinator, Stakeholder, UserInfo} from "../../../../survey-tool/app/domain/userInfo";
+import {UserService} from "../../../../survey-tool/app/services/user.service";
+import {AuthenticationService} from "../../../../survey-tool/app/services/authentication.service";
 import {Router} from "@angular/router";
 import {Subscriber} from "rxjs";
 
@@ -36,7 +36,7 @@ export class TopMenuLandingComponent implements OnInit, OnDestroy {
             this.showArchive = this.coordinatorContains('country');
           },
           error => {
-            console.log(error);
+            console.error(error);
             this.ready = true;
           }
         )
@@ -69,9 +69,10 @@ export class TopMenuLandingComponent implements OnInit, OnDestroy {
       return true;
     } else if (this.userInfo.stakeholders.filter(c => c.type === name).length > 0) {
       let stakeHolders: Stakeholder[] = this.userInfo.stakeholders.filter(c => c.type === name);
+      let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
       for (const stakeHolder of stakeHolders) {
         // console.log(stakeHolder.name);
-        if (stakeHolder.managers.indexOf(this.userService.userInfo.user.email) >= 0)
+        if (stakeHolder.managers.indexOf(userInfo.user.email) >= 0)
           return true;
       }
       return false
