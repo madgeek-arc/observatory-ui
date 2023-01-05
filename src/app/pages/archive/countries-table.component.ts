@@ -10,7 +10,7 @@ import { CountryTableData } from "../../../survey-tool/app/domain/country-table-
 export class CountriesTableComponent implements OnChanges {
 
   @Input() countries: CountryTableData[];
-  @Input() entity: string;
+  @Input() tableHeaders: string[];
   @Input() tableType: string;
 
   isSortedBy: string;
@@ -21,6 +21,7 @@ export class CountriesTableComponent implements OnChanges {
   ngOnChanges() {
     this.countries.sort((a, b) => (a['name'] > b['name']) ? 1 : -1);
     // console.log('countries ->', this.countries);
+    // console.log('table headers ->', this.tableHeaders);
   }
 
   sortBy(field: string) {

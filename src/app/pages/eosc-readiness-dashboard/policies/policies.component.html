@@ -37,7 +37,7 @@
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
                   <app-countries-table *ngIf="tableAbsoluteDataArray[1]" [countries]="tableAbsoluteDataArray[1]"
-                                       [tableType]="'policies'">
+                                       [tableHeaders]="mapSubtitlesArray[1]" [tableType]="'policies'">
                   </app-countries-table>
                 </div>
               </li>
@@ -75,10 +75,10 @@
               </li>
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
-                  <span>Coming soon...</span>
-<!--                  <app-countries-table *ngIf="tableAbsoluteDataArray[2]" [countries]="tableAbsoluteDataArray[2]"-->
-<!--                                       [tableType]="'policies'">-->
-<!--                  </app-countries-table>-->
+<!--                  <span>Coming soon...</span>-->
+                  <app-countries-table *ngIf="tableAbsoluteDataArray[2]" [countries]="tableAbsoluteDataArray[2]"
+                                       [tableHeaders]="mapSubtitlesArray[2]" [tableType]="'policies'">
+                  </app-countries-table>
                 </div>
               </li>
             </ul>
@@ -108,7 +108,7 @@
                   </div>
                   <div class="uk-width-2-3" style="height: 700px">
                     <app-highcharts-category-map [mapData]="questionsDataArray[3]" [subtitle]="mapSubtitles[3]"
-                                                 [title]="'National Contributions to EOSC Linked to Policies and Actions'">
+                                                 [title]="">
                     </app-highcharts-category-map>
                   </div>
                 </div>
@@ -116,6 +116,7 @@
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
                   <app-countries-table *ngIf="tableAbsoluteDataArray[3]" [countries]="tableAbsoluteDataArray[3]"
+                                       [tableHeaders]="['National Contributions to EOSC Linked to Policies and Actions']"
                                        [tableType]="'funding'">
                   </app-countries-table>
                 </div>
@@ -155,10 +156,9 @@
               </li>
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
-                  <span>Coming soon...</span>
-<!--                  <app-countries-table *ngIf="tableAbsoluteDataArray[12]" [countries]="tableAbsoluteDataArray[12]"-->
-<!--                                       [tableType]="'policies'">-->
-<!--                  </app-countries-table>-->
+                  <app-countries-table *ngIf="tableAbsoluteDataArray[12]" [countries]="tableAbsoluteDataArray[12]"
+                                       [tableHeaders]="mapSubtitlesArray[12]" [tableType]="'policies'">
+                  </app-countries-table>
                 </div>
               </li>
             </ul>
@@ -195,10 +195,9 @@
               </li>
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
-                  <span>Coming soon...</span>
-<!--                  <app-countries-table *ngIf="tableAbsoluteDataArray[13]" [countries]="tableAbsoluteDataArray[13]"-->
-<!--                                       [tableType]="'policies'">-->
-<!--                  </app-countries-table>-->
+                  <app-countries-table *ngIf="tableAbsoluteDataArray[13]" [countries]="tableAbsoluteDataArray[13]"
+                                       [tableHeaders]="mapSubtitlesArray[13]" [tableType]="'policies'">
+                  </app-countries-table>
                 </div>
               </li>
             </ul>
@@ -235,10 +234,9 @@
               </li>
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
-                  <span>Coming soon...</span>
-<!--                  <app-countries-table *ngIf="tableAbsoluteDataArray[13]" [countries]="tableAbsoluteDataArray[13]"-->
-<!--                                       [tableType]="'policies'">-->
-<!--                  </app-countries-table>-->
+                  <app-countries-table *ngIf="tableAbsoluteDataArray[14]" [countries]="tableAbsoluteDataArray[14]"
+                                       [tableHeaders]="mapSubtitlesArray[14]" [tableType]="'policies'">
+                  </app-countries-table>
                 </div>
               </li>
             </ul>
