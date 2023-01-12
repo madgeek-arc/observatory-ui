@@ -3,15 +3,15 @@
     <thead>
       <tr>
         <th class="uk-text-center" (click)="sortByColumn($event)">
-          <span *ngIf="!isSortedBy || isSortedBy!='country'" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort.svg"></span>
-          <span *ngIf="isSortedBy && isSortedBy=='country' && isDescending" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-descending.svg"></span>
-          <span *ngIf="isSortedBy && isSortedBy=='country' && !isDescending" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-ascending.svg"></span>
+          <span *ngIf="sortedColumnIndex !== 0" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort.svg"></span>
+          <span *ngIf="sortedColumnIndex === 0 && !asc" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-descending.svg"></span>
+          <span *ngIf="sortedColumnIndex === 0 && asc" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-ascending.svg"></span>
           Country
         </th>
-        <th *ngFor="let header of tableHeaders" class="uk-text-center">
-          <span *ngIf="!isSortedBy || isSortedBy!='toBeChanged'" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort.svg"></span>
-          <span *ngIf="isSortedBy && isSortedBy=='toBeChanged' && isDescending" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-descending.svg"></span>
-          <span *ngIf="isSortedBy && isSortedBy=='toBeChanged' && !isDescending" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-ascending.svg"></span>
+        <th *ngFor="let header of tableHeaders; let i = index" class="uk-text-center" (click)="sortByColumn($event)">
+          <span *ngIf="sortedColumnIndex !== i+1" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort.svg"></span>
+          <span *ngIf="sortedColumnIndex === i+1 && !asc" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-descending.svg"></span>
+          <span *ngIf="sortedColumnIndex === i+1 && asc" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-ascending.svg"></span>
           {{header}}
         </th>
       </tr>
