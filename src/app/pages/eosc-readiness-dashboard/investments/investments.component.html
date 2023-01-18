@@ -106,10 +106,10 @@
               </li>
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
-                  <span>Coming soon...</span>
-  <!--                <app-countries-table *ngIf="tableAbsoluteDataArray[7]" [countries]="tableAbsoluteDataArray[7]"-->
-  <!--                                     [tableType]="'policies'">-->
-  <!--                </app-countries-table>-->
+                  <app-countries-table *ngIf="tableAbsoluteDataArray[7]" [countries]="tableAbsoluteDataArray[7]"
+                                       [tableHeaders]="mapSubtitlesArray[7]"
+                                       [tableType]="'policies'">
+                  </app-countries-table>
                 </div>
               </li>
             </ul>
@@ -147,7 +147,7 @@
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
                   <app-countries-table *ngIf="tableAbsoluteDataArray[8]" [countries]="tableAbsoluteDataArray[8]"
-                                       [tableType]="'policies'">
+                                       [tableHeaders]="mapSubtitlesArray[8]" [tableType]="'policies'">
                   </app-countries-table>
                 </div>
               </li>
