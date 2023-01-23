@@ -299,7 +299,7 @@ export class SurveyComponent implements OnInit, OnChanges {
     let docDefinition: DocDefinition = new DocDefinition();
     docDefinition.content.push(new Content(this.model.name, ['title']));
     if (this.model.notice)
-      docDefinition.content.push({text: this.model.notice, italics: true, alignment: 'justify'});
+      docDefinition.content.push({text: this.strip(this.model.notice), italics: true, alignment: 'justify'});
     docDefinition.info = new PdfMetadata(this.model.name);
 
     let description = 'none';
@@ -315,7 +315,10 @@ export class SurveyComponent implements OnInit, OnChanges {
     for (const field of fields) {
       if (field.label.text)
         docDefinition.content.push(new Content(field.label.text, ['mx_3']));
-      if (field.form.description.text) {
+      if (field.form.description.text
+        && !field.form.description.text.includes('Please add only new use cases as any use cases submitted in the previous survey will be imported here')
+        && !field.form.description.text.includes('For example on curricula for data stewardship')
+      ) {
         if (description === 'end') {
           let questionNumber = null;
           if (field.label.text) {
@@ -389,7 +392,7 @@ export class SurveyComponent implements OnInit, OnChanges {
     let descriptionsAtEnd = new DocDefinition();
 
     if (this.model.name === 'Survey on National Contributions to EOSC 2022') {
-      docDefinition.content.push(new Content('Find definitions at appendix A', ['mt_3']));
+      docDefinition.content.push(new Content('Definitions of key terms can be found in Appendix A', ['mt_3']));
     }
 
     this.model.sections.sort((a, b) => a.order - b.order);
@@ -422,7 +425,7 @@ export class SurveyComponent implements OnInit, OnChanges {
             {text: 'EOSC Observatory', link: 'https://eoscobservatory.eosc-portal.eu', color: 'cornflowerblue', decoration: 'underline'},
             ' to explore the data from the first EOSC Steering Board survey on National Contributions to EOSC 2021 and visit the ',
             {text: 'EOSC Observatory Zenodo Community', link: 'https://zenodo.org/communities/eoscobservatory', color: 'cornflowerblue', decoration: 'underline'},
-            ' to access all relevant documents for the surveys and EOSC Observatory']
+            ' to access all relevant documents for the surveys and EOSC Observatory.']
         }
       ]
       docDefinition.content.push(content);
@@ -430,79 +433,6 @@ export class SurveyComponent implements OnInit, OnChanges {
 
     return;
 
-    // for (const key in group.controls) {
-    //   let abstractControl = group.controls[key];
-    //   let field = this.getModelData(this.model.sections, key);
-    //   if (abstractControl instanceof FormGroup) {
-    //     if (field){
-    //       if (field.kind === 'question')
-    //         docDefinition.content.push(new Content(field.label.text,['mt_5']));
-    //       else
-    //         docDefinition.content.push(new Content(field.label.text,['mt_1']));
-    //     }
-    //     this.createDocumentDefinition(abstractControl, docDefinition);
-    //   } else if (abstractControl instanceof FormArray) {
-    //     if (field.kind === 'question')
-    //       docDefinition.content.push(new Content(field.label.text,['mt_5']));
-    //     else
-    //       docDefinition.content.push(new Content(field.label.text,['mt_1']));
-    //     let tmpArr = [];
-    //     for (let i = 0; i < abstractControl.controls.length; i++) {
-    //       let control = group.controls[key].controls[i];
-    //       if (control instanceof FormGroup || control instanceof FormArray) {
-    //         this.createDocumentDefinition(control, docDefinition);
-    //       } else {
-    //         tmpArr.push(control.value);
-    //         // docDefinition.content.push(new Content(control.value,['mt_1']));
-    //       }
-    //     }
-    //     if (tmpArr.length > 0) {
-    //       let columns = new Columns();
-    //       columns.columns.push(new Content('', [''], 15));
-    //       columns.columns.push(new PdfUnorderedList(tmpArr,''));
-    //       docDefinition.content.push(columns);
-    //     }
-    //   } else {
-    //     let field = this.getModelData(this.model.sections, key);
-    //     if (field.kind === 'question')
-    //       docDefinition.content.push(new Content(field.label.text,['mt_5']));
-    //     else
-    //       docDefinition.content.push(new Content(field.label.text,['mt_1']));
-    //     if (field.typeInfo.type === 'radio') {
-    //       let values = field.typeInfo.values
-    //       if (field.kind === 'conceal-reveal')
-    //         values = this.getModelData(this.model.sections, field.parent).typeInfo.values;
-    //       for (const value of values) {
-    //         let content = new Columns();
-    //         if (value === abstractControl.value){
-    //           content.columns.push(new PdfImage('radioChecked', 10, 10, ['marginTopCheckBox']));
-    //         }
-    //         else {
-    //           content.columns.push(new PdfImage('radioUnchecked', 10, 10, ['marginTopCheckBox']));
-    //         }
-    //         content.columns.push(new Content(value,['ms_1', 'mt_1']));
-    //         docDefinition.content.push(content);
-    //       }
-    //     } else if (field.typeInfo.type === 'checkbox') {
-    //       docDefinition.content.pop();
-    //       let content = new Columns();
-    //       if (abstractControl.value) {
-    //         content.columns.push(new PdfImage('checked', 10, 10, ['marginTopCheckBox']));
-    //       } else {
-    //         content.columns.push(new PdfImage('unchecked', 10, 10, ['marginTopCheckBox']));
-    //       }
-    //       content.columns.push(new Content(field.label.text,['ms_1', 'mt_1']));
-    //       docDefinition.content.push(content);
-    //     } else {
-    //       if (abstractControl.value){
-    //         docDefinition.content.push(new PdfTable(new TableDefinition([[abstractControl.value]], ['*']), ['mt_1']));
-    //       } else {
-    //         docDefinition.content.push(new PdfTable(new TableDefinition([['']],['*'], [16]), ['mt_1']));
-    //       }
-    //     }
-    //   }
-    //
-    // }
   }
 
   findVal(obj, key) {
