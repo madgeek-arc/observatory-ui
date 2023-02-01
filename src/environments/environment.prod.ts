@@ -8,6 +8,6 @@ export const environment = {
   profileName: 'eosc-obs',
   OSO_STATS_API_ENDPOINT: 'https://services.openaire.eu/stats-tool/',
   osoStatsProfileName: 'observatory',
-  trackerUrl: 'https://eosc-analytics.openaire.eu/matamo.php',
-  siteId: 1
+  matomoTrackerUrl: 'https://eosc-analytics.openaire.eu/matamo.php',
+  matomoSiteId: 1
 };
