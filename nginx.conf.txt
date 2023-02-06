@@ -1,0 +1,35 @@
+server {
+    ${ADD_SERVER_NAME}
+    listen 80;
+    root /usr/share/nginx/html;
+
+    location / {
+        try_files $uri$args $uri$args/ /index.html;
+    }
+
+    location ~* \.(eot|ttf|woff)$ {
+        add_header Access-Control-Allow-Origin *;
+    }
+
+    location ^~ /api {
+        proxy_set_header        Host $http_host;
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $scheme;
+        proxy_pass              ${PLATFORM_API_ENDPOINT};
+        proxy_read_timeout      300;
+        proxy_send_timeout      300;
+        client_max_body_size    200M;
+    }
+
+    location ^~ /stats/api {
+        proxy_set_header        Host $host;
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $scheme;
+        proxy_pass              ${STATS_API_ENDPOINT};
+        proxy_read_timeout      90;
+        proxy_send_timeout      90;
+    }
+}
+

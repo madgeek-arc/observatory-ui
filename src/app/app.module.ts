@@ -9,6 +9,7 @@ import {UserService} from "../survey-tool/app/services/user.service";
 import {SurveyToolModule} from "../survey-tool/app/survey-tool.module";
 import {HttpInterceptorService} from "./pages/services/http-interceptor.service";
 import {SharedModule} from "./shared/shared.module";
+import {environment} from "../environments/environment";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import {SharedModule} from "./shared/shared.module";
     AppRoutingModule,
     SharedModule,
     SurveyToolModule,
-    NgxMatomoTrackerModule.forRoot({trackerUrl: '', siteId: ''}),
+    NgxMatomoTrackerModule.forRoot({trackerUrl: environment.matomoTrackerUrl, siteId: environment.matomoSiteId}),
     NgxMatomoRouterModule,
   ],
   providers: [

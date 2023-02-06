@@ -11,7 +11,9 @@ export const environment = {
   STATS_API_ENDPOINT: 'https://stats.madgik.di.uoa.gr/stats-api/',
   profileName: 'eosc-obs',
   OSO_STATS_API_ENDPOINT: 'https://services.openaire.eu/stats-tool/',
-  osoStatsProfileName: 'observatory'
+  osoStatsProfileName: 'observatory',
+  matomoTrackerUrl: 'https://eosc-analytics.openaire.eu/matamo.php',
+  matomoSiteId: 2
 };
 
 /*
