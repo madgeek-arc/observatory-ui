@@ -31,7 +31,6 @@
     "highcharts": "^10.0.0",
     "highcharts-angular": "3.0.0",
     "ng2-date-picker": "^13.1.1",
-    "ngx-markdown-editor": "^3.3.3",
     "pdfmake": "^0.2.7",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
