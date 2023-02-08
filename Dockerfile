@@ -4,9 +4,8 @@ FROM node:16 AS build
 WORKDIR /usr/src/app
 
 COPY package.json ./
-COPY package-lock.json ./
 
-RUN npm ci
+RUN npm install
 COPY . .
 ARG configuration=prod
 RUN npm run build:$configuration
