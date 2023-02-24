@@ -10,6 +10,7 @@ import {SurveyToolModule} from "../survey-tool/app/survey-tool.module";
 import {HttpInterceptorService} from "./pages/services/http-interceptor.service";
 import {SharedModule} from "./shared/shared.module";
 import {environment} from "../environments/environment";
+import {WebsocketService} from "../survey-tool/app/services/websocket.service";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {environment} from "../environments/environment";
       useClass: HttpInterceptorService,
       multi: true
     },
-    UserService
+    UserService,
+    WebsocketService
   ],
   bootstrap: [AppComponent]
 })
