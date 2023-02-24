@@ -46,9 +46,7 @@
             },
             "scripts": [
               "./node_modules/uikit/dist/js/uikit.min.js",
-              "./node_modules/uikit/dist/js/uikit-icons.min.js",
-              "src/survey-tool/assets/js/sockjs.min.js",
-              "src/survey-tool/assets/js/stomp.min.js"
+              "./node_modules/uikit/dist/js/uikit-icons.min.js"
             ]
           },
           "configurations": {
