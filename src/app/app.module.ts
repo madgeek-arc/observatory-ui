@@ -9,7 +9,6 @@ import {NgxMatomoRouterModule} from '@ngx-matomo/router';
 import {UserService} from "../survey-tool/app/services/user.service";
 import {SurveyToolModule} from "../survey-tool/app/survey-tool.module";
 import {HttpInterceptorService} from "./pages/services/http-interceptor.service";
-import {WebsocketService} from "../survey-tool/app/services/websocket.service";
 import {SharedModule} from "./shared/shared.module";
 
 @NgModule({
@@ -30,7 +29,6 @@ import {SharedModule} from "./shared/shared.module";
       useClass: HttpInterceptorService,
       multi: true
     },
-    WebsocketService,
     UserService
   ],
   bootstrap: [AppComponent]
