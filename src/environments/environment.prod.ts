@@ -3,7 +3,7 @@ export const environment = {
   beta: false,
   API_LOGIN: '/api/oauth2/authorization/eosc',
   API_ENDPOINT: '/api',
-  WS_ENDPOINT: 'http://localhost:8280/observatory',
+  WS_ENDPOINT: '/api',
   projectName: 'Observatory',
   STATS_API_ENDPOINT: '/stats/api/',
   profileName: 'eosc-obs',
