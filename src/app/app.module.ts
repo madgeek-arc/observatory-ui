@@ -10,7 +10,6 @@ import {UserService} from "../survey-tool/app/services/user.service";
 import {SurveyToolModule} from "../survey-tool/app/survey-tool.module";
 import {HttpInterceptorService} from "./pages/services/http-interceptor.service";
 import {SharedModule} from "./shared/shared.module";
-import {environment} from "../environments/environment";
 import {ArchiveGuardService} from "./pages/services/archiveGuard.service";
 
 @NgModule({
