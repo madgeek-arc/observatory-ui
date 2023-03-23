@@ -96,4 +96,19 @@ export class EoscReadinessDashboardComponent implements OnInit, AfterViewInit{
     }
 
   }
+
+  toggleSidebar() {
+    const el: HTMLElement = document.getElementById('sidebar_toggle');
+    if(!el.classList.contains('closed')) {
+      el.classList.add('closed');
+      const el1: HTMLElement = document.getElementById('sidebar_main_content');
+      el1.classList.remove('sidebar_main_active');
+      el1.classList.add('sidebar_main_inactive');
+    } else {
+      el.classList.remove('closed');
+      const el1: HTMLElement = document.getElementById('sidebar_main_content');
+      el1.classList.add('sidebar_main_active');
+      el1.classList.remove('sidebar_main_inactive');
+    }
+  }
 }

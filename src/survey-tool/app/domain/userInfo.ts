@@ -34,3 +34,10 @@ export class StakeholdersMembers {
   contributors: User[];
   managers: User[];
 }
+
+export class UserActivity {
+  sessionId: string;
+  fullname: string;
+  action: string;
+  date: Date;
+}

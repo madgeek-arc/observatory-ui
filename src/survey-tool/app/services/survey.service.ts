@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../../environments/environment";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {ResourcePermission, SurveyAnswer, SurveyInfo} from "../domain/survey";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {DisplayHistory, ResourcePermission, SurveyAnswer, SurveyInfo} from "../domain/survey";
 import {Paging} from "../../catalogue-ui/domain/paging";
 import {StakeholdersMembers} from "../domain/userInfo";
 import {URLParameter} from "../../catalogue-ui/domain/url-parameter";
@@ -17,6 +17,10 @@ export class SurveyService {
 
   getLatestAnswer(stakeHolderId: string, surveyId: string) {
     return this.http.get<SurveyAnswer>(this.base + `/answers/latest?stakeholderId=${stakeHolderId}&surveyId=${surveyId}`, this.options);
+  }
+
+  getAnswerWithVersion(surveyAnswerId: string, version: string) {
+    return this.http.get<SurveyAnswer>(this.base + `/answers/${surveyAnswerId}/versions/${version}`, this.options);
   }
 
   changeAnswerValidStatus(answerId: string, valid: boolean) {
@@ -37,8 +41,12 @@ export class SurveyService {
     return this.http.get<ResourcePermission[]>(this.base + `/permissions?resourceIds=${resourceIds}`);
   }
 
-  getAnswerValues(answerId: string) {
-    return this.http.get<Object>(this.base + `/answers/${answerId}/answer`, this.options);
+  getAnswer(answerId: string) {
+    return this.http.get<SurveyAnswer>(this.base + `/answers/${answerId}`, this.options);
+  }
+
+  getAnswerHistory(answerId: string) {
+    return this.http.get<DisplayHistory>(this.base + `/answers/${answerId}/history`, this.options);
   }
 
   addContributor(stakeholderId: string, email: string) {

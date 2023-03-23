@@ -1,19 +1,19 @@
 import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
+import {zip} from "rxjs/internal/observable/zip";
 import {SurveyComponent} from "../../../../../catalogue-ui/pages/dynamic-form/survey.component";
 import {Model} from "../../../../../catalogue-ui/domain/dynamic-form-model";
 import {SurveyService} from "../../../../services/survey.service";
 import {SurveyAnswer} from "../../../../domain/survey";
-import {Stakeholder, UserInfo} from "../../../../domain/userInfo";
+import {Stakeholder, UserActivity, UserInfo} from "../../../../domain/userInfo";
+import {WebsocketService} from "../../../../services/websocket.service";
 import {Subscriber} from "rxjs";
-import {zip} from "rxjs/internal/observable/zip";
-
 import UIkit from "uikit";
 
 @Component({
   selector: 'app-survey-form',
   templateUrl: 'survey-form.component.html',
-  providers: [SurveyService]
+  providers: [SurveyService, WebsocketService]
 })
 
 export class SurveyFormComponent implements OnInit, OnDestroy {
@@ -23,6 +23,7 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
   survey: Model = null;
   subType: string;
   surveyAnswers: SurveyAnswer = null
+  activeUsers: UserActivity[] = [];
   userInfo: UserInfo = null;
   tabsHeader: string = null;
   mandatoryFieldsText: string = 'Fields with (*) are mandatory and must be completed in order for the survey to be validated.';
@@ -31,9 +32,10 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
   stakeholderId: string = null;
   freeView = false;
   ready = false;
+  action: string = null;
 
   constructor(private surveyService: SurveyService, private route: ActivatedRoute,
-              private router: Router) {}
+              private router: Router, private wsService: WebsocketService) {}
 
   ngOnInit() {
     this.ready = false;
@@ -54,6 +56,16 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
               }
               this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
               this.subType = this.findSubType(this.userInfo.stakeholders, this.stakeholderId);
+              this.subscriptions.push(
+                this.wsService.msg.subscribe(
+                  next => {
+                    // if (next) {
+                      this.activeUsers = next;
+                      // console.log(this.activeUsers);
+                    // }
+                  }
+                )
+              );
               if (!this.freeView) {
                 this.subscriptions.push(
                   zip(
@@ -64,7 +76,20 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
                       this.survey = next[1];
                     },
                     error => {console.log(error)},
-                    () => { this.ready = true; }
+                    () => {
+                      this.ready = true;
+                      this.wsService.initializeWebSocketConnection(this.surveyAnswers.id, 'surveyAnswer');
+                      if (this.router.url.includes('/view')) {
+                        this.wsService.WsJoin(this.surveyAnswers.id, 'surveyAnswer', 'view');
+                        this.action = 'view';
+                      } else if (this.router.url.includes('/validate')) {
+                        this.wsService.WsJoin(this.surveyAnswers.id, 'surveyAnswer', 'validate');
+                        this.action = 'validate';
+                      } else {
+                        this.wsService.WsJoin(this.surveyAnswers.id, 'surveyAnswer', 'edit');
+                        this.action = 'edit';
+                      }
+                    }
                   )
                 );
               } else {
@@ -79,7 +104,6 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
         }
       )
     );
-
   }
 
   ngOnDestroy() {
@@ -88,6 +112,9 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
         subscription.unsubscribe();
       }
     });
+    if (this.surveyAnswers?.id) {
+      this.wsService.WsLeave(this.surveyAnswers.id, 'surveyAnswer', this.action);
+    }
   }
 
   findSubType(stakeholders: Stakeholder[], stakeholderId: string): string {

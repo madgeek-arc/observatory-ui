@@ -7,6 +7,7 @@ import { MyGroupComponent } from "./my-group/my-group.component";
 import {AuthenticationGuardService} from "../../services/authentication-guard.service";
 import {CoordinatorsComponent} from "./coordinators/coordinators.component";
 import {SurveysListComponent} from "./coordinators/surveys-list/surveys-list.component";
+import {HistoryComponent} from "./survey-history/history.component";
 
 const contributionsDashboardRoutes: Routes = [
   {
@@ -52,9 +53,13 @@ const contributionsDashboardRoutes: Routes = [
         canActivate: [AuthenticationGuardService]
       },
       {
-        path: 'mySurveys/:surveyId/printPdf',
-        component: SurveyFormComponent,
-        canActivate: [AuthenticationGuardService]
+        path: 'mySurveys/:surveyId/:answerId/history',
+        component: HistoryComponent,
+        canActivate: [AuthenticationGuardService],
+        data: {
+          showSideMenu: false,
+          showFooter: false
+        }
       },
       {
         path: 'group',
@@ -70,7 +75,7 @@ const contributionsDashboardRoutes: Routes = [
         path: 'surveyList',
         component: SurveysListComponent,
         canActivate: [AuthenticationGuardService]
-      },
+      }
     ]
   }
 ];

@@ -16,8 +16,10 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import BitSet from "bitset";
 
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import UIkit from "uikit";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+declare var require: any;
+const seedRandom = require('seedrandom');
 
 @Component({
   selector: 'app-survey',
@@ -30,6 +32,7 @@ export class SurveyComponent implements OnInit, OnChanges {
   @Input() payload: any = null; // can't import specific project class in lib file
   @Input() model: Model = null;
   @Input() subType: string = null;
+  @Input() activeUsers: any[] = null;
   @Input() vocabulariesMap: Map<string, object[]> = null;
   @Input() subVocabularies: Map<string, object[]> = null;
   @Input() tabsHeader: string = null;
@@ -105,6 +108,15 @@ export class SurveyComponent implements OnInit, OnChanges {
         this.validate = false;
       } else if (this.validate) {
         UIkit.modal('#validation-modal').show();
+      }
+      if (this.activeUsers?.length > 0) {
+        setTimeout(()=> {
+          let users = [];
+          this.activeUsers.forEach(user => {
+            users.push(' '+user.fullname);
+          });
+          UIkit.tooltip('#concurrentEdit', {title: users.toString(), pos: 'bottom'});
+          }, 0);
       }
 
       setTimeout(() => {
@@ -232,7 +244,8 @@ export class SurveyComponent implements OnInit, OnChanges {
 
   pushToFormArray(name: string, length: number, arrayIndex?: number) {
     let field = this.getModelData(this.model.sections, name);
-    for (let i = 0; i < length-1; i++) {
+    while (this.getFormControl(this.form, name, arrayIndex).length < length) {
+    // for (let i = 0; i < length-1; i++) {
       this.getFormControl(this.form, name, arrayIndex).push(this.formControlService.createField(field));
     }
   }
@@ -488,5 +501,45 @@ export class SurveyComponent implements OnInit, OnChanges {
       this.successMessage = '';
     }, 4550);
   }
+
+  getInitials(fullName: string) {
+    return fullName.split(" ").map((n)=>n[0]).join("")
+  }
+
+  actionIcon(action: string) {
+    switch (action) {
+      case 'view':
+        return 'visibility';
+      case 'validate':
+        return 'task_alt';
+      case 'edit':
+        return 'edit';
+      default:
+        return '';
+    }
+  }
+
+  actionTooltip(action: string) {
+    switch (action) {
+      case 'view':
+        return 'viewing';
+      case 'validate':
+        return 'validating';
+      case 'edit':
+        return 'editing';
+      default:
+        return '';
+    }
+  }
+
+  getRandomDarkColor(sessionId: string) { // (use for background with white/light font color)
+    const rng = seedRandom(sessionId);
+    const h = Math.floor(rng() * 360),
+      s = Math.floor(rng() * 100) + '%',
+      // max value of l is 100, but set it to 55 in order to generate dark colors
+      l = Math.floor(rng() * 55) + '%';
+
+    return `hsl(${h},${s},${l})`;
+  };
 
 }

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {UserService} from "../../services/user.service";
 import {UserInfo} from "../../domain/userInfo";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router, RoutesRecognized} from "@angular/router";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Subscriber} from "rxjs";
 
@@ -11,10 +11,11 @@ import {Subscriber} from "rxjs";
   templateUrl: 'contributions-dashboard.component.html',
 })
 
-export class ContributionsDashboardComponent implements OnDestroy{
+export class ContributionsDashboardComponent implements OnInit, OnDestroy{
 
   subscriptions = [];
-  open: boolean = true;
+  openSideBar: boolean = true;
+  showFooter: boolean = true;
   userInfo: UserInfo;
 
   constructor(public userService: UserService,
@@ -34,6 +35,19 @@ export class ContributionsDashboardComponent implements OnDestroy{
           this.setGroup();
         }
       )
+    );
+
+    this.findChildRouteData();
+
+  }
+
+  ngOnInit() {
+    this.router.events.subscribe(
+      event => {
+        if (event instanceof NavigationEnd) {
+         this.findChildRouteData();
+        }
+      }
     );
   }
 
@@ -70,4 +84,24 @@ export class ContributionsDashboardComponent implements OnDestroy{
     );
   }
 
+  findChildRouteData() {
+
+    this.openSideBar = true;
+    this.showFooter = true;
+
+    let child = this.route.firstChild;
+    while (child) {
+      if (child.firstChild) {
+        child = child.firstChild;
+      } else if (child.snapshot.data) {
+        if (child.snapshot.data['showSideMenu'] !== undefined)
+          this.openSideBar = child.snapshot.data['showSideMenu'];
+        if (child.snapshot.data['showFooter'] !== undefined)
+          this.showFooter = child.snapshot.data['showFooter'];
+        return null;
+      } else {
+        return null;
+      }
+    }
+  }
 }

@@ -7,9 +7,17 @@ export class SurveyAnswer {
   type: string;
   answer: Object;
   metadata: Metadata;
-  history: Object;
+  history: History;
   validated: boolean;
   published: boolean;
+}
+
+export class History {
+  entries: Entries[];
+}
+
+export class DisplayHistory {
+  entries: DisplayEntries[];
 }
 
 export class ChapterAnswer {
@@ -26,9 +34,9 @@ export class ResourcePermission {
 
 export class Metadata {
   creationDate: string;
-  createdDy: User;
+  createdBy: string;
   modificationDate: string;
-  modifiedBy: User;
+  modifiedBy: string;
 }
 
 export class SurveyInfo {
@@ -47,4 +55,19 @@ export class SurveyInfo {
 export class Progress {
   current: number;
   total: number;
+}
+
+export class Entries {
+  userId: string;
+  time: number;
+  action: string;
+}
+
+export class DisplayEntries {
+  email: string;
+  fullname: string;
+  time: number;
+  action: string;
+  resourceId: string;
+  version: string;
 }
