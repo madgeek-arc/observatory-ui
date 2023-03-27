@@ -4,7 +4,7 @@
 ; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
 ;
 [subrepo]
-	remote = git@github.com:madgeek-arc/observatoryUI-subrepo.git
+	remote = git@github.com:madgeek-arc/survey-tool.git
 	branch = master
 	commit = d8fc4988bb040bbe7056fa951cccce6a0d2f8aee
 	method = merge
