@@ -5,6 +5,10 @@ import {EoscReadinessGuardService} from "../services/eosc-readiness-guard.servic
 import {PoliciesComponent} from "./policies/policies.component";
 import {PracticesComponent} from "./practices/practices.component";
 import {InvestmentsComponent} from "./investments/investments.component";
+import {EoscReadinessDashboard2022Component} from "./eosc-readiness-2022/eosc-readiness-dashboard2022.component";
+import {DataTypeComponent} from "./eosc-readiness-2022/dataComponent/dataType.component";
+import {NationalPolicyComponent} from "./eosc-readiness-2022/national-policies/national-policy.component";
+import {Practices2022Component} from "./eosc-readiness-2022/practices/practices2022.component";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
@@ -28,9 +32,40 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
         path: 'investments',
         component: InvestmentsComponent,
         canActivate: [EoscReadinessGuardService]
-      }
+      },
     ],
     runGuardsAndResolvers: 'always'
+  },
+  {
+    path: '2022',
+    component: EoscReadinessDashboard2022Component,
+    children: [
+      {
+        path: '',
+        redirectTo: 'policies/nationalPolicy/publications',
+        pathMatch: 'full',
+      },
+      {
+        path: 'policies/:path/:type',
+        component: NationalPolicyComponent,
+        children: [
+          {
+            path: ':dataType',
+            component: DataTypeComponent,
+          }
+        ]
+      },
+      {
+        path: 'practices/:path',
+        component: Practices2022Component,
+        children: [
+          {
+            path: ':dataType',
+            component: DataTypeComponent,
+          }
+        ]
+      }
+    ]
   }
 ];
 

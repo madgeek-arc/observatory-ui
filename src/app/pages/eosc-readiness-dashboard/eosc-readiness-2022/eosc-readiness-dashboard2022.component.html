@@ -1,0 +1,76 @@
+<!--NATIONAL CONTRIBUTIONS TO EOSC MENU-->
+
+<div id="sidebar_main_content" class="sidebar_main_swipe sidebar_main_active" [class.sidebar_main_active]="open">
+
+  <aside id="sidebar_main">
+
+    <div id="sidebar_toggle" class="" (click)="toggleSidebar()"></div>
+
+    <div id="sidebar_content">
+      <div  class="menu_section uk-margin-top" style="min-height: 30vh">
+        <div class="" style="padding-left: 23px;"><h6>National contributions 2022</h6></div>
+        <ul #nav class="uk-list uk-nav uk-nav-default uk-nav-parent-icon" uk-nav="duration: 500">
+
+          <li [ngClass]="{'uk-active current_section': isPoliciesActive}" class="uk-parent">
+            <a [routerLink]="'policies/nationalPolicy/publications'">
+              <div class="uk-flex uk-flex-middle uk-flex-center">
+                <div class="uk-width-auto">
+                  <span class="material-icons">policy</span>
+                </div>
+                <span [class.uk-text-bolder]="isPoliciesActive" class="uk-width-expand uk-text-truncate uk-margin-small-left" title="EOSC policies and financial investments">EOSC Policies</span>
+              </div>
+            </a>
+            <ul class="uk-nav-sub">
+              <li [ngClass]="{'uk-active current_section': activeLink == 0}" class="uk-width-1-1">
+                <a [routerLink]="'policies/nationalPolicy/publications'"><span class="uk-text-truncate">National Policy</span></a>
+              </li>
+              <li [ngClass]="{'uk-active current_section': activeLink == 2}" class="uk-width-1-1">
+                <a [routerLink]="'policies/financialStrategy/publications'"><span class="uk-text-truncate">Financial Strategy</span></a>
+              </li>
+              <li [ngClass]="{'uk-active current_section': activeLink == 3}" class="uk-width-1-1">
+                <a [routerLink]="'policies/RPOs/publications'"><span class="uk-text-truncate">RPOs with policy</span></a>
+              </li>
+              <li [ngClass]="{'uk-active current_section': activeLink == 4}" class="uk-width-1-1">
+                <a [routerLink]="'policies/RFOs/publications'"><span class="uk-text-truncate">RFOs with policy</span></a>
+              </li>
+            </ul>
+          </li>
+
+          <li [ngClass]="{'uk-active current_section': isPracticesActive}" class="uk-parent">
+            <a [routerLink]="'practices/nationalMonitoring'">
+              <div class="uk-flex uk-flex-middle uk-flex-center">
+                <div class="uk-width-auto">
+                  <span class="material-icons">assignment</span>
+                </div>
+                <span [class.uk-text-bolder]="isPracticesActive" class="uk-width-expand uk-text-truncate uk-margin-small-left">EOSC Practices</span>
+              </div>
+            </a>
+            <ul class="uk-nav-sub" data-uk-tab="connect: #practices-tabs;">
+              <li [ngClass]="{'uk-active current_section': activeLink == 0}" class="uk-width-1-1">
+                <a [routerLink]="'practices/nationalMonitoring'"><span class="uk-text-truncate">National Monitoring</span></a>
+              </li>
+              <li [ngClass]="{'uk-active current_section': activeLink == 1}" class="uk-width-1-1">
+                <a [routerLink]="'practices/useCases'"><span class="uk-text-truncate">Use cases</span></a>
+              </li>
+              <li [ngClass]="{'uk-active current_section': activeLink == 2}" class="uk-width-1-1">
+                <a [routerLink]="'practices/financialInvestment'"><span class="uk-text-truncate">Financial investment</span></a>
+              </li>
+              <li [ngClass]="{'uk-active current_section': activeLink == 3}" class="uk-width-1-1">
+                <a [routerLink]="'practices/published'"><span class="uk-text-truncate">Published</span></a>
+              </li>
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+  <div id="page_content" class="dashboard">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+
+
+

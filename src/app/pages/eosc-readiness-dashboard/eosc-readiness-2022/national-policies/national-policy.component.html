@@ -1,0 +1,25 @@
+<div class="uk-section uk-section-default">
+  <div class="uk-container">
+    <div class="uk-grid">
+      <div class="uk-width-1-1">
+        <ul id="topSelector" uk-switcher="{connect:'#content', animation: 'fade'}">
+          <li><a [routerLink]="['../publications']">publications</a></li>
+          <li><a [routerLink]="['../data/openData']">data</a></li>
+        </ul>
+        <ul id="content" class="uk-switcher">
+          <li>
+            Content of publications
+          </li>
+          <li>
+            Content of data
+            <ul>
+              <li><a [routerLink]="['./openData']">openData</a></li>
+              <li><a [routerLink]="['./fairData']">fairData</a></li>
+            </ul>
+            <router-outlet></router-outlet>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
