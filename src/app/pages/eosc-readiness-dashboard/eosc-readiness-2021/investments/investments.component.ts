@@ -1,14 +1,14 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
-import {DataService} from "../../services/data.service";
-import {DataHandlerService} from "../../services/data-handler.service";
-import {StakeholdersService} from "../../../../survey-tool/app/services/stakeholders.service";
-import {mapSubtitles} from "../../../../survey-tool/app/domain/mapSubtitles";
+import {DataService} from "../../../services/data.service";
+import {DataHandlerService} from "../../../services/data-handler.service";
+import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
+import {mapSubtitles} from "../../../../../survey-tool/app/domain/mapSubtitles";
 
 import UIkit from "uikit";
-import {CountryTableData} from "../../../../survey-tool/app/domain/country-table-data";
-import {FundingForEOSCSums} from "../../../../survey-tool/app/domain/funding-for-eosc";
-import {CategorizedAreaData, Series} from "../../../../survey-tool/app/domain/categorizedAreaData";
+import {CountryTableData} from "../../../../../survey-tool/app/domain/country-table-data";
+import {FundingForEOSCSums} from "../../../../../survey-tool/app/domain/funding-for-eosc";
+import {CategorizedAreaData, Series} from "../../../../../survey-tool/app/domain/categorizedAreaData";
 import {zip} from "rxjs/internal/observable/zip";
 
 @Component({

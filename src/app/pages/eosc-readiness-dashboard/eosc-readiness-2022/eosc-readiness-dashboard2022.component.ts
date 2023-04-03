@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {Stakeholder, UserInfo} from "../../../../survey-tool/app/domain/userInfo";
 import {UserService} from "../../../../survey-tool/app/services/user.service";
 import {AuthenticationService} from "../../../../survey-tool/app/services/authentication.service";
@@ -19,18 +19,28 @@ export class EoscReadinessDashboard2022Component implements OnInit, AfterViewIni
 
   subscriptions = [];
   open: boolean = true;
-  isPoliciesActive: boolean = false;
+  activeSection: string = null;
   isPracticesActive: boolean = false;
   isInvestmentsActive: boolean = false;
   // showInvestments: boolean = false;
   userInfo: UserInfo = null;
-  activeLink: number = 0;
+  activeTab: string;
 
   constructor(private route: ActivatedRoute, private router: Router,
-              private userService: UserService, private authentication: AuthenticationService) {}
+              private userService: UserService, private authentication: AuthenticationService) {
+
+    this.router.events.subscribe((event:any) =>  {
+      if (event instanceof NavigationEnd) {
+        this.activeSection = this.route.firstChild.snapshot.url[0].path;
+        this.activeTab = this.route.firstChild.firstChild.snapshot.url[0].path
+        // console.log(this.route.firstChild.snapshot.url[0].path);
+      }
+    });
+
+  }
 
   ngAfterViewInit() {
-    if (this.isPoliciesActive)
+    if (this.activeSection)
       UIkit.nav(this.nav.nativeElement).toggle(0, false);
     if (this.isPracticesActive)
       UIkit.nav(this.nav.nativeElement).toggle(1, false);
@@ -39,44 +49,17 @@ export class EoscReadinessDashboard2022Component implements OnInit, AfterViewIni
   }
 
   ngOnInit(): void {
-    this.route.children[0].url.subscribe( url => {
-      this.isPoliciesActive = (url[0]['path'] === 'policies');
-      this.isPracticesActive = (url[0]['path'] === 'practices');
-      this.isInvestmentsActive = (url[0]['path'] === 'investments');
-    })
-
-    this.router.events.subscribe((url:any) =>  {
-      if (url.url) {
-        this.isPoliciesActive = (url.url.indexOf('policies') > -1);
-        this.isPracticesActive = (url.url.indexOf('practices') > -1);
-        this.isInvestmentsActive = (url.url.indexOf('investments') > -1);
-      }
+    this.route.firstChild.url.subscribe( url => {
+      this.activeSection = url[0]['path'];
     });
 
-    // this.route.queryParams.subscribe(
-    //   queryParams => {
-    //     if (queryParams['chart'])
-    //       this.activeLink = queryParams['chart'];
-    //     else
-    //       this.updateUrlPathParam(0);
-    //   }
-    // );
-
-    // if (this.authentication.authenticated) {
-    //   this.showInvestments = this.coordinatorOrManager('country');
-    // }
+    this.route.firstChild.firstChild.url.subscribe(
+      next => {
+        this.activeTab = next[0].path;
+      }
+    );
 
   }
-
-  // updateUrlPathParam(chartId: number) {
-  //   this.router.navigate(
-  //     [],
-  //     {
-  //       relativeTo: this.route,
-  //       queryParams: { chart: chartId },
-  //       queryParamsHandling: 'merge'
-  //     });
-  // }
 
   // coordinatorOrManager(name: string) {
   //   let userInfo: UserInfo = JSON.parse(sessionStorage.getItem('userInfo'));
