@@ -47,7 +47,7 @@
   --pill-alt-color-active: var(--light-color);
 
 
-  --primary-color: #004494;
+  --primary-color: #008792;
   /*--primary-color: #AD20E7;*/
   --link-color: #2D72D6;
   --link-hover-color: #3665ab;
@@ -56,4 +56,25 @@
   --button-secondary-color: #fff;
   --button-secondary-background-color: #3086ED;
   --button-secondary-hover-background-color: #0053ba;
+}
+
+
+.uk-tab > * > a {
+  padding: 9px 20px;
+  border-bottom: 2px solid transparent;
+  text-transform: uppercase;
+  transition: color .1s ease-in-out;
+  line-height: 20px;
+}
+
+.uk-tab > .uk-active > a {
+  //color: #222;
+  color: var(--eosc-observatory-primary-color);
+  font-weight: bold;
+  border-color: var(--eosc-observatory-primary-color);
+}
+
+.uk-subnav-pill > .uk-active > a {
+  background-color: #1e87f0;
+  color: #fff;
 }

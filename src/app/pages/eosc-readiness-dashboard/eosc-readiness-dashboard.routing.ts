@@ -7,7 +7,7 @@ import {PracticesComponent} from "./practices/practices.component";
 import {InvestmentsComponent} from "./investments/investments.component";
 import {EoscReadinessDashboard2022Component} from "./eosc-readiness-2022/eosc-readiness-dashboard2022.component";
 import {DataTypeComponent} from "./eosc-readiness-2022/dataComponent/dataType.component";
-import {NationalPolicyComponent} from "./eosc-readiness-2022/national-policies/national-policy.component";
+import {NationalPolicyComponent} from "./eosc-readiness-2022/policies/national-policy.component";
 import {Practices2022Component} from "./eosc-readiness-2022/practices/practices2022.component";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
