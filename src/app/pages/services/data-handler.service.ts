@@ -17,16 +17,18 @@ export class DataHandlerService {
     for (const series of rawData.datasets) {
 
       for (const rowResult of series.series.result) {
+        // console.log(rowResult);
 
         const countryTableData: CountryTableData = new CountryTableData();
         if (series.series.query.name === 'eosc.obs.question17') {
           countryTableData.hasAppointedMandatedOrganization = rowResult.row[1];
         }
-        if (series.series.query.name === 'eosc.obs.question3' || series.series.query.name === 'eosc.obs.question4'
-          || series.series.query.name === 'eosc.obs.question9' || series.series.query.name === 'eosc.obs.question10'
-          || series.series.query.name === 'eosc.obs.question14' || series.series.query.name === 'eosc.obs.question15'
-          || series.series.query.name === 'eosc.obs.question16' || series.series.query.name === 'eosc.obs.question18'
-          || series.series.query.name === 'eosc.obs.question19' || series.series.query.name === 'eosc.obs.question20') {
+        // if (series.series.query.name === 'eosc.obs.question3' || series.series.query.name === 'eosc.obs.question4'
+        //   || series.series.query.name === 'eosc.obs.question9' || series.series.query.name === 'eosc.obs.question10'
+        //   || series.series.query.name === 'eosc.obs.question14' || series.series.query.name === 'eosc.obs.question15'
+        //   || series.series.query.name === 'eosc.obs.question16' || series.series.query.name === 'eosc.obs.question18'
+        //   || series.series.query.name === 'eosc.obs.question19' || series.series.query.name === 'eosc.obs.question20') {
+        if (series.series.query.name !== 'eosc.obs.question17') {
           countryTableData.EOSCRelevantPoliciesInPlace = rowResult.row.slice(3);
         }
         if (series.series.query.name === 'eosc.obs.question20') {

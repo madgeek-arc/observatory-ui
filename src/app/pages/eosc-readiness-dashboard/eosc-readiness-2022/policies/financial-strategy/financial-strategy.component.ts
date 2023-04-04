@@ -5,10 +5,9 @@ import {StakeholdersService} from "../../../../../../survey-tool/app/services/st
 import {DataHandlerService} from "../../../../services/data-handler.service";
 import {CountryTableData} from "../../../../../../survey-tool/app/domain/country-table-data";
 import {EoscReadiness2022MapSubtitles} from "../../eosc-readiness2022-map-subtitles";
-import UIkit from "uikit";
 import {zip} from "rxjs/internal/observable/zip";
 import {CategorizedAreaData, Series} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
-import {mapSubtitles} from "../../../../../../survey-tool/app/domain/mapSubtitles";
+import UIkit from "uikit";
 
 @Component({
   selector: 'app-national-policy',
@@ -21,6 +20,7 @@ export class FinancialStrategyComponent implements OnInit {
   mapSubtitles: string[] = [];
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
   questionsDataArray: any[] = [];
+  tmpQuestionsDataArray: any[] = [];
 
   constructor(private router: Router, private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
@@ -28,13 +28,14 @@ export class FinancialStrategyComponent implements OnInit {
 
   ngOnInit() {
     this.stakeholdersService.getEOSCSBCountries().subscribe(
-      res => {}
+      res => {this.countriesArray = res;},
+      error => {console.error(error)}
     );
 
     this.route.params.subscribe(
       params => {
         // console.log('policies component params');
-        console.log(params);
+        // console.log(params);
         if (params['type'] === 'publications'){
           this.getPublicationsData();
           UIkit.switcher('#topSelector').show(0);
@@ -50,33 +51,49 @@ export class FinancialStrategyComponent implements OnInit {
       this.queryData.getQuestion7(),
       ).subscribe(
       res => {
-        this.tableAbsoluteDataArray[0] = this.dataHandlerService.convertRawDataToTableData(res[0]);
-        // this.createMapDataset(0, 2);
+        // this.tableAbsoluteDataArray[0] = this.dataHandlerService.convertRawDataToTableData(res[0]);
+        this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[0]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
+          this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
+        }
+        // console.log(this.tmpQuestionsDataArray);
+        this.createMapDataFromCategorization(0,0);
       }
     )
   }
 
-  createMapDataset(index: number, mapCount: number) {
+  createMapDataFromCategorization(index: number, mapCount: number) {
     this.mapSubtitles[mapCount] = this.mapSubtitlesArray[mapCount][index];
 
     this.questionsDataArray[mapCount] = new CategorizedAreaData();
-    this.questionsDataArray[mapCount].series[0] = new Series('Has Policy', false);
 
+    // console.log(this.tmpQuestionsDataArray[mapCount].series)
+    // this.questionsDataArray[mapCount].series[0] = new Series('Yes', false);
+    // this.questionsDataArray[mapCount].series[0].data = this.tmpQuestionsDataArray[mapCount].series[0].data;
+    // this.questionsDataArray[mapCount].series[1] = new Series('No', false);
+    // this.questionsDataArray[mapCount].series[1].data = this.tmpQuestionsDataArray[mapCount].series[1].data;
+
+
+    // this.questionsDataArray[mapCount].series[0] = new Series(this.mapSubtitles[mapCount], false);
+    for (let i = 0; i < this.tmpQuestionsDataArray[mapCount].series.length; i++) {
+      this.questionsDataArray[mapCount].series[i] = new Series(this.mapSubtitles[mapCount], false);
+      // if (this.tmpQuestionsDataArray[mapCount].series[i].name === this.mapSubtitles[mapCount]){
+      this.questionsDataArray[mapCount].series[i].data = this.tmpQuestionsDataArray[mapCount].series[i].data;
+      this.questionsDataArray[mapCount].series[i].showInLegend = true;
+        // break;
+      // }
+    }
     let countryCodeArray = [];
-    for (let i = 0; i < this.tableAbsoluteDataArray[mapCount].length; i++) {
-      if (this.tableAbsoluteDataArray[mapCount][i].EOSCRelevantPoliciesInPlace[index] === 'true') {
-        countryCodeArray.push(this.tableAbsoluteDataArray[mapCount][i].code);
+    for (let i = 0; i < this.questionsDataArray[mapCount].series.length; i++) {
+      for (const data of this.questionsDataArray[mapCount].series[i].data) {
+        countryCodeArray.push(data.code)
       }
     }
-    this.questionsDataArray[mapCount].series[0].data = countryCodeArray;
 
-    this.questionsDataArray[mapCount].series[1] = new Series('No Policy', false);
-    this.questionsDataArray[mapCount].series[1].data = this.countriesArray.filter( code => !countryCodeArray.includes(code));
-
-    for (let i = 0; i < this.questionsDataArray[mapCount].series.length; i++) {
-      this.questionsDataArray[mapCount].series[i].data = this.questionsDataArray[mapCount].series[i].data.map(code => ({ code }));
-    }
-
+    this.questionsDataArray[mapCount].series[this.questionsDataArray[mapCount].series.length] = new Series('Awaiting Data', false);
+    this.questionsDataArray[mapCount].series[this.questionsDataArray[mapCount].series.length-1].showInLegend = true;
+    this.questionsDataArray[mapCount].series[this.questionsDataArray[mapCount].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
+    this.questionsDataArray[mapCount].series[this.questionsDataArray[mapCount].series.length-1].data = this.questionsDataArray[mapCount].series[this.questionsDataArray[mapCount].series.length-1].data.map(code => ({ code }));
   }
 
 }

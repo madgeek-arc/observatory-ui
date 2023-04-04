@@ -13,6 +13,8 @@ import {NationalPolicyComponent} from "./eosc-readiness-2022/policies/national-p
 import {
   FinancialStrategyComponent
 } from "./eosc-readiness-2022/policies/financial-strategy/financial-strategy.component";
+import {RPOsComponent} from "./eosc-readiness-2022/policies/RPOs/RPOs.component";
+import {ArchiveGuardService} from "../services/archiveGuard.service";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
@@ -43,6 +45,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
     path: '2022',
     component: EoscReadinessDashboard2022Component,
+    canActivateChild: [ArchiveGuardService],
     children: [
       {
         path: '',
@@ -75,7 +78,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
           },
           {
             path: 'RPOs/:type',
-            component: NationalPolicyComponent,
+            component: RPOsComponent,
             children: [
               {
                 path: ':dataType',

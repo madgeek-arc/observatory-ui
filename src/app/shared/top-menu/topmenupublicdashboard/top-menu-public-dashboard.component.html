@@ -27,6 +27,11 @@
                   <span class="uk-text-small uk-margin-small-right">Archive</span>
                 </a>
               </li>
+              <li *ngIf="ready && userInfo && showArchive">
+                <a class="uk-icon uk-animation-fade" [routerLink]="['/eoscreadiness/2022']" aria-expanded="false">
+                  <span class="uk-text-small uk-margin-small-right">EOSC Readiness 2022</span>
+                </a>
+              </li>
               <li *ngIf="ready">
                 <a class="uk-icon uk-animation-fade" [routerLink]="['/eoscreadiness']" aria-expanded="false">
                   <span class="uk-text-small uk-margin-small-right">EOSC Readiness</span>

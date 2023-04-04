@@ -17,9 +17,8 @@ import {DataTypeComponent} from "./eosc-readiness-2022/dataComponent/dataType.co
 import {Practices2022Component} from "./eosc-readiness-2022/practices/practices2022.component";
 import {EoscReadiness2022DataService} from "../services/eosc-readiness2022-data.service";
 import {NationalPolicyComponent} from "./eosc-readiness-2022/policies/national-policy/national-policy.component";
-import {
-  FinancialStrategyComponent
-} from "./eosc-readiness-2022/policies/financial-strategy/financial-strategy.component";
+import {FinancialStrategyComponent} from "./eosc-readiness-2022/policies/financial-strategy/financial-strategy.component";
+import {RPOsComponent} from "./eosc-readiness-2022/policies/RPOs/RPOs.component";
 
 @NgModule({
   declarations: [
@@ -32,6 +31,7 @@ import {
     Practices2022Component,
     NationalPolicyComponent,
     FinancialStrategyComponent,
+    RPOsComponent,
     DataTypeComponent
   ],
   imports: [
