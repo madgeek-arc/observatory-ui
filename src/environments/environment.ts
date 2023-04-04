@@ -7,7 +7,7 @@ export const environment = {
   beta: false,
   API_LOGIN: 'http://localhost:8280/observatory/login',
   API_ENDPOINT: '/observatory',
-  WS_ENDPOINT: 'http://localhost:8280/observatory',
+  WS_ENDPOINT: 'http://localhost:8280/observatory/websocket',
   projectName: 'Observatory',
   // STATS_API_ENDPOINT: 'https://stats.madgik.di.uoa.gr/stats-api/',
   STATS_API_ENDPOINT: 'http://dl123.madgik.di.uoa.gr/stats/api/',
