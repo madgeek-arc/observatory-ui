@@ -12,10 +12,10 @@ import UIkit from "uikit";
 
 @Component({
   selector: 'app-national-policy',
-  templateUrl: 'national-policy.component.html'
+  templateUrl: 'national-monitoring.component.html'
 })
 
-export class NationalPolicyComponent implements OnInit {
+export class NationalMonitoringComponent implements OnInit {
 
   countriesArray: string[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];

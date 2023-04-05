@@ -6,8 +6,9 @@ import {DataHandlerService} from "../../../../services/data-handler.service";
 import {CountryTableData} from "../../../../../../survey-tool/app/domain/country-table-data";
 import {EoscReadiness2022MapSubtitles} from "../../eosc-readiness2022-map-subtitles";
 import {zip} from "rxjs/internal/observable/zip";
-import {CategorizedAreaData, Series} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
+import {isNumeric} from "rxjs/internal-compatibility";
 import UIkit from "uikit";
+import {RawData} from "../../../../../../survey-tool/app/domain/raw-data";
 
 @Component({
   selector: 'app-national-policy',
@@ -23,19 +24,17 @@ export class RPOsComponent implements OnInit {
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
   questionsDataArrayForBarChart: any[] = [];
+  sumsArray: string[] = [];
 
   constructor(private router: Router, private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
   }
 
   ngOnInit() {
-    this.stakeholdersService.getEOSCSBCountries().subscribe(
-      res => {this.countriesArray = res;},
-      error => {console.error(error)}
-    );
 
     this.route.params.subscribe(
       params => {
+        console.log(params);
         if (params['type'] === 'publications'){
           this.getPublicationsData();
           UIkit.switcher('#topSelector').show(0);
@@ -48,13 +47,29 @@ export class RPOsComponent implements OnInit {
 
   getPublicationsData() {
     zip(
+      this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion8(),
       ).subscribe(
       res => {
-        this.questionsDataArray[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[0]);
-        this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[0]);
+        this.countriesArray = res[0];
+        this.questionsDataArray[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.sumsArray[0] = this.calculateSum(res[1]);
       }
     )
   }
+
+  calculateSum(rawData: RawData): string {
+    let sum = 0.0;
+    for (const series of rawData.datasets) {
+      for (const rowResult of series.series.result) {
+        if (isNumeric(rowResult.row[1])) {
+          sum += +rowResult.row[1];
+        }
+      }
+    }
+    return (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
+  }
+
 
 }

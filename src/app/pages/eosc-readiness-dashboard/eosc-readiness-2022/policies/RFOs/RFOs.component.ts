@@ -4,18 +4,17 @@ import {EoscReadiness2022DataService} from "../../../../services/eosc-readiness2
 import {StakeholdersService} from "../../../../../../survey-tool/app/services/stakeholders.service";
 import {DataHandlerService} from "../../../../services/data-handler.service";
 import {CountryTableData} from "../../../../../../survey-tool/app/domain/country-table-data";
-import {EoscReadiness2022MapSubtitles} from "../../eosc-readiness2022-map-subtitles";
-import {ColorPallet} from "../../eosc-readiness2022-map-subtitles";
+import {ColorPallet, EoscReadiness2022MapSubtitles} from "../../eosc-readiness2022-map-subtitles";
 import {zip} from "rxjs/internal/observable/zip";
 import {CategorizedAreaData, Series} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
 import UIkit from "uikit";
 
 @Component({
   selector: 'app-national-policy',
-  templateUrl: 'financial-strategy.component.html'
+  templateUrl: 'RFOs.component.html'
 })
 
-export class FinancialStrategyComponent implements OnInit {
+export class RFOsComponent implements OnInit {
   countriesArray: string[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];
   mapSubtitles: string[] = [];
@@ -56,9 +55,9 @@ export class FinancialStrategyComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
-        this.createMapDataFromCategorization(0,1);
+        this.createMapDataFromCategorization(0,0);
       }
-    );
+    )
   }
 
   createMapDataFromCategorization(index: number, mapCount: number) {

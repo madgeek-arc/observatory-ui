@@ -1,8 +1,8 @@
 <div class="uk-grid">
   <div class="uk-width-1-1">
     <ul id="topSelector" uk-switcher="{connect:'#content', animation: 'fade'}" uk-tab>
-      <li><a href='' [routerLink]="['../publications']">publications</a></li>
-      <li><a href='' [routerLink]="['../data/openData']">data</a></li>
+      <li><a [routerLink]="['../publications']">publications</a></li>
+      <li><a [routerLink]="['../data/openData']">data</a></li>
       <li><a>software</a></li>
       <li><a>services</a></li>
       <li><a>infrastructures</a></li>
@@ -15,7 +15,7 @@
         <div class="uk-grid">
           <div class="uk-width-1-1" style="height: 700px">
             <app-highcharts-category-map [mapData]="questionsDataArray[0]" [subtitle]=""
-                                         [title]="'Financial strategy on open access'">
+                                         [title]="">
             </app-highcharts-category-map>
           </div>
         </div>

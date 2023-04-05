@@ -15,6 +15,15 @@ import {
 } from "./eosc-readiness-2022/policies/financial-strategy/financial-strategy.component";
 import {RPOsComponent} from "./eosc-readiness-2022/policies/RPOs/RPOs.component";
 import {ArchiveGuardService} from "../services/archiveGuard.service";
+import {RFOsComponent} from "./eosc-readiness-2022/policies/RFOs/RFOs.component";
+import {
+  NationalMonitoringComponent
+} from "./eosc-readiness-2022/practices/national-monitoring/national-monitoring.component";
+import {UseCasesComponent} from "./eosc-readiness-2022/practices/use-cases/use-cases.component";
+import {
+  FinancialInvestmentsComponent
+} from "./eosc-readiness-2022/practices/investments/financial-investments.component";
+import {OutputsComponent} from "./eosc-readiness-2022/practices/outputs/outputs.component";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
@@ -88,7 +97,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
           },
           {
             path: 'RFOs/:type',
-            component: NationalPolicyComponent,
+            component: RFOsComponent,
             children: [
               {
                 path: ':dataType',
@@ -103,8 +112,8 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
         component: Practices2022Component,
         children: [
           {
-            path: 'nationalMonitoring',
-            component: NationalPolicyComponent,
+            path: 'nationalMonitoring/:type',
+            component: NationalMonitoringComponent,
             children: [
               {
                 path: ':dataType',
@@ -113,8 +122,8 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
             ]
           },
           {
-            path: 'useCases',
-            component: NationalPolicyComponent,
+            path: 'useCases/:type',
+            component: UseCasesComponent,
             children: [
               {
                 path: ':dataType',
@@ -123,8 +132,8 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
             ]
           },
           {
-            path: 'financialInvestment',
-            component: NationalPolicyComponent,
+            path: 'financialInvestment/:type',
+            component: FinancialInvestmentsComponent,
             children: [
               {
                 path: ':dataType',
@@ -133,8 +142,8 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
             ]
           },
           {
-            path: 'published',
-            component: NationalPolicyComponent,
+            path: 'published/:type',
+            component: OutputsComponent,
             children: [
               {
                 path: ':dataType',

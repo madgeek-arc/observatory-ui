@@ -17,7 +17,7 @@
                 <div class="uk-width-auto">
                   <span class="material-icons">policy</span>
                 </div>
-                <span [class.uk-text-bolder]="activeSection" class="uk-width-expand uk-text-truncate uk-margin-small-left" title="EOSC policies and financial investments">EOSC Policies</span>
+                <span [class.uk-text-bolder]="activeSection === 'policies'" class="uk-width-expand uk-text-truncate uk-margin-small-left" title="EOSC policies and financial investments">EOSC Policies</span>
               </div>
             </a>
             <ul class="uk-nav-sub" uk-switcher>
@@ -37,26 +37,26 @@
           </li>
 
           <li [ngClass]="{'uk-active current_section': activeSection === 'practices'}" class="uk-parent">
-            <a [routerLink]="'practices/nationalMonitoring'">
+            <a [routerLink]="'practices/nationalMonitoring/publications'">
               <div class="uk-flex uk-flex-middle uk-flex-center">
                 <div class="uk-width-auto">
                   <span class="material-icons">assignment</span>
                 </div>
-                <span [class.uk-text-bolder]="isPracticesActive" class="uk-width-expand uk-text-truncate uk-margin-small-left">EOSC Practices</span>
+                <span [class.uk-text-bolder]="activeSection === 'practices'" class="uk-width-expand uk-text-truncate uk-margin-small-left">EOSC Practices</span>
               </div>
             </a>
             <ul class="uk-nav-sub" uk-switcher>
               <li [ngClass]="{'uk-active current_section': activeTab === 'nationalMonitoring'}" class="uk-width-1-1">
-                <a [routerLink]="'practices/nationalMonitoring'"><span class="uk-text-truncate">National Monitoring</span></a>
+                <a [routerLink]="'practices/nationalMonitoring/publications'"><span class="uk-text-truncate">National Monitoring</span></a>
               </li>
               <li [ngClass]="{'uk-active current_section': activeTab === 'useCases'}" class="uk-width-1-1">
-                <a [routerLink]="'practices/useCases'"><span class="uk-text-truncate">Use cases</span></a>
+                <a [routerLink]="'practices/useCases/publications'"><span class="uk-text-truncate">Use cases</span></a>
               </li>
               <li [ngClass]="{'uk-active current_section': activeTab === 'financialInvestment'}" class="uk-width-1-1">
-                <a [routerLink]="'practices/financialInvestment'"><span class="uk-text-truncate">Financial investment</span></a>
+                <a [routerLink]="'practices/financialInvestment/publications'"><span class="uk-text-truncate">Financial investment</span></a>
               </li>
               <li [ngClass]="{'uk-active current_section': activeTab === 'published'}" class="uk-width-1-1">
-                <a [routerLink]="'practices/published'"><span class="uk-text-truncate">Published</span></a>
+                <a [routerLink]="'practices/published/publications'"><span class="uk-text-truncate">Published</span></a>
               </li>
             </ul>
           </li>

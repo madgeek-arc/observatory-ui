@@ -12,10 +12,10 @@ import UIkit from "uikit";
 
 @Component({
   selector: 'app-national-policy',
-  templateUrl: 'national-policy.component.html'
+  templateUrl: 'use-cases.component.html'
 })
 
-export class NationalPolicyComponent implements OnInit {
+export class UseCasesComponent implements OnInit {
 
   countriesArray: string[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];
@@ -34,6 +34,7 @@ export class NationalPolicyComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         // console.log('policies component params');
+        console.log(params);
         if (params['type'] === 'publications') {
           UIkit.switcher('#topSelector').show(0);
           this.getPublicationsData();

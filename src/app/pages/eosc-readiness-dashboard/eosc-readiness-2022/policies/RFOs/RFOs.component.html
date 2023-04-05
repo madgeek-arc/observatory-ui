@@ -15,12 +15,13 @@
         <div class="uk-grid">
           <div class="uk-width-1-1" style="height: 700px">
             <app-highcharts-category-map [mapData]="questionsDataArray[0]" [subtitle]=""
-                                         [title]="'Financial strategy on open access'">
+                                         [title]="">
             </app-highcharts-category-map>
           </div>
         </div>
       </li>
       <li>
+        <!--            Content of data-->
         <ul class="uk-subnav uk-subnav-pill">
           <li><a [routerLink]="['./openData']">open data</a></li>
           <li><a [routerLink]="['./fairData']">fair data</a></li>

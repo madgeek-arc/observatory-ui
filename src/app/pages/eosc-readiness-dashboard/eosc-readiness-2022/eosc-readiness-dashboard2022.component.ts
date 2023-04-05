@@ -40,12 +40,16 @@ export class EoscReadinessDashboard2022Component implements OnInit, AfterViewIni
   }
 
   ngAfterViewInit() {
-    if (this.activeSection)
-      UIkit.nav(this.nav.nativeElement).toggle(0, false);
-    if (this.isPracticesActive)
-      UIkit.nav(this.nav.nativeElement).toggle(1, false);
-    if (this.isInvestmentsActive)
-      UIkit.nav(this.nav.nativeElement).toggle(2, false);
+    switch (this.activeSection) {
+      case 'policies':
+        UIkit.nav(this.nav.nativeElement).toggle(0, false);
+        break;
+      case 'practices':
+        UIkit.nav(this.nav.nativeElement).toggle(1, false);
+        break;
+      default:
+        UIkit.nav(this.nav.nativeElement).toggle(0, false);
+    }
   }
 
   ngOnInit(): void {
