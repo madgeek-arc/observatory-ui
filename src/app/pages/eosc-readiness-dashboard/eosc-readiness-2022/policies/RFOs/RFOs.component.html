@@ -1,11 +1,11 @@
 <div class="uk-grid">
   <div class="uk-width-1-1">
     <ul id="topSelector" uk-switcher="{connect:'#content', animation: 'fade'}" uk-tab>
-      <li><a href='' [routerLink]="['../publications']">publications</a></li>
-      <li><a href='' [routerLink]="['../data/openData']">data</a></li>
-      <li><a>software</a></li>
-      <li><a>services</a></li>
-      <li><a>infrastructures</a></li>
+      <li><a [routerLink]="['../publications']">publications</a></li>
+      <li><a [routerLink]="['../data/openData']">data</a></li>
+      <li><a [routerLink]="['../software']">software</a></li>
+      <li><a [routerLink]="['../services']">services</a></li>
+      <li><a [routerLink]="['../infrastructures/structure1']">infrastructures</a></li>
       <li><a>skills/training</a></li>
       <li><a>Assessment</a></li>
       <li><a>Engagement</a></li>
@@ -21,19 +21,25 @@
         </div>
       </li>
       <li>
-        <!--            Content of data-->
         <ul class="uk-subnav uk-subnav-pill">
           <li><a [routerLink]="['./openData']">open data</a></li>
           <li><a [routerLink]="['./fairData']">fair data</a></li>
+          <li><a [routerLink]="['./data3']">data</a></li>
         </ul>
-        <router-outlet></router-outlet>
+      </li>
+      <li>software</li>
+      <li>services</li>
+      <li>
+        <ul class="uk-subnav uk-subnav-pill">
+          <li><a [routerLink]="['./structure1']">structure 1</a></li>
+          <li><a [routerLink]="['./structure2']">structure 2</a></li>
+          <li><a [routerLink]="['./structure3']">structure 3</a></li>
+        </ul>
       </li>
       <li></li>
       <li></li>
       <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
     </ul>
+    <router-outlet></router-outlet>
   </div>
 </div>

@@ -15,7 +15,7 @@
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [title]="'Total Amount of National Contributions to EOSC in 2020'"
-                                       [subtitle]="">
+                                       [subtitle]="" [dataSeriesSuffix]="''">
             </app-highcharts-color-axis>
           </div>
 
@@ -29,7 +29,7 @@
             </div>
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
-              <app-bar-chart [mapData]="questionsDataArrayForBarChart[0]"
+              <app-bar-chart [mapData]="questionsDataArrayForBarChart[0]" [subTitle]="''"
                              [title]="'Total amount of national contributions to EOSC in 2020'">
               </app-bar-chart>
             </div>
@@ -40,15 +40,22 @@
         <ul class="uk-subnav uk-subnav-pill">
           <li><a [routerLink]="['./openData']">open data</a></li>
           <li><a [routerLink]="['./fairData']">fair data</a></li>
+          <li><a [routerLink]="['./data3']">data</a></li>
         </ul>
-        <router-outlet></router-outlet>
+      </li>
+      <li>software</li>
+      <li>services</li>
+      <li>
+        <ul class="uk-subnav uk-subnav-pill">
+          <li><a [routerLink]="['./structure1']">structure 1</a></li>
+          <li><a [routerLink]="['./structure2']">structure 2</a></li>
+          <li><a [routerLink]="['./structure3']">structure 3</a></li>
+        </ul>
       </li>
       <li></li>
       <li></li>
       <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
     </ul>
+    <router-outlet></router-outlet>
   </div>
 </div>

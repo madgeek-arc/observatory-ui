@@ -10,20 +10,22 @@ import {DataTypeComponent} from "./eosc-readiness-2022/dataComponent/dataType.co
 import {Policies2022Component} from "./eosc-readiness-2022/policies/policies2022.component";
 import {Practices2022Component} from "./eosc-readiness-2022/practices/practices2022.component";
 import {NationalPolicyComponent} from "./eosc-readiness-2022/policies/national-policy/national-policy.component";
-import {
-  FinancialStrategyComponent
-} from "./eosc-readiness-2022/policies/financial-strategy/financial-strategy.component";
+import {FinancialStrategyComponent} from "./eosc-readiness-2022/policies/financial-strategy/financial-strategy.component";
 import {RPOsComponent} from "./eosc-readiness-2022/policies/RPOs/RPOs.component";
 import {ArchiveGuardService} from "../services/archiveGuard.service";
 import {RFOsComponent} from "./eosc-readiness-2022/policies/RFOs/RFOs.component";
-import {
-  NationalMonitoringComponent
-} from "./eosc-readiness-2022/practices/national-monitoring/national-monitoring.component";
+import {NationalMonitoringComponent} from "./eosc-readiness-2022/practices/national-monitoring/national-monitoring.component";
 import {UseCasesComponent} from "./eosc-readiness-2022/practices/use-cases/use-cases.component";
-import {
-  FinancialInvestmentsComponent
-} from "./eosc-readiness-2022/practices/investments/financial-investments.component";
+import {FinancialInvestmentsComponent} from "./eosc-readiness-2022/practices/investments/financial-investments.component";
 import {OutputsComponent} from "./eosc-readiness-2022/practices/outputs/outputs.component";
+import {NationalPolicySubcategoriesComponent} from "./eosc-readiness-2022/policies/national-policy/subcategories/national-policy-subcategories.component";
+import {FinancialStrategySubcategoriesComponent} from "./eosc-readiness-2022/policies/financial-strategy/subcategories/financial-strategy-subcategories.component";
+import {
+  RFOsSubcategoriesComponent
+} from "./eosc-readiness-2022/policies/RFOs/subcategories/RFOs-subcategories.component";
+import {
+  RPOsSubcategoriesComponent
+} from "./eosc-readiness-2022/policies/RPOs/subcategories/RPOs-subcategories.component";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
@@ -71,7 +73,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
             children: [
               {
                 path: ':dataType',
-                component: DataTypeComponent,
+                component: NationalPolicySubcategoriesComponent,
               }
             ]
           },
@@ -81,7 +83,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
             children: [
               {
                 path: ':dataType',
-                component: DataTypeComponent,
+                component: FinancialStrategySubcategoriesComponent,
               }
             ]
           },
@@ -91,7 +93,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
             children: [
               {
                 path: ':dataType',
-                component: DataTypeComponent,
+                component: RPOsSubcategoriesComponent,
               }
             ]
           },
@@ -101,7 +103,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
             children: [
               {
                 path: ':dataType',
-                component: DataTypeComponent,
+                component: RFOsSubcategoriesComponent,
               }
             ]
           }

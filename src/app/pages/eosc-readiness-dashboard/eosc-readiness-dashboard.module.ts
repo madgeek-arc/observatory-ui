@@ -22,10 +22,16 @@ import {RPOsComponent} from "./eosc-readiness-2022/policies/RPOs/RPOs.component"
 import {RFOsComponent} from "./eosc-readiness-2022/policies/RFOs/RFOs.component";
 import {NationalMonitoringComponent} from "./eosc-readiness-2022/practices/national-monitoring/national-monitoring.component";
 import {UseCasesComponent} from "./eosc-readiness-2022/practices/use-cases/use-cases.component";
-import {
-  FinancialInvestmentsComponent
-} from "./eosc-readiness-2022/practices/investments/financial-investments.component";
+import {FinancialInvestmentsComponent} from "./eosc-readiness-2022/practices/investments/financial-investments.component";
 import {OutputsComponent} from "./eosc-readiness-2022/practices/outputs/outputs.component";
+import {NationalPolicySubcategoriesComponent} from "./eosc-readiness-2022/policies/national-policy/subcategories/national-policy-subcategories.component";
+import {FinancialStrategySubcategoriesComponent} from "./eosc-readiness-2022/policies/financial-strategy/subcategories/financial-strategy-subcategories.component";
+import {
+  RFOsSubcategoriesComponent
+} from "./eosc-readiness-2022/policies/RFOs/subcategories/RFOs-subcategories.component";
+import {
+  RPOsSubcategoriesComponent
+} from "./eosc-readiness-2022/policies/RPOs/subcategories/RPOs-subcategories.component";
 
 @NgModule({
   declarations: [
@@ -37,9 +43,13 @@ import {OutputsComponent} from "./eosc-readiness-2022/practices/outputs/outputs.
     Policies2022Component,
     Practices2022Component,
     NationalPolicyComponent,
+    NationalPolicySubcategoriesComponent,
     FinancialStrategyComponent,
+    FinancialStrategySubcategoriesComponent,
     RPOsComponent,
+    RPOsSubcategoriesComponent,
     RFOsComponent,
+    RFOsSubcategoriesComponent,
     NationalMonitoringComponent,
     UseCasesComponent,
     FinancialInvestmentsComponent,

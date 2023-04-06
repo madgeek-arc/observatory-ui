@@ -16,6 +16,7 @@ export class DataTypeComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(
       params => {
+        console.log(params);
         this.dataType = params['dataType'];
       }
     )
