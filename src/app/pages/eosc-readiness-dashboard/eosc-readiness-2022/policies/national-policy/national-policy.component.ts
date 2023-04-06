@@ -85,11 +85,13 @@ export class NationalPolicyComponent implements OnInit {
       }
     }
 
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[this.questionsDataArray[mapCount].series.length-1];
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[mapCount].series[this.questionsDataArray[mapCount].series.length-1].data.map(code => ({ code }));
+    if (countryCodeArray.length > 0) {
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[this.questionsDataArray[mapCount].series.length-1];
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[mapCount].series[this.questionsDataArray[mapCount].series.length-1].data.map(code => ({ code }));
+    }
 
     let mapPointArray1 = [];
     let mapPointArray2 = [];
