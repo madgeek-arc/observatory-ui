@@ -20,12 +20,20 @@ import {FinancialInvestmentsComponent} from "./eosc-readiness-2022/practices/inv
 import {OutputsComponent} from "./eosc-readiness-2022/practices/outputs/outputs.component";
 import {NationalPolicySubcategoriesComponent} from "./eosc-readiness-2022/policies/national-policy/subcategories/national-policy-subcategories.component";
 import {FinancialStrategySubcategoriesComponent} from "./eosc-readiness-2022/policies/financial-strategy/subcategories/financial-strategy-subcategories.component";
+import {RFOsSubcategoriesComponent} from "./eosc-readiness-2022/policies/RFOs/subcategories/RFOs-subcategories.component";
+import {RPOsSubcategoriesComponent} from "./eosc-readiness-2022/policies/RPOs/subcategories/RPOs-subcategories.component";
 import {
-  RFOsSubcategoriesComponent
-} from "./eosc-readiness-2022/policies/RFOs/subcategories/RFOs-subcategories.component";
+  FinancialInvestmentsSubcategoriesComponent
+} from "./eosc-readiness-2022/practices/investments/subcategories/financial-investments-subcategories.component";
 import {
-  RPOsSubcategoriesComponent
-} from "./eosc-readiness-2022/policies/RPOs/subcategories/RPOs-subcategories.component";
+  NationalMonitoringSubcategoriesComponent
+} from "./eosc-readiness-2022/practices/national-monitoring/subcategories/national-monitoring-subcategories.component";
+import {
+  UseCasesSubcategoriesComponent
+} from "./eosc-readiness-2022/practices/use-cases/subcategories/use-cases-subcategories.component";
+import {
+  OutputsSubcategoriesComponent
+} from "./eosc-readiness-2022/practices/outputs/subcategories/outputs-subcategories.component";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
@@ -119,7 +127,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
             children: [
               {
                 path: ':dataType',
-                component: DataTypeComponent,
+                component: NationalMonitoringSubcategoriesComponent,
               }
             ]
           },
@@ -129,7 +137,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
             children: [
               {
                 path: ':dataType',
-                component: DataTypeComponent,
+                component: UseCasesSubcategoriesComponent,
               }
             ]
           },
@@ -139,7 +147,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
             children: [
               {
                 path: ':dataType',
-                component: DataTypeComponent,
+                component: FinancialInvestmentsSubcategoriesComponent,
               }
             ]
           },
@@ -149,7 +157,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
             children: [
               {
                 path: ':dataType',
-                component: DataTypeComponent,
+                component: OutputsSubcategoriesComponent,
               }
             ]
           }
