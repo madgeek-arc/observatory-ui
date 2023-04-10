@@ -1,20 +1,24 @@
 <div [ngSwitch]="dataType">
-  <div *ngSwitchCase="'openData'">
-    {{dataType}}
+  <div *ngSwitchCase="'dataManagement'">
+    <div class="" style="height: 700px">
+      <app-highcharts-category-map [mapData]="questionsDataArray[0]" [subtitle]=""
+                                   [title]="''">
+      </app-highcharts-category-map>
+    </div>
   </div>
   <div *ngSwitchCase="'fairData'">
     {{dataType}}
   </div>
-  <div *ngSwitchCase="'data3'">
+  <div *ngSwitchCase="'openData'">
     {{dataType}}
   </div>
-  <div *ngSwitchCase="'structure1'">
+  <div *ngSwitchCase="'connectingRepositoriesToEOSC'">
     {{dataType}}
   </div>
-  <div *ngSwitchCase="'structure2'">
+  <div *ngSwitchCase="'dataStewardship'">
     {{dataType}}
   </div>
-  <div *ngSwitchCase="'structure3'">
+  <div *ngSwitchCase="'longTermDataPreservation'">
     {{dataType}}
   </div>
 </div>

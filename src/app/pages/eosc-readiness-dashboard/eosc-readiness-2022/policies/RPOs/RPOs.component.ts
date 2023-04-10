@@ -34,7 +34,6 @@ export class RPOsComponent implements OnInit {
 
     this.route.params.subscribe(
       params => {
-        console.log(params);
         if (params['type'] === 'publications'){
           this.getPublicationsData();
           UIkit.switcher('#topSelector').show(0);
