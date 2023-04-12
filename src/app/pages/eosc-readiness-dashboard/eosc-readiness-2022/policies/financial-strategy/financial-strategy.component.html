@@ -8,14 +8,14 @@
       <li><a [routerLink]="['../infrastructures/connectingRepositoriesToEOSC']">Infrastructures</a></li>
       <li><a [routerLink]="['../skills_training']">Skills/Training</a></li>
       <li><a [routerLink]="['../assessment']">Assessment</a></li>
-      <li><a  [routerLink]="['../Engagement']">Engagement</a></li>
+      <li><a  [routerLink]="['../engagement']">Engagement</a></li>
     </ul>
     <ul id="content" class="uk-switcher uk-margin-medium-top">
       <li>
         <div class="uk-grid">
           <div class="uk-width-1-1" style="height: 700px">
             <app-highcharts-category-map [mapData]="questionsDataArray[0]" [subtitle]=""
-                                         [title]="'Financial strategy on open access'">
+                                         [title]="'Financial strategy on open access to publications'">
             </app-highcharts-category-map>
           </div>
         </div>
@@ -27,8 +27,24 @@
           <li><a [routerLink]="['./openData']">Open data</a></li>
         </ul>
       </li>
-      <li>software</li>
-      <li>services</li>
+      <li>
+        <div class="uk-grid">
+          <div class="uk-width-1-1" style="height: 700px">
+            <app-highcharts-category-map [mapData]="questionsDataArray[1]" [subtitle]=""
+                                         [title]="'Financial strategy on open source software'">
+            </app-highcharts-category-map>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="uk-grid">
+          <div class="uk-width-1-1" style="height: 700px">
+            <app-highcharts-category-map [mapData]="questionsDataArray[2]" [subtitle]=""
+                                         [title]="'Financial strategy on offering services through EOSC'">
+            </app-highcharts-category-map>
+          </div>
+        </div>
+      </li>
       <li>
         <ul class="uk-subnav uk-subnav-pill" uk-switcher>
           <li><a [routerLink]="['./connectingRepositoriesToEOSC']">Connecting repositories to EOSC</a></li>
@@ -36,9 +52,33 @@
           <li><a [routerLink]="['./longTermDataPreservation']">Long-term data preservation</a></li>
         </ul>
       </li>
-      <li>skills/training</li>
-      <li>Assessment</li>
-      <li>Engagement</li>
+      <li>
+        <div class="uk-grid">
+          <div class="uk-width-1-1" style="height: 700px">
+            <app-highcharts-category-map [mapData]="questionsDataArray[3]" [subtitle]=""
+                                         [title]="'Financial strategy on skills/training for Open Science'">
+            </app-highcharts-category-map>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="uk-grid">
+          <div class="uk-width-1-1" style="height: 700px">
+            <app-highcharts-category-map [mapData]="questionsDataArray[4]" [subtitle]=""
+                                         [title]="'Financial strategy on incentives/rewards for Open Science'">
+            </app-highcharts-category-map>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="uk-grid">
+          <div class="uk-width-1-1" style="height: 700px">
+            <app-highcharts-category-map [mapData]="questionsDataArray[5]" [subtitle]=""
+                                         [title]="'Financial strategy on citizen science'">
+            </app-highcharts-category-map>
+          </div>
+        </div>
+      </li>
     </ul>
     <router-outlet></router-outlet>
   </div>

@@ -1,20 +1,44 @@
 <div [ngSwitch]="dataType">
   <div *ngSwitchCase="'dataManagement'">
-    {{dataType}}
+    <div class="uk-margin-medium-top" style="height: 700px">
+      <app-highcharts-category-map [mapData]="questionsDataArray[0]" [subtitle]=""
+                                   [title]="'Financial strategy on data management'">
+      </app-highcharts-category-map>
+    </div>
   </div>
   <div *ngSwitchCase="'fairData'">
-    {{dataType}}
+    <div class="uk-margin-medium-top" style="height: 700px">
+      <app-highcharts-category-map [mapData]="questionsDataArray[1]" [subtitle]=""
+                                   [title]="'Financial strategy on FAIR data'">
+      </app-highcharts-category-map>
+    </div>
   </div>
   <div *ngSwitchCase="'openData'">
-    {{dataType}}
+    <div class="uk-margin-medium-top" style="height: 700px">
+      <app-highcharts-category-map [mapData]="questionsDataArray[2]" [subtitle]=""
+                                   [title]="'Financial strategy on open data'">
+      </app-highcharts-category-map>
+    </div>
   </div>
   <div *ngSwitchCase="'connectingRepositoriesToEOSC'">
-    {{dataType}}
+    <div class="uk-margin-medium-top" style="height: 700px">
+      <app-highcharts-category-map [mapData]="questionsDataArray[3]" [subtitle]=""
+                                   [title]="'Financial strategy on connecting repositories to EOSC'">
+      </app-highcharts-category-map>
+    </div>
   </div>
   <div *ngSwitchCase="'dataStewardship'">
-    {{dataType}}
+    <div class="uk-margin-medium-top" style="height: 700px">
+      <app-highcharts-category-map [mapData]="questionsDataArray[4]" [subtitle]=""
+                                   [title]="'Financial strategy on data stewardship'">
+      </app-highcharts-category-map>
+    </div>
   </div>
   <div *ngSwitchCase="'longTermDataPreservation'">
-    {{dataType}}
+    <div class="uk-margin-medium-top" style="height: 700px">
+      <app-highcharts-category-map [mapData]="questionsDataArray[5]" [subtitle]=""
+                                   [title]="'Financial strategy on long-term data preservation'">
+      </app-highcharts-category-map>
+    </div>
   </div>
 </div>
