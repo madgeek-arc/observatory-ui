@@ -142,7 +142,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
             ]
           },
           {
-            path: 'financialInvestment/:type',
+            path: 'investments/:type',
             component: FinancialInvestmentsComponent,
             children: [
               {
@@ -152,7 +152,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
             ]
           },
           {
-            path: 'published/:type',
+            path: 'outputs/:type',
             component: OutputsComponent,
             children: [
               {

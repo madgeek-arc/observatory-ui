@@ -1,12 +1,12 @@
 <div class="uk-grid">
   <div class="uk-width-1-1">
     <ul id="topSelector" uk-switcher="{connect:'#content', animation: 'fade'}" uk-tab>
-      <li><a [routerLink]="['../publications']">publications</a></li>
-      <li><a [routerLink]="['../data/dataManagement']">data</a></li>
-      <li><a [routerLink]="['../software']">software</a></li>
-      <li><a [routerLink]="['../services']">services</a></li>
-      <li><a [routerLink]="['../infrastructures/connectingRepositoriesToEOSC']">infrastructures</a></li>
-      <li><a [routerLink]="['../skills_training']">skills/training</a></li>
+      <li><a [routerLink]="['../publications']">Publications</a></li>
+      <li><a [routerLink]="['../data/dataManagement']">Data</a></li>
+      <li><a [routerLink]="['../software']">Software</a></li>
+      <li><a [routerLink]="['../services']">Services</a></li>
+      <li><a [routerLink]="['../infrastructures/connectingRepositoriesToEOSC']">Infrastructures</a></li>
+      <li><a [routerLink]="['../skills_training']">Skills/Training</a></li>
       <li><a [routerLink]="['../assessment']">Assessment</a></li>
       <li><a  [routerLink]="['../Engagement']">Engagement</a></li>
     </ul>
@@ -37,19 +37,19 @@
         </div>
       </li>
       <li>
-        <ul class="uk-subnav uk-subnav-pill">
-          <li><a [routerLink]="['./dataManagement']">data management</a></li>
-          <li><a [routerLink]="['./fairData']">fair data</a></li>
-          <li><a [routerLink]="['./openData']">open data</a></li>
+        <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+          <li><a [routerLink]="['./dataManagement']">Data management</a></li>
+          <li><a [routerLink]="['./fairData']">FAIR data</a></li>
+          <li><a [routerLink]="['./openData']">Open data</a></li>
         </ul>
       </li>
       <li>software</li>
       <li>services</li>
       <li>
-        <ul class="uk-subnav uk-subnav-pill">
+        <ul class="uk-subnav uk-subnav-pill" uk-switcher>
           <li><a [routerLink]="['./connectingRepositoriesToEOSC']">Connecting repositories to EOSC</a></li>
-          <li><a [routerLink]="['./dataStewardship']">data stewardship</a></li>
-          <li><a [routerLink]="['./longTermDataPreservation']">long-term data preservation</a></li>
+          <li><a [routerLink]="['./dataStewardship']">Data stewardship</a></li>
+          <li><a [routerLink]="['./longTermDataPreservation']">Long-term data preservation</a></li>
         </ul>
       </li>
       <li>skills/training</li>

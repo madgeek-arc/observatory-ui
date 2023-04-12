@@ -41,6 +41,10 @@ export class NationalPolicyComponent implements OnInit {
         if (params['type'] === 'data') {
           UIkit.switcher('#topSelector').show(1);
         }
+        if (params['type'] === 'software') {
+          UIkit.switcher('#topSelector').show(2);
+          this.getSoftwareData();
+        }
       }
     );
   }
@@ -60,6 +64,28 @@ export class NationalPolicyComponent implements OnInit {
         }
         this.mapPointData = this.dataHandlerService.convertRawDataToTableData(res[2]);
         this.createMapDataFromCategorizationWithDots(0,0);
+
+      },
+      error => {console.error(error)},
+      () => {}
+    );
+  }
+
+  getSoftwareData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion22(),
+      this.queryData.getQuestion22_1(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tableAbsoluteDataArray[1] = this.dataHandlerService.convertRawDataToTableData(res[1]);
+        this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
+          this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
+        }
+        this.mapPointData = this.dataHandlerService.convertRawDataToTableData(res[2]);
+        this.createMapDataFromCategorizationWithDots(1,0);
 
       },
       error => {console.error(error)},
@@ -88,7 +114,7 @@ export class NationalPolicyComponent implements OnInit {
     if (countryCodeArray.length > 0) {
       this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
       this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
-      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[this.questionsDataArray[mapCount].series.length-1];
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[2];
       this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
       this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[mapCount].series[this.questionsDataArray[mapCount].series.length-1].data.map(code => ({ code }));
     }

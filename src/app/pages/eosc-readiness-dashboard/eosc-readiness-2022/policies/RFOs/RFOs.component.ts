@@ -8,6 +8,8 @@ import {ColorPallet, EoscReadiness2022MapSubtitles} from "../../eosc-readiness20
 import {zip} from "rxjs/internal/observable/zip";
 import {CategorizedAreaData, Series} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
 import UIkit from "uikit";
+import {RawData} from "../../../../../../survey-tool/app/domain/raw-data";
+import {isNumeric} from "rxjs/internal-compatibility";
 
 @Component({
   selector: 'app-national-policy',
@@ -21,6 +23,9 @@ export class RFOsComponent implements OnInit {
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
+
+  questionsDataArrayForBarChart: any[] = [];
+  sumsArray: string[] = [];
 
   constructor(private router: Router, private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
@@ -47,41 +52,27 @@ export class RFOsComponent implements OnInit {
   getPublicationsData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion7(),
-      ).subscribe(
+      this.queryData.getQuestion9(),
+    ).subscribe(
       res => {
         this.countriesArray = res[0];
-        this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
-          this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
-        }
-        this.createMapDataFromCategorization(0,0);
+        this.questionsDataArray[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.sumsArray[0] = this.calculateSum(res[1]);
       }
     )
   }
 
-  createMapDataFromCategorization(index: number, mapCount: number) {
-    // this.mapSubtitles[mapCount] = this.mapSubtitlesArray[mapCount][index];
-
-    this.questionsDataArray[index] = new CategorizedAreaData();
-    for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
-      this.questionsDataArray[index].series[i] = new Series(this.mapSubtitlesArray[mapCount][i], false);
-      this.questionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
-      this.questionsDataArray[index].series[i].showInLegend = true;
-      this.questionsDataArray[index].series[i].color = ColorPallet[i];
-    }
-    let countryCodeArray = [];
-    for (let i = 0; i < this.questionsDataArray[index].series.length; i++) {
-      for (const data of this.questionsDataArray[index].series[i].data) {
-        countryCodeArray.push(data.code)
+  calculateSum(rawData: RawData): string {
+    let sum = 0.0;
+    for (const series of rawData.datasets) {
+      for (const rowResult of series.series.result) {
+        if (isNumeric(rowResult.row[1])) {
+          sum += +rowResult.row[1];
+        }
       }
     }
-
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[this.questionsDataArray[index].series.length-1];
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data.map(code => ({ code }));
+    return (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
   }
 
 }

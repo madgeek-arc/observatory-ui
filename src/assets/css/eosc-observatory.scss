@@ -3,6 +3,7 @@
   //--eosc-dark-color: #004494;
 
   --eosc-observatory-primary-color: #008792;
+  --eosc-observatory-primary-color-light: #00afbe;
   --eosc-observatory-secondary-color: #EB5C80;
 
   --sidebar-width: 320px;
@@ -62,7 +63,7 @@
 .uk-tab > * > a {
   padding: 9px 20px;
   border-bottom: 2px solid transparent;
-  text-transform: uppercase;
+  //text-transform: uppercase;
   transition: color .1s ease-in-out;
   line-height: 20px;
 }
@@ -74,7 +75,28 @@
   border-color: var(--eosc-observatory-primary-color);
 }
 
+.uk-subnav-pill > * > :first-child {
+  padding: 10px 20px;
+  background: transparent;
+  color: var(--eosc-observatory-primary-color);
+  border: 1px solid #EAEAEA;
+  border-radius: 60px;
+  background-origin: border-box;
+}
+
 .uk-subnav-pill > .uk-active > a {
-  background-color: #1e87f0;
+  background-color: var(--eosc-observatory-primary-color);
+  color: #fff;
+  border-color: transparent;
+  background-image: linear-gradient(51deg,var(--eosc-observatory-primary-color-light) 0%,var(--eosc-observatory-primary-color) 100%);
+}
+
+.uk-subnav-pill > * > a:hover {
+  background-color: transparent;
+  color: var(--eosc-observatory-primary-color-light);
+  border-color: var(--eosc-observatory-primary-color-light);
+}
+
+.uk-subnav-pill > .uk-active > a:hover {
   color: #fff;
 }
