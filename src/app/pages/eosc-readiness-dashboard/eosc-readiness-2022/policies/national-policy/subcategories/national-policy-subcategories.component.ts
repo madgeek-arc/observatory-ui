@@ -39,14 +39,19 @@ export class NationalPolicySubcategoriesComponent implements OnInit{
             this.getDataManagementData();
             break;
           case 'fairData':
+            this.getFairDataData();
             break;
           case 'openData':
+            this.getOpenDataData();
             break;
           case 'connectingRepositoriesToEOSC':
+            this.getConnectingReposToEOSCData();
             break;
           case 'dataStewardship':
+            this.getDataStewardshipData();
             break;
           case 'longTermDataPreservation':
+            this.getLongTermDataPreservationData();
             break;
         }
       }
@@ -68,6 +73,116 @@ export class NationalPolicySubcategoriesComponent implements OnInit{
         }
         this.mapPointData = this.dataHandlerService.convertRawDataToTableData(res[2]);
         this.createMapDataFromCategorizationWithDots(0,0);
+
+      },
+      error => {console.error(error)},
+      () => {}
+    );
+  }
+
+  getFairDataData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion14(),
+      this.queryData.getQuestion14_1(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tableAbsoluteDataArray[1] = this.dataHandlerService.convertRawDataToTableData(res[1]);
+        this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
+          this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
+        }
+        this.mapPointData = this.dataHandlerService.convertRawDataToTableData(res[2]);
+        this.createMapDataFromCategorizationWithDots(1,0);
+
+      },
+      error => {console.error(error)},
+      () => {}
+    );
+  }
+
+  getOpenDataData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion18(),
+      this.queryData.getQuestion18_1(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tableAbsoluteDataArray[2] = this.dataHandlerService.convertRawDataToTableData(res[1]);
+        this.tmpQuestionsDataArray[2] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[2].series.length; i++) {
+          this.tmpQuestionsDataArray[2].series[i].data = this.tmpQuestionsDataArray[2].series[i].data.map(code => ({ code }));
+        }
+        this.mapPointData = this.dataHandlerService.convertRawDataToTableData(res[2]);
+        this.createMapDataFromCategorizationWithDots(2,0);
+
+      },
+      error => {console.error(error)},
+      () => {}
+    );
+  }
+
+  getConnectingReposToEOSCData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion30(),
+      this.queryData.getQuestion30_1(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tableAbsoluteDataArray[3] = this.dataHandlerService.convertRawDataToTableData(res[1]);
+        this.tmpQuestionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
+          this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
+        }
+        this.mapPointData = this.dataHandlerService.convertRawDataToTableData(res[2]);
+        this.createMapDataFromCategorizationWithDots(3,0);
+
+      },
+      error => {console.error(error)},
+      () => {}
+    );
+  }
+
+  getDataStewardshipData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion34(),
+      this.queryData.getQuestion34_1(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tableAbsoluteDataArray[4] = this.dataHandlerService.convertRawDataToTableData(res[1]);
+        this.tmpQuestionsDataArray[4] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[4].series.length; i++) {
+          this.tmpQuestionsDataArray[4].series[i].data = this.tmpQuestionsDataArray[4].series[i].data.map(code => ({ code }));
+        }
+        this.mapPointData = this.dataHandlerService.convertRawDataToTableData(res[2]);
+        this.createMapDataFromCategorizationWithDots(4,0);
+
+      },
+      error => {console.error(error)},
+      () => {}
+    );
+  }
+
+  getLongTermDataPreservationData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion38(),
+      this.queryData.getQuestion38_1(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tableAbsoluteDataArray[5] = this.dataHandlerService.convertRawDataToTableData(res[1]);
+        this.tmpQuestionsDataArray[5] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[5].series.length; i++) {
+          this.tmpQuestionsDataArray[5].series[i].data = this.tmpQuestionsDataArray[5].series[i].data.map(code => ({ code }));
+        }
+        this.mapPointData = this.dataHandlerService.convertRawDataToTableData(res[2]);
+        this.createMapDataFromCategorizationWithDots(5,0);
 
       },
       error => {console.error(error)},
@@ -98,7 +213,7 @@ export class NationalPolicySubcategoriesComponent implements OnInit{
       this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
       this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[2];
       this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
-      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[mapCount].series[this.questionsDataArray[mapCount].series.length-1].data.map(code => ({ code }));
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data.map(code => ({ code }));
     }
 
     let mapPointArray1 = [];

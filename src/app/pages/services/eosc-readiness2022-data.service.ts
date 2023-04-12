@@ -21,6 +21,8 @@ export class EoscReadiness2022DataService {
   constructor(private httpClient: HttpClient) {
   }
 
+  // ======= NATIONAL POLICY ========
+  // Publications
   public getQuestion6(): Observable<RawData> {
     const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question6","profile":"${this.profileName}"}}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
@@ -31,6 +33,38 @@ export class EoscReadiness2022DataService {
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
+  // Data
+  public getQuestion10(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question10","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion10_1(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question10.1","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion14(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question14","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion14_1(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question14.1","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion18(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question18","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion18_1(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question18.1","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Software
   public getQuestion22(): Observable<RawData> {
     const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question22","profile":"${this.profileName}"}}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
@@ -41,30 +75,304 @@ export class EoscReadiness2022DataService {
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
+  // Services
+  public getQuestion26(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question26","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion26_1(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question26.1","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Infrastructure
+  public getQuestion30(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question30","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion30_1(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question30.1","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion34(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question34","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion34_1(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question34.1","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion38(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question38","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion38_1(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question38.1","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Skills/Training
+  public getQuestion42(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question42","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion42_1(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question42.1","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Assessment
+  public getQuestion46(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question46","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion46_1(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question46.1","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Engagement
+  public getQuestion50(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question50","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion50_1(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question50.1","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+
+
+
+  // ======= FINANCIAL STRATEGY =======
+  // Publications
   public getQuestion7(): Observable<RawData> {
     const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question7","profile":"${this.profileName}"}}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
+  // Data
+  public getQuestion11(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question11","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion15(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question15","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion19(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question19","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Software
+  public getQuestion23(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question23","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Services
+  public getQuestion27(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question27","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Infrastructure
+  public getQuestion31(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question31","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion35(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question35","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion39(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question39","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Skills/Training
+  public getQuestion43(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question43","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Assessment
+  public getQuestion47(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question47","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Engagement
+  public getQuestion51(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question51","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+
+
+
+  // ======= RPOs =======
+  // Publications
   public getQuestion8(): Observable<RawData> {
     const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question8","profile":"${this.profileName}"}}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
+  // Data
+  public getQuestion12(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question12","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion16(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question16","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion20(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question20","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Software
+  public getQuestion24(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question24","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Services
+  public getQuestion28(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question28","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Infrastructure
+  public getQuestion32(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question32","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion36(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question36","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion40(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question40","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Skills/Training
+  public getQuestion44(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question44","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Assessment
+  public getQuestion48(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question48","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Engagement
+  public getQuestion52(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question52","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+
+
+
+
+  // ======= RFOs =======
+  // Publications
   public getQuestion9(): Observable<RawData> {
     const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question9","profile":"${this.profileName}"}}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
-  public getQuestion10(): Observable<RawData> {
-    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question10","profile":"${this.profileName}"}}],"verbose":true}`
+  // Data
+  public getQuestion13(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question13","profile":"${this.profileName}"}}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
-  public getQuestion10_1(): Observable<RawData> {
-    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question10.1","profile":"${this.profileName}"}}],"verbose":true}`
+  public getQuestion17(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question17","profile":"${this.profileName}"}}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
+
+  public getQuestion21(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question21","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Software
+  public getQuestion25(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question25","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Services
+  public getQuestion29(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question29","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Infrastructure
+  public getQuestion33(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question33","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion37(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question37","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  public getQuestion41(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question41","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Skills/Training
+  public getQuestion45(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question45","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Assessment
+  public getQuestion49(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question49","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // Engagement
+  public getQuestion53(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question53","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+
+
+
+
+
+
 
   public getQuestion54(): Observable<RawData> {
     const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question54","profile":"${this.profileName}"}}],"verbose":true}`
@@ -85,5 +393,15 @@ export class EoscReadiness2022DataService {
     const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question58","profile":"${this.profileName}"}}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
+
+
+  // Publications
+  // Data
+  // Software
+  // Services
+  // Infrastructure
+  // Skills/Training
+  // Assessment
+  // Engagement
 
 }
