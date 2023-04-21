@@ -42,6 +42,29 @@ export class UseCasesComponent implements OnInit {
         if (params['type'] === 'data') {
           UIkit.switcher('#topSelector').show(1);
         }
+        if (params['type'] === 'software') {
+          UIkit.switcher('#topSelector').show(2);
+          this.getSoftwareData();
+        }
+        if (params['type'] === 'services') {
+          UIkit.switcher('#topSelector').show(3);
+          this.getServicesData();
+        }
+        if (params['type'] === 'infrastructures') {
+          UIkit.switcher('#topSelector').show(4);
+        }
+        if (params['type'] === 'skills_training') {
+          UIkit.switcher('#topSelector').show(5);
+          this.getSkillsTrainingData();
+        }
+        if (params['type'] === 'assessment') {
+          UIkit.switcher('#topSelector').show(6);
+          this.getAssessmentData();
+        }
+        if (params['type'] === 'engagement') {
+          UIkit.switcher('#topSelector').show(7);
+          this.getEngagementData();
+        }
       }
     );
   }
@@ -58,6 +81,86 @@ export class UseCasesComponent implements OnInit {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
         this.createMapDataFromCategorization(0,3);
+      }
+    );
+  }
+
+  getSoftwareData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion71(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
+          this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
+        }
+        this.createMapDataFromCategorization(1,3);
+      }
+    );
+  }
+
+  getServicesData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion75(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tmpQuestionsDataArray[2] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[2].series.length; i++) {
+          this.tmpQuestionsDataArray[2].series[i].data = this.tmpQuestionsDataArray[2].series[i].data.map(code => ({ code }));
+        }
+        this.createMapDataFromCategorization(2,3);
+      }
+    );
+  }
+
+  getSkillsTrainingData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion91(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tmpQuestionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
+          this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
+        }
+        this.createMapDataFromCategorization(3,3);
+      }
+    );
+  }
+
+  getAssessmentData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion95(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tmpQuestionsDataArray[4] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[4].series.length; i++) {
+          this.tmpQuestionsDataArray[4].series[i].data = this.tmpQuestionsDataArray[4].series[i].data.map(code => ({ code }));
+        }
+        this.createMapDataFromCategorization(4,3);
+      }
+    );
+  }
+
+  getEngagementData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion99(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tmpQuestionsDataArray[5] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[5].series.length; i++) {
+          this.tmpQuestionsDataArray[5].series[i].data = this.tmpQuestionsDataArray[5].series[i].data.map(code => ({ code }));
+        }
+        this.createMapDataFromCategorization(5,3);
       }
     );
   }
