@@ -39,6 +39,29 @@ export class NationalMonitoringComponent implements OnInit {
         if (params['type'] === 'data') {
           UIkit.switcher('#topSelector').show(1);
         }
+        if (params['type'] === 'software') {
+          UIkit.switcher('#topSelector').show(2);
+          this.getSoftwareData();
+        }
+        if (params['type'] === 'services') {
+          UIkit.switcher('#topSelector').show(3);
+          this.getServicesData();
+        }
+        if (params['type'] === 'infrastructures') {
+          UIkit.switcher('#topSelector').show(4);
+        }
+        if (params['type'] === 'skills_training') {
+          UIkit.switcher('#topSelector').show(5);
+          this.getSkillsTrainingData();
+        }
+        if (params['type'] === 'assessment') {
+          UIkit.switcher('#topSelector').show(6);
+          this.getAssessmentData();
+        }
+        if (params['type'] === 'engagement') {
+          UIkit.switcher('#topSelector').show(7);
+          this.getEngagementData();
+        }
       }
     );
   }
@@ -55,6 +78,86 @@ export class NationalMonitoringComponent implements OnInit {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
         this.createMapDataFromCategorization(0,2);
+      }
+    );
+  }
+
+  getSoftwareData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion70(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
+          this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
+        }
+        this.createMapDataFromCategorization(1,2);
+      }
+    );
+  }
+
+  getServicesData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion74(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tmpQuestionsDataArray[2] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[2].series.length; i++) {
+          this.tmpQuestionsDataArray[2].series[i].data = this.tmpQuestionsDataArray[2].series[i].data.map(code => ({ code }));
+        }
+        this.createMapDataFromCategorization(2,2);
+      }
+    );
+  }
+
+  getSkillsTrainingData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion90(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tmpQuestionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
+          this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
+        }
+        this.createMapDataFromCategorization(3,2);
+      }
+    );
+  }
+
+  getAssessmentData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion94(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tmpQuestionsDataArray[4] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[4].series.length; i++) {
+          this.tmpQuestionsDataArray[4].series[i].data = this.tmpQuestionsDataArray[4].series[i].data.map(code => ({ code }));
+        }
+        this.createMapDataFromCategorization(4,2);
+      }
+    );
+  }
+
+  getEngagementData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion98(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tmpQuestionsDataArray[5] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[5].series.length; i++) {
+          this.tmpQuestionsDataArray[5].series[i].data = this.tmpQuestionsDataArray[5].series[i].data.map(code => ({ code }));
+        }
+        this.createMapDataFromCategorization(5,2);
       }
     );
   }
@@ -78,7 +181,7 @@ export class NationalMonitoringComponent implements OnInit {
 
     this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
     this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[this.questionsDataArray[index].series.length-1];
+    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[2];
     this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
     this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data.map(code => ({ code }));
   }
