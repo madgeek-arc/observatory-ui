@@ -6,7 +6,6 @@ import {PoliciesComponent} from "./eosc-readiness-2021/policies/policies.compone
 import {PracticesComponent} from "./eosc-readiness-2021/practices/practices.component";
 import {InvestmentsComponent} from "./eosc-readiness-2021/investments/investments.component";
 import {EoscReadinessDashboard2022Component} from "./eosc-readiness-2022/eosc-readiness-dashboard2022.component";
-import {DataTypeComponent} from "./eosc-readiness-2022/dataComponent/dataType.component";
 import {Policies2022Component} from "./eosc-readiness-2022/policies/policies2022.component";
 import {Practices2022Component} from "./eosc-readiness-2022/practices/practices2022.component";
 import {NationalPolicyComponent} from "./eosc-readiness-2022/policies/national-policy/national-policy.component";

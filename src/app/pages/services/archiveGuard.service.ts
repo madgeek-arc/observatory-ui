@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivateChild, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
 import {Observable} from "rxjs";
 import {UserService} from "../../../survey-tool/app/services/user.service";
+import {Stakeholder} from "../../../survey-tool/app/domain/userInfo";
 
 @Injectable()
 export class ArchiveGuardService implements CanActivateChild {
@@ -14,7 +15,19 @@ export class ArchiveGuardService implements CanActivateChild {
       return this.fail();
     }
     let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-    return userInfo.coordinators.filter(c => c.type === 'country').length > 0;
+    if (userInfo.coordinators.filter(c => c.type === 'country').length > 0) {
+      return true;
+    }
+    if (userInfo.stakeholders.filter(c => c.type === 'country').length > 0) {
+      let stakeHolders: Stakeholder[] = userInfo.stakeholders.filter(c => c.type === 'country');
+      for (const stakeHolder of stakeHolders) {
+        if (stakeHolder.managers.indexOf(userInfo.user.email) >= 0)
+          return true;
+      }
+      return this.fail();
+    }
+
+    return this.fail();
 
   }
 

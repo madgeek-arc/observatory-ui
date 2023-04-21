@@ -156,11 +156,14 @@ export class FinancialStrategySubcategoriesComponent implements OnInit{
     // this.mapSubtitles[mapCount] = this.mapSubtitlesArray[mapCount][index];
 
     this.questionsDataArray[index] = new CategorizedAreaData();
+
+    let position = 0;
     for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
-      this.questionsDataArray[index].series[i] = new Series(this.mapSubtitlesArray[mapCount][i], false);
+      position = this.tmpQuestionsDataArray[index].series[i].name === 'No'? 1 : 0;
+      this.questionsDataArray[index].series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
       this.questionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
       this.questionsDataArray[index].series[i].showInLegend = true;
-      this.questionsDataArray[index].series[i].color = ColorPallet[i];
+      this.questionsDataArray[index].series[i].color = ColorPallet[position];
     }
     let countryCodeArray = [];
     for (let i = 0; i < this.questionsDataArray[index].series.length; i++) {
