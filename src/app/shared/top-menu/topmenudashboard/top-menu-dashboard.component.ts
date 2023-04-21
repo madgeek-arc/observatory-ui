@@ -75,7 +75,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.userInfo)
-      this.showArchive = this.coordinatorContains('country');
+      this.showArchive = this.coordinatorContains('country') || this.checkIfManager();
   }
 
   ngOnDestroy() {
@@ -106,6 +106,19 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
 
   coordinatorContains(name: string) {
     return this.userInfo.coordinators.filter(c => c.type === name).length > 0;
+  }
+
+  checkIfManager(): boolean {
+    if (this.currentStakeholder) {
+      let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+      for (const manager of this.currentStakeholder.managers) {
+        if (userInfo.user.email === manager) {
+          return true;
+        }
+      }
+      return false;
+    }
+    return false;
   }
 
   logout() {
