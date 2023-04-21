@@ -16,7 +16,7 @@ export class TopMenuLandingComponent implements OnInit, OnDestroy {
   subscriptions = [];
   showLogin = true;
   showNationalContributionsToEOSC: boolean = null;
-  showArchive: boolean = null;
+  // showArchive: boolean = null;
   ready = false;
   userInfo: UserInfo = null;
 
@@ -33,7 +33,7 @@ export class TopMenuLandingComponent implements OnInit, OnDestroy {
             this.showLogin = false
             this.ready = true;
             this.showNationalContributionsToEOSC = this.coordinatorOrManager('country');
-            this.showArchive = this.coordinatorContains('country');
+            // this.showArchive = this.coordinatorContains('country');
           },
           error => {
             console.error(error);

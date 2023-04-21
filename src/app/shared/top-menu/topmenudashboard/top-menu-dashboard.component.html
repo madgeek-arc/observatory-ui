@@ -55,7 +55,7 @@
                           {{stakeholder.name + (stakeholder.type === 'association' ? (', EOSC Association '+ (stakeholder.country ? '(' + stakeholder.country + ')': '')) : '') }}
                         </a>
                       </li>
-                      <hr *ngIf="userInfo.stakeholders?.length > 0">
+                      <hr *ngIf="userInfo.coordinators?.length > 0">
                       <li class="groups" *ngFor="let coordinator of userInfo.coordinators">
                         <a (click)="setCoordinator(coordinator)">
                           <span class="material-icons uk-margin-right">group</span>{{coordinator.name}}
