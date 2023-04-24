@@ -34,7 +34,6 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
   ngOnInit() {
     this.route.params.subscribe(
       params => {
-        console.log(params);
         this.dataType = params['dataType'];
         switch (this.dataType) {
           case 'dataManagement':

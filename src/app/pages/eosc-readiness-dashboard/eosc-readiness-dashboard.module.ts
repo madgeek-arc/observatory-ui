@@ -13,7 +13,6 @@ import {ArchiveModule} from "../archive/archive.module";
 import {InvestmentsComponent} from "./eosc-readiness-2021/investments/investments.component";
 import {EoscReadinessDashboard2022Component} from "./eosc-readiness-2022/eosc-readiness-dashboard2022.component";
 import {Policies2022Component} from "./eosc-readiness-2022/policies/policies2022.component";
-import {DataTypeComponent} from "./eosc-readiness-2022/dataComponent/dataType.component";
 import {Practices2022Component} from "./eosc-readiness-2022/practices/practices2022.component";
 import {EoscReadiness2022DataService} from "../services/eosc-readiness2022-data.service";
 import {NationalPolicyComponent} from "./eosc-readiness-2022/policies/national-policy/national-policy.component";
@@ -58,7 +57,6 @@ import {OutputsSubcategoriesComponent} from "./eosc-readiness-2022/practices/out
     UseCasesSubcategoriesComponent,
     OutputsComponent,
     OutputsSubcategoriesComponent,
-    DataTypeComponent
   ],
   imports: [
     CommonModule,
