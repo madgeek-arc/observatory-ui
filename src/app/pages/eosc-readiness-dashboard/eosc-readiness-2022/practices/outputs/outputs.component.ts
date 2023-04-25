@@ -9,6 +9,8 @@ import {latlong} from "../../../../../../survey-tool/app/domain/countries-lat-lo
 import {CategorizedAreaData, Series} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
 import {zip} from "rxjs/internal/observable/zip";
 import UIkit from "uikit";
+import {RawData} from "../../../../../../survey-tool/app/domain/raw-data";
+import {isNumeric} from "rxjs/internal-compatibility";
 
 @Component({
   selector: 'app-national-policy',
@@ -23,7 +25,8 @@ export class OutputsComponent implements OnInit {
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
-  mapPointData: CountryTableData[];
+  questionsDataArrayForBarChart: any[] = [];
+  sumsArray: string[] = [];
 
   constructor(private router: Router, private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
@@ -40,6 +43,29 @@ export class OutputsComponent implements OnInit {
         if (params['type'] === 'data') {
           UIkit.switcher('#topSelector').show(1);
         }
+        if (params['type'] === 'software') {
+          UIkit.switcher('#topSelector').show(2);
+          this.getSoftwareData();
+        }
+        if (params['type'] === 'services') {
+          UIkit.switcher('#topSelector').show(3);
+          this.getServicesData();
+        }
+        if (params['type'] === 'infrastructures') {
+          UIkit.switcher('#topSelector').show(4);
+        }
+        if (params['type'] === 'skills_training') {
+          UIkit.switcher('#topSelector').show(5);
+          this.getSkillsTrainingData();
+        }
+        if (params['type'] === 'assessment') {
+          UIkit.switcher('#topSelector').show(6);
+          this.getAssessmentData();
+        }
+        if (params['type'] === 'engagement') {
+          UIkit.switcher('#topSelector').show(7);
+          this.getEngagementData();
+        }
       }
     );
   }
@@ -47,79 +73,97 @@ export class OutputsComponent implements OnInit {
   getPublicationsData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion6(),
-      this.queryData.getQuestion6_1(),
+      this.queryData.getQuestion57(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
-        this.tableAbsoluteDataArray[0] = this.dataHandlerService.convertRawDataToTableData(res[1]);
-        this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
-          this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
-        }
-        this.mapPointData = this.dataHandlerService.convertRawDataToTableData(res[2]);
-        this.createMapDataFromCategorizationWithDots(0,0);
-
-      },
-      error => {console.error(error)},
-      () => {}
-    );
+        this.questionsDataArray[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.sumsArray[0] = this.calculateSum(res[1]);
+      }
+    )
   }
 
-  createMapDataFromCategorizationWithDots(index: number, mapCount: number) {
-    // this.mapSubtitles[index] = this.mapSubtitlesArray[mapCount][index];
+  getSoftwareData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion73(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.questionsDataArray[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.sumsArray[1] = this.calculateSum(res[1]);
+      }
+    )
+  }
 
-    this.questionsDataArray[index] = new CategorizedAreaData();
+  getServicesData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion77(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.questionsDataArray[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.sumsArray[2] = this.calculateSum(res[1]);
+      }
+    )
+  }
 
-    let position = 0;
-    for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
-      position = this.tmpQuestionsDataArray[index].series[i].name === 'No'? 1 : 0;
-      this.questionsDataArray[index].series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
-      this.questionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
-      this.questionsDataArray[index].series[i].showInLegend = true;
-      this.questionsDataArray[index].series[i].color = ColorPallet[position];
-    }
-    let countryCodeArray = [];
-    for (let i = 0; i < this.questionsDataArray[index].series.length; i++) {
-      for (const data of this.questionsDataArray[index].series[i].data) {
-        countryCodeArray.push(data.code)
+  getSkillsTrainingData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion93(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.questionsDataArray[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.sumsArray[3] = this.calculateSum(res[1]);
+      }
+    )
+  }
+
+  getAssessmentData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion97(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.sumsArray[4] = this.calculateSum(res[1]);
+      }
+    )
+  }
+
+  getEngagementData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion101(),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArrayForBarChart[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.sumsArray[5] = this.calculateSum(res[1]);
+      }
+    )
+  }
+
+  calculateSum(rawData: RawData): string {
+    let sum = 0.0;
+    for (const series of rawData.datasets) {
+      for (const rowResult of series.series.result) {
+        if (isNumeric(rowResult.row[1])) {
+          sum += +rowResult.row[1];
+        }
       }
     }
-
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[this.questionsDataArray[mapCount].series.length-1];
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[mapCount].series[this.questionsDataArray[mapCount].series.length-1].data.map(code => ({ code }));
-
-    let mapPointArray1 = [];
-    let mapPointArray2 = [];
-    for (let i = 0; i < this.mapPointData.length; i++) {
-      if (this.mapPointData[i].dedicatedFinancialContributionsToEOSCLinkedToPolicies === 'Yes') {
-        mapPointArray1.push({name: this.mapPointData[i].code, lat: latlong.get(this.mapPointData[i].code).latitude, lon: latlong.get(this.mapPointData[i].code).longitude});
-      } else if (this.mapPointData[i].dedicatedFinancialContributionsToEOSCLinkedToPolicies === 'No') {
-        mapPointArray2.push({name: this.mapPointData[i].code, lat: latlong.get(this.mapPointData[i].code).latitude, lon: latlong.get(this.mapPointData[i].code).longitude});
-      }
-    }
-
-    let pos: number;
-    if (mapPointArray1.length > 0) {
-      pos = this.questionsDataArray[index].series.length;
-      this.questionsDataArray[index].series[pos] = new Series('Is mandatory', false, 'mappoint');
-      this.questionsDataArray[index].series[pos].data = mapPointArray1;
-      this.questionsDataArray[index].series[pos].color = '#7CFC00';
-      this.questionsDataArray[index].series[pos].marker.symbol = 'circle';
-      this.questionsDataArray[index].series[pos].showInLegend = true;
-    }
-
-    if (mapPointArray2.length > 0) {
-      pos = this.questionsDataArray[index].series.length;
-      this.questionsDataArray[index].series[pos] = new Series('Not mandatory', false, 'mappoint');
-      this.questionsDataArray[index].series[pos].data = mapPointArray2;
-      this.questionsDataArray[index].series[pos].color = '#FFEF00';
-      this.questionsDataArray[index].series[pos].marker.symbol = 'diamond';
-      this.questionsDataArray[index].series[pos].showInLegend = true;
-    }
+    return (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
   }
 
 }
