@@ -1,0 +1,132 @@
+<div class="uk-section uk-section-default uk-section-small">
+  <div class="uk-container uk-container-expand">
+    <div [ngSwitch]="type">
+      <div *ngSwitchCase="'researchers'">
+        <div class="uk-grid uk-margin-medium-top">
+          <div class="uk-width-2-3" style="height: 800px">
+            <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [title]="'Number of researchers employed in 2021'"
+                                       [subtitle]="'(in full-time equivalents)'" [dataSeriesSuffix]="''">
+            </app-highcharts-color-axis>
+          </div>
+
+          <div class="uk-width-1-3">
+            <div class="uk-margin-medium-bottom">
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="indicator-label">Total number of researchers employed in 2021</div>
+                <div *ngIf="!sumsArray[0]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                <div *ngIf="sumsArray[0]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[0]}}</strong></div>
+              </div>
+            </div>
+
+            <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
+              <app-bar-chart [mapData]="questionsDataArrayForBarChart[0]" [subTitle]="'(in full-time equivalents)'"
+                             [title]="'Number of researchers employed in 2021'">
+              </app-bar-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngSwitchCase="'RPOs'">
+        <div class="uk-grid uk-margin-medium-top" style="height: 700px">
+          <div class="uk-width-2-3" style="height: 800px">
+            <app-highcharts-color-axis [mapData]="questionsDataArray[1]" [title]="'Number of RPOs'"
+                                       [subtitle]="" [dataSeriesSuffix]="''">
+            </app-highcharts-color-axis>
+          </div>
+
+          <div class="uk-width-1-3">
+            <div class="uk-margin-medium-bottom">
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="indicator-label">Total number of RPOs</div>
+                <div *ngIf="!sumsArray[1]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                <div *ngIf="sumsArray[1]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[1]}}</strong></div>
+              </div>
+            </div>
+
+            <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
+              <app-bar-chart [mapData]="questionsDataArrayForBarChart[1]" [subTitle]="''"
+                             [title]="'Number of RPOs'">
+              </app-bar-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngSwitchCase="'RFOs'">
+        <div class="uk-grid uk-margin-medium-top" style="height: 700px">
+          <div class="uk-width-2-3" style="height: 800px">
+            <app-highcharts-color-axis [mapData]="questionsDataArray[2]" [title]="'Number of RFOs'"
+                                       [subtitle]="" [dataSeriesSuffix]="''">
+            </app-highcharts-color-axis>
+          </div>
+
+          <div class="uk-width-1-3">
+            <div class="uk-margin-medium-bottom">
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="indicator-label">Total number of RFOs</div>
+                <div *ngIf="!sumsArray[2]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                <div *ngIf="sumsArray[2]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[2]}}</strong></div>
+              </div>
+            </div>
+
+            <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
+              <app-bar-chart [mapData]="questionsDataArrayForBarChart[2]" [subTitle]="''"
+                             [title]="'Number of RFOs'">
+              </app-bar-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngSwitchCase="'repositories'">
+        <div class="uk-grid uk-margin-medium-top" style="height: 700px">
+          <div class="uk-width-2-3" style="height: 800px">
+            <app-highcharts-color-axis [mapData]="questionsDataArray[3]" [title]="'Number of repositories'"
+                                       [subtitle]="" [dataSeriesSuffix]="''">
+            </app-highcharts-color-axis>
+          </div>
+
+          <div class="uk-width-1-3">
+            <div class="uk-margin-medium-bottom">
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="indicator-label">Total number of repositories</div>
+                <div *ngIf="!sumsArray[3]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                <div *ngIf="sumsArray[3]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[3]}}</strong></div>
+              </div>
+            </div>
+
+            <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
+              <app-bar-chart [mapData]="questionsDataArrayForBarChart[3]" [subTitle]="''"
+                             [title]="'Number of repositories'">
+              </app-bar-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngSwitchCase="'investments'">
+        <div class="uk-grid uk-margin-medium-top" style="height: 700px">
+          <div class="uk-width-2-3" style="height: 800px">
+            <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [title]="'Financially investments in EOSC and Open Science in 2021'"
+                                       [subtitle]="'(in millions of Euro)'" [dataSeriesSuffix]="''">
+            </app-highcharts-color-axis>
+          </div>
+
+          <div class="uk-width-1-3">
+            <div class="uk-margin-medium-bottom">
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="indicator-label">Total amount of financially investments in EOSC and Open Science in 2021</div>
+                <div *ngIf="!sumsArray[4]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                <div *ngIf="sumsArray[4]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[4]}} M</strong></div>
+              </div>
+            </div>
+
+            <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
+              <app-bar-chart [mapData]="questionsDataArrayForBarChart[4]" [subTitle]="'(in millions of Euro)'"
+                             [title]="'Financially investments in EOSC and Open Science in 2021'">
+              </app-bar-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
