@@ -1,13 +1,12 @@
 import {Component, OnInit} from "@angular/core";
-import {DataService} from "../../services/data.service";
-import {CategorizedAreaData, Series} from "../../../../survey-tool/app/domain/categorizedAreaData";
-import {DataHandlerService} from "../../services/data-handler.service";
-import {CountryTableData} from "../../../../survey-tool/app/domain/country-table-data";
-import {StakeholdersService} from "../../../../survey-tool/app/services/stakeholders.service";
+import {DataService} from "../../../services/data.service";
+import {CategorizedAreaData, Series} from "../../../../../survey-tool/app/domain/categorizedAreaData";
+import {DataHandlerService} from "../../../services/data-handler.service";
+import {CountryTableData} from "../../../../../survey-tool/app/domain/country-table-data";
+import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
 import {zip} from "rxjs/internal/observable/zip";
-import {mapSubtitles} from "../../../../survey-tool/app/domain/mapSubtitles";
-import {latlong} from "../../../../survey-tool/app/domain/countries-lat-lon";
-import {FundingForEOSCSums} from "../../../../survey-tool/app/domain/funding-for-eosc";
+import {mapSubtitles} from "../../../../../survey-tool/app/domain/mapSubtitles";
+import {latlong} from "../../../../../survey-tool/app/domain/countries-lat-lon";
 
 import {ActivatedRoute} from "@angular/router";
 import UIkit from "uikit";

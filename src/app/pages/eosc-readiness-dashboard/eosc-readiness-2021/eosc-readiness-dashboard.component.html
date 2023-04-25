@@ -51,7 +51,7 @@
                 <span [class.uk-text-bolder]="isPracticesActive" class="uk-width-expand uk-text-truncate uk-margin-small-left">EOSC Practices</span>
               </div>
             </a>
-            <ul class="uk-nav-sub" data-uk-tab="connect: #practices-tabs;">
+            <ul class="uk-nav-sub">
               <li [ngClass]="{'uk-active current_section': activeLink == 0}" class="uk-width-1-1" (click)="updateUrlPathParam(0)">
                 <a><span class="uk-text-truncate">Mandated Organisations</span></a>
               </li>
@@ -76,7 +76,7 @@
                 <span [class.uk-text-bolder]="isInvestmentsActive" class="uk-width-expand uk-text-truncate uk-margin-small-left">EOSC Investments</span>
               </div>
             </a>
-            <ul class="uk-nav-sub" data-uk-tab="connect: #investments-tabs;">
+            <ul class="uk-nav-sub">
               <li [ngClass]="{'uk-active current_section': activeLink == 0}" class="uk-width-1-1" (click)="updateUrlPathParam(0)">
                 <a><span class="uk-text-truncate">National Contributions</span></a>
               </li>

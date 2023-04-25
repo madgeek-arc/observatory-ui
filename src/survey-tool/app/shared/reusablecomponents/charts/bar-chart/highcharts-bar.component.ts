@@ -7,6 +7,7 @@ import {Options, XrangePointOptionsObject} from "highcharts";
 
 HC_exporting(Highcharts);
 HC_ExportingOffline(Highcharts);
+let componentContext;
 
 @Component({
   selector: 'app-bar-chart',
@@ -17,6 +18,8 @@ export class HighchartsBarComponent implements OnChanges{
 
   @Input() mapData: (number | SeriesMapDataOptions | [string, number])[] = [];
   @Input() title: string = null;
+  @Input() subTitle: string = null;
+  @Input() dataSeriesSuffix: string = null;
 
   @ViewChild('chart') componentRef;
   Highcharts: typeof Highcharts = Highcharts;
@@ -26,6 +29,7 @@ export class HighchartsBarComponent implements OnChanges{
   ready = false;
 
   ngOnChanges(changes: SimpleChanges) {
+    componentContext = this;
     if (this.mapData?.length > 0) {
       this.mapData = this.mapData.filter((element) => {
         return element[1] > 0;
@@ -46,7 +50,7 @@ export class HighchartsBarComponent implements OnChanges{
         text: this.title,
       },
       subtitle: {
-        text: '(in millions of Euro)',
+        text: this.subTitle !== null ? this.subTitle : '(in millions of Euro)',
       },
       credits: {
         enabled: false,
@@ -62,9 +66,13 @@ export class HighchartsBarComponent implements OnChanges{
         type: 'category',
       },
       tooltip: {
-        headerFormat: `<div>Country: {point.key}</div>`,
-        pointFormat: `<div>{series.name}: {point.y} M</div>`,
-        shared: true,
+        formatter: function () {
+          console.log(componentContext.dataSeriesSuffix);
+          return '<b>' + this.point.name + '</b>: ' + this.point.y + ' ' + (componentContext.dataSeriesSuffix !== null ? componentContext.dataSeriesSuffix : ' M');
+        },
+        // headerFormat: `<div>Country: {point.key}</div>`,
+        // pointFormat: `<div>{series.name}: {point.y} M</div>`,
+        // shared: true,
         useHTML: true,
       },
       plotOptions: {

@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Stakeholder, UserInfo} from "../../../survey-tool/app/domain/userInfo";
-import {UserService} from "../../../survey-tool/app/services/user.service";
-import {AuthenticationService} from "../../../survey-tool/app/services/authentication.service";
+import {Stakeholder, UserInfo} from "../../../../survey-tool/app/domain/userInfo";
+import {UserService} from "../../../../survey-tool/app/services/user.service";
+import {AuthenticationService} from "../../../../survey-tool/app/services/authentication.service";
 import {query} from "@angular/animations";
 
 declare var UIkit;
@@ -10,7 +10,7 @@ declare var UIkit;
 @Component({
   selector: 'app-national-contributions-to-eosc-dashboard',
   templateUrl: './eosc-readiness-dashboard.component.html',
-  styleUrls: ['../../../survey-tool/app/shared/sidemenudashboard/side-menu-dashboard.component.css','./eosc-readiness-dashboard.component.css'],
+  styleUrls: ['../../../../survey-tool/app/shared/sidemenudashboard/side-menu-dashboard.component.css','../eosc-readiness-dashboard.component.css'],
 })
 
 export class EoscReadinessDashboardComponent implements OnInit, AfterViewInit{

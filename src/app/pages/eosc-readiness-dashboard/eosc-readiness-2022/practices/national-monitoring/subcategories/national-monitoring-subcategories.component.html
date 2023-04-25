@@ -1,0 +1,44 @@
+<div [ngSwitch]="dataType">
+  <div *ngSwitchCase="'dataManagement'">
+    <div class="uk-margin-medium-top" style="height: 700px">
+      <app-highcharts-category-map [mapData]="questionsDataArray[0]" [subtitle]=""
+                                   [title]="'National monitoring on data management'">
+      </app-highcharts-category-map>
+    </div>
+  </div>
+  <div *ngSwitchCase="'fairData'">
+    <div class="uk-margin-medium-top" style="height: 700px">
+      <app-highcharts-category-map [mapData]="questionsDataArray[1]" [subtitle]=""
+                                   [title]="'National monitoring on FAIR data'">
+      </app-highcharts-category-map>
+    </div>
+  </div>
+  <div *ngSwitchCase="'openData'">
+    <div class="uk-margin-medium-top" style="height: 700px">
+      <app-highcharts-category-map [mapData]="questionsDataArray[2]" [subtitle]=""
+                                   [title]="'National monitoring on open data'">
+      </app-highcharts-category-map>
+    </div>
+  </div>
+  <div *ngSwitchCase="'connectingRepositoriesToEOSC'">
+    <div class="uk-margin-medium-top" style="height: 700px">
+      <app-highcharts-category-map [mapData]="questionsDataArray[3]" [subtitle]=""
+                                   [title]="'National monitoring on connecting repositories to EOSC'">
+      </app-highcharts-category-map>
+    </div>
+  </div>
+  <div *ngSwitchCase="'dataStewardship'">
+    <div class="uk-margin-medium-top" style="height: 700px">
+      <app-highcharts-category-map [mapData]="questionsDataArray[4]" [subtitle]=""
+                                   [title]="'National monitoring on data stewardship'">
+      </app-highcharts-category-map>
+    </div>
+  </div>
+  <div *ngSwitchCase="'longTermDataPreservation'">
+    <div class="uk-margin-medium-top" style="height: 700px">
+      <app-highcharts-category-map [mapData]="questionsDataArray[5]" [subtitle]=""
+                                   [title]="'National monitoring on long-term data preservation'">
+      </app-highcharts-category-map>
+    </div>
+  </div>
+</div>

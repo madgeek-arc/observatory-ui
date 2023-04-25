@@ -3,9 +3,9 @@ import {ActivatedRoute} from "@angular/router";
 import {SurveyService} from "../../../services/survey.service";
 import {DisplayEntries, DisplayHistory, SurveyAnswer} from "../../../domain/survey";
 import {Model} from "../../../../catalogue-ui/domain/dynamic-form-model";
+import {zip} from "rxjs/internal/observable/zip";
 
 import UIkit from "uikit";
-import {zip} from "rxjs/internal/observable/zip";
 
 @Component({
   selector: 'app-survey-history',
@@ -41,29 +41,34 @@ export class HistoryComponent implements OnInit {
       this.surveyId = params['surveyId'];
       this.currentStakeholderId = params['id'];
       // console.log(this.surveyAnswerId);
-      this.surveyService.getAnswerHistory(this.surveyAnswerId).subscribe(
-        res => {
-          this.surveyAnswerHistory = res;
-          this.surveyAnswerHistory.entries.sort((a, b) => b.time - a.time);
-          // this.loading = false;
-        },
-        error => {console.error(error)},
-        () => {
-          zip(
-            this.surveyService.getSurvey(this.surveyId),
-            this.surveyService.getAnswerWithVersion(this.surveyAnswerId, this.surveyAnswerHistory.entries[0].version),
-          ).subscribe(
-            next => {
-              this.model = next[0];
-              this.surveyAnswerA = next[1];
-              this.loading = false;
-            },
-            error => {console.log(error)},
-            () => {this.selectedVersion = this.surveyAnswerHistory.entries[0];}
-          );
-        }
-      )
+      this.getSurveyAnswerHistory();
     });
+  }
+
+  getSurveyAnswerHistory() {
+    this.surveyService.getAnswerHistory(this.surveyAnswerId).subscribe(
+      res => {
+        this.surveyAnswerHistory = res;
+        this.surveyAnswerHistory.entries.sort((a, b) => b.time - a.time);
+        // this.loading = false;
+      },
+      error => {console.error(error)},
+      () => {
+        this.surveyAnswerA = null;
+        zip(
+          this.surveyService.getSurvey(this.surveyId),
+          this.surveyService.getAnswerWithVersion(this.surveyAnswerId, this.surveyAnswerHistory.entries[0].version),
+        ).subscribe(
+          next => {
+            this.model = next[0];
+            this.surveyAnswerA = next[1];
+            this.loading = false;
+          },
+          error => {console.log(error)},
+          () => {this.selectedVersion = this.surveyAnswerHistory.entries[0];}
+        );
+      }
+    )
   }
 
   selectVersionToShow(versionEntry: DisplayEntries) {
@@ -105,7 +110,6 @@ export class HistoryComponent implements OnInit {
       next => {
         this.surveyAnswerA = next[0];
         this.surveyAnswerB = next[1];
-        // this.model = next[2];
 
         UIkit.modal('#modal-full').show();
         this.hide = true;
@@ -114,6 +118,16 @@ export class HistoryComponent implements OnInit {
       error => {console.log(error)},
       () => {}
     );
+  }
+
+  restoreVersion() {
+    this.surveyService.restoreToVersion(this.surveyAnswerId, this.selectedEntries[0].version).subscribe(
+      res => {
+        this.selectedEntries = [];
+        this.getSurveyAnswerHistory();
+      },
+      error => {console.log(error)}
+    )
   }
 
   showHistoryContent() {

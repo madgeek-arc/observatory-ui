@@ -23,6 +23,10 @@ export class SurveyService {
     return this.http.get<SurveyAnswer>(this.base + `/answers/${surveyAnswerId}/versions/${version}`, this.options);
   }
 
+  restoreToVersion(surveyAnswerId: string, versionId: string) {
+    return this.http.put<SurveyAnswer>(this.base + `/answers/${surveyAnswerId}/versions/${versionId}/restore`, this.options);
+  }
+
   changeAnswerValidStatus(answerId: string, valid: boolean) {
     return this.http.patch<SurveyAnswer>(this.base + `/answers/${answerId}/validation?validated=${valid}`, null, this.options);
   }
@@ -59,6 +63,10 @@ export class SurveyService {
 
   acceptInvitation(token: string) {
     return this.http.get(this.base + `/invitation/accept?invitationToken=${token}`);
+  }
+
+  removeManager(stakeholderId: string, email: string) {
+    return this.http.delete<StakeholdersMembers>(this.base + `/stakeholders/${stakeholderId}/managers/${email}`, this.options);
   }
 
   removeContributor(stakeholderId: string, email: string) {
