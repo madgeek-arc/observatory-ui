@@ -13,24 +13,24 @@
           </div>
 
           <div class="uk-navbar-right">
+            <ul *ngIf="userInfo && showArchive" class="uk-navbar-nav user_actions">
+              <li>
+                <a class="uk-icon uk-animation-fade" [routerLink]="['/eoscreadiness']" aria-expanded="false">
+                  <span class="uk-text-small uk-margin-small-right">EOSC Readiness</span>
+                </a>
+              </li>
+              <li>
+                <a class="uk-icon uk-animation-fade" [routerLink]="['/contact']" aria-expanded="false">
+                  <span class="uk-text-small uk-margin-small-right">Contact</span>
+                </a>
+              </li>
+            </ul>
+          </div>
 
-            <div id="navigation">
+          <div class="uk-navbar-right">
+
+<!--            <div id="navigation">-->
               <ul *ngIf="userInfo && showArchive" class="uk-navbar-nav user_actions">
-<!--                <li *ngIf="showArchive">-->
-<!--                  <a class="uk-icon uk-animation-fade" [routerLink]="['/archive']" aria-expanded="false">-->
-<!--                    <span class="uk-text-small uk-margin-small-right">Archive</span>-->
-<!--                  </a>-->
-<!--                </li>-->
-<!--                <li *ngIf="userInfo && showArchive">-->
-<!--                  <a class="uk-icon uk-animation-fade" [routerLink]="['/eoscreadiness/2022']" aria-expanded="false">-->
-<!--                    <span class="uk-text-small uk-margin-small-right">EOSC Readiness 2022</span>-->
-<!--                  </a>-->
-<!--                </li>-->
-                <li>
-                  <a class="uk-icon uk-animation-fade" [routerLink]="['/eoscreadiness']" aria-expanded="false">
-                    <span class="uk-text-small uk-margin-small-right">EOSC Readiness</span>
-                  </a>
-                </li>
                 <li>
                   <a class="uk-icon" aria-expanded="false">
                     <span *ngIf="currentCoordinator || currentStakeholder" class="uk-text-small uk-margin-small-right">
@@ -86,8 +86,11 @@
                     </ul>
                   </div>
                 </li>
+                <li *ngIf="!userInfo" class="uk-animation-fade">
+                  <a class="uk-button uk-button-link" (click)="logInButton()">Login</a>
+                </li>
               </ul>
-            </div>
+<!--            </div>-->
           </div>
 
         </nav>

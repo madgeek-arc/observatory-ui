@@ -121,6 +121,10 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
     return false;
   }
 
+  logInButton() {
+    this.authentication.login();
+  }
+
   logout() {
     this.authentication.logout();
   }
