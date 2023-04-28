@@ -7,7 +7,7 @@
 <ng-template #public>
 
   <ng-container *ngIf="isEOSCReadinessDashboardRoute() ; else home">
-    <app-top-menu-landing></app-top-menu-landing>
+    <app-top-menu-dashboard></app-top-menu-dashboard>
     <div style="margin-top: 80px"></div>
     <router-outlet></router-outlet>
     <div style="margin-left: 320px">
@@ -16,7 +16,7 @@
   </ng-container>
 
   <ng-template #home>
-    <app-top-menu-landing></app-top-menu-landing>
+    <app-top-menu-dashboard></app-top-menu-dashboard>
     <!--  <div style="margin-top: 90px"></div>-->
     <div style="margin-top: 80px"></div>
     <router-outlet></router-outlet>
