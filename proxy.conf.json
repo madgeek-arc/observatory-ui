@@ -4,5 +4,11 @@
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
+  },
+  "/api/*": {
+    "target": "http://vereniki.athenarc.gr:8383/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
   }
 }
