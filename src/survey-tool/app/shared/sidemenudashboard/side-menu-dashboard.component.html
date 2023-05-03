@@ -36,7 +36,7 @@
         <li *ngIf="isManager" [routerLinkActive]="['current_section']">
           <a [routerLink]="['contributions/'+currentStakeholder.id+'/surveys']" class="uk-flex uk-flex-middle">
             <span class="material-icons uk-margin-right">assignment</span>
-            <span class="menu_title">{{currentStakeholder.name.split('(')[0]}} surveys</span>
+            <span class="menu_title">{{currentStakeholder.type | uppercase}} Surveys</span>
           </a>
         </li>
 
@@ -57,14 +57,16 @@
           </a>
         </li>
 
-<!--        <li [routerLinkActive]="['current_section']" class="menu_section border_top">-->
-<!--          <a [routerLink]="['contributions/'+currentCoordinator.id+'/stakeholders']" class="uk-flex uk-flex-middle">-->
-<!--            <span class="material-icons uk-margin-right">manage_accounts</span>-->
-<!--            <span class="menu_title">Stakeholders</span>-->
+      </ul>
+<!--      <ul>-->
+<!--        <li [routerLinkActive]="['current_section']" class="">-->
+<!--          <a [routerLink]="['contributions/'+(currentStakeholder ? currentStakeholder.id : currentCoordinator.id)+'/messages']"-->
+<!--             class="uk-flex uk-flex-middle">-->
+<!--            <span class="material-icons uk-margin-right">mail</span>-->
+<!--            <span class="menu_title">Messages</span>-->
 <!--          </a>-->
 <!--        </li>-->
-
-      </ul>
+<!--      </ul>-->
     </div>
     <div *ngIf="currentCoordinator" class="menu_section border_top">
       <ul>
@@ -74,7 +76,6 @@
             <span class="menu_title">Stakeholders</span>
           </a>
         </li>
-
       </ul>
     </div>
 
