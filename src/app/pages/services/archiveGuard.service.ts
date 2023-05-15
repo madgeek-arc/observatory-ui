@@ -15,11 +15,11 @@ export class ArchiveGuardService implements CanActivateChild {
       return this.fail();
     }
     let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-    if (userInfo.coordinators.filter(c => c.type === 'country').length > 0) {
+    if (userInfo.coordinators.filter(c => c.type === 'eosc-sb').length > 0) {
       return true;
     }
-    if (userInfo.stakeholders.filter(c => c.type === 'country').length > 0) {
-      let stakeHolders: Stakeholder[] = userInfo.stakeholders.filter(c => c.type === 'country');
+    if (userInfo.stakeholders.filter(c => c.type === 'eosc-sb').length > 0) {
+      let stakeHolders: Stakeholder[] = userInfo.stakeholders.filter(c => c.type === 'eosc-sb');
       for (const stakeHolder of stakeHolders) {
         if (stakeHolder.managers.indexOf(userInfo.user.email) >= 0)
           return true;

@@ -63,7 +63,7 @@ export class EoscReadinessDashboardComponent implements OnInit, AfterViewInit{
     );
 
     if (this.authentication.authenticated) {
-      this.showInvestments = this.coordinatorOrManager('country');
+      this.showInvestments = this.coordinatorOrManager('eosc-sb');
     }
 
   }
