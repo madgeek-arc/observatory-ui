@@ -6,7 +6,7 @@
 
 //@import url('http://fonts.cdnfonts.com/css/helvetica-neue-55');
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
 
 /*:root {*/
   /*--primary-color: #004494;*/
@@ -27,8 +27,10 @@
   --eosc-observatory-secondary-color: #EB5C80;
 
   --sidebar-width: 320px;
+  --sidebar-width-invert: -320px;
   --toggle-sidebar-closed: 338px;
   --dashboard-transition-delay: 0.25s;
+  --sidebar-font-size: 16px;
   //--sidebar-width: 280px;
   --header-height: 80px;
 

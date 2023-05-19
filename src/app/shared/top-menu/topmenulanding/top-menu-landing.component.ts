@@ -32,7 +32,7 @@ export class TopMenuLandingComponent implements OnInit, OnDestroy {
             this.userInfo = next;
             this.showLogin = false
             this.ready = true;
-            this.showNationalContributionsToEOSC = this.coordinatorOrManager('country');
+            this.showNationalContributionsToEOSC = this.coordinatorOrManager('eosc-sb');
             // this.showArchive = this.coordinatorContains('country');
           },
           error => {

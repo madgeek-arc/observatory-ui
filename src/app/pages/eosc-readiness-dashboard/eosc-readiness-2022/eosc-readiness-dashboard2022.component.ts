@@ -10,7 +10,7 @@ declare var UIkit;
 @Component({
   selector: 'app-national-contributions-to-eosc-dashboard',
   templateUrl: './eosc-readiness-dashboard2022.component.html',
-  styleUrls: ['../../../../survey-tool/app/shared/sidemenudashboard/side-menu-dashboard.component.css','../eosc-readiness-dashboard.component.css'],
+  styleUrls: ['../eosc-readiness-dashboard.component.css'],
 })
 
 export class EoscReadinessDashboard2022Component implements OnInit, AfterViewInit{

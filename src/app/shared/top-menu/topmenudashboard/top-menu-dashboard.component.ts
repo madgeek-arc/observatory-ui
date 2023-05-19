@@ -75,7 +75,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.userInfo)
-      this.showArchive = this.coordinatorContains('country') || this.checkIfManager();
+      this.showArchive = this.coordinatorContains('eosc-sb') || this.checkIfManager();
   }
 
   ngOnDestroy() {

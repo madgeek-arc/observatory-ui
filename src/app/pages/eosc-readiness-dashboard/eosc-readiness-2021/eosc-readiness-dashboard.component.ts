@@ -10,7 +10,7 @@ declare var UIkit;
 @Component({
   selector: 'app-national-contributions-to-eosc-dashboard',
   templateUrl: './eosc-readiness-dashboard.component.html',
-  styleUrls: ['../../../../survey-tool/app/shared/sidemenudashboard/side-menu-dashboard.component.css','../eosc-readiness-dashboard.component.css'],
+  styleUrls: ['../eosc-readiness-dashboard.component.css'],
 })
 
 export class EoscReadinessDashboardComponent implements OnInit, AfterViewInit{
@@ -63,7 +63,7 @@ export class EoscReadinessDashboardComponent implements OnInit, AfterViewInit{
     );
 
     if (this.authentication.authenticated) {
-      this.showInvestments = this.coordinatorOrManager('country');
+      this.showInvestments = this.coordinatorOrManager('eosc-sb');
     }
 
   }
