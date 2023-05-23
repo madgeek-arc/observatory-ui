@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:madgeek-arc/messaging-system-ui.git
+	branch = main
+	commit = 546e48aef4aeeb52285e7e5a22924b1ee1b38d20
+	method = merge
+	cmdver = 0.4.3
+	parent = 7503e3f441796e8f84c47a4e25bc8f88f6561e21

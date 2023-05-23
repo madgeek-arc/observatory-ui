@@ -12,82 +12,93 @@
             </a>
           </div>
 
+          <div class="uk-navbar-center">
+            <ul class="uk-navbar-nav user_actions">
+              <li>
+                <a class="uk-icon uk-animation-fade" [routerLink]="['/eoscreadiness']" aria-expanded="false">
+                  <span class="uk-text-small uk-margin-small-right">EOSC Readiness</span>
+                </a>
+              </li>
+              <li>
+                <a class="uk-icon uk-animation-fade" [routerLink]="['/contact']" aria-expanded="false">
+                  <span class="uk-text-small uk-margin-small-right">Contact</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
           <div class="uk-navbar-right">
-
-            <div id="navigation">
-              <ul *ngIf="userInfo && showArchive" class="uk-navbar-nav user_actions">
-<!--                <li *ngIf="showArchive">-->
-<!--                  <a class="uk-icon uk-animation-fade" [routerLink]="['/archive']" aria-expanded="false">-->
-<!--                    <span class="uk-text-small uk-margin-small-right">Archive</span>-->
-<!--                  </a>-->
-<!--                </li>-->
-<!--                <li *ngIf="userInfo && showArchive">-->
-<!--                  <a class="uk-icon uk-animation-fade" [routerLink]="['/eoscreadiness/2022']" aria-expanded="false">-->
-<!--                    <span class="uk-text-small uk-margin-small-right">EOSC Readiness 2022</span>-->
-<!--                  </a>-->
-<!--                </li>-->
-                <li>
-                  <a class="uk-icon uk-animation-fade" [routerLink]="['/eoscreadiness']" aria-expanded="false">
-                    <span class="uk-text-small uk-margin-small-right">EOSC Readiness</span>
-                  </a>
-                </li>
-                <li>
-                  <a class="uk-icon" aria-expanded="false">
-                    <span *ngIf="currentCoordinator || currentStakeholder" class="uk-text-small uk-margin-small-right">
-                      {{currentStakeholder?.name ? currentStakeholder.name : currentCoordinator.name}}
-                    </span>
-                    <svg height="60" width="60">
-                      <circle cx="30" cy="30" r="20" stroke-width="1"></circle>
-                      <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%" class="ng-star-inserted"> {{ parseUsername() }} </text>
-                    </svg>
-                  </a>
-                  <div class="uk-padding-remove-horizontal uk-dropdown" uk-dropdown="mode: click; offset: -2; delay-hide: 0; flip: false; pos: bottom-right">
-                    <ul class="uk-nav uk-dropdown-nav">
-                      <li class="user-info">
-                        <div>
-                          <div class="uk-text-bold">{{userInfo.user.fullname}}</div>
-                          <div class="uk-text-meta">{{userInfo.user.email}}</div>
-                        </div>
-                      </li>
-                      <hr>
-                      <li class="groups" *ngFor="let stakeholder of userInfo.stakeholders">
-                        <a (click)="setGroup(stakeholder)"><span class="material-icons uk-margin-right">group</span>
-                          {{stakeholder.name + (stakeholder.type === 'association' ? (', EOSC Association '+ (stakeholder.country ? '(' + stakeholder.country + ')': '')) : '') }}
-                        </a>
-                      </li>
-                      <hr *ngIf="userInfo.coordinators?.length > 0">
-                      <li class="groups" *ngFor="let coordinator of userInfo.coordinators">
-                        <a (click)="setCoordinator(coordinator)">
-                          <span class="material-icons uk-margin-right">group</span>{{coordinator.name}}
-                        </a>
-                      </li>
-
-                      <hr *ngIf="userInfo && showArchive">
-                      <li *ngIf="userInfo && showArchive" class="groups">
-                        <a class="" style="cursor: default; pointer-events: none">
-                          <span class="material-icons uk-margin-right">space_dashboard</span>
-                          <span class="uk-text-uppercase uk-text-bold">Other dashboards</span>
-                        </a>
-                      </li>
-                      <li *ngIf="userInfo && showArchive" class="uk-margin-small-left">
-                        <a class="" [routerLink]="['/eoscreadiness/2022']" aria-expanded="false">
-                          <span class="uk-text-small uk-margin-medium-left">EOSC Readiness 2022</span>
-                        </a>
-                      </li>
-                      <li *ngIf="userInfo && showArchive" class="uk-margin-small-left">
-                        <a class="" [routerLink]="['/archive']" aria-expanded="false">
-                          <span class="uk-text-small uk-margin-medium-left">Archive 2021</span>
-                        </a>
-                      </li>
-                      <hr *ngIf="userInfo.coordinators?.length > 0">
-                      <li>
-                        <a id="logout" (click)="logout()">Log out</a>
-                      </li>
-                    </ul>
+            <ul class="uk-navbar-nav user_actions">
+              <li>
+                <a *ngIf="userInfo" class="uk-icon" aria-expanded="false">
+                  <div class="uk-flex">
+                    <div class="uk-padding-remove uk-flex uk-flex-middle">
+                      <!--                      <span class="uk-text-small uk-text-bold uk-width-1-1">{{userInfo.user.fullname}}</span>-->
+                      <span *ngIf="currentCoordinator || currentStakeholder"
+                            class="uk-text-small uk-width-1-1 uk-margin-remove">
+                        {{currentStakeholder?.name ? currentStakeholder.name : currentCoordinator.name}}
+                      </span>
+                    </div>
+                    <div class="">
+                      <svg height="60" width="60">
+                        <circle cx="30" cy="30" r="20" stroke-width="1"></circle>
+                        <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%">
+                          {{ parseUsername() }}
+                        </text>
+                      </svg>
+<!--                      <img height="45" width="45" [src]="'data:image/png;base64,' + userInfo.user['profile']['picture']">-->
+                    </div>
                   </div>
-                </li>
-              </ul>
-            </div>
+                </a>
+                <div *ngIf="userInfo" class="uk-padding-remove-horizontal uk-dropdown" uk-dropdown="mode: click; offset: -2; delay-hide: 0; flip: false; pos: bottom-right">
+                  <ul class="uk-nav uk-dropdown-nav">
+                    <li class="user-info">
+                      <div>
+                        <div class="uk-text-bold">{{userInfo.user.fullname}}</div>
+                        <div class="uk-text-meta">{{userInfo.user.email}}</div>
+                      </div>
+                    </li>
+                    <hr *ngIf="userInfo.stakeholders?.length > 0">
+                    <li class="groups" *ngFor="let stakeholder of userInfo.stakeholders">
+                      <a (click)="setGroup(stakeholder)"><span class="material-icons uk-margin-right">group</span>
+                        {{stakeholder.name + (stakeholder.type === 'association' ? (', EOSC Association '+ (stakeholder.country ? '(' + stakeholder.country + ')': '')) : '') }}
+                      </a>
+                    </li>
+                    <hr *ngIf="userInfo.coordinators?.length > 0">
+                    <li class="groups" *ngFor="let coordinator of userInfo.coordinators">
+                      <a (click)="setCoordinator(coordinator)">
+                        <span class="material-icons uk-margin-right">group</span>{{coordinator.name}}
+                      </a>
+                    </li>
+
+                    <hr *ngIf="showArchive">
+                    <li *ngIf="showArchive" class="groups">
+                      <a class="" style="cursor: default; pointer-events: none">
+                        <span class="material-icons uk-margin-right">space_dashboard</span>
+                        <span class="uk-text-uppercase uk-text-bold">Other dashboards</span>
+                      </a>
+                    </li>
+                    <li *ngIf="showArchive" class="uk-margin-small-left">
+                      <a class="" [routerLink]="['/eoscreadiness/2022']" aria-expanded="false">
+                        <span class="uk-text-small uk-margin-medium-left">EOSC Readiness 2022</span>
+                      </a>
+                    </li>
+                    <li *ngIf="showArchive" class="uk-margin-small-left">
+                      <a class="" [routerLink]="['/archive']" aria-expanded="false">
+                        <span class="uk-text-small uk-margin-medium-left">Archive 2021</span>
+                      </a>
+                    </li>
+                    <hr>
+                    <li>
+                      <a id="logout" (click)="logout()"><span class="material-icons uk-margin-right">logout</span>Log out</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li *ngIf="!userInfo" class="uk-animation-fade">
+                <a class="uk-button uk-button-link" (click)="logInButton()">Login</a>
+              </li>
+            </ul>
           </div>
 
         </nav>
