@@ -31,6 +31,7 @@ import {FinancialInvestmentsSubcategoriesComponent} from "./eosc-readiness-2022/
 import {NationalMonitoringSubcategoriesComponent} from "./eosc-readiness-2022/practices/national-monitoring/subcategories/national-monitoring-subcategories.component";
 import {UseCasesSubcategoriesComponent} from "./eosc-readiness-2022/practices/use-cases/subcategories/use-cases-subcategories.component";
 import {OutputsSubcategoriesComponent} from "./eosc-readiness-2022/practices/outputs/subcategories/outputs-subcategories.component";
+import {General2022Component} from "./eosc-readiness-2022/general/general2022.component";
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import {OutputsSubcategoriesComponent} from "./eosc-readiness-2022/practices/out
     EoscReadinessDashboard2022Component,
     Policies2022Component,
     Practices2022Component,
+    General2022Component,
     NationalPolicyComponent,
     NationalPolicySubcategoriesComponent,
     FinancialStrategyComponent,

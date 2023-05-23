@@ -10,7 +10,7 @@ declare var UIkit;
 @Component({
   selector: 'app-national-contributions-to-eosc-dashboard',
   templateUrl: './eosc-readiness-dashboard2022.component.html',
-  styleUrls: ['../../../../survey-tool/app/shared/sidemenudashboard/side-menu-dashboard.component.css','../eosc-readiness-dashboard.component.css'],
+  styleUrls: ['../eosc-readiness-dashboard.component.css'],
 })
 
 export class EoscReadinessDashboard2022Component implements OnInit, AfterViewInit{
@@ -32,7 +32,13 @@ export class EoscReadinessDashboard2022Component implements OnInit, AfterViewIni
     this.router.events.subscribe((event:any) =>  {
       if (event instanceof NavigationEnd) {
         this.activeSection = this.route.firstChild.snapshot.url[0].path;
-        this.activeTab = this.route.firstChild.firstChild.snapshot.url[0].path
+        // console.log('activeSection -> ', this.activeSection);
+        if(this.activeSection != 'general') {
+          this.activeTab = this.route.firstChild.firstChild.snapshot.url[0].path
+        } else {
+          this.activeTab = this.route.firstChild.snapshot.params['type'];
+        }
+
         // console.log(this.route.firstChild.snapshot.url[0].path);
       }
     });
@@ -41,11 +47,14 @@ export class EoscReadinessDashboard2022Component implements OnInit, AfterViewIni
 
   ngAfterViewInit() {
     switch (this.activeSection) {
-      case 'policies':
+      case 'general':
         UIkit.nav(this.nav.nativeElement).toggle(0, false);
         break;
-      case 'practices':
+      case 'policies':
         UIkit.nav(this.nav.nativeElement).toggle(1, false);
+        break;
+      case 'practices':
+        UIkit.nav(this.nav.nativeElement).toggle(2, false);
         break;
       default:
         UIkit.nav(this.nav.nativeElement).toggle(0, false);
@@ -57,11 +66,20 @@ export class EoscReadinessDashboard2022Component implements OnInit, AfterViewIni
       this.activeSection = url[0]['path'];
     });
 
-    this.route.firstChild.firstChild.url.subscribe(
-      next => {
-        this.activeTab = next[0].path;
-      }
-    );
+    if(this.activeSection != 'general') {
+      this.route.firstChild.firstChild.url.subscribe(
+        next => {
+          this.activeTab = next[0].path;
+        }
+      );
+    } else {
+      this.route.firstChild.params.subscribe(
+        next => {
+          this.activeTab = next['type'];
+        }
+      )
+    }
+
 
   }
 

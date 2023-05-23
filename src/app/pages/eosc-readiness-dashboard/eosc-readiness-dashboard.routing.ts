@@ -33,6 +33,7 @@ import {
 import {
   OutputsSubcategoriesComponent
 } from "./eosc-readiness-2022/practices/outputs/subcategories/outputs-subcategories.component";
+import {General2022Component} from "./eosc-readiness-2022/general/general2022.component";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
@@ -67,8 +68,12 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'policies/nationalPolicy/publications',
+        redirectTo: 'general/researchers',
         pathMatch: 'full',
+      },
+      {
+        path: 'general/:type',
+        component: General2022Component
       },
       {
         path: 'policies',

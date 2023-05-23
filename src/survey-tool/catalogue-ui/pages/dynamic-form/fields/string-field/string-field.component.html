@@ -2,7 +2,7 @@
       [ngClass]="{'uk-hidden clear-style': (hideField || !fieldData.form.display.visible)}">
   <div *ngIf="fieldData.label.text" class="uk-form-label uk-margin-bottom {{fieldData.label.cssClasses}}"
        [attr.for]="fieldData.name" [ngClass]="{'uk-subLabel': fieldData.form.dependsOn !== null}" style="{{fieldData.label.style}}"
-       [innerHTML]="fieldData.label.text" id="{{fieldData.id}}">
+       [innerHTML]="fieldData.label.text">
     {{fieldData.form.mandatory ? ' (*)' : ''}}
   </div>
   <div *ngIf="fieldData.form.description.text" class="uk-form-description uk-margin-bottom uk-width-9-10 {{fieldData.form.description.cssClasses}}"

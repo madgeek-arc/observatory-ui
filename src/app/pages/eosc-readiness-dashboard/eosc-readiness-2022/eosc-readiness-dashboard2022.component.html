@@ -11,6 +11,34 @@
         <div class="uk-padding-small"><h6>National contributions 2022</h6></div>
         <ul #nav class="uk-list uk-nav uk-nav-default uk-nav-parent-icon" uk-nav="duration: 500">
 
+          <li [ngClass]="{'uk-active current_section': activeSection === 'general'}" class="uk-parent">
+            <a [routerLink]="['general/researchers']" [replaceUrl]="true">
+              <div class="uk-flex uk-flex-middle uk-flex-center">
+                <div class="uk-width-auto">
+                  <span class="material-icons">clear_all</span>
+                </div>
+                <span [class.uk-text-bolder]="activeSection === 'general'" class="uk-width-expand uk-text-truncate uk-margin-small-left" title="EOSC General">General</span>
+              </div>
+            </a>
+            <ul class="uk-nav-sub" uk-switcher>
+              <li [ngClass]="{'uk-active current_section': activeTab === 'researchers'}" class="uk-width-1-1">
+                <a [routerLink]="'general/researchers'"><span class="uk-text-truncate">Researchers</span></a>
+              </li>
+              <li [ngClass]="{'uk-active current_section': activeTab === 'RPOs'}" class="uk-width-1-1">
+                <a [routerLink]="'general/RPOs'"><span class="uk-text-truncate">RPOs</span></a>
+              </li>
+              <li [ngClass]="{'uk-active current_section': activeTab === 'RFOs'}" class="uk-width-1-1">
+                <a [routerLink]="'general/RFOs'"><span class="uk-text-truncate">RFOs</span></a>
+              </li>
+              <li [ngClass]="{'uk-active current_section': activeTab === 'repositories'}" class="uk-width-1-1">
+                <a [routerLink]="'general/repositories'"><span class="uk-text-truncate">Repositories</span></a>
+              </li>
+              <li [ngClass]="{'uk-active current_section': activeTab === 'investments'}" class="uk-width-1-1">
+                <a [routerLink]="'general/investments'"><span class="uk-text-truncate">Financial investments</span></a>
+              </li>
+            </ul>
+          </li>
+
           <li [ngClass]="{'uk-active current_section': activeSection === 'policies'}" class="uk-parent">
             <a [routerLink]="['policies/nationalPolicy/publications']" [replaceUrl]="true">
               <div class="uk-flex uk-flex-middle uk-flex-center">
