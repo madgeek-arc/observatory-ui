@@ -39,15 +39,20 @@
                         {{currentStakeholder?.name ? currentStakeholder.name : currentCoordinator.name}}
                       </span>
                     </div>
-                    <div class="">
+                    <div *ngIf="!userInfo.user.profile.picture; else elseBlock">
                       <svg height="60" width="60">
                         <circle cx="30" cy="30" r="20" stroke-width="1"></circle>
-                        <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%">
-                          {{ parseUsername() }}
-                        </text>
+                        <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%">{{parseUsername()}}</text>
                       </svg>
-<!--                      <img height="45" width="45" [src]="'data:image/png;base64,' + userInfo.user['profile']['picture']">-->
                     </div>
+                    <ng-template #elseBlock>
+                      <svg height="60" width="60" >
+                        <image x="10" y="10" [attr.href]="'data:image/png;base64,' + userInfo.user.profile.picture"
+                               height="40" width="40"/>
+                        <circle cx="45" cy="15" r="7" stroke-width="1"></circle>
+                        <text x="45" y="19" font-size="12" text-anchor="middle">3</text>
+                      </svg>
+                    </ng-template>
                   </div>
                 </a>
                 <div *ngIf="userInfo" class="uk-padding-remove-horizontal uk-dropdown" uk-dropdown="mode: click; offset: -2; delay-hide: 0; flip: false; pos: bottom-right">
@@ -86,6 +91,12 @@
                     <li *ngIf="showArchive" class="uk-margin-small-left">
                       <a class="" [routerLink]="['/archive']" aria-expanded="false">
                         <span class="uk-text-small uk-margin-medium-left">Archive 2021</span>
+                      </a>
+                    </li>
+                    <hr>
+                    <li>
+                      <a class="" [routerLink]="['/profile']">
+                        <span class="material-icons uk-margin-right">account_circle</span>My Profile
                       </a>
                     </li>
                     <hr>
