@@ -36,15 +36,20 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
 
     if (this.authentication.authenticated) {
       this.subscriptions.push(
-        this.userService.getUserInfo().subscribe(
+        this.userService.userInfo.subscribe(
           next => {
-            this.userService.setUserInfo(next);
-            this.userInfo = next;
-            // this.showNationalContributionsToEOSC = this.coordinatorOrManager('country');
-            // this.showArchive = this.coordinatorContains('country');
-          },
-          error => {
-            console.error(error);
+            if (next) {
+              console.log(next);
+              this.userInfo = next;
+            } else {
+              this.userService.getUserInfo().subscribe(
+                next => {
+                  this.userService.setUserInfo(next);
+                  this.userInfo = next;
+                },
+                error => {console.error(error);}
+              );
+            }
           }
         )
       );
