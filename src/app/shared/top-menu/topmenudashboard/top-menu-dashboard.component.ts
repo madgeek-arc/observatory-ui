@@ -39,7 +39,6 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
         this.userService.userInfo.subscribe(
           next => {
             if (next) {
-              console.log(next);
               this.userInfo = next;
             } else {
               this.userService.getUserInfo().subscribe(
