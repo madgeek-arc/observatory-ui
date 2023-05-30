@@ -4,6 +4,7 @@ export const environment = {
   API_LOGIN: '/api/oauth2/authorization/eosc',
   API_ENDPOINT: '/api',
   WS_ENDPOINT: '/api/websocket',
+  MESSAGING_ENDPOINT: '/api',
   projectName: 'Observatory',
   STATS_API_ENDPOINT: '/stats/api/',
   profileName: 'eosc-obs',
