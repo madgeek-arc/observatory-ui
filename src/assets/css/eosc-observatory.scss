@@ -1,9 +1,11 @@
 :root {
+
   //--eosc-light-color: #ffcd00;
   //--eosc-dark-color: #004494;
 
   --eosc-observatory-primary-color: #008792;
   --eosc-observatory-primary-color-light: #00afbe;
+  --eosc-observatory-primary-color-extra-light: rgba(0, 135, 146, 0.04);
   --eosc-observatory-secondary-color: #EB5C80;
 
   --sidebar-width: 320px;
@@ -33,6 +35,7 @@
 
   --grey-900: #2C2C2C;
   --grey-700: #6E6E6E;
+  --grey-200: #EAEAEA;
 
   /* Alternative Pills*/
   --placeholder-color: #8E8E8E;
@@ -61,6 +64,8 @@
   --button-secondary-color: #fff;
   --button-secondary-background-color: #3086ED;
   --button-secondary-hover-background-color: #0053ba;
+
+  --table-hover-background-color: rgba(0, 135, 146, 0.07);
 }
 
 
@@ -103,4 +108,20 @@
 
 .uk-subnav-pill > .uk-active > a:hover {
   color: #fff;
+}
+
+
+//Table hover
+
+.uk-table-hover > tr:hover, .uk-table-hover tbody tr:hover {
+  background: var(--table-hover-background-color);
+}
+
+//Badge
+
+.badge-default {
+  background-color: var(--grey-200);
+  color: var(--eosc-observatory-primary-color) !important;
+  padding: 10px;
+  font-size: 12px;
 }
