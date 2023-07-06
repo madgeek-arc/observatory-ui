@@ -27,6 +27,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/archive/archive.module').then(m => m.ArchiveModule)
   },
   {
+    path: 'contributions/:id',
+    loadChildren: () => import('../messaging-system-ui/app/messaging-system.module').then(m => m.MessagingSystemModule),
+  },
+  {
     path: '',
     loadChildren: () => import('../survey-tool/app/survey-tool.module').then(m => m.SurveyToolModule)
   }
