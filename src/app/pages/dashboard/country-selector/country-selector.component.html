@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="">
+  <div *ngIf="questionsDataArray?.series.length > 0" class="uk-width-1-1" style="height: 700px">
+    <app-highcharts-category-map [mapData]="questionsDataArray" [subtitle]="'Subtitle'" [title]="'Title'"
+                                 (mapClick)="goToLanding($event)">
+    </app-highcharts-category-map>
+  </div>
+</div>

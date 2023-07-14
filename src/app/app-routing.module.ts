@@ -1,6 +1,8 @@
 import {NgModule} from '@angular/core';
 import {ExtraOptions, RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from "./pages/home/home.component";
+import {CountrySelectorComponent} from "./pages/dashboard/country-selector/country-selector.component";
+import {CountryLandingPageComponent} from "./pages/dashboard/country-landing-page/country-landing-page.component";
 
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: "enabled",
@@ -17,6 +19,14 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent
+  },
+  {
+    path: 'country_selector',
+    component: CountrySelectorComponent
+  },
+  {
+    path: 'landing/country/:code',
+    component: CountryLandingPageComponent
   },
   {
     path: 'eoscreadiness',

@@ -13,11 +13,14 @@ import {SharedModule} from "./shared/shared.module";
 import {ArchiveGuardService} from "./pages/services/archiveGuard.service";
 import {MessagingSystemModule} from "../messaging-system-ui/app/messaging-system.module";
 import {CountrySelectorComponent} from "./pages/dashboard/country-selector/country-selector.component";
+import {ReusableComponentsModule} from "../survey-tool/app/shared/reusablecomponents/reusable-components.module";
+import {CountryLandingPageComponent} from "./pages/dashboard/country-landing-page/country-landing-page.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    CountrySelectorComponent
+    CountrySelectorComponent,
+    CountryLandingPageComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +30,7 @@ import {CountrySelectorComponent} from "./pages/dashboard/country-selector/count
     MessagingSystemModule,
     NgxMatomoTrackerModule.forRoot({trackerUrl: environment.matomoTrackerUrl, siteId: environment.matomoSiteId}),
     NgxMatomoRouterModule,
+    ReusableComponentsModule,
   ],
   providers: [
     {

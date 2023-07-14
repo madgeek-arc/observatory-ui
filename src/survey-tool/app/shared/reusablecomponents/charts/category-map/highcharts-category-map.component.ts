@@ -1,7 +1,7 @@
 import * as Highcharts from "highcharts/highmaps";
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from "@angular/core";
 import {CategorizedAreaData} from "../../../../domain/categorizedAreaData";
 import {SeriesOptionsType} from "highcharts/highmaps";
 import {PremiumSortPipe} from "../../../../../catalogue-ui/shared/pipes/premium-sort.pipe";
@@ -24,6 +24,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   @Input() subtitle: string = null;
   @Input() pointFormat: string = null;
   @Input() mapType: string = null;
+  @Output() mapClick = new EventEmitter<any>();
 
   chart;
   chartCallback;
@@ -37,13 +38,13 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   chartOptions: Highcharts.Options;
 
   constructor() {
-    const self = this;
+    const that = this;
 
     this.createMap();
     this.chartCallback = chart => {
       // saving chart reference
-      self.chart = chart;
-      // console.log(self.chart);
+      that.chart = chart;
+      // console.log(that.chart);
     };
   }
 
@@ -54,14 +55,14 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     this.ready = false;
     if (this.mapData) {
-      const self = this, chart = this.chart;
+      const that = this, chart = this.chart;
       // chart.showLoading();
-      self.chartOptions.series = [];
+      that.chartOptions.series = [];
       if (this.subtitle) {
-        self.chartOptions.subtitle.text = this.subtitle;
+        that.chartOptions.subtitle.text = this.subtitle;
       }
       if (this.pointFormat) {
-        self.chartOptions.plotOptions.map.tooltip.pointFormat = this.pointFormat;
+        that.chartOptions.plotOptions.map.tooltip.pointFormat = this.pointFormat;
       }
       if (this.mapType === 'Categorization') {
         for (let i = 0; i < this.mapData.series.length; i++) {
@@ -77,19 +78,20 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
 
       this.mapData.series[0].allAreas = true;
       setTimeout(() => {
-        self.chartOptions.title.text = this.title;
-        self.chartOptions.series = this.mapData.series as SeriesOptionsType[];
+        that.chartOptions.title.text = this.title;
+        that.chartOptions.series = this.mapData.series as SeriesOptionsType[];
         console.log(this.mapData.series);
-        // console.log(self.chartOptions.series)
+        // console.log(that.chartOptions.series)
         // chart.hideLoading();
         this.ready = true;
-        self.updateFlag = true;
+        that.updateFlag = true;
       }, 0);
 
     }
   }
 
   createMap() {
+    const that = this;
     this.chartOptions = {
 
       chart: {
@@ -148,7 +150,8 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
           point: {
             events: {
               click: function () {
-                console.log(this);
+                // console.log(this);
+                that.mapClick.emit(this);
               },
             }
           }

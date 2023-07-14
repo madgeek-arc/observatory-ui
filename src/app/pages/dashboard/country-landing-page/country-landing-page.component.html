@@ -1,0 +1,20 @@
+<div class="uk-section-default uk-section uk-section-small">
+  <div class="uk-container uk-container-expand">
+    <h6>{{surveyModel.name}}</h6>
+    <div>{{answer['Practices']?.['Question54']?.['Question54-0']}}</div>
+    <div>{{answer['Practices']?.['Question54']?.['Question54-1']}}</div>
+
+
+    <div>{{answer['General']?.['Question1']?.['Question1-1']}}</div>
+    <div>{{answer['General']?.['Question3']?.['Question3-1']}}</div>
+
+    <div *ngFor="let entry of answer['Practices']?.['Question59']?.['Question59-1-0']">
+      {{entry['Question59-1']}}
+      {{entry['Question59-2']}}
+      <span *ngFor="let element of entry['Question59-2-1']">{{element}}</span>
+    </div>
+
+
+    <pre>{{answer | json}}</pre>
+  </div>
+</div>
