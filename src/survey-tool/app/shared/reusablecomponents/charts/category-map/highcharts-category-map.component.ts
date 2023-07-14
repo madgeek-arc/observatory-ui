@@ -44,6 +44,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
     this.chartCallback = chart => {
       // saving chart reference
       that.chart = chart;
+      // console.log(that.chart);
     };
   }
 
