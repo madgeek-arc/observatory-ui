@@ -12,10 +12,12 @@ import {HttpInterceptorService} from "./pages/services/http-interceptor.service"
 import {SharedModule} from "./shared/shared.module";
 import {ArchiveGuardService} from "./pages/services/archiveGuard.service";
 import {MessagingSystemModule} from "../messaging-system-ui/app/messaging-system.module";
+import {CountrySelectorComponent} from "./pages/dashboard/country-selector/country-selector.component";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CountrySelectorComponent
   ],
   imports: [
     BrowserModule,

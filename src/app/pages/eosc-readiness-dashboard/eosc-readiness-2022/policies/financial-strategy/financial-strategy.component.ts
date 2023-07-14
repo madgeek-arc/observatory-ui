@@ -171,25 +171,35 @@ export class FinancialStrategyComponent implements OnInit {
     this.questionsDataArray[index] = new CategorizedAreaData();
 
     let position = 0;
+    console.log(this.tmpQuestionsDataArray[index].series);
+    console.log(this.tmpQuestionsDataArray[index].series.length);
     for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
+      if (this.tmpQuestionsDataArray[index].series[i].name === 'Awaiting data')
+        continue;
       position = this.tmpQuestionsDataArray[index].series[i].name === 'No'? 1 : 0;
       this.questionsDataArray[index].series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
       this.questionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
       this.questionsDataArray[index].series[i].showInLegend = true;
       this.questionsDataArray[index].series[i].color = ColorPallet[position];
     }
+    console.log(this.questionsDataArray[index].series);
     let countryCodeArray = [];
     for (let i = 0; i < this.questionsDataArray[index].series.length; i++) {
       for (const data of this.questionsDataArray[index].series[i].data) {
         countryCodeArray.push(data.code)
       }
     }
-
+    console.log(this.questionsDataArray[index].series);
+    // console.log(countryCodeArray);
+    // console.log(this.countriesArray);
+    // console.log(this.countriesArray.filter(code => !countryCodeArray.includes(code)));
     this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
     this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
     this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[2];
     this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
     this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data.map(code => ({ code }));
+
+    console.log(this.questionsDataArray[index].series);
   }
 
 }

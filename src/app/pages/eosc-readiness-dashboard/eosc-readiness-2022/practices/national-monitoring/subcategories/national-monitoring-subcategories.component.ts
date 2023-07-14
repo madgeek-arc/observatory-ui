@@ -159,6 +159,8 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
 
     let position = 0;
     for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
+      if (this.tmpQuestionsDataArray[index].series[i].name === 'Awaiting data')
+        continue;
       position = this.tmpQuestionsDataArray[index].series[i].name === 'No'? 1 : 0;
       this.questionsDataArray[index].series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
       this.questionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
