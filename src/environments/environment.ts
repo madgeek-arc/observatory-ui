@@ -16,7 +16,8 @@ export const environment = {
   OSO_STATS_API_ENDPOINT: 'https://services.openaire.eu/stats-tool/',
   osoStatsProfileName: 'observatory',
   matomoTrackerUrl: '',
-  matomoSiteId: -2
+  matomoSiteId: -2,
+  RECAPTCHA_V3_KEY: '6Lc_SFEmAAAAAPULH3Rw_Umpa-UVJ2n1qJ0dOcJ7'
 };
 
 /*
