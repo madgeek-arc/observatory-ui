@@ -5,7 +5,8 @@ import {HomeComponent} from "./pages/home/home.component";
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: "enabled",
   anchorScrolling: "enabled",
-  // scrollOffset: [0, 64]
+  // scrollOffset: [0, 64],
+  // enableTracing: true
 };
 
 const routes: Routes = [
