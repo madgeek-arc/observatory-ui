@@ -49,13 +49,14 @@
                       <svg height="60" width="60" >
                         <image x="10" y="10" [attr.href]="'data:image;base64,' + userInfo.user.profile.picture"
                                height="40" width="40" clip-path="inset(0% round 20px)"/>
-                        <circle cx="45" cy="15" r="7" stroke-width="1"></circle>
-                        <text x="45" y="19" font-size="12" text-anchor="middle">3</text>
+<!--                        <circle cx="45" cy="15" r="7" stroke-width="1"></circle>-->
+<!--                        <text x="45" y="19" font-size="12" text-anchor="middle">3</text>-->
                       </svg>
                     </ng-template>
                   </div>
                 </a>
-                <div *ngIf="userInfo" class="uk-padding-remove-horizontal uk-dropdown" uk-dropdown="mode: click; offset: -2; delay-hide: 0; flip: false; pos: bottom-right">
+                <div *ngIf="userInfo" class="uk-padding-remove-horizontal uk-dropdown"
+                     uk-dropdown="mode: click; offset: -2; delay-hide: 0; flip: false; pos: bottom-right">
                   <ul class="uk-nav uk-dropdown-nav">
                     <li class="user-info">
                       <div>
