@@ -37,6 +37,15 @@
   fill: var(--eosc-observatory-primary-color);
 }
 
+.user_actions circle.notification {
+  stroke: indianred;
+  fill: indianred;
+}
+
+.user_actions text.notification {
+  font-size: 10px;
+}
+
 .user_actions text {
   /*stroke: #707070;*/
   stroke: white;
