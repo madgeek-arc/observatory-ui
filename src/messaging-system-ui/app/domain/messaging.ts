@@ -1,4 +1,4 @@
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 export class Correspondent {
   name:	string;
@@ -16,6 +16,7 @@ export class Message {
   id: string;
   from:	Correspondent;
   to: [Correspondent];
+  anonymousSender: boolean;
   body:	string;
   date:	string;
   read: boolean;
@@ -26,6 +27,7 @@ export class Message {
     this.id = null;
     this.from = new Correspondent();
     this.to = [new Correspondent()];
+    this.anonymousSender = null;
     this.body = null;
     this.date = null;
     this.read = null;
@@ -74,4 +76,19 @@ export class TopicThread {
     return thread;
 
   }
+}
+
+export class UnreadMessages {
+  totalUnread: number;
+  groups: Group[];
+
+  constructor() {
+    this.totalUnread = 0;
+    this.groups = [];
+  }
+}
+
+export class Group {
+  groupId: string;
+  unread: number;
 }

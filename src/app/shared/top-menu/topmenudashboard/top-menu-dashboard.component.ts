@@ -4,16 +4,17 @@ import {UserService} from "../../../../survey-tool/app/services/user.service";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../../../survey-tool/app/services/authentication.service";
 import {PrivacyPolicyService} from "../../../../survey-tool/app/services/privacy-policy.service";
-
-import * as UIkit from 'uikit';
 import {AcceptedPrivacyPolicy} from "../../../../survey-tool/app/domain/privacy-policy";
 import {Subscriber} from "rxjs";
+import * as UIkit from 'uikit';
+import {MessagingSystemService} from "../../../../messaging-system-ui/services/messaging-system.service";
+import {UnreadMessages} from "../../../../messaging-system-ui/app/domain/messaging";
 
 @Component({
   selector: 'app-top-menu-dashboard',
   templateUrl: 'top-menu-dashboard.component.html',
   styleUrls: ['../top-menu.component.css'],
-  providers: [PrivacyPolicyService]
+  providers: [PrivacyPolicyService, MessagingSystemService]
 })
 
 export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
@@ -25,12 +26,12 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
   acceptedPrivacyPolicy: AcceptedPrivacyPolicy = null;
   name: string = null;
   showArchive: boolean = false;
+  groupIds: string[] = [];
+  unreadMessages: UnreadMessages = new UnreadMessages();
 
-  constructor(private userService: UserService,
-              private privacyPolicy: PrivacyPolicyService,
-              private authentication: AuthenticationService,
-              private router: Router) {
-  }
+  constructor(private userService: UserService, private privacyPolicy: PrivacyPolicyService,
+              private authentication: AuthenticationService, private router: Router,
+              private messagingService: MessagingSystemService) {}
 
   ngOnInit() {
 
@@ -49,7 +50,23 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
                 error => {console.error(error);}
               );
             }
-          }
+            if (this.userInfo) {
+              this.showArchive = this.coordinatorContains('eosc-sb') || this.checkIfManager();
+              for (const stakeholder of this.userInfo.stakeholders) {
+                this.groupIds.push(stakeholder.id);
+              }
+              for (const coordinator of this.userInfo.coordinators) {
+                this.groupIds.push(coordinator.id);
+              }
+              this.messagingService.getUnreadCount(this.groupIds).subscribe(
+                res => {
+                  this.unreadMessages = res;
+                },
+                error => {console.error(error)}
+              );
+            }
+          },
+          error => {console.error(error)}
         )
       );
     }
@@ -140,6 +157,17 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
       return false;
     }
     return false;
+  }
+
+  showUnread(id: string) {
+    for (const group of this.unreadMessages.groups) {
+      if (group.groupId === id) {
+        if (group.unread > 0)
+          return group.unread;
+        return '';
+      }
+    }
+    return '';
   }
 
   logInButton() {

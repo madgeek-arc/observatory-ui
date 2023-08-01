@@ -11,5 +11,6 @@ export const environment = {
   OSO_STATS_API_ENDPOINT: 'https://services.openaire.eu/stats-tool/',
   osoStatsProfileName: 'observatory',
   matomoTrackerUrl: '$MATOMO_URL',
-  matomoSiteId: '$MATOMO_SITE_ID'
+  matomoSiteId: '$MATOMO_SITE_ID',
+  RECAPTCHA_V3_KEY: '$RECAPTCHA_V3_SITE_KEY'
 };
