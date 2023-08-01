@@ -1,0 +1,18 @@
+.flag-image-selector {
+  box-shadow: 0px 3px 6px #0000001A;
+  border: 1px solid #EAEAEA;
+}
+
+.select-country a {
+  color: var(--black) !important;
+}
+
+.country-selection-mode.uk-tab > .uk-active > a {
+  border-color: transparent;
+  background-color: var(--eosc-observatory-primary-color);
+  border-radius: 6px;
+}
+
+.country-selection-mode.uk-tab > .uk-active > a > span.uk-icon {
+  color: var(--white) !important;
+}

@@ -1,0 +1,3 @@
+export const mapIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="25.714" height="20" viewBox="0 0 25.714 20"><path id="Icon_awesome-map" data-name="Icon awesome-map" d="M0,6.074V21.535a.714.714,0,0,0,.979.663l6.163-2.805V2.25L.9,4.748A1.429,1.429,0,0,0,0,6.074ZM8.571,19.393l8.571,2.857V5.107L8.571,2.25ZM24.735,2.3,18.571,5.107V22.25l6.245-2.5a1.428,1.428,0,0,0,.9-1.326V2.965A.714.714,0,0,0,24.735,2.3Z" transform="translate(0 -2.25)" fill="#6e6e6e"/></svg>';
+
+export const flagIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="17.647" height="20" viewBox="0 0 17.647 20"><path id="Icon_material-flag" data-name="Icon material-flag" d="M18.559,8.353,18.088,6H7.5V26H9.853V17.765h6.588l.471,2.353h8.235V8.353Z" transform="translate(-7.5 -6)" fill="#6e6e6e"/></svg>';

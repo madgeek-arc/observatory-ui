@@ -23,7 +23,7 @@ export class CountryLandingPageComponent implements OnInit {
     this.route.params.subscribe(
       value => {
         this.countryCode = value['code'];
-        this.surveyService.getLatestAnswer(`sh-country-${this.countryCode}`, 'm-jlFggsCN').subscribe(
+        this.surveyService.getLatestAnswer(`sh-eosc-sb-${this.countryCode}`, 'm-jlFggsCN').subscribe(
           res => {
             this.surveyAnswer = res;
             this.answer = this.surveyAnswer.answer
