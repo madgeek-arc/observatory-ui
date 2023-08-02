@@ -5,7 +5,7 @@
         <div class="uk-grid uk-margin-medium-top">
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [title]="'Number of researchers employed in 2021'"
-                                       [subtitle]="'(in full-time equivalents)'" [dataSeriesSuffix]="''">
+                                       [subtitle]="'(in full-time equivalents)'" [dataSeriesSuffix]="''" [toolTipData]="questionsDataArray[5]">
             </app-highcharts-color-axis>
           </div>
 
@@ -20,7 +20,7 @@
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
               <app-bar-chart [mapData]="questionsDataArrayForBarChart[0]" [subTitle]="'(in full-time equivalents)'"
-                             [title]="'Number of researchers employed in 2021'">
+                             [title]="'Number of researchers employed in 2021'" [dataSeriesSuffix]="''">
               </app-bar-chart>
             </div>
           </div>
@@ -45,7 +45,7 @@
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
               <app-bar-chart [mapData]="questionsDataArrayForBarChart[1]" [subTitle]="''"
-                             [title]="'Number of RPOs'">
+                             [title]="'Number of RPOs'" [dataSeriesSuffix]="''">
               </app-bar-chart>
             </div>
           </div>
@@ -70,7 +70,7 @@
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
               <app-bar-chart [mapData]="questionsDataArrayForBarChart[2]" [subTitle]="''"
-                             [title]="'Number of RFOs'">
+                             [title]="'Number of RFOs'" [dataSeriesSuffix]="''">
               </app-bar-chart>
             </div>
           </div>
@@ -95,7 +95,7 @@
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
               <app-bar-chart [mapData]="questionsDataArrayForBarChart[3]" [subTitle]="''"
-                             [title]="'Number of repositories'">
+                             [title]="'Number of repositories'" [dataSeriesSuffix]="''">
               </app-bar-chart>
             </div>
           </div>

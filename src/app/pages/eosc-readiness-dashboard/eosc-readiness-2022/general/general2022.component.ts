@@ -24,6 +24,7 @@ export class General2022Component implements OnInit {
   mapSubtitles: string[] = [];
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
   questionsDataArray: any[] = [];
+  commentMap = new Map<string, string>();
   tmpQuestionsDataArray: any[] = [];
   questionsDataArrayForBarChart: any[] = [];
   sumsArray: string[] = [];
@@ -60,11 +61,15 @@ export class General2022Component implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion1(),
+      this.queryData.getQuestion1_2(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
-        this.questionsDataArray[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[0]  = this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+         // this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        // console.log(this.questionsDataArray[0]);
+        // console.log(this.questionsDataArray[5]);
         this.sumsArray[0] = this.calculateSum(res[1]);
       }
     )
@@ -77,8 +82,7 @@ export class General2022Component implements OnInit {
     ).subscribe(
       res => {
         this.countriesArray = res[0];
-        this.questionsDataArray[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[1] = this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[1] = this.calculateSum(res[1]);
       }
     )
@@ -91,8 +95,7 @@ export class General2022Component implements OnInit {
     ).subscribe(
       res => {
         this.countriesArray = res[0];
-        this.questionsDataArray[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[2] = this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[2] = this.calculateSum(res[1]);
       }
     )

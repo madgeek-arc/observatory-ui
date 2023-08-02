@@ -27,6 +27,11 @@ export class EoscReadiness2022DataService {
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
+  public getQuestion1_2(): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question1.comment","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
   public getQuestion2(): Observable<RawData> {
     const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question2","profile":"${this.profileName}"}}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
@@ -46,10 +51,6 @@ export class EoscReadiness2022DataService {
     const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question5","profile":"${this.profileName}"}}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
-
-
-
-
 
 
 
@@ -184,7 +185,6 @@ export class EoscReadiness2022DataService {
 
 
 
-
   // ======= FINANCIAL STRATEGY =======
   // Publications
   public getQuestion7(): Observable<RawData> {
@@ -253,7 +253,6 @@ export class EoscReadiness2022DataService {
     const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question51","profile":"${this.profileName}"}}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
-
 
 
 

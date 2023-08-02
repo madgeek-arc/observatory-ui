@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RawData } from '../../../survey-tool/app/domain/raw-data';
+import {RawData, Row} from '../../../survey-tool/app/domain/raw-data';
 import { CountryTableData } from '../../../survey-tool/app/domain/country-table-data';
 import {CategorizedAreaData, Series} from "../../../survey-tool/app/domain/categorizedAreaData";
 import {FundingForEOSCSums} from "../../../survey-tool/app/domain/funding-for-eosc";
@@ -131,6 +131,16 @@ export class DataHandlerService {
         tmpDataArray.push([data.row[0].toLowerCase(), parseFloat(data.row[1])])
     }
     // console.log(tmpDataArray);
+    return tmpDataArray;
+  }
+
+  public covertRawDataGetText(rawData: RawData) {
+    let tmpDataArray = new Map<string, string>();
+    for (const data of rawData.datasets[0].series.result) {
+      if (data.row[1] === null || data.row[1] === '' || data.row[1] === 'null')
+        continue;
+      tmpDataArray.set(data.row[0].toLowerCase(), data.row[1]);
+    }
     return tmpDataArray;
   }
 
