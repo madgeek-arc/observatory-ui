@@ -1,14 +1,14 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from "@angular/core";
+import {Router} from "@angular/router";
 import {Coordinator, Stakeholder, UserInfo} from "../../../../survey-tool/app/domain/userInfo";
 import {UserService} from "../../../../survey-tool/app/services/user.service";
-import {Router} from "@angular/router";
 import {AuthenticationService} from "../../../../survey-tool/app/services/authentication.service";
 import {PrivacyPolicyService} from "../../../../survey-tool/app/services/privacy-policy.service";
 import {AcceptedPrivacyPolicy} from "../../../../survey-tool/app/domain/privacy-policy";
-import {Subscriber} from "rxjs";
-import * as UIkit from 'uikit';
 import {MessagingSystemService} from "../../../../messaging-system-ui/services/messaging-system.service";
 import {UnreadMessages} from "../../../../messaging-system-ui/app/domain/messaging";
+import {Subscriber} from "rxjs";
+import * as UIkit from 'uikit';
 
 @Component({
   selector: 'app-top-menu-dashboard',
