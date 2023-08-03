@@ -65,11 +65,12 @@ export class General2022Component implements OnInit {
     ).subscribe(
       res => {
         this.countriesArray = res[0];
-        this.questionsDataArray[0]  = this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-         // this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        let tempArr: string[] = [];
+        this.questionsDataArray[0] = this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[0].forEach((data: string[]) => {tempArr.push(data[0]);});
+        // this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArray[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        // console.log(this.questionsDataArray[0]);
-        // console.log(this.questionsDataArray[5]);
+        this.countriesArray = this.countriesArray.map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         this.sumsArray[0] = this.calculateSum(res[1]);
       }
     )
@@ -81,7 +82,7 @@ export class General2022Component implements OnInit {
       this.queryData.getQuestion2(),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
+        // this.countriesArray = res[0];
         this.questionsDataArray[1] = this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[1] = this.calculateSum(res[1]);
       }
@@ -94,7 +95,7 @@ export class General2022Component implements OnInit {
       this.queryData.getQuestion3(),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
+        // this.countriesArray = res[0];
         this.questionsDataArray[2] = this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[2] = this.calculateSum(res[1]);
       }
@@ -107,7 +108,7 @@ export class General2022Component implements OnInit {
       this.queryData.getQuestion4(),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
+        // this.countriesArray = res[0];
         this.questionsDataArray[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[3] = this.calculateSum(res[1]);
@@ -121,7 +122,7 @@ export class General2022Component implements OnInit {
       this.queryData.getQuestion5(),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
+        // this.countriesArray = res[0];
         this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[4] = this.calculateSum(res[1]);
