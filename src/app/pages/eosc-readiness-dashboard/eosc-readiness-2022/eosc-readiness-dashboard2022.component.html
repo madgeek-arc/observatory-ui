@@ -7,8 +7,15 @@
     <div id="sidebar_toggle" class="" (click)="toggleSidebar()"></div>
 
     <div id="sidebar_content">
-      <div  class="menu_section uk-margin-top" style="min-height: 30vh">
-        <div class="uk-padding-small"><h6>National contributions 2022</h6></div>
+
+      <div class="uk-section-secondary">
+        <div class="uk-padding">
+          <div class="uk-margin-remove uk-text-bold" style="color: #fff">National contributions 2022</div>
+        </div>
+      </div>
+
+      <div  class="menu_section" style="min-height: 30vh">
+
         <ul #nav class="uk-list uk-nav uk-nav-default uk-nav-parent-icon" uk-nav="duration: 500">
 
           <li [ngClass]="{'uk-active current_section': activeSection === 'general'}" class="uk-parent">
@@ -90,6 +97,14 @@
           </li>
 
         </ul>
+      </div>
+
+      <div class="uk-padding" style="position: absolute; bottom: 40px;">
+        <p class="uk-text-italic" style="font-size: 10px">
+          * The Survey on National Contributions to EOSC is in an initial stage of implementation. The survey will be improved
+          in future iterations and collected survey data should for now be taken as a best-effort attempt by participating
+          countries.
+        </p>
       </div>
     </div>
   </aside>
