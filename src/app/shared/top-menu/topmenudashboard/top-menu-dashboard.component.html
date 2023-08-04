@@ -53,8 +53,8 @@
                       <svg height="60" width="60">
                         <image x="10" y="10" [attr.href]="'data:image;base64,' + userInfo.user.profile.picture"
                                height="40" width="40" clip-path="inset(0% round 20px)"/>
-                        <circle class="notification" *ngIf="unreadMessages.totalUnread > 0" cx="45" cy="15" r="7" stroke-width="1"></circle>
-                        <text class="notification"  *ngIf="unreadMessages.totalUnread > 0" x="45" y="19" text-anchor="middle">
+                        <circle class="notification" *ngIf="unreadMessages?.totalUnread > 0" cx="45" cy="15" r="7" stroke-width="1"></circle>
+                        <text class="notification"  *ngIf="unreadMessages?.totalUnread > 0" x="45" y="19" text-anchor="middle">
                           {{unreadMessages?.totalUnread.toString()}}
                         </text>
                       </svg>
