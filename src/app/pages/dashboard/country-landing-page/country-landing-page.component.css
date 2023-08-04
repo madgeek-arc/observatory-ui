@@ -1,0 +1,117 @@
+.r-d-card {
+  background: #CDEAED 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+}
+
+.vertical-card-header .material-icons {
+  font-size: 36px;
+  background-color: var(--eosc-observatory-primary-color);
+  color: var(--white);
+  box-shadow: 3px 3px 6px #00000029;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.horizontal-card-header .material-icons {
+  font-size: 28px;
+  background-color: var(--eosc-observatory-primary-color);
+  color: var(--white);
+  box-shadow: 3px 3px 6px #00000029;
+  border-radius: 8px;
+  padding: 6px;
+}
+
+.impact-background {
+  height: 100%;
+  background-image: url("../../../../assets/images/country_pages/coming soon bg.svg");
+  background-size: contain;
+}
+
+.vertical-card {
+  height: 48%;
+}
+
+.vertical-card .uk-card, .vertical-card .uk-card .uk-grid {
+  height: 100%;
+}
+
+.vertical-card.practices-card .number {
+
+}
+
+.vertical-card.practices-card .text {
+  font-size: 12px;
+  letter-spacing: 0.12px;
+  color: #4E4E4E;
+}
+
+
+.survey-tabs.uk-tab {
+  margin-bottom: 0px;
+}
+
+
+.survey-tabs.uk-tab::before, .chapter-selection-tabs.uk-tab::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  right: 0;
+  border-bottom: 1px solid #EAEAEA;
+}
+
+.survey-tabs li:not(:first-child) {
+  padding-left: 0px;
+}
+
+.survey-tabs li a {
+  background: #EAEAEA 0% 0% no-repeat padding-box;
+  border: 1px solid #DDDDDD;
+  /*border-bottom: none;*/
+  /*position: relative;*/
+  /*bottom: -1px;*/
+}
+
+.survey-tabs li:last-child a {
+  border-radius: 0px 6px 0px 0px;
+}
+
+.survey-tabs li:first-child a {
+  border-radius: 6px 0px 0px 0px;
+}
+
+.survey-tabs li.uk-active a {
+  background: #fff 0% 0% no-repeat padding-box;
+  border: 1px solid #EAEAEA;
+  border-bottom: none;
+  color: #2c2c2c;
+
+  /*z-index: 10;*/
+  /*position: relative;*/
+  /*bottom: -1px;*/
+}
+
+
+#survey-selection .uk-section-primary {
+  border-left: 1px solid #EAEAEA;
+  border-right: 1px solid #EAEAEA;
+  border-bottom: 1px solid #EAEAEA;
+}
+
+.chapter-selection-tabs.uk-tab.uk-tab > * > a {
+  color: var(--black);
+}
+
+.chapter-selection-tabs.uk-tab > .uk-active > a {
+  /*color: var(--black);*/
+  font-weight: bold;
+  border-color: var(--eosc-observatory-secondary-color);
+}
+
+.chapter-selection-tabs.uk-tab > .uk-disabled > a {
+  color: #bbb;
+}
+
+.chapter-selection-tabs.uk-tab > .use-cases > a {
+  color: var(--eosc-observatory-secondary-color);
+}

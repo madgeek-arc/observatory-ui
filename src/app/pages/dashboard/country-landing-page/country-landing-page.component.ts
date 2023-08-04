@@ -3,10 +3,12 @@ import {ActivatedRoute} from "@angular/router";
 import {SurveyService} from "../../../../survey-tool/app/services/survey.service";
 import {SurveyAnswer} from "../../../../survey-tool/app/domain/survey";
 import {Model} from "../../../../survey-tool/catalogue-ui/domain/dynamic-form-model";
+import {countries} from "../../../../survey-tool/app/domain/countries";
 
 @Component({
   selector: 'country-landing-page',
   templateUrl: 'country-landing-page.component.html',
+  styleUrls: ['./country-landing-page.component.css'],
   providers: [SurveyService]
 })
 
@@ -36,6 +38,14 @@ export class CountryLandingPageComponent implements OnInit {
         );
       }
     );
+  }
+
+  findCountryByCode(countryCode: string) {
+    let country = countries.find(elem=> elem.id === countryCode);
+    if (country && country.name)
+      return country.name;
+    else
+      return countryCode;
   }
 
 }
