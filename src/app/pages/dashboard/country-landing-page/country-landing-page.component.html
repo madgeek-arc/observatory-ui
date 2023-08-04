@@ -1,5 +1,189 @@
+<div class="uk-section uk-section-secondary uk-section-small">
+  <div class="uk-container uk-container-expand">
+    <div class="uk-flex uk-flex-between">
+      <div class="">
+        <img src="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png" class="flag-image" width="78" height="78">
+        <div class="uk-inline uk-margin-left">
+          <h3 class="uk-margin-small-bottom">{{findCountryByCode(countryCode)}}</h3>
+          <div class="uk-text-italic">
+            <span class="lastUpdateInfo">Last Update: </span>
+            <span *ngIf="surveyAnswer?.metadata?.modificationDate" class="lastUpdateInfo">{{surveyAnswer.metadata.modificationDate | date:'mediumDate'}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="uk-section-default uk-section">
+  <div class="uk-container uk-container-expand">
+
+    <div class="uk-grid uk-grid-match">
+
+      <div class="uk-width-expand">
+        <div class="uk-grid uk-grid-small uk-grid-match">
+
+<!--          TODO add real values-->
+          <div class="uk-width-2-5">
+            <div class="uk-card uk-card-default uk-card-body">
+              <div class="vertical-card-header uk-flex uk-flex-center">
+                <div class="uk-text-center">
+                  <span class="material-icons">verified_user</span>
+                  <h6 class="uk-margin-top">Policies</h6>
+                </div>
+              </div>
+              <hr class="hr-light">
+              <div class="uk-text-small">
+                <div class="uk-margin-medium-top">
+                  <div class="uk-text-secondary uk-text-bold uk-text-italic">National OA Policy</div>
+                  <div class="uk-margin-small-top uk-flex uk-flex-middle">
+                    <span class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check</span>Publications
+                  </div>
+                  <div class="uk-margin-small-top uk-flex uk-flex-middle">
+                    <span class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close</span>Data
+                  </div>
+                  <div class="uk-margin-small-top uk-flex uk-flex-middle">
+                    <span class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check</span>Software
+                  </div>
+                </div>
+                <div class="uk-margin-top">
+                  <div class="uk-text-secondary uk-text-bold uk-text-italic">Financial strategy on OA</div>
+                  <div class="uk-margin-small-top uk-flex uk-flex-middle">
+                    <span class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check</span>Publications
+                  </div>
+                  <div class="uk-margin-small-top uk-flex uk-flex-middle">
+                    <span class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check</span>Data
+                  </div>
+                  <div class="uk-margin-small-top uk-flex uk-flex-middle">
+                    <span class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check</span>Software
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-expand">
+            <div class="vertical-card practices-card">
+              <div class="uk-card uk-card-default uk-card-body">
+                <div class="uk-grid uk-grid-divider">
+                  <div class="uk-width-2-5 horizontal-card-header uk-flex uk-flex-center uk-flex-middle">
+                    <div class="uk-text-center">
+                      <span class="material-icons">settings</span>
+                      <h6>Practices</h6>
+                    </div>
+                  </div>
+                  <!--          TODO add real values-->
+                  <div class="uk-width-3-5">
+                    <div class="uk-flex uk-flex-middle">
+                      <img src="assets/images/country_pages/graph%20icon.svg">
+                      <div>
+                        <h5 class="uk-margin-remove">12,875</h5>
+                        <div class="text">Open Access publications</div>
+                      </div>
+                    </div>
+                    <div class="uk-flex uk-flex-middle uk-margin-top">
+                      <img src="assets/images/country_pages/graph%20icon2.svg">
+                      <div>
+                        <h5 class="uk-margin-remove">4.5 M</h5>
+                        <div class="text">investments in data management</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="vertical-card uk-margin-top">
+              <div class="uk-card uk-card-default uk-card-body" style="opacity: 0.6">
+                <div class="uk-grid uk-grid-divider">
+                  <div class="uk-width-2-5 horizontal-card-header uk-flex uk-flex-center uk-flex-middle">
+                    <div class="uk-text-center">
+                      <span class="material-icons">play_for_work</span>
+                      <h6>Impact</h6>
+                    </div>
+                  </div>
+                  <div class="uk-width-3-5">
+                    <div class="impact-background uk-flex uk-flex-middle uk-flex-center">
+                      <h5>Coming soon</h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="uk-width-1-3">
+        <div class="uk-card r-d-card uk-card-body">
+          <h6>R&D Information</h6>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <div class="uk-section-default uk-section uk-section-small">
   <div class="uk-container uk-container-expand">
+
+    <div class="uk-position-relative">
+      <ul class="survey-tabs" uk-tab uk-switcher="connect: #survey-selection">
+        <li class="uk-active">
+          <a href="#" class="uk-flex uk-flex-middle">
+            <span class="material-icons uk-margin-small-right">edit_document</span>Survey
+          </a>
+        </li>
+        <li>
+          <a href="#" class="uk-flex uk-flex-middle">
+            <span class="material-icons uk-margin-small-right">landscape</span>Landscape
+          </a>
+        </li>
+<!--        <li class="uk-flex uk-flex-end"><a>Observatory</a></li>-->
+      </ul>
+
+    </div>
+
+    <div>
+      <ul id="survey-selection" class="uk-switcher">
+        <li>
+          <div class="uk-section-primary uk-preserve-color uk-padding" style="min-height: 300px">
+
+            <div class="uk-position-relative">
+              <ul class="chapter-selection-tabs" uk-tab uk-switcher="connect: #chapter-selection">
+                <li class="uk-active"><a href="#" class="">General</a></li>
+                <li><a href="#" class="">Policies</a></li>
+                <li><a href="#" class="">Practices</a></li>
+                <li class="uk-disabled"><a href="#">Impact</a></li>
+                <li class="use-cases"><a href="#" class="uk-disabled">Use cases</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <ul id="chapter-selection" class="uk-switcher">
+                <li>
+                  General
+                </li>
+                <li>
+                  Policies
+                </li>
+                <li>
+                  Practices
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </li>
+        <li>
+          <div class="uk-section-primary uk-preserve-color uk-padding" style="min-height: 300px">
+            Landscape....
+          </div>
+        </li>
+      </ul>
+    </div>
+
 
     <div *ngIf="surveyModel && answer">
       <h6>{{surveyModel.name}}</h6>
