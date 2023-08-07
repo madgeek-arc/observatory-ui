@@ -1,6 +1,7 @@
 <div class="uk-grid">
   <div class="uk-width-1-1">
     <ul id="topSelector" uk-switcher="{connect:'#content', animation: 'fade'}" uk-tab>
+      <li><a [routerLink]="['../all']">All</a></li>
       <li><a [routerLink]="['../publications']">Publications</a></li>
       <li><a [routerLink]="['../data/dataManagement']">Data</a></li>
       <li><a [routerLink]="['../software']">Software</a></li>
@@ -11,6 +12,15 @@
       <li><a [routerLink]="['../engagement']">Engagement</a></li>
     </ul>
     <ul id="content" class="uk-switcher uk-margin-medium-top">
+      <li>
+        <div class="uk-grid">
+          <div class="uk-width-1-2">
+          </div>
+          <div class="uk-width-1-2" style="height: 400px">
+            <activity-gauge></activity-gauge>
+          </div>
+        </div>
+      </li>
       <li>
         <div class="uk-grid">
           <div class="uk-width-1-1" style="height: 700px">
