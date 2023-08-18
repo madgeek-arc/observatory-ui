@@ -6,7 +6,7 @@ import {DataHandlerService} from "../../../../services/data-handler.service";
 import {CountryTableData} from "../../../../../../survey-tool/app/domain/country-table-data";
 import {ColorPallet, EoscReadiness2022MapSubtitles} from "../../eosc-readiness2022-map-subtitles";
 import {latlong} from "../../../../../../survey-tool/app/domain/countries-lat-lon";
-import {CategorizedAreaData, Series} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
+import {ActivityGauge, CategorizedAreaData, Series} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
 import {zip} from "rxjs/internal/observable/zip";
 import UIkit from "uikit";
 
@@ -24,6 +24,7 @@ export class NationalPolicyComponent implements OnInit {
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
   mapPointData: CountryTableData[];
+  activityGaugeData: ActivityGauge[] = [];
 
   constructor(private router: Router, private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
@@ -36,7 +37,7 @@ export class NationalPolicyComponent implements OnInit {
         // console.log('policies component params');
         if (params['type'] === 'all') {
           UIkit.switcher('#topSelector').show(0);
-          this.getPublicationsData();
+          this.getAllData();
         }
         if (params['type'] === 'publications') {
           UIkit.switcher('#topSelector').show(1);
@@ -71,6 +72,41 @@ export class NationalPolicyComponent implements OnInit {
       }
     );
   }
+
+  getAllData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion6(),
+      // this.queryData.getQuestion6_1(),
+      this.queryData.getQuestion22(),
+      this.queryData.getQuestion26(),
+      this.queryData.getQuestion42(),
+      this.queryData.getQuestion46(),
+      this.queryData.getQuestion50(),
+      ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        let y: number = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[1])/this.countriesArray.length + Number.EPSILON) * 100);
+        this.activityGaugeData.push({name: 'Publications', y: y});
+        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[2])/this.countriesArray.length + Number.EPSILON) * 100);
+        this.activityGaugeData.push({name: 'Software', y: y});
+        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[3])/this.countriesArray.length + Number.EPSILON) * 100);
+        this.activityGaugeData.push({name: 'Services', y: y});
+        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[4])/this.countriesArray.length + Number.EPSILON) * 100);
+        this.activityGaugeData.push({name: 'Skills Training', y: y});
+        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[5])/this.countriesArray.length + Number.EPSILON) * 100);
+        this.activityGaugeData.push({name: 'Assesment', y: y});
+        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[6])/this.countriesArray.length + Number.EPSILON) * 100);
+        this.activityGaugeData.push({name: 'Engagement', y: y});
+
+        this.activityGaugeData = [...this.activityGaugeData];
+      },
+      error => {console.error(error)},
+      () => {}
+    );
+  }
+
+
 
   getPublicationsData() {
     zip(

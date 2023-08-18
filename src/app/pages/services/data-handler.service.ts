@@ -134,6 +134,20 @@ export class DataHandlerService {
     return tmpDataArray;
   }
 
+  public convertRawDataForActivityGauge(rawData: RawData) {
+    let count: number = 0;
+    for (const series of rawData.datasets) {
+
+      for (const rowResult of series.series.result) {
+        if (rowResult.row[1] === 'Yes') {
+          count++;
+        }
+      }
+
+    }
+    return count;
+  }
+
   public covertRawDataGetText(rawData: RawData) {
     let tmpDataArray = new Map<string, string>();
     for (const data of rawData.datasets[0].series.result) {

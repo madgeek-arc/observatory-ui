@@ -47,7 +47,7 @@
           </li>
 
           <li [ngClass]="{'uk-active current_section': activeSection === 'policies'}" class="uk-parent">
-            <a [routerLink]="['policies/nationalPolicy/publications']" [replaceUrl]="true">
+            <a [routerLink]="['policies/nationalPolicy/all']" [replaceUrl]="true">
               <div class="uk-flex uk-flex-middle uk-flex-center">
                 <div class="uk-width-auto">
                   <span class="material-icons">policy</span>
@@ -57,7 +57,7 @@
             </a>
             <ul class="uk-nav-sub" uk-switcher>
               <li [ngClass]="{'uk-active current_section': activeTab === 'nationalPolicy'}" class="uk-width-1-1">
-                <a [routerLink]="'policies/nationalPolicy/publications'"><span class="uk-text-truncate">National Policy</span></a>
+                <a [routerLink]="'policies/nationalPolicy/all'"><span class="uk-text-truncate">National Policy</span></a>
               </li>
               <li [ngClass]="{'uk-active current_section': activeTab === 'financialStrategy'}" class="uk-width-1-1">
                 <a [routerLink]="'policies/financialStrategy/publications'"><span class="uk-text-truncate">Financial Strategy</span></a>
