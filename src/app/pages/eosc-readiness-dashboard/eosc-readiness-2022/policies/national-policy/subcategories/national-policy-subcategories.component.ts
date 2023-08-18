@@ -61,8 +61,8 @@ export class NationalPolicySubcategoriesComponent implements OnInit{
   getDataManagementData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion6(),
-      this.queryData.getQuestion6_1(),
+      this.queryData.getQuestion10(),
+      this.queryData.getQuestion10_1(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];

@@ -26,7 +26,7 @@ export class NationalPolicyComponent implements OnInit {
   mapPointData: CountryTableData[];
   activityGaugeData: ActivityGauge[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
+  constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
   }
 
@@ -74,29 +74,48 @@ export class NationalPolicyComponent implements OnInit {
   }
 
   getAllData() {
+    this.activityGaugeData = [];
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion6(),
-      // this.queryData.getQuestion6_1(),
+      this.queryData.getQuestion10(),
+      this.queryData.getQuestion14(),
+      this.queryData.getQuestion18(),
       this.queryData.getQuestion22(),
       this.queryData.getQuestion26(),
+      this.queryData.getQuestion30(),
+      this.queryData.getQuestion34(),
+      this.queryData.getQuestion38(),
       this.queryData.getQuestion42(),
       this.queryData.getQuestion46(),
       this.queryData.getQuestion50(),
       ).subscribe(
       res => {
         this.countriesArray = res[0];
+
         let y: number = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[1])/this.countriesArray.length + Number.EPSILON) * 100);
         this.activityGaugeData.push({name: 'Publications', y: y});
-        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[2])/this.countriesArray.length + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Software', y: y});
-        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[3])/this.countriesArray.length + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Services', y: y});
-        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[4])/this.countriesArray.length + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Skills Training', y: y});
+
+        y = Math.round(((this.dataHandlerService.convertRawDataForActivityGauge(res[2]) +
+          this.dataHandlerService.convertRawDataForActivityGauge(res[3]) +
+          this.dataHandlerService.convertRawDataForActivityGauge(res[4]))/(this.countriesArray.length*3) + Number.EPSILON) * 100);
+        this.activityGaugeData.push({name: 'Data', y: y});
+
         y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[5])/this.countriesArray.length + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Assesment', y: y});
+        this.activityGaugeData.push({name: 'Software', y: y});
         y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[6])/this.countriesArray.length + Number.EPSILON) * 100);
+        this.activityGaugeData.push({name: 'Services', y: y});
+
+        y = Math.round(((this.dataHandlerService.convertRawDataForActivityGauge(res[7]) +
+          this.dataHandlerService.convertRawDataForActivityGauge(res[8]) +
+          this.dataHandlerService.convertRawDataForActivityGauge(res[9]))/(this.countriesArray.length*3) + Number.EPSILON) * 100);
+        this.activityGaugeData.push({name: 'Infrastructures', y: y});
+
+        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[10])/this.countriesArray.length + Number.EPSILON) * 100);
+        this.activityGaugeData.push({name: 'Skills/Training', y: y});
+        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[11])/this.countriesArray.length + Number.EPSILON) * 100);
+        this.activityGaugeData.push({name: 'Assessment', y: y});
+        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[12])/this.countriesArray.length + Number.EPSILON) * 100);
         this.activityGaugeData.push({name: 'Engagement', y: y});
 
         this.activityGaugeData = [...this.activityGaugeData];
