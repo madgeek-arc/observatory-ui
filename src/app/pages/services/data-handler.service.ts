@@ -148,6 +148,27 @@ export class DataHandlerService {
     return count;
   }
 
+  public convertRawDataForCumulativeTable(rawData: RawData, countries: string[]) {
+    let tmpArr: string[] = [];
+    let found: boolean = false;
+    console.log(rawData.datasets)
+    for (const series of rawData.datasets) {
+      for (const country of countries) {
+        found = false;
+        for (const rowResult of series.series.result) {
+          if (rowResult.row[0] === country && rowResult.row[1] === 'Yes') {
+            tmpArr.push('true');
+            found = true;
+            break;
+          }
+        }
+        if (!found)
+          tmpArr.push('-');
+      }
+    }
+    return tmpArr;
+  }
+
   public covertRawDataGetText(rawData: RawData) {
     let tmpDataArray = new Map<string, string>();
     for (const data of rawData.datasets[0].series.result) {
