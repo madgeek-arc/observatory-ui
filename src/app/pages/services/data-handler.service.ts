@@ -151,7 +151,6 @@ export class DataHandlerService {
   public convertRawDataForCumulativeTable(rawData: RawData, countries: string[]) {
     let tmpArr: string[] = [];
     let found: boolean = false;
-    console.log(rawData.datasets)
     for (const series of rawData.datasets) {
       for (const country of countries) {
         found = false;

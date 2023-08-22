@@ -1,18 +1,22 @@
-<table class="uk-table uk-table-hover uk-table-divider uk-table-small">
-  <thead>
+<ng-container *ngIf="tableData.length > 0">
+  <div class="uk-margin-bottom" uk-grid>
+    <span class="uk-flex uk-width-expand uk-card-title">EOSC Policies by country</span>
+    <span class="uk-flex uk-flex-right uk-flex-middle">
+    Viewing {{from}} - {{to-1}} of {{tableData.length-1}}
+      <a class="material-icons" (click)="previous()">arrow_circle_left</a>
+    <a class="material-icons" (click)="next()">arrow_circle_right</a>
+  </span>
+  </div>
+  <table class="uk-table uk-table-hover uk-table-divider uk-table-small">
+    <thead>
     <tr>
-      <th *ngFor="let col of tableData">{{col[0]}}</th>
+      <th *ngFor="let col of tableData[0]">{{col}}</th>
     </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let row of tableData[0] | slice: 1; let i=index">
-      <td *ngFor="let data of tableData; let j=index">{{tableData[j][i+1]}}</td>
-<!--      <td>{{tableData[1][i+1]}}</td>-->
-<!--      <td>{{tableData[2][i+1]}}</td>-->
-<!--      <td>{{tableData[3][i+1]}}</td>-->
-<!--      <td>{{tableData[4][i+1]}}</td>-->
-<!--      <td>{{tableData[5][i+1]}}</td>-->
-<!--      <td>{{tableData[6][i+1]}}</td>-->
+    </thead>
+    <tbody>
+    <tr *ngFor="let row of tableData | slice: from : to; let i=index">
+      <td *ngFor="let data of row; let j=index">{{data}}</td>
     </tr>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</ng-container>

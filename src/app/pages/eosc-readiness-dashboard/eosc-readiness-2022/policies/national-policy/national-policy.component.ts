@@ -138,7 +138,8 @@ export class NationalPolicyComponent implements OnInit {
         this.activitySum += count;
 
         this.activityGaugeData = [...this.activityGaugeData];
-        console.log(this.tableData);
+
+        this.tableData = this.tableData[0].map((_, colIndex) => this.tableData.map(row => row[colIndex])); // Transpose 2d array
       },
       error => {console.error(error)},
       () => {}
