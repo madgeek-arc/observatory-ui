@@ -36,8 +36,6 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
     this.messagingService.unreadMessages.subscribe(
       next => this.unreadMessages = next
     );
-
-    console.log('Get unread messages from top menu');
     this.messagingService.setUnreadCount();
 
   }
@@ -60,6 +58,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
               );
             }
             if (this.userInfo) {
+              this.messagingService.newEventSource(this.userInfo.user.email);
               this.showArchive = this.coordinatorContains('eosc-sb') || this.checkIfManager();
               // for (const stakeholder of this.userInfo.stakeholders) {
               //   this.groupIds.push(stakeholder.id);
@@ -132,6 +131,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
         subscription.unsubscribe();
       }
     });
+    // this.messagingService.eventSource.close();
   }
 
   parseUsername() {
