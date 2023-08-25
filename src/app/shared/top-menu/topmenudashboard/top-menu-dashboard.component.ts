@@ -9,6 +9,7 @@ import {AcceptedPrivacyPolicy} from "../../../../survey-tool/app/domain/privacy-
 import {UnreadMessages} from "../../../../messaging-system-ui/app/domain/messaging";
 import {Subscriber} from "rxjs";
 import * as UIkit from 'uikit';
+import {MessagingWebsocketService} from "../../../../messaging-system-ui/services/messaging-websocket.service";
 
 @Component({
   selector: 'app-top-menu-dashboard',
@@ -31,7 +32,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(private userService: UserService, private privacyPolicy: PrivacyPolicyService,
               private authentication: AuthenticationService, private router: Router,
-              private messagingService: MessagingSystemService) {
+              private messagingService: MessagingSystemService, private messagingWebsocket: MessagingWebsocketService) {
 
     this.messagingService.unreadMessages.subscribe(
       next => this.unreadMessages = next
@@ -58,7 +59,10 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
               );
             }
             if (this.userInfo) {
-              this.messagingService.newEventSource(this.userInfo.user.email);
+
+              this.messagingWebsocket.initializeWebSocketConnection(`/topic/stream/inbox/unread/${this.userInfo.user.email}`);
+              this.messagingWebsocket.WsJoin(`/app/stream/unread/${this.userInfo.user.email}`, 'testo');
+
               this.showArchive = this.coordinatorContains('eosc-sb') || this.checkIfManager();
               // for (const stakeholder of this.userInfo.stakeholders) {
               //   this.groupIds.push(stakeholder.id);
