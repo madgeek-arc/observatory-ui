@@ -11,7 +11,7 @@ export const environment = {
   MESSAGING_ENDPOINT: '/observatory',
   projectName: 'Observatory',
   // STATS_API_ENDPOINT: 'https://stats.madgik.di.uoa.gr/stats-api/',
-  STATS_API_ENDPOINT: 'http://dl123.madgik.di.uoa.gr/stats/api/',
+  STATS_API_ENDPOINT: '/observatory/statistics/',
   profileName: 'eosc-obs',
   OSO_STATS_API_ENDPOINT: 'https://services.openaire.eu/stats-tool/',
   osoStatsProfileName: 'observatory',

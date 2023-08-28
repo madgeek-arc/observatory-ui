@@ -14,22 +14,66 @@
     <ul id="content" class="uk-switcher uk-margin-medium-top">
       <li>
         <div class="uk-grid">
-          <div class="uk-width-1-4">
-            <div class="uk-card uk-card-default uk-card-body">
-              <div class="uk-flex uk-flex-center">
-                <span class="material-icons">verified_user</span>
+          <div class="uk-grid uk-width-1-2">
+            <div class="uk-width-1-2">
+              <div class="uk-card uk-card-default uk-card-body">
+                <div class="uk-flex uk-flex-center">
+                  <span class="material-icons">verified_user</span>
+                </div>
+                <div class="uk-text-center">Policies on publications</div>
+                <div class="uk-text-center uk-text-bold">{{publications +' / '+ countriesArray.length}}</div>
               </div>
-              <div class="uk-text-center">Total policies</div>
-              <div class="uk-text-center uk-text-bold">{{activitySum}}</div>
+            </div>
+            <div class="uk-width-1-2">
+              <div class="uk-card uk-card-default uk-card-body">
+                <div class="uk-flex uk-flex-center">
+                  <span class="material-icons">verified_user</span>
+                </div>
+                <div class="uk-text-center">Policies on software</div>
+                <div class="uk-text-center uk-text-bold">{{software +' / '+ countriesArray.length}}</div>
+              </div>
+            </div>
+            <div class="uk-width-1-2">
+              <div class="uk-card uk-card-default uk-card-body">
+                <div class="uk-flex uk-flex-center">
+                  <span class="material-icons">verified_user</span>
+                </div>
+                <div class="uk-text-center">Policies on services</div>
+                <div class="uk-text-center uk-text-bold">{{services +' / '+ countriesArray.length}}</div>
+              </div>
+            </div>
+            <div class="uk-width-1-2">
+              <div class="uk-card uk-card-default uk-card-body">
+                <div class="uk-flex uk-flex-center">
+                  <span class="material-icons">verified_user</span>
+                </div>
+                <div class="uk-text-center">Policies on skills/training</div>
+                <div class="uk-text-center uk-text-bold">{{skills_training +' / '+ countriesArray.length}}</div>
+              </div>
+            </div>
+            <div class="uk-width-1-2">
+              <div class="uk-card uk-card-default uk-card-body">
+                <div class="uk-flex uk-flex-center">
+                  <span class="material-icons">verified_user</span>
+                </div>
+                <div class="uk-text-center">Policies on assessment</div>
+                <div class="uk-text-center uk-text-bold">{{assessment +' / '+ countriesArray.length}}</div>
+              </div>
+            </div>
+            <div class="uk-width-1-2">
+              <div class="uk-card uk-card-default uk-card-body">
+                <div class="uk-flex uk-flex-center">
+                  <span class="material-icons">verified_user</span>
+                </div>
+                <div class="uk-text-center">Policies on engagement</div>
+                <div class="uk-text-center uk-text-bold">{{engagement +' / '+ countriesArray.length}}</div>
+              </div>
             </div>
           </div>
-          <div class="uk-width-1-4">
-            <div class="uk-card uk-card-default uk-card-body">
-
+          <div class="uk-grid uk-width-1-2 uk-margin-remove-top">
+            <div class="uk-width-1-1" style="height: 500px">
+              <activity-gauge [data]="activityGaugeData"></activity-gauge>
             </div>
-          </div>
-          <div class="uk-width-1-2" style="height: 500px">
-            <activity-gauge [data]="activityGaugeData"></activity-gauge>
           </div>
 
           <div class="uk-width-1-1 uk-margin-large-top">

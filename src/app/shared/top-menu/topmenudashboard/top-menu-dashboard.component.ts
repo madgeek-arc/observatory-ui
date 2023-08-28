@@ -60,8 +60,8 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
             }
             if (this.userInfo) {
 
-              this.messagingWebsocket.initializeWebSocketConnection(`/topic/stream/inbox/unread/${this.userInfo.user.email}`);
-              this.messagingWebsocket.WsJoin(`/app/stream/unread/${this.userInfo.user.email}`, 'testo');
+              this.messagingWebsocket.initializeWebSocketConnection(`/topic/messages/inbox/unread/${this.userInfo.user.email}`);
+              this.messagingWebsocket.WsJoin(`/app/messages/inbox/unread/${this.userInfo.user.email}`, 'testo');
 
               this.showArchive = this.coordinatorContains('eosc-sb') || this.checkIfManager();
               // for (const stakeholder of this.userInfo.stakeholders) {

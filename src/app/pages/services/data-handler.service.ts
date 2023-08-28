@@ -3,7 +3,7 @@ import {RawData, Row} from '../../../survey-tool/app/domain/raw-data';
 import { CountryTableData } from '../../../survey-tool/app/domain/country-table-data';
 import {CategorizedAreaData, Series} from "../../../survey-tool/app/domain/categorizedAreaData";
 import {FundingForEOSCSums} from "../../../survey-tool/app/domain/funding-for-eosc";
-import {isNumeric} from "rxjs/internal-compatibility";
+import {identity, isNumeric} from "rxjs/internal-compatibility";
 import {SeriesMapbubbleDataOptions, SeriesMapbubbleOptions} from "highcharts";
 import {SeriesMapDataOptions} from "highcharts/highmaps";
 
@@ -139,7 +139,7 @@ export class DataHandlerService {
     for (const series of rawData.datasets) {
 
       for (const rowResult of series.series.result) {
-        if (rowResult.row[1] === 'Yes') {
+        if (rowResult.row[1] === 'Yes' || (isNumeric(rowResult.row[1]) && parseFloat(rowResult.row[1]) > 0)) {
           count++;
         }
       }
@@ -148,21 +148,31 @@ export class DataHandlerService {
     return count;
   }
 
-  public convertRawDataForCumulativeTable(rawData: RawData, countries: string[]) {
+  public convertRawDataForCumulativeTable(rawData: RawData, countries: string[], mergedArray?: string[]) {
     let tmpArr: string[] = [];
     let found: boolean = false;
     for (const series of rawData.datasets) {
       for (const country of countries) {
         found = false;
         for (const rowResult of series.series.result) {
-          if (rowResult.row[0] === country && rowResult.row[1] === 'Yes') {
-            tmpArr.push('true');
+          if (rowResult.row[0] === country) {
+            if (rowResult.row[1] === 'Yes')
+              tmpArr.push('true');
+            else if (isNumeric(rowResult.row[1]))
+              tmpArr.push(rowResult.row[1]);
             found = true;
             break;
           }
         }
         if (!found)
           tmpArr.push('-');
+      }
+    }
+    if (mergedArray) {
+      for (let i = 0; i < mergedArray.length; i++) {
+        if (mergedArray[i] === 'true') {
+          tmpArr[i] = 'true';
+        }
       }
     }
     return tmpArr;
@@ -287,13 +297,6 @@ export class DataHandlerService {
     }
     // console.log(series);
     return series;
-  }
-
-  isNumeric(str) {
-    if (typeof str != "string") return false // we only process strings!
-    // @ts-ignore
-    return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-      !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
   }
 
   public convertRawDataToPercentageTableData(rawData: RawData, eoscSBCountries: string[]) {
