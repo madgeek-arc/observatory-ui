@@ -7,10 +7,10 @@ import {CountryTableData} from "../../../../../../survey-tool/app/domain/country
 import {EoscReadiness2022MapSubtitles} from "../../eosc-readiness2022-map-subtitles";
 import {zip} from "rxjs/internal/observable/zip";
 import {isNumeric} from "rxjs/internal-compatibility";
-import UIkit from "uikit";
 import {RawData} from "../../../../../../survey-tool/app/domain/raw-data";
 import {ActivityGauge} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
 import {countries} from "../../../../../../survey-tool/app/domain/countries";
+import UIkit from "uikit";
 
 @Component({
   selector: 'app-national-policy',
@@ -28,6 +28,12 @@ export class RPOsComponent implements OnInit {
   questionsDataArrayForBarChart: any[] = [];
   sumsArray: string[] = [];
   activityGaugeData: ActivityGauge[] = [];
+  publications: number = 0;
+  software: number = 0;
+  services: number = 0;
+  skills_training: number = 0;
+  assessment: number = 0;
+  engagement: number = 0;
   tableData: string[][] = [];
 
   constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
@@ -100,6 +106,7 @@ export class RPOsComponent implements OnInit {
         this.tableData[0] = ['Countries'].concat(this.countriesArray);
 
         y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[1])/this.countriesArray.length + Number.EPSILON) * 100);
+        this.publications = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         this.activityGaugeData.push({name: 'Publications', y: y});
         this.tableData[1] = ['Publications'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[1], this.countriesArray));
         this.sumsArray[0] = this.calculateSum(res[1]);
@@ -111,11 +118,13 @@ export class RPOsComponent implements OnInit {
         this.tableData[2] = ['Data'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[4], this.countriesArray, this.tableData[2]));
 
         y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[5])/this.countriesArray.length + Number.EPSILON) * 100);
+        this.software = this.dataHandlerService.convertRawDataForActivityGauge(res[5]);
         this.activityGaugeData.push({name: 'Software', y: y});
         this.tableData[3] = ['Software'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[5], this.countriesArray));
         this.sumsArray[1] = this.calculateSum(res[5]);
 
         y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[6])/this.countriesArray.length + Number.EPSILON) * 100);
+        this.services = this.dataHandlerService.convertRawDataForActivityGauge(res[6]);
         this.tableData[4] = ['Services'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[6], this.countriesArray));
         this.activityGaugeData.push({name: 'Services', y: y});
         this.sumsArray[2] = this.calculateSum(res[6]);
@@ -127,16 +136,19 @@ export class RPOsComponent implements OnInit {
         this.activityGaugeData.push({name: 'Infrastructures', y: y});
 
         y =  Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[10])/this.countriesArray.length + Number.EPSILON) * 100);
+        this.skills_training = this.dataHandlerService.convertRawDataForActivityGauge(res[10]);
         this.tableData[6] = ['Skills/Training'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[10], this.countriesArray));
         this.activityGaugeData.push({name: 'Skills/Training', y: y});
         this.sumsArray[3] = this.calculateSum(res[10]);
 
         y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[11])/this.countriesArray.length + Number.EPSILON) * 100);
+        this.assessment = this.dataHandlerService.convertRawDataForActivityGauge(res[11]);
         this.tableData[7] = ['Assessment'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[11], this.countriesArray));
         this.activityGaugeData.push({name: 'Assessment', y: y});
         this.sumsArray[4] = this.calculateSum(res[11]);
 
         y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[12])/this.countriesArray.length + Number.EPSILON) * 100);
+        this.engagement = this.dataHandlerService.convertRawDataForActivityGauge(res[12]);
         this.tableData[8] = ['Engagement'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[12], this.countriesArray));
         this.activityGaugeData.push({name: 'Engagement', y: y});
         this.sumsArray[5] = this.calculateSum(res[12]);
@@ -149,7 +161,8 @@ export class RPOsComponent implements OnInit {
             this.tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
         }
         // console.log(this.tableData);
-      }
+      },
+      error => {}
     )
   }
 
