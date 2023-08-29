@@ -10,6 +10,7 @@ import {isNumeric} from "rxjs/internal-compatibility";
 import UIkit from "uikit";
 import {RawData} from "../../../../../../survey-tool/app/domain/raw-data";
 import {ActivityGauge} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
+import {countries} from "../../../../../../survey-tool/app/domain/countries";
 
 @Component({
   selector: 'app-national-policy',
@@ -77,6 +78,7 @@ export class RPOsComponent implements OnInit {
 
   getAll() {
     this.activityGaugeData = [];
+    this.tableData = [];
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion8(),  // Publications
@@ -141,7 +143,12 @@ export class RPOsComponent implements OnInit {
 
         this.activityGaugeData = [...this.activityGaugeData];
         this.tableData = this.tableData[0].map((_, colIndex) => this.tableData.map(row => row[colIndex])); // Transpose 2d array
-
+        for (let i = 1; i < this.tableData.length; i++) {
+          let tmpData = countries.find(country => country.id === this.tableData[i][0]);
+          if (tmpData)
+            this.tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
+        }
+        // console.log(this.tableData);
       }
     )
   }

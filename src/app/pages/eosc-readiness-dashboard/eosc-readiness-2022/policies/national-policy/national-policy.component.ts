@@ -9,6 +9,7 @@ import {latlong} from "../../../../../../survey-tool/app/domain/countries-lat-lo
 import {ActivityGauge, CategorizedAreaData, Series} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
 import {zip} from "rxjs/internal/observable/zip";
 import UIkit from "uikit";
+import {countries} from "../../../../../../survey-tool/app/domain/countries";
 
 @Component({
   selector: 'app-national-policy',
@@ -82,6 +83,7 @@ export class NationalPolicyComponent implements OnInit {
 
   getAllData() {
     this.activityGaugeData = [];
+    this.tableData = [];
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion6(),  // Publications
@@ -146,8 +148,13 @@ export class NationalPolicyComponent implements OnInit {
         this.activityGaugeData.push({name: 'Engagement', y: y});
 
         this.activityGaugeData = [...this.activityGaugeData];
-
         this.tableData = this.tableData[0].map((_, colIndex) => this.tableData.map(row => row[colIndex])); // Transpose 2d array
+        for (let i = 1; i < this.tableData.length; i++) {
+          let tmpData = countries.find(country => country.id === this.tableData[i][0]);
+          if (tmpData)
+            this.tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
+        }
+        // console.log(this.tableData);
       },
       error => {console.error(error)},
       () => {}

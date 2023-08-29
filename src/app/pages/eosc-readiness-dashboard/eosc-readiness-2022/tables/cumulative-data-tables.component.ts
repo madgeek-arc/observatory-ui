@@ -7,6 +7,7 @@ import {Component, Input} from "@angular/core";
 
 export class CumulativeDataTablesComponent {
 
+  @Input() title: string = null;
   @Input() tableData: string[][] = [];
 
   step: number = 20;

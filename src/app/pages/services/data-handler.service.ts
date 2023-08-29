@@ -156,11 +156,13 @@ export class DataHandlerService {
         found = false;
         for (const rowResult of series.series.result) {
           if (rowResult.row[0] === country) {
-            if (rowResult.row[1] === 'Yes')
+            if (rowResult.row[1] === 'Yes') {
               tmpArr.push('true');
-            else if (isNumeric(rowResult.row[1]))
+              found = true;
+            } else if (isNumeric(rowResult.row[1])) {
               tmpArr.push(rowResult.row[1]);
-            found = true;
+              found = true;
+            }
             break;
           }
         }

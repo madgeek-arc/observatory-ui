@@ -1,6 +1,6 @@
 <ng-container *ngIf="tableData.length > 0">
   <div class="uk-margin-bottom" uk-grid>
-    <span class="uk-flex uk-width-expand uk-card-title">EOSC Policies by country</span>
+    <span class="uk-flex uk-width-expand uk-card-title">{{title}}</span>
     <span class="uk-flex uk-flex-right uk-flex-middle">Viewing {{from}} - {{to-1}} of {{tableData.length-1}}
       <a class="material-icons" (click)="previous()">arrow_circle_left</a>
       <a class="material-icons" (click)="next()">arrow_circle_right</a>
@@ -14,14 +14,10 @@
     </thead>
     <tbody>
     <tr *ngFor="let row of tableData | slice: from : to">
-      <td *ngFor="let data of row; let j=index" class="">
-        <span *ngIf="j === 0 else elseBlock1">{{data}}</span>
-        <ng-template #elseBlock1>
-          <span *ngIf="data === 'true' else elseBlock2" class="material-icons md-18 uk-flex uk-flex-middle" style="color: #2d9d78">done</span>
-        </ng-template>
-        <ng-template #elseBlock2>
-          <span class="material-icons md-18 uk-flex uk-flex-middle" style="color: #BD640D">close</span>
-        </ng-template>
+      <td *ngFor="let data of row; let j=index" [ngSwitch]="data">
+        <span *ngSwitchCase="'true'" class="material-icons md-18 uk-flex uk-flex-middle" style="color: #2d9d78">done</span>
+        <span *ngSwitchCase="'-'" class="material-icons md-18 uk-flex uk-flex-middle" style="color: #BD640D">close</span>
+        <span *ngSwitchDefault>{{data}}</span>
       </td>
     </tr>
     </tbody>
