@@ -126,7 +126,7 @@ export class DataHandlerService {
 
   public covertRawDataToColorAxisMap(rawData: RawData) {
     let tmpDataArray: (number | SeriesMapDataOptions | [string, number])[] = [];
-    for (const data of rawData.datasets[0].series.result) {
+    for (const data of rawData?.datasets[0].series.result) {
       if (isNumeric(data.row[1]))
         tmpDataArray.push([data.row[0].toLowerCase(), parseFloat(data.row[1])])
     }
@@ -135,10 +135,12 @@ export class DataHandlerService {
   }
 
   public convertRawDataForActivityGauge(rawData: RawData) {
+    if (!rawData)
+      return 0;
     let count: number = 0;
-    for (const series of rawData.datasets) {
+    for (const series of rawData?.datasets) {
 
-      for (const rowResult of series.series.result) {
+      for (const rowResult of series?.series.result) {
         if (rowResult.row[1] === 'Yes' || (isNumeric(rowResult.row[1]) && parseFloat(rowResult.row[1]) > 0)) {
           count++;
         }
@@ -150,8 +152,10 @@ export class DataHandlerService {
 
   public convertRawDataForCumulativeTable(rawData: RawData, countries: string[], mergedArray?: string[]) {
     let tmpArr: string[] = [];
+    if (!rawData)
+      return tmpArr;
     let found: boolean = false;
-    for (const series of rawData.datasets) {
+    for (const series of rawData?.datasets) {
       for (const country of countries) {
         found = false;
         for (const rowResult of series.series.result) {
