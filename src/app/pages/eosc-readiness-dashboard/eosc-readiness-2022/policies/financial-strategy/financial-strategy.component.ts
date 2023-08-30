@@ -23,6 +23,7 @@ export class FinancialStrategyComponent implements OnInit {
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
+  toolTipData: Map<string, string>[] = [];
   activityGaugeData: ActivityGauge[] = [];
   publications: number = 0;
   software: number = 0;
@@ -163,6 +164,7 @@ export class FinancialStrategyComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion7(),
+      this.queryData.getQuestion7comment(),
       ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -170,6 +172,7 @@ export class FinancialStrategyComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(0,1);
       }
     );
@@ -179,6 +182,7 @@ export class FinancialStrategyComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion23(),
+      this.queryData.getQuestion23comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -186,6 +190,7 @@ export class FinancialStrategyComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
           this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(1,1);
       }
     );
@@ -195,6 +200,7 @@ export class FinancialStrategyComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion27(),
+      this.queryData.getQuestion27comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -202,6 +208,7 @@ export class FinancialStrategyComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[2].series.length; i++) {
           this.tmpQuestionsDataArray[2].series[i].data = this.tmpQuestionsDataArray[2].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(2,1);
       }
     );
@@ -211,6 +218,7 @@ export class FinancialStrategyComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion43(),
+      this.queryData.getQuestion43comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -218,6 +226,7 @@ export class FinancialStrategyComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
           this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(3,1);
       }
     );
@@ -227,6 +236,7 @@ export class FinancialStrategyComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion47(),
+      this.queryData.getQuestion47comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -234,6 +244,7 @@ export class FinancialStrategyComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[4].series.length; i++) {
           this.tmpQuestionsDataArray[4].series[i].data = this.tmpQuestionsDataArray[4].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(4,1);
       }
     );
@@ -243,6 +254,7 @@ export class FinancialStrategyComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion51(),
+      this.queryData.getQuestion51comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -250,6 +262,7 @@ export class FinancialStrategyComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[5].series.length; i++) {
           this.tmpQuestionsDataArray[5].series[i].data = this.tmpQuestionsDataArray[5].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(5,1);
       }
     );
@@ -261,8 +274,6 @@ export class FinancialStrategyComponent implements OnInit {
     this.questionsDataArray[index] = new CategorizedAreaData();
 
     let position = 0;
-    console.log(this.tmpQuestionsDataArray[index].series);
-    console.log(this.tmpQuestionsDataArray[index].series.length);
     for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
       if (this.tmpQuestionsDataArray[index].series[i].name === 'Awaiting data')
         continue;
@@ -272,16 +283,12 @@ export class FinancialStrategyComponent implements OnInit {
       this.questionsDataArray[index].series[i].showInLegend = true;
       this.questionsDataArray[index].series[i].color = ColorPallet[position];
     }
-    console.log(this.questionsDataArray[index].series);
     let countryCodeArray = [];
     for (let i = 0; i < this.questionsDataArray[index].series.length; i++) {
       for (const data of this.questionsDataArray[index].series[i].data) {
         countryCodeArray.push(data.code)
       }
     }
-    console.log(this.questionsDataArray[index].series);
-    // console.log(countryCodeArray);
-    // console.log(this.countriesArray);
     // console.log(this.countriesArray.filter(code => !countryCodeArray.includes(code)));
     this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
     this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
@@ -289,7 +296,6 @@ export class FinancialStrategyComponent implements OnInit {
     this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
     this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data.map(code => ({ code }));
 
-    console.log(this.questionsDataArray[index].series);
   }
 
 }

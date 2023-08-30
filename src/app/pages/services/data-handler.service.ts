@@ -20,18 +20,18 @@ export class DataHandlerService {
         // console.log(rowResult);
 
         const countryTableData: CountryTableData = new CountryTableData();
-        if (series.series.query.name === 'eosc.obs.question17') {
+        if (series.series.query.name === 'eosc.sb.2021.Question17') {
           countryTableData.hasAppointedMandatedOrganization = rowResult.row[1];
         }
-        // if (series.series.query.name === 'eosc.obs.question3' || series.series.query.name === 'eosc.obs.question4'
-        //   || series.series.query.name === 'eosc.obs.question9' || series.series.query.name === 'eosc.obs.question10'
-        //   || series.series.query.name === 'eosc.obs.question14' || series.series.query.name === 'eosc.obs.question15'
-        //   || series.series.query.name === 'eosc.obs.question16' || series.series.query.name === 'eosc.obs.question18'
-        //   || series.series.query.name === 'eosc.obs.question19' || series.series.query.name === 'eosc.obs.question20') {
-        if (series.series.query.name !== 'eosc.obs.question17') {
+        // if (series.series.query.name === 'eosc.sb.2021.Question3' || series.series.query.name === 'eosc.sb.2021.Question4'
+        //   || series.series.query.name === 'eosc.sb.2021.Question9' || series.series.query.name === 'eosc.sb.2021.Question10'
+        //   || series.series.query.name === 'eosc.sb.2021.Question14' || series.series.query.name === 'eosc.sb.2021.Question15'
+        //   || series.series.query.name === 'eosc.sb.2021.Question16' || series.series.query.name === 'eosc.sb.2021.Question18'
+        //   || series.series.query.name === 'eosc.sb.2021.Question19' || series.series.query.name === 'eosc.sb.2021.Question20') {
+        if (series.series.query.name !== 'eosc.sb.2021.Question17') {
           countryTableData.EOSCRelevantPoliciesInPlace = rowResult.row.slice(3);
         }
-        if (series.series.query.name === 'eosc.obs.question20') {
+        if (series.series.query.name === 'eosc.sb.2021.Question20') {
           countryTableData.mapPointData = Array(3).fill(null).concat(rowResult.row.slice(3, 11).concat(rowResult.row.slice(12)));
         }
 
@@ -54,19 +54,19 @@ export class DataHandlerService {
       for (const rowResult of series.series.result) {
 
         const countryTableData: CountryTableData = new CountryTableData();
-        if (series.series.query.name === 'eosc.obs.question5') {
+        if (series.series.query.name === 'eosc.sb.2021.Question5') {
           if (rowResult.row[1] === 'Yes')
             countryTableData.mapPointData.push(rowResult.row[1]);
           else
             continue;
         }
-        if (series.series.query.name === 'eosc.obs.question14') {
+        if (series.series.query.name === 'eosc.sb.2021.Question14') {
           if (rowResult.row[1] === 'true')
             countryTableData.mapPointData.push(rowResult.row[1]);
           else
             continue;
         }
-        if (series.series.query.name === 'eosc.obs.question16') {
+        if (series.series.query.name === 'eosc.sb.2021.Question16') {
           if (rowResult.row[2] === 'true')
             countryTableData.mapPointData.push(rowResult.row[2]);
           else
@@ -200,19 +200,19 @@ export class DataHandlerService {
 
     for (const series of rawData.datasets) {
 
-      if (series.series.query.name.includes('eosc.obs.question6.sum')) {
+      if (series.series.query.name.includes('eosc.sb.2021.Question6.sum')) {
 
         for (const rowResult of series.series.result) {
           fundingForEOSCSums.totalFundingForEOSC = rowResult.row[0];
         }
 
-      } else if (series.series.query.name.includes('eosc.obs.question7.sum')) {
+      } else if (series.series.query.name.includes('eosc.sb.2021.Question7.sum')) {
 
         for (const rowResult of series.series.result) {
           fundingForEOSCSums.fundingToOrganisationsInEOSCA = rowResult.row[0];
         }
 
-      } else if (series.series.query.name.includes('eosc.obs.question8.sum')) {
+      } else if (series.series.query.name.includes('eosc.sb.2021.Question8.sum')) {
 
         for (const rowResult of series.series.result) {
           fundingForEOSCSums.fundingToOrganisationsOutsideEOSCA = rowResult.row[0];
@@ -227,7 +227,7 @@ export class DataHandlerService {
   public convertRawDataToFundingForEOSCSumsCustom(rawData: RawData) {
     let fundingForEOSCSums: FundingForEOSCSums = new FundingForEOSCSums();
     for (const series of rawData.datasets) {
-      if (series.series.query.name.includes('eosc.obs.question6')) {
+      if (series.series.query.name.includes('eosc.sb.2021.Question6')) {
         let sum = 0.0;
         for (const rowResult of series.series.result) {
           if (isNumeric(rowResult.row[1])) {
@@ -236,7 +236,7 @@ export class DataHandlerService {
         }
         fundingForEOSCSums.totalFundingForEOSC = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
 
-      } else if (series.series.query.name.includes('eosc.obs.question7')) {
+      } else if (series.series.query.name.includes('eosc.sb.2021.Question7')) {
         let sum = 0.0;
         for (const rowResult of series.series.result) {
           if (isNumeric(rowResult.row[1])) {
@@ -245,7 +245,7 @@ export class DataHandlerService {
         }
         fundingForEOSCSums.fundingToOrganisationsInEOSCA = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
 
-      } else if (series.series.query.name.includes('eosc.obs.question8')) {
+      } else if (series.series.query.name.includes('eosc.sb.2021.Question8')) {
         let sum = 0.0;
         for (const rowResult of series.series.result) {
           if (isNumeric(rowResult.row[1])) {
@@ -253,7 +253,7 @@ export class DataHandlerService {
           }
         }
         fundingForEOSCSums.fundingToOrganisationsOutsideEOSCA = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
-      } else if (series.series.query.name.includes('eosc.obs.question11')) {
+      } else if (series.series.query.name.includes('eosc.sb.2021.Question11')) {
         let sum = 0.0;
         for (const rowResult of series.series.result) {
           if (isNumeric(rowResult.row[1])) {
@@ -261,7 +261,7 @@ export class DataHandlerService {
           }
         }
         fundingForEOSCSums.earmarkedContributions = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
-      } else if (series.series.query.name.includes('eosc.obs.question12')) {
+      } else if (series.series.query.name.includes('eosc.sb.2021.Question12')) {
         let sum = 0.0;
         for (const rowResult of series.series.result) {
           if (isNumeric(rowResult.row[1])) {
@@ -269,7 +269,7 @@ export class DataHandlerService {
           }
         }
         fundingForEOSCSums.nonEarmarkedContributions = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
-      } else if (series.series.query.name.includes('eosc.obs.question13')) {
+      } else if (series.series.query.name.includes('eosc.sb.2021.Question13')) {
         let sum = 0.0;
         for (const rowResult of series.series.result) {
           if (isNumeric(rowResult.row[1])) {

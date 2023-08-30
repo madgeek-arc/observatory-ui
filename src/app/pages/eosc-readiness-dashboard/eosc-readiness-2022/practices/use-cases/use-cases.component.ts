@@ -47,33 +47,33 @@ export class UseCasesComponent implements OnInit {
           this.getAllData();
         }
         if (params['type'] === 'publications') {
-          UIkit.switcher('#topSelector').show(0);
+          UIkit.switcher('#topSelector').show(1);
           this.getPublicationsData();
         }
         if (params['type'] === 'data') {
-          UIkit.switcher('#topSelector').show(1);
+          UIkit.switcher('#topSelector').show(2);
         }
         if (params['type'] === 'software') {
-          UIkit.switcher('#topSelector').show(2);
+          UIkit.switcher('#topSelector').show(3);
           this.getSoftwareData();
         }
         if (params['type'] === 'services') {
-          UIkit.switcher('#topSelector').show(3);
+          UIkit.switcher('#topSelector').show(4);
           this.getServicesData();
         }
         if (params['type'] === 'infrastructures') {
-          UIkit.switcher('#topSelector').show(4);
+          UIkit.switcher('#topSelector').show(5);
         }
         if (params['type'] === 'skills_training') {
-          UIkit.switcher('#topSelector').show(5);
+          UIkit.switcher('#topSelector').show(6);
           this.getSkillsTrainingData();
         }
         if (params['type'] === 'assessment') {
-          UIkit.switcher('#topSelector').show(6);
+          UIkit.switcher('#topSelector').show(7);
           this.getAssessmentData();
         }
         if (params['type'] === 'engagement') {
-          UIkit.switcher('#topSelector').show(7);
+          UIkit.switcher('#topSelector').show(8);
           this.getEngagementData();
         }
       }

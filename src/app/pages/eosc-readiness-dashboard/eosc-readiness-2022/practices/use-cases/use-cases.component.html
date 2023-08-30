@@ -1,6 +1,7 @@
 <div class="uk-grid">
   <div class="uk-width-1-1">
     <ul id="topSelector" uk-switcher="{connect:'#content', animation: 'fade'}" uk-tab>
+      <li><a [routerLink]="['../all']">All</a></li>
       <li><a [routerLink]="['../publications']">Publications</a></li>
       <li><a [routerLink]="['../data/dataManagement']">Data</a></li>
       <li><a [routerLink]="['../software']">Software</a></li>

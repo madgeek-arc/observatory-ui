@@ -6,7 +6,7 @@
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [title]="'Number of researchers employed in 2021'"
                                        [subtitle]="'(in full-time equivalents)'" [dataSeriesSuffix]="''"
-                                       [toolTipData]="questionsDataArray[5]" [participatingCountries]="countriesArray">
+                                       [toolTipData]="toolTipData[0]" [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
           </div>
 
@@ -31,7 +31,7 @@
         <div class="uk-grid uk-margin-medium-top" style="height: 700px">
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[1]" [title]="'Number of RPOs'"
-                                       [subtitle]="" [dataSeriesSuffix]="''">
+                                       [toolTipData]="toolTipData[1]" [subtitle]="" [dataSeriesSuffix]="''">
             </app-highcharts-color-axis>
           </div>
 
@@ -56,7 +56,7 @@
         <div class="uk-grid uk-margin-medium-top" style="height: 700px">
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[2]" [title]="'Number of RFOs'"
-                                       [subtitle]="" [dataSeriesSuffix]="''">
+                                       [toolTipData]="toolTipData[2]" [subtitle]="" [dataSeriesSuffix]="''">
             </app-highcharts-color-axis>
           </div>
 
@@ -81,7 +81,7 @@
         <div class="uk-grid uk-margin-medium-top" style="height: 700px">
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[3]" [title]="'Number of repositories'"
-                                       [subtitle]="" [dataSeriesSuffix]="''">
+                                       [toolTipData]="toolTipData[3]" [subtitle]="" [dataSeriesSuffix]="''">
             </app-highcharts-color-axis>
           </div>
 
@@ -106,7 +106,7 @@
         <div class="uk-grid uk-margin-medium-top" style="height: 700px">
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [title]="'Financial investments in EOSC and Open Science in 2021'"
-                                       [subtitle]="'(in millions of Euro)'" [dataSeriesSuffix]="''">
+                                       [toolTipData]="toolTipData[4]" [subtitle]="'(in millions of Euro)'" [dataSeriesSuffix]="''">
             </app-highcharts-color-axis>
           </div>
 
