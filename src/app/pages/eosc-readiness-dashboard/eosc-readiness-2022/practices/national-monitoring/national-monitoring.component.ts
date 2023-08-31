@@ -23,6 +23,7 @@ export class NationalMonitoringComponent implements OnInit {
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
+  toolTipData: Map<string, string>[] = [];
   activityGaugeData: ActivityGauge[] = [];
   publications: number = 0;
   software: number = 0;
@@ -162,6 +163,7 @@ export class NationalMonitoringComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion54(),
+      this.queryData.getQuestion54comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -169,6 +171,7 @@ export class NationalMonitoringComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(0,2);
       }
     );
@@ -178,6 +181,7 @@ export class NationalMonitoringComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion70(),
+      this.queryData.getQuestion70comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -185,6 +189,7 @@ export class NationalMonitoringComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
           this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(1,2);
       }
     );
@@ -194,6 +199,7 @@ export class NationalMonitoringComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion74(),
+      this.queryData.getQuestion74comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -201,6 +207,7 @@ export class NationalMonitoringComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[2].series.length; i++) {
           this.tmpQuestionsDataArray[2].series[i].data = this.tmpQuestionsDataArray[2].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(2,2);
       }
     );
@@ -210,6 +217,7 @@ export class NationalMonitoringComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion90(),
+      this.queryData.getQuestion90comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -217,6 +225,7 @@ export class NationalMonitoringComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
           this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(3,2);
       }
     );
@@ -226,6 +235,7 @@ export class NationalMonitoringComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion94(),
+      this.queryData.getQuestion94comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -233,6 +243,7 @@ export class NationalMonitoringComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[4].series.length; i++) {
           this.tmpQuestionsDataArray[4].series[i].data = this.tmpQuestionsDataArray[4].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(4,2);
       }
     );
@@ -242,6 +253,7 @@ export class NationalMonitoringComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion98(),
+      this.queryData.getQuestion98comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -249,6 +261,7 @@ export class NationalMonitoringComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[5].series.length; i++) {
           this.tmpQuestionsDataArray[5].series[i].data = this.tmpQuestionsDataArray[5].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(5,2);
       }
     );

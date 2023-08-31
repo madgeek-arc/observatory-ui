@@ -27,6 +27,7 @@ export class RPOsComponent implements OnInit {
   tmpQuestionsDataArray: any[] = [];
   questionsDataArrayForBarChart: any[] = [];
   sumsArray: string[] = [];
+  toolTipData: Map<string, string>[] = [];
   activityGaugeData: ActivityGauge[] = [];
   publications: number = 0;
   software: number = 0;
@@ -170,12 +171,14 @@ export class RPOsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion8(),
+      this.queryData.getQuestion8comment(),
       ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[0] = this.calculateSum(res[1]);
+        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -184,12 +187,14 @@ export class RPOsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion24(),
+      this.queryData.getQuestion24comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[1] = this.calculateSum(res[1]);
+        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -198,12 +203,14 @@ export class RPOsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion28(),
+      this.queryData.getQuestion28comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[2] = this.calculateSum(res[1]);
+        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -212,12 +219,14 @@ export class RPOsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion44(),
+      this.queryData.getQuestion44comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[3] = this.calculateSum(res[1]);
+        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -226,12 +235,14 @@ export class RPOsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion48(),
+      this.queryData.getQuestion48comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[4] = this.calculateSum(res[1]);
+        this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -240,12 +251,14 @@ export class RPOsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion52(),
+      this.queryData.getQuestion52comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[5] = this.calculateSum(res[1]);
+        this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }

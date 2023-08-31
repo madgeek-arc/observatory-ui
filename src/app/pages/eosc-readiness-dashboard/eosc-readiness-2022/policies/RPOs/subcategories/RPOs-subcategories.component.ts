@@ -8,6 +8,7 @@ import {EoscReadiness2022MapSubtitles} from "../../../eosc-readiness2022-map-sub
 import {zip} from "rxjs/internal/observable/zip";
 import {RawData} from "../../../../../../../survey-tool/app/domain/raw-data";
 import {isNumeric} from "rxjs/internal-compatibility";
+import UIkit from "uikit";
 
 @Component({
   selector: 'app-RPOs-subcategories',
@@ -26,6 +27,7 @@ export class RPOsSubcategoriesComponent implements OnInit{
   tmpQuestionsDataArray: any[] = [];
   questionsDataArrayForBarChart: any[] = [];
   sumsArray: string[] = [];
+  toolTipData: Map<string, string>[] = [];
 
   constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
@@ -38,21 +40,27 @@ export class RPOsSubcategoriesComponent implements OnInit{
         switch (this.dataType) {
           case 'dataManagement':
             this.getDataManagementData();
+            UIkit.switcher('#dataContent').show(0);
             break;
           case 'fairData':
             this.getFairDataData();
+            UIkit.switcher('#dataContent').show(1);
             break;
           case 'openData':
             this.getOpenDataData();
+            UIkit.switcher('#dataContent').show(2);
             break;
           case 'connectingRepositoriesToEOSC':
             this.getConnectingReposToEOSCData();
+            UIkit.switcher('#interfacesContent').show(0);
             break;
           case 'dataStewardship':
             this.getDataStewardshipData();
+            UIkit.switcher('#interfacesContent').show(1);
             break;
           case 'longTermDataPreservation':
             this.getLongTermDataPreservationData();
+            UIkit.switcher('#interfacesContent').show(2);
             break;
         }
       }
@@ -63,12 +71,14 @@ export class RPOsSubcategoriesComponent implements OnInit{
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion12(),
+      this.queryData.getQuestion12comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[0] = this.calculateSum(res[1]);
+        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -77,12 +87,14 @@ export class RPOsSubcategoriesComponent implements OnInit{
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion16(),
+      this.queryData.getQuestion16comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[1] = this.calculateSum(res[1]);
+        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -91,12 +103,14 @@ export class RPOsSubcategoriesComponent implements OnInit{
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion20(),
+      this.queryData.getQuestion20comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[2] = this.calculateSum(res[1]);
+        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -105,12 +119,14 @@ export class RPOsSubcategoriesComponent implements OnInit{
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion32(),
+      this.queryData.getQuestion32comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[3] = this.calculateSum(res[1]);
+        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -119,12 +135,14 @@ export class RPOsSubcategoriesComponent implements OnInit{
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion36(),
+      this.queryData.getQuestion36comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[4] = this.calculateSum(res[1]);
+        this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -133,12 +151,14 @@ export class RPOsSubcategoriesComponent implements OnInit{
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion40(),
+      this.queryData.getQuestion40comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[5] = this.calculateSum(res[1]);
+        this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }

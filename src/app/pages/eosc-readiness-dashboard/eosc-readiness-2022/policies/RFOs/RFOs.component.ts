@@ -27,6 +27,7 @@ export class RFOsComponent implements OnInit {
   questionsDataArrayForBarChart: any[] = [];
   sumsArray: string[] = [];
   activityGaugeData: ActivityGauge[] = [];
+  toolTipData: Map<string, string>[] = [];
   publications: number = 0;
   software: number = 0;
   services: number = 0;
@@ -35,7 +36,7 @@ export class RFOsComponent implements OnInit {
   engagement: number = 0;
   tableData: string[][] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
+  constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
   }
 
@@ -171,12 +172,14 @@ export class RFOsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion9(),
+      this.queryData.getQuestion9comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[0] = this.calculateSum(res[1]);
+        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -185,12 +188,14 @@ export class RFOsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion25(),
+      this.queryData.getQuestion25comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[1] = this.calculateSum(res[1]);
+        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -199,12 +204,14 @@ export class RFOsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion29(),
+      this.queryData.getQuestion29comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[2] = this.calculateSum(res[1]);
+        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -213,12 +220,14 @@ export class RFOsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion45(),
+      this.queryData.getQuestion45comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[3] = this.calculateSum(res[1]);
+        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -227,12 +236,14 @@ export class RFOsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion49(),
+      this.queryData.getQuestion49comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[4] = this.calculateSum(res[1]);
+        this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -241,12 +252,14 @@ export class RFOsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion53(),
+      this.queryData.getQuestion53comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[5] = this.calculateSum(res[1]);
+        this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
