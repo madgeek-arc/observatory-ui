@@ -107,7 +107,7 @@ export class NationalPolicyComponent implements OnInit {
         this.tableData[0] = ['Countries'].concat(this.countriesArray);
 
         y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[1])/this.countriesArray.length + Number.EPSILON) * 100);
-        this.publications = this.dataHandlerService.convertRawDataForActivityGauge(res[1])
+        this.publications = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         this.tableData[1] = ['Publications'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[1], this.countriesArray));
         this.activityGaugeData.push({name: 'Publications', y: y});
 
@@ -173,6 +173,7 @@ export class NationalPolicyComponent implements OnInit {
         this.countriesArray = res[0];
         this.tableAbsoluteDataArray[0] = this.dataHandlerService.convertRawDataToTableData(res[1]);
         this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.publications = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
@@ -197,6 +198,7 @@ export class NationalPolicyComponent implements OnInit {
         this.countriesArray = res[0];
         this.tableAbsoluteDataArray[1] = this.dataHandlerService.convertRawDataToTableData(res[1]);
         this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.software = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
           this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
         }
@@ -221,6 +223,7 @@ export class NationalPolicyComponent implements OnInit {
         this.countriesArray = res[0];
         this.tableAbsoluteDataArray[2] = this.dataHandlerService.convertRawDataToTableData(res[1]);
         this.tmpQuestionsDataArray[2] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.services = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         for (let i = 0; i < this.tmpQuestionsDataArray[2].series.length; i++) {
           this.tmpQuestionsDataArray[2].series[i].data = this.tmpQuestionsDataArray[2].series[i].data.map(code => ({ code }));
         }
@@ -245,6 +248,7 @@ export class NationalPolicyComponent implements OnInit {
         this.countriesArray = res[0];
         this.tableAbsoluteDataArray[3] = this.dataHandlerService.convertRawDataToTableData(res[1]);
         this.tmpQuestionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.skills_training = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
           this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
         }
@@ -269,6 +273,7 @@ export class NationalPolicyComponent implements OnInit {
         this.countriesArray = res[0];
         this.tableAbsoluteDataArray[4] = this.dataHandlerService.convertRawDataToTableData(res[1]);
         this.tmpQuestionsDataArray[4] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.assessment = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         for (let i = 0; i < this.tmpQuestionsDataArray[4].series.length; i++) {
           this.tmpQuestionsDataArray[4].series[i].data = this.tmpQuestionsDataArray[4].series[i].data.map(code => ({ code }));
         }
@@ -293,6 +298,7 @@ export class NationalPolicyComponent implements OnInit {
         this.countriesArray = res[0];
         this.tableAbsoluteDataArray[5] = this.dataHandlerService.convertRawDataToTableData(res[1]);
         this.tmpQuestionsDataArray[5] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.engagement = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         for (let i = 0; i < this.tmpQuestionsDataArray[5].series.length; i++) {
           this.tmpQuestionsDataArray[5].series[i].data = this.tmpQuestionsDataArray[5].series[i].data.map(code => ({ code }));
         }

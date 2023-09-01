@@ -87,10 +87,19 @@
       </li>
       <li class="uk-animation-fade">
         <div class="uk-grid">
-          <div class="uk-width-1-1" style="height: 700px">
+          <div class="uk-width-2-3" style="height: 700px">
             <app-highcharts-category-map [mapData]="questionsDataArray[0]" [subtitle]="" [toolTipData]="toolTipData[0]"
                                          [title]="'National policy on open access to publications'">
             </app-highcharts-category-map>
+          </div>
+          <div class="uk-width-1-3">
+            <div class="uk-margin-medium-bottom">
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="indicator-label">Number of countries with national policy on open access to publications</div>
+                <div *ngIf="!publications" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                <div *ngIf="publications" class="uk-text-lead uk-margin-small-top"><strong>{{publications}}</strong></div>
+              </div>
+            </div>
           </div>
         </div>
       </li>
@@ -103,19 +112,37 @@
       </li>
       <li class="uk-animation-fade">
         <div class="uk-grid">
-          <div class="uk-width-1-1" style="height: 700px">
+          <div class="uk-width-2-3" style="height: 700px">
             <app-highcharts-category-map [mapData]="questionsDataArray[1]" [subtitle]="" [toolTipData]="toolTipData[1]"
                                          [title]="'National policy on open source software'">
             </app-highcharts-category-map>
+          </div>
+          <div class="uk-width-1-3">
+            <div class="uk-margin-medium-bottom">
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="indicator-label">Number of countries with national policy on open source software</div>
+                <div *ngIf="!software" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                <div *ngIf="software" class="uk-text-lead uk-margin-small-top"><strong>{{software}}</strong></div>
+              </div>
+            </div>
           </div>
         </div>
       </li>
       <li class="uk-animation-fade">
         <div class="uk-grid">
-          <div class="uk-width-1-1" style="height: 700px">
+          <div class="uk-width-2-3" style="height: 700px">
             <app-highcharts-category-map [mapData]="questionsDataArray[2]" [subtitle]="" [toolTipData]="toolTipData[2]"
                                          [title]="'National policy on offering services through EOSC'">
             </app-highcharts-category-map>
+          </div>
+          <div class="uk-width-1-3">
+            <div class="uk-margin-medium-bottom">
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="indicator-label">Number of countries with national policy on offering services through EOSC</div>
+                <div *ngIf="!services" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                <div *ngIf="services" class="uk-text-lead uk-margin-small-top"><strong>{{services}}</strong></div>
+              </div>
+            </div>
           </div>
         </div>
       </li>
@@ -128,28 +155,55 @@
       </li>
       <li class="uk-animation-fade">
         <div class="uk-grid">
-          <div class="uk-width-1-1" style="height: 700px">
+          <div class="uk-width-2-3" style="height: 700px">
             <app-highcharts-category-map [mapData]="questionsDataArray[3]" [subtitle]="" [toolTipData]="toolTipData[3]"
                                          [title]="'National policy on skills/training for Open Science'">
             </app-highcharts-category-map>
           </div>
-        </div>
-      </li>
-      <li class="uk-animation-fade">
-        <div class="uk-grid">
-          <div class="uk-width-1-1" style="height: 700px">
-            <app-highcharts-category-map [mapData]="questionsDataArray[4]" [subtitle]="" [toolTipData]="toolTipData[4]"
-                                         [title]="'National policy on incentives/rewards for Open Science'">
-            </app-highcharts-category-map>
+          <div class="uk-width-1-3">
+            <div class="uk-margin-medium-bottom">
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="indicator-label">Number of countries with national policy on skills/training for Open Science</div>
+                <div *ngIf="!skills_training" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                <div *ngIf="skills_training" class="uk-text-lead uk-margin-small-top"><strong>{{skills_training}}</strong></div>
+              </div>
+            </div>
           </div>
         </div>
       </li>
       <li class="uk-animation-fade">
         <div class="uk-grid">
-          <div class="uk-width-1-1" style="height: 700px">
+          <div class="uk-width-2-3" style="height: 700px">
+            <app-highcharts-category-map [mapData]="questionsDataArray[4]" [subtitle]="" [toolTipData]="toolTipData[4]"
+                                         [title]="'National policy on incentives/rewards for Open Science'">
+            </app-highcharts-category-map>
+          </div>
+          <div class="uk-width-1-3">
+            <div class="uk-margin-medium-bottom">
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="indicator-label">Number of countries with national policy on incentives/reward for Open Science</div>
+                <div *ngIf="!assessment" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                <div *ngIf="assessment" class="uk-text-lead uk-margin-small-top"><strong>{{assessment}}</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="uk-animation-fade">
+        <div class="uk-grid">
+          <div class="uk-width-2-3" style="height: 700px">
             <app-highcharts-category-map [mapData]="questionsDataArray[5]" [subtitle]="" [toolTipData]="toolTipData[5]"
                                          [title]="'National policy on citizen science'">
             </app-highcharts-category-map>
+          </div>
+          <div class="uk-width-1-3">
+            <div class="uk-margin-medium-bottom">
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="indicator-label">Number of countries with national policy on citizen science</div>
+                <div *ngIf="!engagement" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                <div *ngIf="engagement" class="uk-text-lead uk-margin-small-top"><strong>{{engagement}}</strong></div>
+              </div>
+            </div>
           </div>
         </div>
       </li>
