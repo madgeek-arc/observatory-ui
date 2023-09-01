@@ -88,7 +88,8 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [title]="'Number of publications published in open access in 2021'"
+            <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [toolTipData]="toolTipData[0]"
+                                       [title]="'Number of publications published in open access in 2021'"
                                        [subtitle]="" [dataSeriesSuffix]="''">
             </app-highcharts-color-axis>
           </div>
@@ -111,7 +112,7 @@
         </div>
       </li>
       <li>
-        <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+        <ul id="dataContent" class="uk-subnav uk-subnav-pill" uk-switcher>
           <li><a [routerLink]="['./dataManagement']">Data management</a></li>
           <li><a [routerLink]="['./fairData']">FAIR data</a></li>
           <li><a [routerLink]="['./openData']">Open data</a></li>
@@ -120,7 +121,8 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[1]" [title]="'Number of open source software sets published in 2021'"
+            <app-highcharts-color-axis [mapData]="questionsDataArray[1]" [toolTipData]="toolTipData[1]"
+                                       [title]="'Number of open source software sets published in 2021'"
                                        [subtitle]="" [dataSeriesSuffix]="''">
             </app-highcharts-color-axis>
           </div>
@@ -145,7 +147,8 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[2]" [title]="'Number of services offered through EOSC in 2021'"
+            <app-highcharts-color-axis [mapData]="questionsDataArray[2]" [toolTipData]="toolTipData[2]"
+                                       [title]="'Number of services offered through EOSC in 2021'"
                                        [subtitle]="" [dataSeriesSuffix]="''">
             </app-highcharts-color-axis>
           </div>
@@ -168,7 +171,7 @@
         </div>
       </li>
       <li>
-        <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+        <ul id="infrastructuresContent" class="uk-subnav uk-subnav-pill" uk-switcher>
           <li><a [routerLink]="['./connectingRepositoriesToEOSC']">Connecting repositories to EOSC</a></li>
           <li><a [routerLink]="['./dataStewardship']">Data stewardship</a></li>
           <li><a [routerLink]="['./longTermDataPreservation']">Long-term data preservation</a></li>
@@ -177,7 +180,8 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[3]" [title]="'Number of educational curricula with an Open Science dimension offered in 2021'"
+            <app-highcharts-color-axis [mapData]="questionsDataArray[3]" [toolTipData]="toolTipData[3]"
+                                       [title]="'Number of educational curricula with an Open Science dimension offered in 2021'"
                                        [subtitle]="" [dataSeriesSuffix]="''">
             </app-highcharts-color-axis>
           </div>
@@ -202,7 +206,8 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [title]="'Number of signatories of the Agreement on Reforming Research Assessment'"
+            <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [toolTipData]="toolTipData[4]"
+                                       [title]="'Number of signatories of the Agreement on Reforming Research Assessment'"
                                        [subtitle]="" [dataSeriesSuffix]="''">
             </app-highcharts-color-axis>
           </div>
@@ -227,7 +232,8 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[5]" [title]="'Number of projects with a citizen science dimension started in 2021'"
+            <app-highcharts-color-axis [mapData]="questionsDataArray[5]" [toolTipData]="toolTipData[5]"
+                                       [title]="'Number of projects with a citizen science dimension started in 2021'"
                                        [subtitle]="" [dataSeriesSuffix]="''">
             </app-highcharts-color-axis>
           </div>

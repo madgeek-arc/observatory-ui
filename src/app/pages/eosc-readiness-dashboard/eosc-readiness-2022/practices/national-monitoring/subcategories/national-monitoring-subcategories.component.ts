@@ -7,6 +7,7 @@ import {CountryTableData} from "../../../../../../../survey-tool/app/domain/coun
 import {EoscReadiness2022DataService} from "../../../../../services/eosc-readiness2022-data.service";
 import {StakeholdersService} from "../../../../../../../survey-tool/app/services/stakeholders.service";
 import {DataHandlerService} from "../../../../../services/data-handler.service";
+import UIkit from "uikit";
 
 @Component({
   selector: 'app-national-monitoring-subcategories',
@@ -23,6 +24,7 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
+  toolTipData: Map<string, string>[] = [];
 
   constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
@@ -35,21 +37,27 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
         switch (this.dataType) {
           case 'dataManagement':
             this.getDataManagementData();
+            UIkit.switcher('#dataContent').show(0);
             break;
           case 'fairData':
             this.getFairDataData();
+            UIkit.switcher('#dataContent').show(1);
             break;
           case 'openData':
             this.getOpenDataData();
+            UIkit.switcher('#dataContent').show(2);
             break;
           case 'connectingRepositoriesToEOSC':
             this.getConnectingReposToEOSCData();
+            UIkit.switcher('#infrastructuresContent').show(0);
             break;
           case 'dataStewardship':
             this.getDataStewardshipData();
+            UIkit.switcher('#infrastructuresContent').show(1);
             break;
           case 'longTermDataPreservation':
             this.getLongTermDataPreservationData();
+            UIkit.switcher('#infrastructuresContent').show(2);
             break;
         }
       }
@@ -60,6 +68,7 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion58(),
+      this.queryData.getQuestion58comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -67,6 +76,7 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
         for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(0,4);
       }
     );
@@ -76,6 +86,7 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion62(),
+      this.queryData.getQuestion62comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -83,6 +94,7 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
         for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
           this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(1,4);
       }
     );
@@ -92,6 +104,7 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion66(),
+      this.queryData.getQuestion66comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -99,6 +112,7 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
         for (let i = 0; i < this.tmpQuestionsDataArray[2].series.length; i++) {
           this.tmpQuestionsDataArray[2].series[i].data = this.tmpQuestionsDataArray[2].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(2,4);
       }
     );
@@ -108,6 +122,7 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion78(),
+      this.queryData.getQuestion78comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -115,6 +130,7 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
         for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
           this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(3,4);
       }
     );
@@ -124,6 +140,7 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion82(),
+      this.queryData.getQuestion82comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -131,6 +148,7 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
         for (let i = 0; i < this.tmpQuestionsDataArray[4].series.length; i++) {
           this.tmpQuestionsDataArray[4].series[i].data = this.tmpQuestionsDataArray[4].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(4,4);
       }
     );
@@ -140,6 +158,7 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion86(),
+      this.queryData.getQuestion86comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -147,6 +166,7 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
         for (let i = 0; i < this.tmpQuestionsDataArray[5].series.length; i++) {
           this.tmpQuestionsDataArray[5].series[i].data = this.tmpQuestionsDataArray[5].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(5,4);
       }
     );

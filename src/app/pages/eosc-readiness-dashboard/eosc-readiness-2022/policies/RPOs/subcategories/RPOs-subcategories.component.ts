@@ -52,15 +52,15 @@ export class RPOsSubcategoriesComponent implements OnInit{
             break;
           case 'connectingRepositoriesToEOSC':
             this.getConnectingReposToEOSCData();
-            UIkit.switcher('#interfacesContent').show(0);
+            UIkit.switcher('#infrastructuresContent').show(0);
             break;
           case 'dataStewardship':
             this.getDataStewardshipData();
-            UIkit.switcher('#interfacesContent').show(1);
+            UIkit.switcher('#infrastructuresContent').show(1);
             break;
           case 'longTermDataPreservation':
             this.getLongTermDataPreservationData();
-            UIkit.switcher('#interfacesContent').show(2);
+            UIkit.switcher('#infrastructuresContent').show(2);
             break;
         }
       }

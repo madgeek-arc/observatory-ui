@@ -5,12 +5,12 @@ import {StakeholdersService} from "../../../../../../survey-tool/app/services/st
 import {DataHandlerService} from "../../../../services/data-handler.service";
 import {CountryTableData} from "../../../../../../survey-tool/app/domain/country-table-data";
 import {EoscReadiness2022MapSubtitles} from "../../eosc-readiness2022-map-subtitles";
+import {countries} from "../../../../../../survey-tool/app/domain/countries";
 import {zip} from "rxjs/internal/observable/zip";
 import {RawData} from "../../../../../../survey-tool/app/domain/raw-data";
 import {isNumeric} from "rxjs/internal-compatibility";
-import UIkit from "uikit";
 import {ActivityGauge} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
-import {countries} from "../../../../../../survey-tool/app/domain/countries";
+import UIkit from "uikit";
 
 @Component({
   selector: 'app-national-policy',
@@ -27,6 +27,7 @@ export class OutputsComponent implements OnInit {
   tmpQuestionsDataArray: any[] = [];
   questionsDataArrayForBarChart: any[] = [];
   sumsArray: string[] = [];
+  toolTipData: Map<string, string>[] = [];
   activityGaugeData: ActivityGauge[] = [];
   publications: number = 0;
   software: number = 0;
@@ -36,7 +37,7 @@ export class OutputsComponent implements OnInit {
   engagement: number = 0;
   tableData: string[][] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
+  constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
   }
 
@@ -170,12 +171,14 @@ export class OutputsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion57(),
+      this.queryData.getQuestion57comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[0] = this.calculateSum(res[1]);
+        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -184,12 +187,14 @@ export class OutputsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion73(),
+      this.queryData.getQuestion73comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[1] = this.calculateSum(res[1]);
+        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -198,12 +203,14 @@ export class OutputsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion77(),
+      this.queryData.getQuestion77comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[2] = this.calculateSum(res[1]);
+        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -212,12 +219,14 @@ export class OutputsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion93(),
+      this.queryData.getQuestion93comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[3] = this.calculateSum(res[1]);
+        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -226,12 +235,14 @@ export class OutputsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion97(),
+      this.queryData.getQuestion97comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[4] = this.calculateSum(res[1]);
+        this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -240,12 +251,14 @@ export class OutputsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion101(),
+      this.queryData.getQuestion101comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[5] = this.calculateSum(res[1]);
+        this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }

@@ -1,14 +1,14 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {EoscReadiness2022DataService} from "../../../../services/eosc-readiness2022-data.service";
 import {StakeholdersService} from "../../../../../../survey-tool/app/services/stakeholders.service";
 import {DataHandlerService} from "../../../../services/data-handler.service";
 import {CountryTableData} from "../../../../../../survey-tool/app/domain/country-table-data";
 import {ColorPallet, EoscReadiness2022MapSubtitles} from "../../eosc-readiness2022-map-subtitles";
+import {countries} from "../../../../../../survey-tool/app/domain/countries";
 import {ActivityGauge, CategorizedAreaData, Series} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
 import {zip} from "rxjs/internal/observable/zip";
 import UIkit from "uikit";
-import {countries} from "../../../../../../survey-tool/app/domain/countries";
 
 @Component({
   selector: 'app-national-policy',

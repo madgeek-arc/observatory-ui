@@ -88,14 +88,14 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-1-1" style="height: 700px">
-            <app-highcharts-category-map [mapData]="questionsDataArray[0]" [subtitle]=""
+            <app-highcharts-category-map [mapData]="questionsDataArray[0]" [subtitle]="" [toolTipData]="toolTipData[0]"
                                          [title]="'Use cases on open access to publications'">
             </app-highcharts-category-map>
           </div>
         </div>
       </li>
       <li class="uk-animation-fade">
-        <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+        <ul id="dataContent" class="uk-subnav uk-subnav-pill" uk-switcher>
           <li><a [routerLink]="['./dataManagement']">Data management</a></li>
           <li><a [routerLink]="['./fairData']">FAIR data</a></li>
           <li><a [routerLink]="['./openData']">Open data</a></li>
@@ -104,7 +104,7 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-1-1" style="height: 700px">
-            <app-highcharts-category-map [mapData]="questionsDataArray[1]" [subtitle]=""
+            <app-highcharts-category-map [mapData]="questionsDataArray[1]" [subtitle]="" [toolTipData]="toolTipData[1]"
                                          [title]="'Use cases on open source software'">
             </app-highcharts-category-map>
           </div>
@@ -113,14 +113,14 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-1-1" style="height: 700px">
-            <app-highcharts-category-map [mapData]="questionsDataArray[2]" [subtitle]=""
+            <app-highcharts-category-map [mapData]="questionsDataArray[2]" [subtitle]="" [toolTipData]="toolTipData[2]"
                                          [title]="'Use cases on offering services through EOSC'">
             </app-highcharts-category-map>
           </div>
         </div>
       </li>
       <li class="uk-animation-fade">
-        <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+        <ul id="infrastructuresContent" class="uk-subnav uk-subnav-pill" uk-switcher>
           <li><a [routerLink]="['./connectingRepositoriesToEOSC']">Connecting repositories to EOSC</a></li>
           <li><a [routerLink]="['./dataStewardship']">Data stewardship</a></li>
           <li><a [routerLink]="['./longTermDataPreservation']">Long-term data preservation</a></li>
@@ -129,7 +129,7 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-1-1" style="height: 700px">
-            <app-highcharts-category-map [mapData]="questionsDataArray[3]" [subtitle]=""
+            <app-highcharts-category-map [mapData]="questionsDataArray[3]" [subtitle]="" [toolTipData]="toolTipData[3]"
                                          [title]="'Use cases on skills/training for Open Science'">
             </app-highcharts-category-map>
           </div>
@@ -138,7 +138,7 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-1-1" style="height: 700px">
-            <app-highcharts-category-map [mapData]="questionsDataArray[4]" [subtitle]=""
+            <app-highcharts-category-map [mapData]="questionsDataArray[4]" [subtitle]="" [toolTipData]="toolTipData[4]"
                                          [title]="'Use cases on incentives/rewards for Open Science'">
             </app-highcharts-category-map>
           </div>
@@ -147,7 +147,7 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-1-1" style="height: 700px">
-            <app-highcharts-category-map [mapData]="questionsDataArray[5]" [subtitle]=""
+            <app-highcharts-category-map [mapData]="questionsDataArray[5]" [subtitle]="" [toolTipData]="toolTipData[5]"
                                          [title]="'Use cases on citizen science'">
             </app-highcharts-category-map>
           </div>

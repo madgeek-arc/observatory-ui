@@ -1,16 +1,16 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {EoscReadiness2022DataService} from "../../../../services/eosc-readiness2022-data.service";
 import {StakeholdersService} from "../../../../../../survey-tool/app/services/stakeholders.service";
 import {DataHandlerService} from "../../../../services/data-handler.service";
 import {CountryTableData} from "../../../../../../survey-tool/app/domain/country-table-data";
-import {ColorPallet, EoscReadiness2022MapSubtitles} from "../../eosc-readiness2022-map-subtitles";
+import {EoscReadiness2022MapSubtitles} from "../../eosc-readiness2022-map-subtitles";
 import {zip} from "rxjs/internal/observable/zip";
-import {ActivityGauge, CategorizedAreaData, Series} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
-import UIkit from "uikit";
+import {ActivityGauge} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
 import {RawData} from "../../../../../../survey-tool/app/domain/raw-data";
 import {isNumeric} from "rxjs/internal-compatibility";
 import {countries} from "../../../../../../survey-tool/app/domain/countries";
+import UIkit from "uikit";
 
 @Component({
   selector: 'app-national-policy',
@@ -26,8 +26,8 @@ export class RFOsComponent implements OnInit {
   tmpQuestionsDataArray: any[] = [];
   questionsDataArrayForBarChart: any[] = [];
   sumsArray: string[] = [];
-  activityGaugeData: ActivityGauge[] = [];
   toolTipData: Map<string, string>[] = [];
+  activityGaugeData: ActivityGauge[] = [];
   publications: number = 0;
   software: number = 0;
   services: number = 0;

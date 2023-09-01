@@ -27,6 +27,7 @@ export class FinancialInvestmentsComponent implements OnInit {
   tmpQuestionsDataArray: any[] = [];
   questionsDataArrayForBarChart: any[] = [];
   sumsArray: string[] = [];
+  toolTipData: Map<string, string>[] = [];
   activityGaugeData: ActivityGauge[] = [];
   publications: number = 0;
   software: number = 0;
@@ -49,33 +50,33 @@ export class FinancialInvestmentsComponent implements OnInit {
           this.getAll();
         }
         if (params['type'] === 'publications') {
-          UIkit.switcher('#topSelector').show(0);
+          UIkit.switcher('#topSelector').show(1);
           this.getPublicationsData();
         }
         if (params['type'] === 'data') {
-          UIkit.switcher('#topSelector').show(1);
+          UIkit.switcher('#topSelector').show(2);
         }
         if (params['type'] === 'software') {
-          UIkit.switcher('#topSelector').show(2);
+          UIkit.switcher('#topSelector').show(3);
           this.getSoftwareData();
         }
         if (params['type'] === 'services') {
-          UIkit.switcher('#topSelector').show(3);
+          UIkit.switcher('#topSelector').show(4);
           this.getServicesData();
         }
         if (params['type'] === 'infrastructures') {
-          UIkit.switcher('#topSelector').show(4);
+          UIkit.switcher('#topSelector').show(5);
         }
         if (params['type'] === 'skills_training') {
-          UIkit.switcher('#topSelector').show(5);
+          UIkit.switcher('#topSelector').show(6);
           this.getSkillsTrainingData();
         }
         if (params['type'] === 'assessment') {
-          UIkit.switcher('#topSelector').show(6);
+          UIkit.switcher('#topSelector').show(7);
           this.getAssessmentData();
         }
         if (params['type'] === 'engagement') {
-          UIkit.switcher('#topSelector').show(7);
+          UIkit.switcher('#topSelector').show(8);
           this.getEngagementData();
         }
       }
@@ -170,12 +171,14 @@ export class FinancialInvestmentsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion56(),
+      this.queryData.getQuestion56comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[0] = this.calculateSum(res[1]);
+        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -184,12 +187,14 @@ export class FinancialInvestmentsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion72(),
+      this.queryData.getQuestion72comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[1] = this.calculateSum(res[1]);
+        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -198,12 +203,14 @@ export class FinancialInvestmentsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion76(),
+      this.queryData.getQuestion76comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[2] = this.calculateSum(res[1]);
+        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -212,12 +219,14 @@ export class FinancialInvestmentsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion92(),
+      this.queryData.getQuestion92comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[3] = this.calculateSum(res[1]);
+        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -226,12 +235,14 @@ export class FinancialInvestmentsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion96(),
+      this.queryData.getQuestion96comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[4] = this.calculateSum(res[1]);
+        this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -240,12 +251,14 @@ export class FinancialInvestmentsComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion100(),
+      this.queryData.getQuestion100comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.questionsDataArrayForBarChart[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.sumsArray[5] = this.calculateSum(res[1]);
+        this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }

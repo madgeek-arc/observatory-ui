@@ -2,7 +2,8 @@
   <div *ngSwitchCase="'dataManagement'">
     <div class="uk-grid uk-margin-medium-top">
       <div class="uk-width-2-3" style="height: 800px">
-        <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [title]="'Financial investments in data management in 2021'"
+        <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [toolTipData]="toolTipData[0]"
+                                   [title]="'Financial investments in data management in 2021'"
                                    [subtitle]="'(in millions of Euro)'" >
         </app-highcharts-color-axis>
       </div>
@@ -27,7 +28,8 @@
   <div *ngSwitchCase="'fairData'">
     <div class="uk-grid uk-margin-medium-top">
       <div class="uk-width-2-3" style="height: 800px">
-        <app-highcharts-color-axis [mapData]="questionsDataArray[1]" [title]="'Financial investments in FAIR data in 2021'"
+        <app-highcharts-color-axis [mapData]="questionsDataArray[1]" [toolTipData]="toolTipData[1]"
+                                   [title]="'Financial investments in FAIR data in 2021'"
                                    [subtitle]="'(in millions of Euro)'">
         </app-highcharts-color-axis>
       </div>
@@ -52,7 +54,8 @@
   <div *ngSwitchCase="'openData'">
     <div class="uk-grid uk-margin-medium-top">
       <div class="uk-width-2-3" style="height: 800px">
-        <app-highcharts-color-axis [mapData]="questionsDataArray[2]" [title]="'Financial investments in open data in 2021'"
+        <app-highcharts-color-axis [mapData]="questionsDataArray[2]" [toolTipData]="toolTipData[2]"
+                                   [title]="'Financial investments in open data in 2021'"
                                    [subtitle]="'(in millions of Euro)'">
         </app-highcharts-color-axis>
       </div>
@@ -77,7 +80,8 @@
   <div *ngSwitchCase="'connectingRepositoriesToEOSC'">
     <div class="uk-grid uk-margin-medium-top">
       <div class="uk-width-2-3" style="height: 800px">
-        <app-highcharts-color-axis [mapData]="questionsDataArray[3]" [title]="'Financial investments in connecting repositories to EOSC in 2021'"
+        <app-highcharts-color-axis [mapData]="questionsDataArray[3]" [toolTipData]="toolTipData[3]"
+                                   [title]="'Financial investments in connecting repositories to EOSC in 2021'"
                                    [subtitle]="'(in millions of Euro)'">
         </app-highcharts-color-axis>
       </div>
@@ -102,7 +106,8 @@
   <div *ngSwitchCase="'dataStewardship'">
     <div class="uk-grid uk-margin-medium-top">
       <div class="uk-width-2-3" style="height: 800px">
-        <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [title]="'Financial investments in data stewardship in 2021'"
+        <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [toolTipData]="toolTipData[4]"
+                                   [title]="'Financial investments in data stewardship in 2021'"
                                    [subtitle]="'(in millions of Euro)'">
         </app-highcharts-color-axis>
       </div>
@@ -127,7 +132,8 @@
   <div *ngSwitchCase="'longTermDataPreservation'">
     <div class="uk-grid uk-margin-medium-top">
       <div class="uk-width-2-3" style="height: 800px">
-        <app-highcharts-color-axis [mapData]="questionsDataArray[5]" [title]="'Financial investments in long-term data preservation in 2021'"
+        <app-highcharts-color-axis [mapData]="questionsDataArray[5]" [toolTipData]="toolTipData[5]"
+                                   [title]="'Financial investments in long-term data preservation in 2021'"
                                    [subtitle]="'(in millions of Euro)'">
         </app-highcharts-color-axis>
       </div>

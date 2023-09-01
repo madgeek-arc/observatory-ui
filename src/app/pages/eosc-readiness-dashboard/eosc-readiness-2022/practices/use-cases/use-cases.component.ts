@@ -7,8 +7,8 @@ import {CountryTableData} from "../../../../../../survey-tool/app/domain/country
 import {ColorPallet, EoscReadiness2022MapSubtitles} from "../../eosc-readiness2022-map-subtitles";
 import {ActivityGauge, CategorizedAreaData, Series} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
 import {zip} from "rxjs/internal/observable/zip";
-import UIkit from "uikit";
 import {countries} from "../../../../../../survey-tool/app/domain/countries";
+import UIkit from "uikit";
 
 @Component({
   selector: 'app-national-policy',
@@ -23,6 +23,7 @@ export class UseCasesComponent implements OnInit {
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
+  toolTipData: Map<string, string>[] = [];
   activityGaugeData: ActivityGauge[] = [];
   publications: number = 0;
   software: number = 0;
@@ -164,6 +165,7 @@ export class UseCasesComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion55(),
+      this.queryData.getQuestion55comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -171,6 +173,7 @@ export class UseCasesComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(0,3);
       }
     );
@@ -180,6 +183,7 @@ export class UseCasesComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion71(),
+      this.queryData.getQuestion71comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -187,6 +191,7 @@ export class UseCasesComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
           this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(1,3);
       }
     );
@@ -196,6 +201,7 @@ export class UseCasesComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion75(),
+      this.queryData.getQuestion75comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -203,6 +209,7 @@ export class UseCasesComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[2].series.length; i++) {
           this.tmpQuestionsDataArray[2].series[i].data = this.tmpQuestionsDataArray[2].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(2,3);
       }
     );
@@ -212,6 +219,7 @@ export class UseCasesComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion91(),
+      this.queryData.getQuestion91comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -219,6 +227,7 @@ export class UseCasesComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
           this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(3,3);
       }
     );
@@ -228,6 +237,7 @@ export class UseCasesComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion95(),
+      this.queryData.getQuestion95comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -235,6 +245,7 @@ export class UseCasesComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[4].series.length; i++) {
           this.tmpQuestionsDataArray[4].series[i].data = this.tmpQuestionsDataArray[4].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(4,3);
       }
     );
@@ -244,6 +255,7 @@ export class UseCasesComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion99(),
+      this.queryData.getQuestion99comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -251,6 +263,7 @@ export class UseCasesComponent implements OnInit {
         for (let i = 0; i < this.tmpQuestionsDataArray[5].series.length; i++) {
           this.tmpQuestionsDataArray[5].series[i].data = this.tmpQuestionsDataArray[5].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(5,3);
       }
     );
