@@ -13,62 +13,72 @@
     </ul>
     <ul id="content" class="uk-switcher uk-margin-medium-top">
       <li class="uk-animation-fade">
-        <div class="uk-grid">
+        <div class="uk-grid" *ngIf="participatingCountries?.length > 0">
           <div class="uk-grid uk-width-1-2">
             <div class="uk-width-1-2">
               <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-flex uk-flex-center">
-                  <span class="material-icons">verified_user</span>
+<!--                <div class="uk-flex uk-flex-center">-->
+<!--                  <span class="material-icons">verified_user</span>-->
+<!--                </div>-->
+                <div class="uk-text-center">
+                  <div class="uk-text-bold">
+                    {{participatingCountries[0] + ' out of ' + countriesArray.length}}
+                  </div>
+                  countries have a national policy on publications
                 </div>
-                <div class="uk-text-center">Policies on publications</div>
-                <div class="uk-text-center uk-text-bold">{{publications +' / '+ countriesArray.length}}</div>
               </div>
             </div>
             <div class="uk-width-1-2">
               <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-flex uk-flex-center">
-                  <span class="material-icons">verified_user</span>
+<!--                <div class="uk-flex uk-flex-center">-->
+<!--                  <span class="material-icons">verified_user</span>-->
+<!--                </div>-->
+                <div class="uk-text-center">
+                  <div class="uk-text-bold">
+                    {{participatingCountries[1] + ' out of ' + countriesArray.length}}
+                  </div>
+                  countries have national policies on data
                 </div>
-                <div class="uk-text-center">Policies on software</div>
-                <div class="uk-text-center uk-text-bold">{{software +' / '+ countriesArray.length}}</div>
               </div>
             </div>
             <div class="uk-width-1-2">
               <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-flex uk-flex-center">
-                  <span class="material-icons">verified_user</span>
+                <div class="uk-text-center">
+                  <div class="uk-text-bold">
+                    {{participatingCountries[2] + ' out of ' + countriesArray.length}}
+                  </div>
+                  countries have national policy on software
                 </div>
-                <div class="uk-text-center">Policies on services</div>
-                <div class="uk-text-center uk-text-bold">{{services +' / '+ countriesArray.length}}</div>
               </div>
             </div>
             <div class="uk-width-1-2">
               <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-flex uk-flex-center">
-                  <span class="material-icons">verified_user</span>
+                <div class="uk-text-center">
+                  <div class="uk-text-bold">
+                    {{participatingCountries[3] + ' out of ' + countriesArray.length}}
+                  </div>
+                  countries have national policy on services
                 </div>
-                <div class="uk-text-center">Policies on skills/training</div>
-                <div class="uk-text-center uk-text-bold">{{skills_training +' / '+ countriesArray.length}}</div>
               </div>
             </div>
-            <div class="uk-width-1-2">
-              <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-flex uk-flex-center">
-                  <span class="material-icons">verified_user</span>
-                </div>
-                <div class="uk-text-center">Policies on assessment</div>
-                <div class="uk-text-center uk-text-bold">{{assessment +' / '+ countriesArray.length}}</div>
-              </div>
-            </div>
-            <div class="uk-width-1-2">
-              <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-flex uk-flex-center">
-                  <span class="material-icons">verified_user</span>
-                </div>
-                <div class="uk-text-center">Policies on engagement</div>
-                <div class="uk-text-center uk-text-bold">{{engagement +' / '+ countriesArray.length}}</div>
-              </div>
-            </div>
+<!--            <div class="uk-width-1-2">-->
+<!--              <div class="uk-card uk-card-default uk-card-body">-->
+<!--                <div class="uk-flex uk-flex-center">-->
+<!--                  <span class="material-icons">verified_user</span>-->
+<!--                </div>-->
+<!--                <div class="uk-text-center">Policies on assessment</div>-->
+<!--                <div class="uk-text-center uk-text-bold">{{assessment +' / '+ countriesArray.length}}</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="uk-width-1-2">-->
+<!--              <div class="uk-card uk-card-default uk-card-body">-->
+<!--                <div class="uk-flex uk-flex-center">-->
+<!--                  <span class="material-icons">verified_user</span>-->
+<!--                </div>-->
+<!--                <div class="uk-text-center">Policies on engagement</div>-->
+<!--                <div class="uk-text-center uk-text-bold">{{engagement +' / '+ countriesArray.length}}</div>-->
+<!--              </div>-->
+<!--            </div>-->
           </div>
           <div class="uk-grid uk-width-1-2 uk-margin-remove-top">
             <div class="uk-width-1-1" style="height: 500px">
@@ -93,11 +103,12 @@
             </app-highcharts-category-map>
           </div>
           <div class="uk-width-1-3">
-            <div class="uk-margin-medium-bottom">
-              <div class="uk-card uk-card-default uk-card-body indicator-card">
-                <div class="indicator-label">Number of countries with national policy on open access to publications</div>
-                <div *ngIf="!publications" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="publications" class="uk-text-lead uk-margin-small-top"><strong>{{publications}}</strong></div>
+            <div *ngIf="participatingCountries[0]" class="uk-card uk-card-default uk-card-body indicator-card">
+              <div class="uk-text-lead uk-margin-small-top uk-text-center">
+                <strong>{{participatingCountries[0] +' out of '+ countriesArray?.length}}</strong>
+              </div>
+              <div class="indicator-label">
+                countries have a national policy on publications
               </div>
             </div>
           </div>
@@ -118,11 +129,12 @@
             </app-highcharts-category-map>
           </div>
           <div class="uk-width-1-3">
-            <div class="uk-margin-medium-bottom">
-              <div class="uk-card uk-card-default uk-card-body indicator-card">
-                <div class="indicator-label">Number of countries with national policy on open source software</div>
-                <div *ngIf="!software" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="software" class="uk-text-lead uk-margin-small-top"><strong>{{software}}</strong></div>
+            <div *ngIf="participatingCountries[2]" class="uk-card uk-card-default uk-card-body indicator-card">
+              <div class="uk-text-lead uk-margin-small-top uk-text-center">
+                <strong>{{participatingCountries[2] +' out of '+ countriesArray?.length}}</strong>
+              </div>
+              <div class="indicator-label">
+                countries have a national policy on software
               </div>
             </div>
           </div>
@@ -136,11 +148,12 @@
             </app-highcharts-category-map>
           </div>
           <div class="uk-width-1-3">
-            <div class="uk-margin-medium-bottom">
-              <div class="uk-card uk-card-default uk-card-body indicator-card">
-                <div class="indicator-label">Number of countries with national policy on offering services through EOSC</div>
-                <div *ngIf="!services" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="services" class="uk-text-lead uk-margin-small-top"><strong>{{services}}</strong></div>
+            <div *ngIf="participatingCountries[2]" class="uk-card uk-card-default uk-card-body indicator-card">
+              <div class="uk-text-lead uk-margin-small-top uk-text-center">
+                <strong>{{participatingCountries[2] +' out of '+ countriesArray?.length}}</strong>
+              </div>
+              <div class="indicator-label">
+                countries have a national policy on services
               </div>
             </div>
           </div>
@@ -161,11 +174,12 @@
             </app-highcharts-category-map>
           </div>
           <div class="uk-width-1-3">
-            <div class="uk-margin-medium-bottom">
-              <div class="uk-card uk-card-default uk-card-body indicator-card">
-                <div class="indicator-label">Number of countries with national policy on skills/training for Open Science</div>
-                <div *ngIf="!skills_training" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="skills_training" class="uk-text-lead uk-margin-small-top"><strong>{{skills_training}}</strong></div>
+            <div *ngIf="participatingCountries[5]" class="uk-card uk-card-default uk-card-body indicator-card">
+              <div class="uk-text-lead uk-margin-small-top uk-text-center">
+                <strong>{{participatingCountries[5] +' out of '+ countriesArray?.length}}</strong>
+              </div>
+              <div class="indicator-label">
+                countries have a national policy on skills/training for Open Science
               </div>
             </div>
           </div>
@@ -179,11 +193,12 @@
             </app-highcharts-category-map>
           </div>
           <div class="uk-width-1-3">
-            <div class="uk-margin-medium-bottom">
-              <div class="uk-card uk-card-default uk-card-body indicator-card">
-                <div class="indicator-label">Number of countries with national policy on incentives/reward for Open Science</div>
-                <div *ngIf="!assessment" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="assessment" class="uk-text-lead uk-margin-small-top"><strong>{{assessment}}</strong></div>
+            <div *ngIf="participatingCountries[6]" class="uk-card uk-card-default uk-card-body indicator-card">
+              <div class="uk-text-lead uk-margin-small-top uk-text-center">
+                <strong>{{participatingCountries[6] +' out of '+ countriesArray?.length}}</strong>
+              </div>
+              <div class="indicator-label">
+                countries have a national policy on incentives/rewards for Open Science
               </div>
             </div>
           </div>
@@ -197,11 +212,12 @@
             </app-highcharts-category-map>
           </div>
           <div class="uk-width-1-3">
-            <div class="uk-margin-medium-bottom">
-              <div class="uk-card uk-card-default uk-card-body indicator-card">
-                <div class="indicator-label">Number of countries with national policy on citizen science</div>
-                <div *ngIf="!engagement" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="engagement" class="uk-text-lead uk-margin-small-top"><strong>{{engagement}}</strong></div>
+            <div *ngIf="participatingCountries[7]" class="uk-card uk-card-default uk-card-body indicator-card">
+              <div class="uk-text-lead uk-margin-small-top uk-text-center">
+                <strong>{{participatingCountries[7] +' out of '+ countriesArray?.length}}</strong>
+              </div>
+              <div class="indicator-label">
+                countries have a national policy on citizen science
               </div>
             </div>
           </div>

@@ -176,8 +176,8 @@ export class DataHandlerService {
     }
     if (mergedArray) {
       for (let i = 0; i < mergedArray.length; i++) {
-        if (mergedArray[i] === 'true') {
-          tmpArr[i] = 'true';
+        if (mergedArray[i] !== 'true' || tmpArr[i] !== 'true') {
+          tmpArr[i] = '-';
         }
       }
     }
