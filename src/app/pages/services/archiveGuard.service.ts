@@ -21,7 +21,7 @@ export class ArchiveGuardService implements CanActivateChild {
     if (userInfo.stakeholders.filter(c => c.type === 'eosc-sb').length > 0) {
       let stakeHolders: Stakeholder[] = userInfo.stakeholders.filter(c => c.type === 'eosc-sb');
       for (const stakeHolder of stakeHolders) {
-        if (stakeHolder.managers.indexOf(userInfo.user.email) >= 0)
+        if (stakeHolder.admins.indexOf(userInfo.user.email) >= 0)
           return true;
       }
       return this.fail();

@@ -163,7 +163,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
   checkIfManager(): boolean {
     if (this.currentStakeholder) {
       let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-      for (const manager of this.currentStakeholder.managers) {
+      for (const manager of this.currentStakeholder.admins) {
         if (userInfo.user.email === manager) {
           return true;
         }
