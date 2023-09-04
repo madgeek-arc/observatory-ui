@@ -8,7 +8,7 @@
       </div>
       <div class="uk-width-1-3">
         <div class="uk-margin-medium-bottom">
-          <div *ngIf="participatingCountries[0]"  class="uk-card uk-card-default uk-card-body indicator-card">
+          <div *ngIf="participatingCountries[0] >= 0"  class="uk-card uk-card-default uk-card-body indicator-card">
             <div class="uk-text-lead uk-margin-small-top uk-text-center">
               <strong>{{participatingCountries[0] +' out of '+ countriesArray?.length}}</strong>
             </div>
@@ -28,7 +28,7 @@
         </app-highcharts-category-map>
       </div>
       <div class="uk-width-1-3">
-        <div *ngIf="participatingCountries[1]" class="uk-margin-medium-bottom">
+        <div *ngIf="participatingCountries[1] >= 0" class="uk-margin-medium-bottom">
           <div class="uk-card uk-card-default uk-card-body indicator-card">
             <div class="uk-text-lead uk-margin-small-top uk-text-center">
               <strong>{{participatingCountries[1] +' out of '+ countriesArray?.length}}</strong>
@@ -49,7 +49,7 @@
         </app-highcharts-category-map>
       </div>
       <div class="uk-width-1-3">
-        <div *ngIf="participatingCountries[2]" class="uk-margin-medium-bottom">
+        <div *ngIf="participatingCountries[2] >= 0" class="uk-margin-medium-bottom">
           <div class="uk-card uk-card-default uk-card-body indicator-card">
             <div class="uk-text-lead uk-margin-small-top uk-text-center">
               <strong>{{participatingCountries[2] +' out of '+ countriesArray?.length}}</strong>
@@ -70,7 +70,7 @@
         </app-highcharts-category-map>
       </div>
       <div class="uk-width-1-3">
-        <div *ngIf="participatingCountries[3]" class="uk-margin-medium-bottom">
+        <div *ngIf="participatingCountries[3] >= 0" class="uk-margin-medium-bottom">
           <div class="uk-card uk-card-default uk-card-body indicator-card">
             <div class="uk-text-lead uk-margin-small-top uk-text-center">
               <strong>{{participatingCountries[3] +' out of '+ countriesArray?.length}}</strong>
@@ -91,7 +91,7 @@
         </app-highcharts-category-map>
       </div>
       <div class="uk-width-1-3">
-        <div *ngIf="participatingCountries[4]" class="uk-margin-medium-bottom">
+        <div *ngIf="participatingCountries[4] >= 0" class="uk-margin-medium-bottom">
           <div class="uk-card uk-card-default uk-card-body indicator-card">
             <div class="uk-text-lead uk-margin-small-top uk-text-center">
               <strong>{{participatingCountries[4] +' out of '+ countriesArray?.length}}</strong>
@@ -112,7 +112,7 @@
         </app-highcharts-category-map>
       </div>
       <div class="uk-width-1-3">
-        <div *ngIf="participatingCountries[5]" class="uk-margin-medium-bottom">
+        <div *ngIf="participatingCountries[5] >= 0" class="uk-margin-medium-bottom">
           <div class="uk-card uk-card-default uk-card-body indicator-card">
             <div class="uk-text-lead uk-margin-small-top uk-text-center">
               <strong>{{participatingCountries[5] +' out of '+ countriesArray?.length}}</strong>

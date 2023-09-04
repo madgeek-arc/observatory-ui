@@ -28,12 +28,6 @@ export class NationalPolicyComponent implements OnInit {
   toolTipData: Map<string, string>[] = [];
   activityGaugeData: ActivityGauge[] = [];
   participatingCountries: number[] = [];
-  publications: number = 0;
-  software: number = 0;
-  services: number = 0;
-  skills_training: number = 0;
-  assessment: number = 0;
-  engagement: number = 0;
   tableData: string[][] = [];
 
   constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
