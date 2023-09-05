@@ -189,7 +189,6 @@ export class FinancialStrategySubcategoriesComponent implements OnInit{
       if (this.tmpQuestionsDataArray[index].series[i].name === 'Awaiting data')
         continue;
       position = this.tmpQuestionsDataArray[index].series[i].name === 'No'? 1 : 0;
-      console.log(this.tmpQuestionsDataArray[index].series[i].name);
       this.questionsDataArray[index].series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
       this.questionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
       this.questionsDataArray[index].series[i].showInLegend = true;

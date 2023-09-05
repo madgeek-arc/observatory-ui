@@ -25,16 +25,10 @@ export class FinancialStrategyComponent implements OnInit {
   tmpQuestionsDataArray: any[] = [];
   toolTipData: Map<string, string>[] = [];
   activityGaugeData: ActivityGauge[] = [];
-  publications: number = 0;
-  software: number = 0;
-  services: number = 0;
-  skills_training: number = 0;
-  assessment: number = 0;
-  engagement: number = 0;
   participatingCountries: number[] = [];
   tableData: string[][] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
+  constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
   }
 
@@ -103,7 +97,7 @@ export class FinancialStrategyComponent implements OnInit {
       this.queryData.getQuestion51(), // Engagement
     ).subscribe(
       res => {
-        let y = 0;
+        let y: number;
         this.countriesArray = res[0];
         this.tableData[0] = ['Countries'].concat(this.countriesArray);
 

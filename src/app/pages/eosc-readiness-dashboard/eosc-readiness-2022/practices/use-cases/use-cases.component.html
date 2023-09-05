@@ -17,56 +17,42 @@
           <div class="uk-grid uk-width-1-2">
             <div class="uk-width-1-2">
               <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-flex uk-flex-center">
-                  <span class="material-icons">verified_user</span>
+                <div class="uk-text-center">
+                  <div class="uk-text-bold">
+                    {{participatingCountries[0] + ' out of ' + countriesArray.length}}
+                  </div>
+                  countries have a national monitoring on open access to publications
                 </div>
-                <div class="uk-text-center">Policies on publications</div>
-                <div class="uk-text-center uk-text-bold">{{publications +' / '+ countriesArray.length}}</div>
               </div>
             </div>
             <div class="uk-width-1-2">
               <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-flex uk-flex-center">
-                  <span class="material-icons">verified_user</span>
+                <div class="uk-text-center">
+                  <div class="uk-text-bold">
+                    {{participatingCountries[1] + ' out of ' + countriesArray.length}}
+                  </div>
+                  countries have a national monitoring on open access to data
                 </div>
-                <div class="uk-text-center">Policies on software</div>
-                <div class="uk-text-center uk-text-bold">{{software +' / '+ countriesArray.length}}</div>
               </div>
             </div>
             <div class="uk-width-1-2">
               <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-flex uk-flex-center">
-                  <span class="material-icons">verified_user</span>
+                <div class="uk-text-center">
+                  <div class="uk-text-bold">
+                    {{participatingCountries[2] + ' out of ' + countriesArray.length}}
+                  </div>
+                  countries have a national monitoring on open source software
                 </div>
-                <div class="uk-text-center">Policies on services</div>
-                <div class="uk-text-center uk-text-bold">{{services +' / '+ countriesArray.length}}</div>
               </div>
             </div>
             <div class="uk-width-1-2">
               <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-flex uk-flex-center">
-                  <span class="material-icons">verified_user</span>
+                <div class="uk-text-center">
+                  <div class="uk-text-bold">
+                    {{participatingCountries[3] + ' out of ' + countriesArray.length}}
+                  </div>
+                  countries have a national monitoring on offering services through EOSC
                 </div>
-                <div class="uk-text-center">Policies on skills/training</div>
-                <div class="uk-text-center uk-text-bold">{{skills_training +' / '+ countriesArray.length}}</div>
-              </div>
-            </div>
-            <div class="uk-width-1-2">
-              <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-flex uk-flex-center">
-                  <span class="material-icons">verified_user</span>
-                </div>
-                <div class="uk-text-center">Policies on assessment</div>
-                <div class="uk-text-center uk-text-bold">{{assessment +' / '+ countriesArray.length}}</div>
-              </div>
-            </div>
-            <div class="uk-width-1-2">
-              <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-flex uk-flex-center">
-                  <span class="material-icons">verified_user</span>
-                </div>
-                <div class="uk-text-center">Policies on engagement</div>
-                <div class="uk-text-center uk-text-bold">{{engagement +' / '+ countriesArray.length}}</div>
               </div>
             </div>
           </div>
@@ -78,7 +64,6 @@
 
           <div class="uk-width-1-1 uk-margin-large-top">
             <div class="uk-card uk-card-default uk-card-body">
-
               <cumulative-data-table [title]="'EOSC Policies by country'" [tableData]="tableData"></cumulative-data-table>
             </div>
           </div>
