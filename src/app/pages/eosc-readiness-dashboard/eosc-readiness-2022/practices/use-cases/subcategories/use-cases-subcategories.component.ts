@@ -24,6 +24,7 @@ export class UseCasesSubcategoriesComponent implements OnInit {
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
+  participatingCountries: number[] = [];
   toolTipData: Map<string, string>[] = [];
 
   constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
@@ -73,6 +74,7 @@ export class UseCasesSubcategoriesComponent implements OnInit {
       res => {
         this.countriesArray = res[0];
         this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[0] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
@@ -91,6 +93,7 @@ export class UseCasesSubcategoriesComponent implements OnInit {
       res => {
         this.countriesArray = res[0];
         this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[1] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
           this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
         }
@@ -109,6 +112,7 @@ export class UseCasesSubcategoriesComponent implements OnInit {
       res => {
         this.countriesArray = res[0];
         this.tmpQuestionsDataArray[2] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[2] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         for (let i = 0; i < this.tmpQuestionsDataArray[2].series.length; i++) {
           this.tmpQuestionsDataArray[2].series[i].data = this.tmpQuestionsDataArray[2].series[i].data.map(code => ({ code }));
         }
@@ -127,6 +131,7 @@ export class UseCasesSubcategoriesComponent implements OnInit {
       res => {
         this.countriesArray = res[0];
         this.tmpQuestionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[3] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
           this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
         }
@@ -145,6 +150,7 @@ export class UseCasesSubcategoriesComponent implements OnInit {
       res => {
         this.countriesArray = res[0];
         this.tmpQuestionsDataArray[4] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[4] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         for (let i = 0; i < this.tmpQuestionsDataArray[4].series.length; i++) {
           this.tmpQuestionsDataArray[4].series[i].data = this.tmpQuestionsDataArray[4].series[i].data.map(code => ({ code }));
         }
@@ -163,6 +169,7 @@ export class UseCasesSubcategoriesComponent implements OnInit {
       res => {
         this.countriesArray = res[0];
         this.tmpQuestionsDataArray[5] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[5] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         for (let i = 0; i < this.tmpQuestionsDataArray[5].series.length; i++) {
           this.tmpQuestionsDataArray[5].series[i].data = this.tmpQuestionsDataArray[5].series[i].data.map(code => ({ code }));
         }

@@ -184,8 +184,8 @@ export class FinancialStrategyComponent implements OnInit {
     ).subscribe(
       res => {
         this.countriesArray = res[0];
-        this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
         this.participatingCountries[2] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
         for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
           this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
         }
