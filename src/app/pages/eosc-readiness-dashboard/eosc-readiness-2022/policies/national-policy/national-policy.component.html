@@ -111,6 +111,10 @@
                 countries have a national policy on publications
               </div>
             </div>
+            <div *ngIf="participatingCountries[0] >= 0" class="uk-margin-top">
+              <simple-gauge [data]=participatingCountriesPercentage[0]>
+              </simple-gauge>
+            </div>
           </div>
         </div>
       </li>

@@ -29,12 +29,7 @@ export class FinancialInvestmentsComponent implements OnInit {
   sumsArray: string[] = [];
   toolTipData: Map<string, string>[] = [];
   activityGaugeData: ActivityGauge[] = [];
-  publications: number = 0;
-  software: number = 0;
-  services: number = 0;
-  skills_training: number = 0;
-  assessment: number = 0;
-  engagement: number = 0;
+  participatingCountries: number[] = [];
   tableData: string[][] = [];
 
   constructor(private router: Router, private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
@@ -106,50 +101,52 @@ export class FinancialInvestmentsComponent implements OnInit {
         this.countriesArray = res[0];
         this.tableData[0] = ['Countries'].concat(this.countriesArray);
 
-        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[1])/this.countriesArray.length + Number.EPSILON) * 100);
-        this.publications = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountries[0] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        y = Math.round((this.participatingCountries[0]/this.countriesArray.length + Number.EPSILON) * 100);
         this.activityGaugeData.push({name: 'Publications', y: y});
         this.tableData[1] = ['Publications'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[1], this.countriesArray));
         this.sumsArray[0] = this.calculateSum(res[1]);
 
-        y = Math.round(((this.dataHandlerService.convertRawDataForActivityGauge(res[2]) + this.dataHandlerService.convertRawDataForActivityGauge(res[3]) + this.dataHandlerService.convertRawDataForActivityGauge(res[4]))/(this.countriesArray.length*3) + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Data', y: y});
         this.tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(res[2], this.countriesArray);
         this.tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(res[3], this.countriesArray, this.tableData[2]);
         this.tableData[2] = ['Data'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[4], this.countriesArray, this.tableData[2]));
+        this.participatingCountries[1] = this.countTableEntries(this.tableData[2]);
+        y = Math.round((this.participatingCountries[1]/this.countriesArray.length + Number.EPSILON) * 100);
+        this.activityGaugeData.push({name: 'Data', y: y});
 
-        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[5])/this.countriesArray.length + Number.EPSILON) * 100);
-        this.software = this.dataHandlerService.convertRawDataForActivityGauge(res[5]);
+        this.participatingCountries[2] = this.dataHandlerService.convertRawDataForActivityGauge(res[5]);
+        y = Math.round((this.participatingCountries[2]/this.countriesArray.length + Number.EPSILON) * 100);
         this.activityGaugeData.push({name: 'Software', y: y});
         this.tableData[3] = ['Software'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[5], this.countriesArray));
         this.sumsArray[1] = this.calculateSum(res[5]);
 
-        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[6])/this.countriesArray.length + Number.EPSILON) * 100);
-        this.services = this.dataHandlerService.convertRawDataForActivityGauge(res[6]);
+        this.participatingCountries[3] = this.dataHandlerService.convertRawDataForActivityGauge(res[6]);
+        y = Math.round((this.participatingCountries[3]/this.countriesArray.length + Number.EPSILON) * 100);
         this.tableData[4] = ['Services'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[6], this.countriesArray));
         this.activityGaugeData.push({name: 'Services', y: y});
         this.sumsArray[2] = this.calculateSum(res[6]);
 
-        y = Math.round(((this.dataHandlerService.convertRawDataForActivityGauge(res[7]) + this.dataHandlerService.convertRawDataForActivityGauge(res[8]) + this.dataHandlerService.convertRawDataForActivityGauge(res[9]))/(this.countriesArray.length*3) + Number.EPSILON) * 100);
         this.tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[7], this.countriesArray);
         this.tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[8], this.countriesArray, this.tableData[5]);
         this.tableData[5] = ['Infrastructures'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[9], this.countriesArray, this.tableData[5]));
+        this.participatingCountries[4] = this.countTableEntries(this.tableData[5]);
+        y = Math.round((this.participatingCountries[4]/this.countriesArray.length + Number.EPSILON) * 100);
         this.activityGaugeData.push({name: 'Infrastructures', y: y});
 
-        y =  Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[10])/this.countriesArray.length + Number.EPSILON) * 100);
-        this.skills_training = this.dataHandlerService.convertRawDataForActivityGauge(res[10]);
+        this.participatingCountries[5] = this.dataHandlerService.convertRawDataForActivityGauge(res[10]);
+        y =  Math.round((this.participatingCountries[5]/this.countriesArray.length + Number.EPSILON) * 100);
         this.tableData[6] = ['Skills/Training'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[10], this.countriesArray));
         this.activityGaugeData.push({name: 'Skills/Training', y: y});
         this.sumsArray[3] = this.calculateSum(res[10]);
 
-        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[11])/this.countriesArray.length + Number.EPSILON) * 100);
-        this.assessment = this.dataHandlerService.convertRawDataForActivityGauge(res[11]);
+        this.participatingCountries[6] = this.dataHandlerService.convertRawDataForActivityGauge(res[11]);
+        y = Math.round((this.participatingCountries[6]/this.countriesArray.length + Number.EPSILON) * 100);
         this.tableData[7] = ['Assessment'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[11], this.countriesArray));
         this.activityGaugeData.push({name: 'Assessment', y: y});
         this.sumsArray[4] = this.calculateSum(res[11]);
 
-        y = Math.round((this.dataHandlerService.convertRawDataForActivityGauge(res[12])/this.countriesArray.length + Number.EPSILON) * 100);
-        this.engagement = this.dataHandlerService.convertRawDataForActivityGauge(res[12]);
+        this.participatingCountries[7] = this.dataHandlerService.convertRawDataForActivityGauge(res[12]);
+        y = Math.round((this.participatingCountries[7]/this.countriesArray.length + Number.EPSILON) * 100);
         this.tableData[8] = ['Engagement'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[12], this.countriesArray));
         this.activityGaugeData.push({name: 'Engagement', y: y});
         this.sumsArray[5] = this.calculateSum(res[12]);
@@ -275,5 +272,13 @@ export class FinancialInvestmentsComponent implements OnInit {
     return (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
   }
 
+  countTableEntries(column: string[]) {
+    let count = 0;
+    column.forEach(row => {
+      if (row === 'true')
+        count++;
+    })
+    return count;
+  }
 
 }

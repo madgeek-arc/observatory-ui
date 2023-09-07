@@ -28,6 +28,7 @@ export class NationalPolicyComponent implements OnInit {
   toolTipData: Map<string, string>[] = [];
   activityGaugeData: ActivityGauge[] = [];
   participatingCountries: number[] = [];
+  participatingCountriesPercentage: number[] = [];
   tableData: string[][] = [];
 
   constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
@@ -171,6 +172,7 @@ export class NationalPolicyComponent implements OnInit {
         this.tableAbsoluteDataArray[0] = this.dataHandlerService.convertRawDataToTableData(res[1]);
         this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
         this.participatingCountries[0] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[0] = Math.round((this.participatingCountries[0]/this.countriesArray.length + Number.EPSILON) * 100)
         for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
