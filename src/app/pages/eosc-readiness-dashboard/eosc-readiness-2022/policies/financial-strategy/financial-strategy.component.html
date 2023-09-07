@@ -87,6 +87,9 @@
                 countries have a financial strategy on open access to publications
               </div>
             </div>
+            <div *ngIf="participatingCountries[0] >= 0" class="uk-margin-top">
+              <simple-gauge [chartId]="'gauge0'" [data]=participatingCountriesPercentage[0]></simple-gauge>
+            </div>
           </div>
         </div>
       </li>
@@ -113,6 +116,9 @@
                 countries have a financial strategy on open source software
               </div>
             </div>
+            <div *ngIf="participatingCountries[2] >= 0" class="uk-margin-top">
+              <simple-gauge [chartId]="'gauge1'" [data]=participatingCountriesPercentage[2]></simple-gauge>
+            </div>
           </div>
         </div>
       </li>
@@ -131,6 +137,9 @@
               <div class="indicator-label">
                 countries have a financial strategy on offering services through EOSC
               </div>
+            </div>
+            <div *ngIf="participatingCountries[3] >= 0" class="uk-margin-top">
+              <simple-gauge [chartId]="'gauge2'" [data]=participatingCountriesPercentage[3]></simple-gauge>
             </div>
           </div>
         </div>
@@ -158,6 +167,9 @@
                 countries have a financial strategy on skills/training for Open Science
               </div>
             </div>
+            <div *ngIf="participatingCountries[5] >= 0" class="uk-margin-top">
+              <simple-gauge [chartId]="'gauge3'" [data]=participatingCountriesPercentage[5]></simple-gauge>
+            </div>
           </div>
         </div>
       </li>
@@ -177,6 +189,9 @@
                 countries have a financial strategy on incentives/rewards for Open Science
               </div>
             </div>
+            <div *ngIf="participatingCountries[6] >= 0" class="uk-margin-top">
+              <simple-gauge [chartId]="'gauge4'" [data]=participatingCountriesPercentage[6]></simple-gauge>
+            </div>
           </div>
         </div>
       </li>
@@ -195,6 +210,9 @@
               <div class="indicator-label">
                 countries have a financial strategy on citizen science
               </div>
+            </div>
+            <div *ngIf="participatingCountries[7] >= 0" class="uk-margin-top">
+              <simple-gauge [chartId]="'gauge5'" [data]=participatingCountriesPercentage[7]></simple-gauge>
             </div>
           </div>
         </div>

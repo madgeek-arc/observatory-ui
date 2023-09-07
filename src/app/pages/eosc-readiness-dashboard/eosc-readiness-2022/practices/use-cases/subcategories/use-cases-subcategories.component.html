@@ -15,6 +15,9 @@
             countries have use cases on data management
           </div>
         </div>
+        <div *ngIf="participatingCountries[0] >= 0" class="uk-margin-top">
+          <simple-gauge [chartId]="'gauge6'" [data]=participatingCountriesPercentage[0] ></simple-gauge>
+        </div>
       </div>
     </div>
   </div>
@@ -33,6 +36,9 @@
           <div class="indicator-label">
             countries have use cases on FAIR data
           </div>
+        </div>
+        <div *ngIf="participatingCountries[1] >= 0" class="uk-margin-top">
+          <simple-gauge [chartId]="'gauge7'" [data]=participatingCountriesPercentage[1] ></simple-gauge>
         </div>
       </div>
     </div>
@@ -53,6 +59,9 @@
             countries have use cases on open data
           </div>
         </div>
+        <div *ngIf="participatingCountries[2] >= 0" class="uk-margin-top">
+          <simple-gauge [chartId]="'gauge8'" [data]=participatingCountriesPercentage[2] ></simple-gauge>
+        </div>
       </div>
     </div>
   </div>
@@ -71,6 +80,9 @@
           <div class="indicator-label">
             countries have use cases on connecting repositories to EOSC
           </div>
+        </div>
+        <div *ngIf="participatingCountries[3] >= 0" class="uk-margin-top">
+          <simple-gauge [chartId]="'gauge9'" [data]=participatingCountriesPercentage[3] ></simple-gauge>
         </div>
       </div>
     </div>
@@ -91,6 +103,9 @@
             countries have use cases on data stewardship
           </div>
         </div>
+        <div *ngIf="participatingCountries[4] >= 0" class="uk-margin-top">
+          <simple-gauge [chartId]="'gauge10'" [data]=participatingCountriesPercentage[4] ></simple-gauge>
+        </div>
       </div>
     </div>
   </div>
@@ -109,6 +124,9 @@
           <div class="indicator-label">
             countries have use cases on long-term data preservation
           </div>
+        </div>
+        <div *ngIf="participatingCountries[5] >= 0" class="uk-margin-top">
+          <simple-gauge [chartId]="'gauge11'" [data]=participatingCountriesPercentage[5] ></simple-gauge>
         </div>
       </div>
     </div>

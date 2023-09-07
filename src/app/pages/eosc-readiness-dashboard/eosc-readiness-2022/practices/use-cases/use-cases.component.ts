@@ -26,6 +26,7 @@ export class UseCasesComponent implements OnInit {
   toolTipData: Map<string, string>[] = [];
   activityGaugeData: ActivityGauge[] = [];
   participatingCountries: number[] = [];
+  participatingCountriesPercentage: number[] = [];
   tableData: string[][] = [];
 
 
@@ -168,6 +169,7 @@ export class UseCasesComponent implements OnInit {
         this.countriesArray = res[0];
         this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
         this.participatingCountries[0] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[0] = Math.round((this.participatingCountries[0]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
@@ -187,6 +189,7 @@ export class UseCasesComponent implements OnInit {
         this.countriesArray = res[0];
         this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
         this.participatingCountries[2] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[2] = Math.round((this.participatingCountries[2]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
           this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
         }
@@ -204,8 +207,9 @@ export class UseCasesComponent implements OnInit {
     ).subscribe(
       res => {
         this.countriesArray = res[0];
-        this.participatingCountries[3] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         this.tmpQuestionsDataArray[2] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[3] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[3] = Math.round((this.participatingCountries[3]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[2].series.length; i++) {
           this.tmpQuestionsDataArray[2].series[i].data = this.tmpQuestionsDataArray[2].series[i].data.map(code => ({ code }));
         }
@@ -223,8 +227,9 @@ export class UseCasesComponent implements OnInit {
     ).subscribe(
       res => {
         this.countriesArray = res[0];
-        this.participatingCountries[5] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         this.tmpQuestionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[5] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[5] = Math.round((this.participatingCountries[5]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
           this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
         }
@@ -242,8 +247,9 @@ export class UseCasesComponent implements OnInit {
     ).subscribe(
       res => {
         this.countriesArray = res[0];
-        this.participatingCountries[6] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         this.tmpQuestionsDataArray[4] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[6] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[6] = Math.round((this.participatingCountries[6]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[4].series.length; i++) {
           this.tmpQuestionsDataArray[4].series[i].data = this.tmpQuestionsDataArray[4].series[i].data.map(code => ({ code }));
         }
@@ -261,8 +267,9 @@ export class UseCasesComponent implements OnInit {
     ).subscribe(
       res => {
         this.countriesArray = res[0];
-        this.participatingCountries[7] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         this.tmpQuestionsDataArray[5] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[7] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[7] = Math.round((this.participatingCountries[7]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[5].series.length; i++) {
           this.tmpQuestionsDataArray[5].series[i].data = this.tmpQuestionsDataArray[5].series[i].data.map(code => ({ code }));
         }
