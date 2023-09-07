@@ -28,6 +28,7 @@ export class NationalPolicySubcategoriesComponent implements OnInit{
   mapPointData: CountryTableData[];
   toolTipData: Map<string, string>[] = [];
   participatingCountries: number[] = [];
+  participatingCountriesPercentage: number[] = [];
 
   constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
@@ -79,6 +80,7 @@ export class NationalPolicySubcategoriesComponent implements OnInit{
         this.tableAbsoluteDataArray[0] = this.dataHandlerService.convertRawDataToTableData(res[1]);
         this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
         this.participatingCountries[0] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[0] = Math.round((this.participatingCountries[0]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
@@ -104,6 +106,7 @@ export class NationalPolicySubcategoriesComponent implements OnInit{
         this.tableAbsoluteDataArray[1] = this.dataHandlerService.convertRawDataToTableData(res[1]);
         this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
         this.participatingCountries[1] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[1] = Math.round((this.participatingCountries[1]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
           this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
         }
@@ -129,6 +132,7 @@ export class NationalPolicySubcategoriesComponent implements OnInit{
         this.tableAbsoluteDataArray[2] = this.dataHandlerService.convertRawDataToTableData(res[1]);
         this.tmpQuestionsDataArray[2] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
         this.participatingCountries[2] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[2] = Math.round((this.participatingCountries[2]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[2].series.length; i++) {
           this.tmpQuestionsDataArray[2].series[i].data = this.tmpQuestionsDataArray[2].series[i].data.map(code => ({ code }));
         }
@@ -154,6 +158,7 @@ export class NationalPolicySubcategoriesComponent implements OnInit{
         this.tableAbsoluteDataArray[3] = this.dataHandlerService.convertRawDataToTableData(res[1]);
         this.tmpQuestionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
         this.participatingCountries[3] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[3] = Math.round((this.participatingCountries[3]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
           this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
         }
@@ -179,6 +184,7 @@ export class NationalPolicySubcategoriesComponent implements OnInit{
         this.tableAbsoluteDataArray[4] = this.dataHandlerService.convertRawDataToTableData(res[1]);
         this.tmpQuestionsDataArray[4] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
         this.participatingCountries[4] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[4] = Math.round((this.participatingCountries[4]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[4].series.length; i++) {
           this.tmpQuestionsDataArray[4].series[i].data = this.tmpQuestionsDataArray[4].series[i].data.map(code => ({ code }));
         }
@@ -204,6 +210,7 @@ export class NationalPolicySubcategoriesComponent implements OnInit{
         this.tableAbsoluteDataArray[5] = this.dataHandlerService.convertRawDataToTableData(res[1]);
         this.tmpQuestionsDataArray[5] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
         this.participatingCountries[5] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[5] = Math.round((this.participatingCountries[5]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[5].series.length; i++) {
           this.tmpQuestionsDataArray[5].series[i].data = this.tmpQuestionsDataArray[5].series[i].data.map(code => ({ code }));
         }

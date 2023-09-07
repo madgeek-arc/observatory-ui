@@ -17,6 +17,9 @@
             </div>
           </div>
         </div>
+        <div *ngIf="participatingCountries[0] >= 0" class="uk-margin-top">
+          <simple-gauge [chartId]="'gauge0'" [data]=participatingCountriesPercentage[0] ></simple-gauge>
+        </div>
       </div>
     </div>
   </div>
@@ -37,6 +40,9 @@
               countries have a national policy on FAIR data
             </div>
           </div>
+        </div>
+        <div *ngIf="participatingCountries[1] >= 0" class="uk-margin-top">
+          <simple-gauge [chartId]="'gauge1'" [data]=participatingCountriesPercentage[1] ></simple-gauge>
         </div>
       </div>
     </div>
@@ -59,6 +65,9 @@
             </div>
           </div>
         </div>
+        <div *ngIf="participatingCountries[2] >= 0" class="uk-margin-top">
+          <simple-gauge [chartId]="'gauge2'" [data]=participatingCountriesPercentage[2] ></simple-gauge>
+        </div>
       </div>
     </div>
   </div>
@@ -79,6 +88,9 @@
               countries have a national policy on connencting repositories to EOSC
             </div>
           </div>
+        </div>
+        <div *ngIf="participatingCountries[3] >= 0" class="uk-margin-top">
+          <simple-gauge [chartId]="'gauge3'" [data]=participatingCountriesPercentage[3] ></simple-gauge>
         </div>
       </div>
     </div>
@@ -101,6 +113,9 @@
             </div>
           </div>
         </div>
+        <div *ngIf="participatingCountries[4] >= 0" class="uk-margin-top">
+          <simple-gauge [chartId]="'gauge4'" [data]=participatingCountriesPercentage[4] ></simple-gauge>
+        </div>
       </div>
     </div>
   </div>
@@ -121,6 +136,9 @@
               countries have a national policy on long-term data preservation
             </div>
           </div>
+        </div>
+        <div *ngIf="participatingCountries[5] >= 0" class="uk-margin-top">
+          <simple-gauge [chartId]="'gauge5'" [data]=participatingCountriesPercentage[5] ></simple-gauge>
         </div>
       </div>
     </div>
