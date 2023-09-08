@@ -74,7 +74,7 @@ export class RFOsSubcategoriesComponent implements OnInit{
       this.queryData.getQuestion13comment(),
     ).subscribe(
       res => {
-        this.questionsDataArray[0] = this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[0] = this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         let tempArr: string[] = [];
         this.questionsDataArray[0].forEach((data: string[]) => {tempArr.push(data[0]);});
         this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));

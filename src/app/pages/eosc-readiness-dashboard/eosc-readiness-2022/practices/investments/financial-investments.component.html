@@ -12,7 +12,7 @@
       <li><a [routerLink]="['../engagement']">Engagement</a></li>
     </ul>
     <ul id="content" class="uk-switcher uk-margin-medium-top">
-      <li class="uk-animation-fade">
+      <li class="uk-animation-fade"> <!--All-->
         <div class="uk-grid">
           <div class="uk-grid uk-width-1-2">
             <div class="uk-width-1-2">
@@ -71,12 +71,12 @@
 
         </div>
       </li>
-      <li class="uk-animation-fade">
+      <li class="uk-animation-fade"> <!--Publications-->
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [toolTipData]="toolTipData[0]"
                                        [title]="'Financial investments in open access to publications in 2021'"
-                                       [subtitle]="'(in millions of Euro)'">
+                                       [subtitle]="'(in millions of Euro)'" [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
           </div>
 
@@ -109,7 +109,7 @@
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[1]" [toolTipData]="toolTipData[1]"
                                        [title]="'Financial investments in open source software in 2021'"
-                                       [subtitle]="'(in millions of Euro)'">
+                                       [subtitle]="'(in millions of Euro)'" [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
           </div>
 
@@ -135,7 +135,7 @@
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[2]" [toolTipData]="toolTipData[2]"
                                        [title]="'Financial investments in offering services through EOSC in 2021'"
-                                       [subtitle]="'(in millions of Euro)'">
+                                       [subtitle]="'(in millions of Euro)'" [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
           </div>
 
@@ -168,7 +168,7 @@
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[3]" [toolTipData]="toolTipData[3]"
                                        [title]="'Financial investments in skills/training for Open Science in 2021'"
-                                       [subtitle]="'(in millions of Euro)'">
+                                       [subtitle]="'(in millions of Euro)'" [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
           </div>
 
@@ -194,7 +194,7 @@
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [toolTipData]="toolTipData[4]"
                                        [title]="'Financial investments in incentives/rewards for Open Science in 2021'"
-                                       [subtitle]="'(in millions of Euro)'">
+                                       [subtitle]="'(in millions of Euro)'" [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
           </div>
 
@@ -220,7 +220,8 @@
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[5]" [toolTipData]="toolTipData[5]"
                                        [title]="'Financial investments in citizen science in 2021'"
-                                       [subtitle]="'(in millions of Euro)'" [dataSeriesSuffix]="">
+                                       [subtitle]="'(in millions of Euro)'" [dataSeriesSuffix]=""
+                                       [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
           </div>
 

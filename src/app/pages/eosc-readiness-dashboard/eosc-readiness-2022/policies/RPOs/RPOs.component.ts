@@ -170,7 +170,6 @@ export class RPOsComponent implements OnInit {
       this.queryData.getQuestion8comment(),
       ).subscribe(
       res => {
-        // this.countriesArray = res[0];
         this.questionsDataArray[0] = this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         let tempArr: string[] = [];
         this.questionsDataArray[0].forEach((data: string[]) => {tempArr.push(data[0]);});
