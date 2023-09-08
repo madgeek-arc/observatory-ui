@@ -173,9 +173,10 @@ export class RFOsComponent implements OnInit {
       this.queryData.getQuestion9comment(),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
-        this.questionsDataArray[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[0] = this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        let tempArr: string[] = [];
+        this.questionsDataArray[0].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         this.sumsArray[0] = this.calculateSum(res[1]);
         this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
@@ -189,9 +190,10 @@ export class RFOsComponent implements OnInit {
       this.queryData.getQuestion25comment(),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
-        this.questionsDataArray[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[1] = this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        let tempArr: string[] = [];
+        this.questionsDataArray[1].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         this.sumsArray[1] = this.calculateSum(res[1]);
         this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
@@ -205,9 +207,10 @@ export class RFOsComponent implements OnInit {
       this.queryData.getQuestion29comment(),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
-        this.questionsDataArray[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[2] = this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        let tempArr: string[] = [];
+        this.questionsDataArray[2].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         this.sumsArray[2] = this.calculateSum(res[1]);
         this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
@@ -221,9 +224,10 @@ export class RFOsComponent implements OnInit {
       this.queryData.getQuestion45comment(),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
-        this.questionsDataArray[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[3] = this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        let tempArr: string[] = [];
+        this.questionsDataArray[3].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         this.sumsArray[3] = this.calculateSum(res[1]);
         this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
@@ -237,9 +241,10 @@ export class RFOsComponent implements OnInit {
       this.queryData.getQuestion49comment(),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
-        this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[4] = this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        let tempArr: string[] = [];
+        this.questionsDataArray[4].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         this.sumsArray[4] = this.calculateSum(res[1]);
         this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
@@ -253,9 +258,10 @@ export class RFOsComponent implements OnInit {
       this.queryData.getQuestion53comment(),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
-        this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        this.questionsDataArrayForBarChart[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[5] = this.questionsDataArrayForBarChart[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        let tempArr: string[] = [];
+        this.questionsDataArray[5].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         this.sumsArray[5] = this.calculateSum(res[1]);
         this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }

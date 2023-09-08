@@ -68,7 +68,6 @@ export class General2022Component implements OnInit {
         this.questionsDataArray[0] = this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         let tempArr: string[] = [];
         this.questionsDataArray[0].forEach((data: string[]) => {tempArr.push(data[0]);});
-        // this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         this.sumsArray[0] = this.calculateSum(res[1]);
