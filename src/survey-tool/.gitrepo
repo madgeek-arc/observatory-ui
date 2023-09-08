@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:madgeek-arc/survey-tool.git
 	branch = master
-	commit = 2150f7d55e5c49ab3302139bc5691defc623019d
+	commit = 2927e12a7cf056f3b8ae154021483df819da3d34
 	method = merge
 	cmdver = 0.4.3
-	parent = 67963d6ed721d51bff4955a33390205a389d7a9f
+	parent = 8362487413ca168cf81ecd2c5fdfadb5f9d23e5f
