@@ -37,7 +37,7 @@ import {General2022Component} from "./eosc-readiness-2022/general/general2022.co
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
-    path: '',
+    path: '2021',
     component: EoscReadinessDashboardComponent,
     children: [
       {
