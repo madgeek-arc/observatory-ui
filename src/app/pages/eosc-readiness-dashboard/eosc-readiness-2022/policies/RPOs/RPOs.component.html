@@ -13,63 +13,69 @@
     </ul>
     <ul id="content" class="uk-switcher uk-margin-medium-top">
       <li class="uk-animation-fade">
-        <div class="uk-grid">
-          <div class="uk-grid uk-width-1-2">
-            <div class="uk-width-1-2">
+        <div class="uk-grid uk-child-width-1-2">
+          <div class="uk-grid uk-child-width-1-2 uk-grid-match">
+            <div class="">
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
-                  <div class="uk-text-bold">
-                    {{participatingCountries[0] + ' out of ' + countriesArray.length}}
+                  <div class="uk-margin-small-bottom">
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[0]}}</span>
+                    <span> out of </span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{countriesArray.length}}</span>
                   </div>
-                  countries have RPOs with policy on open access to publications
+                  countries have RPOs with a policy on open access publications
                 </div>
               </div>
             </div>
-            <div class="uk-width-1-2">
+            <div class="">
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
-                  <div class="uk-text-bold">
-                    {{participatingCountries[1] + ' out of ' + countriesArray.length}}
+                  <div class="uk-margin-small-bottom">
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[1]}}</span>
+                    <span> out of </span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{countriesArray.length}}</span>
                   </div>
-                  countries have have RPOs with policy on data
+                  countries have RPOs with a policy on data
                 </div>
               </div>
             </div>
-            <div class="uk-width-1-2">
+            <div class="uk-grid-margin">
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
-                  <div class="uk-text-bold">
-                    {{participatingCountries[2] + ' out of ' + countriesArray.length}}
+                  <div class="uk-margin-small-bottom">
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[2]}}</span>
+                    <span> out of </span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{countriesArray.length}}</span>
                   </div>
-                  countries have RPOs with policy on open source software
+                  countries have RPOs with a policy on open source software
                 </div>
               </div>
             </div>
-            <div class="uk-width-1-2">
+            <div class="uk-grid-margin">
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
-                  <div class="uk-text-bold">
-                    {{participatingCountries[3] + ' out of ' + countriesArray.length}}
+                  <div class="uk-margin-small-bottom">
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[3]}}</span>
+                    <span> out of </span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{countriesArray.length}}</span>
                   </div>
-                  countries have RPOs with policy on offering services through EOSC
+                  countries have RPOs with a policy on offering services through EOSC
                 </div>
               </div>
             </div>
           </div>
-          <div class="uk-grid uk-width-1-2 uk-margin-remove-top">
-            <div class="uk-width-1-1" style="height: 500px">
-              <div class="uk-card uk-card-default uk-card-body">
-                <activity-gauge [title]="'Percentage of countries with RPOs with policy on EOSC and open science'"
-                                [data]="activityGaugeData">
-                </activity-gauge>
-              </div>
+          <div class="">
+            <div class="uk-card uk-card-default uk-card-body">
+              <activity-gauge [title]="'Percentage of countries that have RPOs with policies on EOSC and open science'"
+                              [data]="activityGaugeData">
+              </activity-gauge>
             </div>
           </div>
 
           <div class="uk-width-1-1 uk-margin-large-top">
             <div class="uk-card uk-card-default uk-card-body">
 
-              <cumulative-data-table [title]="'RPOs with policy per country'" [tableData]="tableData"></cumulative-data-table>
+              <cumulative-data-table [title]="'RPOs with policies per country'" [tableData]="tableData"></cumulative-data-table>
             </div>
           </div>
 
@@ -78,7 +84,7 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [title]="'Number of RPOs with a policy on open access to publications'"
+            <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [title]="'Number of RPOs with a policy on open access publications'"
                                        [toolTipData]="toolTipData[0]" [subtitle]="" [dataSeriesSuffix]="''"
                                        [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
@@ -87,7 +93,7 @@
           <div class="uk-width-1-3">
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
-                <div class="indicator-label">Total number of RPOs with a policy on open access to publications</div>
+                <div class="indicator-label">Total number of RPOs with a policy on open access publications</div>
                 <div *ngIf="!sumsArray[0]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
                 <div *ngIf="sumsArray[0]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[0]}}</strong></div>
               </div>
@@ -95,7 +101,7 @@
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
               <app-bar-chart [mapData]="questionsDataArrayForBarChart[0]" [subTitle]="''" [dataSeriesSuffix]="''"
-                             [title]="'Number of RPOs with a policy on open access to publications'">
+                             [title]="'Number of RPOs with a policy on open access publications'">
               </app-bar-chart>
             </div>
           </div>
@@ -103,9 +109,9 @@
       </li>
       <li>
         <ul id="dataContent" class="uk-subnav uk-subnav-pill" uk-switcher>
-          <li><a [routerLink]="['./dataManagement']">Data management</a></li>
-          <li><a [routerLink]="['./fairData']">FAIR data</a></li>
-          <li><a [routerLink]="['./openData']">Open data</a></li>
+          <li><a [routerLink]="['./dataManagement']">Data Management</a></li>
+          <li><a [routerLink]="['./fairData']">FAIR Data</a></li>
+          <li><a [routerLink]="['./openData']">Open Data</a></li>
         </ul>
       </li>
       <li class="uk-animation-fade">
@@ -120,7 +126,7 @@
           <div class="uk-width-1-3">
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
-                <div class="indicator-label">Total number of RPOs with a policy on open source software to publications</div>
+                <div class="indicator-label">Total number of RPOs with a policy on open source software</div>
                 <div *ngIf="!sumsArray[1]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
                 <div *ngIf="sumsArray[1]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[1]}}</strong></div>
               </div>
@@ -128,7 +134,7 @@
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
               <app-bar-chart [mapData]="questionsDataArrayForBarChart[1]" [subTitle]="''" [dataSeriesSuffix]="''"
-                             [title]="'Number of RPOs with a policy on open access to publications'">
+                             [title]="'Number of RPOs with a policy on open access publications'">
               </app-bar-chart>
             </div>
           </div>
@@ -162,9 +168,9 @@
       </li>
       <li>
         <ul id="infrastructuresContent" class="uk-subnav uk-subnav-pill" uk-switcher>
-          <li><a [routerLink]="['./connectingRepositoriesToEOSC']">Connecting repositories to EOSC</a></li>
-          <li><a [routerLink]="['./dataStewardship']">Data stewardship</a></li>
-          <li><a [routerLink]="['./longTermDataPreservation']">Long-term data preservation</a></li>
+          <li><a [routerLink]="['./connectingRepositoriesToEOSC']">Connecting Repositories to EOSC</a></li>
+          <li><a [routerLink]="['./dataStewardship']">Data Stewardship</a></li>
+          <li><a [routerLink]="['./longTermDataPreservation']">Long-term Data Preservation</a></li>
         </ul>
       </li>
       <li class="uk-animation-fade">
