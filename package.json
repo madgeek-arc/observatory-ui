@@ -36,7 +36,7 @@
     "rxjs": "~6.6.0",
     "seedrandom": "^3.0.5",
     "tslib": "^2.3.0",
-    "uikit": "3.16.22",
+    "uikit": "3.16.13",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
