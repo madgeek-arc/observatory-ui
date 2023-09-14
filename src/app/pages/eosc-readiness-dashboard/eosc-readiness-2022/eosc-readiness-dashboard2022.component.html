@@ -32,33 +32,6 @@
               </ul>
             </nav>
           </div>
-<!--          <div class="uk-margin-remove uk-text-bold" style="color: #fff">National contributions 2022</div>-->
-<!--          <div class="uk-width-large" uk-dropdown>-->
-<!--            <div class="uk-drop-grid uk-child-width-1-2@m" uk-grid>-->
-<!--              <div>-->
-<!--                <ul class="uk-nav uk-dropdown-nav">-->
-<!--                  <li class="uk-active"><a href="#">Active</a></li>-->
-<!--                  <li><a href="#">Item</a></li>-->
-<!--                  <li class="uk-nav-header">Header</li>-->
-<!--                  <li><a href="#">Item</a></li>-->
-<!--                  <li><a href="#">Item</a></li>-->
-<!--                  <li class="uk-nav-divider"></li>-->
-<!--                  <li><a href="#">Item</a></li>-->
-<!--                </ul>-->
-<!--              </div>-->
-<!--              <div>-->
-<!--                <ul class="uk-nav uk-dropdown-nav">-->
-<!--                  <li class="uk-active"><a href="#">Active</a></li>-->
-<!--                  <li><a href="#">Item</a></li>-->
-<!--                  <li class="uk-nav-header">Header</li>-->
-<!--                  <li><a href="#">Item</a></li>-->
-<!--                  <li><a href="#">Item</a></li>-->
-<!--                  <li class="uk-nav-divider"></li>-->
-<!--                  <li><a href="#">Item</a></li>-->
-<!--                </ul>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
         </div>
       </div>
 
@@ -140,6 +113,22 @@
               </li>
               <li [ngClass]="{'uk-active current_section': activeTab === 'outputs'}" class="uk-width-1-1">
                 <a [routerLink]="'practices/outputs/all'"><span class="uk-text-truncate">Outputs</span></a>
+              </li>
+            </ul>
+          </li>
+
+          <li [ngClass]="{'uk-active current_section': activeSection === 'glossary'}" class="uk-parent uk-margin-medium-top">
+            <a [routerLink]="'glossary'">
+              <div class="uk-flex uk-flex-middle uk-flex-center">
+                <div class="uk-width-auto"><span class="material-icons">auto_stories</span></div>
+                <span [class.uk-text-bolder]="activeSection === 'glossary'"
+                      class="uk-width-expand uk-text-truncate uk-margin-small-left">Glossary
+                </span>
+              </div>
+            </a>
+            <ul class="uk-nav-sub" uk-switcher>
+              <li [ngClass]="{'uk-active current_section': activeTab === 'glossary'}" class="uk-width-1-1">
+<!--                <a [routerLink]="'practices/nationalMonitoring/all'"><span class="uk-text-truncate">Monitoring</span></a>-->
               </li>
             </ul>
           </li>

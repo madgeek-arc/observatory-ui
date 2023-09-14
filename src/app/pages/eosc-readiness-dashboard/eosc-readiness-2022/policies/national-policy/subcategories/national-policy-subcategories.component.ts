@@ -267,7 +267,7 @@ export class NationalPolicySubcategoriesComponent implements OnInit{
     let pos: number;
     if (mapPointArray1.length > 0) {
       pos = this.questionsDataArray[index].series.length;
-      this.questionsDataArray[index].series[pos] = new Series('Is mandatory', false, 'mappoint');
+      this.questionsDataArray[index].series[pos] = new Series('National policy is mandatory', false, 'mappoint');
       this.questionsDataArray[index].series[pos].data = mapPointArray1;
       this.questionsDataArray[index].series[pos].color = '#7CFC00';
       this.questionsDataArray[index].series[pos].marker.symbol = 'circle';
@@ -276,7 +276,7 @@ export class NationalPolicySubcategoriesComponent implements OnInit{
 
     if (mapPointArray2.length > 0) {
       pos = this.questionsDataArray[index].series.length;
-      this.questionsDataArray[index].series[pos] = new Series('Not mandatory', false, 'mappoint');
+      this.questionsDataArray[index].series[pos] = new Series('National policy is not mandatory', false, 'mappoint');
       this.questionsDataArray[index].series[pos].data = mapPointArray2;
       this.questionsDataArray[index].series[pos].color = '#FFEF00';
       this.questionsDataArray[index].series[pos].marker.symbol = 'diamond';

@@ -34,6 +34,7 @@ import {
   OutputsSubcategoriesComponent
 } from "./eosc-readiness-2022/practices/outputs/subcategories/outputs-subcategories.component";
 import {General2022Component} from "./eosc-readiness-2022/general/general2022.component";
+import {Glossary2022Component} from "./eosc-readiness-2022/glossary/glossary-2022.component";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
@@ -166,6 +167,10 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
             ]
           }
         ]
+      },
+      {
+        path: 'glossary',
+        component: Glossary2022Component
       }
     ]
   }

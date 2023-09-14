@@ -3,6 +3,7 @@ import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {Stakeholder, UserInfo} from "../../../../survey-tool/app/domain/userInfo";
 import {UserService} from "../../../../survey-tool/app/services/user.service";
 import {AuthenticationService} from "../../../../survey-tool/app/services/authentication.service";
+import {global} from "@angular/compiler/src/util";
 
 
 declare var UIkit;
@@ -33,11 +34,12 @@ export class EoscReadinessDashboard2022Component implements OnInit, AfterViewIni
       if (event instanceof NavigationEnd) {
         this.activeSection = this.route.firstChild.snapshot.url[0].path;
         // console.log('activeSection -> ', this.activeSection);
-        if(this.activeSection != 'general') {
+        if(this.activeSection === 'policies' || this.activeSection === 'practices') {
           this.activeTab = this.route.firstChild.firstChild.snapshot.url[0].path
-        } else {
+        } else if(this.activeSection === 'general') {
           this.activeTab = this.route.firstChild.snapshot.params['type'];
-        }
+        } else
+          this.activeTab = 'glossary'
 
         // console.log(this.route.firstChild.snapshot.url[0].path);
       }
@@ -56,6 +58,9 @@ export class EoscReadinessDashboard2022Component implements OnInit, AfterViewIni
       case 'practices':
         UIkit.nav(this.nav.nativeElement).toggle(2, false);
         break;
+      case 'glossary':
+        UIkit.nav(this.nav.nativeElement).toggle(3, false);
+        break;
       default:
         UIkit.nav(this.nav.nativeElement).toggle(0, false);
     }
@@ -66,20 +71,20 @@ export class EoscReadinessDashboard2022Component implements OnInit, AfterViewIni
       this.activeSection = url[0]['path'];
     });
 
-    if(this.activeSection != 'general') {
+    if(this.activeSection === 'policies' || this.activeSection === 'practices') {
       this.route.firstChild.firstChild.url.subscribe(
         next => {
           this.activeTab = next[0].path;
         }
       );
-    } else {
+    } else if (this.activeSection === 'general') {
       this.route.firstChild.params.subscribe(
         next => {
           this.activeTab = next['type'];
         }
       )
-    }
-
+    } else
+      this.activeTab = 'glossary';
 
   }
 
