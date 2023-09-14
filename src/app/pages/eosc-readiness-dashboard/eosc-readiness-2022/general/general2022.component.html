@@ -13,7 +13,10 @@
           <div class="uk-width-1-3">
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
-                <div class="indicator-label">Total number of researchers employed in 2021</div>
+                <div class="indicator-label">
+                  Total number of researchers employed in 2021
+                  <span class="uk-text-muted">(in full-time equivalents)</span>
+                </div>
                 <div *ngIf="!sumsArray[0]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
                 <div *ngIf="sumsArray[0]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[0]}}</strong></div>
               </div>

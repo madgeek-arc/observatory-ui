@@ -6,66 +6,74 @@
       <li><a [routerLink]="['../data/dataManagement']">Data</a></li>
       <li><a [routerLink]="['../software']">Software</a></li>
       <li><a [routerLink]="['../services']">Services</a></li>
-      <li><a [routerLink]="['../infrastructures/connectingRepositoriesToEOSC']">Infrastructures</a></li>
+      <li><a [routerLink]="['../infrastructures/connectingRepositoriesToEOSC']">Infrastructure</a></li>
       <li><a [routerLink]="['../skills_training']">Skills/Training</a></li>
       <li><a [routerLink]="['../assessment']">Assessment</a></li>
       <li><a [routerLink]="['../engagement']">Engagement</a></li>
     </ul>
     <ul id="content" class="uk-switcher uk-margin-medium-top">
       <li class="uk-animation-fade">
-        <div class="uk-grid">
-          <div class="uk-grid uk-width-1-2">
-            <div class="uk-width-1-2">
+        <div class="uk-grid uk-child-width-1-2">
+          <div class="uk-grid uk-child-width-1-2 uk-grid-match">
+            <div class="">
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
-                  <div class="uk-text-bold">
-                    {{participatingCountries[0] + ' out of ' + countriesArray.length}}
+                  <div class="uk-margin-small-bottom">
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[0]}}</span>
+                    <span> out of </span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{countriesArray.length}}</span>
                   </div>
                   countries have financial investments in open access to publications
                 </div>
               </div>
             </div>
-            <div class="uk-width-1-2">
+            <div class="">
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
-                  <div class="uk-text-bold">
-                    {{participatingCountries[1] + ' out of ' + countriesArray.length}}
+                  <div class="uk-margin-small-bottom">
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[1]}}</span>
+                    <span> out of </span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{countriesArray.length}}</span>
                   </div>
                   countries have financial investments in open access to data
                 </div>
               </div>
             </div>
-            <div class="uk-width-1-2">
+            <div class="uk-grid-margin">
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
-                  <div class="uk-text-bold">
-                    {{participatingCountries[2] + ' out of ' + countriesArray.length}}
+                  <div class="uk-margin-small-bottom">
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[2]}}</span>
+                    <span> out of </span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{countriesArray.length}}</span>
                   </div>
                   countries have financial investments in open source software
                 </div>
               </div>
             </div>
-            <div class="uk-width-1-2">
+            <div class="uk-grid-margin">
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
-                  <div class="uk-text-bold">
-                    {{participatingCountries[3] + ' out of ' + countriesArray.length}}
+                  <div class="uk-margin-small-bottom">
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[3]}}</span>
+                    <span> out of </span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{countriesArray.length}}</span>
                   </div>
                   countries have financial investments in offering services through EOSC
                 </div>
               </div>
             </div>
           </div>
-          <div class="uk-grid uk-width-1-2 uk-margin-remove-top">
-            <div class="uk-width-1-1" style="height: 500px">
-              <activity-gauge [title]="'Countries participation'" [data]="activityGaugeData"></activity-gauge>
+          <div class="">
+            <div class="uk-card uk-card-default uk-padding-small">
+              <activity-gauge [title]="'Percentage of countries with outputs in EOSC and Open Science'" [data]="activityGaugeData"></activity-gauge>
             </div>
           </div>
 
           <div class="uk-width-1-1 uk-margin-large-top">
             <div class="uk-card uk-card-default uk-card-body">
 
-              <cumulative-data-table [title]="'Number of RPOs per country'" [tableData]="tableData"></cumulative-data-table>
+              <cumulative-data-table [title]="'Outputs per country'" [tableData]="tableData"></cumulative-data-table>
             </div>
           </div>
 

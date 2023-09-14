@@ -128,10 +128,10 @@ export class FinancialInvestmentsComponent implements OnInit {
 
         this.tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[7], this.countriesArray);
         this.tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[8], this.countriesArray, this.tableData[5]);
-        this.tableData[5] = ['Infrastructures'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[9], this.countriesArray, this.tableData[5]));
+        this.tableData[5] = ['Infrastructure'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[9], this.countriesArray, this.tableData[5]));
         this.participatingCountries[4] = this.countTableEntries(this.tableData[5]);
         y = Math.round((this.participatingCountries[4]/this.countriesArray.length + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Infrastructures', y: y});
+        this.activityGaugeData.push({name: 'Infrastructure', y: y});
 
         this.participatingCountries[5] = this.dataHandlerService.convertRawDataForActivityGauge(res[10]);
         y =  Math.round((this.participatingCountries[5]/this.countriesArray.length + Number.EPSILON) * 100);
