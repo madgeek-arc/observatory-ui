@@ -20,6 +20,7 @@ export class General2022Component implements OnInit {
   type: string = null;
 
   countriesArray: string[] = [];
+  toolTipData: Map<string, string>[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];
   mapSubtitles: string[] = [];
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
@@ -60,11 +61,15 @@ export class General2022Component implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion1(),
+      this.queryData.getQuestion1comment(),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
-        this.questionsDataArray[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        // this.countriesArray = res[0];
+        this.questionsDataArray[0] = this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        let tempArr: string[] = [];
+        this.questionsDataArray[0].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         this.sumsArray[0] = this.calculateSum(res[1]);
       }
     )
@@ -74,11 +79,14 @@ export class General2022Component implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion2(),
+      this.queryData.getQuestion2comment(),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
-        this.questionsDataArray[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[1] = this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        let tempArr: string[] = [];
+        this.questionsDataArray[1].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
+        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.sumsArray[1] = this.calculateSum(res[1]);
       }
     )
@@ -88,11 +96,14 @@ export class General2022Component implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion3(),
+      this.queryData.getQuestion3comment(),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
-        this.questionsDataArray[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[2] = this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        let tempArr: string[] = [];
+        this.questionsDataArray[2].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
+        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.sumsArray[2] = this.calculateSum(res[1]);
       }
     )
@@ -102,11 +113,14 @@ export class General2022Component implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion4(),
+      this.queryData.getQuestion4comment(),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
-        this.questionsDataArray[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[3] = this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        let tempArr: string[] = [];
+        this.questionsDataArray[3].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
+        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.sumsArray[3] = this.calculateSum(res[1]);
       }
     )
@@ -116,11 +130,14 @@ export class General2022Component implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion5(),
+      this.queryData.getQuestion5comment(),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
-        this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[4] = this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        let tempArr: string[] = [];
+        this.questionsDataArray[4].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
+        this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.sumsArray[4] = this.calculateSum(res[1]);
       }
     )

@@ -1,0 +1,25 @@
+<ng-container *ngIf="tableData.length > 0">
+  <div class="uk-margin-bottom" uk-grid>
+    <span class="uk-flex uk-width-expand uk-card-title">{{title}}</span>
+    <span class="uk-flex uk-flex-right uk-flex-middle">Viewing {{from}} - {{to-1}} of {{tableData.length-1}}
+      <a class="material-icons" (click)="previous()">arrow_circle_left</a>
+      <a class="material-icons" (click)="next()">arrow_circle_right</a>
+    </span>
+  </div>
+  <table class="uk-table uk-table-hover uk-table-divider uk-table-middle uk-table-small">
+    <thead>
+    <tr>
+      <th *ngFor="let col of tableData[0]">{{col}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let row of tableData | slice: from : to">
+      <td *ngFor="let data of row; let j=index" [ngSwitch]="data">
+        <span *ngSwitchCase="'true'" class="material-icons md-18 uk-flex uk-flex-middle" style="color: #2d9d78">done</span>
+        <span *ngSwitchCase="'-'" class="material-icons md-18 uk-flex uk-flex-middle" style="color: #BD640D">close</span>
+        <span *ngSwitchDefault>{{data}}</span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</ng-container>

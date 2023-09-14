@@ -23,9 +23,10 @@ export class HighchartsColorAxisMapComponent {
   @Input() title: string = null;
   @Input() subtitle: string = null;
   @Input() dataSeriesSuffix: string = null;
+  @Input() toolTipData: Map<string, string> = new Map;
+  @Input() participatingCountries: string[] = [];
 
-  chart;
-  chartCallback;
+  chart: any;
   updateFlag = false;
   Highcharts: typeof Highcharts = Highcharts;
   chartConstructor = "mapChart";
@@ -36,20 +37,14 @@ export class HighchartsColorAxisMapComponent {
 
   constructor() {
     componentContext = this;
-
     this.createMap();
-    this.chartCallback = chart => {
-      // saving chart reference
-      componentContext.chart = chart;
-      // console.log(componentContext.chart);
-    };
   }
 
   ngOnChanges(changes: SimpleChanges) {
     this.ready = false;
     const componentContext = this, chart = this.chart;
 
-    if (this.mapData?.length > 0) {
+    if (this.mapData?.length >= 0) {
       setTimeout(() => {
         componentContext.chartOptions.title.text = this.title;
         componentContext.chartOptions.subtitle.text = this.subtitle;
@@ -57,13 +52,20 @@ export class HighchartsColorAxisMapComponent {
         let found = false;
         for (let i = 0; i < this.dataForInitialization.length; i++) {
           found = false;
-          for (let j = 0; j < this.mapData.length; j++) {
+          for (let j = 0; j < this.mapData?.length; j++) {
             if (this.dataForInitialization[i][0] === this.mapData[j][0]) {
               tmpArray.push(this.mapData[j]);
               found = true;
               break;
             }
           }
+          // for (let j = 0; j < this.participatingCountries.length; j++) {
+          //   if (this.dataForInitialization[i][0] === this.participatingCountries[j]) {
+          //     tmpArray.push([this.participatingCountries[j], -1]);
+          //     found = true;
+          //     break;
+          //   }
+          // }
           if (!found) {
             tmpArray.push(this.dataForInitialization[i]);
           }
@@ -78,11 +80,38 @@ export class HighchartsColorAxisMapComponent {
     }
   }
 
+  chartCallback: Highcharts.ChartCallbackFunction = chart => {
+    this.chart = chart;
+  };
+
   createMap() {
+    let that = this;
     this.chartOptions = {
     chart: {
       map: worldMap,
-      backgroundColor: 'rgba(0,0,0,0)'
+      backgroundColor: 'rgba(0,0,0,0)',
+      events: {
+        load: function () {
+          let chart = this;
+          let color = '#a9a9a9'; // Specify the color here
+
+          // Loop through the country names
+          that.participatingCountries.forEach(function(countryName: string) {
+            // Find the country point
+            let countryPoint = chart.series[0].points.find(function(point) {
+              return point.properties["iso-a2"]?.toLowerCase() === countryName;
+            });
+
+            // (1) Change the color of the country
+            if (countryPoint) {
+              // update point colors without redrawing the map every time.
+              countryPoint.update({color: color}, false);
+            }
+          });
+          // Redraw the chart for changes (1) to take effect
+          chart.update({}, true);
+        }
+      }
     },
     mapView: {
       center: [30, 50],
@@ -126,7 +155,13 @@ export class HighchartsColorAxisMapComponent {
     },
     tooltip: {
       formatter: function () {
-        return '<b>' + this.point.name + '</b>: ' + this.point.value + ' ' + (componentContext.dataSeriesSuffix !== null ? componentContext.dataSeriesSuffix : ' M');
+        let comment = that.toolTipData.get(this.point.properties['iso-a2'].toLowerCase()) ? that.toolTipData.get(this.point.properties['iso-a2'].toLowerCase()):'';
+        comment = comment.replace(/\\n/g,'<br>');
+        comment = comment.replace(/\\t/g,' ');
+        if (this.point.value < 0)
+          return '<b>' + this.point.properties['name'] + '</b>: ' + 'N/A' + (comment ? ('<br><br>' + '<p>'+comment+'</p>') : '');
+
+        return '<b>' + this.point.properties['name'] + '</b>: ' + this.point.value + ' ' + (that.dataSeriesSuffix !== null ? that.dataSeriesSuffix : ' M') +'<br><br>'+ '<p>'+comment+'</p>';
       }
     },
     series: [
@@ -142,7 +177,7 @@ export class HighchartsColorAxisMapComponent {
           enabled: true,
           // format: "{point.value}",
           formatter:  function () {
-            if (this.point.value > 0) {
+            if (this.point.value >= 0) {
               return this.point.value + (componentContext.dataSeriesSuffix !== null ? componentContext.dataSeriesSuffix : ' M');
             }
             else

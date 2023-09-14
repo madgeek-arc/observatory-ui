@@ -2,51 +2,81 @@ export class UserInfo {
   stakeholders: Stakeholder[];
   coordinators: Coordinator[];
   user: User;
-}
-
-export class Stakeholder {
-  associationMember: string;
-  contributors: string[];
-  country: string;
-  id: string;
-  managers: string[];
-  name: string;
-  subType: string;
-  type: string;
-  madated: boolean;
-
+  admin: boolean;
 
   constructor() {
-    this.associationMember = null;
-    // this.contributors = null;
-    this.country = null;
-    this.id = null;
-    // this.managers = null;
-    this.name = null;
-    this.subType = null;
-    this.type = null;
-    this.madated = null;
+    this.user = new User();
   }
 }
 
-export class Coordinator {
+export class UserGroup {
   id: string;
   name: string;
   type: string;
   members: string[];
+  admins: string[];
+
+  constructor() {
+    this.name = null;
+    this.type = null;
+  }
 }
+
+export class Stakeholder extends UserGroup {
+  associationMember: string;
+  country: string;
+  subType: string;
+  mandated: boolean;
+
+  constructor() {
+    super();
+    this.country = null;
+    this.subType = null;
+  }
+
+}
+
+export class Coordinator extends UserGroup{}
+
 
 export class User {
-  email: string;
-  fullname: string;
-  name: string;
   sub: string;
+  email: string;
+  name: string;
   surname: string;
+  fullname: string;
+  policiesAccepted: PolicyAccepted[];
+  profile: Profile;
+  id: string
+
+  constructor() {
+    this.profile = new Profile();
+  }
 }
 
-export class StakeholdersMembers {
-  contributors: User[];
-  managers: User[];
+export class PolicyAccepted {
+  id: string;
+  time: number;
+  acceptedDate: number;
+}
+
+export class Profile {
+  picture: string | ArrayBuffer;
+  position: string;
+  affiliation: string;
+  webpage: string;
+
+  constructor() {
+    this.picture = null
+    this.position = null
+    this.affiliation = null
+    this.webpage = null
+  }
+}
+
+export class GroupMembers {
+  members: User[];
+  admins: User[];
 }
 
 export class UserActivity {

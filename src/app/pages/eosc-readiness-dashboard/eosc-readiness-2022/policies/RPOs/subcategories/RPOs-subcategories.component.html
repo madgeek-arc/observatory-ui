@@ -1,9 +1,10 @@
 <div [ngSwitch]="dataType">
   <div *ngSwitchCase="'dataManagement'">
-    <div class="uk-grid uk-margin-medium-top">
+    <div class="uk-grid uk-margin-medium-top uk-animation-fade">
       <div class="uk-width-2-3" style="height: 800px">
         <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [title]="'Number of RPOs with a policy on data management'"
-                                   [subtitle]="" [dataSeriesSuffix]="''">
+                                   [toolTipData]="toolTipData[0]" [subtitle]="" [dataSeriesSuffix]="''"
+                                   [participatingCountries]="countriesArray">
         </app-highcharts-color-axis>
       </div>
 
@@ -25,10 +26,11 @@
     </div>
   </div>
   <div *ngSwitchCase="'fairData'">
-    <div class="uk-grid uk-margin-medium-top">
+    <div class="uk-grid uk-margin-medium-top uk-animation-fade">
       <div class="uk-width-2-3" style="height: 800px">
         <app-highcharts-color-axis [mapData]="questionsDataArray[1]" [title]="'Number of RPOs with a policy on FAIR data'"
-                                   [subtitle]="" [dataSeriesSuffix]="''">
+                                   [toolTipData]="toolTipData[1]" [subtitle]="" [dataSeriesSuffix]="''"
+                                   [participatingCountries]="countriesArray">
         </app-highcharts-color-axis>
       </div>
 
@@ -50,10 +52,11 @@
     </div>
   </div>
   <div *ngSwitchCase="'openData'">
-    <div class="uk-grid uk-margin-medium-top">
+    <div class="uk-grid uk-margin-medium-top uk-animation-fade">
       <div class="uk-width-2-3" style="height: 800px">
         <app-highcharts-color-axis [mapData]="questionsDataArray[2]" [title]="'Number of RPOs with a policy on open data'"
-                                   [subtitle]="" [dataSeriesSuffix]="''">
+                                   [toolTipData]="toolTipData[2]" [subtitle]="" [dataSeriesSuffix]="''"
+                                   [participatingCountries]="countriesArray">
         </app-highcharts-color-axis>
       </div>
 
@@ -75,10 +78,11 @@
     </div>
   </div>
   <div *ngSwitchCase="'connectingRepositoriesToEOSC'">
-    <div class="uk-grid uk-margin-medium-top">
+    <div class="uk-grid uk-margin-medium-top uk-animation-fade">
       <div class="uk-width-2-3" style="height: 800px">
         <app-highcharts-color-axis [mapData]="questionsDataArray[3]" [title]="'Number of RPOs with a policy on connecting repositories to EOSC'"
-                                   [subtitle]="" [dataSeriesSuffix]="''">
+                                   [toolTipData]="toolTipData[3]" [subtitle]="" [dataSeriesSuffix]="''"
+                                   [participatingCountries]="countriesArray">
         </app-highcharts-color-axis>
       </div>
 
@@ -100,10 +104,11 @@
     </div>
   </div>
   <div *ngSwitchCase="'dataStewardship'">
-    <div class="uk-grid uk-margin-medium-top">
+    <div class="uk-grid uk-margin-medium-top uk-animation-fade">
       <div class="uk-width-2-3" style="height: 800px">
         <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [title]="'Number of RPOs with a policy on data stewardship'"
-                                   [subtitle]="" [dataSeriesSuffix]="''">
+                                   [toolTipData]="toolTipData[4]" [subtitle]="" [dataSeriesSuffix]="''"
+                                   [participatingCountries]="countriesArray">
         </app-highcharts-color-axis>
       </div>
 
@@ -125,10 +130,11 @@
     </div>
   </div>
   <div *ngSwitchCase="'longTermDataPreservation'">
-    <div class="uk-grid uk-margin-medium-top">
+    <div class="uk-grid uk-margin-medium-top uk-animation-fade">
       <div class="uk-width-2-3" style="height: 800px">
         <app-highcharts-color-axis [mapData]="questionsDataArray[5]" [title]="'Number of RPOs with a policy on long-term data preservation'"
-                                   [subtitle]="" [dataSeriesSuffix]="''">
+                                   [toolTipData]="toolTipData[5]" [subtitle]="" [dataSeriesSuffix]="''"
+                                   [participatingCountries]="countriesArray">
         </app-highcharts-color-axis>
       </div>
 

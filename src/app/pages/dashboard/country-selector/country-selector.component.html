@@ -1,0 +1,62 @@
+<div class="uk-section uk-section-secondary uk-section-small">
+  <div class="uk-container uk-container-expand">
+    <ul class="uk-breadcrumb uk-margin-small-bottom">
+      <li><a routerLink="/home">Home</a></li>
+      <li><span>By Country</span></li>
+    </ul>
+    <h3 class="uk-margin-remove">Dashboards by country</h3>
+  </div>
+</div>
+
+<div class="uk-section uk-section-default">
+  <div class="uk-container uk-container-expand">
+    <div class="uk-grid uk-child-width-1-2">
+      <div class="uk-flex uk-flex-middle">
+        <p class="big-text">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+          labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+          clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+          sadipscing elitr.</p>
+      </div>
+      <div class="uk-flex uk-flex-center">
+        <img src="../assets/images/Image%20338.png">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="uk-section uk-section-default">
+  <div class="uk-container uk-container-expand">
+    <div class="uk-card uk-card-large card-simple uk-card-body">
+      <div class="uk-flex uk-flex-between">
+        <div><h4>Select a country</h4></div>
+        <div>
+          <ul uk-tab uk-switcher="connect: #selection_mode" class="country-selection-mode">
+            <li class="uk-active"><a href="#"><span [innerHTML]="mapIconVar" class="uk-icon"></span></a></li>
+            <li class="uk-active"><a href="#"><span [innerHTML]="flagIconVar" class="uk-icon"></span></a></li>
+          </ul>
+        </div>
+      </div>
+      <ul id="selection_mode" class="uk-switcher">
+        <li aria-hidden="false" class="uk-active" style="animation-duration: 200ms;">
+          <div *ngIf="questionsDataArray?.series.length > 0" class="uk-width-1-1 uk-margin-top" style="height: 700px">
+            <app-highcharts-category-map [mapData]="questionsDataArray" [subtitle]="''" [title]="''"
+                                         (mapClick)="goToLanding($event['code'])">
+            </app-highcharts-category-map>
+          </div>
+        </li>
+        <li aria-hidden="true" class="" style="animation-duration: 200ms;">
+          <div *ngIf="countriesArray.length > 0" class="uk-width-1-1 uk-margin-top" style="height: 700px">
+            <div class="uk-grid uk-child-width-1-4 select-country">
+              <div *ngFor="let country of countriesArray" class="uk-margin-bottom">
+                <a class="uk-flex uk-flex-middle" (click)="goToLanding(country)">
+                  <img src="../../survey-tool/assets/images/flags/{{country | lowercase}}-flag.svg" class="flag-image-selector" width="30" height="20">
+                  <div class="uk-margin-small-left">{{findCountryByCode(country)}}</div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

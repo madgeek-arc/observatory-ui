@@ -11,18 +11,27 @@ import {SurveyToolModule} from "../survey-tool/app/survey-tool.module";
 import {HttpInterceptorService} from "./pages/services/http-interceptor.service";
 import {SharedModule} from "./shared/shared.module";
 import {ArchiveGuardService} from "./pages/services/archiveGuard.service";
+import {MessagingSystemModule} from "src/messaging-system-ui/app/messaging-system.module";
+import {CountrySelectorComponent} from "./pages/dashboard/country-selector/country-selector.component";
+import {ReusableComponentsModule} from "../survey-tool/app/shared/reusablecomponents/reusable-components.module";
+import {CountryLandingPageComponent} from "./pages/dashboard/country-landing-page/country-landing-page.component";
+import {MessagingSystemService} from "../messaging-system-ui/services/messaging-system.service";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CountrySelectorComponent,
+    CountryLandingPageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SharedModule,
     SurveyToolModule,
+    MessagingSystemModule,
     NgxMatomoTrackerModule.forRoot({trackerUrl: environment.matomoTrackerUrl, siteId: environment.matomoSiteId}),
     NgxMatomoRouterModule,
+    ReusableComponentsModule,
   ],
   providers: [
     {
@@ -31,7 +40,8 @@ import {ArchiveGuardService} from "./pages/services/archiveGuard.service";
       multi: true
     },
     UserService,
-    ArchiveGuardService
+    ArchiveGuardService,
+    MessagingSystemService
   ],
   bootstrap: [AppComponent]
 })

@@ -87,7 +87,7 @@ export class EoscReadinessDashboardComponent implements OnInit, AfterViewInit{
       // let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
       for (const stakeHolder of stakeHolders) {
         // console.log(stakeHolder.name);
-        if (stakeHolder.managers.indexOf(userInfo.user.email) >= 0)
+        if (stakeHolder.admins.indexOf(userInfo.user.email) >= 0)
           return true;
       }
       return false

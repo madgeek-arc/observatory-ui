@@ -7,6 +7,7 @@ import {CountryTableData} from "../../../../../../../survey-tool/app/domain/coun
 import {EoscReadiness2022DataService} from "../../../../../services/eosc-readiness2022-data.service";
 import {StakeholdersService} from "../../../../../../../survey-tool/app/services/stakeholders.service";
 import {DataHandlerService} from "../../../../../services/data-handler.service";
+import UIkit from "uikit";
 
 @Component({
   selector: 'app-use-case-subcategories',
@@ -23,6 +24,9 @@ export class UseCasesSubcategoriesComponent implements OnInit {
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
+  participatingCountries: number[] = [];
+  participatingCountriesPercentage: number[] = [];
+  toolTipData: Map<string, string>[] = [];
 
   constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
@@ -35,21 +39,27 @@ export class UseCasesSubcategoriesComponent implements OnInit {
         switch (this.dataType) {
           case 'dataManagement':
             this.getDataManagementData();
+            UIkit.switcher('#dataContent').show(0);
             break;
           case 'fairData':
             this.getFairDataData();
+            UIkit.switcher('#dataContent').show(1);
             break;
           case 'openData':
             this.getOpenDataData();
+            UIkit.switcher('#dataContent').show(2)
             break;
           case 'connectingRepositoriesToEOSC':
             this.getConnectingReposToEOSCData();
+            UIkit.switcher('#infrastructuresContent').show(0);
             break;
           case 'dataStewardship':
             this.getDataStewardshipData();
+            UIkit.switcher('#infrastructuresContent').show(1);
             break;
           case 'longTermDataPreservation':
             this.getLongTermDataPreservationData();
+            UIkit.switcher('#infrastructuresContent').show(2);
             break;
         }
       }
@@ -60,13 +70,17 @@ export class UseCasesSubcategoriesComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion59(),
+      this.queryData.getQuestion59comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[0] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[0] = Math.round((this.participatingCountries[0]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(0,3);
       }
     );
@@ -76,13 +90,17 @@ export class UseCasesSubcategoriesComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion63(),
+      this.queryData.getQuestion63comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[1] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[1] = Math.round((this.participatingCountries[1]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
           this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(1,3);
       }
     );
@@ -92,13 +110,17 @@ export class UseCasesSubcategoriesComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion67(),
+      this.queryData.getQuestion67comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.tmpQuestionsDataArray[2] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[2] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[2] = Math.round((this.participatingCountries[2]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[2].series.length; i++) {
           this.tmpQuestionsDataArray[2].series[i].data = this.tmpQuestionsDataArray[2].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(2,3);
       }
     );
@@ -108,13 +130,17 @@ export class UseCasesSubcategoriesComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion79(),
+      this.queryData.getQuestion79comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.tmpQuestionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[3] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[3] = Math.round((this.participatingCountries[3]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
           this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(3,3);
       }
     );
@@ -124,13 +150,17 @@ export class UseCasesSubcategoriesComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion83(),
+      this.queryData.getQuestion83comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.tmpQuestionsDataArray[4] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[4] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[4] = Math.round((this.participatingCountries[4]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[4].series.length; i++) {
           this.tmpQuestionsDataArray[4].series[i].data = this.tmpQuestionsDataArray[4].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(4,3);
       }
     );
@@ -140,13 +170,17 @@ export class UseCasesSubcategoriesComponent implements OnInit {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       this.queryData.getQuestion87(),
+      this.queryData.getQuestion87comment(),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
         this.tmpQuestionsDataArray[5] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[5] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.participatingCountriesPercentage[5] = Math.round((this.participatingCountries[5]/this.countriesArray.length + Number.EPSILON) * 100);
         for (let i = 0; i < this.tmpQuestionsDataArray[5].series.length; i++) {
           this.tmpQuestionsDataArray[5].series[i].data = this.tmpQuestionsDataArray[5].series[i].data.map(code => ({ code }));
         }
+        this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.createMapDataFromCategorization(5,3);
       }
     );

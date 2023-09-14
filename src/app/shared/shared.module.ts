@@ -1,6 +1,5 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {TopMenuLandingComponent} from "./top-menu/topmenulanding/top-menu-landing.component";
 import {TopMenuDashboardComponent} from "./top-menu/topmenudashboard/top-menu-dashboard.component";
 import {RouterModule} from "@angular/router";
 import {FooterComponent} from "./footer/footer.component";
@@ -11,12 +10,10 @@ import {FooterComponent} from "./footer/footer.component";
     RouterModule,
   ],
   exports: [
-    TopMenuLandingComponent,
     TopMenuDashboardComponent,
     FooterComponent
   ],
   declarations: [
-    TopMenuLandingComponent,
     TopMenuDashboardComponent,
     FooterComponent
   ]

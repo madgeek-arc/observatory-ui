@@ -30,12 +30,13 @@
     "bitset": "^5.1.1",
     "highcharts": "^10.0.0",
     "highcharts-angular": "3.0.0",
+    "ng-recaptcha": "^9.0.0",
     "ng2-date-picker": "^13.1.1",
     "pdfmake": "^0.2.7",
     "rxjs": "~6.6.0",
     "seedrandom": "^3.0.5",
     "tslib": "^2.3.0",
-    "uikit": "^3.16.13",
+    "uikit": "3.16.13",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

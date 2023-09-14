@@ -8,14 +8,16 @@ export const environment = {
   API_LOGIN: 'http://localhost:8280/observatory/login',
   API_ENDPOINT: '/observatory',
   WS_ENDPOINT: 'http://localhost:8280/observatory/websocket',
+  MESSAGING_ENDPOINT: '/observatory',
   projectName: 'Observatory',
   // STATS_API_ENDPOINT: 'https://stats.madgik.di.uoa.gr/stats-api/',
-  STATS_API_ENDPOINT: 'http://dl123.madgik.di.uoa.gr/stats/api/',
+  STATS_API_ENDPOINT: '/observatory/statistics/',
   profileName: 'eosc-obs',
   OSO_STATS_API_ENDPOINT: 'https://services.openaire.eu/stats-tool/',
   osoStatsProfileName: 'observatory',
   matomoTrackerUrl: '',
-  matomoSiteId: -2
+  matomoSiteId: -2,
+  RECAPTCHA_V3_KEY: '6Lc_SFEmAAAAAPULH3Rw_Umpa-UVJ2n1qJ0dOcJ7'
 };
 
 /*

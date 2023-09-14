@@ -21,38 +21,38 @@ export class DataService {
   constructor(private httpClient: HttpClient) {}
 
   public getFinancialContrToEOSCLinkedToPolicies(): Observable<RawData> {
-    const financialContrToEOSCLinkedToPoliciesQuery = `{"series":[{"query":{"name":"eosc.obs.question5","profile":"${this.profileName}"}}],"verbose":true}`;
+    const financialContrToEOSCLinkedToPoliciesQuery = `{"series":[{"query":{"name":"eosc.sb.2021.Question5","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(financialContrToEOSCLinkedToPoliciesQuery), headerOptions);
   }
 
   public getMandatedStatus(): Observable<RawData> {
-    const mandatedStatusQuery = `{"series":[{"query":{"name":"eosc.obs.question17","profile":"${this.profileName}"}}],"verbose":true}`;
+    const mandatedStatusQuery = `{"series":[{"query":{"name":"eosc.sb.2021.Question17","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(mandatedStatusQuery), headerOptions);
   }
 
 
   public getFundingForEOSCSums(): Observable<RawData> {
-    const totalFundingForEOSCQuery = `{"series":[{"query":{"name":"eosc.obs.question6.sum","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question7.sum","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question8.sum","profile":"${this.profileName}"}}],"verbose":true}`;
+    const totalFundingForEOSCQuery = `{"series":[{"query":{"name":"eosc.sb.2021.Question6.sum","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question7.sum","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question8.sum","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(totalFundingForEOSCQuery), headerOptions);
   }
 
   public getFundingForEOSC(): Observable<RawData> {
-    const totalFundingForEOSCQuery = `{"series":[{"query":{"name":"eosc.obs.question6","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question7","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question8","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question11","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question12","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question13","profile":"${this.profileName}"}}],"verbose":true}`;
+    const totalFundingForEOSCQuery = `{"series":[{"query":{"name":"eosc.sb.2021.Question6","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question7","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question8","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question11","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question12","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question13","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(totalFundingForEOSCQuery), headerOptions);
   }
 
   public getFundingForEOSCBubbleSeries(): Observable<RawData> {
-    const totalFundingForEOSCQuery = `{"series":[{"query":{"name":"eosc.obs.question11","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question12","profile":"${this.profileName}"}},{"query":{"name":"eosc.obs.question13","profile":"${this.profileName}"}}],"verbose":true}`;
+    const totalFundingForEOSCQuery = `{"series":[{"query":{"name":"eosc.sb.2021.Question11","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question12","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question13","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(totalFundingForEOSCQuery), headerOptions);
   }
 
   public getEOSCRelevantPolicies(): Observable<RawData> {
-    const EOSCRelevantPoliciesQuery = `{"series":[{"query":{"name":"eosc.obs.question3","profile":"${this.profileName}"}}],"verbose":true}`;
+    const EOSCRelevantPoliciesQuery = `{"series":[{"query":{"name":"eosc.sb.2021.Question3","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(EOSCRelevantPoliciesQuery), headerOptions);
   }
 
   public getUseCasesAndPracticesByDimension(): Observable<RawData> {
-    const UseCasesAndPracticesByDimension = `{"series":[{"query":{"name":"eosc.obs.question20","profile":"${this.profileName}"}}],"verbose":true}`;
+    const UseCasesAndPracticesByDimension = `{"series":[{"query":{"name":"eosc.sb.2021.Question20","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(UseCasesAndPracticesByDimension), headerOptions);
   }
 
@@ -62,79 +62,79 @@ export class DataService {
   }
 
   public getQuestion19(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question19","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question19","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
   public getQuestion18(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question18","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question18","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
   public getQuestion17(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question17","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question17","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
   public getQuestion16(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question16","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question16","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   public getQuestion15(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question15","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question15","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   public getQuestion14(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question14","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question14","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   public getQuestion13(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question13","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question13","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   public getQuestion12(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question12","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question12","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   public getQuestion11(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question11","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question11","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
 public getQuestion10(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question10","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question10","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   public getQuestion9(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question9","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question9","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   public getQuestion8(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question8","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question8","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   public getQuestion7(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question7","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question7","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   public getQuestion6(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question6","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question6","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   public getQuestion5(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question5","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question5","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   public getQuestion4(): Observable<RawData> {
-    const query = `{"series":[{"query":{"name":"eosc.obs.question4","profile":"${this.profileName}"}}],"verbose":true}`;
+    const query = `{"series":[{"query":{"name":"eosc.sb.2021.Question4","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 }

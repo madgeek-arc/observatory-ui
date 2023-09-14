@@ -1,0 +1,92 @@
+<div *ngIf="thread" class="uk-section-default uk-container uk-container-large uk-padding">
+
+  <div #threadHeader class="uk-child-width-1-2 uk-margin-bottom" uk-grid>
+    <h5 class="uk-margin-medium-bottom uk-flex uk-flex-middle uk-margin-remove">
+      <a [routerLink]="['../']" [fragment]="fragment" class="uk-margin-small-right uk-flex uk-flex-middle" title="Back">
+        <span class="material-icons">keyboard_backspace</span>
+      </a>
+      <span>{{thread.subject}}</span>
+    </h5>
+    <div class="uk-flex uk-flex-middle uk-flex-right">
+      <span class="">
+        <span *ngFor="let tag of thread.tags" class="uk-badge badge-default uk-margin-small-left">{{tag}}</span>
+      </span>
+    </div>
+  </div>
+
+  <div *ngFor="let message of thread?.messages; let i=index" [attr.id]="'message'+i">
+    <div [ngClass]="{'uk-card uk-card-default uk-margin-bottom': thread.messages.length > 1}" class="uk-animation-slide-top">
+      <div class="uk-card-header">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+          <div class="uk-width-auto user_actions">
+            <svg height="60" width="60">
+              <circle cx="30" cy="30" r="20" stroke-width="1" fill="#008792"></circle>
+              <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%" class="">
+                {{(message.from.name && message.from.name !== '') ? firstLetters(message.from.name) : firstLetters(message.from.groupId)}}
+              </text>
+            </svg>
+          </div>
+          <div class="uk-width-expand">
+            <div class="uk-flex">
+              <div class="uk-flex" *ngIf="message.from.name && message.from.name !== ''; else elseClause">
+                <h6 class="uk-card-title uk-margin-remove-bottom">{{message.from.name}}</h6>
+                <span class="uk-text-meta uk-flex uk-flex-middle uk-margin-small-left">({{message.from.email}})</span>
+                <span *ngIf="message.anonymousSender" class="uk-flex uk-flex-middle uk-margin-small-left">(as anonymous)</span>
+              </div>
+              <ng-template #elseClause>
+                <h6 class="uk-card-title uk-margin-remove-bottom">{{message.from.groupId}}</h6>
+              </ng-template>
+              <span class="uk-width-expand uk-flex uk-flex-right uk-flex-middle">
+                <a class="material-icons" title="Reply" (click)="reply(message)">reply</a>
+              </span>
+            </div>
+            <span class="uk-text-muted">
+              <span>{{message.date | date: 'medium'}}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="thread.messages.length === 1" style="border-top: 1px solid #e5e5e5"></div>
+      <div class="uk-card-body">
+        <p class="uk-text-break" [innerHtml]="message.body"></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="response" class="uk-animation-slide-bottom uk-margin-xlarge-top" [ngClass]="{'uk-display-none': !showReply}">
+    <div class="uk-card uk-card-default">
+      <div class="uk-card-body">
+        <button class="uk-modal-close-default" (click)="showReply = false; this.newMessage.reset()"
+                type="button" uk-close>
+        </button>
+        <form [formGroup]="newMessage" class="">
+
+          <div class="uk-flex uk-flex-middle uk-margin-bottom" formArrayName="to">
+            <div class="uk-flex uk-flex-middle"><span class="material-icons">reply</span>To:</div>
+            <div class="uk-form-controls uk-margin-left uk-width-expand">
+              <span class="uk-text-bold">{{message?.from.name ? ' (' + message.from.name +')':''}}</span>
+              <span class="uk-margin-small-left uk-text-muted">
+                ({{message?.from.email ? message?.from.email : message?.from.groupId}})
+              </span>
+            </div>
+          </div>
+
+          <ckeditor [editor]="editor" formControlName="body"></ckeditor>
+        </form>
+
+        <div class="uk-margin-top uk-flex uk-flex-middle">
+          <button class="uk-button uk-button-secondary uk-flex uk-flex-middle" (click)="sendMessage()">
+            <span class="material-icons uk-margin-small-right">send</span>Send
+          </button>
+          <div class="uk-width-expand uk-flex uk-flex-right uk-flex-middle">
+            <label class="uk-checkbox-label">
+              <input class="uk-checkbox" type="checkbox" [(ngModel)]="anonymous"> Don't show my name as sender
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--  <pre>{{newMessage.value | json}}</pre>-->
+</div>

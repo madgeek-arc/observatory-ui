@@ -1,28 +1,97 @@
 <div class="uk-grid">
   <div class="uk-width-1-1">
     <ul id="topSelector" uk-switcher="{connect:'#content', animation: 'fade'}" uk-tab>
+      <li><a [routerLink]="['../all']">All</a></li>
       <li><a [routerLink]="['../publications']">Publications</a></li>
       <li><a [routerLink]="['../data/dataManagement']">Data</a></li>
       <li><a [routerLink]="['../software']">Software</a></li>
       <li><a [routerLink]="['../services']">Services</a></li>
-      <li><a [routerLink]="['../infrastructures/connectingRepositoriesToEOSC']">Infrastructures</a></li>
+      <li><a [routerLink]="['../infrastructures/connectingRepositoriesToEOSC']">Infrastructure</a></li>
       <li><a [routerLink]="['../skills_training']">Skills/Training</a></li>
       <li><a [routerLink]="['../assessment']">Assessment</a></li>
       <li><a [routerLink]="['../engagement']">Engagement</a></li>
     </ul>
     <ul id="content" class="uk-switcher uk-margin-medium-top">
-      <li class="uk-animation-fade">
+      <li class="uk-animation-fade"> <!--All-->
+        <div class="uk-grid uk-child-width-1-2">
+          <div class="uk-grid uk-child-width-1-2 uk-grid-match">
+            <div class="">
+              <div class="uk-card uk-card-default uk-card-body">
+                <div class="uk-text-center">
+                  <div class="uk-margin-small-bottom">
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[0]}}</span>
+                    <span> out of </span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{countriesArray.length}}</span>
+                  </div>
+                  countries have financial investments in open access publications
+                </div>
+              </div>
+            </div>
+            <div class="">
+              <div class="uk-card uk-card-default uk-card-body">
+                <div class="uk-text-center">
+                  <div class="uk-margin-small-bottom">
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[1]}}</span>
+                    <span> out of </span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{countriesArray.length}}</span>
+                  </div>
+                  countries have financial investments in data
+                </div>
+              </div>
+            </div>
+            <div class="uk-grid-margin">
+              <div class="uk-card uk-card-default uk-card-body">
+                <div class="uk-text-center">
+                  <div class="uk-margin-small-bottom">
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[2]}}</span>
+                    <span> out of </span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{countriesArray.length}}</span>
+                  </div>
+                  countries have financial investments in open source software
+                </div>
+              </div>
+            </div>
+            <div class="uk-grid-margin">
+              <div class="uk-card uk-card-default uk-card-body">
+                <div class="uk-text-center">
+                  <div class="uk-margin-small-bottom">
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[3]}}</span>
+                    <span> out of </span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{countriesArray.length}}</span>
+                  </div>
+                  countries have financial investments in offering services through EOSC
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="">
+            <div class="uk-card uk-card-default uk-padding-small">
+              <activity-gauge [title]="'Percentage of countries with financial investments in EOSC and Open Science'" [data]="activityGaugeData"></activity-gauge>
+            </div>
+          </div>
+
+          <div class="uk-width-1-1 uk-margin-large-top">
+            <div class="uk-card uk-card-default uk-card-body">
+
+              <cumulative-data-table [title]="'Financial investments per country'" [tableData]="tableData"></cumulative-data-table>
+            </div>
+          </div>
+
+        </div>
+      </li>
+      <li class="uk-animation-fade"> <!--Publications-->
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [title]="'Financial investments in open access to publications in 2021'"
-                                       [subtitle]="'(in millions of Euro)'">
+            <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [toolTipData]="toolTipData[0]"
+                                       [title]="'Financial investments in open access publications in 2021'"
+                                       [subtitle]="'(in millions of Euro)'" [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
           </div>
 
           <div class="uk-width-1-3">
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
-                <div class="indicator-label">Total amount of financial investments in open access to publications in 2021 (in millions of Euro)</div>
+                <div class="indicator-label">Total amount of financial investments in open access publications in 2021 (in millions of Euro)</div>
                 <div *ngIf="!sumsArray[0]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
                 <div *ngIf="sumsArray[0]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[0]}} M</strong></div>
               </div>
@@ -37,17 +106,18 @@
         </div>
       </li>
       <li>
-        <ul class="uk-subnav uk-subnav-pill" uk-switcher>
-          <li><a [routerLink]="['./dataManagement']">Data management</a></li>
-          <li><a [routerLink]="['./fairData']">FAIR data</a></li>
-          <li><a [routerLink]="['./openData']">Open data</a></li>
+        <ul id="dataContent" class="uk-subnav uk-subnav-pill" uk-switcher>
+          <li><a [routerLink]="['./dataManagement']">Data Management</a></li>
+          <li><a [routerLink]="['./fairData']">FAIR Data</a></li>
+          <li><a [routerLink]="['./openData']">Open Data</a></li>
         </ul>
       </li>
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[1]" [title]="'Financial investments in open source software in 2021'"
-                                       [subtitle]="'(in millions of Euro)'">
+            <app-highcharts-color-axis [mapData]="questionsDataArray[1]" [toolTipData]="toolTipData[1]"
+                                       [title]="'Financial investments in open source software in 2021'"
+                                       [subtitle]="'(in millions of Euro)'" [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
           </div>
 
@@ -71,8 +141,9 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[2]" [title]="'Financial investments in offering services through EOSC in 2021'"
-                                       [subtitle]="'(in millions of Euro)'">
+            <app-highcharts-color-axis [mapData]="questionsDataArray[2]" [toolTipData]="toolTipData[2]"
+                                       [title]="'Financial investments in offering services through EOSC in 2021'"
+                                       [subtitle]="'(in millions of Euro)'" [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
           </div>
 
@@ -94,17 +165,18 @@
         </div>
       </li>
       <li>
-        <ul class="uk-subnav uk-subnav-pill" uk-switcher>
-          <li><a [routerLink]="['./connectingRepositoriesToEOSC']">Connecting repositories to EOSC</a></li>
-          <li><a [routerLink]="['./dataStewardship']">Data stewardship</a></li>
-          <li><a [routerLink]="['./longTermDataPreservation']">Long-term data preservation</a></li>
+        <ul id="infrastructuresContent" class="uk-subnav uk-subnav-pill" uk-switcher>
+          <li><a [routerLink]="['./connectingRepositoriesToEOSC']">Connecting Repositories to EOSC</a></li>
+          <li><a [routerLink]="['./dataStewardship']">Data Stewardship</a></li>
+          <li><a [routerLink]="['./longTermDataPreservation']">Long-term Data Preservation</a></li>
         </ul>
       </li>
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[3]" [title]="'Financial investments in skills/training for Open Science in 2021'"
-                                       [subtitle]="'(in millions of Euro)'">
+            <app-highcharts-color-axis [mapData]="questionsDataArray[3]" [toolTipData]="toolTipData[3]"
+                                       [title]="'Financial investments in skills/training for Open Science in 2021'"
+                                       [subtitle]="'(in millions of Euro)'" [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
           </div>
 
@@ -128,8 +200,9 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [title]="'Financial investments in incentives/rewards for Open Science in 2021'"
-                                       [subtitle]="'(in millions of Euro)'">
+            <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [toolTipData]="toolTipData[4]"
+                                       [title]="'Financial investments in incentives/rewards for Open Science in 2021'"
+                                       [subtitle]="'(in millions of Euro)'" [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
           </div>
 
@@ -153,8 +226,10 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[5]" [title]="'Financial investments in citizen science in 2021'"
-                                       [subtitle]="'(in millions of Euro)'" [dataSeriesSuffix]="">
+            <app-highcharts-color-axis [mapData]="questionsDataArray[5]" [toolTipData]="toolTipData[5]"
+                                       [title]="'Financial investments in citizen science in 2021'"
+                                       [subtitle]="'(in millions of Euro)'" [dataSeriesSuffix]=""
+                                       [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
           </div>
 

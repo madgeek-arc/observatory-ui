@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { RawData } from '../../../survey-tool/app/domain/raw-data';
+import {RawData, Row} from '../../../survey-tool/app/domain/raw-data';
 import { CountryTableData } from '../../../survey-tool/app/domain/country-table-data';
 import {CategorizedAreaData, Series} from "../../../survey-tool/app/domain/categorizedAreaData";
 import {FundingForEOSCSums} from "../../../survey-tool/app/domain/funding-for-eosc";
-import {isNumeric} from "rxjs/internal-compatibility";
+import {identity, isNumeric} from "rxjs/internal-compatibility";
 import {SeriesMapbubbleDataOptions, SeriesMapbubbleOptions} from "highcharts";
 import {SeriesMapDataOptions} from "highcharts/highmaps";
 
@@ -20,18 +20,18 @@ export class DataHandlerService {
         // console.log(rowResult);
 
         const countryTableData: CountryTableData = new CountryTableData();
-        if (series.series.query.name === 'eosc.obs.question17') {
+        if (series.series.query.name === 'eosc.sb.2021.Question17') {
           countryTableData.hasAppointedMandatedOrganization = rowResult.row[1];
         }
-        // if (series.series.query.name === 'eosc.obs.question3' || series.series.query.name === 'eosc.obs.question4'
-        //   || series.series.query.name === 'eosc.obs.question9' || series.series.query.name === 'eosc.obs.question10'
-        //   || series.series.query.name === 'eosc.obs.question14' || series.series.query.name === 'eosc.obs.question15'
-        //   || series.series.query.name === 'eosc.obs.question16' || series.series.query.name === 'eosc.obs.question18'
-        //   || series.series.query.name === 'eosc.obs.question19' || series.series.query.name === 'eosc.obs.question20') {
-        if (series.series.query.name !== 'eosc.obs.question17') {
+        // if (series.series.query.name === 'eosc.sb.2021.Question3' || series.series.query.name === 'eosc.sb.2021.Question4'
+        //   || series.series.query.name === 'eosc.sb.2021.Question9' || series.series.query.name === 'eosc.sb.2021.Question10'
+        //   || series.series.query.name === 'eosc.sb.2021.Question14' || series.series.query.name === 'eosc.sb.2021.Question15'
+        //   || series.series.query.name === 'eosc.sb.2021.Question16' || series.series.query.name === 'eosc.sb.2021.Question18'
+        //   || series.series.query.name === 'eosc.sb.2021.Question19' || series.series.query.name === 'eosc.sb.2021.Question20') {
+        if (series.series.query.name !== 'eosc.sb.2021.Question17') {
           countryTableData.EOSCRelevantPoliciesInPlace = rowResult.row.slice(3);
         }
-        if (series.series.query.name === 'eosc.obs.question20') {
+        if (series.series.query.name === 'eosc.sb.2021.Question20') {
           countryTableData.mapPointData = Array(3).fill(null).concat(rowResult.row.slice(3, 11).concat(rowResult.row.slice(12)));
         }
 
@@ -54,19 +54,19 @@ export class DataHandlerService {
       for (const rowResult of series.series.result) {
 
         const countryTableData: CountryTableData = new CountryTableData();
-        if (series.series.query.name === 'eosc.obs.question5') {
+        if (series.series.query.name === 'eosc.sb.2021.Question5') {
           if (rowResult.row[1] === 'Yes')
             countryTableData.mapPointData.push(rowResult.row[1]);
           else
             continue;
         }
-        if (series.series.query.name === 'eosc.obs.question14') {
+        if (series.series.query.name === 'eosc.sb.2021.Question14') {
           if (rowResult.row[1] === 'true')
             countryTableData.mapPointData.push(rowResult.row[1]);
           else
             continue;
         }
-        if (series.series.query.name === 'eosc.obs.question16') {
+        if (series.series.query.name === 'eosc.sb.2021.Question16') {
           if (rowResult.row[2] === 'true')
             countryTableData.mapPointData.push(rowResult.row[2]);
           else
@@ -126,11 +126,71 @@ export class DataHandlerService {
 
   public covertRawDataToColorAxisMap(rawData: RawData) {
     let tmpDataArray: (number | SeriesMapDataOptions | [string, number])[] = [];
-    for (const data of rawData.datasets[0].series.result) {
+    for (const data of rawData?.datasets[0].series.result) {
       if (isNumeric(data.row[1]))
         tmpDataArray.push([data.row[0].toLowerCase(), parseFloat(data.row[1])])
     }
     // console.log(tmpDataArray);
+    return tmpDataArray;
+  }
+
+  public convertRawDataForActivityGauge(rawData: RawData) {
+    if (!rawData)
+      return 0;
+    let count: number = 0;
+    for (const series of rawData?.datasets) {
+
+      for (const rowResult of series?.series.result) {
+        if (rowResult.row[1] === 'Yes' || (isNumeric(rowResult.row[1]) && parseFloat(rowResult.row[1]) > 0)) {
+          count++;
+        }
+      }
+
+    }
+    return count;
+  }
+
+  public convertRawDataForCumulativeTable(rawData: RawData, countries: string[], mergedArray?: string[]) {
+    let tmpArr: string[] = [];
+    if (!rawData)
+      return tmpArr;
+    let found: boolean = false;
+    for (const series of rawData?.datasets) {
+      for (const country of countries) {
+        found = false;
+        for (const rowResult of series.series.result) {
+          if (rowResult.row[0] === country) {
+            if (rowResult.row[1] === 'Yes') {
+              tmpArr.push('true');
+              found = true;
+            } else if (isNumeric(rowResult.row[1])) {
+              tmpArr.push(rowResult.row[1]);
+              found = true;
+            }
+            break;
+          }
+        }
+        if (!found)
+          tmpArr.push('-');
+      }
+    }
+    if (mergedArray) {
+      for (let i = 0; i < mergedArray.length; i++) {
+        if (mergedArray[i] !== 'true' || tmpArr[i] !== 'true') {
+          tmpArr[i] = '-';
+        }
+      }
+    }
+    return tmpArr;
+  }
+
+  public covertRawDataGetText(rawData: RawData) {
+    let tmpDataArray = new Map<string, string>();
+    for (const data of rawData.datasets[0].series.result) {
+      if (data.row[1] === null || data.row[1] === '' || data.row[1] === 'null')
+        continue;
+      tmpDataArray.set(data.row[0].toLowerCase(), data.row[1]);
+    }
     return tmpDataArray;
   }
 
@@ -140,19 +200,19 @@ export class DataHandlerService {
 
     for (const series of rawData.datasets) {
 
-      if (series.series.query.name.includes('eosc.obs.question6.sum')) {
+      if (series.series.query.name.includes('eosc.sb.2021.Question6.sum')) {
 
         for (const rowResult of series.series.result) {
           fundingForEOSCSums.totalFundingForEOSC = rowResult.row[0];
         }
 
-      } else if (series.series.query.name.includes('eosc.obs.question7.sum')) {
+      } else if (series.series.query.name.includes('eosc.sb.2021.Question7.sum')) {
 
         for (const rowResult of series.series.result) {
           fundingForEOSCSums.fundingToOrganisationsInEOSCA = rowResult.row[0];
         }
 
-      } else if (series.series.query.name.includes('eosc.obs.question8.sum')) {
+      } else if (series.series.query.name.includes('eosc.sb.2021.Question8.sum')) {
 
         for (const rowResult of series.series.result) {
           fundingForEOSCSums.fundingToOrganisationsOutsideEOSCA = rowResult.row[0];
@@ -167,7 +227,7 @@ export class DataHandlerService {
   public convertRawDataToFundingForEOSCSumsCustom(rawData: RawData) {
     let fundingForEOSCSums: FundingForEOSCSums = new FundingForEOSCSums();
     for (const series of rawData.datasets) {
-      if (series.series.query.name.includes('eosc.obs.question6')) {
+      if (series.series.query.name.includes('eosc.sb.2021.Question6')) {
         let sum = 0.0;
         for (const rowResult of series.series.result) {
           if (isNumeric(rowResult.row[1])) {
@@ -176,7 +236,7 @@ export class DataHandlerService {
         }
         fundingForEOSCSums.totalFundingForEOSC = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
 
-      } else if (series.series.query.name.includes('eosc.obs.question7')) {
+      } else if (series.series.query.name.includes('eosc.sb.2021.Question7')) {
         let sum = 0.0;
         for (const rowResult of series.series.result) {
           if (isNumeric(rowResult.row[1])) {
@@ -185,7 +245,7 @@ export class DataHandlerService {
         }
         fundingForEOSCSums.fundingToOrganisationsInEOSCA = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
 
-      } else if (series.series.query.name.includes('eosc.obs.question8')) {
+      } else if (series.series.query.name.includes('eosc.sb.2021.Question8')) {
         let sum = 0.0;
         for (const rowResult of series.series.result) {
           if (isNumeric(rowResult.row[1])) {
@@ -193,7 +253,7 @@ export class DataHandlerService {
           }
         }
         fundingForEOSCSums.fundingToOrganisationsOutsideEOSCA = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
-      } else if (series.series.query.name.includes('eosc.obs.question11')) {
+      } else if (series.series.query.name.includes('eosc.sb.2021.Question11')) {
         let sum = 0.0;
         for (const rowResult of series.series.result) {
           if (isNumeric(rowResult.row[1])) {
@@ -201,7 +261,7 @@ export class DataHandlerService {
           }
         }
         fundingForEOSCSums.earmarkedContributions = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
-      } else if (series.series.query.name.includes('eosc.obs.question12')) {
+      } else if (series.series.query.name.includes('eosc.sb.2021.Question12')) {
         let sum = 0.0;
         for (const rowResult of series.series.result) {
           if (isNumeric(rowResult.row[1])) {
@@ -209,7 +269,7 @@ export class DataHandlerService {
           }
         }
         fundingForEOSCSums.nonEarmarkedContributions = (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
-      } else if (series.series.query.name.includes('eosc.obs.question13')) {
+      } else if (series.series.query.name.includes('eosc.sb.2021.Question13')) {
         let sum = 0.0;
         for (const rowResult of series.series.result) {
           if (isNumeric(rowResult.row[1])) {
@@ -243,13 +303,6 @@ export class DataHandlerService {
     }
     // console.log(series);
     return series;
-  }
-
-  isNumeric(str) {
-    if (typeof str != "string") return false // we only process strings!
-    // @ts-ignore
-    return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-      !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
   }
 
   public convertRawDataToPercentageTableData(rawData: RawData, eoscSBCountries: string[]) {

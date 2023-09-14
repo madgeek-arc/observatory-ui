@@ -1,13 +1,15 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from "@angular/core";
+import {Router} from "@angular/router";
 import {Coordinator, Stakeholder, UserInfo} from "../../../../survey-tool/app/domain/userInfo";
 import {UserService} from "../../../../survey-tool/app/services/user.service";
-import {Router} from "@angular/router";
+import {MessagingSystemService} from "src/messaging-system-ui/services/messaging-system.service";
 import {AuthenticationService} from "../../../../survey-tool/app/services/authentication.service";
 import {PrivacyPolicyService} from "../../../../survey-tool/app/services/privacy-policy.service";
-
-import * as UIkit from 'uikit';
 import {AcceptedPrivacyPolicy} from "../../../../survey-tool/app/domain/privacy-policy";
+import {UnreadMessages} from "../../../../messaging-system-ui/app/domain/messaging";
 import {Subscriber} from "rxjs";
+import * as UIkit from 'uikit';
+import {MessagingWebsocketService} from "../../../../messaging-system-ui/services/messaging-websocket.service";
 
 @Component({
   selector: 'app-top-menu-dashboard',
@@ -25,14 +27,65 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
   acceptedPrivacyPolicy: AcceptedPrivacyPolicy = null;
   name: string = null;
   showArchive: boolean = false;
+  // groupIds: string[] = [];
+  unreadMessages: UnreadMessages = new UnreadMessages();
 
-  constructor(private userService: UserService,
-              private privacyPolicy: PrivacyPolicyService,
-              private authentication: AuthenticationService,
-              private router: Router) {
+  constructor(private userService: UserService, private privacyPolicy: PrivacyPolicyService,
+              private authentication: AuthenticationService, private router: Router,
+              private messagingService: MessagingSystemService, private messagingWebsocket: MessagingWebsocketService) {
+
+    this.messagingService.unreadMessages.subscribe(
+      next => this.unreadMessages = next
+    );
+    // TODO: uncomment this for messages
+    // this.messagingService.setUnreadCount();
+
   }
 
   ngOnInit() {
+
+    if (this.authentication.authenticated) {
+      this.subscriptions.push(
+        this.userService.userInfo.subscribe(
+          next => {
+            if (next) {
+              this.userInfo = next;
+            } else {
+              this.userService.getUserInfo().subscribe(
+                next => {
+                  this.userService.setUserInfo(next);
+                  this.userInfo = next;
+                },
+                error => {console.error(error);}
+              );
+            }
+            if (this.userInfo) {
+
+              // TODO: uncomment this for messages
+              // this.messagingWebsocket.initializeWebSocketConnection(`/topic/messages/inbox/unread/${this.userInfo.user.email}`);
+              // this.messagingWebsocket.WsJoin(`/app/messages/inbox/unread/${this.userInfo.user.email}`, 'action');
+
+              this.showArchive = this.coordinatorContains('eosc-sb') || this.checkIfManager();
+              // for (const stakeholder of this.userInfo.stakeholders) {
+              //   this.groupIds.push(stakeholder.id);
+              // }
+              // for (const coordinator of this.userInfo.coordinators) {
+              //   this.groupIds.push(coordinator.id);
+              // }
+
+              //   .subscribe(
+              //   res => {
+              //     this.unreadMessages = res;
+              //   },
+              //   error => {console.error(error)}
+              // );
+            }
+          },
+          error => {console.error(error)}
+        )
+      );
+    }
+
     this.subscriptions.push(
       this.userService.currentStakeholder.subscribe(next => {
         this.currentStakeholder = !!next ? next : JSON.parse(sessionStorage.getItem('currentStakeholder'));
@@ -84,6 +137,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
         subscription.unsubscribe();
       }
     });
+    // this.messagingService.eventSource.close();
   }
 
   parseUsername() {
@@ -111,7 +165,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
   checkIfManager(): boolean {
     if (this.currentStakeholder) {
       let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-      for (const manager of this.currentStakeholder.managers) {
+      for (const manager of this.currentStakeholder.admins) {
         if (userInfo.user.email === manager) {
           return true;
         }
@@ -119,6 +173,23 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
       return false;
     }
     return false;
+  }
+
+  showUnread(id: string) {
+    if (!this.unreadMessages)
+      return '';
+    for (const group of this.unreadMessages?.groups) {
+      if (group.groupId === id) {
+        if (group.unread > 0)
+          return group.unread;
+        return '';
+      }
+    }
+    return '';
+  }
+
+  logInButton() {
+    this.authentication.login();
   }
 
   logout() {

@@ -32,6 +32,8 @@ import {NationalMonitoringSubcategoriesComponent} from "./eosc-readiness-2022/pr
 import {UseCasesSubcategoriesComponent} from "./eosc-readiness-2022/practices/use-cases/subcategories/use-cases-subcategories.component";
 import {OutputsSubcategoriesComponent} from "./eosc-readiness-2022/practices/outputs/subcategories/outputs-subcategories.component";
 import {General2022Component} from "./eosc-readiness-2022/general/general2022.component";
+import {CumulativeDataTablesComponent} from "./eosc-readiness-2022/tables/cumulative-data-tables.component";
+import {Glossary2022Component} from "./eosc-readiness-2022/glossary/glossary-2022.component";
 
 @NgModule({
   declarations: [
@@ -43,6 +45,7 @@ import {General2022Component} from "./eosc-readiness-2022/general/general2022.co
     Policies2022Component,
     Practices2022Component,
     General2022Component,
+    Glossary2022Component,
     NationalPolicyComponent,
     NationalPolicySubcategoriesComponent,
     FinancialStrategyComponent,
@@ -59,6 +62,7 @@ import {General2022Component} from "./eosc-readiness-2022/general/general2022.co
     UseCasesSubcategoriesComponent,
     OutputsComponent,
     OutputsSubcategoriesComponent,
+    CumulativeDataTablesComponent
   ],
   imports: [
     CommonModule,

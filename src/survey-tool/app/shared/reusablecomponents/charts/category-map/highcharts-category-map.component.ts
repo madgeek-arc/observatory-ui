@@ -1,7 +1,7 @@
 import * as Highcharts from "highcharts/highmaps";
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from "@angular/core";
 import {CategorizedAreaData} from "../../../../domain/categorizedAreaData";
 import {SeriesOptionsType} from "highcharts/highmaps";
 import {PremiumSortPipe} from "../../../../../catalogue-ui/shared/pipes/premium-sort.pipe";
@@ -24,6 +24,8 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   @Input() subtitle: string = null;
   @Input() pointFormat: string = null;
   @Input() mapType: string = null;
+  @Input() toolTipData: Map<string, string> = new Map;
+  @Output() mapClick = new EventEmitter<any>();
 
   chart;
   chartCallback;
@@ -79,6 +81,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       setTimeout(() => {
         self.chartOptions.title.text = this.title;
         self.chartOptions.series = this.mapData.series as SeriesOptionsType[];
+        console.log(this.mapData.series);
         // console.log(self.chartOptions.series)
         // chart.hideLoading();
         this.ready = true;
@@ -89,6 +92,8 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   }
 
   createMap() {
+    const that = this;
+
     this.chartOptions = {
 
       chart: {
@@ -125,8 +130,13 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       },
 
       tooltip: {
-        headerFormat: '',
-        pointFormat: '<b>{point.name}</b>'
+        formatter: function () {
+          let comment = that.toolTipData.get(this?.point?.properties?.['iso-a2'].toLowerCase()) ? that.toolTipData.get(this.point.properties['iso-a2'].toLowerCase()):'';
+          comment = comment.replace(/\\n/g,'<br>');
+          comment = comment.replace(/\\t/g,' ');
+
+          return '<b>'+this.point.name+'</b>' + (comment ?  '<br><br>' + '<p>'+comment+'</p>' : '');
+        },
       },
 
       plotOptions: {
@@ -147,7 +157,8 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
           point: {
             events: {
               click: function () {
-                console.log(this);
+                // console.log(this);
+                that.mapClick.emit(this);
               },
             }
           }
