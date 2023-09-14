@@ -6,7 +6,7 @@
       <li><a [routerLink]="['../data/dataManagement']">Data</a></li>
       <li><a [routerLink]="['../software']">Software</a></li>
       <li><a [routerLink]="['../services']">Services</a></li>
-      <li><a [routerLink]="['../infrastructures/connectingRepositoriesToEOSC']">Infrastructures</a></li>
+      <li><a [routerLink]="['../infrastructures/connectingRepositoriesToEOSC']">Infrastructure</a></li>
       <li><a [routerLink]="['../skills_training']">Skills/Training</a></li>
       <li><a [routerLink]="['../assessment']">Assessment</a></li>
       <li><a [routerLink]="['../engagement']">Engagement</a></li>
@@ -31,7 +31,7 @@
                   <div class="uk-text-bold">
                     {{participatingCountries[1] + ' out of ' + countriesArray.length}}
                   </div>
-                  countries have RFOs with policy on open access to data
+                  countries have RFOs with policy on to data
                 </div>
               </div>
             </div>
@@ -58,14 +58,18 @@
           </div>
           <div class="uk-grid uk-width-1-2 uk-margin-remove-top">
             <div class="uk-width-1-1" style="height: 500px">
-              <activity-gauge [title]="'Countries participation'" [data]="activityGaugeData"></activity-gauge>
+              <div class="uk-card uk-card-default uk-card-body">
+                <activity-gauge [title]="'Percentage of countries with RPOs with policy on EOSC and open science'"
+                                [data]="activityGaugeData">
+                </activity-gauge>
+              </div>
             </div>
           </div>
 
           <div class="uk-width-1-1 uk-margin-large-top">
             <div class="uk-card uk-card-default uk-card-body">
 
-              <cumulative-data-table [title]="'Number of RPOs per country'" [tableData]="tableData"></cumulative-data-table>
+              <cumulative-data-table [title]="'RFOs with policyper country'" [tableData]="tableData"></cumulative-data-table>
             </div>
           </div>
 

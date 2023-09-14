@@ -18,7 +18,11 @@
           </div>
         </div>
         <div *ngIf="participatingCountries[0] >= 0" class="uk-margin-top">
-          <simple-gauge [chartId]="'gauge6'" [data]=participatingCountriesPercentage[0] ></simple-gauge>
+          <div class="uk-card uk-card-default uk-card-body">
+            <simple-gauge [chartId]="'gauge6'" [data]=participatingCountriesPercentage[0]
+                          [title]="'Percentage of countries with national policy on data management'">
+            </simple-gauge>
+          </div>
         </div>
       </div>
     </div>
@@ -42,7 +46,11 @@
           </div>
         </div>
         <div *ngIf="participatingCountries[1] >= 0" class="uk-margin-top">
-          <simple-gauge [chartId]="'gauge7'" [data]=participatingCountriesPercentage[1] ></simple-gauge>
+          <div class="uk-card uk-card-default uk-card-body">
+            <simple-gauge [chartId]="'gauge7'" [data]=participatingCountriesPercentage[1]
+                          [title]="'Percentage of countries with national policy on FAIR data'">
+            </simple-gauge>
+          </div>
         </div>
       </div>
     </div>
@@ -66,7 +74,11 @@
           </div>
         </div>
         <div *ngIf="participatingCountries[2] >= 0" class="uk-margin-top">
-          <simple-gauge [chartId]="'gauge8'" [data]=participatingCountriesPercentage[2] ></simple-gauge>
+          <div class="uk-card uk-card-default uk-card-body">
+            <simple-gauge [chartId]="'gauge8'" [data]=participatingCountriesPercentage[2]
+                          [title]="'Percentage of countries with national policy on open data'">
+            </simple-gauge>
+          </div>
         </div>
       </div>
     </div>
@@ -85,12 +97,16 @@
               <strong>{{participatingCountries[3] +' out of '+ countriesArray?.length}}</strong>
             </div>
             <div class="indicator-label">
-              countries have a national policy on connencting repositories to EOSC
+              countries have a national policy on connecting repositories to EOSC
             </div>
           </div>
         </div>
         <div *ngIf="participatingCountries[3] >= 0" class="uk-margin-top">
-          <simple-gauge [chartId]="'gauge9'" [data]=participatingCountriesPercentage[3] ></simple-gauge>
+          <div class="uk-card uk-card-default uk-card-body">
+          <simple-gauge [chartId]="'gauge9'" [data]=participatingCountriesPercentage[3]
+                        [title]="'Percentage of countries with national policy on connecting repositories to EOSC'">
+          </simple-gauge>
+          </div>
         </div>
       </div>
     </div>
@@ -114,7 +130,11 @@
           </div>
         </div>
         <div *ngIf="participatingCountries[4] >= 0" class="uk-margin-top">
-          <simple-gauge [chartId]="'gauge10'" [data]=participatingCountriesPercentage[4] ></simple-gauge>
+          <div class="uk-card uk-card-default uk-card-body">
+          <simple-gauge [chartId]="'gauge10'" [data]=participatingCountriesPercentage[4]
+                        [title]="'Percentage of countries with national policy on data stewardship'">
+          </simple-gauge>
+          </div>
         </div>
       </div>
     </div>
@@ -138,7 +158,11 @@
           </div>
         </div>
         <div *ngIf="participatingCountries[5] >= 0" class="uk-margin-top">
-          <simple-gauge [chartId]="'gauge11'" [data]=participatingCountriesPercentage[5] ></simple-gauge>
+          <div class="uk-card uk-card-default uk-card-body">
+            <simple-gauge [chartId]="'gauge11'" [data]=participatingCountriesPercentage[5]
+                          [title]="'Percentage of countries with national policy on long-term data preservation'">
+            </simple-gauge>
+          </div>
         </div>
       </div>
     </div>

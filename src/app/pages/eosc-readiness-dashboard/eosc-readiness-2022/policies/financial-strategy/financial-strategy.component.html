@@ -6,7 +6,7 @@
       <li><a [routerLink]="['../data/dataManagement']">Data</a></li>
       <li><a [routerLink]="['../software']">Software</a></li>
       <li><a [routerLink]="['../services']">Services</a></li>
-      <li><a [routerLink]="['../infrastructures/connectingRepositoriesToEOSC']">Infrastructures</a></li>
+      <li><a [routerLink]="['../infrastructures/connectingRepositoriesToEOSC']">Infrastructure</a></li>
       <li><a [routerLink]="['../skills_training']">Skills/Training</a></li>
       <li><a [routerLink]="['../assessment']">Assessment</a></li>
       <li><a [routerLink]="['../engagement']">Engagement</a></li>
@@ -21,7 +21,7 @@
                   <div class="uk-text-bold">
                     {{participatingCountries[0] + ' out of ' + countriesArray.length}}
                   </div>
-                  countries have a financial strategy on open access to publications
+                  countries have financial strategy on open access to publications
                 </div>
               </div>
             </div>
@@ -31,7 +31,7 @@
                   <div class="uk-text-bold">
                     {{participatingCountries[1] + ' out of ' + countriesArray.length}}
                   </div>
-                  countries have a financial strategy on open access to data
+                  countries have financial strategy on data
                 </div>
               </div>
             </div>
@@ -41,7 +41,7 @@
                   <div class="uk-text-bold">
                     {{participatingCountries[2] + ' out of ' + countriesArray.length}}
                   </div>
-                  countries have a financial strategy on open source software
+                  countries have financial strategy on open source software
                 </div>
               </div>
             </div>
@@ -51,21 +51,25 @@
                   <div class="uk-text-bold">
                     {{participatingCountries[3] + ' out of ' + countriesArray.length}}
                   </div>
-                  countries have a financial strategy on offering services through EOSC
+                  countries have financial strategy on offering services through EOSC
                 </div>
               </div>
             </div>
           </div>
           <div class="uk-grid uk-width-1-2 uk-margin-remove-top">
             <div class="uk-width-1-1" style="height: 500px">
-              <activity-gauge [title]="'Countries participation'" [data]="activityGaugeData"></activity-gauge>
+              <div class="uk-card uk-card-default uk-card-body">
+                <activity-gauge [title]="'Percentage of countries with financial strategy on EOSC and open science'"
+                                [data]="activityGaugeData">
+                </activity-gauge>
+              </div>
             </div>
           </div>
 
           <div class="uk-width-1-1 uk-margin-large-top">
             <div class="uk-card uk-card-default uk-card-body">
 
-              <cumulative-data-table [title]="'Number of RPOs per country'" [tableData]="tableData"></cumulative-data-table>
+              <cumulative-data-table [title]="'Financial Strategy per country'" [tableData]="tableData"></cumulative-data-table>
             </div>
           </div>
 
@@ -84,11 +88,15 @@
                 <strong>{{participatingCountries[0] +' out of '+ countriesArray?.length}}</strong>
               </div>
               <div class="indicator-label">
-                countries have a financial strategy on open access to publications
+                countries have financial strategy on open access to publications
               </div>
             </div>
             <div *ngIf="participatingCountries[0] >= 0" class="uk-margin-top">
-              <simple-gauge [chartId]="'gauge0'" [data]=participatingCountriesPercentage[0]></simple-gauge>
+              <div class="uk-card uk-card-default uk-card-body">
+                <simple-gauge [chartId]="'gauge0'" [data]=participatingCountriesPercentage[0]
+                              [title]="'percentage of countries with financial strategy on open access to publications'">
+                </simple-gauge>
+              </div>
             </div>
           </div>
         </div>
@@ -113,11 +121,15 @@
                 <strong>{{participatingCountries[2] +' out of '+ countriesArray?.length}}</strong>
               </div>
               <div class="indicator-label">
-                countries have a financial strategy on open source software
+                countries have financial strategy on open source software
               </div>
             </div>
             <div *ngIf="participatingCountries[2] >= 0" class="uk-margin-top">
-              <simple-gauge [chartId]="'gauge1'" [data]=participatingCountriesPercentage[2]></simple-gauge>
+              <div class="uk-card uk-card-default uk-card-body">
+                <simple-gauge [chartId]="'gauge1'" [data]=participatingCountriesPercentage[2]
+                              [title]="'percentage of countries with financial strategy on open source software'">
+                </simple-gauge>
+              </div>
             </div>
           </div>
         </div>
@@ -135,11 +147,15 @@
                 <strong>{{participatingCountries[3] +' out of '+ countriesArray?.length}}</strong>
               </div>
               <div class="indicator-label">
-                countries have a financial strategy on offering services through EOSC
+                countries have financial strategy on offering services through EOSC
               </div>
             </div>
             <div *ngIf="participatingCountries[3] >= 0" class="uk-margin-top">
-              <simple-gauge [chartId]="'gauge2'" [data]=participatingCountriesPercentage[3]></simple-gauge>
+              <div class="uk-card uk-card-default uk-card-body">
+                <simple-gauge [chartId]="'gauge2'" [data]=participatingCountriesPercentage[3]
+                              [title]="'percentage of countries with financial strategy on offering services through EOSC'">
+                </simple-gauge>
+              </div>
             </div>
           </div>
         </div>
@@ -164,11 +180,15 @@
                 <strong>{{participatingCountries[5] +' out of '+ countriesArray?.length}}</strong>
               </div>
               <div class="indicator-label">
-                countries have a financial strategy on skills/training for Open Science
+                countries have financial strategy on skills/training for Open Science
               </div>
             </div>
             <div *ngIf="participatingCountries[5] >= 0" class="uk-margin-top">
-              <simple-gauge [chartId]="'gauge3'" [data]=participatingCountriesPercentage[5]></simple-gauge>
+              <div class="uk-card uk-card-default uk-card-body">
+                <simple-gauge [chartId]="'gauge3'" [data]=participatingCountriesPercentage[5]
+                              [title]="'percentage of countries with financial strategy on skills/training for Open Science'">
+                </simple-gauge>
+              </div>
             </div>
           </div>
         </div>
@@ -186,11 +206,15 @@
                 <strong>{{participatingCountries[6] +' out of '+ countriesArray?.length}}</strong>
               </div>
               <div class="indicator-label">
-                countries have a financial strategy on incentives/rewards for Open Science
+                countries have financial strategy on incentives/rewards for Open Science
               </div>
             </div>
             <div *ngIf="participatingCountries[6] >= 0" class="uk-margin-top">
-              <simple-gauge [chartId]="'gauge4'" [data]=participatingCountriesPercentage[6]></simple-gauge>
+              <div class="uk-card uk-card-default uk-card-body">
+                <simple-gauge [chartId]="'gauge4'" [data]=participatingCountriesPercentage[6]
+                              [title]="'percentage of countries with financial strategy on incentives/rewards for Open Science'">
+                </simple-gauge>
+              </div>
             </div>
           </div>
         </div>
@@ -208,11 +232,15 @@
                 <strong>{{participatingCountries[7] +' out of '+ countriesArray?.length}}</strong>
               </div>
               <div class="indicator-label">
-                countries have a financial strategy on citizen science
+                countries have financial strategy on citizen science
               </div>
             </div>
             <div *ngIf="participatingCountries[7] >= 0" class="uk-margin-top">
-              <simple-gauge [chartId]="'gauge5'" [data]=participatingCountriesPercentage[7]></simple-gauge>
+              <div class="uk-card uk-card-default uk-card-body">
+                <simple-gauge [chartId]="'gauge5'" [data]=participatingCountriesPercentage[7]
+                              [title]="'percentage of countries with financial strategy on citizen science'">
+                </simple-gauge>
+              </div>
             </div>
           </div>
         </div>

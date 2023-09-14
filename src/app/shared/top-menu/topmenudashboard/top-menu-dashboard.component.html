@@ -15,15 +15,15 @@
           <div class="uk-navbar-center">
             <ul class="uk-navbar-nav user_actions">
               <li>
-                <a class="uk-icon uk-animation-fade" [routerLink]="['/eoscreadiness/2022']" aria-expanded="false">
+                <a class="uk-icon uk-animation-fade" [routerLink]="['/eoscreadiness/2021']" aria-expanded="false">
                   <span class="uk-text-small uk-margin-small-right">EOSC Readiness</span>
                 </a>
               </li>
-              <li>
-                <a class="uk-icon uk-animation-fade" [routerLink]="['/contact']" aria-expanded="false">
-                  <span class="uk-text-small uk-margin-small-right">Contact</span>
-                </a>
-              </li>
+<!--              <li>-->
+<!--                <a class="uk-icon uk-animation-fade" [routerLink]="['/contact']" aria-expanded="false">-->
+<!--                  <span class="uk-text-small uk-margin-small-right">Contact</span>-->
+<!--                </a>-->
+<!--              </li>-->
             </ul>
           </div>
 
@@ -53,10 +53,10 @@
                       <svg height="60" width="60">
                         <image x="10" y="10" [attr.href]="'data:image;base64,' + userInfo.user.profile.picture"
                                height="40" width="40" clip-path="inset(0% round 20px)"/>
-                        <circle class="notification" *ngIf="unreadMessages?.totalUnread > 0" cx="45" cy="15" r="7" stroke-width="1"></circle>
-                        <text class="notification"  *ngIf="unreadMessages?.totalUnread > 0" x="45" y="19" text-anchor="middle">
-                          {{unreadMessages?.totalUnread.toString()}}
-                        </text>
+<!--                        <circle class="notification" *ngIf="unreadMessages?.totalUnread > 0" cx="45" cy="15" r="7" stroke-width="1"></circle>-->
+<!--                        <text class="notification"  *ngIf="unreadMessages?.totalUnread > 0" x="45" y="19" text-anchor="middle">-->
+<!--                          {{unreadMessages?.totalUnread.toString()}}-->
+<!--                        </text>-->
                       </svg>
                     </ng-template>
                   </div>
@@ -74,25 +74,24 @@
                     <li class="groups" *ngFor="let stakeholder of userInfo.stakeholders">
                       <a (click)="setGroup(stakeholder)"><span class="material-icons uk-margin-right">group</span>
                         {{stakeholder.name + (stakeholder.type === 'association' ? (', EOSC Association '+ (stakeholder.country ? '(' + stakeholder.country + ')': '')) : '') }}
-<!--                        {{showUnread(stakeholder.id)}}-->
-                        <svg *ngIf="showUnread(stakeholder.id)" height="20" width="20">
-                          <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1"></circle>
-                          <text class="notification"  x="7.2" y="13" text-anchor="middle">
-                            {{showUnread(stakeholder.id)}}
-                          </text>
-                        </svg>
+<!--                        <svg *ngIf="showUnread(stakeholder.id)" height="20" width="20">-->
+<!--                          <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1"></circle>-->
+<!--                          <text class="notification"  x="7.2" y="13" text-anchor="middle">-->
+<!--                            {{showUnread(stakeholder.id)}}-->
+<!--                          </text>-->
+<!--                        </svg>-->
                       </a>
                     </li>
                     <hr *ngIf="userInfo.coordinators?.length > 0">
                     <li class="groups" *ngFor="let coordinator of userInfo.coordinators">
                       <a (click)="setCoordinator(coordinator)">
                         <span class="material-icons uk-margin-right">group</span>{{coordinator.name}}
-                        <svg *ngIf="showUnread(coordinator.id)" height="20" width="20">
-                          <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1"></circle>
-                          <text class="notification"  x="7.2" y="13" text-anchor="middle">
-                            {{showUnread(coordinator.id)}}
-                          </text>
-                        </svg>
+<!--                        <svg *ngIf="showUnread(coordinator.id)" height="20" width="20">-->
+<!--                          <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1"></circle>-->
+<!--                          <text class="notification"  x="7.2" y="13" text-anchor="middle">-->
+<!--                            {{showUnread(coordinator.id)}}-->
+<!--                          </text>-->
+<!--                        </svg>-->
                       </a>
                     </li>
 

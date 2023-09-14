@@ -1,9 +1,9 @@
 export const EoscReadiness2022MapSubtitles: string[][] = [
-  ['Has national policy', 'Doesn\'t have policy'],
-  ['Has financial strategy', 'Doesn\'t have financial strategy'],
-  ['Has national monitoring', 'Doesn\'t have national monitoring'],
-  ['Has use cases', 'Doesn\'t have use cases'],
-  ['Has national monitoring', 'Doesn\'t have national monitoring'],
+  ['Has national policy', 'Does not have national policy'],
+  ['Has financial strategy', 'Does not have financial strategy'],
+  ['Has national monitoring', 'Does not have national monitoring'],
+  ['Has use cases', 'Does not have use cases'],
+  ['Has national monitoring', 'Does not have national monitoring'],
 ]
 
 export const ColorPallet = ['#008792', '#E76F51', '#a9a9a9'];
