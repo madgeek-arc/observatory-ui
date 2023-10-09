@@ -1,6 +1,5 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
-import UIkit from "uikit";
 import {CountryTableData} from "../../../../../survey-tool/app/domain/country-table-data";
 import {EoscReadiness2022MapSubtitles} from "../eosc-readiness2022-map-subtitles";
 import {EoscReadiness2022DataService} from "../../../services/eosc-readiness2022-data.service";
@@ -55,6 +54,12 @@ export class General2022Component implements OnInit {
         }
       }
     )
+
+    this.route.fragment.subscribe(
+      fragment => {
+        console.log(fragment);
+      }
+    );
   }
 
   getResearchersData() {
