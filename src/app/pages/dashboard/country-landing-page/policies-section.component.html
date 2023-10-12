@@ -37,14 +37,23 @@
               <div>
                 <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Data'"
                                              [cardIcon]="'../assets/images/country_pages/Icon%20awesome-database.svg'">
-                  <policies-category-indicators [subtitle]="'Data management'" [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators [subtitle]="'Data management'"
+                                                [nationalPolicy]="surveyAnswer['Policies']?.['Question10']?.['Question10-0']"
+                                                [financialStrategy]="surveyAnswer['Policies']?.['Question11']?.['Question11-0']"
+                                                [rpos]="surveyAnswer['Policies']?.['Question12']?.['Question12-0']"
+                                                [rfos]="surveyAnswer['Policies']?.['Question13']?.['Question13-0']">
                   </policies-category-indicators>
-                  <policies-category-indicators [subtitle]="'FAIR data'" [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators [subtitle]="'FAIR data'"
+                                                [nationalPolicy]="surveyAnswer['Policies']?.['Question14']?.['Question14-0']"
+                                                [financialStrategy]="surveyAnswer['Policies']?.['Question15']?.['Question15-0']"
+                                                [rpos]="surveyAnswer['Policies']?.['Question16']?.['Question16-0']"
+                                                [rfos]="surveyAnswer['Policies']?.['Question17']?.['Question17-0']">
                   </policies-category-indicators>
-                  <policies-category-indicators [subtitle]="'Open data'" [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators [subtitle]="'Open data'"
+                                                [nationalPolicy]="surveyAnswer['Policies']?.['Question18']?.['Question18-0']"
+                                                [financialStrategy]="surveyAnswer['Policies']?.['Question19']?.['Question19-0']"
+                                                [rpos]="surveyAnswer['Policies']?.['Question20']?.['Question20-0']"
+                                                [rfos]="surveyAnswer['Policies']?.['Question21']?.['Question21-0']">
                   </policies-category-indicators>
                 </category-indicators-wrapper>
               </div>
@@ -55,16 +64,22 @@
               <div>
                 <category-indicators-wrapper [cardTitle]="'Software'"
                                              [cardIcon]="'../assets/images/country_pages/noun-software-2822919.svg'">
-                  <policies-category-indicators [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators
+                    [nationalPolicy]="surveyAnswer['Policies']?.['Question22']?.['Question22-0']"
+                    [financialStrategy]="surveyAnswer['Policies']?.['Question23']?.['Question23-0']"
+                    [rpos]="surveyAnswer['Policies']?.['Question24']?.['Question24-0']"
+                    [rfos]="surveyAnswer['Policies']?.['Question25']?.['Question25-0']">
                   </policies-category-indicators>
                 </category-indicators-wrapper>
               </div>
               <div>
                 <category-indicators-wrapper [cardTitle]="'Services'"
                                              [cardIcon]="'../assets/images/country_pages/noun-settings-5110695.svg'">
-                  <policies-category-indicators [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators
+                    [nationalPolicy]="surveyAnswer['Policies']?.['Question26']?.['Question26-0']"
+                    [financialStrategy]="surveyAnswer['Policies']?.['Question27']?.['Question27-0']"
+                    [rpos]="surveyAnswer['Policies']?.['Question28']?.['Question28-0']"
+                    [rfos]="surveyAnswer['Policies']?.['Question29']?.['Question29-0']">
                   </policies-category-indicators>
                 </category-indicators-wrapper>
               </div>
@@ -75,14 +90,24 @@
               <div>
                 <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Infrastructure'"
                                              [cardIcon]="'../assets/images/country_pages/noun-infrastructure-1694567.svg'">
-                  <policies-category-indicators [subtitle]="'Connecting repositories to EOSC'" [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators [subtitle]="'Connecting repositories to EOSC'"
+                    [nationalPolicy]="surveyAnswer['Policies']?.['Question30']?.['Question30-0']"
+                    [financialStrategy]="surveyAnswer['Policies']?.['Question31']?.['Question31-0']"
+                    [rpos]="surveyAnswer['Policies']?.['Question32']?.['Question32-0']"
+                    [rfos]="surveyAnswer['Policies']?.['Question33']?.['Question33-0']">
                   </policies-category-indicators>
-                  <policies-category-indicators [subtitle]="'Data stewardship'" [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators [subtitle]="'Data stewardship'"
+                    [nationalPolicy]="surveyAnswer['Policies']?.['Question34']?.['Question34-0']"
+                    [financialStrategy]="surveyAnswer['Policies']?.['Question35']?.['Question35-0']"
+                    [rpos]="surveyAnswer['Policies']?.['Question36']?.['Question36-0']"
+                    [rfos]="surveyAnswer['Policies']?.['Question37']?.['Question37-0']">
                   </policies-category-indicators>
-                  <policies-category-indicators [subtitle]="'Long-term data preservation'" [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators
+                    [subtitle]="'Long-term data preservation'"
+                    [nationalPolicy]="surveyAnswer['Policies']?.['Question38']?.['Question38-0']"
+                    [financialStrategy]="surveyAnswer['Policies']?.['Question39']?.['Question39-0']"
+                    [rpos]="surveyAnswer['Policies']?.['Question40']?.['Question40-0']"
+                    [rfos]="surveyAnswer['Policies']?.['Question41']?.['Question41-0']">
                   </policies-category-indicators>
                 </category-indicators-wrapper>
               </div>
@@ -93,16 +118,22 @@
               <div>
                 <category-indicators-wrapper [cardTitle]="'Skills/Training'"
                                              [cardIcon]="'../assets/images/country_pages/noun-skills-2129400.svg'">
-                  <policies-category-indicators [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators
+                    [nationalPolicy]="surveyAnswer['Policies']?.['Question42']?.['Question42-0']"
+                    [financialStrategy]="surveyAnswer['Policies']?.['Question43']?.['Question43-0']"
+                    [rpos]="surveyAnswer['Policies']?.['Question44']?.['Question44-0']"
+                    [rfos]="surveyAnswer['Policies']?.['Question45']?.['Question45-0']">
                   </policies-category-indicators>
                 </category-indicators-wrapper>
               </div>
               <div>
                 <category-indicators-wrapper [cardTitle]="'Assessment'"
                                              [cardIcon]="'../assets/images/country_pages/noun-assesment-4658555.svg'">
-                  <policies-category-indicators [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators
+                    [nationalPolicy]="surveyAnswer['Policies']?.['Question46']?.['Question46-0']"
+                    [financialStrategy]="surveyAnswer['Policies']?.['Question47']?.['Question47-0']"
+                    [rpos]="surveyAnswer['Policies']?.['Question48']?.['Question48-0']"
+                    [rfos]="surveyAnswer['Policies']?.['Question49']?.['Question49-0']">
                   </policies-category-indicators>
                 </category-indicators-wrapper>
               </div>
@@ -113,8 +144,11 @@
               <div>
                 <category-indicators-wrapper [cardTitle]="'Engagement'"
                                              [cardIcon]="'../assets/images/country_pages/noun-work-engagement-946691.svg'">
-                  <policies-category-indicators [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators
+                    [nationalPolicy]="surveyAnswer['Policies']?.['Question50']?.['Question50-0']"
+                    [financialStrategy]="surveyAnswer['Policies']?.['Question51']?.['Question51-0']"
+                    [rpos]="surveyAnswer['Policies']?.['Question52']?.['Question52-0']"
+                    [rfos]="surveyAnswer['Policies']?.['Question53']?.['Question53-0']">
                   </policies-category-indicators>
                 </category-indicators-wrapper>
               </div>
@@ -189,14 +223,23 @@
               <div>
                 <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Data'"
                                              [cardIcon]="'../assets/images/country_pages/Icon%20awesome-database.svg'">
-                  <policies-category-indicators [subtitle]="'Data management'" [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators [subtitle]="'Data management'"
+                                                [nationalPolicy]="surveyAnswer['Policies']?.['Question10']?.['Question10-0']"
+                                                [financialStrategy]="surveyAnswer['Policies']?.['Question11']?.['Question11-0']"
+                                                [rpos]="surveyAnswer['Policies']?.['Question12']?.['Question12-0']"
+                                                [rfos]="surveyAnswer['Policies']?.['Question13']?.['Question13-0']">
                   </policies-category-indicators>
-                  <policies-category-indicators [subtitle]="'FAIR data'" [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators [subtitle]="'FAIR data'"
+                                                [nationalPolicy]="surveyAnswer['Policies']?.['Question14']?.['Question14-0']"
+                                                [financialStrategy]="surveyAnswer['Policies']?.['Question15']?.['Question15-0']"
+                                                [rpos]="surveyAnswer['Policies']?.['Question16']?.['Question16-0']"
+                                                [rfos]="surveyAnswer['Policies']?.['Question17']?.['Question17-0']">
                   </policies-category-indicators>
-                  <policies-category-indicators [subtitle]="'Open data'" [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators [subtitle]="'Open data'"
+                                                [nationalPolicy]="surveyAnswer['Policies']?.['Question18']?.['Question18-0']"
+                                                [financialStrategy]="surveyAnswer['Policies']?.['Question19']?.['Question19-0']"
+                                                [rpos]="surveyAnswer['Policies']?.['Question20']?.['Question20-0']"
+                                                [rfos]="surveyAnswer['Policies']?.['Question21']?.['Question21-0']">
                   </policies-category-indicators>
                 </category-indicators-wrapper>
               </div>
@@ -216,8 +259,11 @@
               <div>
                 <category-indicators-wrapper [cardTitle]="'Software'"
                                              [cardIcon]="'../assets/images/country_pages/noun-software-2822919.svg'">
-                  <policies-category-indicators [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators
+                    [nationalPolicy]="surveyAnswer['Policies']?.['Question22']?.['Question22-0']"
+                    [financialStrategy]="surveyAnswer['Policies']?.['Question23']?.['Question23-0']"
+                    [rpos]="surveyAnswer['Policies']?.['Question24']?.['Question24-0']"
+                    [rfos]="surveyAnswer['Policies']?.['Question25']?.['Question25-0']">
                   </policies-category-indicators>
                 </category-indicators-wrapper>
               </div>
@@ -258,14 +304,26 @@
               <div>
                 <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Infrastructure'"
                                              [cardIcon]="'../assets/images/country_pages/noun-infrastructure-1694567.svg'">
-                  <policies-category-indicators [subtitle]="'Connecting repositories to EOSC'" [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators
+                    [subtitle]="'Connecting repositories to EOSC'"
+                    [nationalPolicy]="surveyAnswer['Policies']?.['Question30']?.['Question30-0']"
+                    [financialStrategy]="surveyAnswer['Policies']?.['Question31']?.['Question31-0']"
+                    [rpos]="surveyAnswer['Policies']?.['Question32']?.['Question32-0']"
+                    [rfos]="surveyAnswer['Policies']?.['Question33']?.['Question33-0']">
                   </policies-category-indicators>
-                  <policies-category-indicators [subtitle]="'Data stewardship'" [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators
+                    [subtitle]="'Data stewardship'"
+                    [nationalPolicy]="surveyAnswer['Policies']?.['Question34']?.['Question34-0']"
+                    [financialStrategy]="surveyAnswer['Policies']?.['Question35']?.['Question35-0']"
+                    [rpos]="surveyAnswer['Policies']?.['Question36']?.['Question36-0']"
+                    [rfos]="surveyAnswer['Policies']?.['Question37']?.['Question37-0']">
                   </policies-category-indicators>
-                  <policies-category-indicators [subtitle]="'Long-term data preservation'" [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators
+                    [subtitle]="'Long-term data preservation'"
+                    [nationalPolicy]="surveyAnswer['Policies']?.['Question38']?.['Question38-0']"
+                    [financialStrategy]="surveyAnswer['Policies']?.['Question39']?.['Question39-0']"
+                    [rpos]="surveyAnswer['Policies']?.['Question40']?.['Question40-0']"
+                    [rfos]="surveyAnswer['Policies']?.['Question41']?.['Question41-0']">
                   </policies-category-indicators>
                 </category-indicators-wrapper>
               </div>
@@ -285,8 +343,11 @@
               <div>
                 <category-indicators-wrapper [cardTitle]="'Skills/Training'"
                                              [cardIcon]="'../assets/images/country_pages/noun-skills-2129400.svg'">
-                  <policies-category-indicators [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators
+                    [nationalPolicy]="surveyAnswer['Policies']?.['Question42']?.['Question42-0']"
+                    [financialStrategy]="surveyAnswer['Policies']?.['Question43']?.['Question43-0']"
+                    [rpos]="surveyAnswer['Policies']?.['Question44']?.['Question44-0']"
+                    [rfos]="surveyAnswer['Policies']?.['Question45']?.['Question45-0']">
                   </policies-category-indicators>
                 </category-indicators-wrapper>
               </div>
@@ -306,8 +367,11 @@
               <div>
                 <category-indicators-wrapper [cardTitle]="'Assessment'"
                                              [cardIcon]="'../assets/images/country_pages/noun-assesment-4658555.svg'">
-                  <policies-category-indicators [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators
+                    [nationalPolicy]="surveyAnswer['Policies']?.['Question46']?.['Question46-0']"
+                    [financialStrategy]="surveyAnswer['Policies']?.['Question47']?.['Question47-0']"
+                    [rpos]="surveyAnswer['Policies']?.['Question48']?.['Question48-0']"
+                    [rfos]="surveyAnswer['Policies']?.['Question49']?.['Question49-0']">
                   </policies-category-indicators>
                 </category-indicators-wrapper>
               </div>
@@ -327,8 +391,11 @@
               <div>
                 <category-indicators-wrapper [cardTitle]="'Engagement'"
                                              [cardIcon]="'../assets/images/country_pages/noun-work-engagement-946691.svg'">
-                  <policies-category-indicators [nationalPolicy]="'Yes'" [financialStrategy]="'No'"
-                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="'0'">
+                  <policies-category-indicators
+                    [nationalPolicy]="surveyAnswer['Policies']?.['Question50']?.['Question50-0']"
+                    [financialStrategy]="surveyAnswer['Policies']?.['Question51']?.['Question51-0']"
+                    [rpos]="surveyAnswer['Policies']?.['Question52']?.['Question52-0']"
+                    [rfos]="surveyAnswer['Policies']?.['Question53']?.['Question53-0']">
                   </policies-category-indicators>
                 </category-indicators-wrapper>
               </div>
