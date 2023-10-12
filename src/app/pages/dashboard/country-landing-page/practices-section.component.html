@@ -1,0 +1,364 @@
+<div *ngIf="surveyAnswer" class="categories-content-tabs">
+
+  <ul class="uk-subnav uk-subnav-pill categories-selection-tabs" uk-switcher>
+    <li><a href="#">All</a></li>
+    <li><a href="#">Publications</a></li>
+    <li><a href="#">Data</a></li>
+    <li><a href="#">Software</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Infrastructure</a></li>
+    <li><a href="#">Skills/Training</a></li>
+    <li><a href="#">Assessment</a></li>
+    <li><a href="#">Engagement</a></li>
+  </ul>
+
+  <ul class="uk-switcher uk-margin">
+    <li>
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+
+            <!--          Publications-->
+            <div class="uk-grid uk-child-width-1-2">
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Publications'"
+                                             [cardIcon]="'../assets/images/country_pages/Icon%20awesome-file-alt.svg'">
+                  <practices-category-indicators [monitoring]="true" [useCases]="false"
+                                                [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                [outputsTitle]="'publications published in open access'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+
+            <!--          Data-->
+            <div class="uk-grid uk-child-width-1-1">
+              <div>
+                <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Data'"
+                                             [cardIcon]="'../assets/images/country_pages/Icon%20awesome-database.svg'">
+                  <practices-category-indicators [subtitle]="'Data management'" [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'data management plans published'">
+                  </practices-category-indicators>
+                  <practices-category-indicators [subtitle]="'FAIR data'" [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'FAIR datasets published'">
+                  </practices-category-indicators>
+                  <practices-category-indicators [subtitle]="'Open data'" [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'open datasets published'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+
+            <!--            Services & Software-->
+            <div class="uk-grid uk-child-width-1-2">
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Software'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-software-2822919.svg'">
+                  <practices-category-indicators [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'open source software sets published'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Services'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-settings-5110695.svg'">
+                  <practices-category-indicators [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'services offered through EOSC'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+
+            <!--          Infrastructure-->
+            <div class="uk-grid uk-child-width-1-1">
+              <div>
+                <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Infrastructure'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-infrastructure-1694567.svg'">
+                  <practices-category-indicators [subtitle]="'Connecting repositories to EOSC'" [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'repositories connected to EOSC'">
+                  </practices-category-indicators>
+                  <practices-category-indicators [subtitle]="'Data stewardship'" [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'data stewards employed'">
+                  </practices-category-indicators>
+                  <practices-category-indicators [subtitle]="'Long-term data preservation'" [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'repositories offering long-term data preservation'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+
+            <!--            Skills/Training & Assessment-->
+            <div class="uk-grid uk-child-width-1-2">
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Skills/Training'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-skills-2129400.svg'">
+                  <practices-category-indicators [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'educational curricula with an Open Science dimension'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Assessment'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-assesment-4658555.svg'">
+                  <practices-category-indicators [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'signatories of the Agreement on Reforming Research Assessment'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+
+            <!--          Engagement-->
+            <div class="uk-grid uk-child-width-1-2">
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Engagement'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-work-engagement-946691.svg'">
+                  <practices-category-indicators [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'projects with a citizen science dimension'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+
+          </div>
+
+          <!--          Comments....-->
+          <div class="uk-width-1-3">
+            <ul uk-accordion="collapsible: false" class="uk-text-small">
+              <li>
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">1</span>
+                  <span class="comment-title">Lorem ipsum</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+              </li>
+              <li>
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">2</span>
+                  <span class="comment-title">Lorem ipsum</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor reprehenderit.</p>
+                </div>
+              </li>
+              <li>
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">3</span>
+                  <span class="comment-title">Lorem ipsum</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat proident.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+            <!--          Publications-->
+            <div class="uk-grid uk-child-width-1-2">
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Publications'"
+                                             [cardIcon]="'../assets/images/country_pages/Icon%20awesome-file-alt.svg'">
+                  <practices-category-indicators [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'publications published in open access'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-1-3">
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+            <!--          Data-->
+            <div class="uk-grid uk-child-width-1-1">
+              <div>
+                <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Data'"
+                                             [cardIcon]="'../assets/images/country_pages/Icon%20awesome-database.svg'">
+                  <practices-category-indicators [subtitle]="'Data management'" [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'data management plans published'">
+                  </practices-category-indicators>
+                  <practices-category-indicators [subtitle]="'FAIR data'" [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'FAIR datasets published'">
+                  </practices-category-indicators>
+                  <practices-category-indicators [subtitle]="'Open data'" [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'open datasets published'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-1-3">
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <!--      Software content-->
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+            <div class="uk-grid uk-child-width-1-2">
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Software'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-software-2822919.svg'">
+                  <practices-category-indicators [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'open source software sets published'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-1-3">
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <!--      Services content-->
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+            <div class="uk-grid uk-child-width-1-2">
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Services'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-settings-5110695.svg'">
+                  <practices-category-indicators [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'services offered through EOSC'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-1-3">
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+            <!--          Infrastructure-->
+            <div class="uk-grid uk-child-width-1-1">
+              <div>
+                <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Infrastructure'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-infrastructure-1694567.svg'">
+                  <practices-category-indicators [subtitle]="'Connecting repositories to EOSC'" [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'repositories connected to EOSC'">
+                  </practices-category-indicators>
+                  <practices-category-indicators [subtitle]="'Data stewardship'" [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'data stewards employed'">
+                  </practices-category-indicators>
+                  <practices-category-indicators [subtitle]="'Long-term data preservation'" [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'repositories offering long-term data preservation'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-1-3">
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <!--      Skills/Training content-->
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+            <div class="uk-grid uk-child-width-1-2">
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Skills/Training'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-skills-2129400.svg'">
+                  <practices-category-indicators [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'educational curricula with an Open Science dimension'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-1-3">
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <!--      Assessment content-->
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+            <div class="uk-grid uk-child-width-1-2">
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Assessment'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-assesment-4658555.svg'">
+                  <practices-category-indicators [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'signatories of the Agreement on Reforming Research Assessment'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-1-3">
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+            <!--          Engagement-->
+            <div class="uk-grid uk-child-width-1-2">
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Engagement'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-work-engagement-946691.svg'">
+                  <practices-category-indicators [monitoring]="true" [useCases]="false"
+                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [outputs]="0"
+                                                 [outputsTitle]="'projects with a citizen science dimension'">
+                  </practices-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-1-3">
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+

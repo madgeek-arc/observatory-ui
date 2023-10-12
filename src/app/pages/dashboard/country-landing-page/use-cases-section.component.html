@@ -1,0 +1,186 @@
+<div *ngIf="surveyAnswer" class="categories-content-tabs">
+
+  <ul class="uk-subnav uk-subnav-pill categories-selection-tabs" uk-switcher>
+    <li><a href="#">Publications</a></li>
+    <li><a href="#">Data</a></li>
+    <li><a href="#">Software</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Infrastructure</a></li>
+    <li><a href="#">Skills/Training</a></li>
+    <li><a href="#">Assessment</a></li>
+    <li><a href="#">Engagement</a></li>
+  </ul>
+
+  <ul class="uk-switcher uk-margin">
+    <li>
+      <div class="uk-margin-medium-top">
+        <ng-container *ngIf="surveyAnswer['Practices']?.['Question55']?.['Question55-0']">
+          <!--              <div class="uk-text-secondary">Open Science Curricula</div>-->
+          <div *ngFor="let element of surveyAnswer['Practices']?.['Question55']?.['Question55-1-0']" class="uk-margin-medium-top">
+            <div [innerHTML]="element['Question55-1']"></div>
+          </div>
+        </ng-container>
+      </div>
+    </li>
+    <li>
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+            <!--          Data-->
+            <div class="uk-grid uk-child-width-1-1">
+              <div>
+                <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Data'"
+                                             [cardIcon]="'../assets/images/country_pages/Icon%20awesome-database.svg'">
+                  <policies-category-indicators [subtitle]="'Data management'" [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                  <policies-category-indicators [subtitle]="'FAIR data'" [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                  <policies-category-indicators [subtitle]="'Open data'" [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-1-3">
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <!--      Software content-->
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+            <div class="uk-grid uk-child-width-1-2">
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Software'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-software-2822919.svg'">
+                  <policies-category-indicators [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-1-3">
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <!--      Services content-->
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+            <div class="uk-grid uk-child-width-1-2">
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Services'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-settings-5110695.svg'">
+                  <policies-category-indicators [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-1-3">
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+            <!--          Infrastructure-->
+            <div class="uk-grid uk-child-width-1-1">
+              <div>
+                <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Infrastructure'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-infrastructure-1694567.svg'">
+                  <policies-category-indicators [subtitle]="'Connecting repositories to EOSC'" [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                  <policies-category-indicators [subtitle]="'Data stewardship'" [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                  <policies-category-indicators [subtitle]="'Long-term data preservation'" [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-1-3">
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <!--      Skills/Training content-->
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+            <div class="uk-grid uk-child-width-1-2">
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Skills/Training'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-skills-2129400.svg'">
+                  <policies-category-indicators [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-1-3">
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <!--      Assessment content-->
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+            <div class="uk-grid uk-child-width-1-2">
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Assessment'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-assesment-4658555.svg'">
+                  <policies-category-indicators [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-1-3">
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="uk-margin-medium-top">
+        <div class="uk-grid uk-grid-divider">
+          <div class="uk-width-2-3">
+            <!--          Engagement-->
+            <div class="uk-grid uk-child-width-1-2">
+              <div>
+                <category-indicators-wrapper [cardTitle]="'Engagement'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-work-engagement-946691.svg'">
+                  <policies-category-indicators [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                </category-indicators-wrapper>
+              </div>
+            </div>
+          </div>
+          <div class="uk-width-1-3">
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+

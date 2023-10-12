@@ -8,6 +8,5 @@ import {Component, Input} from "@angular/core";
 
 export class CountryLandingPagePoliciesComponent {
 
-  @Input('countryCode') countryCode: string = null;
   @Input('surveyAnswer') surveyAnswer: Object = null;
 }

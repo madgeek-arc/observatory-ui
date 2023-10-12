@@ -22,11 +22,13 @@ import {
   PoliciesCategoryIndicatorsComponent
 } from "./pages/dashboard/country-landing-page/indicator-cards/policies-category-indicators.component";
 import {
-  PoliciesSubcategoriesIndicatorsCardComponent
-} from "./pages/dashboard/country-landing-page/indicator-cards/policies-subcategories-indicators-card.component";
-import {
   CategoryIndicatorsWrapperComponent
 } from "./pages/dashboard/country-landing-page/indicator-cards/category-indicators-wrapper.component";
+import {
+  PracticesCategoryIndicatorsComponent
+} from "./pages/dashboard/country-landing-page/indicator-cards/practices-category-indicators.component";
+import {CountryLandingPagePracticesComponent} from "./pages/dashboard/country-landing-page/practices-section.component";
+import {CountryLandingPageUseCasesComponent} from "./pages/dashboard/country-landing-page/use-cases-section.component";
 
 @NgModule({
   declarations: [
@@ -35,8 +37,10 @@ import {
     CountryLandingPageComponent,
     CountryLandingPagePoliciesComponent,
     CountryLandingPageGeneralComponent,
+    CountryLandingPagePracticesComponent,
+    CountryLandingPageUseCasesComponent,
     PoliciesCategoryIndicatorsComponent,
-    PoliciesSubcategoriesIndicatorsCardComponent,
+    PracticesCategoryIndicatorsComponent,
     CategoryIndicatorsWrapperComponent
   ],
   imports: [
