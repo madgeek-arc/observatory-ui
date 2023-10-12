@@ -10,10 +10,10 @@ export class PracticesCategoryIndicatorsComponent {
 
   @Input('subtitle') subtitle: string = null;
 
-  @Input('monitoring') monitoring: boolean = null;
-  @Input('useCases') useCases: boolean = null;
-  @Input('investments') investments: number = null;
-  @Input('outputs') outputs: number = null;
+  @Input('monitoring') monitoring: string = null;
+  @Input('useCases') useCases: string = null;
+  @Input('investments') investments: string = null;
+  @Input('outputs') outputs: string = null;
 
   @Input('outputsTitle') outputsTitle: string = null;
 
