@@ -159,31 +159,448 @@
 <!--          Comments....-->
           <div class="uk-width-1-3">
             <ul uk-accordion="collapsible: false" class="uk-text-small">
-              <li>
+              <!--              Publications-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question6']?.['Question6-6']" class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">1</span>
-                  <span class="comment-title">Lorem ipsum</span>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on open access to publications</span>
                 </a>
                 <div class="uk-accordion-content">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question6']?.['Question6-6'])}}</p>
                 </div>
               </li>
-              <li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question7']?.['Question7-1']" class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">2</span>
-                  <span class="comment-title">Lorem ipsum</span>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on open access to publications</span>
                 </a>
                 <div class="uk-accordion-content">
-                  <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor reprehenderit.</p>
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question7']?.['Question7-1'])}}</p>
                 </div>
               </li>
-              <li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question8']?.['Question8-1']" class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">3</span>
-                  <span class="comment-title">Lorem ipsum</span>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on open access to publications</span>
                 </a>
                 <div class="uk-accordion-content">
-                  <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat proident.</p>
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question8']?.['Question8-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question9']?.['Question9-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on open access</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question9']?.['Question9-1'])}}</p>
+                </div>
+              </li>
+              <!--              Data management-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question10']?.['Question10-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on data management</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question10']?.['Question10-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question11']?.['Question11-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on data management</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question11']?.['Question11-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question12']?.['Question12-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on data management</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question12']?.['Question12-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question13']?.['Question13-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on data management</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question13']?.['Question13-1'])}}</p>
+                </div>
+              </li>
+              <!--              FAIR Data-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question14']?.['Question14-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on FAIR data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question14']?.['Question14-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question15']?.['Question15-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on FAIR data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question15']?.['Question15-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question16']?.['Question16-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on FAIR data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question16']?.['Question16-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question17']?.['Question17-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on FAIR data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question17']?.['Question17-1'])}}</p>
+                </div>
+              </li>
+              <!--              Open Data-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question18']?.['Question18-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on open data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question18']?.['Question18-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question19']?.['Question19-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on open data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question19']?.['Question19-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question20']?.['Question20-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on open data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question20']?.['Question20-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question21']?.['Question21-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on open data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question21']?.['Question21-1'])}}</p>
+                </div>
+              </li>
+              <!--              Software-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question22']?.['Question22-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on open source software</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question22']?.['Question22-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question23']?.['Question23-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on open source software</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question23']?.['Question23-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question24']?.['Question24-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on open source software</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question24']?.['Question24-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question25']?.['Question25-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on open source software</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question25']?.['Question25-1'])}}</p>
+                </div>
+              </li>
+              <!--              Services-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question26']?.['Question26-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on offering services through EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question26']?.['Question26-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question27']?.['Question27-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on offering services through EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question27']?.['Question27-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question28']?.['Question28-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on offering services through EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question28']?.['Question28-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question29']?.['Question29-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on offering services through EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question29']?.['Question29-1'])}}</p>
+                </div>
+              </li>
+              <!--              Connecting repositories-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question30']?.['Question30-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on connecting repositories to EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question30']?.['Question30-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question31']?.['Question31-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on connecting repositories to EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question31']?.['Question31-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question32']?.['Question32-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on connecting repositories to EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question32']?.['Question32-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question33']?.['Question33-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on connecting repositories to EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question33']?.['Question33-1'])}}</p>
+                </div>
+              </li>
+              <!--              Data stewardship-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question34']?.['Question34-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on data stewardship</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question34']?.['Question34-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question35']?.['Question35-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on data stewardship</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question35']?.['Question35-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question36']?.['Question36-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on data stewardship</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question36']?.['Question36-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question37']?.['Question37-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on data stewardship</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question37']?.['Question37-1'])}}</p>
+                </div>
+              </li>
+              <!--              Long-term data preservation-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question38']?.['Question38-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on long-term data preservation</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question38']?.['Question38-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question39']?.['Question39-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on long-term data preservation</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question39']?.['Question39-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question40']?.['Question40-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on long-term data preservation</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question40']?.['Question40-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question41']?.['Question41-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on long-term data preservation</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question41']?.['Question41-1'])}}</p>
+                </div>
+              </li>
+              <!--              Skills/Training-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question42']?.['Question42-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on skills/training for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question42']?.['Question42-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question43']?.['Question43-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on skills/training for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question43']?.['Question43-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question44']?.['Question44-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on skills/training for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question44']?.['Question44-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question45']?.['Question45-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on skills/training for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question45']?.['Question45-1'])}}</p>
+                </div>
+              </li>
+              <!--              Assessment-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question46']?.['Question46-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on incentives/rewards for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question46']?.['Question46-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question47']?.['Question47-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on incentives/rewards for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question47']?.['Question47-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question48']?.['Question48-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on incentives/rewards for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question48']?.['Question48-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question49']?.['Question49-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on incentives/rewards for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question49']?.['Question49-1'])}}</p>
+                </div>
+              </li>
+              <!--              Engagement-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question50']?.['Question50-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on citizen science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question50']?.['Question50-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question51']?.['Question51-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on citizen science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question51']?.['Question51-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question52']?.['Question52-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on citizen science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question52']?.['Question52-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question53']?.['Question53-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on citizen science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question53']?.['Question53-1'])}}</p>
                 </div>
               </li>
             </ul>
@@ -210,6 +627,45 @@
             </div>
           </div>
           <div class="uk-width-1-3">
+            <ul uk-accordion="collapsible: false" class="uk-text-small">
+              <!--              Publications-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question6']?.['Question6-6']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on open access to publications</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question6']?.['Question6-6'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question7']?.['Question7-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on open access to publications</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question7']?.['Question7-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question8']?.['Question8-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on open access to publications</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question8']?.['Question8-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question9']?.['Question9-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on open access</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question9']?.['Question9-1'])}}</p>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -246,6 +702,119 @@
             </div>
           </div>
           <div class="uk-width-1-3">
+            <ul uk-accordion="collapsible: false" class="uk-text-small">
+              <!--              Data management-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question10']?.['Question10-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on data management</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question10']?.['Question10-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question11']?.['Question11-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on data management</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question11']?.['Question11-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question12']?.['Question12-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on data management</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question12']?.['Question12-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question13']?.['Question13-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on data management</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question13']?.['Question13-1'])}}</p>
+                </div>
+              </li>
+              <!--              FAIR Data-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question14']?.['Question14-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on FAIR data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question14']?.['Question14-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question15']?.['Question15-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on FAIR data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question15']?.['Question15-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question16']?.['Question16-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on FAIR data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question16']?.['Question16-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question17']?.['Question17-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on FAIR data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question17']?.['Question17-1'])}}</p>
+                </div>
+              </li>
+              <!--              Open Data-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question18']?.['Question18-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on open data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question18']?.['Question18-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question19']?.['Question19-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on open data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question19']?.['Question19-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question20']?.['Question20-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on open data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question20']?.['Question20-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question21']?.['Question21-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on open data</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question21']?.['Question21-1'])}}</p>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -270,6 +839,45 @@
             </div>
           </div>
           <div class="uk-width-1-3">
+            <ul uk-accordion="collapsible: false" class="uk-text-small">
+              <!--              Software-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question22']?.['Question22-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on open source software</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question22']?.['Question22-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question23']?.['Question23-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on open source software</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question23']?.['Question23-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question24']?.['Question24-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on open source software</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question24']?.['Question24-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question25']?.['Question25-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on open source software</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question25']?.['Question25-1'])}}</p>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -291,6 +899,45 @@
             </div>
           </div>
           <div class="uk-width-1-3">
+            <ul uk-accordion="collapsible: false" class="uk-text-small">
+              <!--              Services-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question26']?.['Question26-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on offering services through EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question26']?.['Question26-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question27']?.['Question27-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on offering services through EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question27']?.['Question27-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question28']?.['Question28-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on offering services through EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question28']?.['Question28-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question29']?.['Question29-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on offering services through EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question29']?.['Question29-1'])}}</p>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -330,6 +977,119 @@
             </div>
           </div>
           <div class="uk-width-1-3">
+            <ul uk-accordion="collapsible: false" class="uk-text-small">
+              <!--              Connecting repositories-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question30']?.['Question30-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on connecting repositories to EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question30']?.['Question30-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question31']?.['Question31-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on connecting repositories to EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question31']?.['Question31-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question32']?.['Question32-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on connecting repositories to EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question32']?.['Question32-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question33']?.['Question33-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on connecting repositories to EOSC</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question33']?.['Question33-1'])}}</p>
+                </div>
+              </li>
+              <!--              Data stewardship-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question34']?.['Question34-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on data stewardship</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question34']?.['Question34-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question35']?.['Question35-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on data stewardship</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question35']?.['Question35-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question36']?.['Question36-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on data stewardship</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question36']?.['Question36-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question37']?.['Question37-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on data stewardship</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question37']?.['Question37-1'])}}</p>
+                </div>
+              </li>
+              <!--              Long-term data preservation-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question38']?.['Question38-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on long-term data preservation</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question38']?.['Question38-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question39']?.['Question39-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on long-term data preservation</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question39']?.['Question39-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question40']?.['Question40-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on long-term data preservation</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question40']?.['Question40-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question41']?.['Question41-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on long-term data preservation</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question41']?.['Question41-1'])}}</p>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -354,6 +1114,45 @@
             </div>
           </div>
           <div class="uk-width-1-3">
+            <ul uk-accordion="collapsible: false" class="uk-text-small">
+              <!--              Skills/Training-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question42']?.['Question42-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on skills/training for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question42']?.['Question42-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question43']?.['Question43-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on skills/training for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question43']?.['Question43-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question44']?.['Question44-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on skills/training for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question44']?.['Question44-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question45']?.['Question45-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on skills/training for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question45']?.['Question45-1'])}}</p>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -378,6 +1177,45 @@
             </div>
           </div>
           <div class="uk-width-1-3">
+            <ul uk-accordion="collapsible: false" class="uk-text-small">
+              <!--              Assessment-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question46']?.['Question46-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on incentives/rewards for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question46']?.['Question46-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question47']?.['Question47-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on incentives/rewards for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question47']?.['Question47-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question48']?.['Question48-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on incentives/rewards for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question48']?.['Question48-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question49']?.['Question49-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on incentives/rewards for Open Science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question49']?.['Question49-1'])}}</p>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -402,6 +1240,45 @@
             </div>
           </div>
           <div class="uk-width-1-3">
+            <ul uk-accordion="collapsible: false" class="uk-text-small">
+              <!--              Engagement-->
+              <li *ngIf="surveyAnswer['Policies']?.['Question50']?.['Question50-3']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">National policy on citizen science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question50']?.['Question50-3'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question51']?.['Question51-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">Financial strategy on citizen science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question51']?.['Question51-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question52']?.['Question52-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RPOs with policy on citizen science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question52']?.['Question52-1'])}}</p>
+                </div>
+              </li>
+              <li *ngIf="surveyAnswer['Policies']?.['Question53']?.['Question53-1']" class="uk-margin-medium-bottom">
+                <a class="uk-accordion-title" href>
+                  <span class="comment-number uk-margin-small-right">-</span>
+                  <span class="comment-title">RFOs with policy on citizen science</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <p>{{formatComments(surveyAnswer['Policies']?.['Question53']?.['Question53-1'])}}</p>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
