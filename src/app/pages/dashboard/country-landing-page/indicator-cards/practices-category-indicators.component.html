@@ -13,7 +13,7 @@
     <span *ngIf="useCases === 'No'" class="material-icons uk-text-bold" style="color: #D12D17">close</span>
   </div>
   <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-    <span class="uk-text-bold uk-margin-right uk-text-lead">{{investments ? investments : 'N/A'}} M</span>
+    <span class="uk-text-bold uk-margin-right uk-text-lead">{{investments ? investments + ' M' : 'N/A'}}</span>
     <span class="">in financial investments</span>
   </div>
   <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
