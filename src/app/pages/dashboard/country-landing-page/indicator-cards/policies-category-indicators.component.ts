@@ -10,9 +10,9 @@ export class PoliciesCategoryIndicatorsComponent {
 
   @Input('subtitle') subtitle: string = null;
 
-  @Input('nationalPolicy') nationalPolicy: boolean = null;
-  @Input('financialStrategy') financialStrategy: boolean = null;
-  @Input('rpos') rpos: number = null;
-  @Input('rfos') rfos: number = null;
+  @Input('nationalPolicy') nationalPolicy: string = null;
+  @Input('financialStrategy') financialStrategy: string = null;
+  @Input('rpos') rpos: string = null;
+  @Input('rfos') rfos: string = null;
 
 }

@@ -2,20 +2,22 @@
   <div *ngIf="subtitle" class="uk-text-secondary uk-text-bold uk-text-italic uk-margin-bottom">{{subtitle}}</div>
   <div class="uk-flex uk-flex-between uk-margin-small-bottom">
     <span>National OA policy</span>
-    <span *ngIf="nationalPolicy" class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
-    <span *ngIf="!nationalPolicy" class="material-icons uk-text-bold" style="color: #D12D17">close</span>
+    <span *ngIf="nationalPolicy === null" class="material-icons uk-text-bold">N/A</span>
+    <span *ngIf="nationalPolicy === 'Yes'" class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
+    <span *ngIf="nationalPolicy === 'No'" class="material-icons uk-text-bold" style="color: #D12D17">close</span>
   </div>
   <div class="uk-flex uk-flex-between uk-margin-small-bottom">
     <span>Financial strategy on OA</span>
-    <span *ngIf="financialStrategy" class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
-    <span *ngIf="!financialStrategy" class="material-icons uk-text-bold" style="color: #D12D17">close</span>
+    <span *ngIf="financialStrategy === null" class="material-icons uk-text-bold">N/A</span>
+    <span *ngIf="financialStrategy === 'Yes'" class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
+    <span *ngIf="financialStrategy === 'No'" class="material-icons uk-text-bold" style="color: #D12D17">close</span>
   </div>
   <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-    <span class="uk-text-bold uk-margin-right uk-text-lead">{{rpos}}</span>
+    <span class="uk-text-bold uk-margin-right uk-text-lead">{{rpos ? rpos : 'N/A'}}</span>
     <span class="">RPOs with OA policy</span>
   </div>
   <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-    <span class="uk-text-bold uk-margin-right uk-text-lead">{{rfos}}</span>
+    <span class="uk-text-bold uk-margin-right uk-text-lead">{{rfos ? rfos : 'N/A'}}</span>
     <span class="">RFOs with OA policy</span>
   </div>
 </div>

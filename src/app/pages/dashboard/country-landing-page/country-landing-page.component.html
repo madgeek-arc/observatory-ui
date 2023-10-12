@@ -116,7 +116,7 @@
                       <div>
                         <h5 class="uk-margin-remove">
                           <span *ngIf="!answer['Practices']?.['Question57']?.['Question57-0'] &&
-                                       !answer['Practices']?.['Question57']?.['Question57-1-1'] else elseOA"> --
+                                       !answer['Practices']?.['Question57']?.['Question57-1-1'] else elseOA"> N/A
                           </span>
                           <ng-template #elseOA>
                             {{answer['Practices']?.['Question57']?.['Question57-1'] === 'Yes' ?
@@ -131,7 +131,8 @@
                       <img src="assets/images/country_pages/graph%20icon2.svg">
                       <div>
                         <h5 class="uk-margin-remove">
-                          {{answer['Practices']?.['Question56']?.['Question56-0'] ? answer['Practices']?.['Question56']?.['Question56-0'] : '--'}}
+                          {{answer['Practices']?.['Question56']?.['Question56-0'] ?
+                          (answer['Practices']?.['Question56']?.['Question56-0'] + 'M') : '--'}}
                         </h5>
                         <div class="text">investments in publications</div>
                       </div>
