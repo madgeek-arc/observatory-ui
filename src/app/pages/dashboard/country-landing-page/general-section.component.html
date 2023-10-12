@@ -38,45 +38,45 @@
   <!--          Comments....-->
   <div class="uk-width-1-3">
     <ul *ngIf="surveyAnswer['General']" uk-accordion="collapsible: false" class="uk-text-small">
-      <li *ngIf="surveyAnswer['General']?.['Question1']?.['Question1-2']">
+      <li *ngIf="surveyAnswer['General']?.['Question1']?.['Question1-2']" class="uk-margin-medium-bottom">
         <a class="uk-accordion-title" href>
-          <span class="comment-number uk-margin-small-right">1</span>
-          <span class="comment-title">Researchers employed in 2021</span>
+          <span class="comment-number uk-margin-small-right">-</span>
+          <span class="comment-title">Number of researchers employed in 2021</span>
         </a>
         <div class="uk-accordion-content">
           <p>{{formatComments(surveyAnswer['General']?.['Question1']?.['Question1-2'])}}</p>
         </div>
       </li>
-      <li *ngIf="surveyAnswer['General']?.['Question2']?.['Question2-1']">
+      <li *ngIf="surveyAnswer['General']?.['Question2']?.['Question2-1']" class="uk-margin-medium-bottom">
         <a class="uk-accordion-title" href>
-          <span class="comment-number uk-margin-small-right">1</span>
+          <span class="comment-number uk-margin-small-right">-</span>
           <span class="comment-title">Number of RPOs</span>
         </a>
         <div class="uk-accordion-content">
           <div [innerHTML]="formatComments(surveyAnswer['General']?.['Question2']?.['Question2-1'])"></div>
         </div>
       </li>
-      <li *ngIf="surveyAnswer['General']?.['Question3']?.['Question3-1']">
+      <li *ngIf="surveyAnswer['General']?.['Question3']?.['Question3-1']" class="uk-margin-medium-bottom">
         <a class="uk-accordion-title" href>
-          <span class="comment-number uk-margin-small-right">1</span>
+          <span class="comment-number uk-margin-small-right">-</span>
           <span class="comment-title">Number of RFOs</span>
         </a>
         <div class="uk-accordion-content">
           <p>{{surveyAnswer['General']?.['Question3']?.['Question3-1']}}</p>
         </div>
       </li>
-      <li *ngIf="surveyAnswer['General']?.['Question4']?.['Question4-1']">
+      <li *ngIf="surveyAnswer['General']?.['Question4']?.['Question4-1']" class="uk-margin-medium-bottom">
         <a class="uk-accordion-title" href>
-          <span class="comment-number uk-margin-small-right">1</span>
-          <span class="comment-title">Repositories</span>
+          <span class="comment-number uk-margin-small-right">-</span>
+          <span class="comment-title">Number of repositories</span>
         </a>
         <div class="uk-accordion-content">
           <p>{{surveyAnswer['General']?.['Question4']?.['Question4-1']}}</p>
         </div>
       </li>
-      <li *ngIf="surveyAnswer['General']?.['Question5']?.['Question5-1']">
+      <li *ngIf="surveyAnswer['General']?.['Question5']?.['Question5-1']" class="uk-margin-medium-bottom">
         <a class="uk-accordion-title" href>
-          <span class="comment-number uk-margin-small-right">1</span>
+          <span class="comment-number uk-margin-small-right">-</span>
           <span class="comment-title">Total financial investments in EOSC and Open Science</span>
         </a>
         <div class="uk-accordion-content">
