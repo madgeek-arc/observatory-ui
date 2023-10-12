@@ -1,0 +1,26 @@
+<div class="uk-card uk-card-default uk-card-body">
+  <h5 class="uk-flex uk-flex-middle">
+    <span class="uk-margin-right"><img src="{{cardIcon}}" width="30" height="35"></span>
+    <span>{{cardTitle}}</span>
+  </h5>
+  <div class="uk-text-small">
+    <div class="uk-flex uk-flex-between uk-margin-small-bottom">
+      <span>National OA policy</span>
+      <span *ngIf="nationalPolicy" class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
+      <span *ngIf="!nationalPolicy" class="material-icons uk-text-bold" style="color: #D12D17">close</span>
+    </div>
+    <div class="uk-flex uk-flex-between uk-margin-small-bottom">
+      <span>Financial strategy on OA</span>
+      <span *ngIf="financialStrategy" class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
+      <span *ngIf="!financialStrategy" class="material-icons uk-text-bold" style="color: #D12D17">close</span>
+    </div>
+    <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
+      <span class="uk-text-bold uk-margin-right uk-text-lead">{{rpos}}</span>
+      <span class="">RPOs with OA policy</span>
+    </div>
+    <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
+      <span class="uk-text-bold uk-margin-right uk-text-lead">{{rfos}}</span>
+      <span class="">RFOs with OA policy</span>
+    </div>
+  </div>
+</div>

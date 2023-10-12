@@ -15,7 +15,8 @@ import * as Highcharts from "highcharts";
 
 @Component({
   selector: 'app-general-2022',
-  templateUrl: 'general2022.component.html'
+  templateUrl: 'general2022.component.html',
+  styleUrls: ['../../eosc-readiness-dashboard.component.css'],
 })
 
 export class General2022Component implements OnInit {
@@ -190,7 +191,7 @@ export class General2022Component implements OnInit {
 
   getInvestmentsDataPie(arr: number[]) {
       this.series = [{
-          name: 'Range',
+          name: 'No of countries',
           data: [
               [' < 1 M', 0],
               ['1 - 5 M', 0],

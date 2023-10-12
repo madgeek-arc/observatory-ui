@@ -16,12 +16,24 @@ import {CountrySelectorComponent} from "./pages/dashboard/country-selector/count
 import {ReusableComponentsModule} from "../survey-tool/app/shared/reusablecomponents/reusable-components.module";
 import {CountryLandingPageComponent} from "./pages/dashboard/country-landing-page/country-landing-page.component";
 import {MessagingSystemService} from "../messaging-system-ui/services/messaging-system.service";
+import {CountryLandingPagePoliciesComponent} from "./pages/dashboard/country-landing-page/policies-section.component";
+import {CountryLandingPageGeneralComponent} from "./pages/dashboard/country-landing-page/general-section.component";
+import {
+  PoliciesCategoryIndicatorsCardComponent
+} from "./pages/dashboard/country-landing-page/indicator-cards/policies-category-indicators-card.component";
+import {
+  PoliciesSubcategoriesIndicatorsCardComponent
+} from "./pages/dashboard/country-landing-page/indicator-cards/policies-subcategories-indicators-card.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     CountrySelectorComponent,
-    CountryLandingPageComponent
+    CountryLandingPageComponent,
+    CountryLandingPagePoliciesComponent,
+    CountryLandingPageGeneralComponent,
+    PoliciesCategoryIndicatorsCardComponent,
+    PoliciesSubcategoriesIndicatorsCardComponent
   ],
   imports: [
     BrowserModule,
