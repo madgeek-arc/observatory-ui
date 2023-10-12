@@ -29,6 +29,9 @@ import {
 } from "./pages/dashboard/country-landing-page/indicator-cards/practices-category-indicators.component";
 import {CountryLandingPagePracticesComponent} from "./pages/dashboard/country-landing-page/practices-section.component";
 import {CountryLandingPageUseCasesComponent} from "./pages/dashboard/country-landing-page/use-cases-section.component";
+import {
+  CategoryIndicatorsRowComponent
+} from "./pages/dashboard/country-landing-page/indicators-table/category-indicators-row.component";
 
 @NgModule({
   declarations: [
@@ -41,7 +44,8 @@ import {CountryLandingPageUseCasesComponent} from "./pages/dashboard/country-lan
     CountryLandingPageUseCasesComponent,
     PoliciesCategoryIndicatorsComponent,
     PracticesCategoryIndicatorsComponent,
-    CategoryIndicatorsWrapperComponent
+    CategoryIndicatorsWrapperComponent,
+    CategoryIndicatorsRowComponent
   ],
   imports: [
     BrowserModule,

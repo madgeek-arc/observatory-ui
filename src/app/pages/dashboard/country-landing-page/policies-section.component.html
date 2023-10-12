@@ -18,141 +18,466 @@
         <div class="uk-grid uk-grid-divider">
           <div class="uk-width-2-3">
 
-            <!--          Publications-->
-            <div class="uk-grid uk-child-width-1-2">
-              <div>
-                <category-indicators-wrapper [cardTitle]="'Publications'"
-                                             [cardIcon]="'../assets/images/country_pages/Icon%20awesome-file-alt.svg'">
-                  <policies-category-indicators [nationalPolicy]="surveyAnswer['Policies']?.['Question6']?.['Question6-0']"
-                                                [financialStrategy]="surveyAnswer['Policies']?.['Question7']?.['Question7-0']"
-                                                [rpos]="surveyAnswer['Policies']?.['Question8']?.['Question8-0']"
-                                                [rfos]="surveyAnswer['Policies']?.['Question9']?.['Question9-0']">
-                  </policies-category-indicators>
-                </category-indicators-wrapper>
-              </div>
-            </div>
+            <table class="uk-table uk-table-divider uk-table-middle bordered-table">
+              <thead>
+              <tr>
+                <th></th>
+                <th>National policy</th>
+                <th>Financial strategy</th>
+                <th>RPOs with policy</th>
+                <th>RFOs with Policy</th>
+              </tr>
+              </thead>
+              <tbody>
+<!--              <category-indicators-row [indicator1]="surveyAnswer['Policies']?.['Question6']?.['Question6-0']"-->
+<!--                                       [indicator2]="surveyAnswer['Policies']?.['Question7']?.['Question7-0']"-->
+<!--                                       [indicator3]="surveyAnswer['Policies']?.['Question8']?.['Question8-0']"-->
+<!--                                       [indicator4]="surveyAnswer['Policies']?.['Question9']?.['Question9-0']">-->
+<!--              </category-indicators-row>-->
+              <tr>
+                <td>
+                  <div class="uk-text-bold">Publications</div>
+                </td>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question6']?.['Question6-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question6']?.['Question6-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question6']?.['Question6-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question7']?.['Question7-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question7']?.['Question7-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question7']?.['Question7-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question8']?.['Question8-0']">{{surveyAnswer['Policies']?.['Question8']?.['Question8-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question8']?.['Question8-0']">N/A</ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question9']?.['Question9-0']">{{surveyAnswer['Policies']?.['Question9']?.['Question9-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question9']?.['Question9-0']">N/A</ng-container>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="uk-text-bold">Data</div>
+                  <div class="uk-text-secondary uk-text-small uk-text-italic">Data management</div>
+                </td>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question10']?.['Question10-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question10']?.['Question10-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question10']?.['Question10-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question11']?.['Question11-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question11']?.['Question11-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question11']?.['Question11-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question12']?.['Question12-0']">{{surveyAnswer['Policies']?.['Question12']?.['Question12-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question12']?.['Question12-0']">N/A</ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question13']?.['Question13-0']">{{surveyAnswer['Policies']?.['Question13']?.['Question13-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question13']?.['Question13-0']">N/A</ng-container>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="uk-text-bold">Data</div>
+                  <div class="uk-text-secondary uk-text-small uk-text-italic">FAIR data</div>
+                </td>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question14']?.['Question14-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question14']?.['Question14-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question14']?.['Question14-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question15']?.['Question15-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question15']?.['Question15-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question15']?.['Question15-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question16']?.['Question16-0']">{{surveyAnswer['Policies']?.['Question16']?.['Question16-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question16']?.['Question16-0']">N/A</ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question17']?.['Question17-0']">{{surveyAnswer['Policies']?.['Question17']?.['Question17-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question17']?.['Question17-0']">N/A</ng-container>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="uk-text-bold">Data</div>
+                  <div class="uk-text-secondary uk-text-small uk-text-italic">Open Data</div>
+                </td>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question18']?.['Question18-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question18']?.['Question18-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question18']?.['Question18-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question19']?.['Question19-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question19']?.['Question19-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question19']?.['Question19-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question20']?.['Question20-0']">{{surveyAnswer['Policies']?.['Question20']?.['Question20-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question20']?.['Question20-0']">N/A</ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question21']?.['Question21-0']">{{surveyAnswer['Policies']?.['Question21']?.['Question21-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question21']?.['Question21-0']">N/A</ng-container>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="uk-text-bold">Software</div>
+                </td>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question22']?.['Question22-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question22']?.['Question22-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question22']?.['Question22-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question23']?.['Question23-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question23']?.['Question23-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question23']?.['Question23-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question24']?.['Question24-0']">{{surveyAnswer['Policies']?.['Question24']?.['Question24-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question24']?.['Question24-0']">N/A</ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question25']?.['Question25-0']">{{surveyAnswer['Policies']?.['Question25']?.['Question25-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question25']?.['Question25-0']">N/A</ng-container>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="uk-text-bold">Services</div>
+                </td>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question26']?.['Question26-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question26']?.['Question26-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question26']?.['Question26-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question27']?.['Question27-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question27']?.['Question27-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question27']?.['Question27-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question28']?.['Question28-0']">{{surveyAnswer['Policies']?.['Question28']?.['Question28-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question28']?.['Question28-0']">N/A</ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question29']?.['Question29-0']">{{surveyAnswer['Policies']?.['Question29']?.['Question29-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question29']?.['Question29-0']">N/A</ng-container>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="uk-text-bold">Infrastructure</div>
+                  <div class="uk-text-secondary uk-text-small uk-text-italic">Connecting repositories to EOSC</div>
+                </td>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question30']?.['Question30-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question30']?.['Question30-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question30']?.['Question30-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question31']?.['Question31-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question31']?.['Question31-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question31']?.['Question31-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question32']?.['Question32-0']">{{surveyAnswer['Policies']?.['Question32']?.['Question32-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question32']?.['Question32-0']">N/A</ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question33']?.['Question33-0']">{{surveyAnswer['Policies']?.['Question33']?.['Question33-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question33']?.['Question33-0']">N/A</ng-container>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="uk-text-bold">Infrastructure</div>
+                  <div class="uk-text-secondary uk-text-small uk-text-italic">Data stewardship</div>
+                </td>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question34']?.['Question34-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question34']?.['Question34-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question34']?.['Question34-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question35']?.['Question35-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question35']?.['Question35-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question35']?.['Question35-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question36']?.['Question36-0']">{{surveyAnswer['Policies']?.['Question36']?.['Question36-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question36']?.['Question36-0']">N/A</ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question37']?.['Question37-0']">{{surveyAnswer['Policies']?.['Question37']?.['Question37-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question37']?.['Question37-0']">N/A</ng-container>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="uk-text-bold">Infrastructure</div>
+                  <div class="uk-text-secondary uk-text-small uk-text-italic">Long-term data preservation</div>
+                </td>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question38']?.['Question38-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question38']?.['Question38-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question38']?.['Question38-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question39']?.['Question39-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question39']?.['Question39-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question39']?.['Question39-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question40']?.['Question40-0']">{{surveyAnswer['Policies']?.['Question40']?.['Question40-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question40']?.['Question40-0']">N/A</ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question41']?.['Question41-0']">{{surveyAnswer['Policies']?.['Question41']?.['Question41-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question41']?.['Question41-0']">N/A</ng-container>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="uk-text-bold">Skills/Training</div>
+                </td>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question42']?.['Question42-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question42']?.['Question42-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question42']?.['Question42-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question43']?.['Question43-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question43']?.['Question43-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question43']?.['Question43-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question44']?.['Question44-0']">{{surveyAnswer['Policies']?.['Question44']?.['Question44-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question44']?.['Question44-0']">N/A</ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question45']?.['Question45-0']">{{surveyAnswer['Policies']?.['Question45']?.['Question45-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question45']?.['Question45-0']">N/A</ng-container>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="uk-text-bold">Assessment</div>
+                </td>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question46']?.['Question46-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question46']?.['Question46-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question46']?.['Question46-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question47']?.['Question47-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question47']?.['Question47-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question47']?.['Question47-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question48']?.['Question48-0']">{{surveyAnswer['Policies']?.['Question48']?.['Question48-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question48']?.['Question48-0']">N/A</ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question49']?.['Question49-0']">{{surveyAnswer['Policies']?.['Question49']?.['Question49-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question49']?.['Question49-0']">N/A</ng-container>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="uk-text-bold">Engagement</div>
+                </td>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question50']?.['Question50-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question50']?.['Question50-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question50']?.['Question50-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <ng-container *ngIf="surveyAnswer['Policies']?.['Question51']?.['Question51-0']">
+                  <td [ngClass]="surveyAnswer['Policies']?.['Question51']?.['Question51-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                </ng-container>
+                <ng-container *ngIf="!surveyAnswer['Policies']?.['Question51']?.['Question51-0']">
+                  <td class="valueNotAvailable"></td>
+                </ng-container>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question52']?.['Question52-0']">{{surveyAnswer['Policies']?.['Question52']?.['Question52-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question52']?.['Question52-0']">N/A</ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="surveyAnswer['Policies']?.['Question53']?.['Question53-0']">{{surveyAnswer['Policies']?.['Question53']?.['Question53-0']}}</ng-container>
+                  <ng-container *ngIf="!surveyAnswer['Policies']?.['Question53']?.['Question53-0']">N/A</ng-container>
+                </td>
+              </tr>
+              </tbody>
+            </table>
 
-            <!--          Data-->
-            <div class="uk-grid uk-child-width-1-1">
-              <div>
-                <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Data'"
-                                             [cardIcon]="'../assets/images/country_pages/Icon%20awesome-database.svg'">
-                  <policies-category-indicators [subtitle]="'Data management'"
-                                                [nationalPolicy]="surveyAnswer['Policies']?.['Question10']?.['Question10-0']"
-                                                [financialStrategy]="surveyAnswer['Policies']?.['Question11']?.['Question11-0']"
-                                                [rpos]="surveyAnswer['Policies']?.['Question12']?.['Question12-0']"
-                                                [rfos]="surveyAnswer['Policies']?.['Question13']?.['Question13-0']">
-                  </policies-category-indicators>
-                  <policies-category-indicators [subtitle]="'FAIR data'"
-                                                [nationalPolicy]="surveyAnswer['Policies']?.['Question14']?.['Question14-0']"
-                                                [financialStrategy]="surveyAnswer['Policies']?.['Question15']?.['Question15-0']"
-                                                [rpos]="surveyAnswer['Policies']?.['Question16']?.['Question16-0']"
-                                                [rfos]="surveyAnswer['Policies']?.['Question17']?.['Question17-0']">
-                  </policies-category-indicators>
-                  <policies-category-indicators [subtitle]="'Open data'"
-                                                [nationalPolicy]="surveyAnswer['Policies']?.['Question18']?.['Question18-0']"
-                                                [financialStrategy]="surveyAnswer['Policies']?.['Question19']?.['Question19-0']"
-                                                [rpos]="surveyAnswer['Policies']?.['Question20']?.['Question20-0']"
-                                                [rfos]="surveyAnswer['Policies']?.['Question21']?.['Question21-0']">
-                  </policies-category-indicators>
-                </category-indicators-wrapper>
-              </div>
-            </div>
+<!--            &lt;!&ndash;          Publications&ndash;&gt;-->
+<!--            <div class="uk-grid uk-child-width-1-2">-->
+<!--              <div>-->
+<!--                <category-indicators-wrapper [cardTitle]="'Publications'"-->
+<!--                                             [cardIcon]="'../assets/images/country_pages/Icon%20awesome-file-alt.svg'">-->
+<!--                  <policies-category-indicators [nationalPolicy]="surveyAnswer['Policies']?.['Question6']?.['Question6-0']"-->
+<!--                                                [financialStrategy]="surveyAnswer['Policies']?.['Question7']?.['Question7-0']"-->
+<!--                                                [rpos]="surveyAnswer['Policies']?.['Question8']?.['Question8-0']"-->
+<!--                                                [rfos]="surveyAnswer['Policies']?.['Question9']?.['Question9-0']">-->
+<!--                  </policies-category-indicators>-->
+<!--                </category-indicators-wrapper>-->
+<!--              </div>-->
+<!--            </div>-->
 
-<!--            Services & Software-->
-            <div class="uk-grid uk-child-width-1-2">
-              <div>
-                <category-indicators-wrapper [cardTitle]="'Software'"
-                                             [cardIcon]="'../assets/images/country_pages/noun-software-2822919.svg'">
-                  <policies-category-indicators
-                    [nationalPolicy]="surveyAnswer['Policies']?.['Question22']?.['Question22-0']"
-                    [financialStrategy]="surveyAnswer['Policies']?.['Question23']?.['Question23-0']"
-                    [rpos]="surveyAnswer['Policies']?.['Question24']?.['Question24-0']"
-                    [rfos]="surveyAnswer['Policies']?.['Question25']?.['Question25-0']">
-                  </policies-category-indicators>
-                </category-indicators-wrapper>
-              </div>
-              <div>
-                <category-indicators-wrapper [cardTitle]="'Services'"
-                                             [cardIcon]="'../assets/images/country_pages/noun-settings-5110695.svg'">
-                  <policies-category-indicators
-                    [nationalPolicy]="surveyAnswer['Policies']?.['Question26']?.['Question26-0']"
-                    [financialStrategy]="surveyAnswer['Policies']?.['Question27']?.['Question27-0']"
-                    [rpos]="surveyAnswer['Policies']?.['Question28']?.['Question28-0']"
-                    [rfos]="surveyAnswer['Policies']?.['Question29']?.['Question29-0']">
-                  </policies-category-indicators>
-                </category-indicators-wrapper>
-              </div>
-            </div>
+<!--            &lt;!&ndash;          Data&ndash;&gt;-->
+<!--            <div class="uk-grid uk-child-width-1-1">-->
+<!--              <div>-->
+<!--                <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Data'"-->
+<!--                                             [cardIcon]="'../assets/images/country_pages/Icon%20awesome-database.svg'">-->
+<!--                  <policies-category-indicators [subtitle]="'Data management'"-->
+<!--                                                [nationalPolicy]="surveyAnswer['Policies']?.['Question10']?.['Question10-0']"-->
+<!--                                                [financialStrategy]="surveyAnswer['Policies']?.['Question11']?.['Question11-0']"-->
+<!--                                                [rpos]="surveyAnswer['Policies']?.['Question12']?.['Question12-0']"-->
+<!--                                                [rfos]="surveyAnswer['Policies']?.['Question13']?.['Question13-0']">-->
+<!--                  </policies-category-indicators>-->
+<!--                  <policies-category-indicators [subtitle]="'FAIR data'"-->
+<!--                                                [nationalPolicy]="surveyAnswer['Policies']?.['Question14']?.['Question14-0']"-->
+<!--                                                [financialStrategy]="surveyAnswer['Policies']?.['Question15']?.['Question15-0']"-->
+<!--                                                [rpos]="surveyAnswer['Policies']?.['Question16']?.['Question16-0']"-->
+<!--                                                [rfos]="surveyAnswer['Policies']?.['Question17']?.['Question17-0']">-->
+<!--                  </policies-category-indicators>-->
+<!--                  <policies-category-indicators [subtitle]="'Open data'"-->
+<!--                                                [nationalPolicy]="surveyAnswer['Policies']?.['Question18']?.['Question18-0']"-->
+<!--                                                [financialStrategy]="surveyAnswer['Policies']?.['Question19']?.['Question19-0']"-->
+<!--                                                [rpos]="surveyAnswer['Policies']?.['Question20']?.['Question20-0']"-->
+<!--                                                [rfos]="surveyAnswer['Policies']?.['Question21']?.['Question21-0']">-->
+<!--                  </policies-category-indicators>-->
+<!--                </category-indicators-wrapper>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <!--          Infrastructure-->
-            <div class="uk-grid uk-child-width-1-1">
-              <div>
-                <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Infrastructure'"
-                                             [cardIcon]="'../assets/images/country_pages/noun-infrastructure-1694567.svg'">
-                  <policies-category-indicators [subtitle]="'Connecting repositories to EOSC'"
-                    [nationalPolicy]="surveyAnswer['Policies']?.['Question30']?.['Question30-0']"
-                    [financialStrategy]="surveyAnswer['Policies']?.['Question31']?.['Question31-0']"
-                    [rpos]="surveyAnswer['Policies']?.['Question32']?.['Question32-0']"
-                    [rfos]="surveyAnswer['Policies']?.['Question33']?.['Question33-0']">
-                  </policies-category-indicators>
-                  <policies-category-indicators [subtitle]="'Data stewardship'"
-                    [nationalPolicy]="surveyAnswer['Policies']?.['Question34']?.['Question34-0']"
-                    [financialStrategy]="surveyAnswer['Policies']?.['Question35']?.['Question35-0']"
-                    [rpos]="surveyAnswer['Policies']?.['Question36']?.['Question36-0']"
-                    [rfos]="surveyAnswer['Policies']?.['Question37']?.['Question37-0']">
-                  </policies-category-indicators>
-                  <policies-category-indicators
-                    [subtitle]="'Long-term data preservation'"
-                    [nationalPolicy]="surveyAnswer['Policies']?.['Question38']?.['Question38-0']"
-                    [financialStrategy]="surveyAnswer['Policies']?.['Question39']?.['Question39-0']"
-                    [rpos]="surveyAnswer['Policies']?.['Question40']?.['Question40-0']"
-                    [rfos]="surveyAnswer['Policies']?.['Question41']?.['Question41-0']">
-                  </policies-category-indicators>
-                </category-indicators-wrapper>
-              </div>
-            </div>
+<!--&lt;!&ndash;            Services & Software&ndash;&gt;-->
+<!--            <div class="uk-grid uk-child-width-1-2">-->
+<!--              <div>-->
+<!--                <category-indicators-wrapper [cardTitle]="'Software'"-->
+<!--                                             [cardIcon]="'../assets/images/country_pages/noun-software-2822919.svg'">-->
+<!--                  <policies-category-indicators-->
+<!--                    [nationalPolicy]="surveyAnswer['Policies']?.['Question22']?.['Question22-0']"-->
+<!--                    [financialStrategy]="surveyAnswer['Policies']?.['Question23']?.['Question23-0']"-->
+<!--                    [rpos]="surveyAnswer['Policies']?.['Question24']?.['Question24-0']"-->
+<!--                    [rfos]="surveyAnswer['Policies']?.['Question25']?.['Question25-0']">-->
+<!--                  </policies-category-indicators>-->
+<!--                </category-indicators-wrapper>-->
+<!--              </div>-->
+<!--              <div>-->
+<!--                <category-indicators-wrapper [cardTitle]="'Services'"-->
+<!--                                             [cardIcon]="'../assets/images/country_pages/noun-settings-5110695.svg'">-->
+<!--                  <policies-category-indicators-->
+<!--                    [nationalPolicy]="surveyAnswer['Policies']?.['Question26']?.['Question26-0']"-->
+<!--                    [financialStrategy]="surveyAnswer['Policies']?.['Question27']?.['Question27-0']"-->
+<!--                    [rpos]="surveyAnswer['Policies']?.['Question28']?.['Question28-0']"-->
+<!--                    [rfos]="surveyAnswer['Policies']?.['Question29']?.['Question29-0']">-->
+<!--                  </policies-category-indicators>-->
+<!--                </category-indicators-wrapper>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <!--            Skills/Training & Assessment-->
-            <div class="uk-grid uk-child-width-1-2">
-              <div>
-                <category-indicators-wrapper [cardTitle]="'Skills/Training'"
-                                             [cardIcon]="'../assets/images/country_pages/noun-skills-2129400.svg'">
-                  <policies-category-indicators
-                    [nationalPolicy]="surveyAnswer['Policies']?.['Question42']?.['Question42-0']"
-                    [financialStrategy]="surveyAnswer['Policies']?.['Question43']?.['Question43-0']"
-                    [rpos]="surveyAnswer['Policies']?.['Question44']?.['Question44-0']"
-                    [rfos]="surveyAnswer['Policies']?.['Question45']?.['Question45-0']">
-                  </policies-category-indicators>
-                </category-indicators-wrapper>
-              </div>
-              <div>
-                <category-indicators-wrapper [cardTitle]="'Assessment'"
-                                             [cardIcon]="'../assets/images/country_pages/noun-assesment-4658555.svg'">
-                  <policies-category-indicators
-                    [nationalPolicy]="surveyAnswer['Policies']?.['Question46']?.['Question46-0']"
-                    [financialStrategy]="surveyAnswer['Policies']?.['Question47']?.['Question47-0']"
-                    [rpos]="surveyAnswer['Policies']?.['Question48']?.['Question48-0']"
-                    [rfos]="surveyAnswer['Policies']?.['Question49']?.['Question49-0']">
-                  </policies-category-indicators>
-                </category-indicators-wrapper>
-              </div>
-            </div>
+<!--            &lt;!&ndash;          Infrastructure&ndash;&gt;-->
+<!--            <div class="uk-grid uk-child-width-1-1">-->
+<!--              <div>-->
+<!--                <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Infrastructure'"-->
+<!--                                             [cardIcon]="'../assets/images/country_pages/noun-infrastructure-1694567.svg'">-->
+<!--                  <policies-category-indicators [subtitle]="'Connecting repositories to EOSC'"-->
+<!--                    [nationalPolicy]="surveyAnswer['Policies']?.['Question30']?.['Question30-0']"-->
+<!--                    [financialStrategy]="surveyAnswer['Policies']?.['Question31']?.['Question31-0']"-->
+<!--                    [rpos]="surveyAnswer['Policies']?.['Question32']?.['Question32-0']"-->
+<!--                    [rfos]="surveyAnswer['Policies']?.['Question33']?.['Question33-0']">-->
+<!--                  </policies-category-indicators>-->
+<!--                  <policies-category-indicators [subtitle]="'Data stewardship'"-->
+<!--                    [nationalPolicy]="surveyAnswer['Policies']?.['Question34']?.['Question34-0']"-->
+<!--                    [financialStrategy]="surveyAnswer['Policies']?.['Question35']?.['Question35-0']"-->
+<!--                    [rpos]="surveyAnswer['Policies']?.['Question36']?.['Question36-0']"-->
+<!--                    [rfos]="surveyAnswer['Policies']?.['Question37']?.['Question37-0']">-->
+<!--                  </policies-category-indicators>-->
+<!--                  <policies-category-indicators-->
+<!--                    [subtitle]="'Long-term data preservation'"-->
+<!--                    [nationalPolicy]="surveyAnswer['Policies']?.['Question38']?.['Question38-0']"-->
+<!--                    [financialStrategy]="surveyAnswer['Policies']?.['Question39']?.['Question39-0']"-->
+<!--                    [rpos]="surveyAnswer['Policies']?.['Question40']?.['Question40-0']"-->
+<!--                    [rfos]="surveyAnswer['Policies']?.['Question41']?.['Question41-0']">-->
+<!--                  </policies-category-indicators>-->
+<!--                </category-indicators-wrapper>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <!--          Engagement-->
-            <div class="uk-grid uk-child-width-1-2">
-              <div>
-                <category-indicators-wrapper [cardTitle]="'Engagement'"
-                                             [cardIcon]="'../assets/images/country_pages/noun-work-engagement-946691.svg'">
-                  <policies-category-indicators
-                    [nationalPolicy]="surveyAnswer['Policies']?.['Question50']?.['Question50-0']"
-                    [financialStrategy]="surveyAnswer['Policies']?.['Question51']?.['Question51-0']"
-                    [rpos]="surveyAnswer['Policies']?.['Question52']?.['Question52-0']"
-                    [rfos]="surveyAnswer['Policies']?.['Question53']?.['Question53-0']">
-                  </policies-category-indicators>
-                </category-indicators-wrapper>
-              </div>
-            </div>
+<!--            &lt;!&ndash;            Skills/Training & Assessment&ndash;&gt;-->
+<!--            <div class="uk-grid uk-child-width-1-2">-->
+<!--              <div>-->
+<!--                <category-indicators-wrapper [cardTitle]="'Skills/Training'"-->
+<!--                                             [cardIcon]="'../assets/images/country_pages/noun-skills-2129400.svg'">-->
+<!--                  <policies-category-indicators-->
+<!--                    [nationalPolicy]="surveyAnswer['Policies']?.['Question42']?.['Question42-0']"-->
+<!--                    [financialStrategy]="surveyAnswer['Policies']?.['Question43']?.['Question43-0']"-->
+<!--                    [rpos]="surveyAnswer['Policies']?.['Question44']?.['Question44-0']"-->
+<!--                    [rfos]="surveyAnswer['Policies']?.['Question45']?.['Question45-0']">-->
+<!--                  </policies-category-indicators>-->
+<!--                </category-indicators-wrapper>-->
+<!--              </div>-->
+<!--              <div>-->
+<!--                <category-indicators-wrapper [cardTitle]="'Assessment'"-->
+<!--                                             [cardIcon]="'../assets/images/country_pages/noun-assesment-4658555.svg'">-->
+<!--                  <policies-category-indicators-->
+<!--                    [nationalPolicy]="surveyAnswer['Policies']?.['Question46']?.['Question46-0']"-->
+<!--                    [financialStrategy]="surveyAnswer['Policies']?.['Question47']?.['Question47-0']"-->
+<!--                    [rpos]="surveyAnswer['Policies']?.['Question48']?.['Question48-0']"-->
+<!--                    [rfos]="surveyAnswer['Policies']?.['Question49']?.['Question49-0']">-->
+<!--                  </policies-category-indicators>-->
+<!--                </category-indicators-wrapper>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash;          Engagement&ndash;&gt;-->
+<!--            <div class="uk-grid uk-child-width-1-2">-->
+<!--              <div>-->
+<!--                <category-indicators-wrapper [cardTitle]="'Engagement'"-->
+<!--                                             [cardIcon]="'../assets/images/country_pages/noun-work-engagement-946691.svg'">-->
+<!--                  <policies-category-indicators-->
+<!--                    [nationalPolicy]="surveyAnswer['Policies']?.['Question50']?.['Question50-0']"-->
+<!--                    [financialStrategy]="surveyAnswer['Policies']?.['Question51']?.['Question51-0']"-->
+<!--                    [rpos]="surveyAnswer['Policies']?.['Question52']?.['Question52-0']"-->
+<!--                    [rfos]="surveyAnswer['Policies']?.['Question53']?.['Question53-0']">-->
+<!--                  </policies-category-indicators>-->
+<!--                </category-indicators-wrapper>-->
+<!--              </div>-->
+<!--            </div>-->
 
           </div>
 
