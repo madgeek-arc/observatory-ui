@@ -19,11 +19,14 @@ import {MessagingSystemService} from "../messaging-system-ui/services/messaging-
 import {CountryLandingPagePoliciesComponent} from "./pages/dashboard/country-landing-page/policies-section.component";
 import {CountryLandingPageGeneralComponent} from "./pages/dashboard/country-landing-page/general-section.component";
 import {
-  PoliciesCategoryIndicatorsCardComponent
-} from "./pages/dashboard/country-landing-page/indicator-cards/policies-category-indicators-card.component";
+  PoliciesCategoryIndicatorsComponent
+} from "./pages/dashboard/country-landing-page/indicator-cards/policies-category-indicators.component";
 import {
   PoliciesSubcategoriesIndicatorsCardComponent
 } from "./pages/dashboard/country-landing-page/indicator-cards/policies-subcategories-indicators-card.component";
+import {
+  CategoryIndicatorsWrapperComponent
+} from "./pages/dashboard/country-landing-page/indicator-cards/category-indicators-wrapper.component";
 
 @NgModule({
   declarations: [
@@ -32,8 +35,9 @@ import {
     CountryLandingPageComponent,
     CountryLandingPagePoliciesComponent,
     CountryLandingPageGeneralComponent,
-    PoliciesCategoryIndicatorsCardComponent,
-    PoliciesSubcategoriesIndicatorsCardComponent
+    PoliciesCategoryIndicatorsComponent,
+    PoliciesSubcategoriesIndicatorsCardComponent,
+    CategoryIndicatorsWrapperComponent
   ],
   imports: [
     BrowserModule,

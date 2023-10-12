@@ -21,322 +21,100 @@
             <!--          Publications-->
             <div class="uk-grid uk-child-width-1-2">
               <div>
-                <policies-category-indicators-card [cardTitle]="'Publications'"
-                                                   [cardIcon]="'../assets/images/country_pages/Icon%20awesome-file-alt.svg'"
-                [nationalPolicy]="true" [financialStrategy]="false" [rpos]="5" [rfos]="0">
-                </policies-category-indicators-card>
-<!--                <div class="uk-card uk-card-default uk-card-body">-->
-<!--                  <h5 class="uk-flex uk-flex-middle">-->
-<!--                    <span class="uk-margin-right"><img src="../assets/images/country_pages/Icon%20awesome-file-alt.svg" width="30" height="35"></span>-->
-<!--                    <span>Publications</span>-->
-<!--                  </h5>-->
-<!--                  <div class="uk-text-small">-->
-<!--                    <div class="uk-flex uk-flex-between uk-margin-small-bottom">-->
-<!--                      <span>National OA policy</span>-->
-<!--                      <span class="material-icons uk-text-bold" style="color: #2D9D78">check</span>-->
-<!--                    </div>-->
-<!--                    <div class="uk-flex uk-flex-between uk-margin-small-bottom">-->
-<!--                      <span>Financial strategy on OA</span>-->
-<!--                      <span class="material-icons uk-text-bold" style="color: #D12D17">close</span>-->
-<!--                    </div>-->
-<!--                    <div class="uk-flex uk-flex-middle uk-margin-small-bottom">-->
-<!--                      <span class="uk-text-bold uk-margin-right uk-text-lead">5</span>-->
-<!--                      <span class="">RPOs with OA policy</span>-->
-<!--                    </div>-->
-<!--                    <div class="uk-flex uk-flex-middle uk-margin-small-bottom">-->
-<!--                      <span class="uk-text-bold uk-margin-right uk-text-lead">0</span>-->
-<!--                      <span class="">RFOs with OA policy</span>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
+                <category-indicators-wrapper [cardTitle]="'Publications'"
+                                             [cardIcon]="'../assets/images/country_pages/Icon%20awesome-file-alt.svg'">
+                  <policies-category-indicators [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                </category-indicators-wrapper>
               </div>
             </div>
 
             <!--          Data-->
             <div class="uk-grid uk-child-width-1-1">
               <div>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <h5 class="uk-flex uk-flex-middle">
-                    <span class="uk-margin-right"><img src="../assets/images/country_pages/Icon%20awesome-database.svg" width="30" height="35"></span>
-                    <span>Data</span>
-                  </h5>
-                  <div class="uk-text-small">
-                    <div class="uk-grid uk-grid-divider uk-child-width-1-3">
-                      <div>
-                        <div class="uk-text-secondary uk-text-bold uk-text-italic uk-margin-bottom">Data management</div>
-                        <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                          <span>National OA policy</span>
-                          <span class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
-                        </div>
-                        <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                          <span>Financial strategy on OA</span>
-                          <span class="material-icons uk-text-bold" style="color: #D12D17">close</span>
-                        </div>
-                        <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                          <span class="uk-text-bold uk-margin-right uk-text-lead">5</span>
-                          <span class="">RPOs with OA policy</span>
-                        </div>
-                        <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                          <span class="uk-text-bold uk-margin-right uk-text-lead">0</span>
-                          <span class="">RFOs with OA policy</span>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="uk-text-secondary uk-text-bold uk-text-italic uk-margin-bottom">FAIR data</div>
-                        <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                          <span>National OA policy</span>
-                          <span class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
-                        </div>
-                        <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                          <span>Financial strategy on OA</span>
-                          <span class="material-icons uk-text-bold" style="color: #D12D17">close</span>
-                        </div>
-                        <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                          <span class="uk-text-bold uk-margin-right uk-text-lead">5</span>
-                          <span class="">RPOs with OA policy</span>
-                        </div>
-                        <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                          <span class="uk-text-bold uk-margin-right uk-text-lead">0</span>
-                          <span class="">RFOs with OA policy</span>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="uk-text-secondary uk-text-bold uk-text-italic uk-margin-bottom">Open data</div>
-                        <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                          <span>National OA policy</span>
-                          <span class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
-                        </div>
-                        <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                          <span>Financial strategy on OA</span>
-                          <span class="material-icons uk-text-bold" style="color: #D12D17">close</span>
-                        </div>
-                        <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                          <span class="uk-text-bold uk-margin-right uk-text-lead">5</span>
-                          <span class="">RPOs with OA policy</span>
-                        </div>
-                        <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                          <span class="uk-text-bold uk-margin-right uk-text-lead">0</span>
-                          <span class="">RFOs with OA policy</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Data'"
+                                             [cardIcon]="'../assets/images/country_pages/Icon%20awesome-database.svg'">
+                  <policies-category-indicators [subtitle]="'Data management'" [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                  <policies-category-indicators [subtitle]="'FAIR data'" [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                  <policies-category-indicators [subtitle]="'Open data'" [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                </category-indicators-wrapper>
               </div>
             </div>
 
 <!--            Services & Software-->
             <div class="uk-grid uk-child-width-1-2">
               <div>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <h5 class="uk-flex uk-flex-middle">
-                    <span class="uk-margin-right"><img src="../assets/images/country_pages/noun-software-2822919.svg" width="30" height="35"></span>
-                    <span>Software</span>
-                  </h5>
-                  <div class="uk-text-small">
-                    <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                      <span>National OA policy</span>
-                      <span class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
-                    </div>
-                    <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                      <span>Financial strategy on OA</span>
-                      <span class="material-icons uk-text-bold" style="color: #D12D17">close</span>
-                    </div>
-                    <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                      <span class="uk-text-bold uk-margin-right uk-text-lead">5</span>
-                      <span class="">RPOs with OA policy</span>
-                    </div>
-                    <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                      <span class="uk-text-bold uk-margin-right uk-text-lead">0</span>
-                      <span class="">RFOs with OA policy</span>
-                    </div>
-                  </div>
-                </div>
+                <category-indicators-wrapper [cardTitle]="'Software'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-software-2822919.svg'">
+                  <policies-category-indicators [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                </category-indicators-wrapper>
               </div>
               <div>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <h5 class="uk-flex uk-flex-middle">
-                    <span class="uk-margin-right"><img src="../assets/images/country_pages/noun-settings-5110695.svg" width="30" height="35"></span>
-                    <span>Services</span>
-                  </h5>
-                  <div class="uk-text-small">
-                    <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                      <span>National OA policy</span>
-                      <span class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
-                    </div>
-                    <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                      <span>Financial strategy on OA</span>
-                      <span class="material-icons uk-text-bold" style="color: #D12D17">close</span>
-                    </div>
-                    <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                      <span class="uk-text-bold uk-margin-right uk-text-lead">5</span>
-                      <span class="">RPOs with OA policy</span>
-                    </div>
-                    <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                      <span class="uk-text-bold uk-margin-right uk-text-lead">0</span>
-                      <span class="">RFOs with OA policy</span>
-                    </div>
-                  </div>
-                </div>
+                <category-indicators-wrapper [cardTitle]="'Services'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-settings-5110695.svg'">
+                  <policies-category-indicators [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                </category-indicators-wrapper>
               </div>
             </div>
 
             <!--          Infrastructure-->
             <div class="uk-grid uk-child-width-1-1">
               <div>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <h5 class="uk-flex uk-flex-middle">
-                    <span class="uk-margin-right"><img src="../assets/images/country_pages/noun-infrastructure-1694567.svg" width="30" height="35"></span>
-                    <span>Infrastructure</span>
-                  </h5>
-                  <div class="uk-text-small">
-                    <div class="uk-grid uk-grid-divider uk-child-width-1-3">
-                      <div>
-                        <div class="uk-text-secondary uk-text-bold uk-text-italic uk-margin-bottom">Data management</div>
-                        <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                          <span>National OA policy</span>
-                          <span class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
-                        </div>
-                        <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                          <span>Financial strategy on OA</span>
-                          <span class="material-icons uk-text-bold" style="color: #D12D17">close</span>
-                        </div>
-                        <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                          <span class="uk-text-bold uk-margin-right uk-text-lead">5</span>
-                          <span class="">RPOs with OA policy</span>
-                        </div>
-                        <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                          <span class="uk-text-bold uk-margin-right uk-text-lead">0</span>
-                          <span class="">RFOs with OA policy</span>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="uk-text-secondary uk-text-bold uk-text-italic uk-margin-bottom">FAIR data</div>
-                        <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                          <span>National OA policy</span>
-                          <span class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
-                        </div>
-                        <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                          <span>Financial strategy on OA</span>
-                          <span class="material-icons uk-text-bold" style="color: #D12D17">close</span>
-                        </div>
-                        <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                          <span class="uk-text-bold uk-margin-right uk-text-lead">5</span>
-                          <span class="">RPOs with OA policy</span>
-                        </div>
-                        <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                          <span class="uk-text-bold uk-margin-right uk-text-lead">0</span>
-                          <span class="">RFOs with OA policy</span>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="uk-text-secondary uk-text-bold uk-text-italic uk-margin-bottom">Open data</div>
-                        <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                          <span>National OA policy</span>
-                          <span class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
-                        </div>
-                        <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                          <span>Financial strategy on OA</span>
-                          <span class="material-icons uk-text-bold" style="color: #D12D17">close</span>
-                        </div>
-                        <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                          <span class="uk-text-bold uk-margin-right uk-text-lead">5</span>
-                          <span class="">RPOs with OA policy</span>
-                        </div>
-                        <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                          <span class="uk-text-bold uk-margin-right uk-text-lead">0</span>
-                          <span class="">RFOs with OA policy</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Infrastructure'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-infrastructure-1694567.svg'">
+                  <policies-category-indicators [subtitle]="'Connecting repositories to EOSC'" [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                  <policies-category-indicators [subtitle]="'Data stewardship'" [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                  <policies-category-indicators [subtitle]="'Long-term data preservation'" [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                </category-indicators-wrapper>
               </div>
             </div>
 
             <!--            Skills/Training & Assessment-->
             <div class="uk-grid uk-child-width-1-2">
               <div>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <h5 class="uk-flex uk-flex-middle">
-                    <span class="uk-margin-right"><img src="../assets/images/country_pages/noun-skills-2129400.svg" width="30" height="35"></span>
-                    <span>Skills/Training</span>
-                  </h5>
-                  <div class="uk-text-small">
-                    <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                      <span>National OA policy</span>
-                      <span class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
-                    </div>
-                    <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                      <span>Financial strategy on OA</span>
-                      <span class="material-icons uk-text-bold" style="color: #D12D17">close</span>
-                    </div>
-                    <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                      <span class="uk-text-bold uk-margin-right uk-text-lead">5</span>
-                      <span class="">RPOs with OA policy</span>
-                    </div>
-                    <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                      <span class="uk-text-bold uk-margin-right uk-text-lead">0</span>
-                      <span class="">RFOs with OA policy</span>
-                    </div>
-                  </div>
-                </div>
+                <category-indicators-wrapper [cardTitle]="'Skills/Training'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-skills-2129400.svg'">
+                  <policies-category-indicators [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                </category-indicators-wrapper>
               </div>
               <div>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <h5 class="uk-flex uk-flex-middle">
-                    <span class="uk-margin-right"><img src="../assets/images/country_pages/noun-assesment-4658555.svg" width="30" height="35"></span>
-                    <span>Assessment</span>
-                  </h5>
-                  <div class="uk-text-small">
-                    <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                      <span>National OA policy</span>
-                      <span class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
-                    </div>
-                    <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                      <span>Financial strategy on OA</span>
-                      <span class="material-icons uk-text-bold" style="color: #D12D17">close</span>
-                    </div>
-                    <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                      <span class="uk-text-bold uk-margin-right uk-text-lead">5</span>
-                      <span class="">RPOs with OA policy</span>
-                    </div>
-                    <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                      <span class="uk-text-bold uk-margin-right uk-text-lead">0</span>
-                      <span class="">RFOs with OA policy</span>
-                    </div>
-                  </div>
-                </div>
+                <category-indicators-wrapper [cardTitle]="'Assessment'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-assesment-4658555.svg'">
+                  <policies-category-indicators [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                </category-indicators-wrapper>
               </div>
             </div>
 
             <!--          Engagement-->
             <div class="uk-grid uk-child-width-1-2">
               <div>
-                <div class="uk-card uk-card-default uk-card-body">
-                  <h5 class="uk-flex uk-flex-middle">
-                    <span class="uk-margin-right"><img src="../assets/images/country_pages/noun-work-engagement-946691.svg" width="30" height="35"></span>
-                    <span>Engagement</span>
-                  </h5>
-                  <div class="uk-text-small">
-                    <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                      <span>National OA policy</span>
-                      <span class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
-                    </div>
-                    <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                      <span>Financial strategy on OA</span>
-                      <span class="material-icons uk-text-bold" style="color: #D12D17">close</span>
-                    </div>
-                    <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                      <span class="uk-text-bold uk-margin-right uk-text-lead">5</span>
-                      <span class="">RPOs with OA policy</span>
-                    </div>
-                    <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
-                      <span class="uk-text-bold uk-margin-right uk-text-lead">0</span>
-                      <span class="">RFOs with OA policy</span>
-                    </div>
-                  </div>
-                </div>
+                <category-indicators-wrapper [cardTitle]="'Engagement'"
+                                             [cardIcon]="'../assets/images/country_pages/noun-work-engagement-946691.svg'">
+                  <policies-category-indicators [nationalPolicy]="true" [financialStrategy]="false"
+                                                [rpos]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']" [rfos]="0">
+                  </policies-category-indicators>
+                </category-indicators-wrapper>
               </div>
             </div>
 

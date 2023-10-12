@@ -1,15 +1,14 @@
 import {Component, Input} from "@angular/core";
 
 @Component({
-  selector: 'policies-category-indicators-card',
-  templateUrl: 'policies-category-indicators-card.component.html',
+  selector: 'policies-category-indicators',
+  templateUrl: 'policies-category-indicators.component.html',
   styleUrls: ['../country-landing-page.component.css'],
 })
 
-export class PoliciesCategoryIndicatorsCardComponent {
+export class PoliciesCategoryIndicatorsComponent {
 
-  @Input('cardTitle') cardTitle: string = null;
-  @Input('cardIcon') cardIcon: string = null;
+  @Input('subtitle') subtitle: string = null;
 
   @Input('nationalPolicy') nationalPolicy: boolean = null;
   @Input('financialStrategy') financialStrategy: boolean = null;
