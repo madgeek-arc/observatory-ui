@@ -297,7 +297,7 @@ export class General2022Component implements OnInit {
                   }
               },
               align: 'left',
-              verticalAlign: 'bottom',
+              verticalAlign: 'top',
               floating: true,
               layout: 'vertical',
               valueDecimals: 0,
