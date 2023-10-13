@@ -1,0 +1,23 @@
+<div class="">
+  <div *ngIf="subtitle" class="uk-text-secondary uk-text-bold uk-text-italic uk-margin-bottom">{{subtitle}}</div>
+  <div class="uk-flex uk-flex-between uk-margin-small-bottom">
+    <span>National monitoring</span>
+    <span *ngIf="monitoring === null" class="material-icons uk-text-bold">N/A</span>
+    <span *ngIf="monitoring === 'Yes'" class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
+    <span *ngIf="monitoring === 'No'" class="material-icons uk-text-bold" style="color: #D12D17">close</span>
+  </div>
+  <div class="uk-flex uk-flex-between uk-margin-small-bottom">
+    <span>Use cases</span>
+    <span *ngIf="useCases === null" class="material-icons uk-text-bold">N/A</span>
+    <span *ngIf="useCases === 'Yes'" class="material-icons uk-text-bold" style="color: #2D9D78">check</span>
+    <span *ngIf="useCases === 'No'" class="material-icons uk-text-bold" style="color: #D12D17">close</span>
+  </div>
+  <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
+    <span class="uk-text-bold uk-margin-right uk-text-lead">{{investments ? investments + ' M' : 'N/A'}}</span>
+    <span class="">in financial investments</span>
+  </div>
+  <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
+    <span class="uk-text-bold uk-margin-right uk-text-lead">{{outputs ? outputs : 'N/A'}}</span>
+    <span class="">{{outputsTitle}}</span>
+  </div>
+</div>

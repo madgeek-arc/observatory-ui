@@ -38,6 +38,11 @@ import {Glossary2022Component} from "./eosc-readiness-2022/glossary/glossary-202
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
+    path: '',
+    redirectTo: '2021',
+    pathMatch: 'full'
+  },
+  {
     path: '2021',
     component: EoscReadinessDashboardComponent,
     children: [

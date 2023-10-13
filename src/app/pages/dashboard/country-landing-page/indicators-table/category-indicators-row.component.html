@@ -1,0 +1,25 @@
+<tr>
+  <td>
+    <div class="uk-text-bold">Publications</div>
+  </td>
+  <ng-container *ngIf="indicator1">
+    <td [ngClass]="indicator1 == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+  </ng-container>
+  <ng-container *ngIf="!indicator1">
+    <td class="valueNotAvailable"></td>
+  </ng-container>
+  <ng-container *ngIf="indicator2">
+    <td [ngClass]="indicator2 == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+  </ng-container>
+  <ng-container *ngIf="!indicator2">
+    <td class="valueNotAvailable"></td>
+  </ng-container>
+  <td>
+    <ng-container *ngIf="indicator3">{{indicator3}}</ng-container>
+    <ng-container *ngIf="!indicator3">N/A</ng-container>
+  </td>
+  <td>
+    <ng-container *ngIf="indicator4">{{indicator4}}</ng-container>
+    <ng-container *ngIf="!indicator4">N/A</ng-container>
+  </td>
+</tr>

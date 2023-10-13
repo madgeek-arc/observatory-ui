@@ -109,30 +109,149 @@
         </div>
       </div>
       <div *ngSwitchCase="'investments'">
-        <div class="uk-grid uk-margin-medium-top">
-          <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [title]="'Financial investments in EOSC and Open Science in 2021'"
-                                       [toolTipData]="toolTipData[4]" [subtitle]="'(in millions of Euro)'"
-                                       [dataSeriesSuffix]="''" [participatingCountries]="countriesArray">
-            </app-highcharts-color-axis>
-          </div>
+        <ul id="investmentsContent" class="uk-subnav uk-subnav-pill" uk-switcher>
+          <li><a [routerLink]="['./']" [fragment]="'absolute'">Absolute number</a></li>
+          <li><a [routerLink]="['./']" [fragment]="'gdp'">GDP percentage</a></li>
+          <li><a [routerLink]="['./']" [fragment]="'gerd'">GERD percentage</a></li>
+          <li><a [routerLink]="['./']" [fragment]="'income'">National income percentage</a></li>
+          <li><a [routerLink]="['./']" [fragment]="'ranges'">Distribution total</a></li>
+          <li><a [routerLink]="['./']" [fragment]="'rangesV2'">Distribution details</a></li>
+        </ul>
+        <div [ngSwitch]="fragment">
+          <div *ngSwitchCase="'absolute'" class="uk-animation-fade">
+            <div class="uk-grid uk-margin-medium-top">
+              <div id="1" class="uk-width-2-3" style="height: 800px">
+                <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [title]="'Financial investments in EOSC and Open Science in 2021'"
+                                           [toolTipData]="toolTipData[4]" [subtitle]="'(in millions of Euro)'"
+                                           [dataSeriesSuffix]="'M'" [participatingCountries]="countriesArray">
+                </app-highcharts-color-axis>
+              </div>
 
-          <div class="uk-width-1-3">
-            <div class="uk-margin-medium-bottom">
-              <div class="uk-card uk-card-default uk-card-body indicator-card">
-                <div class="indicator-label">
-                  Total amount of financial investments in EOSC and Open Science in 2021
-                  <span class="uk-text-muted">(in millions of Euro)</span>
+              <div class="uk-width-1-3">
+                <div class="uk-margin-medium-bottom">
+                  <div class="uk-card uk-card-default uk-card-body indicator-card">
+                    <div class="indicator-label">
+                      Total amount of financial investments in EOSC and Open Science in 2021
+                      <span class="uk-text-muted">(in millions of Euro)</span>
+                    </div>
+                    <div *ngIf="!sumsArray[4]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                    <div *ngIf="sumsArray[4]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[4]}} M</strong></div>
+                  </div>
                 </div>
-                <div *ngIf="!sumsArray[4]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="sumsArray[4]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[4]}} M</strong></div>
+
+                <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
+                  <app-bar-chart [mapData]="questionsDataArrayForBarChart[4]" [subTitle]="'(in millions of Euro)'"
+                                 [title]="'Financial investments in EOSC and Open Science in 2021'">
+                  </app-bar-chart>
+                </div>
               </div>
             </div>
+          </div>
+          <div *ngSwitchCase="'gdp'" class="uk-animation-fade">
 
-            <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
-              <app-bar-chart [mapData]="questionsDataArrayForBarChart[4]" [subTitle]="'(in millions of Euro)'"
-                             [title]="'Financial investments in EOSC and Open Science in 2021'">
-              </app-bar-chart>
+            <div class="uk-text-italic">
+              <span class="uk-text-meta">* GDP collected from </span><a href="https://ec.europa.eu/eurostat/databrowser/view/TEC00001/default/table?lang=en" target="_blank">Eurostat</a>
+            </div>
+
+            <div class="uk-grid uk-margin-medium-top">
+              <div class="uk-width-2-3" style="height: 800px">
+                <app-highcharts-color-axis [mapData]="questionsDataArray[5]" [title]="'Financial investments in EOSC and Open Science in 2021'"
+                                           [toolTipData]="toolTipData[5]" [subtitle]="'(in thousands of GDP)'"
+                                           [dataSeriesSuffix]="'‰'" [participatingCountries]="countriesArray">
+                </app-highcharts-color-axis>
+              </div>
+
+              <div class="uk-width-1-3">
+                <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
+                  <app-bar-chart [mapData]="questionsDataArrayForBarChart[5]" [subTitle]="'(in thousands of GDP)'"
+                                 [title]="'Financial investments in EOSC and Open Science in 2021'">
+                  </app-bar-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngSwitchCase="'gerd'" class="uk-animation-fade">
+
+            <div class="uk-text-italic">
+              <span class="uk-text-meta">* GERD collected from </span><a href="https://ec.europa.eu/eurostat/databrowser/view/RD_E_GERDTOT/default/table?lang=en" target="_blank">Eurostat</a>
+            </div>
+
+            <div class="uk-grid uk-margin-medium-top">
+              <div class="uk-width-2-3" style="height: 800px">
+                <app-highcharts-color-axis [mapData]="questionsDataArray[6]" [title]="'Financial investments in EOSC and Open Science in 2021'"
+                                           [toolTipData]="toolTipData[6]" [subtitle]="'(in thousands of GERD)'"
+                                           [dataSeriesSuffix]="'‰'" [participatingCountries]="countriesArray">
+                </app-highcharts-color-axis>
+              </div>
+
+              <div class="uk-width-1-3">
+                <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
+                  <app-bar-chart [mapData]="questionsDataArrayForBarChart[6]" [subTitle]="'(in thousands of GERD)'"
+                                 [title]="'Financial investments in EOSC and Open Science in 2021'">
+                  </app-bar-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngSwitchCase="'income'" class="uk-animation-fade">
+
+            <div class="uk-text-italic">
+              <span class="uk-text-meta">* National income collected from </span><a href="https://ec.europa.eu/eurostat/databrowser/view/teina080/default/table?lang=en" target="_blank">Eurostat</a>
+            </div>
+
+            <div class="uk-grid uk-margin-medium-top">
+              <div class="uk-width-2-3" style="height: 800px">
+                <app-highcharts-color-axis [mapData]="questionsDataArray[7]" [title]="'Financial investments in EOSC and Open Science in 2021'"
+                                           [toolTipData]="toolTipData[7]" [subtitle]="'(in thousands of national income)'"
+                                           [dataSeriesSuffix]="'‰'" [participatingCountries]="countriesArray">
+                </app-highcharts-color-axis>
+              </div>
+
+              <div class="uk-width-1-3">
+                <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
+                  <app-bar-chart [mapData]="questionsDataArrayForBarChart[7]" [subTitle]="'(in thousands of national income)'"
+                                 [title]="'Financial investments in EOSC and Open Science in 2021'">
+                  </app-bar-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngSwitchCase="'ranges'" class="uk-animation-fade">
+            <div class="uk-grid uk-margin-medium-top">
+              <app-pie-chart [chartId]="'pie1'" [series]="series"></app-pie-chart>
+<!--              <div class="uk-width-2-3" style="height: 800px">-->
+<!--                <app-highcharts-color-axis [mapData]="questionsDataArray[8]" [title]="'Financial investments in EOSC and Open Science in 2021'"-->
+<!--                                           [toolTipData]="toolTipData[8]" [subtitle]="'(in millions of Euro)'"-->
+<!--                                           [dataSeriesSuffix]="'M'" [participatingCountries]="countriesArray"-->
+<!--                                           [colorAxis]="colorAxis">-->
+<!--                </app-highcharts-color-axis>-->
+<!--              </div>-->
+
+<!--              <div class="uk-width-1-3">-->
+<!--                <div class="uk-card uk-card-default uk-card-body" style="height: 550px">-->
+<!--                  <app-pie-chart [chartId]="'pie1'" [series]="series"></app-pie-chart>-->
+<!--                </div>-->
+<!--              </div>-->
+            </div>
+          </div>
+          <div *ngSwitchCase="'rangesV2'" class="uk-animation-fade">
+            <div class="uk-grid uk-margin-medium-top">
+              <div class="uk-width-1-1">
+                <app-column-ranges-chart [mapData]="questionsDataArray[9]"></app-column-ranges-chart>
+              </div>
+<!--              <div class="uk-width-2-3" style="height: 800px">-->
+<!--                <app-highcharts-color-axis [mapData]="questionsDataArray[9]" [title]="'Financial investments in EOSC and Open Science in 2021'"-->
+<!--                                           [toolTipData]="toolTipData[9]" [subtitle]="'(in millions of Euro)'"-->
+<!--                                           [dataSeriesSuffix]="'M'" [participatingCountries]="countriesArray"-->
+<!--                                           [colorAxis]="colorAxis" [legend]="legend">-->
+<!--                </app-highcharts-color-axis>-->
+<!--              </div>-->
+
+<!--              <div class="uk-width-1-3">-->
+<!--                <div class="uk-card uk-card-default uk-card-body" style="height: 550px">-->
+<!--                  <app-pie-chart [chartId]="'pie2'" [series]="series"></app-pie-chart>-->
+<!--                </div>-->
+<!--              </div>-->
             </div>
           </div>
         </div>
