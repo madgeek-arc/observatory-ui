@@ -28,7 +28,7 @@ export class CountryLandingPageComponent implements OnInit {
     this.route.params.subscribe(
       value => {
         this.countryCode = value['code'];
-        this.countryPageNarrativeURL = this.sanitizer.bypassSecurityTrustResourceUrl(`https://oseurope.openaire.eu/embeddable/country/${this.countryCode}?showFull=false`);
+        this.countryPageNarrativeURL = this.sanitizer.bypassSecurityTrustResourceUrl(`https://dl120.madgik.di.uoa.gr/embeddable/country/${this.countryCode}?showFull=false`);
         this.surveyService.getLatestAnswer(`sh-eosc-sb-${this.countryCode}`, 'm-jlFggsCN').subscribe(
           res => {
             this.surveyAnswer = res;
