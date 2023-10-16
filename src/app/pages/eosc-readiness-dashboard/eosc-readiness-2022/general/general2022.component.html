@@ -218,7 +218,7 @@
           </div>
           <div *ngSwitchCase="'ranges'" class="uk-animation-fade">
             <div class="uk-grid uk-margin-medium-top">
-              <app-pie-chart [chartId]="'pie1'" [series]="series"></app-pie-chart>
+              <app-pie-chart [chartId]="'pie1'" [series]="pieSeries"></app-pie-chart>
 <!--              <div class="uk-width-2-3" style="height: 800px">-->
 <!--                <app-highcharts-color-axis [mapData]="questionsDataArray[8]" [title]="'Financial investments in EOSC and Open Science in 2021'"-->
 <!--                                           [toolTipData]="toolTipData[8]" [subtitle]="'(in millions of Euro)'"-->
@@ -236,8 +236,10 @@
           </div>
           <div *ngSwitchCase="'rangesV2'" class="uk-animation-fade">
             <div class="uk-grid uk-margin-medium-top">
-              <div class="uk-width-1-1">
-                <app-column-ranges-chart [mapData]="questionsDataArray[9]"></app-column-ranges-chart>
+              <div class="uk-width-1-1" style="height: 600px">
+                <app-column-ranges-chart
+                  [title]="'Country investments in EOSC and Open Science in ranges'" [series]="columnSeries">
+                </app-column-ranges-chart>
               </div>
 <!--              <div class="uk-width-2-3" style="height: 800px">-->
 <!--                <app-highcharts-color-axis [mapData]="questionsDataArray[9]" [title]="'Financial investments in EOSC and Open Science in 2021'"-->

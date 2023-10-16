@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {CountryTableData} from "../../../../../survey-tool/app/domain/country-table-data";
 import {countriesNumbers, EoscReadiness2022MapSubtitles} from "../eosc-readiness2022-map-subtitles";
 import {EoscReadiness2022DataService} from "../../../services/eosc-readiness2022-data.service";
@@ -9,9 +9,8 @@ import {zip} from "rxjs/internal/observable/zip";
 import {RawData} from "../../../../../survey-tool/app/domain/raw-data";
 import {isNumeric} from "rxjs/internal-compatibility";
 import UIkit from "uikit";
-import {countries} from "../../../../../survey-tool/app/domain/countries";
-import {ColorAxisOptions, LegendOptions} from "highcharts";
 import * as Highcharts from "highcharts";
+import {ColorAxisOptions, LegendOptions} from "highcharts";
 
 @Component({
   selector: 'app-general-2022',
@@ -29,7 +28,8 @@ export class General2022Component implements OnInit {
   tableAbsoluteDataArray: CountryTableData[][] = [];
   legend: LegendOptions;
   colorAxis: ColorAxisOptions;
-  series: {name: string, data: (string | number)[][]}[];
+  pieSeries: {name: string, type: string, data: (string | number)[][]}[];
+  columnSeries: {name: string, type: string, data: (string | number)[][]}[];
   mapSubtitles: string[] = [];
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
   questionsDataArray: any[] = [];
@@ -152,6 +152,7 @@ export class General2022Component implements OnInit {
       res => {
         this.questionsDataArray[pos] = this.questionsDataArrayForBarChart[pos] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.getInvestmentsDataPie(this.questionsDataArray[pos]);
+        this.createStackedColumnSeries(this.questionsDataArray[pos]);
         let tempArr: string[] = [];
         this.questionsDataArray[pos].forEach((data: string[]) => {tempArr.push(data[0]);});
         this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
@@ -190,8 +191,9 @@ export class General2022Component implements OnInit {
   }
 
   getInvestmentsDataPie(arr: number[]) {
-      this.series = [{
+      this.pieSeries = [{
           name: 'No of countries',
+          type: 'pie',
           data: [
               [' < 1 M', 0],
               ['1 - 5 M', 0],
@@ -202,18 +204,43 @@ export class General2022Component implements OnInit {
       }];
       for (let i = 0; i < arr.length; i++) {
           if (arr[i][1] < 1) {
-              (<number>this.series[0].data[0][1])++;
+              (<number>this.pieSeries[0].data[0][1])++;
           } else if (arr[i][1] < 5) {
-              (<number>this.series[0].data[1][1])++;
+              (<number>this.pieSeries[0].data[1][1])++;
           } else if (arr[i][1] < 10) {
-              (<number>this.series[0].data[2][1])++;
+              (<number>this.pieSeries[0].data[2][1])++;
           } else if (arr[i][1] < 20) {
-              (<number>this.series[0].data[3][1])++;
+              (<number>this.pieSeries[0].data[3][1])++;
           } else if (arr[i][1] >= 20) {
-              (<number>this.series[0].data[4][1])++;
+              (<number>this.pieSeries[0].data[4][1])++;
           }
       }
       // console.log(this.series[0]);
+  }
+
+  createStackedColumnSeries(arr: any[]) {
+    arr.sort((a, b) => { return a[1] - b[1]; });
+    this.columnSeries = [];
+    let serie: {name: string, type: string, data: (string | number)[][]};
+    for (let i = 0; i < arr.length; i++) {
+      let country = this.findCountryName(arr[i][0]);
+      if (arr[i][1] < 1) {
+        serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [[' < 1 M', 1]]}
+        this.columnSeries.push(serie);
+      } else if (arr[i][1] < 5) {
+        serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [['1 - 5 M', 1]]}
+        this.columnSeries.push(serie);
+      } else if (arr[i][1] < 10) {
+        serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [['5 - 10 M', 1]]}
+        this.columnSeries.push(serie);
+      } else if (arr[i][1] < 20) {
+        serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [['10 - 20 M', 1]]}
+        this.columnSeries.push(serie);
+      } else if (arr[i][1] >= 20) {
+        serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [[' > 20 M', 1]]}
+        this.columnSeries.push(serie);
+      }
+    }
   }
 
   calculateSum(rawData: RawData): string {
@@ -226,6 +253,12 @@ export class General2022Component implements OnInit {
       }
     }
     return (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
+  }
+
+  findCountryName(code: string) {
+    return countriesNumbers.find(
+      elem => elem.id.toLowerCase() === code
+    );
   }
 
   activateSwitcher(fragment: string) {
@@ -285,7 +318,7 @@ export class General2022Component implements OnInit {
             this.getInvestmentsData(9);
           this.legend = {
               title: {
-                  text: 'Ranges in milions',
+                  text: 'Ranges in millions',
                   style: {
                       color: ( // theme
                           Highcharts.defaultOptions &&
