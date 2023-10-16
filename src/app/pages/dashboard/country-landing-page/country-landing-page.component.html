@@ -1,4 +1,4 @@
-<div class="uk-section uk-section-secondary uk-section-small">
+<div *ngIf="surveyAnswer && countryCode" class="uk-section uk-section-secondary uk-section-small">
   <div class="uk-container uk-container-expand">
     <div class="uk-flex uk-flex-between">
       <div class="">
@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<div class="uk-section-default uk-section">
+<div *ngIf="answer" class="uk-section-default uk-section">
   <div class="uk-container uk-container-expand">
 
     <div class="uk-grid uk-grid-match">
@@ -213,8 +213,17 @@
   </div>
 </div>
 
-<div class="uk-section-default uk-section uk-section-small" style="min-height: auto">
+<div *ngIf="surveyAnswer && countryCode" class="uk-section-default uk-section uk-section-small" style="min-height: auto; padding-top: 0px">
   <div class="uk-container uk-container-expand">
+
+    <div *ngIf="countryPageOSOURL" class="uk-flex uk-flex-right" style="position: relative;">
+      <a class="uk-button uk-button-primary button-osobservatory uk-flex uk-flex-middle" target="_blank"
+         [href]="countryPageOSOURL">
+        <img src="../assets/images/openaire-logos/OS_Logo_small.svg" width="20px" class="uk-margin-small-right">
+        <span>Open Science Observatory</span>
+        <span class="material-icons uk-margin-small-left" style="color: #fff">chevron_right</span>
+      </a>
+    </div>
 
     <div class="uk-position-relative">
       <ul class="survey-tabs" uk-tab uk-switcher="connect: #survey-selection">
