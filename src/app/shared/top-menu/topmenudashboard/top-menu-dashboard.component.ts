@@ -7,9 +7,10 @@ import {AuthenticationService} from "../../../../survey-tool/app/services/authen
 import {PrivacyPolicyService} from "../../../../survey-tool/app/services/privacy-policy.service";
 import {AcceptedPrivacyPolicy} from "../../../../survey-tool/app/domain/privacy-policy";
 import {UnreadMessages} from "../../../../messaging-system-ui/app/domain/messaging";
-import {Subscriber} from "rxjs";
-import * as UIkit from 'uikit';
 import {MessagingWebsocketService} from "../../../../messaging-system-ui/services/messaging-websocket.service";
+import {Subscriber} from "rxjs";
+
+import * as UIkit from 'uikit';
 
 @Component({
   selector: 'app-top-menu-dashboard',
