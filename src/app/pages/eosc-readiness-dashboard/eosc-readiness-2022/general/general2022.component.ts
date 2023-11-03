@@ -57,18 +57,21 @@ export class General2022Component implements OnInit {
         if (params['type'] === 'repositories') {
           this.getRepositoriesData();
         }
-        if (params['type'] === 'investments') {}
+        if (params['type'] === 'investments') {
+          this.getInvestmentsData(8);
+          // this.getInvestmentsData(9);
+        }
 
       }
     );
 
-    this.route.fragment.subscribe(
-      fragment => {
-        this.fragment = fragment;
-        if (this.fragment)
-          this.activateSwitcher(fragment);
-      }
-    );
+    // this.route.fragment.subscribe(
+    //   fragment => {
+    //     this.fragment = fragment;
+    //     if (this.fragment)
+    //       this.activateSwitcher(fragment);
+    //   }
+    // );
 
   }
 
@@ -148,14 +151,14 @@ export class General2022Component implements OnInit {
       this.queryData.getQuestion5comment(),
     ).subscribe(
       res => {
-        this.questionsDataArray[pos] = this.questionsDataArrayForBarChart[pos] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[pos] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.getInvestmentsDataPie(this.questionsDataArray[pos]);
         this.createStackedColumnSeries(this.questionsDataArray[pos]);
-        let tempArr: string[] = [];
-        this.questionsDataArray[pos].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
-        this.toolTipData[pos] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[pos] = this.calculateSum(res[1]);
+        // let tempArr: string[] = [];
+        // this.questionsDataArray[pos].forEach((data: string[]) => {tempArr.push(data[0]);});
+        // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
+        // this.toolTipData[pos] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        // this.sumsArray[pos] = this.calculateSum(res[1]);
       }
     )
   }
@@ -266,26 +269,26 @@ export class General2022Component implements OnInit {
       }, 100);
     } else {
       switch (fragment) {
-        // case 'absolute':
-        //   if (!this.questionsDataArray[4])
-        //     this.getInvestmentsData(4);
-        //   UIkit.switcher('#investmentsContent').show(0);
-        //   break;
-        // case 'gdp':
-        //   if (!this.questionsDataArray[5])
-        //     this.getInvestmentsDataPercentage(5, 'gdp');
-        //   UIkit.switcher('#investmentsContent').show(1);
-        //   break;
-        // case 'gerd':
-        //   if (!this.questionsDataArray[6])
-        //     this.getInvestmentsDataPercentage(6, 'gerd');
-        //   UIkit.switcher('#investmentsContent').show(2);
-        //   break;
-        // case 'income':
-        //   if (!this.questionsDataArray[7])
-        //     this.getInvestmentsDataPercentage(7, 'income');
-        //   UIkit.switcher('#investmentsContent').show(3);
-        //   break;
+        case 'absolute':
+          if (!this.questionsDataArray[4])
+            this.getInvestmentsData(4);
+          UIkit.switcher('#investmentsContent').show(0);
+          break;
+        case 'gdp':
+          if (!this.questionsDataArray[5])
+            this.getInvestmentsDataPercentage(5, 'gdp');
+          UIkit.switcher('#investmentsContent').show(1);
+          break;
+        case 'gerd':
+          if (!this.questionsDataArray[6])
+            this.getInvestmentsDataPercentage(6, 'gerd');
+          UIkit.switcher('#investmentsContent').show(2);
+          break;
+        case 'income':
+          if (!this.questionsDataArray[7])
+            this.getInvestmentsDataPercentage(7, 'income');
+          UIkit.switcher('#investmentsContent').show(3);
+          break;
         case 'total':
           if (!this.questionsDataArray[8])
             this.getInvestmentsData(8);

@@ -109,15 +109,15 @@
         </div>
       </div>
       <div *ngSwitchCase="'investments'">
-        <ul id="investmentsContent" class="uk-subnav uk-subnav-pill" uk-switcher>
+<!--        <ul id="investmentsContent" class="uk-subnav uk-subnav-pill" uk-switcher>-->
 <!--          <li><a [routerLink]="['./']" [fragment]="'absolute'">Absolute number</a></li>-->
 <!--          <li><a [routerLink]="['./']" [fragment]="'gdp'">GDP percentage</a></li>-->
 <!--          <li><a [routerLink]="['./']" [fragment]="'gerd'">GERD percentage</a></li>-->
 <!--          <li><a [routerLink]="['./']" [fragment]="'income'">National income percentage</a></li>-->
-          <li><a [routerLink]="['./']" [fragment]="'total'">Distribution total</a></li>
-          <li><a [routerLink]="['./']" [fragment]="'details'">Distribution details</a></li>
-        </ul>
-        <div [ngSwitch]="fragment">
+<!--          <li><a [routerLink]="['./']" [fragment]="'total'">Distribution total</a></li>-->
+<!--          <li><a [routerLink]="['./']" [fragment]="'details'">Distribution details</a></li>-->
+<!--        </ul>-->
+<!--        <div [ngSwitch]="fragment">-->
 <!--          <div *ngSwitchCase="'absolute'" class="uk-animation-fade">-->
 <!--            <div class="uk-grid uk-margin-medium-top">-->
 <!--              <div id="1" class="uk-width-2-3" style="height: 800px">-->
@@ -216,30 +216,15 @@
 <!--              </div>-->
 <!--            </div>-->
 <!--          </div>-->
-          <div *ngSwitchCase="'total'" class="uk-animation-fade">
+          <div class="uk-animation-fade">
             <div class="uk-grid uk-margin-medium-top">
-              <app-pie-chart [chartId]="'pie1'" [series]="pieSeries"></app-pie-chart>
-<!--              <div class="uk-width-2-3" style="height: 800px">-->
-<!--                <app-highcharts-color-axis [mapData]="questionsDataArray[8]" [title]="'Financial investments in EOSC and Open Science in 2021'"-->
-<!--                                           [toolTipData]="toolTipData[8]" [subtitle]="'(in millions of Euro)'"-->
-<!--                                           [dataSeriesSuffix]="'M'" [participatingCountries]="countriesArray"-->
-<!--                                           [colorAxis]="colorAxis">-->
-<!--                </app-highcharts-color-axis>-->
-<!--              </div>-->
-
-<!--              <div class="uk-width-1-3">-->
-<!--                <div class="uk-card uk-card-default uk-card-body" style="height: 550px">-->
-<!--                  <app-pie-chart [chartId]="'pie1'" [series]="series"></app-pie-chart>-->
-<!--                </div>-->
-<!--              </div>-->
-            </div>
-          </div>
-          <div *ngSwitchCase="'details'" class="uk-animation-fade">
-            <div class="uk-grid uk-margin-medium-top">
-              <div class="uk-width-1-1" style="height: 600px">
+              <div class="uk-width-3-5" style="height: 600px">
                 <app-column-ranges-chart
                   [title]="'Country investments in EOSC and Open Science in ranges'" [series]="columnSeries">
                 </app-column-ranges-chart>
+              </div>
+              <div class="uk-width-2-5" style="height: 600px">
+                <app-pie-chart [chartId]="'pie1'" [series]="pieSeries"></app-pie-chart>
               </div>
 <!--              <div class="uk-width-2-3" style="height: 800px">-->
 <!--                <app-highcharts-color-axis [mapData]="questionsDataArray[9]" [title]="'Financial investments in EOSC and Open Science in 2021'"-->
@@ -256,7 +241,7 @@
 <!--              </div>-->
             </div>
           </div>
-        </div>
+<!--        </div>-->
       </div>
     </div>
   </div>
