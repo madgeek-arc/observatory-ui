@@ -158,7 +158,7 @@ export class General2022Component implements OnInit {
         // this.questionsDataArray[pos].forEach((data: string[]) => {tempArr.push(data[0]);});
         // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         // this.toolTipData[pos] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        // this.sumsArray[pos] = this.calculateSum(res[1]);
+        this.sumsArray[pos] = this.calculateSum(res[1]);
       }
     )
   }

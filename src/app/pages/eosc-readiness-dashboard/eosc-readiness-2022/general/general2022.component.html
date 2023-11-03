@@ -218,13 +218,26 @@
 <!--          </div>-->
           <div class="uk-animation-fade">
             <div class="uk-grid uk-margin-medium-top">
+
               <div class="uk-width-3-5" style="height: 600px">
-                <app-column-ranges-chart
+                <app-column-ranges-chart [chartId]="'column1'"
                   [title]="'Country investments in EOSC and Open Science in ranges'" [series]="columnSeries">
                 </app-column-ranges-chart>
               </div>
-              <div class="uk-width-2-5" style="height: 600px">
-                <app-pie-chart [chartId]="'pie1'" [series]="pieSeries"></app-pie-chart>
+              <div class="uk-width-2-5">
+                <div class="uk-margin-bottom">
+                  <div class="uk-card uk-card-default uk-card-body indicator-card">
+                    <div class="indicator-label">
+                      Total amount of financial investments in EOSC and Open Science in 2021
+                      <span class="uk-text-muted">(in millions of Euro)</span>
+                    </div>
+                    <div *ngIf="!sumsArray[8]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                    <div *ngIf="sumsArray[8]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[8]}} M</strong></div>
+                  </div>
+                </div>
+                <div class="uk-card uk-card-default uk-card-body">
+                  <app-pie-chart [chartId]="'pie1'" [series]="pieSeries"></app-pie-chart>
+                </div>
               </div>
 <!--              <div class="uk-width-2-3" style="height: 800px">-->
 <!--                <app-highcharts-color-axis [mapData]="questionsDataArray[9]" [title]="'Financial investments in EOSC and Open Science in 2021'"-->

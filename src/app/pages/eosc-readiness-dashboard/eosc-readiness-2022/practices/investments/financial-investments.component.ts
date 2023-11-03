@@ -213,12 +213,15 @@ export class FinancialInvestmentsComponent implements OnInit {
       this.queryData.getQuestion76comment(),
     ).subscribe(
       res => {
-        this.questionsDataArray[2] = this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        let tempArr: string[] = [];
-        this.questionsDataArray[2].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
+        this.questionsDataArray[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.getInvestmentsDataPie(this.questionsDataArray[2], 2);
+        this.createStackedColumnSeries(this.questionsDataArray[2], 2);
+        // this.questionsDataArray[2] = this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        // let tempArr: string[] = [];
+        // this.questionsDataArray[2].forEach((data: string[]) => {tempArr.push(data[0]);});
+        // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
+        // this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.sumsArray[2] = this.calculateSum(res[1]);
-        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -230,12 +233,15 @@ export class FinancialInvestmentsComponent implements OnInit {
       this.queryData.getQuestion92comment(),
     ).subscribe(
       res => {
-        this.questionsDataArray[3] = this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        let tempArr: string[] = [];
-        this.questionsDataArray[3].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
+        this.questionsDataArray[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.getInvestmentsDataPie(this.questionsDataArray[3], 3);
+        this.createStackedColumnSeries(this.questionsDataArray[3], 3);
+        // this.questionsDataArray[3] = this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        // let tempArr: string[] = [];
+        // this.questionsDataArray[3].forEach((data: string[]) => {tempArr.push(data[0]);});
+        // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
+        // this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.sumsArray[3] = this.calculateSum(res[1]);
-        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -247,12 +253,15 @@ export class FinancialInvestmentsComponent implements OnInit {
       this.queryData.getQuestion96comment(),
     ).subscribe(
       res => {
-        this.questionsDataArray[4] = this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        let tempArr: string[] = [];
-        this.questionsDataArray[4].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
+        this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.getInvestmentsDataPie(this.questionsDataArray[4], 4);
+        this.createStackedColumnSeries(this.questionsDataArray[4], 4);
+        // this.questionsDataArray[4] = this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        // let tempArr: string[] = [];
+        // this.questionsDataArray[4].forEach((data: string[]) => {tempArr.push(data[0]);});
+        // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
+        // this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.sumsArray[4] = this.calculateSum(res[1]);
-        this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
@@ -264,12 +273,15 @@ export class FinancialInvestmentsComponent implements OnInit {
       this.queryData.getQuestion100comment(),
     ).subscribe(
       res => {
-        this.questionsDataArray[5] = this.questionsDataArrayForBarChart[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        let tempArr: string[] = [];
-        this.questionsDataArray[5].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
+        this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.getInvestmentsDataPie(this.questionsDataArray[5], 5);
+        this.createStackedColumnSeries(this.questionsDataArray[5], 5);
+        // this.questionsDataArray[5] = this.questionsDataArrayForBarChart[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        // let tempArr: string[] = [];
+        // this.questionsDataArray[5].forEach((data: string[]) => {tempArr.push(data[0]);});
+        // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
+        // this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.sumsArray[5] = this.calculateSum(res[1]);
-        this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
   }
