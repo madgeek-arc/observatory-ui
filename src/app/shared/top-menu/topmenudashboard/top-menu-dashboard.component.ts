@@ -67,7 +67,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
                 this.messagingWebsocket.WsJoin(`/app/messages/inbox/unread/${this.userInfo.user.email}`, 'action');
               }
               if (!this.messagingWebsocket.stompClientNotification) {
-                console.log('open notification socket');
+                // console.log('open notification socket');
                 this.messagingWebsocket.initializeWebSocketConnectionNotification(`/topic/messages/inbox/notification/${this.userInfo.user.email}`);
               }
 
