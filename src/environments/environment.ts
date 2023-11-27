@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   beta: false,
-  API_LOGIN: 'http://localhost:8280/observatory/login',
+  // API_LOGIN: 'http://localhost:8280/observatory/login',
+  API_LOGIN: 'http://localhost:8280/observatory/oauth2/authorization/eosc',
   API_ENDPOINT: '/observatory',
   WS_ENDPOINT: 'http://localhost:8280/observatory/websocket',
   MESSAGING_ENDPOINT: '/observatory',
