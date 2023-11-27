@@ -32,6 +32,9 @@ import {CountryLandingPageUseCasesComponent} from "./pages/dashboard/country-lan
 import {
   CategoryIndicatorsRowComponent
 } from "./pages/dashboard/country-landing-page/indicators-table/category-indicators-row.component";
+import {
+  ContributionsHomeExtentionComponent
+} from "./pages/dashboard/contribution-dashboard-extension/home/contributions-home-extention.component";
 
 @NgModule({
   declarations: [
@@ -45,7 +48,8 @@ import {
     PoliciesCategoryIndicatorsComponent,
     PracticesCategoryIndicatorsComponent,
     CategoryIndicatorsWrapperComponent,
-    CategoryIndicatorsRowComponent
+    CategoryIndicatorsRowComponent,
+    ContributionsHomeExtentionComponent
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Stakeholder, UserInfo} from "../../../../survey-tool/app/domain/userInfo";
 import {UserService} from "../../../../survey-tool/app/services/user.service";
 import {AuthenticationService} from "../../../../survey-tool/app/services/authentication.service";
-import {query} from "@angular/animations";
 
 declare var UIkit;
 

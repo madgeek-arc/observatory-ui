@@ -21,6 +21,7 @@ export class CountryLandingPageComponent implements OnInit {
   answer: object = null;
 
   countryPageNarrativeURL: SafeResourceUrl;
+  countryPageOSOURL: SafeResourceUrl;
 
   constructor(private route: ActivatedRoute, private surveyService: SurveyService, private sanitizer: DomSanitizer) {}
 
@@ -29,6 +30,7 @@ export class CountryLandingPageComponent implements OnInit {
       value => {
         this.countryCode = value['code'];
         this.countryPageNarrativeURL = this.sanitizer.bypassSecurityTrustResourceUrl(`https://dl120.madgik.di.uoa.gr/embeddable/country/${this.countryCode}?showFull=false`);
+        this.countryPageOSOURL = this.sanitizer.bypassSecurityTrustResourceUrl(`https://osobservatory.openaire.eu/country/${this.countryCode}/overview`);
         this.surveyService.getLatestAnswer(`sh-eosc-sb-${this.countryCode}`, 'm-jlFggsCN').subscribe(
           res => {
             this.surveyAnswer = res;

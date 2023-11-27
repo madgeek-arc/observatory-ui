@@ -39,7 +39,7 @@ import {Glossary2022Component} from "./eosc-readiness-2022/glossary/glossary-202
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
     path: '',
-    redirectTo: '2021',
+    redirectTo: '2022',
     pathMatch: 'full'
   },
   {
@@ -70,7 +70,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
     path: '2022',
     component: EoscReadinessDashboard2022Component,
-    canActivateChild: [ArchiveGuardService],
+    // canActivateChild: [ArchiveGuardService],
     children: [
       {
         path: '',

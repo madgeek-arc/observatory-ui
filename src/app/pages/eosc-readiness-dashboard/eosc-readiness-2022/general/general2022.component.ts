@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {CountryTableData} from "../../../../../survey-tool/app/domain/country-table-data";
 import {countriesNumbers, EoscReadiness2022MapSubtitles} from "../eosc-readiness2022-map-subtitles";
 import {EoscReadiness2022DataService} from "../../../services/eosc-readiness2022-data.service";
@@ -8,10 +8,9 @@ import {DataHandlerService} from "../../../services/data-handler.service";
 import {zip} from "rxjs/internal/observable/zip";
 import {RawData} from "../../../../../survey-tool/app/domain/raw-data";
 import {isNumeric} from "rxjs/internal-compatibility";
-import UIkit from "uikit";
-import {countries} from "../../../../../survey-tool/app/domain/countries";
-import {ColorAxisOptions, LegendOptions} from "highcharts";
 import * as Highcharts from "highcharts";
+import {ColorAxisOptions, LegendOptions} from "highcharts";
+import UIkit from "uikit";
 
 @Component({
   selector: 'app-general-2022',
@@ -29,7 +28,8 @@ export class General2022Component implements OnInit {
   tableAbsoluteDataArray: CountryTableData[][] = [];
   legend: LegendOptions;
   colorAxis: ColorAxisOptions;
-  series: {name: string, data: (string | number)[][]}[];
+  pieSeries: {name: string, type: string, data: (string | number)[][]}[];
+  columnSeries: {name: string, type: string, data: (string | number)[][]}[];
   mapSubtitles: string[] = [];
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
   questionsDataArray: any[] = [];
@@ -58,19 +58,20 @@ export class General2022Component implements OnInit {
           this.getRepositoriesData();
         }
         if (params['type'] === 'investments') {
-
+          this.getInvestmentsData(8);
+          // this.getInvestmentsData(9);
         }
 
       }
     );
 
-    this.route.fragment.subscribe(
-      fragment => {
-        this.fragment = fragment;
-        if (this.fragment)
-          this.activateSwitcher(fragment);
-      }
-    );
+    // this.route.fragment.subscribe(
+    //   fragment => {
+    //     this.fragment = fragment;
+    //     if (this.fragment)
+    //       this.activateSwitcher(fragment);
+    //   }
+    // );
 
   }
 
@@ -150,12 +151,13 @@ export class General2022Component implements OnInit {
       this.queryData.getQuestion5comment(),
     ).subscribe(
       res => {
-        this.questionsDataArray[pos] = this.questionsDataArrayForBarChart[pos] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.questionsDataArray[pos] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
         this.getInvestmentsDataPie(this.questionsDataArray[pos]);
-        let tempArr: string[] = [];
-        this.questionsDataArray[pos].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
-        this.toolTipData[pos] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        this.createStackedColumnSeries(this.questionsDataArray[pos]);
+        // let tempArr: string[] = [];
+        // this.questionsDataArray[pos].forEach((data: string[]) => {tempArr.push(data[0]);});
+        // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
+        // this.toolTipData[pos] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.sumsArray[pos] = this.calculateSum(res[1]);
       }
     )
@@ -190,8 +192,9 @@ export class General2022Component implements OnInit {
   }
 
   getInvestmentsDataPie(arr: number[]) {
-      this.series = [{
+      this.pieSeries = [{
           name: 'No of countries',
+          type: 'pie',
           data: [
               [' < 1 M', 0],
               ['1 - 5 M', 0],
@@ -202,18 +205,43 @@ export class General2022Component implements OnInit {
       }];
       for (let i = 0; i < arr.length; i++) {
           if (arr[i][1] < 1) {
-              (<number>this.series[0].data[0][1])++;
+              (<number>this.pieSeries[0].data[0][1])++;
           } else if (arr[i][1] < 5) {
-              (<number>this.series[0].data[1][1])++;
+              (<number>this.pieSeries[0].data[1][1])++;
           } else if (arr[i][1] < 10) {
-              (<number>this.series[0].data[2][1])++;
+              (<number>this.pieSeries[0].data[2][1])++;
           } else if (arr[i][1] < 20) {
-              (<number>this.series[0].data[3][1])++;
+              (<number>this.pieSeries[0].data[3][1])++;
           } else if (arr[i][1] >= 20) {
-              (<number>this.series[0].data[4][1])++;
+              (<number>this.pieSeries[0].data[4][1])++;
           }
       }
       // console.log(this.series[0]);
+  }
+
+  createStackedColumnSeries(arr: any[]) {
+    arr.sort((a, b) => { return a[1] - b[1]; });
+    this.columnSeries = [];
+    let serie: {name: string, type: string, data: (string | number)[][]};
+    for (let i = 0; i < arr.length; i++) {
+      let country = this.findCountryName(arr[i][0]);
+      if (arr[i][1] < 1) {
+        serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [[' < 1 M', 1]]}
+        this.columnSeries.push(serie);
+      } else if (arr[i][1] < 5) {
+        serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [['1 - 5 M', 1]]}
+        this.columnSeries.push(serie);
+      } else if (arr[i][1] < 10) {
+        serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [['5 - 10 M', 1]]}
+        this.columnSeries.push(serie);
+      } else if (arr[i][1] < 20) {
+        serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [['10 - 20 M', 1]]}
+        this.columnSeries.push(serie);
+      } else if (arr[i][1] >= 20) {
+        serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [[' > 20 M', 1]]}
+        this.columnSeries.push(serie);
+      }
+    }
   }
 
   calculateSum(rawData: RawData): string {
@@ -226,6 +254,12 @@ export class General2022Component implements OnInit {
       }
     }
     return (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
+  }
+
+  findCountryName(code: string) {
+    return countriesNumbers.find(
+      elem => elem.id.toLowerCase() === code
+    );
   }
 
   activateSwitcher(fragment: string) {
@@ -255,7 +289,7 @@ export class General2022Component implements OnInit {
             this.getInvestmentsDataPercentage(7, 'income');
           UIkit.switcher('#investmentsContent').show(3);
           break;
-        case 'ranges':
+        case 'total':
           if (!this.questionsDataArray[8])
             this.getInvestmentsData(8);
           this.colorAxis = {
@@ -278,14 +312,14 @@ export class General2022Component implements OnInit {
             minColor: '#F1EEF6',
             maxColor: '#008792',
           }
-          UIkit.switcher('#investmentsContent').show(4);
+          UIkit.switcher('#investmentsContent').show(0);
           break;
-        case 'rangesV2':
+        case 'details':
           if (!this.questionsDataArray[9])
             this.getInvestmentsData(9);
           this.legend = {
               title: {
-                  text: 'Ranges in milions',
+                  text: 'Ranges in millions',
                   style: {
                       color: ( // theme
                           Highcharts.defaultOptions &&
@@ -329,7 +363,7 @@ export class General2022Component implements OnInit {
             minColor: '#F1EEF6',
             maxColor: '#008792',
           }
-          UIkit.switcher('#investmentsContent').show(5);
+          UIkit.switcher('#investmentsContent').show(1);
           break;
       }
     }

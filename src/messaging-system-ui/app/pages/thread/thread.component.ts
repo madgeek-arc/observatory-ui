@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MessagingSystemService} from "../../../services/messaging-system.service";
 import {Correspondent, Message, TopicThread} from "../../domain/messaging";
@@ -7,6 +7,8 @@ import {UserInfo} from "../../../../survey-tool/app/domain/userInfo";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {MessagingWebsocketService} from "../../../services/messaging-websocket.service";
+import {takeUntil} from "rxjs/operators";
+import {Subject} from "rxjs";
 
 
 @Component({
@@ -15,9 +17,11 @@ import {MessagingWebsocketService} from "../../../services/messaging-websocket.s
   styleUrls: ['thread.component.scss']
 })
 
-export class ThreadComponent implements OnInit {
+export class ThreadComponent implements OnInit, OnDestroy {
 
   @ViewChild('threadHeader') targetElement: any;
+
+  private _destroyed: Subject<boolean> = new Subject();
 
   threadId: string = null;
   groupId: string = null;
@@ -82,14 +86,17 @@ export class ThreadComponent implements OnInit {
       }
     );
 
-    this.messagingWebsocket.thread.subscribe(next => {
-      console.log(this.threadId);
-      console.log(next);
+    this.messagingService.getThreadAsObservable().pipe(takeUntil(this._destroyed)).subscribe(next => {
       if (this.threadId && this.threadId === next?.id) {
         this.thread = next;
       }
     });
 
+  }
+
+  ngOnDestroy() {
+    this._destroyed.next(true);
+    this._destroyed.complete();
   }
 
   firstLetters(name: string) {

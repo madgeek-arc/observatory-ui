@@ -3,6 +3,9 @@ import {ExtraOptions, RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from "./pages/home/home.component";
 import {CountrySelectorComponent} from "./pages/dashboard/country-selector/country-selector.component";
 import {CountryLandingPageComponent} from "./pages/dashboard/country-landing-page/country-landing-page.component";
+import {
+  ContributionsHomeExtentionComponent
+} from "./pages/dashboard/contribution-dashboard-extension/home/contributions-home-extention.component";
 
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: "enabled",
@@ -40,6 +43,15 @@ const routes: Routes = [
   {
     path: 'contributions/:id',
     loadChildren: () => import('../messaging-system-ui/app/messaging-system.module').then(m => m.MessagingSystemModule),
+  },
+  {
+    path: 'contributions/:id/',
+    pathMatch: 'full',
+    redirectTo: 'contributions/:id/home'
+  },
+  {
+    path: 'contributions/:id/home',
+    component: ContributionsHomeExtentionComponent,
   },
   {
     path: '',

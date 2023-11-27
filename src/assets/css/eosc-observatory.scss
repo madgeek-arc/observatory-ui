@@ -134,3 +134,20 @@
   border-radius: 6px;
   border: 1px solid #eee;
 }
+
+a.button-osobservatory {
+  line-height: 35px !important;
+}
+
+.button-osobservatory {
+  background-color: var(--eosc-observatory-secondary-color);
+  padding: 5px 20px;
+}
+
+.button-osobservatory:hover {
+  background-color: #CA4D9A;
+}
+
+.button-osobservatory:visited {
+  color: #fff;
+}

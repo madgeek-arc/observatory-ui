@@ -7,9 +7,10 @@ import {AuthenticationService} from "../../../../survey-tool/app/services/authen
 import {PrivacyPolicyService} from "../../../../survey-tool/app/services/privacy-policy.service";
 import {AcceptedPrivacyPolicy} from "../../../../survey-tool/app/domain/privacy-policy";
 import {UnreadMessages} from "../../../../messaging-system-ui/app/domain/messaging";
-import {Subscriber} from "rxjs";
-import * as UIkit from 'uikit';
 import {MessagingWebsocketService} from "../../../../messaging-system-ui/services/messaging-websocket.service";
+import {Subscriber} from "rxjs";
+
+import * as UIkit from 'uikit';
 
 @Component({
   selector: 'app-top-menu-dashboard',
@@ -38,7 +39,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
       next => this.unreadMessages = next
     );
     // TODO: uncomment this for messages
-    // this.messagingService.setUnreadCount();
+    this.messagingService.setUnreadCount();
 
   }
 
@@ -60,10 +61,15 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
               );
             }
             if (this.userInfo) {
-
               // TODO: uncomment this for messages
-              // this.messagingWebsocket.initializeWebSocketConnection(`/topic/messages/inbox/unread/${this.userInfo.user.email}`);
-              // this.messagingWebsocket.WsJoin(`/app/messages/inbox/unread/${this.userInfo.user.email}`, 'action');
+              if (!this.messagingWebsocket.stompClientUnread) {
+                this.messagingWebsocket.initializeWebSocketConnectionUnread(`/topic/messages/inbox/unread/${this.userInfo.user.email}`);
+                this.messagingWebsocket.WsJoin(`/app/messages/inbox/unread/${this.userInfo.user.email}`, 'action');
+              }
+              if (!this.messagingWebsocket.stompClientNotification) {
+                // console.log('open notification socket');
+                this.messagingWebsocket.initializeWebSocketConnectionNotification(`/topic/messages/inbox/notification/${this.userInfo.user.email}`);
+              }
 
               this.showArchive = this.coordinatorContains('eosc-sb') || this.checkIfManager();
               // for (const stakeholder of this.userInfo.stakeholders) {
