@@ -38,7 +38,6 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
     this.messagingService.unreadMessages.subscribe(
       next => this.unreadMessages = next
     );
-    // TODO: uncomment this for messages
     this.messagingService.setUnreadCount();
 
   }
@@ -61,7 +60,6 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
               );
             }
             if (this.userInfo) {
-              // TODO: uncomment this for messages
               if (!this.messagingWebsocket.stompClientUnread) {
                 this.messagingWebsocket.initializeWebSocketConnectionUnread(`/topic/messages/inbox/unread/${this.userInfo.user.email}`);
                 this.messagingWebsocket.WsJoin(`/app/messages/inbox/unread/${this.userInfo.user.email}`, 'action');
@@ -72,19 +70,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
               }
 
               this.showArchive = this.coordinatorContains('eosc-sb') || this.checkIfManager();
-              // for (const stakeholder of this.userInfo.stakeholders) {
-              //   this.groupIds.push(stakeholder.id);
-              // }
-              // for (const coordinator of this.userInfo.coordinators) {
-              //   this.groupIds.push(coordinator.id);
-              // }
 
-              //   .subscribe(
-              //   res => {
-              //     this.unreadMessages = res;
-              //   },
-              //   error => {console.error(error)}
-              // );
             }
           },
           error => {console.error(error)}
