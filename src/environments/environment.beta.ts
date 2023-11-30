@@ -15,7 +15,14 @@ export const environment = {
   osoStatsProfileName: 'observatory',
   matomoTrackerUrl: 'https://eosc-analytics.openaire.eu/matamo.php',
   matomoSiteId: 2,
-  RECAPTCHA_V3_KEY: '$RECAPTCHA_V3_SITE_KEY'
+  RECAPTCHA_V3_KEY: '$RECAPTCHA_V3_SITE_KEY',
+  sentry: {
+    dsn: 'https://f3877c1b0e3334d3869db0c5113dc30e@vereniki.athenarc.gr/5',
+    environment: 'dl123',
+    tracesSampleRate: 1.0,
+    replaysSessionSampleRate: 0.2,
+    replaysOnErrorSampleRate: 1.0
+  }
 };
 
 /*

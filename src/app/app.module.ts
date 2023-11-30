@@ -1,4 +1,6 @@
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, ErrorHandler, NgModule} from "@angular/core";
+import {Router} from "@angular/router";
+import * as Sentry from "@sentry/angular-ivy";
 import {BrowserModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {environment} from "../environments/environment";
@@ -69,8 +71,25 @@ import {
     },
     UserService,
     ArchiveGuardService,
-    MessagingSystemService
+    MessagingSystemService,
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler({
+        showDialog: true,
+      }),
+    }, {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => {
+      },
+      deps: [Sentry.TraceService],
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
