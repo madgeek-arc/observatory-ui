@@ -10,7 +10,7 @@ export const environment = {
   WS_ENDPOINT: '/api/websocket',
   MESSAGING_ENDPOINT: '/api',
   projectName: 'Observatory',
-  STATS_API_ENDPOINT: 'https://stats.madgik.di.uoa.gr/stats-api/',
+  STATS_API_ENDPOINT: '/api/statistics/',
   profileName: 'eosc-obs',
   OSO_STATS_API_ENDPOINT: 'https://services.openaire.eu/stats-tool/',
   osoStatsProfileName: 'observatory',
