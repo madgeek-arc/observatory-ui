@@ -75,7 +75,7 @@ import {
     {
       provide: ErrorHandler,
       useValue: Sentry.createErrorHandler({
-        showDialog: true,
+        showDialog: false,
       }),
     }, {
       provide: Sentry.TraceService,
