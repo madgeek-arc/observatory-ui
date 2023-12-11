@@ -78,7 +78,7 @@ export class EoscReadinessDashboardComponent implements OnInit, AfterViewInit{
   }
 
   coordinatorOrManager(name: string) {
-    let userInfo: UserInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    let userInfo: UserInfo = this.userService.getCurrentUserInfo();
     if (userInfo.coordinators.filter(c => c.type === name).length > 0) {
       return true;
     } else if (userInfo.stakeholders.filter(c => c.type === name).length > 0) {

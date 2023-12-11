@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from "@angular/core";
+import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from "@angular/core";
 import {Router} from "@angular/router";
 import {Coordinator, Stakeholder, UserInfo} from "../../../../survey-tool/app/domain/userInfo";
 import {UserService} from "../../../../survey-tool/app/services/user.service";
@@ -8,8 +8,8 @@ import {PrivacyPolicyService} from "../../../../survey-tool/app/services/privacy
 import {AcceptedPrivacyPolicy} from "../../../../survey-tool/app/domain/privacy-policy";
 import {UnreadMessages} from "../../../../messaging-system-ui/app/domain/messaging";
 import {MessagingWebsocketService} from "../../../../messaging-system-ui/services/messaging-websocket.service";
-import {Subscriber} from "rxjs";
-
+import {Subject} from "rxjs";
+import {takeUntil} from "rxjs/operators";
 import * as UIkit from 'uikit';
 
 @Component({
@@ -20,9 +20,9 @@ import * as UIkit from 'uikit';
 })
 
 export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() userInfo: UserInfo = null;
+  private _destroyed: Subject<boolean> = new Subject();
 
-  subscriptions = [];
+  userInfo: UserInfo = null;
   currentStakeholder: Stakeholder = null;
   currentCoordinator: Coordinator = null;
   acceptedPrivacyPolicy: AcceptedPrivacyPolicy = null;
@@ -44,78 +44,71 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
 
-    if (this.authentication.authenticated) {
-      this.subscriptions.push(
-        this.userService.userInfo.subscribe(
-          next => {
-            if (next) {
-              this.userInfo = next;
-            } else {
-              this.userService.getUserInfo().subscribe(
-                next => {
-                  this.userService.setUserInfo(next);
-                  this.userInfo = next;
-                },
-                error => {console.error(error);}
-              );
+    // if (this.authentication.authenticated) {
+      this.userService.getUserObservable().pipe(takeUntil(this._destroyed)).subscribe(
+        next => {
+          // if (next) {
+            this.userInfo = next;
+          // }
+          // else {
+          //   this.userService.getUserInfo().subscribe(
+          //     next => {
+          //       this.userService.setUserInfo(next);
+          //       this.userInfo = next;
+          //     },
+          //     error => {console.error(error);
+          //     }
+          //   )
+          // }
+          if (this.userInfo) {
+            if (!this.messagingWebsocket.stompClientUnread) {
+              this.messagingWebsocket.initializeWebSocketConnectionUnread(`/topic/messages/inbox/unread/${this.userInfo.user.email}`);
+              this.messagingWebsocket.WsJoin(`/app/messages/inbox/unread/${this.userInfo.user.email}`, 'action');
             }
-            if (this.userInfo) {
-              if (!this.messagingWebsocket.stompClientUnread) {
-                this.messagingWebsocket.initializeWebSocketConnectionUnread(`/topic/messages/inbox/unread/${this.userInfo.user.email}`);
-                this.messagingWebsocket.WsJoin(`/app/messages/inbox/unread/${this.userInfo.user.email}`, 'action');
-              }
-              if (!this.messagingWebsocket.stompClientNotification) {
-                // console.log('open notification socket');
-                this.messagingWebsocket.initializeWebSocketConnectionNotification(`/topic/messages/inbox/notification/${this.userInfo.user.email}`);
-              }
+            if (!this.messagingWebsocket.stompClientNotification) {
+              // console.log('open notification socket');
+              this.messagingWebsocket.initializeWebSocketConnectionNotification(`/topic/messages/inbox/notification/${this.userInfo.user.email}`);
+            }
 
-              this.showArchive = this.coordinatorContains('eosc-sb') || this.checkIfManager();
+            this.showArchive = this.coordinatorContains('eosc-sb') || this.checkIfManager();
 
+          }
+        },
+        error => {console.error(error)}
+      );
+    // }
+
+    this.userService.currentStakeholder.pipe(takeUntil(this._destroyed)).subscribe(next => {
+      this.currentStakeholder = !!next ? next : JSON.parse(sessionStorage.getItem('currentStakeholder'));
+      if (this.currentStakeholder !== null) {
+        this.privacyPolicy.hasAcceptedPolicy(this.currentStakeholder.type).pipe(takeUntil(this._destroyed)).subscribe(
+          next => {
+            this.acceptedPrivacyPolicy = next;
+            if (!this.acceptedPrivacyPolicy.accepted) {
+              UIkit.modal('#consent-modal').show();
             }
           },
-          error => {console.error(error)}
-        )
-      );
-    }
+          error => { console.error(error)},
+          () => {}
+        );
+      }
+    });
 
-    this.subscriptions.push(
-      this.userService.currentStakeholder.subscribe(next => {
-        this.currentStakeholder = !!next ? next : JSON.parse(sessionStorage.getItem('currentStakeholder'));
-        if (this.currentStakeholder !== null) {
-          this.subscriptions.push(
-            this.privacyPolicy.hasAcceptedPolicy(this.currentStakeholder.type).subscribe(
-              next => {
-                this.acceptedPrivacyPolicy = next;
-                if (!this.acceptedPrivacyPolicy.accepted) {
-                  UIkit.modal('#consent-modal').show();
-                }
-              },
-              error => { console.error(error)},
-              () => {}
-            )
-          );
-        }
-      })
-    );
-    this.subscriptions.push(
-      this.userService.currentCoordinator.subscribe(next => {
-        this.currentCoordinator = !!next ? next : JSON.parse(sessionStorage.getItem('currentCoordinator'));
-        if (this.currentCoordinator !== null) {
-          this.subscriptions.push(
-            this.privacyPolicy.hasAcceptedPolicy(this.currentCoordinator.type).subscribe(
-              next => {
-                this.acceptedPrivacyPolicy = next;
-                if (!this.acceptedPrivacyPolicy.accepted) {
-                  UIkit.modal('#consent-modal').show();
-                }
-              },
-              error => { console.error(error)},
-              () => {}
-            )
-          );
-        }
-      })
-    );
+    this.userService.currentCoordinator.pipe(takeUntil(this._destroyed)).subscribe(next => {
+      this.currentCoordinator = !!next ? next : JSON.parse(sessionStorage.getItem('currentCoordinator'));
+      if (this.currentCoordinator !== null) {
+        this.privacyPolicy.hasAcceptedPolicy(this.currentCoordinator.type).pipe(takeUntil(this._destroyed)).subscribe(
+          next => {
+            this.acceptedPrivacyPolicy = next;
+            if (!this.acceptedPrivacyPolicy.accepted) {
+              UIkit.modal('#consent-modal').show();
+            }
+          },
+          error => { console.error(error)},
+          () => {}
+        );
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -123,13 +116,9 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
       this.showArchive = this.coordinatorContains('eosc-sb') || this.checkIfManager();
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(subscription => {
-      if (subscription instanceof Subscriber) {
-        subscription.unsubscribe();
-      }
-    });
-    // this.messagingService.eventSource.close();
+  ngOnDestroy(): void {
+    this._destroyed.next(true);
+    this._destroyed.complete();
   }
 
   parseUsername() {
@@ -156,7 +145,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
 
   checkIfManager(): boolean {
     if (this.currentStakeholder) {
-      let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+      let userInfo = this.userService.getCurrentUserInfo();
       for (const manager of this.currentStakeholder.admins) {
         if (userInfo.user.email === manager) {
           return true;
@@ -202,21 +191,19 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   updateConsent() {
-    this.subscriptions.push(
-      this.userService.setUserConsent(this.acceptedPrivacyPolicy.privacyPolicy.id).subscribe(
-        next => {
-          UIkit.modal('#consent-modal').hide();
-          // if (!this.consent) {
-          //   this.authentication.logout();
-          // }
-        },
-        error => {
-          console.error(error);
-          UIkit.modal('#consent-modal').hide()
-          this.logout();
-        },
-        () => {UIkit.modal('#consent-modal').hide()}
-      )
+    this.userService.setUserConsent(this.acceptedPrivacyPolicy.privacyPolicy.id).pipe(takeUntil(this._destroyed))
+      .subscribe(next => {
+        UIkit.modal('#consent-modal').hide();
+        // if (!this.consent) {
+        //   this.authentication.logout();
+        // }
+      },
+      error => {
+        console.error(error);
+        UIkit.modal('#consent-modal').hide()
+        this.logout();
+      },
+      () => {UIkit.modal('#consent-modal').hide()}
     );
   }
 

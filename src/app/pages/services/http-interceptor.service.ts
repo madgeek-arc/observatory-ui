@@ -4,10 +4,12 @@ import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../../survey-tool/app/services/authentication.service";
+import {UserService} from "../../../survey-tool/app/services/user.service";
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
-  constructor(public router: Router, private authenticationService: AuthenticationService) {
+  constructor(public router: Router, private userService: UserService,
+              private authenticationService: AuthenticationService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -20,7 +22,8 @@ export class HttpInterceptorService implements HttpInterceptor {
         } else {
           if (response.status === 401) {
             // console.log('trying to login');
-            this.authenticationService.tryLogin();
+            // this.authenticationService.tryLogin();
+            this.userService.clearUserInfo();
           }
         }
         return throwError(response.message);

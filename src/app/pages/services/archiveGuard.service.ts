@@ -11,10 +11,10 @@ export class ArchiveGuardService implements CanActivateChild {
   }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (!this.userService.userInfo) {
+    if (!this.userService.getCurrentUserInfo()) {
       return this.fail();
     }
-    let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    let userInfo = this.userService.getCurrentUserInfo();
     if (userInfo.coordinators.filter(c => c.type === 'eosc-sb').length > 0) {
       return true;
     }
