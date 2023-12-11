@@ -6,7 +6,8 @@
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [title]="'Number of researchers employed in 2021'"
                                        [subtitle]="'(in full-time equivalents)'" [dataSeriesSuffix]="''"
-                                       [toolTipData]="toolTipData[0]" [participatingCountries]="countriesArray">
+                                       [toolTipData]="toolTipData[0]" [participatingCountries]="countriesArray"
+                                       [caption]="'Data have been extracted from <a href=&quot;https://ec.europa.eu/eurostat/databrowser/view/tsc00004/default/table?lang=en&quot; target=&quot;_blank&quot; style=&quot;color: #008792;&quot;>Eurostat</a>'">
             </app-highcharts-color-axis>
           </div>
 
@@ -24,7 +25,8 @@
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
               <app-bar-chart [mapData]="questionsDataArrayForBarChart[0]" [subTitle]="'(in full-time equivalents)'"
-                             [title]="'Number of researchers employed in 2021'" [dataSeriesSuffix]="''">
+                             [title]="'Number of researchers employed in 2021'" [dataSeriesSuffix]="''"
+                             [caption]="'Data have been extracted from <a href=&quot;https://ec.europa.eu/eurostat/databrowser/view/tsc00004/default/table?lang=en&quot; target=&quot;_blank&quot; style=&quot;color: #008792;&quot;>Eurostat</a>'">
               </app-bar-chart>
             </div>
           </div>
