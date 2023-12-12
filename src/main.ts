@@ -1,4 +1,4 @@
-import { enableProdMode, ErrorHandler } from '@angular/core';
+import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import * as Sentry from "@sentry/angular-ivy";
 
@@ -12,6 +12,9 @@ Sentry.init({
   integrations: [
     new Sentry.BrowserTracing({
       routingInstrumentation: Sentry.routingInstrumentation,
+    }),
+    new Sentry.Integrations.Breadcrumbs({
+      console: false,
     }),
     new Sentry.Replay(),
   ],
