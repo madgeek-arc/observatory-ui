@@ -17,6 +17,7 @@ export const environment = {
   matomoTrackerUrl: 'https://eosc-analytics.openaire.eu/matamo.php',
   matomoSiteId: 2,
   RECAPTCHA_V3_KEY: '$RECAPTCHA_V3_SITE_KEY',
+  disableSentry: false,
   sentry: {
     dsn: 'https://f3877c1b0e3334d3869db0c5113dc30e@vereniki.athenarc.gr/5',
     environment: 'dl123',
@@ -25,12 +26,3 @@ export const environment = {
     replaysOnErrorSampleRate: 1.0
   }
 };
-
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
