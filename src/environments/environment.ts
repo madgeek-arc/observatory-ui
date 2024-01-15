@@ -6,9 +6,9 @@ export const environment = {
   production: false,
   beta: false,
   // API_LOGIN: 'http://localhost:8280/observatory/login',
-  API_LOGIN: 'http://localhost:8280/observatory/oauth2/authorization/eosc',
+  API_LOGIN: '/observatory/oauth2/authorization/eosc',
   API_ENDPOINT: '/observatory',
-  WS_ENDPOINT: 'http://localhost:8280/observatory/websocket',
+  WS_ENDPOINT: '/observatory/websocket',
   MESSAGING_ENDPOINT: '/observatory',
   projectName: 'Observatory',
   // STATS_API_ENDPOINT: 'https://stats.madgik.di.uoa.gr/stats-api/',
@@ -18,7 +18,15 @@ export const environment = {
   osoStatsProfileName: 'observatory',
   matomoTrackerUrl: '',
   matomoSiteId: -2,
-  RECAPTCHA_V3_KEY: '6Lc_SFEmAAAAAPULH3Rw_Umpa-UVJ2n1qJ0dOcJ7'
+  RECAPTCHA_V3_KEY: '6Lc_SFEmAAAAAPULH3Rw_Umpa-UVJ2n1qJ0dOcJ7',
+  disableSentry: true,
+  sentry: {
+    dsn: 'https://f3877c1b0e3334d3869db0c5113dc30e@vereniki.athenarc.gr/5',
+    environment: 'develop',
+    tracesSampleRate: 1.0,
+    replaysSessionSampleRate: 0.2,
+    replaysOnErrorSampleRate: 1.0
+  }
 };
 
 /*
@@ -28,4 +36,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
+import 'zone.js/plugins/zone-error';  // Included with Angular CLI.

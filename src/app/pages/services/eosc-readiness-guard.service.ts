@@ -11,8 +11,8 @@ export class EoscReadinessGuardService implements CanActivate {
   }
 
   canActivate(routeSnapshot: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-    if (!this.userService.userInfo) {
+    let userInfo = this.userService.getCurrentUserInfo();
+    if (!this.userService.getCurrentUserInfo()) {
       return this.fail();
     }
     if (userInfo.coordinators.filter(c => c.type === 'eosc-sb').length > 0) {

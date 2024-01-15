@@ -53,6 +53,9 @@
           },
           "configurations": {
             "production": {
+              "sourceMap": {
+                "scripts": true
+              },
               "budgets": [
                 {
                   "type": "initial",
@@ -74,6 +77,9 @@
               "outputHashing": "all"
             },
             "beta": {
+              "sourceMap": {
+                "scripts": true
+              },
               "budgets": [
                 {
                   "type": "initial",

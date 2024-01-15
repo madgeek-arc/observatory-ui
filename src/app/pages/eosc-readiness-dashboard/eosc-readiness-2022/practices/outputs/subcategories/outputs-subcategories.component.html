@@ -54,9 +54,10 @@
   <div *ngSwitchCase="'openData'">
     <div class="uk-grid uk-margin-medium-top">
       <div class="uk-width-2-3" style="height: 800px">
-        <app-highcharts-color-axis [mapData]="questionsDataArray[2]" [toolTipData]="toolTipData[2]"
-                                   [title]="'Number of open data sets published in 2021'"
-                                   [subtitle]="" [dataSeriesSuffix]="''" [participatingCountries]="countriesArray">
+        <app-highcharts-color-axis
+          [mapData]="questionsDataArray[2]" [toolTipData]="toolTipData[2]" [subtitle]="" [dataSeriesSuffix]="''"
+          [title]="'Number of open data sets published in 2021'" [participatingCountries]="countriesArray"
+          [caption]="'Data have been extracted from <a href=&quot;https://graph.openaire.eu/&quot; target=&quot;_blank&quot; style=&quot;color: #008792;&quot;>OpenAIRE Graph</a>'">
         </app-highcharts-color-axis>
       </div>
 
@@ -70,8 +71,10 @@
         </div>
 
         <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
-          <app-bar-chart [mapData]="questionsDataArrayForBarChart[2]" [subTitle]="''"
-                         [title]="'Number of open data sets published in 2021'">
+          <app-bar-chart
+            [mapData]="questionsDataArrayForBarChart[2]" [subTitle]="''"
+            [title]="'Number of open data sets published in 2021'"
+            [caption]="'Data have been extracted from <a href=&quot;https://graph.openaire.eu/&quot; target=&quot;_blank&quot; style=&quot;color: #008792;&quot;>OpenAIRE Graph</a>'">
           </app-bar-chart>
         </div>
       </div>

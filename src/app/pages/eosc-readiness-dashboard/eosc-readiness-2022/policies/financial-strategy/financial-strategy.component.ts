@@ -268,7 +268,7 @@ export class FinancialStrategyComponent implements OnInit {
         this.countriesArray = res[0];
         this.participatingCountries[7] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
         this.participatingCountriesPercentage[7] = Math.round((this.participatingCountries[7]/this.countriesArray.length + Number.EPSILON) * 100);
-        console.log(this.participatingCountriesPercentage);
+        // console.log(this.participatingCountriesPercentage);
         this.tmpQuestionsDataArray[5] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
         for (let i = 0; i < this.tmpQuestionsDataArray[5].series.length; i++) {
           this.tmpQuestionsDataArray[5].series[i].data = this.tmpQuestionsDataArray[5].series[i].data.map(code => ({ code }));

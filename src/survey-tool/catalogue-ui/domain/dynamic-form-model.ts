@@ -171,7 +171,21 @@ export class Model {
   createdBy: string;
   modifiedBy: string;
   sections: Section[];
+  configuration: Configuration;
   locked: boolean;
+  active: boolean;
+}
+
+export class Configuration {
+  prefillable: boolean;
+  importFrom: string[]
+}
+
+export interface ImportSurveyData {
+  importFrom: string[],
+  importFromNames: string[];
+  surveyAnswerId: string;
+  surveyId: string;
 }
 
 export class UiVocabulary {

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Substitute Matomo Properties
-MAIN_PROXY_CONF_FILE=$(echo "/usr/share/nginx/html/$(ls /usr/share/nginx/html/ | grep -e 'main.')")
+MAIN_PROXY_CONF_FILE=$(echo "/usr/share/nginx/html/$(ls /usr/share/nginx/html/ | grep -e '^main.*.js$')")
 MAIN_TMP=$(echo "$MAIN_PROXY_CONF_FILE.tmp")
 echo "main.js = $MAIN_PROXY_CONF_FILE | main-tmp: $MAIN_TMP"
 cp $MAIN_PROXY_CONF_FILE $MAIN_TMP
