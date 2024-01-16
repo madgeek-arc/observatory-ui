@@ -24,7 +24,7 @@ export class HttpInterceptorService implements HttpInterceptor {
             // console.log('trying to login');
             // this.authenticationService.tryLogin();
             this.userService.clearUserInfo();
-            this.router.navigate(['/'])
+            // this.router.navigate(['/']);
           }
         }
         return throwError(response.message);
