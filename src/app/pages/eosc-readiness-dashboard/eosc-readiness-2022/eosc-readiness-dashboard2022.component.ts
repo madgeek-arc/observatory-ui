@@ -1,9 +1,8 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from "@angular/core";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {Stakeholder, UserInfo} from "../../../../survey-tool/app/domain/userInfo";
-import {UserService} from "../../../../survey-tool/app/services/user.service";
-import {AuthenticationService} from "../../../../survey-tool/app/services/authentication.service";
-import {global} from "@angular/compiler/src/util";
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { UserInfo } from "../../../../survey-tool/app/domain/userInfo";
+import { UserService } from "../../../../survey-tool/app/services/user.service";
+import { AuthenticationService } from "../../../../survey-tool/app/services/authentication.service";
 
 
 declare var UIkit;
@@ -14,7 +13,7 @@ declare var UIkit;
   styleUrls: ['../eosc-readiness-dashboard.component.css'],
 })
 
-export class EoscReadinessDashboard2022Component implements OnInit, AfterViewInit{
+export class EoscReadinessDashboard2022Component implements OnInit, AfterViewInit {
 
   @ViewChild("nav") nav: ElementRef;
 
@@ -30,13 +29,13 @@ export class EoscReadinessDashboard2022Component implements OnInit, AfterViewIni
   constructor(private route: ActivatedRoute, private router: Router,
               private userService: UserService, private authentication: AuthenticationService) {
 
-    this.router.events.subscribe((event:any) =>  {
+    this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         this.activeSection = this.route.firstChild.snapshot.url[0].path;
         // console.log('activeSection -> ', this.activeSection);
-        if(this.activeSection === 'policies' || this.activeSection === 'practices') {
+        if (this.activeSection === 'policies' || this.activeSection === 'practices') {
           this.activeTab = this.route.firstChild.firstChild.snapshot.url[0].path
-        } else if(this.activeSection === 'general') {
+        } else if (this.activeSection === 'general') {
           this.activeTab = this.route.firstChild.snapshot.params['type'];
         } else
           this.activeTab = 'glossary'
@@ -67,11 +66,11 @@ export class EoscReadinessDashboard2022Component implements OnInit, AfterViewIni
   }
 
   ngOnInit(): void {
-    this.route.firstChild.url.subscribe( url => {
+    this.route.firstChild.url.subscribe(url => {
       this.activeSection = url[0]['path'];
     });
 
-    if(this.activeSection === 'policies' || this.activeSection === 'practices') {
+    if (this.activeSection === 'policies' || this.activeSection === 'practices') {
       this.route.firstChild.firstChild.url.subscribe(
         next => {
           this.activeTab = next[0].path;
@@ -109,7 +108,7 @@ export class EoscReadinessDashboard2022Component implements OnInit, AfterViewIni
 
   toggleSidebar() {
     const el: HTMLElement = document.getElementById('sidebar_toggle');
-    if(!el.classList.contains('closed')) {
+    if (!el.classList.contains('closed')) {
       el.classList.add('closed');
       const el1: HTMLElement = document.getElementById('sidebar_main_content');
       el1.classList.remove('sidebar_main_active');
