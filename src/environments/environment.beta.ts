@@ -19,7 +19,7 @@ export const environment = {
   RECAPTCHA_V3_KEY: '$RECAPTCHA_V3_SITE_KEY',
   disableSentry: false,
   sentry: {
-    dsn: 'https://f3877c1b0e3334d3869db0c5113dc30e@vereniki.athenarc.gr/5',
+    dsn: 'https://f3877c1b0e3334d3869db0c5113dc30e@sentry.vereniki.athenarc.gr/5',
     environment: 'dl123',
     tracesSampleRate: 1.0,
     replaysSessionSampleRate: 0.2,
