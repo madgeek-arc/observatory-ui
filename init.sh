@@ -5,7 +5,7 @@ MAIN_PROXY_CONF_FILE=$(echo "/usr/share/nginx/html/$(ls /usr/share/nginx/html/ |
 MAIN_TMP=$(echo "$MAIN_PROXY_CONF_FILE.tmp")
 echo "main.js = $MAIN_PROXY_CONF_FILE | main-tmp: $MAIN_TMP"
 cp $MAIN_PROXY_CONF_FILE $MAIN_TMP
-envsubst '${MATOMO_URL} ${MATOMO_SITE_ID} ${RECAPTCHA_V3_SITE_KEY}' < $MAIN_TMP > $MAIN_PROXY_CONF_FILE
+envsubst '${MATOMO_URL} ${MATOMO_SITE_ID} ${RECAPTCHA_V3_SITE_KEY} ${SENTRY_DSN} ${SENTRY_ENV}' < $MAIN_TMP > $MAIN_PROXY_CONF_FILE
 rm $MAIN_TMP
 
 # Create Nginx configuration
