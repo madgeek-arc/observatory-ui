@@ -70,7 +70,7 @@ import {
       multi: true
     },
     UserService,
-    ArchiveGuardService,
+    // ArchiveGuardService,
     MessagingSystemService,
     {
       provide: ErrorHandler,

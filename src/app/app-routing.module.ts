@@ -6,7 +6,7 @@ import {CountryLandingPageComponent} from "./pages/dashboard/country-landing-pag
 import {
   ContributionsHomeExtentionComponent
 } from "./pages/dashboard/contribution-dashboard-extension/home/contributions-home-extention.component";
-import {AuthenticationGuardService} from "../survey-tool/app/services/authentication-guard.service";
+import {AuthGuard} from "../survey-tool/app/services/auth-guard.service";
 
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: "enabled",
@@ -53,7 +53,7 @@ const routes: Routes = [
   {
     path: 'contributions/:id/home',
     component: ContributionsHomeExtentionComponent,
-    canActivate: [AuthenticationGuardService]
+    canActivate: [AuthGuard]
   },
   {
     path: '',
