@@ -1,7 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {EoscReadinessDashboardComponent} from "./eosc-readiness-2021/eosc-readiness-dashboard.component";
-import {EoscReadinessGuardService} from "../services/eosc-readiness-guard.service";
+// import {EoscReadinessGuardService} from "../services/eosc-readiness-guard.service";
 import {PoliciesComponent} from "./eosc-readiness-2021/policies/policies.component";
 import {PracticesComponent} from "./eosc-readiness-2021/practices/practices.component";
 import {InvestmentsComponent} from "./eosc-readiness-2021/investments/investments.component";
@@ -35,6 +35,7 @@ import {
 } from "./eosc-readiness-2022/practices/outputs/subcategories/outputs-subcategories.component";
 import {General2022Component} from "./eosc-readiness-2022/general/general2022.component";
 import {Glossary2022Component} from "./eosc-readiness-2022/glossary/glossary-2022.component";
+import { EoscReadinessGuard } from "../services/eosc-readiness-guard.service";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
@@ -62,7 +63,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
       {
         path: 'investments',
         component: InvestmentsComponent,
-        canActivate: [EoscReadinessGuardService]
+        canActivate: [EoscReadinessGuard]
       },
     ],
     runGuardsAndResolvers: 'always'
@@ -184,7 +185,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(nationalContributionsToEOSCDashboardRoutes)],
   exports: [RouterModule],
-  providers: [EoscReadinessGuardService]
+  providers: []
 })
 
 export class EoscReadinessDashboardRouting {}
