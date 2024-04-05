@@ -1,17 +1,17 @@
-import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {zip} from "rxjs/internal/observable/zip";
-import {SurveyComponent} from "../../../../../catalogue-ui/pages/dynamic-form/survey.component";
-import {Model} from "../../../../../catalogue-ui/domain/dynamic-form-model";
-import {SurveyService} from "../../../../services/survey.service";
-import {SurveyAnswer} from "../../../../domain/survey";
-import {Stakeholder, UserActivity, UserInfo} from "../../../../domain/userInfo";
-import {WebsocketService} from "../../../../services/websocket.service";
-import {Subject, Subscriber} from "rxjs";
+import {Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { zip } from "rxjs/internal/observable/zip";
+import { SurveyComponent } from "../../../../../catalogue-ui/pages/dynamic-form/survey.component";
+import { Model } from "../../../../../catalogue-ui/domain/dynamic-form-model";
+import { SurveyService } from "../../../../services/survey.service";
+import { SurveyAnswer } from "../../../../domain/survey";
+import { Stakeholder, UserActivity, UserInfo } from "../../../../domain/userInfo";
+import { WebsocketService } from "../../../../services/websocket.service";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+import { StakeholdersService } from "../../../../services/stakeholders.service";
+import { UserService } from "../../../../services/user.service";
 import UIkit from "uikit";
-import {takeUntil} from "rxjs/operators";
-import {StakeholdersService} from "../../../../services/stakeholders.service";
-import {UserService} from "../../../../services/user.service";
 
 @Component({
   selector: 'app-survey-form',
@@ -25,7 +25,7 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
   private _destroyed: Subject<boolean> = new Subject();
   survey: Model = null;
   subType: string;
-  surveyAnswers: SurveyAnswer = null
+  surveyAnswer: SurveyAnswer = null
   activeUsers: UserActivity[] = [];
   userInfo: UserInfo = null;
   tabsHeader: string = null;
@@ -38,8 +38,7 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
   action: string = null;
 
   constructor(private surveyService: SurveyService, private route: ActivatedRoute, private router: Router,
-              private stakeholdersService: StakeholdersService, private wsService: WebsocketService,
-              private userService: UserService) {}
+              private wsService: WebsocketService, private userService: UserService) {}
 
   ngOnInit() {
     this.ready = false;
@@ -58,31 +57,31 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
         }
         this.updateUserInfo();
 
-        this.wsService.msg.pipe(takeUntil(this._destroyed)).subscribe(
-        next => {
-            this.activeUsers = next;
-          }
-        );
+        // this.wsService.msg.pipe(takeUntil(this._destroyed)).subscribe(
+        // next => {
+        //     this.activeUsers = next;
+        //   }
+        // );
         if (!this.freeView) {
           zip(
             this.surveyService.getLatestAnswer(this.stakeholderId, this.surveyId).pipe(takeUntil(this._destroyed)),
             this.surveyService.getSurvey(this.surveyId).pipe(takeUntil(this._destroyed))).subscribe(
             next => {
-              this.surveyAnswers = next[0];
+              this.surveyAnswer = next[0];
               this.survey = next[1];
             },
             error => {console.log(error)},
             () => {
               this.ready = true;
-              this.wsService.initializeWebSocketConnection(this.surveyAnswers.id, 'surveyAnswer');
+              this.wsService.initializeWebSocketConnection(this.surveyAnswer.id, 'surveyAnswer');
               if (this.router.url.includes('/view')) {
-                this.wsService.WsJoin(this.surveyAnswers.id, 'surveyAnswer', 'view');
+                this.wsService.WsJoin(this.surveyAnswer.id, 'surveyAnswer', 'view');
                 this.action = 'view';
               } else if (this.router.url.includes('/validate')) {
-                this.wsService.WsJoin(this.surveyAnswers.id, 'surveyAnswer', 'validate');
+                this.wsService.WsJoin(this.surveyAnswer.id, 'surveyAnswer', 'validate');
                 this.action = 'validate';
               } else {
-                this.wsService.WsJoin(this.surveyAnswers.id, 'surveyAnswer', 'edit');
+                this.wsService.WsJoin(this.surveyAnswer.id, 'surveyAnswer', 'edit');
                 this.action = 'edit';
               }
             }
@@ -102,8 +101,8 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._destroyed.next(true);
     this._destroyed.complete();
-    if (this.surveyAnswers?.id) {
-      this.wsService.WsLeave(this.surveyAnswers.id, 'surveyAnswer', this.action);
+    if (this.surveyAnswer?.id) {
+      this.wsService.WsLeave(this.surveyAnswer.id, 'surveyAnswer', this.action);
     }
   }
 
@@ -119,7 +118,7 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
 
   validateSurveyAnswer(valid: boolean) {
     console.log('Is valid: ', valid);
-    this.surveyService.changeAnswerValidStatus(this.surveyAnswers.id, !this.surveyAnswers.validated).subscribe(
+    this.surveyService.changeAnswerValidStatus(this.surveyAnswer.id, !this.surveyAnswer.validated).subscribe(
       next => {
         UIkit.modal('#validation-modal').hide();
         this.router.navigate([`/contributions/${this.stakeholderId}/mySurveys`]);

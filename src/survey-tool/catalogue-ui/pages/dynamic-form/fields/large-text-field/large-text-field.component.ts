@@ -1,28 +1,20 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import {UntypedFormControl, UntypedFormGroup, FormGroupDirective} from "@angular/forms";
-import {Field, HandleBitSet} from "../../../../domain/dynamic-form-model";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { UntypedFormControl, UntypedFormGroup } from "@angular/forms";
+import { Field, HandleBitSet } from "../../../../domain/dynamic-form-model";
+import { BaseFieldComponent } from "../base-field.component";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-large-text-field',
   templateUrl: './large-text-field.component.html'
 })
 
-export class LargeTextFieldComponent implements OnInit {
-  @Input() fieldData: Field;
-  @Input() editMode: any;
-  @Input() readonly: boolean = null;
-  @Input() position?: number = null;
+export class LargeTextFieldComponent extends BaseFieldComponent implements OnInit {
 
-  @Output() hasChanges = new EventEmitter<boolean>();
   @Output() handleBitSets = new EventEmitter<Field>();
   @Output() handleBitSetsOfComposite = new EventEmitter<HandleBitSet>();
 
-  formControl!: UntypedFormControl;
-  form!: UntypedFormGroup;
-  hideField: boolean = null;
-
-  constructor(private rootFormGroup: FormGroupDirective) {
-  }
+  active = false;
 
   ngOnInit() {
     if (this.position !== null) {
@@ -31,15 +23,39 @@ export class LargeTextFieldComponent implements OnInit {
       this.form = this.rootFormGroup.control;
     }
     // console.log(this.form);
-
     this.formControl = this.form.get(this.fieldData.name) as UntypedFormControl;
-    // console.log(this.formControl);
+
+
+    // Subscribe and emit field value change
+    // this.formControl.valueChanges.pipe(
+    //   takeUntilDestroyed(this.destroyRef),
+    //   debounceTime(1000),
+    //   distinctUntilChanged()).subscribe({
+    //   next: value => {
+    //     console.log(this.editMode);
+    //
+    //   }
+    // })
+
+    // this.wsService.msg.subscribe({
+    //   next: value => {
+    //     value?.forEach(user => {
+    //       console.log(user.position);
+    //       if (this.fieldData.name === user.position) {
+    //         this.active = true;
+    //         return;
+    //       }
+    //       this.active = false;
+    //     })
+    //     // console.log(value)
+    //   }
+    // })
 
     if(this.fieldData.form.dependsOn) {
       // console.log(this.fieldData.form.dependsOn);
       this.enableDisableField(this.form.get(this.fieldData.form.dependsOn.name).value, this.fieldData.form.dependsOn.value);
 
-      this.form.get(this.fieldData.form.dependsOn.name).valueChanges.subscribe(
+      this.form.get(this.fieldData.form.dependsOn.name).valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
         value => {
           this.enableDisableField(value, this.fieldData.form.dependsOn.value);
         },
@@ -88,5 +104,4 @@ export class LargeTextFieldComponent implements OnInit {
   }
 
 }
-
 
