@@ -158,7 +158,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   setAdministrator(admin: Administrator){
-    this.userService.changeCurrentAdministator(admin);
+    this.userService.changeCurrentAdministrator(admin);
     this.router.navigate([`/contributions/${admin.id}/home`]);
   }
 
