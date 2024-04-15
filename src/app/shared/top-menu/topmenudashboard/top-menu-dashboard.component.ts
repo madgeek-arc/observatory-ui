@@ -1,6 +1,6 @@
 import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from "@angular/core";
 import {Router} from "@angular/router";
-import {Coordinator, Stakeholder, UserInfo} from "../../../../survey-tool/app/domain/userInfo";
+import {Administrator, Coordinator, Stakeholder, UserInfo} from "../../../../survey-tool/app/domain/userInfo";
 import {UserService} from "../../../../survey-tool/app/services/user.service";
 import {MessagingSystemService} from "src/messaging-system-ui/services/messaging-system.service";
 import {AuthenticationService} from "../../../../survey-tool/app/services/authentication.service";
@@ -25,6 +25,7 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
   userInfo: UserInfo = null;
   currentStakeholder: Stakeholder = null;
   currentCoordinator: Coordinator = null;
+  currentAdministrator: Administrator = null;
   acceptedPrivacyPolicy: AcceptedPrivacyPolicy = null;
   name: string = null;
   showArchive: boolean = false;
@@ -43,7 +44,6 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-
     // if (this.authentication.authenticated) {
       this.userService.getUserObservable().pipe(takeUntil(this._destroyed)).subscribe(
         next => {
@@ -109,6 +109,24 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
         );
       }
     });
+
+    this.userService.currentAdministrator.pipe(takeUntil(this._destroyed)).subscribe(next => {
+      this.currentAdministrator = !!next ? next : JSON.parse(sessionStorage.getItem('currentAdministrator'));
+      // todo: do we need privacy policy modal for admins?
+
+/*      if (this.currentAdministrator !== null) {
+        this.privacyPolicy.hasAcceptedPolicy(this.currentAdministrator.type).pipe(takeUntil(this._destroyed)).subscribe(
+          next => {
+            this.acceptedPrivacyPolicy = next;
+            if (!this.acceptedPrivacyPolicy.accepted) {
+              UIkit.modal('#consent-modal').show();
+            }
+          },
+          error => { console.error(error)},
+          () => {}
+        );
+      }*/
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -137,6 +155,11 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
   setCoordinator(coordinator: Coordinator){
     this.userService.changeCurrentCoordinator(coordinator);
     this.router.navigate([`/contributions/${coordinator.id}/home`]);
+  }
+
+  setAdministrator(admin: Administrator){
+    this.userService.changeCurrentAdministrator(admin);
+    this.router.navigate([`/contributions/${admin.id}/home`]);
   }
 
   coordinatorContains(name: string) {

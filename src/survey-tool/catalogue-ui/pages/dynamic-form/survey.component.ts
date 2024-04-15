@@ -1,15 +1,25 @@
-import { Component, DestroyRef, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  DestroyRef,
+  EventEmitter,
+  inject,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges
+} from "@angular/core";
 import { AbstractControl, FormArray, FormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Section, Field, Model, Tabs } from "../../domain/dynamic-form-model"
 import { FormControlService } from "../../services/form-control.service";
 import { PdfGenerateService } from "../../services/pdf-generate.service";
 import { WebsocketService } from "../../../app/services/websocket.service";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { UserActivity } from "../../../app/domain/userInfo";
 import UIkit from "uikit";
 import BitSet from "bitset";
-import { UserActivity } from "../../../app/domain/userInfo";
 
 declare var require: any;
 const seedRandom = require('seedrandom');
@@ -20,7 +30,7 @@ const seedRandom = require('seedrandom');
   providers: [FormControlService, PdfGenerateService]
 })
 
-export class SurveyComponent implements OnInit, OnChanges {
+export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
 
   protected destroyRef = inject(DestroyRef);
 
@@ -45,6 +55,7 @@ export class SurveyComponent implements OnInit, OnChanges {
   sortedSurveyAnswers: Object = {};
   bitset: Tabs = new Tabs;
   ready: boolean = false;
+  timeoutId: number = null;
 
   editMode: boolean = false;
   readonly: boolean = false;
@@ -61,18 +72,11 @@ export class SurveyComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    if (this.router.url.includes('/view')) {
-      this.readonly = true;
-    } else if (this.router.url.includes('/freeView')) {
-      this.freeView = true;
-    } else if (this.router.url.includes('/validate')) {
-      this.validate = true;
-    }
 
-    // this.wsService.msg.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
-    //   next => {
+    this.wsService.msg.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+      next => {
     //     this.removeClass(this.activeUsers);
-    //     this.activeUsers = next;
+        this.activeUsers = next;
     //     this.activeUsers?.forEach( user => {
     //       if(user.position) {
     //         let sheet = window.document.styleSheets[0];
@@ -97,11 +101,19 @@ export class SurveyComponent implements OnInit, OnChanges {
     //     });
     //     this.addClass(this.activeUsers);
     //
-    //   }
-    // );
+      }
+    );
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (this.router.url.includes('/view')) {
+      this.readonly = true;
+    } else if (this.router.url.includes('/freeView')) {
+      this.freeView = true;
+    } else if (this.router.url.includes('/validate')) {
+      this.validate = true;
+    }
+
     if (this.payload)
       this.editMode = true;
 
@@ -145,10 +157,6 @@ export class SurveyComponent implements OnInit, OnChanges {
       } else if (this.validate) {
         UIkit.modal('#validation-modal').show();
       }
-      if (this.readonly) {
-        this.form.disable();
-        this.form.markAsUntouched();
-      }
       this.ready = true;
 
       // this.form.valueChanges.pipe(
@@ -163,6 +171,11 @@ export class SurveyComponent implements OnInit, OnChanges {
 
     }
 
+    if (this.readonly) {
+      this.form.disable();
+      this.form.markAsUntouched();
+    }
+
     if (this.activeUsers?.length > 0) {
       setTimeout(()=> {
         let users = [];
@@ -172,6 +185,10 @@ export class SurveyComponent implements OnInit, OnChanges {
         UIkit.tooltip('#concurrentEdit', {title: users.toString(), pos: 'bottom'});
       }, 0);
     }
+  }
+
+  ngOnDestroy() {
+    clearTimeout(this.timeoutId);
   }
 
   /** Mark field as active --> **/
@@ -459,7 +476,7 @@ export class SurveyComponent implements OnInit, OnChanges {
   }
 
   closeSuccessAlert() {
-    setTimeout(() => {
+    this.timeoutId = setTimeout(() => {
       UIkit.alert('#successAlert').close();
     }, 4000);
     setTimeout(() => {

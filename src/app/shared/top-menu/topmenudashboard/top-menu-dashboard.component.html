@@ -35,9 +35,8 @@
                   <div class="uk-flex">
                     <div class="uk-padding-remove uk-flex uk-flex-middle">
                       <!--                      <span class="uk-text-small uk-text-bold uk-width-1-1">{{userInfo.user.fullname}}</span>-->
-                      <span *ngIf="currentCoordinator || currentStakeholder"
-                            class="uk-text-small uk-width-1-1 uk-margin-remove">
-                        {{currentStakeholder?.name ? currentStakeholder.name : currentCoordinator.name}}
+                      <span *ngIf="currentCoordinator || currentStakeholder || currentAdministrator" class="">
+                        {{(currentStakeholder?.name ? currentStakeholder.name : (currentCoordinator?.name ? currentCoordinator.name : currentAdministrator.name))}}
                       </span>
                     </div>
                     <div *ngIf="!userInfo.user.profile?.picture; else elseBlock">
@@ -98,7 +97,21 @@
                         </svg>
                       </a>
                     </li>
-
+                    <ng-container *ngIf="userInfo.administrators?.length > 0">
+                      <hr>
+                      <li *ngFor="let admin of userInfo.administrators">
+                        <a (click)="setAdministrator(admin)">
+                          <span class="material-icons uk-margin-right">shield</span>{{admin.name}}
+                          <!--                        For messages-->
+                          <svg *ngIf="showUnread(admin.id)" height="20" width="20">
+                            <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1"></circle>
+                            <text class="notification"  x="7.2" y="13" text-anchor="middle">
+                              {{showUnread(admin.id)}}
+                            </text>
+                          </svg>
+                        </a>
+                      </li>
+                    </ng-container>
                     <hr *ngIf="showArchive">
                     <li *ngIf="showArchive" class="groups">
                       <a class="" style="cursor: default; pointer-events: none">

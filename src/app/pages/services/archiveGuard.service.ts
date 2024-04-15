@@ -25,6 +25,7 @@ export const ArchiveGuardService: CanActivateFn = (route: ActivatedRouteSnapshot
               return of(true);
           }
         }
+        router.navigate(["/home"]).then();
         return of(false);
       } else {
         // console.log('Not authorized');
