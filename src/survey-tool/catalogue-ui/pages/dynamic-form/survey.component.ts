@@ -75,31 +75,31 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
 
     this.wsService.msg.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       next => {
-    //     this.removeClass(this.activeUsers);
+        this.removeClass(this.activeUsers);
         this.activeUsers = next;
-    //     this.activeUsers?.forEach( user => {
-    //       if(user.position) {
-    //         let sheet = window.document.styleSheets[0];
-    //
-    //         let styleExists = false;
-    //         for (let i = 0; i < sheet.cssRules.length; i++) {
-    //           if(sheet.cssRules[i] instanceof CSSStyleRule) {
-    //             if((sheet.cssRules[i] as CSSStyleRule).selectorText === `user-${user.sessionId}`) {
-    //               styleExists = true;
-    //               break;
-    //             }
-    //           }
-    //         }
-    //         if (!styleExists)
-    //           sheet.insertRule(`.user-${user.sessionId} { border-color: ${this.getRandomDarkColor(user.sessionId)} !important}`, sheet.cssRules.length);
-    //
-    //         console.log(sheet);
-    //         // const flipCard = document.getElementById(user.position);
-    //         // const flipCardElement: HTMLElement = flipCard!;
-    //         // flipCard.classList.toggle(`user-${user.sessionId}`);
-    //       }
-    //     });
-    //     this.addClass(this.activeUsers);
+        this.activeUsers?.forEach( user => {
+          if(user.position) {
+            let sheet = window.document.styleSheets[0];
+
+            let styleExists = false;
+            for (let i = 0; i < sheet.cssRules.length; i++) {
+              if(sheet.cssRules[i] instanceof CSSStyleRule) {
+                if((sheet.cssRules[i] as CSSStyleRule).selectorText === `user-${user.sessionId}`) {
+                  styleExists = true;
+                  break;
+                }
+              }
+            }
+            if (!styleExists)
+              sheet.insertRule(`.user-${user.sessionId} { border-color: ${this.getRandomDarkColor(user.sessionId)} !important}`, sheet.cssRules.length);
+
+            console.log(sheet);
+            // const flipCard = document.getElementById(user.position);
+            // const flipCardElement: HTMLElement = flipCard!;
+            // flipCard.classList.toggle(`user-${user.sessionId}`);
+          }
+        });
+        this.addClass(this.activeUsers);
     //
       }
     );
