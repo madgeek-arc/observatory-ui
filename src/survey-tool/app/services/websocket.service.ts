@@ -13,7 +13,7 @@ export class WebsocketService {
   private surveyAnswerId: string | null = null;
 
   stompClient: Promise<typeof Stomp>;
-  msg: BehaviorSubject<UserActivity[]> = new BehaviorSubject<UserActivity[]>(null);
+  activeUsers: BehaviorSubject<UserActivity[]> = new BehaviorSubject<UserActivity[]>(null);
   count = 0;
 
   constructor() {
@@ -37,8 +37,8 @@ export class WebsocketService {
             that.count = 0;
             stomp.subscribe(`/topic/active-users/${resourceType}/${that.surveyAnswerId}`, (message) => {
               if (message.body) {
-                that.msg.next(JSON.parse(message.body));
-                // console.log(that.msg);
+                that.activeUsers.next(JSON.parse(message.body));
+                console.log(that.activeUsers);
               }
             });
             // that.WsJoin(id, resourceType, action);
@@ -54,12 +54,12 @@ export class WebsocketService {
     });
 
     this.stompClient.then(client => client.ws.onclose = (event) => {
-      this.msg.next(null);
+      this.activeUsers.next(null);
       this.initializeWebSocketConnection(that.surveyAnswerId, resourceType);
     });
   };
 
-  WsLeave(id: string, resourceType: string, action: string) {
+  WsLeave(id: string, resourceType: string, action: string) { // {} is for headers
     this.stompClient.then( client => client.send(`/app/leave/${resourceType}/${this.surveyAnswerId}`, {}, action));
   }
 

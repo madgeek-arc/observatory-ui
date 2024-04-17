@@ -20,6 +20,7 @@ import { WebsocketService } from "../../../app/services/websocket.service";
 import { UserActivity } from "../../../app/domain/userInfo";
 import UIkit from "uikit";
 import BitSet from "bitset";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 declare var require: any;
 const seedRandom = require('seedrandom');
@@ -73,7 +74,7 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
 
-    this.wsService.msg.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+    this.wsService.activeUsers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       next => {
         this.removeClass(this.activeUsers);
         this.activeUsers = next;
@@ -100,7 +101,6 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
           }
         });
         this.addClass(this.activeUsers);
-    //
       }
     );
   }
@@ -159,15 +159,15 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
       }
       this.ready = true;
 
-      // this.form.valueChanges.pipe(
-      //   takeUntilDestroyed(this.destroyRef),
-      //   debounceTime(1000),
-      //   distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))).subscribe(changes => {
-      //   this.changedField = this.detectChanges(changes, this.previousValue, '');
-      //   console.log(this.changedField);
-      //   console.log(this.getControlValue(this.changedField));
-      //   this.previousValue = {...changes};
-      // });
+      this.form.valueChanges.pipe(
+        takeUntilDestroyed(this.destroyRef),
+        debounceTime(1000),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))).subscribe(changes => {
+        this.changedField = this.detectChanges(changes, this.previousValue, '');
+        console.log(this.changedField);
+        console.log(this.getControlValue(this.changedField));
+        this.previousValue = {...changes};
+      });
 
     }
 
