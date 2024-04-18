@@ -10,7 +10,7 @@ const URL = environment.WS_ENDPOINT;
 
 export class Revision {
   field: string;
-  value: object;
+  value: string;
 }
 
 @Injectable()
@@ -97,10 +97,15 @@ export class WebsocketService {
         let timeout = 1000;
         that.count2 > 20 ? timeout = 10000 : that.count2++ ;
         setTimeout( () => {
-          that.initializeWebSocketConnection(that.surveyAnswerId, resourceType)
+          that.initializeWebSocketEditConnection(that.surveyAnswerId, resourceType)
         }, timeout);
         console.log('STOMP: Reconnecting...'+ that.count2);
       });
+    });
+
+    this.stompClient.then(client => client.ws.onclose = (event) => {
+      this.activeUsers.next(null);
+      this.initializeWebSocketEditConnection(that.surveyAnswerId, resourceType);
     });
   }
 
