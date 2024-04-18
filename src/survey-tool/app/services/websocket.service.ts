@@ -8,17 +8,24 @@ declare var Stomp;
 
 const URL = environment.WS_ENDPOINT;
 
+export class Revision {
+  field: string;
+  value: object;
+}
+
 @Injectable()
 export class WebsocketService {
   private surveyAnswerId: string | null = null;
 
   stompClient: Promise<typeof Stomp>;
   activeUsers: BehaviorSubject<UserActivity[]> = new BehaviorSubject<UserActivity[]>(null);
-  count = 0;
+  stompClientEdit: Promise<typeof Stomp>;
+  edit: BehaviorSubject<Revision> = new BehaviorSubject<Revision>(null);
 
-  constructor() {
-    // this.initializeWebSocketConnection();
-  }
+  count1 = 0;
+  count2 = 0;
+
+  constructor() {}
 
   initializeWebSocketConnection(id: string, resourceType: string, action?: string) {
     const ws = new SockJS(URL);
@@ -34,7 +41,7 @@ export class WebsocketService {
         const timer = setInterval(() => {
           if (stomp.connected) {
             clearInterval(timer);
-            that.count = 0;
+            that.count1 = 0;
             stomp.subscribe(`/topic/active-users/${resourceType}/${that.surveyAnswerId}`, (message) => {
               if (message.body) {
                 that.activeUsers.next(JSON.parse(message.body));
@@ -47,9 +54,11 @@ export class WebsocketService {
         }, 1000);
       }, function (error) {
         let timeout = 1000;
-        that.count > 20 ? timeout = 10000 : that.count++ ;
-        setTimeout( () => {that.initializeWebSocketConnection(that.surveyAnswerId, resourceType)}, timeout);
-        console.log('STOMP: Reconnecting...'+ that.count);
+        that.count1 > 20 ? timeout = 10000 : that.count1++ ;
+        setTimeout( () => {
+          that.initializeWebSocketConnection(that.surveyAnswerId, resourceType)
+        }, timeout);
+        console.log('STOMP: Reconnecting...'+ that.count1);
       });
     });
 
@@ -58,6 +67,42 @@ export class WebsocketService {
       this.initializeWebSocketConnection(that.surveyAnswerId, resourceType);
     });
   };
+
+  initializeWebSocketEditConnection(id: string, resourceType: string, action?: string) {
+    const ws = new SockJS(URL);
+    const that = this;
+
+    this.surveyAnswerId = id;
+
+    this.stompClientEdit = new Promise((resolve, reject) => {
+      let stomp = Stomp.over(ws);
+
+      stomp.debug = null;
+      stomp.connect({}, function(frame) {
+        const timer = setInterval(() => {
+          if (stomp.connected) {
+            clearInterval(timer);
+            that.count2 = 0;
+            stomp.subscribe(`/topic/edit/${resourceType}/${that.surveyAnswerId}`, (message) => {
+              if (message.body) {
+                that.edit.next(JSON.parse(message.body));
+                console.log(that.edit);
+              }
+            });
+            // that.WsJoin(id, resourceType, action);
+            resolve(stomp);
+          }
+        }, 1000);
+      }, function (error) {
+        let timeout = 1000;
+        that.count2 > 20 ? timeout = 10000 : that.count2++ ;
+        setTimeout( () => {
+          that.initializeWebSocketConnection(that.surveyAnswerId, resourceType)
+        }, timeout);
+        console.log('STOMP: Reconnecting...'+ that.count2);
+      });
+    });
+  }
 
   WsLeave(id: string, resourceType: string, action: string) { // {} is for headers
     this.stompClient.then( client => client.send(`/app/leave/${resourceType}/${this.surveyAnswerId}`, {}, action));
@@ -68,10 +113,10 @@ export class WebsocketService {
   }
 
   WsFocus(resourceType: string, field?: string, value?: string) {
-    this.stompClient.then( client => client.send(`/app/edit/${resourceType}/${this.surveyAnswerId}/${field}`, {}, value));
+    this.stompClient.then( client => client.send(`/app/focus/${resourceType}/${this.surveyAnswerId}/${field}`, {}, value));
   }
 
-  WsRevision(resourceType: string, field: string, value: string) {
-    this.stompClient.then( client => client.send(`/app/revision/${resourceType}/${this.surveyAnswerId}/${field}`, {}, value));
+  WsEdit(resourceType: string, field: string, value: Revision) {
+    this.stompClient.then( client => client.send(`/app/edit/${resourceType}/${this.surveyAnswerId}`, {}, value));
   }
 }

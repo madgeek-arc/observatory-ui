@@ -75,7 +75,7 @@ export class BaseFieldComponent implements OnInit {
     // if (this.formControl instanceof FormArray) {
     //  this.wsService.WsRevision('surveyAnswer', this.fieldData.name, this.getPath(this.formControl.controls[position]).join('.'));
     // }
-    this.wsService.WsRevision('surveyAnswer', this.fieldData.name, this.getPath(this.formControl).join('.'));
+    this.wsService.WsEdit('surveyAnswer', this.fieldData.name, {field: this.getPath(this.formControl).join('.'), value: this.formControl.value});
   }
   /** <------------------------------------------------------------------------------------------------- Field focus **/
 
