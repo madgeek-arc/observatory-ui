@@ -103,8 +103,8 @@ export class WebsocketService {
       });
     });
 
-    this.stompClient.then(client => client.ws.onclose = (event) => {
-      this.activeUsers.next(null);
+    this.stompClientEdit.then(client => client.ws.onclose = (event) => {
+      this.edit.next(null);
       this.initializeWebSocketEditConnection(that.surveyAnswerId, resourceType);
     });
   }
@@ -122,6 +122,6 @@ export class WebsocketService {
   }
 
   WsEdit(resourceType: string, field: string, value: Revision) {
-    this.stompClient.then( client => client.send(`/app/edit/${resourceType}/${this.surveyAnswerId}`, {}, value));
+    this.stompClientEdit.then( client => client.send(`/app/edit/${resourceType}/${this.surveyAnswerId}`, {}, value));
   }
 }
