@@ -13,7 +13,8 @@ import { FormControlService } from "../../../services/form-control.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
-  template: ``
+  template: ``,
+  styles: ['.clear-style { height: 0 !important;}']
 })
 
 export class BaseFieldComponent implements OnInit {
@@ -53,7 +54,7 @@ export class BaseFieldComponent implements OnInit {
         value => {
           this.enableDisableField(value, this.fieldData.form.dependsOn.value);
         },
-        error => {console.log(error)}
+        error => {console.error(error)}
       );
     }
   }
@@ -62,20 +63,20 @@ export class BaseFieldComponent implements OnInit {
   focus(position?: number) {
     console.log('focus In');
     if (this.formControl instanceof FormArray) {
-      console.log('is Array');
-      this.wsService.WsFocus( 'surveyAnswer', this.getPath(this.formControl.controls[position]).join('.'), null);
+      this.wsService.WsFocus(this.getPath(this.formControl.controls[position]).join('.'), null);
     } else
-      this.wsService.WsFocus( 'surveyAnswer', this.getPath(this.formControl).join('.'), null);
+      this.wsService.WsFocus(this.getPath(this.formControl).join('.'), null);
   }
 
-  focusOut() {
+  focusOut(position?: number) {
     console.log('focus Out');
-    this.wsService.WsFocus('surveyAnswer', null, null);
-    // send full array or single input?
-    // if (this.formControl instanceof FormArray) {
-    //  this.wsService.WsRevision('surveyAnswer', this.fieldData.name, this.getPath(this.formControl.controls[position]).join('.'));
-    // }
-    this.wsService.WsEdit('surveyAnswer', this.fieldData.name, {field: this.getPath(this.formControl).join('.'), value: this.formControl.value});
+    this.wsService.WsFocus(null, null);
+    if (this.formControl instanceof FormArray) {
+      // send full array or single input?
+      // this.wsService.WsEdit({field: this.getPath(this.formControl.controls[position]).join('.'), value: this.formControl.value});
+      this.wsService.WsEdit({field: this.getPath(this.formControl.controls[position]).join('.'), value: this.formControl.controls[position].value});
+    } else
+      this.wsService.WsEdit({field: this.getPath(this.formControl).join('.'), value: this.formControl.value});
   }
   /** <------------------------------------------------------------------------------------------------- Field focus **/
 
@@ -126,7 +127,7 @@ export class BaseFieldComponent implements OnInit {
     this.fieldAsFormArray().push(this.formControlService.createField(this.fieldData));
   }
 
-  remove(field: string, i: number) {
+  remove(i: number) {
     this.fieldAsFormArray().removeAt(i);
   }
 
@@ -168,7 +169,6 @@ export class BaseFieldComponent implements OnInit {
   }
 
   /** Other -------------------------------------------------------------------------------------------------------> **/
-
   enableDisableField(value, enableValue: string) {
     if (value?.toString() == enableValue) {
       this.formControl.enable();

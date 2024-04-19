@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { DestroyRef, inject, Injectable } from "@angular/core";
 import { environment } from "../../environments/environment";
 import { BehaviorSubject } from "rxjs";
 import { UserActivity } from "../domain/userInfo";
@@ -16,22 +16,24 @@ export class Revision {
 @Injectable()
 export class WebsocketService {
   private surveyAnswerId: string | null = null;
+  private type: string | null = null;
+  private dropConnection = false;
 
   stompClient: Promise<typeof Stomp>;
   activeUsers: BehaviorSubject<UserActivity[]> = new BehaviorSubject<UserActivity[]>(null);
-  stompClientEdit: Promise<typeof Stomp>;
   edit: BehaviorSubject<Revision> = new BehaviorSubject<Revision>(null);
 
-  count1 = 0;
-  count2 = 0;
+  count = 0;
 
   constructor() {}
 
-  initializeWebSocketConnection(id: string, resourceType: string, action?: string) {
+  initializeWebSocketConnection(id: string, resourceType: string) {
     const ws = new SockJS(URL);
     const that = this;
 
+    this.dropConnection = false;
     this.surveyAnswerId = id;
+    this.type = resourceType;
 
     this.stompClient = new Promise((resolve, reject) => {
       let stomp = Stomp.over(ws);
@@ -41,87 +43,99 @@ export class WebsocketService {
         const timer = setInterval(() => {
           if (stomp.connected) {
             clearInterval(timer);
-            that.count1 = 0;
-            stomp.subscribe(`/topic/active-users/${resourceType}/${that.surveyAnswerId}`, (message) => {
+            that.count = 0;
+            stomp.subscribe(`/topic/active-users/${that.type}/${that.surveyAnswerId}`, (message) => {
               if (message.body) {
                 that.activeUsers.next(JSON.parse(message.body));
                 console.log(that.activeUsers);
               }
             });
-            // that.WsJoin(id, resourceType, action);
-            resolve(stomp);
-          }
-        }, 1000);
-      }, function (error) {
-        let timeout = 1000;
-        that.count1 > 20 ? timeout = 10000 : that.count1++ ;
-        setTimeout( () => {
-          that.initializeWebSocketConnection(that.surveyAnswerId, resourceType)
-        }, timeout);
-        console.log('STOMP: Reconnecting...'+ that.count1);
-      });
-    });
-
-    this.stompClient.then(client => client.ws.onclose = (event) => {
-      this.activeUsers.next(null);
-      this.initializeWebSocketConnection(that.surveyAnswerId, resourceType);
-    });
-  };
-
-  initializeWebSocketEditConnection(id: string, resourceType: string, action?: string) {
-    const ws = new SockJS(URL);
-    const that = this;
-
-    this.surveyAnswerId = id;
-
-    this.stompClientEdit = new Promise((resolve, reject) => {
-      let stomp = Stomp.over(ws);
-
-      stomp.debug = null;
-      stomp.connect({}, function(frame) {
-        const timer = setInterval(() => {
-          if (stomp.connected) {
-            clearInterval(timer);
-            that.count2 = 0;
             stomp.subscribe(`/topic/edit/${resourceType}/${that.surveyAnswerId}`, (message) => {
               if (message.body) {
                 that.edit.next(JSON.parse(message.body));
                 console.log(that.edit);
               }
             });
-            // that.WsJoin(id, resourceType, action);
             resolve(stomp);
           }
         }, 1000);
       }, function (error) {
         let timeout = 1000;
-        that.count2 > 20 ? timeout = 10000 : that.count2++ ;
+        that.count > 20 ? timeout = 10000 : that.count++ ;
         setTimeout( () => {
-          that.initializeWebSocketEditConnection(that.surveyAnswerId, resourceType)
+          // stomp.close();
+          that.initializeWebSocketConnection(that.surveyAnswerId, that.type)
         }, timeout);
-        console.log('STOMP: Reconnecting...'+ that.count2);
+        console.log('STOMP: Reconnecting...'+ that.count);
       });
     });
 
-    this.stompClientEdit.then(client => client.ws.onclose = (event) => {
-      this.edit.next(null);
-      this.initializeWebSocketEditConnection(that.surveyAnswerId, resourceType);
+    this.stompClient.then(client => client.ws.onclose = (event) => {
+      this.activeUsers.next(null);
+      if (!this.dropConnection)
+        this.initializeWebSocketConnection(that.surveyAnswerId, that.type);
     });
+  };
+
+  // initializeWebSocketEditConnection(id: string, resourceType: string, action?: string) {
+  //   const ws = new SockJS(URL);
+  //   const that = this;
+  //
+  //   this.surveyAnswerId = id;
+  //
+  //   this.stompClientEdit = new Promise((resolve, reject) => {
+  //     let stomp = Stomp.over(ws);
+  //
+  //     stomp.debug = null;
+  //     stomp.connect({}, function(frame) {
+  //       const timer = setInterval(() => {
+  //         if (stomp.connected) {
+  //           clearInterval(timer);
+  //           that.count2 = 0;
+  //           stomp.subscribe(`/topic/edit/${resourceType}/${that.surveyAnswerId}`, (message) => {
+  //             if (message.body) {
+  //               that.edit.next(JSON.parse(message.body));
+  //               console.log(that.edit);
+  //             }
+  //           });
+  //           // that.WsJoin(id, resourceType, action);
+  //           resolve(stomp);
+  //         }
+  //       }, 1000);
+  //     }, function (error) {
+  //       let timeout = 1000;
+  //       that.count2 > 20 ? timeout = 10000 : that.count2++ ;
+  //       setTimeout( () => {
+  //         that.initializeWebSocketEditConnection(that.surveyAnswerId, resourceType)
+  //       }, timeout);
+  //       console.log('STOMP: Reconnecting...'+ that.count2);
+  //     });
+  //   });
+  //
+  //   this.stompClientEdit.then(client => client.ws.onclose = (event) => {
+  //     this.edit.next(null);
+  //     this.initializeWebSocketEditConnection(that.surveyAnswerId, resourceType);
+  //   });
+  // }
+
+  WsLeave(action: string) { // {} is for headers
+    this.stompClient.then( client => client.send(`/app/leave/${this.type}/${this.surveyAnswerId}`, {}, action));
   }
 
-  WsLeave(id: string, resourceType: string, action: string) { // {} is for headers
-    this.stompClient.then( client => client.send(`/app/leave/${resourceType}/${this.surveyAnswerId}`, {}, action));
+  WsJoin(action: string) {
+    this.stompClient.then( client => client.send(`/app/join/${this.type}/${this.surveyAnswerId}`, {}, action));
   }
 
-  WsJoin(id: string, resourceType: string, action: string) {
-    this.stompClient.then( client => client.send(`/app/join/${resourceType}/${this.surveyAnswerId}`, {}, action));
+  WsFocus(field?: string, value?: string) {
+    this.stompClient.then( client => client.send(`/app/focus/${this.type}/${this.surveyAnswerId}/${field}`, {}, value));
   }
 
-  WsFocus(resourceType: string, field?: string, value?: string) {
-    this.stompClient.then( client => client.send(`/app/focus/${resourceType}/${this.surveyAnswerId}/${field}`, {}, value));
+  WsEdit(value: Revision) {
+    this.stompClient.then( client => client.send(`/app/edit/${this.type}/${this.surveyAnswerId}`, {}, JSON.stringify(value)));
   }
 
-  WsEdit(resourceType: string, field: string, value: Revision) {
-    this.stompClientEdit.then( client => client.send(`/app/edit/${resourceType}/${this.surveyAnswerId}`, {}, value));
+  closeWs() {
+    this.dropConnection = true;
+    this.stompClient?.then(client => client.ws.close());
   }
 }

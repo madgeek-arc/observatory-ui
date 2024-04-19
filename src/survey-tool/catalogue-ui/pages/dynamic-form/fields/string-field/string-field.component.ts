@@ -4,8 +4,7 @@ import { BaseFieldComponent } from "../base-field.component";
 
 @Component({
   selector: 'app-string-url-email-field',
-  templateUrl: './string-field.component.html',
-  styles: ['.clear-style { height: 0 !important;}']
+  templateUrl: './string-field.component.html'
 })
 
 export class StringFieldComponent extends BaseFieldComponent {
