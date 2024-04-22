@@ -1,6 +1,6 @@
-import { DestroyRef, inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { environment } from "../../environments/environment";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { UserActivity } from "../domain/userInfo";
 
 declare var SockJS;
@@ -21,7 +21,7 @@ export class WebsocketService {
 
   stompClient: Promise<typeof Stomp>;
   activeUsers: BehaviorSubject<UserActivity[]> = new BehaviorSubject<UserActivity[]>(null);
-  edit: BehaviorSubject<Revision> = new BehaviorSubject<Revision>(null);
+  edit: Subject<Revision> = new Subject<Revision>();
 
   count = 0;
 
@@ -47,13 +47,13 @@ export class WebsocketService {
             stomp.subscribe(`/topic/active-users/${that.type}/${that.surveyAnswerId}`, (message) => {
               if (message.body) {
                 that.activeUsers.next(JSON.parse(message.body));
-                console.log(that.activeUsers);
+                // console.log(that.activeUsers);
               }
             });
             stomp.subscribe(`/topic/edit/${resourceType}/${that.surveyAnswerId}`, (message) => {
               if (message.body) {
                 that.edit.next(JSON.parse(message.body));
-                console.log(that.edit);
+                // console.log(that.edit);
               }
             });
             resolve(stomp);
@@ -76,47 +76,6 @@ export class WebsocketService {
         this.initializeWebSocketConnection(that.surveyAnswerId, that.type);
     });
   };
-
-  // initializeWebSocketEditConnection(id: string, resourceType: string, action?: string) {
-  //   const ws = new SockJS(URL);
-  //   const that = this;
-  //
-  //   this.surveyAnswerId = id;
-  //
-  //   this.stompClientEdit = new Promise((resolve, reject) => {
-  //     let stomp = Stomp.over(ws);
-  //
-  //     stomp.debug = null;
-  //     stomp.connect({}, function(frame) {
-  //       const timer = setInterval(() => {
-  //         if (stomp.connected) {
-  //           clearInterval(timer);
-  //           that.count2 = 0;
-  //           stomp.subscribe(`/topic/edit/${resourceType}/${that.surveyAnswerId}`, (message) => {
-  //             if (message.body) {
-  //               that.edit.next(JSON.parse(message.body));
-  //               console.log(that.edit);
-  //             }
-  //           });
-  //           // that.WsJoin(id, resourceType, action);
-  //           resolve(stomp);
-  //         }
-  //       }, 1000);
-  //     }, function (error) {
-  //       let timeout = 1000;
-  //       that.count2 > 20 ? timeout = 10000 : that.count2++ ;
-  //       setTimeout( () => {
-  //         that.initializeWebSocketEditConnection(that.surveyAnswerId, resourceType)
-  //       }, timeout);
-  //       console.log('STOMP: Reconnecting...'+ that.count2);
-  //     });
-  //   });
-  //
-  //   this.stompClientEdit.then(client => client.ws.onclose = (event) => {
-  //     this.edit.next(null);
-  //     this.initializeWebSocketEditConnection(that.surveyAnswerId, resourceType);
-  //   });
-  // }
 
   WsLeave(action: string) { // {} is for headers
     this.stompClient.then( client => client.send(`/app/leave/${this.type}/${this.surveyAnswerId}`, {}, action));

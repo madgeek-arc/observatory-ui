@@ -61,6 +61,9 @@ export class BaseFieldComponent implements OnInit {
 
   /** Field focus -------------------------------------------------------------------------------------------------> **/
   focus(position?: number) {
+    if (!this.editMode)
+      return;
+
     console.log('focus In');
     if (this.formControl instanceof FormArray) {
       this.wsService.WsFocus(this.getPath(this.formControl.controls[position]).join('.'), null);
@@ -69,6 +72,9 @@ export class BaseFieldComponent implements OnInit {
   }
 
   focusOut(position?: number) {
+    if (!this.editMode)
+      return;
+
     console.log('focus Out');
     this.wsService.WsFocus(null, null);
     if (this.formControl instanceof FormArray) {

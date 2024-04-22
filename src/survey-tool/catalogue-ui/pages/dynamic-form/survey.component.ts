@@ -1,19 +1,8 @@
-import {
-  Component,
-  DestroyRef,
-  EventEmitter,
-  inject,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges
-} from "@angular/core";
+import { Component, DestroyRef, EventEmitter, inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from "@angular/core";
 import { AbstractControl, FormArray, FormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { debounceTime, distinctUntilChanged, skip } from "rxjs/operators";
 import { Section, Field, Model, Tabs } from "../../domain/dynamic-form-model"
 import { FormControlService } from "../../services/form-control.service";
 import { PdfGenerateService } from "../../services/pdf-generate.service";
@@ -85,7 +74,7 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
             let styleExists = false;
             for (let i = 0; i < sheet.cssRules.length; i++) {
               if(sheet.cssRules[i] instanceof CSSStyleRule) {
-                if((sheet.cssRules[i] as CSSStyleRule).selectorText === `user-${user.sessionId}`) {
+                if((sheet.cssRules[i] as CSSStyleRule).selectorText === `.user-${user.sessionId}`) {
                   styleExists = true;
                   break;
                 }
@@ -94,15 +83,29 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
             if (!styleExists)
               sheet.insertRule(`.user-${user.sessionId} { border-color: ${this.getRandomDarkColor(user.sessionId)} !important}`, sheet.cssRules.length);
 
-            console.log(sheet);
-            // const flipCard = document.getElementById(user.position);
-            // const flipCardElement: HTMLElement = flipCard!;
-            // flipCard.classList.toggle(`user-${user.sessionId}`);
+            // console.log(sheet);
           }
         });
         this.addClass(this.activeUsers);
       }
     );
+
+    this.wsService.edit.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        console.log(value);
+        let ctrl = this.getControl(value.field);
+        if (ctrl)
+          ctrl.setValue(value.value);
+        else {
+          let path = value.field.split('.');
+          console.log(path[path.length]);
+          console.log(path[path.length].split('[')[1].split(']')[0].match('/^[1-9]\d*/'));
+          if (path[path.length].split('[')[1].split(']')[0].match('/^[1-9]\d*/')) {
+
+          }
+        }
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -114,8 +117,9 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
       this.validate = true;
     }
 
-    if (this.payload)
+    if (this.payload && !(this.readonly || this.freeView)) {
       this.editMode = true;
+    }
 
     if (changes.model) {
       this.ready = false;
@@ -147,8 +151,31 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
           if (this.payload.answer[this.model.sections[i].name])
             this.prepareForm(this.payload.answer[this.model.sections[i].name], this.model.sections[i].subSections);
         }
-        this.form.patchValue(this.payload.answer);
+        this.form.patchValue(this.payload.answer, {onlySelf: false, emitEvent: false});
+        this.previousValue = {...this.form.value};
         this.form.markAllAsTouched();
+        if (this.readonly) {
+          setTimeout(() => {
+            this.form.disable();
+            this.form.markAsUntouched();
+          }, 2000);
+        }
+
+        if (this.editMode) {
+          this.form.valueChanges.pipe(
+            takeUntilDestroyed(this.destroyRef),
+            // skip(1), // skip patch value change
+            debounceTime(1000),
+            distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))).subscribe(changes => {
+            this.changedField = this.detectChanges(changes, this.previousValue, '');
+            console.log(this.changedField);
+            if (this.changedField) {
+              // console.log(this.getControlValue(this.changedField));
+              this.wsService.WsEdit({field: this.changedField, value: this.getControl(this.changedField)?.value})
+            }
+            this.previousValue = {...changes};
+          });
+        }
       }
 
       if (this.payload?.validated) {
@@ -159,21 +186,6 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
       }
       this.ready = true;
 
-      this.form.valueChanges.pipe(
-        takeUntilDestroyed(this.destroyRef),
-        debounceTime(1000),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))).subscribe(changes => {
-        this.changedField = this.detectChanges(changes, this.previousValue, '');
-        console.log(this.changedField);
-        console.log(this.getControlValue(this.changedField));
-        this.previousValue = {...changes};
-      });
-
-    }
-
-    if (this.readonly) {
-      this.form.disable();
-      this.form.markAsUntouched();
     }
 
     if (this.activeUsers?.length > 0) {
@@ -198,8 +210,6 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
         return;
 
       const htmlElement = document.getElementById(user.position);
-      console.log(user);
-      console.log(htmlElement);
       if (htmlElement)
         htmlElement.classList.add(`user-${user.sessionId}`)
     });
@@ -255,7 +265,7 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
     return null;
   }
 
-  getControlValue(path: string): any {
+  getControl(path: string): AbstractControl | null {
     const segments = path.split('.');
     let control: AbstractControl | null = this.form;
     for (const segment of segments) {
@@ -268,7 +278,7 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
         break;
       }
     }
-    return control ? control.value : null;
+    return control ? control : null;
   }
   /** <-- Find changed field and get value **/
 
