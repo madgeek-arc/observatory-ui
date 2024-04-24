@@ -1,20 +1,14 @@
 import { Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output } from "@angular/core";
-import {
-  AbstractControl,
-  FormArray,
-  FormGroup,
-  FormGroupDirective, UntypedFormArray,
-  UntypedFormControl,
-  UntypedFormGroup
-} from "@angular/forms";
+import { AbstractControl, FormArray, FormGroup, FormGroupDirective, UntypedFormArray, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
 import { Field } from "../../../domain/dynamic-form-model";
 import { WebsocketService } from "../../../../app/services/websocket.service";
 import { FormControlService } from "../../../services/form-control.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { cloneDeep, isEqual } from 'lodash';
 
 @Component({
   template: ``,
-  styles: ['.clear-style { height: 0 !important;}']
+  styles: ['.clear-style { height: 0 !important;}'],
 })
 
 export class BaseFieldComponent implements OnInit {
@@ -30,6 +24,7 @@ export class BaseFieldComponent implements OnInit {
 
   formControl!: UntypedFormControl;
   form!: UntypedFormGroup;
+  previousValue!: any;
   inputId!: string;
   hideField: boolean = null;
 
@@ -64,7 +59,8 @@ export class BaseFieldComponent implements OnInit {
     if (!this.editMode)
       return;
 
-    console.log('focus In');
+    console.log('Field focus In');
+    this.previousValue = cloneDeep(this.formControl.value);
     if (this.formControl instanceof FormArray) {
       this.wsService.WsFocus(this.getPath(this.formControl.controls[position]).join('.'), null);
     } else
@@ -75,8 +71,11 @@ export class BaseFieldComponent implements OnInit {
     if (!this.editMode)
       return;
 
-    console.log('focus Out');
+    console.log('Field focus Out');
     this.wsService.WsFocus(null, null);
+    if (isEqual(this.previousValue, this.formControl.value))
+      return;
+
     if (this.formControl instanceof FormArray) {
       // send full array or single input?
       // this.wsService.WsEdit({field: this.getPath(this.formControl.controls[position]).join('.'), value: this.formControl.value});

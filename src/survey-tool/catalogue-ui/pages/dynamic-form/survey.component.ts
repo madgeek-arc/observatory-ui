@@ -1,8 +1,8 @@
-import { Component, DestroyRef, EventEmitter, inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from "@angular/core";
+import { Component, DestroyRef, EventEmitter, HostListener, inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from "@angular/core";
 import { AbstractControl, FormArray, FormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { debounceTime, distinctUntilChanged, skip } from "rxjs/operators";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { Section, Field, Model, Tabs } from "../../domain/dynamic-form-model"
 import { FormControlService } from "../../services/form-control.service";
 import { PdfGenerateService } from "../../services/pdf-generate.service";
@@ -52,13 +52,22 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
   freeView: boolean = false;
   validate: boolean = false;
 
-  form: UntypedFormGroup;
+  form = this.fb.group({});
   previousValue: any = {};
   changedField: string | null = null;
 
   constructor(private formControlService: FormControlService, private pdfService: PdfGenerateService,
               private fb: UntypedFormBuilder, private router: Router, private wsService: WebsocketService) {
-    this.form = this.fb.group({});
+  }
+
+  @HostListener('document:focus', ['$event'])
+  onFocus(event: FocusEvent): void {
+    console.log("Focus");
+  }
+
+  @HostListener('window:blur', ['$event'])
+  onBlur(event: FocusEvent): void {
+    console.log('Blur');
   }
 
   ngOnInit() {
@@ -98,10 +107,13 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
           ctrl.setValue(value.value);
         else {
           let path = value.field.split('.');
-          console.log(path[path.length]);
-          console.log(path[path.length].split('[')[1].split(']')[0].match('/^[1-9]\d*/'));
-          if (path[path.length].split('[')[1].split(']')[0].match('/^[1-9]\d*/')) {
-
+          // console.log(path[path.length-1]);
+          // console.log(path[path.length-1].split('[')[1].split(']')[0].match(/^-?\d+$/));
+          const position = path[path.length-1].split('[')[1].split(']')[0];
+          console.log((position.match(/^-?\d+$/)).length);
+          // console.log(position.match(/^-?\d+$*/));
+          if ((position.match(/^-?\d+$/)).length === 1) {
+            console.log('delete element at position ' + position);
           }
         }
       }
