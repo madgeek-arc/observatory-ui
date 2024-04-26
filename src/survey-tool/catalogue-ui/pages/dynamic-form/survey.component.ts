@@ -10,6 +10,7 @@ import { WebsocketService } from "../../../app/services/websocket.service";
 import { UserActivity } from "../../../app/domain/userInfo";
 import UIkit from "uikit";
 import BitSet from "bitset";
+import { isEqual } from "lodash";
 
 declare var require: any;
 const seedRandom = require('seedrandom');
@@ -54,7 +55,7 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
 
   form = this.fb.group({});
   previousValue: any = {};
-  changedField: string | null = null;
+  changedField: string[] = [];
 
   constructor(private formControlService: FormControlService, private pdfService: PdfGenerateService,
               private fb: UntypedFormBuilder, private router: Router, private wsService: WebsocketService) {
@@ -77,6 +78,7 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
         this.removeClass(this.activeUsers);
         this.activeUsers = next;
         this.activeUsers?.forEach( user => {
+          user.color = this.getRandomDarkColor(user.sessionId);
           if(user.position) {
             let sheet = window.document.styleSheets[0];
 
@@ -103,14 +105,15 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
       next: value => {
         console.log(value);
         let ctrl = this.getControl(value.field);
-        if (ctrl)
-          ctrl.setValue(value.value);
+        if (ctrl) {
+          console.log('Setting value from websocket change.');
+          // ctrl.setValue(value.value);
+        }
         else {
           let path = value.field.split('.');
           // console.log(path[path.length-1]);
           // console.log(path[path.length-1].split('[')[1].split(']')[0].match(/^-?\d+$/));
           const position = path[path.length-1].split('[')[1].split(']')[0];
-          console.log((position.match(/^-?\d+$/)).length);
           // console.log(position.match(/^-?\d+$*/));
           if ((position.match(/^-?\d+$/)).length === 1) {
             console.log('delete element at position ' + position);
@@ -178,13 +181,19 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
             takeUntilDestroyed(this.destroyRef),
             // skip(1), // skip patch value change
             debounceTime(1000),
-            distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))).subscribe(changes => {
+            distinctUntilChanged((a, b) => isEqual(a, b))
+          ).subscribe(changes => {
             this.changedField = this.detectChanges(changes, this.previousValue, '');
-            console.log(this.changedField);
-            if (this.changedField) {
-              // console.log(this.getControlValue(this.changedField));
-              this.wsService.WsEdit({field: this.changedField, value: this.getControl(this.changedField)?.value})
-            }
+            this.changedField.forEach( change => {
+              console.log(change);
+              console.log(this.getControl(change).value);
+              this.wsService.WsEdit({field: change, value: this.getControl(change)?.value})
+            });
+            // if (this.changedField) {
+            //   console.log(this.changedField);
+            //   // console.log(this.getControl(this.changedField)?.value);
+            //   this.wsService.WsEdit({field: this.changedField, value: this.getControl(this.changedField)?.value})
+            // }
             this.previousValue = {...changes};
           });
         }
@@ -240,41 +249,34 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
   /** <-- Mark field as active **/
 
   /** Find changed field and get value --> **/
-  detectChanges(currentValue: any, previousValue: any, path: string): string | null {
+  detectChanges(currentValue: any, previousValue: any, path: string): string[] {
+    const changedFields: string[] = [];
     for (const field of Object.keys(currentValue)) {
       const currentPath = path ? `${path}.${field}` : field;
 
       if (Array.isArray(currentValue[field]) && Array.isArray(previousValue[field])) {
-        const nestedChanges = this.detectArrayChanges(currentValue[field], previousValue[field], currentPath);
-        if (nestedChanges !== null) {
-          return nestedChanges;
-        }
+        changedFields.push(...this.detectArrayChanges(currentValue[field], previousValue[field], currentPath));
       } else if (currentValue[field] instanceof Object && previousValue[field] instanceof Object) {
-        const nestedChanges = this.detectChanges(currentValue[field], previousValue[field], currentPath);
-        if (nestedChanges !== null) {
-          return nestedChanges;
-        }
+        changedFields.push(...this.detectChanges(currentValue[field], previousValue[field], currentPath));
       } else if (previousValue[field] !== currentValue[field]) {
-        return currentPath;
+        changedFields.push(currentPath);
       }
     }
-    return null;
+    return changedFields;
   }
 
-  detectArrayChanges(currentArray: any[], previousArray: any[], path: string): string | null {
+  detectArrayChanges(currentArray: any[], previousArray: any[], path: string): string[] {
+    const changedFields: string[] = [];
     for (let i = 0; i < Math.max(currentArray.length, previousArray.length); i++) {
       const currentPath = `${path}.[${i}]`;
 
       if (currentArray[i] instanceof Object && previousArray[i] instanceof Object) {
-        const nestedChanges = this.detectChanges(currentArray[i], previousArray[i], currentPath);
-        if (nestedChanges !== null) {
-          return nestedChanges;
-        }
+        changedFields.push(...this.detectChanges(currentArray[i], previousArray[i], currentPath));
       } else if (previousArray[i] !== currentArray[i]) {
-        return currentPath;
+        changedFields.push(currentPath);
       }
     }
-    return null;
+    return changedFields;
   }
 
   getControl(path: string): AbstractControl | null {
@@ -539,10 +541,10 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
   getRandomDarkColor(sessionId: string) { // (use for background with white/light font color)
     const rng = seedRandom(sessionId);
     const h = Math.floor(rng() * 360),
-      s = Math.floor(rng() * 100) + '%',
-      // max value of l is 100, but set it to 55 in order to generate dark colors
-      l = Math.floor(rng() * 55) + '%';
-
+      s = Math.floor(rng() * 80 + 20) + '%', // set s above 20 to avoid similar grayish tones
+      // max value of l is 100, but limit it from 15 to 70 in order to generate darker colors
+      l = Math.floor(rng() * 55 + 15) + '%';
+    // console.log(`h= ${h}, s= ${s}, l= ${l}`);
     return `hsl(${h},${s},${l})`;
   };
 

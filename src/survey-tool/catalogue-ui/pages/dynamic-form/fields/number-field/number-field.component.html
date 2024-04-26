@@ -14,7 +14,7 @@
 
   <ng-template #noMultiplicity>
     <input [formControlName]="fieldData.name" [id]="inputId" (input)="updateBitSet(fieldData); unsavedChangesPrompt()"
-           (focus)="focus()" (focusout)="focusOut()" [step]='step' placeholder="{{fieldData.form.placeholder}}"
+           (focus)="focus()" (focusout)="focusOut(false)" [step]='step' placeholder="{{fieldData.form.placeholder}}"
            class="uk-input uk-width-9-10 uk-animation-scale-up" [ngClass]="{'uk-form-danger': checkFormValidity()}">
 
     <p *ngIf="checkFormValidity()" class="uk-form-danger uk-animation-fade uk-text-italic">

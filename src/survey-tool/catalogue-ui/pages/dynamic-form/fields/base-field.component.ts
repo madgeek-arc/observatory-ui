@@ -67,13 +67,13 @@ export class BaseFieldComponent implements OnInit {
       this.wsService.WsFocus(this.getPath(this.formControl).join('.'), null);
   }
 
-  focusOut(position?: number) {
+  focusOut(skip: boolean, position?: number) {
     if (!this.editMode)
       return;
 
     console.log('Field focus Out');
     this.wsService.WsFocus(null, null);
-    if (isEqual(this.previousValue, this.formControl.value))
+    if (isEqual(this.previousValue, this.formControl.value) || skip)
       return;
 
     if (this.formControl instanceof FormArray) {
@@ -174,7 +174,7 @@ export class BaseFieldComponent implements OnInit {
   }
 
   /** Other -------------------------------------------------------------------------------------------------------> **/
-  enableDisableField(value, enableValue: string) {
+  enableDisableField(value: string | number, enableValue: string) {
     if (value?.toString() == enableValue) {
       this.formControl.enable();
       this.hideField = false;
