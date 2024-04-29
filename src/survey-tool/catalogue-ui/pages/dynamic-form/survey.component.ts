@@ -107,7 +107,7 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
         let ctrl = this.getControl(value.field);
         if (ctrl) {
           console.log('Setting value from websocket change.');
-          // ctrl.setValue(value.value);
+          ctrl.setValue(value.value);
         }
         else {
           let path = value.field.split('.');
