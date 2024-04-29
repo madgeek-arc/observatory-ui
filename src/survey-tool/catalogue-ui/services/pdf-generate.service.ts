@@ -9,9 +9,10 @@ import {
   TableDefinition
 } from "../domain/PDFclasses";
 import { Field, Model } from "../domain/dynamic-form-model";
+import { AbstractControl, FormArray, FormGroup } from "@angular/forms";
+import { cloneDeep } from 'lodash';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-import { AbstractControl, FormArray, FormGroup } from "@angular/forms";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -106,7 +107,7 @@ export class PdfGenerateService {
           docDefinition.content.push(new Content(field.form.description.text, ['mt_3']));
       }
       // console.log(field.name);
-      let formControlValue = this.findControlByName(form, field.name).value;
+      let formControl = this.findControlByName(form, field.name);
       // console.log(formControl);
       let answerValues = this.findVal(payload, field.name);
       // console.log(answerValues);
@@ -159,11 +160,10 @@ export class PdfGenerateService {
       }
       if (field.subFields) {
         if (field.typeInfo.type === 'composite' && field.typeInfo.multiplicity) {
-          formControlValue = {...formControlValue}
-          if (formControlValue instanceof Array) {
-            for (let i = 0; i < formControlValue.length; i++) {
-              // console.log(formControl.value[i]);
-              this.documentDefinitionRecursion(model, field.subFields, formControlValue[i], form, docDefinition, description, descriptionAtEnd);
+          const tmpCtrl = cloneDeep(formControl.getRawValue());
+          if (tmpCtrl instanceof Array) {
+            for (let i = 0; i < tmpCtrl.length; i++) {
+              this.documentDefinitionRecursion(model, field.subFields, tmpCtrl[i], form, docDefinition, description, descriptionAtEnd);
             }
           }
 
