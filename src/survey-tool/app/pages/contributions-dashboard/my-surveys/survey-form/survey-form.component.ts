@@ -25,7 +25,7 @@ export class SurveyFormComponent implements OnInit, OnDestroy {
   private _destroyed: Subject<boolean> = new Subject();
   survey: Model = null;
   subType: string;
-  surveyAnswer: SurveyAnswer = null
+  surveyAnswer: SurveyAnswer = null;
   activeUsers: UserActivity[] = [];
   userInfo: UserInfo = null;
   tabsHeader: string = null;

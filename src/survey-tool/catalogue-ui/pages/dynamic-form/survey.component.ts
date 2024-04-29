@@ -8,9 +8,9 @@ import { FormControlService } from "../../services/form-control.service";
 import { PdfGenerateService } from "../../services/pdf-generate.service";
 import { WebsocketService } from "../../../app/services/websocket.service";
 import { UserActivity } from "../../../app/domain/userInfo";
+import { isEqual } from "lodash";
 import UIkit from "uikit";
 import BitSet from "bitset";
-import { isEqual } from "lodash";
 
 declare var require: any;
 const seedRandom = require('seedrandom');
@@ -29,6 +29,7 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
   @Input() model: Model = null;
   @Input() subType: string = null;
   @Input() activeUsers: UserActivity[] = null;
+  @Input() userName: string = null;
   @Input() vocabulariesMap: Map<string, object[]> = null;
   @Input() subVocabularies: Map<string, object[]> = null;
   @Input() tabsHeader: string = null;
@@ -104,6 +105,10 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
     this.wsService.edit.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         console.log(value);
+        if (value.sessionId === this.activeUsers.find( user => user.fullname === this.userName ).sessionId) {
+          console.log('it is I');
+          return;
+        }
         let ctrl = this.getControl(value.field);
         if (ctrl) {
           console.log('Setting value from websocket change.');

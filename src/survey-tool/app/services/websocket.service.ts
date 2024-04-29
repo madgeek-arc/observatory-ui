@@ -11,6 +11,8 @@ const URL = environment.WS_ENDPOINT;
 export class Revision {
   field: string;
   value: string;
+  sessionId: string;
+  date: string;
 }
 
 @Injectable()
@@ -89,7 +91,7 @@ export class WebsocketService {
     this.stompClient.then( client => client.send(`/app/focus/${this.type}/${this.surveyAnswerId}/${field}`, {}, value));
   }
 
-  WsEdit(value: Revision) {
+  WsEdit(value: { field: string; value: any; }) {
     this.stompClient.then( client => client.send(`/app/edit/${this.type}/${this.surveyAnswerId}`, {}, JSON.stringify(value)));
   }
 
