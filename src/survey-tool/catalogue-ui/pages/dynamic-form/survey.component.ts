@@ -109,6 +109,12 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
           console.log('it is I');
           return;
         }
+        if (value.value === '#r3moveField!') {
+          let path = value.field.split('.');
+          const position = path.pop().split('[')[1].split(']')[0];
+          console.log(position);
+          return;
+        }
         let ctrl = this.getControl(value.field);
         if (ctrl) {
           console.log('Setting value from websocket change.');
@@ -191,8 +197,13 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
             this.changedField = this.detectChanges(changes, this.previousValue, '');
             this.changedField.forEach( change => {
               console.log(change);
-              console.log(this.getControl(change).value);
-              this.wsService.WsEdit({field: change, value: this.getControl(change)?.value})
+              console.log(this.getControl(change)?.value);
+              let value = this.getControl(change)?.value;
+              if (this.getControl(change)?.value === undefined) {
+                console.log((this.getControl(change)?.value === undefined));
+                value = '#r3moveField!'
+              }
+              this.wsService.WsEdit({field: change, value: value});
             });
             // if (this.changedField) {
             //   console.log(this.changedField);
