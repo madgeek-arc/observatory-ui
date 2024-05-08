@@ -105,8 +105,8 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
     this.wsService.edit.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         console.log(value);
-        if (value.sessionId === this.activeUsers.find( user => user.fullname === this.userName ).sessionId) {
-          console.log('it is I');
+        if (this.activeUsers.find( user => user.sessionId === this.wsService.userId)) {
+          console.log('It is I');
           return;
         }
         if (value.value === '#r3moveField!') {

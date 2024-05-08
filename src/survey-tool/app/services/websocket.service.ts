@@ -20,6 +20,7 @@ export class WebsocketService {
   private surveyAnswerId: string | null = null;
   private type: string | null = null;
   private dropConnection = false;
+  private userSessionId: string | null = null;
 
   stompClient: Promise<typeof Stomp>;
   activeUsers: BehaviorSubject<UserActivity[]> = new BehaviorSubject<UserActivity[]>(null);
@@ -48,12 +49,15 @@ export class WebsocketService {
             that.count = 0;
             stomp.subscribe(`/topic/active-users/${that.type}/${that.surveyAnswerId}`, (message) => {
               if (message.body) {
+                // console.log(message.headers['message-id']);
+                that.userSessionId = message.headers['message-id'].split('-')[0];
                 that.activeUsers.next(JSON.parse(message.body));
                 // console.log(that.activeUsers);
               }
             });
             stomp.subscribe(`/topic/edit/${resourceType}/${that.surveyAnswerId}`, (message) => {
               if (message.body) {
+                // console.log('edit event, with body: ' + message.body);
                 that.edit.next(JSON.parse(message.body));
                 // console.log(that.edit);
               }
@@ -98,5 +102,9 @@ export class WebsocketService {
   closeWs() {
     this.dropConnection = true;
     this.stompClient?.then(client => client.ws.close());
+  }
+
+  get userId() {
+    return this.userSessionId;
   }
 }
