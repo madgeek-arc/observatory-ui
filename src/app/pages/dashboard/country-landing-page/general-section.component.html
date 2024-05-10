@@ -51,7 +51,7 @@
           <span class="comment-title">Number of researchers employed in 2021</span>
         </a>
         <div class="uk-accordion-content">
-          <p>{{formatComments(surveyAnswer['General']?.['Question1']?.['Question1-2'])}}</p>
+          <p>{{surveyAnswer['General']?.['Question1']?.['Question1-2']}}</p>
         </div>
       </li>
       <li *ngIf="surveyAnswer['General']?.['Question2']?.['Question2-1']" class="uk-margin-medium-bottom">
@@ -60,7 +60,7 @@
           <span class="comment-title">Number of RPOs</span>
         </a>
         <div class="uk-accordion-content">
-          <div [innerHTML]="formatComments(surveyAnswer['General']?.['Question2']?.['Question2-1'])"></div>
+          <div [innerHTML]="surveyAnswer['General']?.['Question2']?.['Question2-1']"></div>
         </div>
       </li>
       <li *ngIf="surveyAnswer['General']?.['Question3']?.['Question3-1']" class="uk-margin-medium-bottom">
