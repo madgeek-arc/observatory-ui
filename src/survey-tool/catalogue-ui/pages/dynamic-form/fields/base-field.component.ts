@@ -59,7 +59,7 @@ export class BaseFieldComponent implements OnInit {
     if (!this.editMode)
       return;
 
-    console.log('Field focus In');
+    // console.log('Field focus In');
     this.previousValue = cloneDeep(this.formControl.value);
     if (this.formControl instanceof FormArray) {
       this.wsService.WsFocus(this.getPath(this.formControl.controls[position]).join('.'), null);
@@ -71,7 +71,7 @@ export class BaseFieldComponent implements OnInit {
     if (!this.editMode)
       return;
 
-    console.log('Field focus Out');
+    // console.log('Field focus Out');
     this.wsService.WsFocus(null, null);
     if (isEqual(this.previousValue, this.formControl.value) || skip)
       return;
@@ -129,11 +129,25 @@ export class BaseFieldComponent implements OnInit {
   }
 
   push() {
-    this.fieldAsFormArray().push(this.formControlService.createField(this.fieldData));
+    this.fieldAsFormArray().push(this.formControlService.createField(this.fieldData), {emitEvent: false});
+    if (this.formControl instanceof FormArray) {
+      this.wsService.WsEdit({
+        field: this.getPath(this.formControl.controls[this.fieldAsFormArray().length-1]).join('.'),
+        value: this.formControl.controls[this.fieldAsFormArray().length-1].value,
+        action: 'add'
+      });
+    }
   }
 
   remove(i: number) {
-    this.fieldAsFormArray().removeAt(i);
+    this.fieldAsFormArray().removeAt(i, {emitEvent: false});
+    if (this.formControl instanceof FormArray) {
+      this.wsService.WsEdit({
+        field: this.getPath(this.formControl.controls[i]).join('.'),
+        value: null,
+        action: 'delete'
+      });
+    }
   }
 
   movedElement(e) {

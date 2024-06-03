@@ -1,7 +1,15 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {Field, HandleBitSet, UiVocabulary} from "../../../../domain/dynamic-form-model";
-import {UntypedFormArray, FormControl, UntypedFormGroup, FormGroupDirective, Validators} from "@angular/forms";
+import {
+  UntypedFormArray,
+  FormControl,
+  UntypedFormGroup,
+  FormGroupDirective,
+  Validators,
+  FormArray, FormGroup, AbstractControl
+} from "@angular/forms";
 import {FormControlService} from "../../../../services/form-control.service";
+import { WebsocketService } from "../../../../../app/services/websocket.service";
 
 @Component({
   selector: 'app-composite-field',
@@ -23,7 +31,8 @@ export class CompositeFieldComponent implements OnInit {
   form: UntypedFormGroup;
   hideField: boolean = null;
 
-  constructor(private rootFormGroup: FormGroupDirective, private formService: FormControlService) {
+  constructor(private rootFormGroup: FormGroupDirective, private formService: FormControlService,
+              private wsService: WebsocketService) {
   }
 
   ngOnInit() {
@@ -46,21 +55,71 @@ export class CompositeFieldComponent implements OnInit {
     }
   }
 
+  /** Form control path -------------------------------------------------------------------------------------------> **/
+  getPath(control: AbstractControl): string[] {
+    const path: string[] = [];
+    let currentControl: AbstractControl | null = control;
+
+    // Traverse up the tree until reaching the root
+    while (currentControl && currentControl.parent) {
+      if (currentControl.parent instanceof FormArray) {
+        const index = '['+this.findIndexInFormArray(currentControl.parent, currentControl)+']';
+        path.unshift(index.toString());
+      } else {
+        const parent = currentControl.parent;
+        const index = this.findIndexInParent(parent, currentControl);
+        path.unshift(index);
+      }
+      currentControl = currentControl.parent;
+      // console.log(path);
+    }
+
+    return path;
+  }
+
+  findIndexInParent(parent: FormGroup | FormArray, control: AbstractControl): string {
+    const keys = Object.keys(parent.controls);
+    for (let i = 0; i < keys.length; i++) {
+      if (parent.controls[keys[i]] === control) {
+        return keys[i];
+      }
+    }
+    return '';
+  }
+
+  findIndexInFormArray(formArray: FormArray, control: AbstractControl): number {
+    const index = formArray.controls.findIndex(c => c === control);
+    return index >= 0 ? index : -1;
+  }
+  /** <------------------------------------------------------------------------------------------- Form control path **/
+
   /** Handle Arrays --> **/
   fieldAsFormArray() {
     return this.form as unknown as UntypedFormArray;
   }
 
-  oldFieldAsFormArray(field: string) {
-    return this.form.get(field) as UntypedFormArray;
-  }
-
   remove(i: number) {
-    this.fieldAsFormArray().removeAt(i);
+    let path = this.getPath(this.form.controls[i]).join('.');
+    this.fieldAsFormArray().removeAt(i, {emitEvent: false});
+    if (this.form instanceof FormArray) {
+      this.wsService.WsEdit({
+        field: path,
+        value: null,
+        action: 'delete'
+      });
+    }
   }
 
   pushComposite(compositeField: Field) {
-    this.fieldAsFormArray().push(this.formService.createCompositeField(compositeField));
+    // console.log(path);
+    this.fieldAsFormArray().push(this.formService.createCompositeField(compositeField), {emitEvent: false});
+    // if (this.form instanceof FormArray) {
+    //   this.wsService.WsEdit({
+    //     field: this.getPath(this.form.controls[this.fieldAsFormArray().length-1]).join('.'),
+    //     value: this.form.controls[this.fieldAsFormArray().length-1].value,
+    //     action: 'add'
+    //   });
+    // }
   }
 
   movedElement(e, ) {
@@ -96,16 +155,6 @@ export class CompositeFieldComponent implements OnInit {
 
   checkFormValidity(name: string, edit: boolean): boolean {
     return (!this.form.get(name).valid && (edit || this.form.get(name).dirty));
-  }
-
-  checkFormArrayValidity(name: string, position: number, edit: boolean, groupName?: string): boolean {
-    if (groupName) {
-      return (!this.oldFieldAsFormArray(name)?.get([position])?.get(groupName).valid
-        && (edit || this.oldFieldAsFormArray(name)?.get([position])?.get(groupName).dirty));
-
-    }
-    return (!this.oldFieldAsFormArray(name).get([position]).valid
-      && (edit || this.oldFieldAsFormArray(name).get([position]).dirty));
   }
 
   /** <-- check form fields and tabs validity **/

@@ -104,24 +104,36 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
 
     this.wsService.edit.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        console.log(value);
+        // console.log(value);
         // console.log('User id: ' + this.wsService.userId);
         // console.log('Message id: ' + value.sessionId);
-        if (value.sessionId === this.wsService.userId) {
+        if (value.sessionId === this.wsService.userId) { // Action made by me, ignore
           console.log('It is I');
+          this.previousValue = cloneDeep(this.form.value);
           return;
         }
         let ctrl = this.getControl(value.field);
-        if (value.value === '#r3moveField!') {
-          let path = value.field.split('.');
+        let path = value.field.split('.');
+        if (value.action === 'delete') { // Remove at position
           const position = path.pop().split('[')[1].split(']')[0];
-          // Remove at position
           if (!ctrl)
             return;
           console.log('Remove at position ' + position);
           // console.log(ctrl.parent as FormArray);
           (ctrl.parent as FormArray).removeAt(+position, {emitEvent: false});
           this.previousValue = cloneDeep(this.form.value);
+          return;
+        }
+        if (value.action === 'add') { // Push element
+          const position = path[path.length-1].split('[')[1].split(']')[0];
+          if ((position.match(/^-?\d+$/)).length === 1) {
+            console.log('add element at position ' + position);
+            let field = this.getModelData(this.model.sections, path[path.length - 2]);
+            path.pop();
+            ctrl = this.getControl(path.join('.'));
+            (ctrl as FormArray).push(this.formControlService.createField(field), {emitEvent: false});
+            this.previousValue = cloneDeep(this.form.value);
+          }
           return;
         }
         if (ctrl) {
@@ -135,7 +147,7 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
           ctrl.setValue(value.value, {emitEvent: true});
           this.previousValue = cloneDeep(this.form.value);
         } else {
-          let path = value.field.split('.');
+          // let path = value.field.split('.');
           // console.log(path[path.length-1]);
           // console.log(path[path.length-1].split('[')[1].split(']')[0].match(/^-?\d+$/));
           const position = path[path.length-1].split('[')[1].split(']')[0];
@@ -215,14 +227,18 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
             distinctUntilChanged((a, b) => isEqual(a, b))
           ).subscribe(changes => {
             this.changedField = this.detectChanges(changes, this.previousValue, '');
+            // this.changedField.reverse();
             this.changedField.forEach( change => {
               // console.log(change);
               // console.log(this.getControl(change)?.value);
               let value = this.getControl(change)?.value;
-              if (this.getControl(change)?.value === undefined) {
+              if (value === undefined) {
                 console.log((this.getControl(change)?.value === undefined));
                 value = '#r3moveField!'
               }
+              // else if ( value === null) {
+              //   value = '#@ddField!'
+              // }
               this.wsService.WsEdit({field: change, value: value});
             });
             // if (this.changedField) {
