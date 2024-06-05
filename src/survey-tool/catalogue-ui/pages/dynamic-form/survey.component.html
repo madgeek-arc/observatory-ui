@@ -56,7 +56,7 @@
 <div *ngIf="ready; else showLoader">
   <ul id="top-navigation-tabs" class="uk-switcher">
     <li *ngFor="let section of model.sections let i = index">
-      <app-chapter-edit [form]="getFormGroup(i)" [readonly]="readonly || freeView" [validate]="validate"
+      <app-chapter-edit [form]="getFormGroup(i)" [readonly]="readonly" [validate]="validate"
                         [chapter]="model.sections[i]" [vocabularies]="vocabulariesMap" [tabsHeader]="tabsHeader"
                         [fields]="model.sections[i].subSections ? model.sections[i].subSections : model.sections"
                         [subVocabularies]="subVocabularies" [mandatoryFieldsText]="mandatoryFieldsText"

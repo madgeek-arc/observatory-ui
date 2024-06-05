@@ -41,7 +41,7 @@ export class BaseFieldComponent implements OnInit {
     this.formControl = this.form.get(this.fieldData.name) as UntypedFormControl;
     this.inputId = this.getPath(this.formControl).join('.');
 
-    if(this.fieldData.form.dependsOn) {
+    if (this.fieldData.form.dependsOn) {
       // console.log(this.fieldData.form.dependsOn);
       this.enableDisableField(this.form.get(this.fieldData.form.dependsOn.name).value, this.fieldData.form.dependsOn.value);
 
