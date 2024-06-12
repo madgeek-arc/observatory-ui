@@ -29,7 +29,6 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
   @Input() model: Model = null;
   @Input() subType: string = null;
   @Input() activeUsers: UserActivity[] = null;
-  @Input() userName: string = null;
   @Input() vocabulariesMap: Map<string, object[]> = null;
   @Input() subVocabularies: Map<string, object[]> = null;
   @Input() tabsHeader: string = null;
