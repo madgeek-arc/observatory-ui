@@ -6,6 +6,12 @@ import { FormControlService } from "../../../services/form-control.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { cloneDeep, isEqual } from 'lodash';
 
+interface PositionChange {
+  oldIndex: number;
+  newIndex: number;
+  element: HTMLElement;
+}
+
 @Component({
   template: ``,
   styles: ['.clear-style { height: 0 !important;}'],
@@ -150,26 +156,24 @@ export class BaseFieldComponent implements OnInit {
     }
   }
 
-  movedElement(e) {
-    let newOrder: number[] = [];
-    e.target.childNodes.forEach(child => {
-      if (Number.isInteger((parseInt(child.id))))
-        newOrder.push(child.id);
-    });
-    for (let i = 0; i < newOrder.length; i++) {
-      if (newOrder[i] != i && (newOrder[i] > i+1 || newOrder[i] < i)) {
-        this.move(i, newOrder[i]);
-        break;
-      }
-    }
+
+  onPositionChanged(change: PositionChange): void {
+    console.log(`Element ${change.element.id} moved from index ${change.oldIndex} to ${change.newIndex}`);
+    this.move(change.newIndex, change.oldIndex)
   }
 
-  move(newIndex: number, currentIndex: number) {
+  move(newIndex: number, oldIndex: number) {
     const formArray: UntypedFormArray = this.fieldAsFormArray();
-    const currentControl: AbstractControl = formArray.at(currentIndex);
+    const currentControl: AbstractControl = formArray.at(oldIndex);
 
-    formArray.removeAt(currentIndex);
-    formArray.insert(newIndex, currentControl)
+    formArray.removeAt(oldIndex, {emitEvent: false});
+    formArray.insert(newIndex, currentControl, {emitEvent: false})
+
+    this.wsService.WsEdit({
+      field: this.getPath(this.form.controls[oldIndex]).join('.'),
+      value: {oldIndex: oldIndex, newIndex: newIndex},
+      action: 'move'
+    });
   }
 
   /** check fields validity --> **/

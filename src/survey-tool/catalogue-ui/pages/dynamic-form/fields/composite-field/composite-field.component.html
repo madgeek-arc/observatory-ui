@@ -20,8 +20,9 @@
   <div *ngIf="fieldData.kind !== 'external'">
 
   <div *ngIf="fieldData.typeInfo.multiplicity; else noMultiplicity">
-    <div uk-sortable="handle: .uk-sortable-handle" (moved)="movedElement($event)">
-      <div *ngFor="let control of fieldAsFormArray().controls; let i=index" id="{{i}}" class="uk-width-expand uk-grid">
+    <div appSortable (positionChanged)="onPositionChanged($event)" id="sortable-container">
+      <div *ngFor="let control of fieldAsFormArray().controls; let i=index" id="{{i}}" [attr.data-index]="i"
+           class="uk-width-expand uk-grid">
         <div [formGroupName]="i" class="uk-width-9-10 uk-margin-medium-left"
              [ngClass]="{'uk-margin-bottom formGroupElement': fieldData.form.display?.hasBorder}">
           <div *ngIf="fieldAsFormArray().length > 1 && !readonly" class="uk-flex uk-flex-right">
@@ -231,4 +232,4 @@
   </div>
 
 </form>
-<!--<pre>{{fieldData | json}}</pre>-->
+<!--<pre>{{ form.value | json }}</pre>-->

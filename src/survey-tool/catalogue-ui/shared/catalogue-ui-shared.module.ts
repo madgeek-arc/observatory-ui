@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { PremiumSortFacetsPipe, PremiumSortFacetValuesPipe, PremiumSortPipe } from "./pipes/premium-sort.pipe";
 import { SafeUrlPipe } from "./pipes/safeUrlPipe";
 import { UniquePipe } from "./pipes/uniquePipe.pipe";
+import { SortableDirective } from "./directives/sortable.directive";
 
 @NgModule({
   declarations: [
@@ -9,7 +10,8 @@ import { UniquePipe } from "./pipes/uniquePipe.pipe";
     PremiumSortFacetsPipe,
     PremiumSortFacetValuesPipe,
     SafeUrlPipe,
-    UniquePipe
+    UniquePipe,
+    SortableDirective
   ],
   imports: [],
   exports: [
@@ -17,7 +19,8 @@ import { UniquePipe } from "./pipes/uniquePipe.pipe";
     PremiumSortFacetsPipe,
     PremiumSortFacetValuesPipe,
     SafeUrlPipe,
-    UniquePipe
+    UniquePipe,
+    SortableDirective
   ]
 })
 

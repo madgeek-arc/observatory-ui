@@ -63,12 +63,12 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
 
   @HostListener('document:focus', ['$event'])
   onFocus(event: FocusEvent): void {
-    console.log("Focus");
+    // console.log("Focus");
   }
 
   @HostListener('window:blur', ['$event'])
   onBlur(event: FocusEvent): void {
-    console.log('Blur');
+    // console.log('Blur');
   }
 
   ngOnInit() {
@@ -135,9 +135,23 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
           }
           return;
         }
+        if (value.action === 'move') { // Move element
+          const position = path.pop().split('[')[1].split(']')[0];
+          if (!ctrl)
+            return;
+          // console.log(ctrl.parent as FormArray);
+          const movedCtrl = (ctrl.parent as FormArray).at(+value.value['oldIndex']);
+
+          console.log('Remove at position ' + +value.value['oldIndex']);
+          (ctrl.parent as FormArray).removeAt(+value.value['oldIndex'], {emitEvent: false});
+          console.log('Insert at position ' + +value.value['newIndex']);
+          (ctrl.parent as FormArray).insert(+value.value['newIndex'], movedCtrl, {emitEvent: false});
+          this.previousValue = cloneDeep(this.form.value);
+          return;
+        }
         if (ctrl) {
           console.log('Setting value from websocket change.');
-          console.log(ctrl);
+          // console.log(ctrl);
           if (typeof value.value === 'object' && value.value !== null) {
             console.log('value is object', value.value);
             // handle object creation
@@ -146,14 +160,12 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
           ctrl.setValue(value.value, {emitEvent: true});
           this.previousValue = cloneDeep(this.form.value);
         } else {
-          // let path = value.field.split('.');
-          // console.log(path[path.length-1]);
+          console.log('This case is redundant, this message should not be seen')
           // console.log(path[path.length-1].split('[')[1].split(']')[0].match(/^-?\d+$/));
           const position = path[path.length-1].split('[')[1].split(']')[0];
           // console.log(position.match(/^-?\d+$*/));
           if ((position.match(/^-?\d+$/)).length === 1) {
             console.log('add element at position ' + position);
-            console.log(path[path.length-2]);
             let field = this.getModelData(this.model.sections, path[path.length-2]);
             path.pop();
             ctrl = this.getControl(path.join('.'));
@@ -235,9 +247,6 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
                 console.log((this.getControl(change)?.value === undefined));
                 value = '#r3moveField!'
               }
-              // else if ( value === null) {
-              //   value = '#@ddField!'
-              // }
               this.wsService.WsEdit({field: change, value: value});
             });
             // if (this.changedField) {

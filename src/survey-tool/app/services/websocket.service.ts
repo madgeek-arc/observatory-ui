@@ -58,7 +58,7 @@ export class WebsocketService {
             });
             stomp.subscribe(`/topic/edit/${resourceType}/${that.surveyAnswerId}`, (message) => {
               if (message.body) {
-                // console.log('edit event, with body: ' + message.body);
+                console.log('edit event, with body: ' + message.body);
                 that.edit.next(JSON.parse(message.body));
                 // console.log(that.edit);
               }
@@ -97,6 +97,7 @@ export class WebsocketService {
   }
 
   WsEdit(value: { field: string; value: any; action?: string; }) {
+    console.log(value);
     this.stompClient.then( client => client.send(`/app/edit/${this.type}/${this.surveyAnswerId}`, {}, JSON.stringify(value)));
   }
 

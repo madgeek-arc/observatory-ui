@@ -1,15 +1,19 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import {Field, HandleBitSet, UiVocabulary} from "../../../../domain/dynamic-form-model";
+import {Field, HandleBitSet} from "../../../../domain/dynamic-form-model";
 import {
   UntypedFormArray,
-  FormControl,
   UntypedFormGroup,
   FormGroupDirective,
-  Validators,
   FormArray, FormGroup, AbstractControl
 } from "@angular/forms";
 import {FormControlService} from "../../../../services/form-control.service";
 import { WebsocketService } from "../../../../../app/services/websocket.service";
+
+interface PositionChange {
+  oldIndex: number;
+  newIndex: number;
+  element: HTMLElement;
+}
 
 @Component({
   selector: 'app-composite-field',
@@ -113,43 +117,36 @@ export class CompositeFieldComponent implements OnInit {
   pushComposite(compositeField: Field) {
     // console.log(path);
     this.fieldAsFormArray().push(this.formService.createCompositeField(compositeField), {emitEvent: false});
-    // if (this.form instanceof FormArray) {
-    //   this.wsService.WsEdit({
-    //     field: this.getPath(this.form.controls[this.fieldAsFormArray().length-1]).join('.'),
-    //     value: this.form.controls[this.fieldAsFormArray().length-1].value,
-    //     action: 'add'
-    //   });
-    // }
-  }
-
-  movedElement(e, ) {
-    let newOrder: number[] = [];
-    e.target.childNodes.forEach(child => {
-      newOrder.push(child.id);
-    });
-    // console.log(newOrder);
-    for (let i = 0; i < newOrder.length-1; i++) {
-      if (newOrder[i] != i) {
-        if (newOrder[i] > i+1) {
-          this.move(newOrder[i], i);
-          break;
-        } else if (newOrder[i] < i) {
-          this.move(i, newOrder[i]);
-          break;
-        }
-      }
+    if (this.form instanceof FormArray) {
+      this.wsService.WsEdit({
+        field: this.getPath(this.form.controls[this.fieldAsFormArray().length-1]).join('.'),
+        value: this.form.controls[this.fieldAsFormArray().length-1].value,
+        action: 'add'
+      });
     }
   }
 
-  move(newIndex: number, currentIndex: number) {
-    const formArray = this.fieldAsFormArray();
+  /** <-- Handle Arrays **/
 
-    const currentGroup = formArray.at(currentIndex);
-    formArray.removeAt(currentIndex);
-    formArray.insert(newIndex, currentGroup)
+  /** Detect position change **/
+  onPositionChanged(change: PositionChange): void {
+    console.log(`Element ${change.element.id} moved from index ${change.oldIndex} to ${change.newIndex}`);
+    this.move(change.newIndex, change.oldIndex)
   }
 
-  /** <-- Handle Arrays **/
+  move(newIndex: number, oldIndex: number) {
+    const formArray = this.fieldAsFormArray();
+    const currentGroup = formArray.at(oldIndex);
+
+    formArray.removeAt(oldIndex);
+    formArray.insert(newIndex, currentGroup);
+
+    this.wsService.WsEdit({
+      field: this.getPath(this.form.controls[oldIndex]).join('.'),
+      value: {oldIndex: oldIndex, newIndex: newIndex},
+      action: 'move'
+    });
+  }
 
   /** check form fields and tabs validity--> **/
 

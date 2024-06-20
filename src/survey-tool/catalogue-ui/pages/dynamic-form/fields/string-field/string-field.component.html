@@ -12,8 +12,9 @@
   </div>
 
   <div *ngIf="fieldData.typeInfo.multiplicity; else noMultiplicity" [formArrayName]="fieldData.name">
-    <div uk-sortable="handle: .uk-sortable-handle" (moved)="movedElement($event)">
-      <div *ngFor="let input of fieldAsFormArray().controls; let i=index" id="{{i}}" class="uk-margin-bottom uk-flex uk-flex-middle">
+    <div appSortable (positionChanged)="onPositionChanged($event)" id="sortable-container">
+      <div *ngFor="let input of fieldAsFormArray().controls; let i=index" id="{{i}}" [attr.data-index]="i"
+           class="uk-margin-bottom uk-flex uk-flex-middle">
         <input [id]="inputId+'.['+i+']'" [formControlName]="i" class="uk-input uk-width-9-10 uk-animation-slide-top-small"
                [placeholder]="fieldData.form.placeholder ? fieldData.form.placeholder : ''"
                [ngClass]="{'uk-form-danger': checkFormArrayValidity(i)}" (focusin)="focus(i)" (focusout)="focusOut(false, i)"
