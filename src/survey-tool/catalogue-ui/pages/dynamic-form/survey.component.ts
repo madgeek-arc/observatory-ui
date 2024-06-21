@@ -140,12 +140,12 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
           if (!ctrl)
             return;
           // console.log(ctrl.parent as FormArray);
-          const movedCtrl = (ctrl.parent as FormArray).at(+value.value['oldIndex']);
+          const movedCtrl = (ctrl.parent as FormArray).at(+position);
 
-          console.log('Remove at position ' + +value.value[position]);
-          (ctrl.parent as FormArray).removeAt(+value.value[position], {emitEvent: false});
-          console.log('Insert at position ' + +value.value['newIndex']);
-          (ctrl.parent as FormArray).insert(+value.value['newIndex'], movedCtrl, {emitEvent: false});
+          console.log('Remove at position ' + position);
+          (ctrl.parent as FormArray).removeAt(+position, {emitEvent: false});
+          console.log('Insert at position ' + +value.action.index);
+          (ctrl.parent as FormArray).insert(+value.action.index, movedCtrl, {emitEvent: false});
           this.previousValue = cloneDeep(this.form.value);
           return;
         }
