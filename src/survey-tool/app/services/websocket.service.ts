@@ -8,12 +8,17 @@ declare var Stomp;
 
 const URL = environment.WS_ENDPOINT;
 
-export class Revision {
+export interface Revision {
   field: string;
   value: string;
-  action?: string;
+  action?: Action;
   sessionId?: string;
   date?: string;
+}
+
+interface Action {
+  type: string;
+  index?: number;
 }
 
 @Injectable()
@@ -96,7 +101,7 @@ export class WebsocketService {
     this.stompClient.then( client => client.send(`/app/focus/${this.type}/${this.surveyAnswerId}/${field}`, {}, value));
   }
 
-  WsEdit(value: { field: string; value: any; action?: string; }) {
+  WsEdit(value: { field: string; value: any; action?: Action; }) {
     console.log(value);
     this.stompClient.then( client => client.send(`/app/edit/${this.type}/${this.surveyAnswerId}`, {}, JSON.stringify(value)));
   }

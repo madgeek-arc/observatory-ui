@@ -140,18 +140,23 @@ export class BaseFieldComponent implements OnInit {
       this.wsService.WsEdit({
         field: this.getPath(this.formControl.controls[this.fieldAsFormArray().length-1]).join('.'),
         value: this.formControl.controls[this.fieldAsFormArray().length-1].value,
-        action: 'add'
+        action: {type: 'ADD'}
       });
     }
   }
 
   remove(i: number) {
+
+    let path;
+    if (this.formControl instanceof FormArray)
+      path = this.getPath(this.formControl.controls[i]).join('.');
+
     this.fieldAsFormArray().removeAt(i, {emitEvent: false});
     if (this.formControl instanceof FormArray) {
       this.wsService.WsEdit({
-        field: this.getPath(this.formControl.controls[i]).join('.'),
+        field: path,
         value: null,
-        action: 'delete'
+        action: {type: 'DELETE', index: i}
       });
     }
   }
@@ -165,14 +170,15 @@ export class BaseFieldComponent implements OnInit {
   move(newIndex: number, oldIndex: number) {
     const formArray: UntypedFormArray = this.fieldAsFormArray();
     const currentControl: AbstractControl = formArray.at(oldIndex);
+    const path = this.getPath(this.form.controls[oldIndex]).join('.');
 
     formArray.removeAt(oldIndex, {emitEvent: false});
     formArray.insert(newIndex, currentControl, {emitEvent: false})
 
     this.wsService.WsEdit({
-      field: this.getPath(this.form.controls[oldIndex]).join('.'),
-      value: {oldIndex: oldIndex, newIndex: newIndex},
-      action: 'move'
+      field: path,
+      value: null,
+      action: {type:'MOVE', index: newIndex}
     });
   }
 

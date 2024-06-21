@@ -104,12 +104,13 @@ export class CompositeFieldComponent implements OnInit {
 
   remove(i: number) {
     let path = this.getPath(this.form.controls[i]).join('.');
+    console.log(path);
     this.fieldAsFormArray().removeAt(i, {emitEvent: false});
     if (this.form instanceof FormArray) {
       this.wsService.WsEdit({
         field: path,
         value: null,
-        action: 'delete'
+        action: {type: 'DELETE', index: i}
       });
     }
   }
@@ -121,7 +122,7 @@ export class CompositeFieldComponent implements OnInit {
       this.wsService.WsEdit({
         field: this.getPath(this.form.controls[this.fieldAsFormArray().length-1]).join('.'),
         value: this.form.controls[this.fieldAsFormArray().length-1].value,
-        action: 'add'
+        action: {type: 'ADD'}
       });
     }
   }
@@ -137,14 +138,15 @@ export class CompositeFieldComponent implements OnInit {
   move(newIndex: number, oldIndex: number) {
     const formArray = this.fieldAsFormArray();
     const currentGroup = formArray.at(oldIndex);
+    const path = this.getPath(this.form.controls[oldIndex]).join('.');
 
     formArray.removeAt(oldIndex);
     formArray.insert(newIndex, currentGroup);
 
     this.wsService.WsEdit({
-      field: this.getPath(this.form.controls[oldIndex]).join('.'),
-      value: {oldIndex: oldIndex, newIndex: newIndex},
-      action: 'move'
+      field: path,
+      value: null,
+      action: {type: 'MOVE', index: newIndex}
     });
   }
 

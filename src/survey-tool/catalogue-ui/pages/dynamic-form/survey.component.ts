@@ -113,7 +113,7 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
         }
         let ctrl = this.getControl(value.field);
         let path = value.field.split('.');
-        if (value.action === 'delete') { // Remove at position
+        if (value.action.type === 'DELETE') { // Remove at position
           const position = path.pop().split('[')[1].split(']')[0];
           if (!ctrl)
             return;
@@ -123,7 +123,7 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
           this.previousValue = cloneDeep(this.form.value);
           return;
         }
-        if (value.action === 'add') { // Push element
+        if (value.action.type === 'ADD') { // Push element
           const position = path[path.length-1].split('[')[1].split(']')[0];
           if ((position.match(/^-?\d+$/)).length === 1) {
             console.log('add element at position ' + position);
@@ -135,15 +135,15 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
           }
           return;
         }
-        if (value.action === 'move') { // Move element
+        if (value.action.type === 'MOVE') { // Move element
           const position = path.pop().split('[')[1].split(']')[0];
           if (!ctrl)
             return;
           // console.log(ctrl.parent as FormArray);
           const movedCtrl = (ctrl.parent as FormArray).at(+value.value['oldIndex']);
 
-          console.log('Remove at position ' + +value.value['oldIndex']);
-          (ctrl.parent as FormArray).removeAt(+value.value['oldIndex'], {emitEvent: false});
+          console.log('Remove at position ' + +value.value[position]);
+          (ctrl.parent as FormArray).removeAt(+value.value[position], {emitEvent: false});
           console.log('Insert at position ' + +value.value['newIndex']);
           (ctrl.parent as FormArray).insert(+value.value['newIndex'], movedCtrl, {emitEvent: false});
           this.previousValue = cloneDeep(this.form.value);
