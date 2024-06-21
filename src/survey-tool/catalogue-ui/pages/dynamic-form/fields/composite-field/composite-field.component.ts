@@ -140,8 +140,8 @@ export class CompositeFieldComponent implements OnInit {
     const currentGroup = formArray.at(oldIndex);
     const path = this.getPath(this.form.controls[oldIndex]).join('.');
 
-    formArray.removeAt(oldIndex);
-    formArray.insert(newIndex, currentGroup);
+    formArray.removeAt(oldIndex, {emitEvent: false});
+    formArray.insert(newIndex, currentGroup, {emitEvent: false});
 
     this.wsService.WsEdit({
       field: path,
