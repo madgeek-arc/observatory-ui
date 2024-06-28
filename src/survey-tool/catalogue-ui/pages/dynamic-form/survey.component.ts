@@ -1,4 +1,17 @@
-import { Component, DestroyRef, EventEmitter, HostListener, inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  EventEmitter,
+  HostListener,
+  inject,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges
+} from "@angular/core";
 import { AbstractControl, FormArray, FormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
@@ -58,7 +71,8 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
   changedField: string[] = [];
 
   constructor(private formControlService: FormControlService, private pdfService: PdfGenerateService,
-              private fb: UntypedFormBuilder, private router: Router, private wsService: WebsocketService) {
+              private fb: UntypedFormBuilder, private router: Router, private wsService: WebsocketService,
+              private cd: ChangeDetectorRef) {
   }
 
   @HostListener('document:focus', ['$event'])
@@ -223,6 +237,7 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
         this.form.patchValue(this.payload.answer, {onlySelf: false, emitEvent: false});
         this.previousValue = cloneDeep(this.form.value);
         this.form.markAllAsTouched();
+        this.cd.detectChanges();
         if (this.readonly) {
           setTimeout(() => {
             this.form.disable();
@@ -240,10 +255,11 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
             this.changedField = this.detectChanges(changes, this.previousValue, '');
             // this.changedField.reverse();
             this.changedField.forEach( change => {
-              // console.log(change);
+              console.log(change);
               // console.log(this.getControl(change)?.value);
               let value = this.getControl(change)?.value;
               if (value === undefined) {
+                console.log('This message should not be displayed -> check #r3moveField!');
                 console.log((this.getControl(change)?.value === undefined));
                 value = '#r3moveField!'
               }
@@ -600,7 +616,7 @@ export class SurveyComponent implements OnInit, OnChanges, OnDestroy {
 
   getRandomDarkColor(sessionId: string) { // (use for background with white/light font color)
     const rng = seedRandom(sessionId);
-    const h = Math.floor(rng() * 360),
+    const h = Math.floor(rng() * 1000 % 361),
       s = Math.floor(rng() * 80 + 20) + '%', // set s above 20 to avoid similar grayish tones
       // max value of l is 100, but limit it from 15 to 70 in order to generate darker colors
       l = Math.floor(rng() * 55 + 15) + '%';
