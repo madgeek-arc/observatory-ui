@@ -12,11 +12,11 @@ export const EoscReadinessGuard: CanActivateFn = (route: ActivatedRouteSnapshot,
   const authenticationService = inject(AuthenticationService);
   const userService = inject(UserService);
 
-  if (!authenticationService.authenticated) {
-
-    router.navigate(['/home']).then();
-    return false;
-  }
+  // if (!authenticationService.authenticated) {
+  //   console.log('Not authenticated');
+  //   router.navigate(['/home']).then();
+  //   return false;
+  // }
 
   return userService.getUserInfo().pipe(
     switchMap(res => {
