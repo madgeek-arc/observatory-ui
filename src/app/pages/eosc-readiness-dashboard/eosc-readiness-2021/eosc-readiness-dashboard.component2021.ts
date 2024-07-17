@@ -8,11 +8,11 @@ declare var UIkit;
 
 @Component({
   selector: 'app-national-contributions-to-eosc-dashboard',
-  templateUrl: './eosc-readiness-dashboard.component.html',
+  templateUrl: './eosc-readiness-dashboard.component2021.html',
   styleUrls: ['../eosc-readiness-dashboard.component.css'],
 })
 
-export class EoscReadinessDashboardComponent implements OnInit, AfterViewInit{
+export class EoscReadinessDashboardComponent2021 implements OnInit, AfterViewInit{
 
   @ViewChild("nav") nav: ElementRef;
 
