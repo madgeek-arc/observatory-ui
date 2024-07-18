@@ -31,6 +31,9 @@ export class Stakeholder extends UserGroup {
 
   constructor() {
     super();
+    this.id = null;
+    this.associationMember = null;
+    this.mandated = false;
     this.country = null;
     this.subType = null;
   }
@@ -87,5 +90,6 @@ export class UserActivity {
   fullname: string;
   action: string;
   position: string;
+  color: string;
   date: Date;
 }

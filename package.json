@@ -30,6 +30,7 @@
     "@sentry/angular-ivy": "^7.84.0",
     "@sentry/cli": "^2.22.3",
     "@types/lodash": "^4.17.0",
+    "@types/uikit": "^3.14.5",
     "bitset": "^5.1.1",
     "highcharts": "^11.3.0",
     "highcharts-angular": "^4.0.0",
