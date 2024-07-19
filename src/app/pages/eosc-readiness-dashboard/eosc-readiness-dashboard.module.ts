@@ -14,7 +14,7 @@ import { InvestmentsComponent } from "./eosc-readiness-2021/investments/investme
 import { EoscReadinessDashboard2022Component } from "./eosc-readiness-2022/eosc-readiness-dashboard2022.component";
 import { Policies2022Component } from "./eosc-readiness-2022/policies/policies2022.component";
 import { Practices2022Component } from "./eosc-readiness-2022/practices/practices2022.component";
-import { EoscReadiness2022DataService } from "../services/eosc-readiness2022-data.service";
+import { EoscReadinessDataService } from "../services/eosc-readiness-data.service";
 import { NationalPolicyComponent } from "./eosc-readiness-2022/policies/national-policy/national-policy.component";
 import { FinancialStrategyComponent } from "./eosc-readiness-2022/policies/financial-strategy/financial-strategy.component";
 import { RPOsComponent } from "./eosc-readiness-2022/policies/RPOs/RPOs.component";
@@ -76,7 +76,7 @@ import { EoscReadinessDashboardComponent } from "./eosc-readiness-dynamic/eosc-r
   ],
   providers: [
     DataService,
-    EoscReadiness2022DataService,
+    EoscReadinessDataService,
     DataHandlerService,
     StakeholdersService
   ],

@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
-import {EoscReadiness2022DataService} from "../../../../services/eosc-readiness2022-data.service";
+import {EoscReadinessDataService} from "../../../../services/eosc-readiness-data.service";
 import {StakeholdersService} from "../../../../../../survey-tool/app/services/stakeholders.service";
 import {DataHandlerService} from "../../../../services/data-handler.service";
 import {CountryTableData} from "../../../../../../survey-tool/app/domain/country-table-data";
@@ -30,7 +30,7 @@ export class UseCasesComponent implements OnInit {
   tableData: string[][] = [];
 
 
-  constructor(private router: Router, private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
+  constructor(private router: Router, private route: ActivatedRoute, private queryData: EoscReadinessDataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
   }
 

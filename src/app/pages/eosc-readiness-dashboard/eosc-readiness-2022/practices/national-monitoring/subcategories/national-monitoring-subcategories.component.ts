@@ -4,7 +4,7 @@ import {zip} from "rxjs/internal/observable/zip";
 import {CategorizedAreaData, Series} from "../../../../../../../survey-tool/app/domain/categorizedAreaData";
 import {ColorPallet, EoscReadiness2022MapSubtitles} from "../../../eosc-readiness2022-map-subtitles";
 import {CountryTableData} from "../../../../../../../survey-tool/app/domain/country-table-data";
-import {EoscReadiness2022DataService} from "../../../../../services/eosc-readiness2022-data.service";
+import {EoscReadinessDataService} from "../../../../../services/eosc-readiness-data.service";
 import {StakeholdersService} from "../../../../../../../survey-tool/app/services/stakeholders.service";
 import {DataHandlerService} from "../../../../../services/data-handler.service";
 import UIkit from "uikit";
@@ -28,7 +28,7 @@ export class NationalMonitoringSubcategoriesComponent implements OnInit{
   participatingCountriesPercentage: number[] = [];
   toolTipData: Map<string, string>[] = [];
 
-  constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
+  constructor(private route: ActivatedRoute, private queryData: EoscReadinessDataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
   }
 

@@ -11,7 +11,7 @@ const headerOptions = {
 };
 
 @Injectable ()
-export class EoscReadiness2022DataService {
+export class EoscReadinessDataService {
 
   private statsAPIURL = environment.STATS_API_ENDPOINT + 'raw?json=';
   private profileName = environment.profileName;
@@ -19,6 +19,17 @@ export class EoscReadiness2022DataService {
   private osoProfileName = environment.osoStatsProfileName;
 
   constructor(private httpClient: HttpClient) {
+  }
+
+  // ======= DYNAMIC ========
+  getQuestion(year: string, name: string): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.${year}.${name}","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  getQuestionComment(year: string, name: string): Observable<RawData> {
+    const query: string = `{"series":[{"query":{"name":"eosc.sb.${year}.${name}.comment","profile":"${this.profileName}"}}],"verbose":true}`
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   // ======= GENERAL ========

@@ -2,7 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {CountryTableData} from "../../../../../../../survey-tool/app/domain/country-table-data";
 import {EoscReadiness2022MapSubtitles} from "../../../eosc-readiness2022-map-subtitles";
-import {EoscReadiness2022DataService} from "../../../../../services/eosc-readiness2022-data.service";
+import {EoscReadinessDataService} from "../../../../../services/eosc-readiness-data.service";
 import {StakeholdersService} from "../../../../../../../survey-tool/app/services/stakeholders.service";
 import {DataHandlerService} from "../../../../../services/data-handler.service";
 import {zip} from "rxjs/internal/observable/zip";
@@ -29,7 +29,7 @@ export class RFOsSubcategoriesComponent implements OnInit{
   sumsArray: string[] = [];
   toolTipData: Map<string, string>[] = [];
 
-  constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
+  constructor(private route: ActivatedRoute, private queryData: EoscReadinessDataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
   }
 
