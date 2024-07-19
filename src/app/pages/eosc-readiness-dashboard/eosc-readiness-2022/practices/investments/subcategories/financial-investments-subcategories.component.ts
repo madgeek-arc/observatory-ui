@@ -1,13 +1,13 @@
-import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
-import {CountryTableData} from "../../../../../../../survey-tool/app/domain/country-table-data";
-import {countriesNumbers, EoscReadiness2022MapSubtitles} from "../../../eosc-readiness2022-map-subtitles";
-import {EoscReadinessDataService} from "../../../../../services/eosc-readiness-data.service";
-import {StakeholdersService} from "../../../../../../../survey-tool/app/services/stakeholders.service";
-import {DataHandlerService} from "../../../../../services/data-handler.service";
-import {zip} from "rxjs/internal/observable/zip";
-import {RawData} from "../../../../../../../survey-tool/app/domain/raw-data";
-import {isNumeric} from "rxjs/internal-compatibility";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { CountryTableData } from "../../../../../../../survey-tool/app/domain/country-table-data";
+import { countriesNumbers, EoscReadiness2022MapSubtitles } from "../../../eosc-readiness2022-map-subtitles";
+import { EoscReadinessDataService } from "../../../../../services/eosc-readiness-data.service";
+import { StakeholdersService } from "../../../../../../../survey-tool/app/services/stakeholders.service";
+import { DataHandlerService } from "../../../../../services/data-handler.service";
+import { zip } from "rxjs/internal/observable/zip";
+import { RawData } from "../../../../../../../survey-tool/app/domain/raw-data";
+import { isNumeric } from "rxjs/internal-compatibility";
 import UIkit from "uikit";
 
 @Component({
@@ -17,6 +17,7 @@ import UIkit from "uikit";
 
 export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
 
+  year: string = null;
   dataType: string = null;
 
   countriesArray: string[] = [];
@@ -36,6 +37,10 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
   }
 
   ngOnInit() {
+    this.year = this.route.parent.parent.parent.snapshot.paramMap.get('year');
+    if (!this.year)
+      this.year = '2022';
+
     this.route.params.subscribe(
       params => {
         this.dataType = params['dataType'];
@@ -72,8 +77,10 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
   getDataManagementData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion60(),
-      this.queryData.getQuestion60comment(),
+      // this.queryData.getQuestion60(),
+      this.queryData.getQuestion(this.year, 'Question60'),
+      // this.queryData.getQuestion60comment(),
+      this.queryData.getQuestionComment(this.year, 'Question60'),
     ).subscribe(
       res => {
         this.questionsDataArray[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -92,8 +99,10 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
   getFairDataData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion64(),
-      this.queryData.getQuestion64comment(),
+      // this.queryData.getQuestion64(),
+      this.queryData.getQuestion(this.year, 'Question64'),
+      // this.queryData.getQuestion64comment(),
+      this.queryData.getQuestionComment(this.year, 'Question64'),
     ).subscribe(
       res => {
         this.questionsDataArray[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -112,8 +121,10 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
   getOpenDataData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion68(),
-      this.queryData.getQuestion68comment(),
+      // this.queryData.getQuestion68(),
+      this.queryData.getQuestion(this.year, 'Question68'),
+      // this.queryData.getQuestion68comment(),
+      this.queryData.getQuestionComment(this.year, 'Question68'),
     ).subscribe(
       res => {
         this.questionsDataArray[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -132,8 +143,10 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
   getConnectingReposToEOSCData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion80(),
-      this.queryData.getQuestion80comment(),
+      // this.queryData.getQuestion80(),
+      this.queryData.getQuestion(this.year, 'Question80'),
+      // this.queryData.getQuestion80comment(),
+      this.queryData.getQuestionComment(this.year, 'Question80'),
     ).subscribe(
       res => {
         this.questionsDataArray[3] = this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -152,8 +165,10 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
   getDataStewardshipData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion84(),
-      this.queryData.getQuestion84comment(),
+      // this.queryData.getQuestion84(),
+      this.queryData.getQuestion(this.year, 'Question84'),
+      // this.queryData.getQuestion84comment(),
+      this.queryData.getQuestionComment(this.year, 'Question84'),
     ).subscribe(
       res => {
         this.questionsDataArray[4] = this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -172,8 +187,10 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
   getLongTermDataPreservationData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion88(),
-      this.queryData.getQuestion88comment(),
+      // this.queryData.getQuestion88(),
+      this.queryData.getQuestion(this.year, 'Question88'),
+      // this.queryData.getQuestion88comment(),
+      this.queryData.getQuestion(this.year, 'Question88'),
     ).subscribe(
       res => {
         this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);

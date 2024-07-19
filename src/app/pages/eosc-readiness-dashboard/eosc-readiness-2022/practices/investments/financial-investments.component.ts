@@ -1,16 +1,16 @@
-import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {EoscReadinessDataService} from "../../../../services/eosc-readiness-data.service";
-import {StakeholdersService} from "../../../../../../survey-tool/app/services/stakeholders.service";
-import {DataHandlerService} from "../../../../services/data-handler.service";
-import {CountryTableData} from "../../../../../../survey-tool/app/domain/country-table-data";
-import {countriesNumbers, EoscReadiness2022MapSubtitles} from "../../eosc-readiness2022-map-subtitles";
-import {zip} from "rxjs/internal/observable/zip";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
+import { StakeholdersService } from "../../../../../../survey-tool/app/services/stakeholders.service";
+import { DataHandlerService } from "../../../../services/data-handler.service";
+import { CountryTableData } from "../../../../../../survey-tool/app/domain/country-table-data";
+import { countriesNumbers, EoscReadiness2022MapSubtitles } from "../../eosc-readiness2022-map-subtitles";
+import { zip } from "rxjs/internal/observable/zip";
+import { RawData } from "../../../../../../survey-tool/app/domain/raw-data";
+import { isNumeric } from "rxjs/internal-compatibility";
+import { ActivityGauge } from "../../../../../../survey-tool/app/domain/categorizedAreaData";
+import { countries } from "../../../../../../survey-tool/app/domain/countries";
 import UIkit from "uikit";
-import {RawData} from "../../../../../../survey-tool/app/domain/raw-data";
-import {isNumeric} from "rxjs/internal-compatibility";
-import {ActivityGauge} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
-import {countries} from "../../../../../../survey-tool/app/domain/countries";
 
 @Component({
   selector: 'app-national-policy',
@@ -18,7 +18,7 @@ import {countries} from "../../../../../../survey-tool/app/domain/countries";
 })
 
 export class FinancialInvestmentsComponent implements OnInit {
-
+  year: string = null;
   countriesArray: string[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];
   mapSubtitles: string[] = [];
@@ -39,6 +39,9 @@ export class FinancialInvestmentsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.year = this.route.parent.parent.snapshot.paramMap.get('year');
+    if (!this.year)
+      this.year = '2022';
 
     this.route.params.subscribe(
       params => {
@@ -85,18 +88,30 @@ export class FinancialInvestmentsComponent implements OnInit {
     this.tableData = [];
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion56(),  // Publications
-      this.queryData.getQuestion60(), // Data-management
-      this.queryData.getQuestion64(), // FAIR-data
-      this.queryData.getQuestion68(), // Open-data
-      this.queryData.getQuestion72(), // Software
-      this.queryData.getQuestion76(), // Services
-      this.queryData.getQuestion80(), // Connecting repositories to EOSC
-      this.queryData.getQuestion84(), // Data stewardship
-      this.queryData.getQuestion88(), // Long-term data preservation
-      this.queryData.getQuestion92(), // Skills/Training
-      this.queryData.getQuestion96(), // Assessment
-      this.queryData.getQuestion100(), // Engagement
+      // this.queryData.getQuestion56(),
+      this.queryData.getQuestion(this.year, 'Question56'), // Publications
+      // this.queryData.getQuestion60(),
+      this.queryData.getQuestion(this.year, 'Question60'), // Data-management
+      // this.queryData.getQuestion64(),
+      this.queryData.getQuestion(this.year, 'Question64'), // FAIR-data
+      // this.queryData.getQuestion68(),
+      this.queryData.getQuestion(this.year, 'Question68'), // Open-data
+      // this.queryData.getQuestion72(),
+      this.queryData.getQuestion(this.year, 'Question72'), // Software
+      // this.queryData.getQuestion76(),
+      this.queryData.getQuestion(this.year, 'Question76'), // Services
+      // this.queryData.getQuestion80(),
+      this.queryData.getQuestion(this.year, 'Question80'), // Connecting repositories to EOSC
+      // this.queryData.getQuestion84(),
+      this.queryData.getQuestion(this.year, 'Question84'), // Data stewardship
+      // this.queryData.getQuestion88(),
+      this.queryData.getQuestion(this.year, 'Question88'), // Long-term data preservation
+      // this.queryData.getQuestion92(),
+      this.queryData.getQuestion(this.year, 'Question92'), // Skills/Training
+      // this.queryData.getQuestion96(),
+      this.queryData.getQuestion(this.year, 'Question96'), // Assessment
+      // this.queryData.getQuestion100(),
+      this.queryData.getQuestion(this.year, 'Question100'), // Engagement
     ).subscribe(
       res => {
         let y = 0;
@@ -177,8 +192,10 @@ export class FinancialInvestmentsComponent implements OnInit {
   getPublicationsData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion56(),
-      this.queryData.getQuestion56comment(),
+      // this.queryData.getQuestion56(),
+      this.queryData.getQuestion(this.year, 'Question56'),
+      // this.queryData.getQuestion56comment(),
+      this.queryData.getQuestionComment(this.year, 'Question56'),
     ).subscribe(
       res => {
         this.questionsDataArray[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -197,8 +214,10 @@ export class FinancialInvestmentsComponent implements OnInit {
   getSoftwareData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion72(),
-      this.queryData.getQuestion72comment(),
+      // this.queryData.getQuestion72(),
+      this.queryData.getQuestion(this.year, 'Question72'),
+      // this.queryData.getQuestion72comment(),
+      this.queryData.getQuestionComment(this.year, 'Question56'),
     ).subscribe(
       res => {
         this.questionsDataArray[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -217,8 +236,10 @@ export class FinancialInvestmentsComponent implements OnInit {
   getServicesData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion76(),
-      this.queryData.getQuestion76comment(),
+      // this.queryData.getQuestion76(),
+      this.queryData.getQuestion(this.year, 'Question76'),
+      // this.queryData.getQuestion76comment(),
+      this.queryData.getQuestionComment(this.year, 'Question76'),
     ).subscribe(
       res => {
         this.questionsDataArray[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -237,8 +258,10 @@ export class FinancialInvestmentsComponent implements OnInit {
   getSkillsTrainingData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion92(),
-      this.queryData.getQuestion92comment(),
+      // this.queryData.getQuestion92(),
+      this.queryData.getQuestion(this.year, 'Question92'),
+      // this.queryData.getQuestion92comment(),
+      this.queryData.getQuestionComment(this.year, 'Question92'),
     ).subscribe(
       res => {
         this.questionsDataArray[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -257,8 +280,10 @@ export class FinancialInvestmentsComponent implements OnInit {
   getAssessmentData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion96(),
-      this.queryData.getQuestion96comment(),
+      // this.queryData.getQuestion96(),
+      this.queryData.getQuestion(this.year, 'Question96'),
+      // this.queryData.getQuestion96comment(),
+      this.queryData.getQuestion(this.year, 'Question96'),
     ).subscribe(
       res => {
         this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -277,8 +302,10 @@ export class FinancialInvestmentsComponent implements OnInit {
   getEngagementData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion100(),
-      this.queryData.getQuestion100comment(),
+      // this.queryData.getQuestion100(),
+      this.queryData.getQuestion(this.year, 'Question100'),
+      // this.queryData.getQuestion100comment(),
+      this.queryData.getQuestion(this.year, 'Question100'),
     ).subscribe(
       res => {
         this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);

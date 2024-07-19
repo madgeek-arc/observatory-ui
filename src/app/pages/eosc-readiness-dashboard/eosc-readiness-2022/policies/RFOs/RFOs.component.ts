@@ -1,15 +1,15 @@
-import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
-import {EoscReadinessDataService} from "../../../../services/eosc-readiness-data.service";
-import {StakeholdersService} from "../../../../../../survey-tool/app/services/stakeholders.service";
-import {DataHandlerService} from "../../../../services/data-handler.service";
-import {CountryTableData} from "../../../../../../survey-tool/app/domain/country-table-data";
-import {EoscReadiness2022MapSubtitles} from "../../eosc-readiness2022-map-subtitles";
-import {zip} from "rxjs/internal/observable/zip";
-import {ActivityGauge} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
-import {RawData} from "../../../../../../survey-tool/app/domain/raw-data";
-import {isNumeric} from "rxjs/internal-compatibility";
-import {countries} from "../../../../../../survey-tool/app/domain/countries";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
+import { StakeholdersService } from "../../../../../../survey-tool/app/services/stakeholders.service";
+import { DataHandlerService } from "../../../../services/data-handler.service";
+import { CountryTableData } from "../../../../../../survey-tool/app/domain/country-table-data";
+import { EoscReadiness2022MapSubtitles } from "../../eosc-readiness2022-map-subtitles";
+import { zip } from "rxjs/internal/observable/zip";
+import { ActivityGauge } from "../../../../../../survey-tool/app/domain/categorizedAreaData";
+import { RawData } from "../../../../../../survey-tool/app/domain/raw-data";
+import { isNumeric } from "rxjs/internal-compatibility";
+import { countries } from "../../../../../../survey-tool/app/domain/countries";
 import UIkit from "uikit";
 
 @Component({
@@ -18,6 +18,7 @@ import UIkit from "uikit";
 })
 
 export class RFOsComponent implements OnInit {
+  year: string = null;
   countriesArray: string[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];
   mapSubtitles: string[] = [];
@@ -40,6 +41,10 @@ export class RFOsComponent implements OnInit {
       res => {this.countriesArray = res;},
       error => {console.error(error)}
     );
+
+    this.year = this.route.parent.parent.snapshot.paramMap.get('year');
+    if (!this.year)
+      this.year = '2022';
 
     this.route.params.subscribe(
       params => {
@@ -86,18 +91,30 @@ export class RFOsComponent implements OnInit {
     this.tableData = [];
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion9(),  // Publications
-      this.queryData.getQuestion13(), // Data-management
-      this.queryData.getQuestion17(), // FAIR-data
-      this.queryData.getQuestion21(), // Open-data
-      this.queryData.getQuestion25(), // Software
-      this.queryData.getQuestion29(), // Services
-      this.queryData.getQuestion33(), // Connecting repositories to EOSC
-      this.queryData.getQuestion37(), // Data stewardship
-      this.queryData.getQuestion41(), // Long-term data preservation
-      this.queryData.getQuestion45(), // Skills/Training
-      this.queryData.getQuestion49(), // Assessment
-      this.queryData.getQuestion53(), // Engagement
+      // this.queryData.getQuestion9(),
+      this.queryData.getQuestion(this.year, 'Question9'), // Publications
+      // this.queryData.getQuestion13(),
+      this.queryData.getQuestion(this.year, 'Question13'), // Data-management
+      // this.queryData.getQuestion17(),
+      this.queryData.getQuestion(this.year, 'Question17'), // FAIR-data
+      // this.queryData.getQuestion21(),
+      this.queryData.getQuestion(this.year, 'Question21'), // Open-data
+      // this.queryData.getQuestion25(),
+      this.queryData.getQuestion(this.year, 'Question25'), // Software
+      // this.queryData.getQuestion29(),
+      this.queryData.getQuestion(this.year, 'Question29'), // Services
+      // this.queryData.getQuestion33(),
+      this.queryData.getQuestion(this.year, 'Question33'), // Connecting repositories to EOSC
+      // this.queryData.getQuestion37(),
+      this.queryData.getQuestion(this.year, 'Question37'), // Data stewardship
+      // this.queryData.getQuestion41(),
+      this.queryData.getQuestion(this.year, 'Question41'), // Long-term data preservation
+      // this.queryData.getQuestion45(),
+      this.queryData.getQuestion(this.year, 'Question45'), // Skills/Training
+      // this.queryData.getQuestion49(),
+      this.queryData.getQuestion(this.year, 'Question49'), // Assessment
+      // this.queryData.getQuestion53(),
+      this.queryData.getQuestion(this.year, 'Question53'), // Engagement
     ).subscribe(
       res => {
         let y = 0;
@@ -169,8 +186,10 @@ export class RFOsComponent implements OnInit {
   getPublicationsData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion9(),
-      this.queryData.getQuestion9comment(),
+      // this.queryData.getQuestion9(),
+      this.queryData.getQuestion(this.year, 'Question9'),
+      // this.queryData.getQuestion9comment(),
+      this.queryData.getQuestionComment(this.year, 'Question9'),
     ).subscribe(
       res => {
         this.questionsDataArray[0] = this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -180,14 +199,16 @@ export class RFOsComponent implements OnInit {
         this.sumsArray[0] = this.calculateSum(res[1]);
         this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
-    )
+    );
   }
 
   getSoftwareData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion25(),
-      this.queryData.getQuestion25comment(),
+      // this.queryData.getQuestion25(),
+      this.queryData.getQuestion(this.year, 'Question25'),
+      // this.queryData.getQuestion25comment(),
+      this.queryData.getQuestionComment(this.year, 'Question25'),
     ).subscribe(
       res => {
         this.questionsDataArray[1] = this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -197,14 +218,16 @@ export class RFOsComponent implements OnInit {
         this.sumsArray[1] = this.calculateSum(res[1]);
         this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
-    )
+    );
   }
 
   getServicesData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion29(),
-      this.queryData.getQuestion29comment(),
+      // this.queryData.getQuestion29(),
+      this.queryData.getQuestion(this.year, 'Question29'),
+      // this.queryData.getQuestion29comment(),
+      this.queryData.getQuestionComment(this.year, 'Question29'),
     ).subscribe(
       res => {
         this.questionsDataArray[2] = this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -214,14 +237,16 @@ export class RFOsComponent implements OnInit {
         this.sumsArray[2] = this.calculateSum(res[1]);
         this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
-    )
+    );
   }
 
   getSkillsTrainingData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion45(),
-      this.queryData.getQuestion45comment(),
+      // this.queryData.getQuestion45(),
+      this.queryData.getQuestion(this.year, 'Question45'),
+      // this.queryData.getQuestion45comment(),
+      this.queryData.getQuestionComment(this.year, 'Question45'),
     ).subscribe(
       res => {
         this.questionsDataArray[3] = this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -231,14 +256,16 @@ export class RFOsComponent implements OnInit {
         this.sumsArray[3] = this.calculateSum(res[1]);
         this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
-    )
+    );
   }
 
   getAssessmentData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion49(),
-      this.queryData.getQuestion49comment(),
+      // this.queryData.getQuestion49(),
+      this.queryData.getQuestion(this.year, 'Question49'),
+      // this.queryData.getQuestion49comment(),
+      this.queryData.getQuestionComment(this.year, 'Question49'),
     ).subscribe(
       res => {
         this.questionsDataArray[4] = this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -248,14 +275,16 @@ export class RFOsComponent implements OnInit {
         this.sumsArray[4] = this.calculateSum(res[1]);
         this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
-    )
+    );
   }
 
   getEngagementData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion53(),
-      this.queryData.getQuestion53comment(),
+      // this.queryData.getQuestion53(),
+      this.queryData.getQuestion(this.year, 'Question53'),
+      // this.queryData.getQuestion53comment(),
+      this.queryData.getQuestion(this.year, 'Question53'),
     ).subscribe(
       res => {
         this.questionsDataArray[5] = this.questionsDataArrayForBarChart[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -265,7 +294,7 @@ export class RFOsComponent implements OnInit {
         this.sumsArray[5] = this.calculateSum(res[1]);
         this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
-    )
+    );
   }
 
   calculateSum(rawData: RawData): string {
