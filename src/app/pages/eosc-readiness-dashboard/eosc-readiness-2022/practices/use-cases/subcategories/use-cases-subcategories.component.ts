@@ -74,10 +74,10 @@ export class UseCasesSubcategoriesComponent implements OnInit {
   getDataManagementData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion59(),
-      // this.queryData.getQuestion(this.year, 'Question59'),
-      this.queryData.getQuestion59comment(),
-      // this.queryData.getQuestionComment(this.year, 'Question59'),
+      // this.queryData.getQuestion59(),
+      this.queryData.getQuestion(this.year, 'Question59'),
+      // this.queryData.getQuestion59comment(),
+      this.queryData.getQuestionComment(this.year, 'Question59'),
     ).subscribe(
       res => {
         this.countriesArray = res[0];

@@ -30,7 +30,7 @@ export class UseCasesComponent implements OnInit {
   tableData: string[][] = [];
 
 
-  constructor(private router: Router, private route: ActivatedRoute, private queryData: EoscReadinessDataService,
+  constructor(private route: ActivatedRoute, private queryData: EoscReadinessDataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
   }
 
