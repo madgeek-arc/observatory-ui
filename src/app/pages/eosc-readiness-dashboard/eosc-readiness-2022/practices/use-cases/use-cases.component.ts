@@ -1,13 +1,13 @@
-import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {EoscReadiness2022DataService} from "../../../../services/eosc-readiness2022-data.service";
-import {StakeholdersService} from "../../../../../../survey-tool/app/services/stakeholders.service";
-import {DataHandlerService} from "../../../../services/data-handler.service";
-import {CountryTableData} from "../../../../../../survey-tool/app/domain/country-table-data";
-import {ColorPallet, EoscReadiness2022MapSubtitles} from "../../eosc-readiness2022-map-subtitles";
-import {ActivityGauge, CategorizedAreaData, Series} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
-import {zip} from "rxjs/internal/observable/zip";
-import {countries} from "../../../../../../survey-tool/app/domain/countries";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
+import { StakeholdersService } from "../../../../../../survey-tool/app/services/stakeholders.service";
+import { DataHandlerService } from "../../../../services/data-handler.service";
+import { CountryTableData } from "../../../../../../survey-tool/app/domain/country-table-data";
+import { ColorPallet, EoscReadiness2022MapSubtitles } from "../../eosc-readiness2022-map-subtitles";
+import { ActivityGauge, CategorizedAreaData, Series } from "../../../../../../survey-tool/app/domain/categorizedAreaData";
+import { zip } from "rxjs/internal/observable/zip";
+import { countries } from "../../../../../../survey-tool/app/domain/countries";
 import UIkit from "uikit";
 
 @Component({
@@ -16,7 +16,7 @@ import UIkit from "uikit";
 })
 
 export class UseCasesComponent implements OnInit {
-
+  year: string = null;
   countriesArray: string[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];
   mapSubtitles: string[] = [];
@@ -30,11 +30,14 @@ export class UseCasesComponent implements OnInit {
   tableData: string[][] = [];
 
 
-  constructor(private router: Router, private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
+  constructor(private route: ActivatedRoute, private queryData: EoscReadinessDataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
   }
 
   ngOnInit() {
+    this.year = this.route.parent.parent.snapshot.paramMap.get('year');
+    if (!this.year)
+      this.year = '2022';
 
     this.route.params.subscribe(
       params => {
@@ -82,18 +85,30 @@ export class UseCasesComponent implements OnInit {
     this.tableData = [];
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion55(), // Publications
-      this.queryData.getQuestion59(), // Data-management
-      this.queryData.getQuestion63(), // FAIR-data
-      this.queryData.getQuestion67(), // Open-data
-      this.queryData.getQuestion71(), // Software
-      this.queryData.getQuestion75(), // Services
-      this.queryData.getQuestion79(), // Connecting repositories to EOSC
-      this.queryData.getQuestion83(), // Data stewardship
-      this.queryData.getQuestion87(), // Long-term data preservation
-      this.queryData.getQuestion91(), // Skills/Training
-      this.queryData.getQuestion95(), // Assessment
-      this.queryData.getQuestion99(), // Engagement
+      // this.queryData.getQuestion55(),
+      this.queryData.getQuestion(this.year, 'Question55'), // Publications
+      // this.queryData.getQuestion59(),
+      this.queryData.getQuestion(this.year, 'Question59'), // Data-management
+      // this.queryData.getQuestion63(),
+      this.queryData.getQuestion(this.year, 'Question63'), // FAIR-data
+      // this.queryData.getQuestion67(),
+      this.queryData.getQuestion(this.year, 'Question67'), // Open-data
+      // this.queryData.getQuestion71(),
+      this.queryData.getQuestion(this.year, 'Question71'), // Software
+      // this.queryData.getQuestion75(),
+      this.queryData.getQuestion(this.year, 'Question75'), // Services
+      // this.queryData.getQuestion79(),
+      this.queryData.getQuestion(this.year, 'Question79'), // Connecting repositories to EOSC
+      // this.queryData.getQuestion83(),
+      this.queryData.getQuestion(this.year, 'Question83'), // Data stewardship
+      // this.queryData.getQuestion87(),
+      this.queryData.getQuestion(this.year, 'Question87'), // Long-term data preservation
+      // this.queryData.getQuestion91(),
+      this.queryData.getQuestion(this.year, 'Question91'), // Skills/Training
+      // this.queryData.getQuestion95(),
+      this.queryData.getQuestion(this.year, 'Question95'), // Assessment
+      // this.queryData.getQuestion99(),
+      this.queryData.getQuestion(this.year, 'Question99'), // Engagement
     ).subscribe(
       res => {
         let y = 0;
@@ -162,8 +177,10 @@ export class UseCasesComponent implements OnInit {
   getPublicationsData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion55(),
-      this.queryData.getQuestion55comment(),
+      // this.queryData.getQuestion55(),
+      this.queryData.getQuestion(this.year, 'Question55'),
+      // this.queryData.getQuestion55comment(),
+      this.queryData.getQuestionComment(this.year, 'Question55'),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -182,8 +199,10 @@ export class UseCasesComponent implements OnInit {
   getSoftwareData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion71(),
-      this.queryData.getQuestion71comment(),
+      // this.queryData.getQuestion71(),
+      this.queryData.getQuestion(this.year, 'Question71'),
+      // this.queryData.getQuestion71comment(),
+      this.queryData.getQuestion(this.year, 'Question71'),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -202,8 +221,10 @@ export class UseCasesComponent implements OnInit {
   getServicesData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion75(),
-      this.queryData.getQuestion75comment(),
+      // this.queryData.getQuestion75(),
+      this.queryData.getQuestion(this.year, 'Question75'),
+      // this.queryData.getQuestion75comment(),
+      this.queryData.getQuestionComment(this.year, 'Question75'),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -222,8 +243,10 @@ export class UseCasesComponent implements OnInit {
   getSkillsTrainingData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion91(),
-      this.queryData.getQuestion91comment(),
+      // this.queryData.getQuestion91(),
+      this.queryData.getQuestion(this.year, 'Question91'),
+      // this.queryData.getQuestion91comment(),
+      this.queryData.getQuestionComment(this.year, 'Question91'),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -242,8 +265,10 @@ export class UseCasesComponent implements OnInit {
   getAssessmentData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion95(),
-      this.queryData.getQuestion95comment(),
+      // this.queryData.getQuestion95(),
+      this.queryData.getQuestion(this.year, 'Question95'),
+      // this.queryData.getQuestion95comment(),
+      this.queryData.getQuestionComment(this.year, 'Question95'),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -262,8 +287,10 @@ export class UseCasesComponent implements OnInit {
   getEngagementData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion99(),
-      this.queryData.getQuestion99comment(),
+      // this.queryData.getQuestion99(),
+      this.queryData.getQuestion(this.year, 'Question99'),
+      // this.queryData.getQuestion99comment(),
+      this.queryData.getQuestionComment(this.year, 'Question99'),
     ).subscribe(
       res => {
         this.countriesArray = res[0];

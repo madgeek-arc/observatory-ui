@@ -1,6 +1,6 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {EoscReadinessDashboardComponent} from "./eosc-readiness-2021/eosc-readiness-dashboard.component";
+import {EoscReadinessDashboardComponent2021} from "./eosc-readiness-2021/eosc-readiness-dashboard.component2021";
 // import {EoscReadinessGuardService} from "../services/eosc-readiness-guard.service";
 import {PoliciesComponent} from "./eosc-readiness-2021/policies/policies.component";
 import {PracticesComponent} from "./eosc-readiness-2021/practices/practices.component";
@@ -36,6 +36,7 @@ import {
 import {General2022Component} from "./eosc-readiness-2022/general/general2022.component";
 import {Glossary2022Component} from "./eosc-readiness-2022/glossary/glossary-2022.component";
 import { EoscReadinessGuard } from "../services/eosc-readiness-guard.service";
+import { EoscReadinessDashboardComponent } from "./eosc-readiness-dynamic/eosc-readiness-dashboard.component";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
@@ -45,7 +46,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
   },
   {
     path: '2021',
-    component: EoscReadinessDashboardComponent,
+    component: EoscReadinessDashboardComponent2021,
     children: [
       {
         path: '',
@@ -72,6 +73,118 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
     path: '2022',
     component: EoscReadinessDashboard2022Component,
     // canActivateChild: [ArchiveGuardService],
+    children: [
+      {
+        path: '',
+        redirectTo: 'general/researchers',
+        pathMatch: 'full',
+      },
+      {
+        path: 'general/:type',
+        component: General2022Component
+      },
+      {
+        path: 'policies',
+        component: Policies2022Component,
+        children: [
+          {
+            path: 'nationalPolicy/:type',
+            component: NationalPolicyComponent,
+            children: [
+              {
+                path: ':dataType',
+                component: NationalPolicySubcategoriesComponent,
+              }
+            ]
+          },
+          {
+            path: 'financialStrategy/:type',
+            component: FinancialStrategyComponent,
+            children: [
+              {
+                path: ':dataType',
+                component: FinancialStrategySubcategoriesComponent,
+              }
+            ]
+          },
+          {
+            path: 'RPOs/:type',
+            component: RPOsComponent,
+            children: [
+              {
+                path: ':dataType',
+                component: RPOsSubcategoriesComponent,
+              }
+            ]
+          },
+          {
+            path: 'RFOs/:type',
+            component: RFOsComponent,
+            children: [
+              {
+                path: ':dataType',
+                component: RFOsSubcategoriesComponent,
+              }
+            ]
+          }
+        ]
+      },
+      {
+        path: 'practices',
+        component: Practices2022Component,
+        children: [
+          {
+            path: 'nationalMonitoring/:type',
+            component: NationalMonitoringComponent,
+            children: [
+              {
+                path: ':dataType',
+                component: NationalMonitoringSubcategoriesComponent,
+              }
+            ]
+          },
+          {
+            path: 'useCases/:type',
+            component: UseCasesComponent,
+            children: [
+              {
+                path: ':dataType',
+                component: UseCasesSubcategoriesComponent,
+              }
+            ]
+          },
+          {
+            path: 'investments/:type',
+            component: FinancialInvestmentsComponent,
+            children: [
+              {
+                path: ':dataType',
+                component: FinancialInvestmentsSubcategoriesComponent,
+              }
+            ]
+          },
+          {
+            path: 'outputs/:type',
+            component: OutputsComponent,
+            children: [
+              {
+                path: ':dataType',
+                component: OutputsSubcategoriesComponent,
+              }
+            ]
+          }
+        ]
+      },
+      {
+        path: 'glossary',
+        component: Glossary2022Component
+      }
+    ]
+  },
+  {
+    path: ':year',
+    component: EoscReadinessDashboardComponent,
+    canActivateChild: [EoscReadinessGuard],
     children: [
       {
         path: '',

@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
-import {EoscReadiness2022DataService} from "../../../../services/eosc-readiness2022-data.service";
+import {EoscReadinessDataService} from "../../../../services/eosc-readiness-data.service";
 import {StakeholdersService} from "../../../../../../survey-tool/app/services/stakeholders.service";
 import {DataHandlerService} from "../../../../services/data-handler.service";
 import {CountryTableData} from "../../../../../../survey-tool/app/domain/country-table-data";
@@ -17,6 +17,7 @@ import UIkit from "uikit";
 })
 
 export class FinancialStrategyComponent implements OnInit {
+  year: string = null;
   countriesArray: string[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];
   mapSubtitles: string[] = [];
@@ -29,7 +30,7 @@ export class FinancialStrategyComponent implements OnInit {
   participatingCountriesPercentage: number[] = [];
   tableData: string[][] = [];
 
-  constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
+  constructor(private route: ActivatedRoute, private queryData: EoscReadinessDataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
   }
 
@@ -37,7 +38,11 @@ export class FinancialStrategyComponent implements OnInit {
     this.stakeholdersService.getEOSCSBCountries().subscribe(
       res => {this.countriesArray = res;},
       error => {console.error(error)}
-    );
+    )
+
+    this.year = this.route.parent.parent.snapshot.paramMap.get('year');
+    if (!this.year)
+      this.year = '2022';
 
     this.route.params.subscribe(
       params => {
@@ -84,18 +89,30 @@ export class FinancialStrategyComponent implements OnInit {
     this.tableData = [];
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion7(),  // Publications
-      this.queryData.getQuestion11(), // Data-management
-      this.queryData.getQuestion15(), // FAIR-data
-      this.queryData.getQuestion19(), // Open-data
-      this.queryData.getQuestion23(), // Software
-      this.queryData.getQuestion27(), // Services
-      this.queryData.getQuestion31(), // Connecting repositories to EOSC
-      this.queryData.getQuestion35(), // Data stewardship
-      this.queryData.getQuestion39(), // Long-term data preservation
-      this.queryData.getQuestion43(), // Skills/Training
-      this.queryData.getQuestion47(), // Assessment
-      this.queryData.getQuestion51(), // Engagement
+      // this.queryData.getQuestion7(),
+      this.queryData.getQuestion(this.year, 'Question7'),  // Publications
+      // this.queryData.getQuestion11(),
+      this.queryData.getQuestion(this.year, 'Question11'), // Data-management
+      // this.queryData.getQuestion15(),
+      this.queryData.getQuestion(this.year, 'Question15'), // FAIR-data
+      // this.queryData.getQuestion19(),
+      this.queryData.getQuestion(this.year, 'Question19'), // Open-data
+      // this.queryData.getQuestion23(),
+      this.queryData.getQuestion(this.year, 'Question23'), // Software
+      // this.queryData.getQuestion27(),
+      this.queryData.getQuestion(this.year, 'Question27'), // Services
+      // this.queryData.getQuestion31(),
+      this.queryData.getQuestion(this.year, 'Question31'), // Connecting repositories to EOSC
+      // this.queryData.getQuestion35(),
+      this.queryData.getQuestion(this.year, 'Question35'), // Data stewardship
+      // this.queryData.getQuestion39(),
+      this.queryData.getQuestion(this.year, 'Question39'),// Long-term data preservation
+      // this.queryData.getQuestion43(),
+      this.queryData.getQuestion(this.year, 'Question43'),// Skills/Training
+      // this.queryData.getQuestion47(),
+      this.queryData.getQuestion(this.year, 'Question47'),// Assessment
+      // this.queryData.getQuestion51(),
+      this.queryData.getQuestion(this.year, 'Question51'), // Engagement
     ).subscribe(
       res => {
         let y: number;
@@ -161,8 +178,10 @@ export class FinancialStrategyComponent implements OnInit {
   getPublicationsData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion7(),
-      this.queryData.getQuestion7comment(),
+      // this.queryData.getQuestion7(),
+      this.queryData.getQuestion(this.year, 'Question7'),
+      // this.queryData.getQuestion7comment(),
+      this.queryData.getQuestionComment(this.year, 'Question7'),
       ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -181,8 +200,10 @@ export class FinancialStrategyComponent implements OnInit {
   getSoftwareData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion23(),
-      this.queryData.getQuestion23comment(),
+      // this.queryData.getQuestion23(),
+      this.queryData.getQuestion(this.year, 'Question23'),
+      // this.queryData.getQuestion23comment(),
+      this.queryData.getQuestionComment(this.year, 'Question23'),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -201,8 +222,10 @@ export class FinancialStrategyComponent implements OnInit {
   getServicesData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion27(),
-      this.queryData.getQuestion27comment(),
+      // this.queryData.getQuestion27(),
+      this.queryData.getQuestion(this.year, 'Question27'),
+      // this.queryData.getQuestion27comment(),
+      this.queryData.getQuestionComment(this.year, 'Question27'),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -221,8 +244,10 @@ export class FinancialStrategyComponent implements OnInit {
   getSkillsTrainingData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion43(),
-      this.queryData.getQuestion43comment(),
+      // this.queryData.getQuestion43(),
+      this.queryData.getQuestion(this.year, 'Question43'),
+      // this.queryData.getQuestion43comment(),
+      this.queryData.getQuestionComment(this.year, 'Question43'),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -241,8 +266,10 @@ export class FinancialStrategyComponent implements OnInit {
   getAssessmentData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion47(),
-      this.queryData.getQuestion47comment(),
+      // this.queryData.getQuestion47(),
+      this.queryData.getQuestion(this.year, 'Question47'),
+      // this.queryData.getQuestion47comment(),
+      this.queryData.getQuestionComment(this.year, 'Question47'),
     ).subscribe(
       res => {
         this.countriesArray = res[0];
@@ -261,8 +288,10 @@ export class FinancialStrategyComponent implements OnInit {
   getEngagementData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion51(),
-      this.queryData.getQuestion51comment(),
+      // this.queryData.getQuestion51(),
+      this.queryData.getQuestion(this.year, 'Question51'),
+      // this.queryData.getQuestion51comment(),
+      this.queryData.getQuestion(this.year, 'Question51'),
     ).subscribe(
       res => {
         this.countriesArray = res[0];

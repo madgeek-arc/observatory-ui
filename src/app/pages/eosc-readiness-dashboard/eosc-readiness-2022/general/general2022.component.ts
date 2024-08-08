@@ -1,15 +1,15 @@
-import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
-import {CountryTableData} from "../../../../../survey-tool/app/domain/country-table-data";
-import {countriesNumbers, EoscReadiness2022MapSubtitles} from "../eosc-readiness2022-map-subtitles";
-import {EoscReadiness2022DataService} from "../../../services/eosc-readiness2022-data.service";
-import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
-import {DataHandlerService} from "../../../services/data-handler.service";
-import {zip} from "rxjs/internal/observable/zip";
-import {RawData} from "../../../../../survey-tool/app/domain/raw-data";
-import {isNumeric} from "rxjs/internal-compatibility";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { CountryTableData } from "../../../../../survey-tool/app/domain/country-table-data";
+import { countriesNumbers, EoscReadiness2022MapSubtitles } from "../eosc-readiness2022-map-subtitles";
+import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
+import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
+import { DataHandlerService } from "../../../services/data-handler.service";
+import { zip } from "rxjs/internal/observable/zip";
+import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
+import { isNumeric } from "rxjs/internal-compatibility";
 import * as Highcharts from "highcharts";
-import {ColorAxisOptions, LegendOptions} from "highcharts";
+import { ColorAxisOptions, LegendOptions } from "highcharts";
 import UIkit from "uikit";
 
 @Component({
@@ -21,6 +21,7 @@ import UIkit from "uikit";
 export class General2022Component implements OnInit {
 
   type: string = null;
+  year: string = null;
   fragment: string = null;
 
   countriesArray: string[] = [];
@@ -37,13 +38,16 @@ export class General2022Component implements OnInit {
   questionsDataArrayForBarChart: any[] = [];
   sumsArray: string[] = [];
 
-  constructor(private route: ActivatedRoute, private queryData: EoscReadiness2022DataService,
+  constructor(private route: ActivatedRoute, private queryData: EoscReadinessDataService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {}
 
   ngOnInit() {
+    this.year = this.route.parent.snapshot.paramMap.get('year');
+    if (!this.year)
+      this.year = '2022';
+
     this.route.params.subscribe(
       params => {
-        // console.log(params);
         this.type = params['type'];
         if (params['type'] === 'researchers') {
           this.getResearchersData();
@@ -78,8 +82,8 @@ export class General2022Component implements OnInit {
   getResearchersData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion1(),
-      this.queryData.getQuestion1comment(),
+      this.queryData.getQuestion(this.year, 'Question1'),
+      this.queryData.getQuestionComment(this.year, 'Question1'),
     ).subscribe(
       res => {
         // this.countriesArray = res[0];
@@ -90,14 +94,16 @@ export class General2022Component implements OnInit {
         this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         this.sumsArray[0] = this.calculateSum(res[1]);
       }
-    )
+    );
   }
 
   getRPOsData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion2(),
-      this.queryData.getQuestion2comment(),
+      // this.queryData.getQuestion2(),
+      // this.queryData.getQuestion2comment(),
+      this.queryData.getQuestion(this.year, 'Question2'),
+      this.queryData.getQuestionComment(this.year, 'Question2'),
     ).subscribe(
       res => {
         this.questionsDataArray[1] = this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -107,14 +113,16 @@ export class General2022Component implements OnInit {
         this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.sumsArray[1] = this.calculateSum(res[1]);
       }
-    )
+    );
   }
 
   getRFOsData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion3(),
-      this.queryData.getQuestion3comment(),
+      // this.queryData.getQuestion3(),
+      // this.queryData.getQuestion3comment(),
+      this.queryData.getQuestion(this.year, 'Question3'),
+      this.queryData.getQuestionComment(this.year, 'Question3'),
     ).subscribe(
       res => {
         this.questionsDataArray[2] = this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -124,14 +132,16 @@ export class General2022Component implements OnInit {
         this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.sumsArray[2] = this.calculateSum(res[1]);
       }
-    )
+    );
   }
 
   getRepositoriesData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion4(),
-      this.queryData.getQuestion4comment(),
+      // this.queryData.getQuestion4(),
+      // this.queryData.getQuestion4comment(),
+      this.queryData.getQuestion(this.year, 'Question4'),
+      this.queryData.getQuestionComment(this.year, 'Question4'),
     ).subscribe(
       res => {
         this.questionsDataArray[3] = this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -141,14 +151,16 @@ export class General2022Component implements OnInit {
         this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.sumsArray[3] = this.calculateSum(res[1]);
       }
-    )
+    );
   }
 
   getInvestmentsData(pos: number) {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion5(),
-      this.queryData.getQuestion5comment(),
+      // this.queryData.getQuestion5(),
+      // this.queryData.getQuestion5comment(),
+      this.queryData.getQuestion(this.year, 'Question5'),
+      this.queryData.getQuestionComment(this.year, 'Question5'),
     ).subscribe(
       res => {
         this.questionsDataArray[pos] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
@@ -160,14 +172,16 @@ export class General2022Component implements OnInit {
         // this.toolTipData[pos] = this.dataHandlerService.covertRawDataGetText(res[2]);
         this.sumsArray[pos] = this.calculateSum(res[1]);
       }
-    )
+    );
   }
 
   getInvestmentsDataPercentage(pos: number, param: string) {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion5(),
-      this.queryData.getQuestion5comment(),
+      // this.queryData.getQuestion5(),
+      // this.queryData.getQuestion5comment(),
+      this.queryData.getQuestion(this.year, 'Question5'),
+      this.queryData.getQuestionComment(this.year, 'Question5'),
     ).subscribe(
       res => {
         this.questionsDataArray[pos] = this.questionsDataArrayForBarChart[pos] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
