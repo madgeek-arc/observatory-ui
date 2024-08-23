@@ -15,6 +15,7 @@ import {GaugeActivityComponent} from "./charts/gauge-activity/gauge-activity.com
 import {GaugeSimpleComponent} from "./charts/gauge-simple/gauge-simple.component";
 import {PieChartComponent} from "./charts/pie-chart/pie-chart.component";
 import {HighchartsColumnRangesComponent} from "./charts/column-ranges-chart/highcharts-column-ranges.component";
+import { TreeGraphComponent } from "./charts/tree-graph/tree-graph.component";
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import {HighchartsColumnRangesComponent} from "./charts/column-ranges-chart/high
     HighchartsColumnRangesComponent,
     GaugeActivityComponent,
     GaugeSimpleComponent,
-    PieChartComponent
+    PieChartComponent,
+    TreeGraphComponent
   ],
   exports: [
     SideMenuDashboardComponent,
@@ -49,7 +51,8 @@ import {HighchartsColumnRangesComponent} from "./charts/column-ranges-chart/high
     HighchartsColumnRangesComponent,
     GaugeActivityComponent,
     GaugeSimpleComponent,
-    PieChartComponent
+    PieChartComponent,
+    TreeGraphComponent
   ],
   providers: [],
 })

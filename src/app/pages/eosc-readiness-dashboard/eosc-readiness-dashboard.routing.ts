@@ -37,12 +37,17 @@ import {General2022Component} from "./eosc-readiness-2022/general/general2022.co
 import {Glossary2022Component} from "./eosc-readiness-2022/glossary/glossary-2022.component";
 import { EoscReadinessGuard } from "../services/eosc-readiness-guard.service";
 import { EoscReadinessDashboardComponent } from "./eosc-readiness-dynamic/eosc-readiness-dashboard.component";
+import { DemoChartsComponent } from "./eosc-readiness-dynamic/demo/demo-charts.component";
 
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
     path: '',
     redirectTo: '2022',
     pathMatch: 'full'
+  },
+  {
+    path: 'demo',
+    component: DemoChartsComponent
   },
   {
     path: '2021',
