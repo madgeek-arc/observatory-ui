@@ -6,6 +6,7 @@ import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.
 import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
 import { isNumeric } from "rxjs/internal-compatibility";
 import { countriesNumbers } from "../../eosc-readiness-2022/eosc-readiness2022-map-subtitles";
+import { PointOptionsObject } from "highcharts";
 
 @Component({
   selector: "demo-charts",
@@ -14,7 +15,7 @@ import { countriesNumbers } from "../../eosc-readiness-2022/eosc-readiness2022-m
 
 export class DemoChartsComponent implements OnInit {
   year = '2022';
-  treeGraph = [];
+  treeGraph: PointOptionsObject[] = [];
 
   constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService,
               private dataHandlerService: DataHandlerService) {}
