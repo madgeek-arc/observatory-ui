@@ -18,6 +18,7 @@ import {HighchartsColumnRangesComponent} from "./charts/column-ranges-chart/high
 import { TreeGraphComponent } from "./charts/tree-graph/tree-graph.component";
 import { BubbleChartComponent } from "./charts/bubble-chart/bubble-chart.component";
 import { PackedBubbleChartComponent } from "./charts/packed-bubble-chart/packed-bubble-chart.component";
+import { AreaChartComponent } from "./charts/area-chart/area-chart-component";
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { PackedBubbleChartComponent } from "./charts/packed-bubble-chart/packed-
     PieChartComponent,
     TreeGraphComponent,
     BubbleChartComponent,
-    PackedBubbleChartComponent
+    PackedBubbleChartComponent,
+    AreaChartComponent
   ],
   exports: [
     SideMenuDashboardComponent,
@@ -58,7 +60,8 @@ import { PackedBubbleChartComponent } from "./charts/packed-bubble-chart/packed-
     PieChartComponent,
     TreeGraphComponent,
     BubbleChartComponent,
-    PackedBubbleChartComponent
+    PackedBubbleChartComponent,
+    AreaChartComponent
   ],
   providers: [],
 })

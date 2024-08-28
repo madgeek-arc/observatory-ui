@@ -30,7 +30,10 @@ export class TreeGraphComponent implements OnChanges {
         type: 'treegraph',
         data: this.data,
         tooltip: {
-          pointFormat: '{point.name}'
+          pointFormat: '{point.name}',
+          linkFormat: {
+            disable: true
+          }
         },
         marker: {
           symbol: 'rect',
@@ -41,7 +44,8 @@ export class TreeGraphComponent implements OnChanges {
           format: '{point.name}',
           style: {
             whiteSpace: 'nowrap'
-          }
+          },
+          linkFormat: '', // Remove text form links
         },
         levels: [
           {
@@ -67,7 +71,7 @@ export class TreeGraphComponent implements OnChanges {
             }
           }
         ]
-      } as unknown as  Highcharts.SeriesTreegraphOptions
+      } as unknown as Highcharts.SeriesTreegraphOptions
     ]
   }
 
@@ -78,7 +82,7 @@ export class TreeGraphComponent implements OnChanges {
 
   updateChart() {
     if (this.chart) {
-      console.log(this.data);
+      // console.log(this.data);
       this.chart.update({
         series: [{
           data: this.data

@@ -1,8 +1,17 @@
-<div class="uk-child-width-1-2 uk-grid">
+<div class="uk-child-width-1-3 uk-grid">
 <!--  <pre>{{}}</pre>-->
-  <app-tree-graph [data]="treeGraph" style="height: 600px"></app-tree-graph>
+  <app-tree-graph [data]="treeGraph" style="height: 550px"></app-tree-graph>
 
-  <app-bubble-chart></app-bubble-chart>
+<!-- Bubble chart with plot lines -->
+  <app-bubble-chart [enablePlotLines]="true" [series]="bubbleWithPlotLines" [enableLegend]="false"></app-bubble-chart>
 
   <app-packed-bubble-chart></app-packed-bubble-chart>
+
+  <app-bubble-chart [enablePlotLines]="false" [categories]="['<1M', '1-5M', '5-10M', '>20M']" [series]="bubbleWithCategories" [enableLegend]="true"></app-bubble-chart>
+
+  <app-area-chart></app-area-chart>
+
+  <app-pie-chart chartId="variablePie" type="variablepie"  [series]="variablePie" [tooltip]="pieTooltip"
+                 title="Countries compared by population density and total area, 2022.">
+  </app-pie-chart>
 </div>
