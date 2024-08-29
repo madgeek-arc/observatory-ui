@@ -130,7 +130,7 @@ export class DemoChartsComponent implements OnInit {
     ).subscribe(
       res => {
         this.treeGraph = this.createRanges(res[0]);
-        console.log(this.treeGraph);
+        // console.log(this.treeGraph);
         // console.log(this.dataHandlerService.covertRawDataToColorAxisMap(res[1]));
       }
     );
@@ -210,7 +210,7 @@ export class DemoChartsComponent implements OnInit {
 
     });
 
-    console.log(arr);
+    // console.log(arr);
     return arr;
 
   }

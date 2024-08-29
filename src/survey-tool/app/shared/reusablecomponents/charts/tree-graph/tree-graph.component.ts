@@ -76,7 +76,7 @@ export class TreeGraphComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes['data']);
+    // console.log(changes['data']);
     this.updateChart();
   }
 

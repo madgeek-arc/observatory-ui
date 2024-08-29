@@ -19,6 +19,8 @@ import { TreeGraphComponent } from "./charts/tree-graph/tree-graph.component";
 import { BubbleChartComponent } from "./charts/bubble-chart/bubble-chart.component";
 import { PackedBubbleChartComponent } from "./charts/packed-bubble-chart/packed-bubble-chart.component";
 import { AreaChartComponent } from "./charts/area-chart/area-chart-component";
+import { StreamGraphComponent } from "./charts/stream-graph/stream-graph.component";
+import { FixedTooltipMapComponent } from "./charts/fixed-tooltip-map/fixed-tooltip-map.component";
 
 @NgModule({
   imports: [
@@ -44,7 +46,9 @@ import { AreaChartComponent } from "./charts/area-chart/area-chart-component";
     TreeGraphComponent,
     BubbleChartComponent,
     PackedBubbleChartComponent,
-    AreaChartComponent
+    AreaChartComponent,
+    StreamGraphComponent,
+    FixedTooltipMapComponent
   ],
   exports: [
     SideMenuDashboardComponent,
@@ -61,7 +65,9 @@ import { AreaChartComponent } from "./charts/area-chart/area-chart-component";
     TreeGraphComponent,
     BubbleChartComponent,
     PackedBubbleChartComponent,
-    AreaChartComponent
+    AreaChartComponent,
+    StreamGraphComponent,
+    FixedTooltipMapComponent
   ],
   providers: [],
 })

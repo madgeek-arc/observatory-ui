@@ -1,17 +1,31 @@
-<div class="uk-child-width-1-3 uk-grid">
-<!--  <pre>{{}}</pre>-->
-  <app-tree-graph [data]="treeGraph" style="height: 550px"></app-tree-graph>
+<div class="uk-child-width-1-3 uk-grid-column-collapse uk-grid">
+  <div class="uk-padding-small">
+    <app-tree-graph [data]="treeGraph" style="height: 550px"></app-tree-graph>
+  </div>
+  <!-- Bubble chart with plot lines -->
+  <div class="uk-padding-small">
+    <app-bubble-chart [enablePlotLines]="true" [series]="bubbleWithPlotLines" [enableLegend]="false"></app-bubble-chart>
+  </div>
 
-<!-- Bubble chart with plot lines -->
-  <app-bubble-chart [enablePlotLines]="true" [series]="bubbleWithPlotLines" [enableLegend]="false"></app-bubble-chart>
-
-  <app-packed-bubble-chart></app-packed-bubble-chart>
-
-  <app-bubble-chart [enablePlotLines]="false" [categories]="['<1M', '1-5M', '5-10M', '>20M']" [series]="bubbleWithCategories" [enableLegend]="true"></app-bubble-chart>
-
-  <app-area-chart></app-area-chart>
-
-  <app-pie-chart chartId="variablePie" type="variablepie"  [series]="variablePie" [tooltip]="pieTooltip"
-                 title="Countries compared by population density and total area, 2022.">
-  </app-pie-chart>
+  <div class="uk-padding-small">
+    <app-packed-bubble-chart></app-packed-bubble-chart>
+  </div>
+  <div class="uk-padding-small">
+    <app-bubble-chart [enablePlotLines]="false" [categories]="['<1M', '1-5M', '5-10M', '>20M']"
+                      [series]="bubbleWithCategories" [enableLegend]="true"></app-bubble-chart>
+  </div>
+  <div class="uk-padding-small">
+    <app-area-chart></app-area-chart>
+  </div>
+  <div class="uk-padding-small">
+    <app-pie-chart chartId="variablePie" type="variablepie" [series]="variablePie" [tooltip]="pieTooltip"
+                   title="Countries compared by population density and total area, 2022.">
+    </app-pie-chart>
+  </div>
+  <div class="uk-padding-small">
+    <app-stream-graph title="Stream graph title"></app-stream-graph>
+  </div>
+  <div class="uk-padding-small">
+    <app-fixed-tooltip-map></app-fixed-tooltip-map>
+  </div>
 </div>
