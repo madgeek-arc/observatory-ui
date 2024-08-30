@@ -6,7 +6,7 @@ import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.
 import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
 import { isNumeric } from "rxjs/internal-compatibility";
 import { countriesNumbers } from "../../eosc-readiness-2022/eosc-readiness2022-map-subtitles";
-import { PointOptionsObject, SeriesBubbleOptions } from "highcharts";
+import { PointOptionsObject, SeriesBubbleOptions, SeriesOptionsType } from "highcharts";
 
 @Component({
   selector: "demo-charts",
@@ -114,6 +114,24 @@ export class DemoChartsComponent implements OnInit {
     pointFormat: '<span style="color:{point.color}">\u25CF</span> <b> ' +
     '{point.name}</b><br/>' +
     'Investment in millions of Euroso: <b>{point.y}</b><br/>'
+  }
+
+  barChartCategories = ['Open Access Publications', 'Fair Data', 'Date Management', 'Open Data', 'Open Software', 'Services', 'Infrastructure', 'Skills/Training', 'Incentives/Rewards for OS', 'Citizen Science'];
+
+  barChartSeries: SeriesOptionsType[] = [{
+    type: 'bar',
+    name: 'Year 2022',
+    data: [51, 22, 8, 2, 12, 21, 10, 5, 16, 5]
+  }, {
+    type: 'bar',
+    name: 'Year 2023',
+    data: [63, 37, 10, 4, 15, 26, 14, 6, 18, 8]
+  }]
+
+  barChartTitles = {
+    title: 'Percentage of countries with national policies different Open Science Categories',
+    xAxis: 'Policy on',
+    yAxis: 'Percentage of countries with national policies',
   }
 
   constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService,

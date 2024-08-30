@@ -21,6 +21,7 @@ import { PackedBubbleChartComponent } from "./charts/packed-bubble-chart/packed-
 import { AreaChartComponent } from "./charts/area-chart/area-chart-component";
 import { StreamGraphComponent } from "./charts/stream-graph/stream-graph.component";
 import { FixedTooltipMapComponent } from "./charts/fixed-tooltip-map/fixed-tooltip-map.component";
+import { BarChartComponent } from "./charts/bar-chart/bar-chart.component";
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import { FixedTooltipMapComponent } from "./charts/fixed-tooltip-map/fixed-toolt
     PackedBubbleChartComponent,
     AreaChartComponent,
     StreamGraphComponent,
-    FixedTooltipMapComponent
+    FixedTooltipMapComponent,
+    BarChartComponent
   ],
   exports: [
     SideMenuDashboardComponent,
@@ -67,7 +69,8 @@ import { FixedTooltipMapComponent } from "./charts/fixed-tooltip-map/fixed-toolt
     PackedBubbleChartComponent,
     AreaChartComponent,
     StreamGraphComponent,
-    FixedTooltipMapComponent
+    FixedTooltipMapComponent,
+    BarChartComponent
   ],
   providers: [],
 })

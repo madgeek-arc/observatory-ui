@@ -55,6 +55,9 @@ export class PackedBubbleChartComponent {
         }
       }
     },
+    credits: {
+      enabled: false
+    },
     series: this.series
   }
 

@@ -53,6 +53,9 @@ export class PieChartComponent implements OnChanges {
       title: {
         text: this.title
       },
+      credits: {
+        enabled: false
+      },
       series: this.series
     } as any);
   }

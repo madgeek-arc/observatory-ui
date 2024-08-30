@@ -49,6 +49,9 @@ export class AreaChartComponent {
         }
       }
     },
+    credits: {
+      enabled: false
+    },
     series: [
       {
         name: 'Open Access Publication',

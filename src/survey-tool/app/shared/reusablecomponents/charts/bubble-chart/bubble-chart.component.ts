@@ -115,6 +115,10 @@ export class BubbleChartComponent implements OnChanges {
       }
     },
 
+    credits: {
+      enabled: false
+    },
+
     series: [{
       data: [],
       colorByPoint: true

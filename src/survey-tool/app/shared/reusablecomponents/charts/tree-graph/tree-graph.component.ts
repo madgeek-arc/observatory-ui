@@ -3,7 +3,7 @@ import * as Highcharts from "highcharts";
 import treemap from 'highcharts/modules/treemap';
 import treegraph from 'highcharts/modules/treegraph';
 import HC_more from 'highcharts/highcharts-more';
-import { PointOptionsObject, SeriesOptions, SeriesOptionsType } from "highcharts";
+import { PointOptionsObject, SeriesOptionsType } from "highcharts";
 
 treemap(Highcharts);
 HC_more(Highcharts);
@@ -24,6 +24,9 @@ export class TreeGraphComponent implements OnChanges {
   chartOptions: Highcharts.Options = {
     title: {
       text: 'Treegraph with box layout'
+    },
+    credits: {
+      enabled: false
     },
     series: [
       {

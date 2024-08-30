@@ -1155,6 +1155,10 @@ export class FixedTooltipMapComponent implements OnChanges, OnInit {
         type: 'logarithmic'
       },
 
+      credits: {
+        enabled: false
+      },
+
       series: [{
         type: "map",
         data: data,
