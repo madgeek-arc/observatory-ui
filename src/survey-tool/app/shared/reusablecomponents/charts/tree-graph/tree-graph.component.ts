@@ -23,7 +23,7 @@ export class TreeGraphComponent implements OnChanges {
   chart!: Highcharts.Chart;
   chartOptions: Highcharts.Options = {
     title: {
-      text: 'Treegraph with box layout'
+      text: ''
     },
     credits: {
       enabled: false

@@ -26,6 +26,10 @@ export class BubbleChartComponent implements OnChanges {
       }
     },
 
+    title: {
+      text: ''
+    },
+
     legend: {
       enabled: false
     },
