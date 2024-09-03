@@ -1,6 +1,202 @@
 <div class="uk-section uk-section-small">
   <div class="uk-container uk-container-expand">
-    Open Science Policies.....
+
+    <h4>Open Science Policies</h4>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top">
+  <div class="uk-container uk-container-expand">
+
+    <h5>National Open Science Policies by Areas</h5>
+
+    <div class="uk-grid uk-margin-medium-top">
+      <div class="uk-width-2-3" style="height: 450px">
+        <app-multi-bar-chart [series]="barChartSeries" [categories]="barChartCategories" [titles]="barChartTitles"></app-multi-bar-chart>
+      </div>
+      <div class="uk-width-1-3">
+        <h6>Understanding the data</h6>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top">
+  <div class="uk-container uk-container-expand">
+
+    <h5>Impact of Policy and Investment on Open Access Publications</h5>
+
+    <div class="uk-grid uk-margin-medium-top">
+      <div class="uk-width-2-3" style="height: 450px">
+        <app-bubble-chart [enablePlotLines]="false" [categories]="['<1M', '1-5M', '5-10M', '>20M']"
+                          [series]="bubbleWithCategories" [enableLegend]="true"></app-bubble-chart>
+      </div>
+      <div class="uk-width-1-3">
+        <h6>Understanding the data</h6>
+        <p>This interactive bubble chart explores the relationship between policy frameworks, financial investments, and the activity levels of Open Science (OS) initiatives across a selection of European countries. Each bubble represents a specific country, with the size indicating the percentage of OS activities relative to the total national output in this area. The bubble's color denotes the policy status—green for mandatory policies, orange for non-mandatory policies, and grey for countries without specific policies.</p>
+        <p>The x-axis quantifies the actual number of OS activities, providing a measure of how actively countries are engaged in OS projects. The y-axis categorizes the level of financial investment into OS, segmented into four major categories: '<1M', '1-5M', '5-10M', and '>20M'. These categories help illustrate the financial commitment to OS projects within each country.</p>
+        <p>By clicking on individual bubbles, viewers can access detailed information, including the country’s specific OS policy status, the exact count of OS activities, the percentage these constitute of total national output in this area, and the specific investment bracket.</p>
+        <p><strong>Data Source: </strong>Survey on National Contributions to EOSC and Open Science, OpenAIRE Graph.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top">
+  <div class="uk-container uk-container-expand">
+
+    <h5>Financial Strategy on EOSC and Open Science by Areas</h5>
+
+    <p>Coming soon...</p>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top">
+  <div class="uk-container uk-container-expand">
+
+    <h5>National Open Science Policies by Countries and Areas</h5>
+
+    <table class="uk-table uk-table-divider uk-table-middle bordered-table">
+      <thead>
+      <tr>
+        <th></th>
+        <th>
+          <div class="uk-text-bold">Publications</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Data</div>
+          <div class="uk-text-secondary uk-text-small uk-text-italic">Data management</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Data</div>
+          <div class="uk-text-secondary uk-text-small uk-text-italic">FAIR data</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Data</div>
+          <div class="uk-text-secondary uk-text-small uk-text-italic">Open Data</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Software</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Services</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Infrastructure</div>
+          <div class="uk-text-secondary uk-text-small uk-text-italic">Connecting repositories to EOSC</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Infrastructure</div>
+          <div class="uk-text-secondary uk-text-small uk-text-italic">Data stewardship</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Infrastructure</div>
+          <div class="uk-text-secondary uk-text-small uk-text-italic">Long-term data preservation</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Skills/Training</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Assessment</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Engagement</div>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="uk-text-bold">Greece</div>
+          </td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="uk-text-bold">France</div>
+          </td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+          <td class="valueFalse"></td>
+          <td class="valueFalse"></td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+          <td class="valueFalse"></td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="uk-text-bold">Spain</div>
+          </td>
+          <td class="valueTrue"></td>
+          <td class="valueFalse"></td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+          <td class="valueFalse"></td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="uk-text-bold">United Kingdom</div>
+          </td>
+          <td class="valueFalse"></td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="uk-text-bold">Belgium</div>
+          </td>
+          <td class="valueFalse"></td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+          <td class="valueTrue"></td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+          <td class="valueFalse"></td>
+          <td class="valueFalse"></td>
+          <td class="valueTrue"></td>
+          <td class="valueFalse"></td>
+          <td class="valueFalse"></td>
+        </tr>
+      </tbody>
+    </table>
+
   </div>
 </div>
 
