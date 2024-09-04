@@ -1,12 +1,11 @@
-import { Component, OnInit } from "@angular/core";
-import {PointOptionsObject, SeriesBubbleOptions} from "highcharts";
-import {zip} from "rxjs/internal/observable/zip";
-import {RawData} from "../../../../survey-tool/app/domain/raw-data";
-import {EoscReadinessDataService} from "../../services/eosc-readiness-data.service";
-import {countriesNumbers} from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
-
-
-// declare var UIkit;
+import { Component, DestroyRef, inject, OnInit } from "@angular/core";
+import { PointOptionsObject, SeriesBubbleOptions } from "highcharts";
+import { zip } from "rxjs/internal/observable/zip";
+import { RawData, Row } from "../../../../survey-tool/app/domain/raw-data";
+import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
+import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+type MergedElement = { x: string; y: string; z: string; name: string; country: string };
 
 @Component({
   selector: 'app-investments-in-eosc',
@@ -14,6 +13,8 @@ import {countriesNumbers} from "../../eosc-readiness-dashboard/eosc-readiness-20
 })
 
 export class InvestmentsInEoscComponent implements OnInit {
+
+  private destroyRef = inject(DestroyRef);
 
   year = '2022';
 
@@ -72,43 +73,19 @@ export class InvestmentsInEoscComponent implements OnInit {
       'Investment in millions of Euroso: <b>{point.y}</b><br/>'
   }
 
-  bubbleWithPlotLines = [{
-    type: 'bubble',
-    data: [
-      {x: 95, y: 95, z: 13.8, name: 'BE', country: 'Belgium'},
-      {x: 86.5, y: 102.9, z: 14.7, name: 'DE', country: 'Germany'},
-      {x: 80.8, y: 91.5, z: 15.8, name: 'FI', country: 'Finland'},
-      {x: 80.4, y: 102.5, z: 12, name: 'NL', country: 'Netherlands'},
-      {x: 80.3, y: 86.1, z: 11.8, name: 'SE', country: 'Sweden'},
-      {x: 78.4, y: 70.1, z: 16.6, name: 'ES', country: 'Spain'},
-      {x: 74.2, y: 68.5, z: 14.5, name: 'FR', country: 'France'},
-      {x: 73.5, y: 83.1, z: 10, name: 'NO', country: 'Norway'},
-      {x: 71, y: 93.2, z: 24.7, name: 'UK', country: 'United Kingdom'},
-      {x: 69.2, y: 57.6, z: 10.4, name: 'IT', country: 'Italy'},
-      {x: 68.6, y: 20, z: 16, name: 'RU', country: 'Russia'},
-      {x: 65.5, y: 126.4, z: 35.3, name: 'US', country: 'United States'},
-      {x: 65.4, y: 50.8, z: 28.5, name: 'HU', country: 'Hungary'},
-      {x: 63.4, y: 51.8, z: 15.4, name: 'PT', country: 'Portugal'},
-      {x: 64, y: 82.9, z: 31.3, name: 'NZ', country: 'New Zealand'}
-    ]
-  }] as unknown as SeriesBubbleOptions[];
+  bubbleWithPlotLines = [] as SeriesBubbleOptions[];
 
-  constructor(private queryData: EoscReadinessDataService) {
-  }
+  constructor(private queryData: EoscReadinessDataService) {}
 
   ngOnInit() {
-    this.getRanges();
+    this.getTreeGraphData();
+    this.getBubbleChartData();
   }
 
-  getRanges() {
-    zip(
-      this.queryData.getQuestion(this.year, 'Question5'),
-      this.queryData.getQuestionComment(this.year, 'Question5'),
-    ).subscribe(
+  getTreeGraphData() {
+    this.queryData.getQuestion(this.year, 'Question5').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.treeGraph = this.createRanges(res[0]);
-        // console.log(this.treeGraph);
-        // console.log(this.dataHandlerService.covertRawDataToColorAxisMap(res[1]));
+        this.treeGraph = this.createRanges(res);
       }
     );
   }
@@ -151,8 +128,6 @@ export class InvestmentsInEoscComponent implements OnInit {
     let count = 0;
 
     data.datasets[0].series.result.forEach((element: any) => {
-      // console.log(element.row[1]);
-      // console.log(isNumeric(element.row[1]));
 
       if (!this.isNumeric(element.row[1]))
         return;
@@ -164,7 +139,7 @@ export class InvestmentsInEoscComponent implements OnInit {
       let countryName = this.findCountryName(element.row[0]).name;
 
       let item = {
-        id: '2.'+count,
+        id: '2.' + count,
         parent: '1.',
         name: countryName,
         y: +element.row[1]
@@ -182,24 +157,83 @@ export class InvestmentsInEoscComponent implements OnInit {
         item.parent = '1.5';
       }
 
-      // console.log(item);
       arr.push(item);
 
     });
 
     // console.log(arr);
     return arr;
-
   }
 
+  /** Bubble chart ------------------------------------------------------------------------------------------------> **/
+  getBubbleChartData() {
+    zip(
+      this.queryData.getQuestion(this.year, 'Question5'),  // Investments in EOSC and Open Science
+      this.queryData.getQuestion(this.year, 'Question56'), // Investments in Open Access publications
+      this.queryData.getQuestion(this.year, 'Question57'), // Publications
+    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        console.log(value);
+        this.bubbleWithPlotLines = this.createBubbleSeries(value);
+      },
+      error: err => {console.error(err)}
+    });
+  }
+
+  createBubbleSeries(data: RawData[]) {
+    const series = [{
+      type: 'bubble',
+      data: [],
+      colorByPoint: true
+    }] as unknown as SeriesBubbleOptions[];
+
+    const result = this.mergeArrays(data[0].datasets[0].series.result, data[1].datasets[0].series.result, data[2].datasets[0].series.result);
+
+    // console.log(result);
+    result.forEach(el => {
+      if (!this.isNumeric(el.x) || !this.isNumeric(el.y) || !this.isNumeric(el.z))
+        return;
+
+      let item = {
+        x: +el.x,
+        y: +el.y,
+        z: +el.z,
+        name: el.name,
+        country: this.findCountryName(el.name).name
+      };
+      series[0].data.push(item);
+    });
+
+    // console.log(series);
+    return series;
+  }
+
+  /** pie chart ---------------------------------------------------------------------------------------------------> **/
+  getPieChartData() {
+    zip(
+      this.queryData.getQuestion(this.year, 'Question100'),  // Investments in citizen science
+      this.queryData.getQuestion(this.year, 'Question72'),   // Investments in open source software
+      this.queryData.getQuestion(this.year, 'Question57'),
+    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        console.log(value);
+      },
+      error: err => {console.error(err)}
+    });
+  }
+
+  /** Other -------------------------------------------------------------------------------------------------------> **/
   findCountryName(code: string) {
     return countriesNumbers.find(
       elem => elem.id === code
     );
   }
 
-  isNumeric(value: string): boolean {
+  isNumeric(value: string | null): boolean {
     // Check if the value is empty
+    if (value === null)
+      return false;
+
     if (value.trim() === '') {
       return false;
     }
@@ -210,4 +244,37 @@ export class InvestmentsInEoscComponent implements OnInit {
     // Check if parsing resulted in NaN or the value has extraneous characters
     return !isNaN(number) && isFinite(number) && String(number) === value;
   }
+
+  mergeArrays = (arr1: Row[], arr2: Row[], arr3: Row[]): MergedElement[] => {
+    const map = new Map<string, Partial<MergedElement>>();
+
+    // Helper function to update map with values
+    const addToMap = (arr: Row[], key: keyof MergedElement) => {
+      for (const element of arr) {
+        const name = element.row[0];
+        const value = element.row[1];
+
+        if (!map.has(name)) {
+          map.set(name, { name });
+        }
+
+        const entry = map.get(name)!;
+        entry[key] = String(value);
+      }
+    };
+
+    // Populate the map with values from each array
+    addToMap(arr1, 'x');
+    addToMap(arr2, 'y');
+    addToMap(arr3, 'z');
+
+    // Convert the map to an array of MergedElement objects
+    return Array.from(map.values()).map(entry => ({
+      x: entry.x || null,
+      y: entry.y || null,
+      z: entry.z || null,
+      name: entry.name || '',
+      country: ''
+    }));
+  };
 }

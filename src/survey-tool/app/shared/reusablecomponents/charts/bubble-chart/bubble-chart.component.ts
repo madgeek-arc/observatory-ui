@@ -21,9 +21,9 @@ export class BubbleChartComponent implements OnChanges {
     chart: {
       type: 'bubble',
       plotBorderWidth: 1,
-      zooming: {
-        type: 'xy'
-      }
+      // zooming: {
+      //   type: 'xy'
+      // }
     },
 
     title: {
@@ -102,10 +102,10 @@ export class BubbleChartComponent implements OnChanges {
     tooltip: {
       useHTML: true,
       headerFormat: '<table>',
-      pointFormat: '<tr><th colspan="2"><h3>{point.country}</h3></th></tr>' +
-        '<tr><th>Fat intake:</th><td>{point.x}g</td></tr>' +
-        '<tr><th>Sugar intake:</th><td>{point.y}g</td></tr>' +
-        '<tr><th>Obesity (adults):</th><td>{point.z}%</td></tr>',
+      pointFormat: '<tr><th colspan="2"><h4>{point.country}</h4></th></tr>' +
+        '<tr><th>Investment in EOSC and OS:</th><td>{point.x}M</td></tr>' +
+        '<tr><th>Investment in OA:</th><td>{point.y}M</td></tr>' +
+        '<tr><th>Number of publications:</th><td>{point.z}</td></tr>',
       footerFormat: '</table>',
       followPointer: true
     },
@@ -124,13 +124,18 @@ export class BubbleChartComponent implements OnChanges {
     },
 
     series: [{
+      type: 'bubble',
       data: [],
       colorByPoint: true
     }] as unknown as Highcharts.SeriesBubbleOptions[]
 
   }
+  xAverage = 0;
+  yAverage = 0;
 
   ngOnChanges(changes: SimpleChanges) {
+    if (this.enablePlotLines)
+      this.calculateAverage();
     this.updateChart();
   }
 
@@ -146,7 +151,7 @@ export class BubbleChartComponent implements OnChanges {
             color: 'black',
             dashStyle: 'Dot',
             width: 2,
-            value: 65,
+            value: this.xAverage,
             label: {
               rotation: 0,
               y: 15,
@@ -164,7 +169,7 @@ export class BubbleChartComponent implements OnChanges {
             color: 'black',
             dashStyle: 'Dot',
             width: 2,
-            value: 50,
+            value: this.yAverage,
             label: {
               align: 'right',
               style: {
@@ -184,6 +189,18 @@ export class BubbleChartComponent implements OnChanges {
     } else {
 
     }
+  }
+
+  calculateAverage() {
+    if (!this.series[0])
+      return;
+
+    this.series[0].data.forEach((el: {x: number, y:number}) => {
+      this.xAverage += el.x;
+      this.yAverage += el.y;
+    });
+    this.xAverage = this.xAverage/this.series[0].data.length;
+    this.yAverage = this.yAverage/this.series[0].data.length;
   }
 
   chartCallback = (chart: Highcharts.Chart) => {
