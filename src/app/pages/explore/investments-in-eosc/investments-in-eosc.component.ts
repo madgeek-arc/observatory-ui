@@ -5,6 +5,7 @@ import { RawData, Row } from "../../../../survey-tool/app/domain/raw-data";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { isNumeric } from "rxjs/internal-compatibility";
 type MergedElement = { x: string; y: string; z: string; name: string; country: string };
 
 @Component({
@@ -26,35 +27,7 @@ export class InvestmentsInEoscComponent implements OnInit {
     zMin: 0,
     name: 'countries',
     borderRadius: 5,
-    data: [{
-      name: 'Repositories',
-      y: 50,
-      z: 92
-    }, {
-      name: 'Citizen Science',
-      y: 55,
-      z: 119
-    }, {
-      name: 'Services in EOSC',
-      y: 31,
-      z: 121
-    }, {
-      name: 'Software',
-      y: 7,
-      z: 136
-    }, {
-      name: 'Open Data',
-      y: 30,
-      z: 200
-    }, {
-      name: 'FAIR Data',
-      y: 41,
-      z: 213
-    }, {
-      name: 'Open Acess',
-      y: 35,
-      z: 235
-    }],
+    data: [],
     colors: [
       '#4caefe',
       '#3dc3e8',
@@ -78,6 +51,7 @@ export class InvestmentsInEoscComponent implements OnInit {
   constructor(private queryData: EoscReadinessDataService) {}
 
   ngOnInit() {
+    this.getPieChartData();
     this.getTreeGraphData();
     this.getBubbleChartData();
   }
@@ -211,15 +185,48 @@ export class InvestmentsInEoscComponent implements OnInit {
   /** pie chart ---------------------------------------------------------------------------------------------------> **/
   getPieChartData() {
     zip(
-      this.queryData.getQuestion(this.year, 'Question100'),  // Investments in citizen science
-      this.queryData.getQuestion(this.year, 'Question72'),   // Investments in open source software
-      this.queryData.getQuestion(this.year, 'Question57'),
+      this.queryData.getQuestion(this.year, 'Question100'), // Investments in citizen science
+      this.queryData.getQuestion(this.year, 'Question72'),  // Investments in open source software
+      this.queryData.getQuestion(this.year, 'Question68'),  // Investments in open data
+      this.queryData.getQuestion(this.year, 'Question64'),  // Investments in FAIR data
+      this.queryData.getQuestion(this.year, 'Question76'),  // Investments in offering services through EOSC
+      this.queryData.getQuestion(this.year, 'Question80'),  // Investments in connecting repositories to EOSC
+      this.queryData.getQuestion(this.year, 'Question56'),  // Investments in open access publications
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         console.log(value);
+        this.variablePie = this.createPieSeries(value);
       },
       error: err => {console.error(err)}
     });
+  }
+
+  createPieSeries(data: RawData[]) {
+    const names = ['Citizen Science', 'Software', 'Open Data', 'FAIR Data', 'Services in EOSC', 'Repositories', 'Open Access'];
+    const series = [{
+      minPointSize: 10,
+      innerSize: '20%',
+      zMin: 0,
+      name: 'countries',
+      borderRadius: 5,
+      data: [],
+      colors: [
+        '#4caefe',
+        '#3dc3e8',
+        '#2dd9db',
+        '#1feeaf',
+        '#0ff3a0',
+        '#00e887',
+        '#23e274'
+      ]
+    }];
+    for (let i = 0; i < data.length; i++) {
+      let item = {name: names[i], y: this.calculateSum(data[i]), z: 80+i*13};
+      series[0].data.push(item);
+    }
+    // series[0].data.sort((a, b) => a.y - b.y);
+    console.log(series);
+    return series;
   }
 
   /** Other -------------------------------------------------------------------------------------------------------> **/
@@ -277,4 +284,17 @@ export class InvestmentsInEoscComponent implements OnInit {
       country: ''
     }));
   };
+
+  calculateSum(rawData: RawData): number {
+    let sum = 0.0;
+    for (const series of rawData.datasets) {
+      for (const rowResult of series.series.result) {
+        if (this.isNumeric(rowResult.row[1])) {
+          sum += +rowResult.row[1];
+        }
+      }
+    }
+    return (Math.round((sum + Number.EPSILON) * 100) / 100);
+  }
+
 }
