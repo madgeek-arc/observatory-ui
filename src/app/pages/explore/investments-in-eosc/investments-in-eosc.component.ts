@@ -5,7 +5,6 @@ import { RawData, Row } from "../../../../survey-tool/app/domain/raw-data";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { isNumeric } from "rxjs/internal-compatibility";
 type MergedElement = { x: string; y: string; z: string; name: string; country: string };
 
 @Component({
@@ -21,23 +20,7 @@ export class InvestmentsInEoscComponent implements OnInit {
 
   treeGraph: PointOptionsObject[] = [];
 
-  variablePie = [{
-    minPointSize: 10,
-    innerSize: '20%',
-    zMin: 0,
-    name: 'countries',
-    borderRadius: 5,
-    data: [],
-    colors: [
-      '#4caefe',
-      '#3dc3e8',
-      '#2dd9db',
-      '#1feeaf',
-      '#0ff3a0',
-      '#00e887',
-      '#23e274'
-    ]
-  }];
+  variablePie = [];
 
   pieTooltip = {
     headerFormat: '',

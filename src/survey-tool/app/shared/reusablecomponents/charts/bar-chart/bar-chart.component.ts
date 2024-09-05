@@ -43,7 +43,7 @@ export class BarChartComponent implements OnChanges {
       gridLineWidth: 0
     },
     tooltip: {
-      valueSuffix: ' percentage'
+      valueSuffix: ' %'
     },
     plotOptions: {
       bar: {
@@ -77,7 +77,7 @@ export class BarChartComponent implements OnChanges {
 
   updateChart() {
     if (this.chart) {
-      // console.log(this.data);
+      // console.log(this.series);
       this.chart.update({
         title: {
           text: this.titles.title

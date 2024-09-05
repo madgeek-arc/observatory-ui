@@ -28,6 +28,13 @@ export class TreeGraphComponent implements OnChanges {
     credits: {
       enabled: false
     },
+    exporting: {
+      buttons: {
+        contextButton: {
+          align: 'left'
+        }
+      }
+    },
     series: [
       {
         type: 'treegraph',

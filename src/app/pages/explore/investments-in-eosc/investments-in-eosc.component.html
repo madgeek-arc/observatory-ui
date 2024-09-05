@@ -14,11 +14,8 @@
 
     <div class="uk-grid uk-margin-medium-top">
       <div class="uk-width-2-3">
-<!--        <app-pie-chart chartId="variablePie" type="variablepie" [series]="variablePie" [tooltip]="pieTooltip"-->
-<!--                       title="Countries compared by population density and total area, 2022.">-->
-<!--        </app-pie-chart>-->
-        <app-pie-chart chartId="variablePie" type="variablepie" [series]="variablePie" [tooltip]="pieTooltip"
-                       title="">
+        <app-pie-chart *ngIf="variablePie[0].data.length" chartId="variablePie" type="variablepie" title=""
+                       [series]="variablePie" [tooltip]="pieTooltip">
         </app-pie-chart>
       </div>
       <div class="uk-width-1-3">
