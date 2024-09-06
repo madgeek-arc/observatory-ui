@@ -10,6 +10,9 @@ import { PointOptionsObject, SeriesBubbleOptions } from "highcharts";
 export class BubbleChartComponent implements OnChanges {
   @Input() data: PointOptionsObject[] = [];
   @Input() series: SeriesBubbleOptions[] = [];
+  @Input() xAxisTitle: string = '';
+  @Input() yAxisTitle: string = '';
+  @Input() toolTip = {};
   @Input() enablePlotLines: boolean = false;
   @Input() enableLegend: boolean = false;
   @Input() categories: string[] = [];
@@ -44,7 +47,7 @@ export class BubbleChartComponent implements OnChanges {
     xAxis: {
       gridLineWidth: 1,
       title: {
-        text: 'Total Investments in EOSC and OS'
+        text: this.xAxisTitle
       },
       // labels: {
       //   format: '{value} M'
@@ -73,7 +76,7 @@ export class BubbleChartComponent implements OnChanges {
       startOnTick: false,
       endOnTick: false,
       title: {
-        text: 'Total Investments in OA'
+        text: this.yAxisTitle
       },
       labels: {
         format: '{value} M'
@@ -99,22 +102,18 @@ export class BubbleChartComponent implements OnChanges {
       }
     },
 
-    tooltip: {
-      useHTML: true,
-      headerFormat: '<table>',
-      pointFormat: '<tr><th colspan="2"><h4>{point.country}</h4></th></tr>' +
-        '<tr><th>Investment in EOSC and OS:</th><td>{point.x}M</td></tr>' +
-        '<tr><th>Investment in OA:</th><td>{point.y}M</td></tr>' +
-        '<tr><th>Number of publications:</th><td>{point.z}</td></tr>',
-      footerFormat: '</table>',
-      followPointer: true
-    },
+    tooltip: {},
 
     plotOptions: {
       series: {
         dataLabels: {
           enabled: true,
           format: '{point.name}'
+        },
+        events: {
+          click: (event) => {
+            console.log(event.point.name);
+          }
         }
       }
     },
@@ -144,6 +143,9 @@ export class BubbleChartComponent implements OnChanges {
       // console.log(this.data);
       this.chart.update({
         xAxis: {
+          title: {
+            text: this.xAxisTitle
+          },
           labels: {
             format: this.enablePlotLines ? '{value} M' : undefined
           },
@@ -165,6 +167,9 @@ export class BubbleChartComponent implements OnChanges {
         },
         yAxis: {
           categories: this.categories.length > 0 ? this.categories : undefined,
+          title: {
+            text: this.yAxisTitle
+          },
           plotLines: this.enablePlotLines ? [{
             color: 'black',
             dashStyle: 'Dot',
@@ -184,6 +189,7 @@ export class BubbleChartComponent implements OnChanges {
         legend: {
           enabled: this.enableLegend
         },
+        tooltip: this.toolTip,
         series: this.series as unknown as Highcharts.SeriesBubbleOptions[]
       }, true, true);
     } else {

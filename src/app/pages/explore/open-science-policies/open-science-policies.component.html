@@ -31,7 +31,8 @@
 
     <div class="uk-grid uk-margin-medium-top">
       <div class="uk-width-2-3" style="height: 450px">
-        <app-bubble-chart [enablePlotLines]="false" [categories]="['<1M', '1-5M', '5-10M', '>20M']"
+        <app-bubble-chart [enablePlotLines]="false" [categories]="['<1', '1-5', '5-10', '10-20','>20']"
+                          xAxisTitle="Number of OA publication" yAxisTitle="Financial investmetsin OA"
                           [series]="bubbleWithCategories" [enableLegend]="true"></app-bubble-chart>
       </div>
       <div class="uk-width-1-3">

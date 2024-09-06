@@ -30,6 +30,16 @@ export class InvestmentsInEoscComponent implements OnInit {
   }
 
   bubbleWithPlotLines = [] as SeriesBubbleOptions[];
+  bubbleChartTooltip = {
+    useHTML: true,
+    headerFormat: '<table>',
+    pointFormat: '<tr><th colspan="2"><h4>{point.country}</h4></th></tr>' +
+      '<tr><th>Investment in EOSC and OS:</th><td>{point.x}M</td></tr>' +
+      '<tr><th>Investment in OA:</th><td>{point.y}M</td></tr>' +
+      '<tr><th>Number of publications:</th><td>{point.z}</td></tr>',
+    footerFormat: '</table>',
+    followPointer: true
+  }
 
   constructor(private queryData: EoscReadinessDataService) {}
 
@@ -130,7 +140,7 @@ export class InvestmentsInEoscComponent implements OnInit {
       this.queryData.getQuestion(this.year, 'Question57'), // Publications
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        console.log(value);
+        // console.log(value);
         this.bubbleWithPlotLines = this.createBubbleSeries(value);
       },
       error: err => {console.error(err)}
@@ -177,7 +187,7 @@ export class InvestmentsInEoscComponent implements OnInit {
       this.queryData.getQuestion(this.year, 'Question56'),  // Investments in open access publications
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        console.log(value);
+        // console.log(value);
         this.variablePie = this.createPieSeries(value);
       },
       error: err => {console.error(err)}
@@ -204,11 +214,11 @@ export class InvestmentsInEoscComponent implements OnInit {
       ]
     }];
     for (let i = 0; i < data.length; i++) {
-      let item = {name: names[i], y: this.calculateSum(data[i]), z: 80+i*13};
+      let item = {name: names[i], y: this.calculateSum(data[i]), z: 80};
       series[0].data.push(item);
     }
     // series[0].data.sort((a, b) => a.y - b.y);
-    console.log(series);
+    // console.log(series);
     return series;
   }
 
