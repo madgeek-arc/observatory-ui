@@ -8,7 +8,6 @@ import { StakeholdersService } from "../../../survey-tool/app/services/stakehold
 import { EoscReadinessDataService } from "../services/eosc-readiness-data.service";
 import { ExploreComponent } from "./explore.component";
 import { ExploreRouting } from "./explore.routing";
-import { OpenScienceByAreaComponent } from "./open-science-by-area/open-science-by-area.component";
 import {CustomSearchComponent} from "./custom-search/custom-search.component";
 import {InvestmentsInEoscComponent} from "./investments-in-eosc/investments-in-eosc.component";
 import {NationalMonitoringComponent} from "./national-monitoring/national-monitoring.component";
@@ -24,7 +23,6 @@ import {OpenScienceUseCasesComponent} from "./open-science-use-cases/open-scienc
 @NgModule({
   declarations: [
     ExploreComponent,
-    OpenScienceByAreaComponent,
     CustomSearchComponent,
     InvestmentsInEoscComponent,
     NationalMonitoringComponent,

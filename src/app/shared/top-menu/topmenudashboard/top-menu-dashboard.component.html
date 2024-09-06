@@ -14,13 +14,18 @@
 
           <div class="uk-navbar-center">
             <ul class="uk-navbar-nav user_actions">
-              <li>
-                <a class="uk-icon uk-animation-fade" [routerLink]="['/eoscreadiness']" aria-expanded="false">
-                  <span class="uk-text-small uk-margin-small-right">EOSC Readiness</span>
+              <li [routerLinkActive]="'uk-active'">
+                <a class="uk-icon uk-animation-fade" [routerLink]="['/home']" aria-expanded="false">
+                  <span class="uk-text-small uk-margin-small-right">Home</span>
+                </a>
+              </li>
+              <li [routerLinkActive]="'uk-active'">
+                <a class="uk-icon uk-animation-fade" [routerLink]="['/explore']" aria-expanded="false">
+                  <span class="uk-text-small uk-margin-small-right">Explore</span>
                 </a>
               </li>
 <!--              Show contact -->
-              <li>
+              <li [routerLinkActive]="'uk-active'">
                 <a class="uk-icon uk-animation-fade" [routerLink]="['/contact']" aria-expanded="false">
                   <span class="uk-text-small uk-margin-small-right">Contact</span>
                 </a>

@@ -1,6 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { OpenScienceByAreaComponent } from "./open-science-by-area/open-science-by-area.component";
 import {ExploreComponent} from "./explore.component";
 import {OpenScienceByCountryComponent} from "./open-science-by-country/open-science-by-country.component";
 import {OpenScienceTrendsComponent} from "./open-science-trends/open-science-trends.component";
@@ -26,7 +25,7 @@ const exploreRoutes: Routes = [
       },
       {
         path: 'open-science-by-area',
-        component: OpenScienceByAreaComponent
+        loadChildren: () => import('./open-science-by-area/open-science-by-area.module').then(m => m.OpenScienceByAreaModule),
       },
       {
         path: 'open-science-by-country',

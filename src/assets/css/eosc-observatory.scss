@@ -144,6 +144,12 @@
   border: 1px solid #eee;
 }
 
+.card-explore {
+  background-color: var(--white);
+  border-radius: 6px;
+  border: 2px solid #DAEEF3;
+}
+
 a.button-osobservatory {
   line-height: 35px !important;
 }
@@ -164,4 +170,8 @@ a.button-osobservatory {
 
 .uk-navbar-nav > li > a {
   font-family: var(--main-font-family);
+}
+
+.text-black {
+  color: var(--black);
 }
