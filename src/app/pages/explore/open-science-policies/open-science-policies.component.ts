@@ -6,6 +6,8 @@ import { EoscReadinessDataService } from "../../services/eosc-readiness-data.ser
 import {RawData, Row} from "../../../../survey-tool/app/domain/raw-data";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import {countriesNumbers} from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
+import { DataHandlerService } from "../../services/data-handler.service";
+import { countries } from "../../../../survey-tool/app/domain/countries";
 
 
 
@@ -34,7 +36,10 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
   bubbleWithCategories = [] as SeriesBubbleOptions[];
 
-  constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService) {}
+  tableData: string[][] = [];
+
+  constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService,
+              private dataHandlerService: DataHandlerService) {}
 
   ngOnInit() {
     this.stakeholdersService.getEOSCSBCountries().pipe().subscribe({
@@ -46,6 +51,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
       this.getBarChartData(year);
     });
     this.getBubbleChartData();
+    this.getTableData();
   }
 
   /** Bar chart ---------------------------------------------------------------------------------------------------> **/
@@ -131,7 +137,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
       if (!this.isNumeric(el[3]) || !this.isNumeric(el[4]))
         return;
 
-      //TODO: Z is statically set to 10 until corresponding query is ready
+      //TODO: Z is statically set to 10 until corresponding query is provided
       let item = {x: +el[4], y: this.rangeSelector(+el[3]), z: 10, name: el[0], country: this.findCountryName(el[0]).name};
 
       if (el[1] === 'No')
@@ -145,6 +151,53 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
     });
     return series;
+  }
+
+
+  /** Create table ------------------------------------------------------------------------------------------------> **/
+  getTableData() {
+    zip(
+      this.queryData.getQuestion(this.year, 'Question6'),  // Publications
+      this.queryData.getQuestion(this.year, 'Question10'), // Data-management
+      this.queryData.getQuestion(this.year, 'Question14'), // FAIR-data
+      this.queryData.getQuestion(this.year, 'Question18'), // Open-data
+      this.queryData.getQuestion(this.year, 'Question22'), // Software
+      this.queryData.getQuestion(this.year, 'Question26'), // Services
+      this.queryData.getQuestion(this.year, 'Question30'), // Connecting repositories to EOSC
+      this.queryData.getQuestion(this.year, 'Question34'), // Data stewardship
+      this.queryData.getQuestion(this.year, 'Question38'), // Long-term data preservation
+      this.queryData.getQuestion(this.year, 'Question42'), // Skills/Training
+      this.queryData.getQuestion(this.year, 'Question46'), // Assessment
+      this.queryData.getQuestion(this.year, 'Question50'), // Engagement
+    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        // console.log(value);
+        this.tableData[1] = this.dataHandlerService.convertRawDataForCumulativeTable(value[0], this.countriesArray);
+        this.tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(value[1], this.countriesArray);
+        this.tableData[3] = this.dataHandlerService.convertRawDataForCumulativeTable(value[2], this.countriesArray);
+        this.tableData[4] = this.dataHandlerService.convertRawDataForCumulativeTable(value[3], this.countriesArray);
+        this.tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(value[4], this.countriesArray);
+        this.tableData[6] = this.dataHandlerService.convertRawDataForCumulativeTable(value[5], this.countriesArray);
+        this.tableData[7] = this.dataHandlerService.convertRawDataForCumulativeTable(value[6], this.countriesArray);
+        this.tableData[8] = this.dataHandlerService.convertRawDataForCumulativeTable(value[7], this.countriesArray);
+        this.tableData[9] = this.dataHandlerService.convertRawDataForCumulativeTable(value[8], this.countriesArray);
+        this.tableData[10] = this.dataHandlerService.convertRawDataForCumulativeTable(value[9], this.countriesArray);
+        this.tableData[11] = this.dataHandlerService.convertRawDataForCumulativeTable(value[10], this.countriesArray);
+        this.tableData[12] = this.dataHandlerService.convertRawDataForCumulativeTable(value[11], this.countriesArray);
+
+        this.tableData[0] = this.countriesArray;
+        // Transpose 2d array
+        this.tableData = this.tableData[0].map((_, colIndex) => this.tableData.map(row => row[colIndex]));
+
+        for (let i = 0; i < this.tableData.length; i++) {
+          let tmpData = countries.find(country => country.id === this.tableData[i][0]);
+          if (tmpData)
+            this.tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
+        }
+        // console.log(this.tableData);
+      },
+      error: err => {console.error(err)}
+    });
   }
 
   /** Other stuff -------------------------------------------------------------------------------------------------> **/

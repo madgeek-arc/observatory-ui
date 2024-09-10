@@ -110,90 +110,10 @@
       </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>
-            <div class="uk-text-bold">Greece</div>
+        <tr *ngFor="let row of tableData">
+          <td *ngFor="let item of row; let i = index" [ngClass]="{valueTrue: item === 'true', valueFalse: item==='-'}">
+            <div *ngIf="i === 0" class="uk-text-bold">{{ item }}</div>
           </td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-        </tr>
-        <tr>
-          <td>
-            <div class="uk-text-bold">France</div>
-          </td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-          <td class="valueFalse"></td>
-          <td class="valueFalse"></td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-          <td class="valueFalse"></td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-        </tr>
-        <tr>
-          <td>
-            <div class="uk-text-bold">Spain</div>
-          </td>
-          <td class="valueTrue"></td>
-          <td class="valueFalse"></td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-          <td class="valueFalse"></td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-        </tr>
-        <tr>
-          <td>
-            <div class="uk-text-bold">United Kingdom</div>
-          </td>
-          <td class="valueFalse"></td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-        </tr>
-        <tr>
-          <td>
-            <div class="uk-text-bold">Belgium</div>
-          </td>
-          <td class="valueFalse"></td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-          <td class="valueTrue"></td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-          <td class="valueFalse"></td>
-          <td class="valueFalse"></td>
-          <td class="valueTrue"></td>
-          <td class="valueFalse"></td>
-          <td class="valueFalse"></td>
         </tr>
       </tbody>
     </table>
