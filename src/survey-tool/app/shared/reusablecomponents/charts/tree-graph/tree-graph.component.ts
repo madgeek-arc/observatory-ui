@@ -108,6 +108,6 @@ export class TreeGraphComponent implements OnChanges {
     this.chart = chart;
     this.updateChart(); // Ensure the chart is updated on initialization
 
-  };
+  }
 
 }

@@ -22,6 +22,7 @@ import { AreaChartComponent } from "./charts/area-chart/area-chart-component";
 import { StreamGraphComponent } from "./charts/stream-graph/stream-graph.component";
 import { FixedTooltipMapComponent } from "./charts/fixed-tooltip-map/fixed-tooltip-map.component";
 import { BarChartComponent } from "./charts/bar-chart/bar-chart.component";
+import { StackedColumnComponent } from "./charts/stacked-column-chart/stacked-column.component";
 
 @NgModule({
   imports: [
@@ -50,7 +51,8 @@ import { BarChartComponent } from "./charts/bar-chart/bar-chart.component";
     AreaChartComponent,
     StreamGraphComponent,
     FixedTooltipMapComponent,
-    BarChartComponent
+    BarChartComponent,
+    StackedColumnComponent
   ],
   exports: [
     SideMenuDashboardComponent,
@@ -70,7 +72,8 @@ import { BarChartComponent } from "./charts/bar-chart/bar-chart.component";
     AreaChartComponent,
     StreamGraphComponent,
     FixedTooltipMapComponent,
-    BarChartComponent
+    BarChartComponent,
+    StackedColumnComponent
   ],
   providers: [],
 })
