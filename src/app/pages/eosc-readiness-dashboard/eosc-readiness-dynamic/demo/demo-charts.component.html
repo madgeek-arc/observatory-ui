@@ -32,6 +32,13 @@
     <app-multi-bar-chart [series]="barChartSeries" [categories]="barChartCategories" [titles]="barChartTitles"></app-multi-bar-chart>
   </div>
   <div class="uk-padding-small">
-    <app-stacked-column></app-stacked-column>
+    <app-stacked-column title="Distribution of Open Data Access Rates by Document Type" [categories]="stackedColumnCategories"
+                        [series]="stackedColumnSeries" [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [plotFormat]="plotFormat">
+    </app-stacked-column>
+  </div>
+  <div class="uk-padding-small">
+    <app-stacked-column title="Trend of Open Data Over Time" [categories]="stackedColumnCategories1" [legend]="legend"
+                        [series]="stackedColumnSeries1" [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat1">
+    </app-stacked-column>
   </div>
 </div>

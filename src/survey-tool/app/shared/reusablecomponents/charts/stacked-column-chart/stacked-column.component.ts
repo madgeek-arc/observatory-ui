@@ -12,6 +12,11 @@ export class StackedColumnComponent implements OnChanges {
   @Input() series: any = [];
   @Input() title: string = null;
   @Input() subTitle: string = null;
+  @Input() categories: string[] = [];
+  @Input() yAxis: string = null;
+  @Input() pointFormat: string = null;
+  @Input() plotFormat: string = null;
+  @Input() legend = null;
 
   Highcharts: typeof Highcharts = Highcharts;
   chart!: Highcharts.Chart;
@@ -20,19 +25,11 @@ export class StackedColumnComponent implements OnChanges {
       type: 'column'
     },
     title: {
-      text: 'Distribution of Open Data Access Rates by Document Type'
+      text: this.title
     },
     xAxis: {
       // Updated categories to include specific document types and their totals
-      categories: [
-        'Bioentity<br>(total = 37,405,521)',
-        'Dataset<br>(total = 19,188,757)',
-        'Image<br>(total = 3,283,874)',
-        'Collection<br>(total = 579,542)',
-        'Audiovisual<br>(total = 224,732)',
-        'Clinical Trial<br>(total = 150,099)',
-        'Other<br>(total = TBD)'
-      ],
+      categories: this.categories,
       title: {
         text: null
       }
@@ -40,24 +37,23 @@ export class StackedColumnComponent implements OnChanges {
     yAxis: {
       min: 0,
       title: {
-        text: 'Percentage of Open Data',
-        align: 'high'
+        text: this.yAxis,
+        // align: 'high'
       },
       labels: {
         overflow: 'justify'
       }
     },
     tooltip: {
-      valueSuffix: ' %',
       headerFormat: '<b>{point.x}</b><br/>',
-      pointFormat: '{series.name}: {point.y}<br/>Total: {point.total} %'
+      pointFormat: this.pointFormat
     },
     plotOptions: {
       column: {
         stacking: 'normal',
         dataLabels: {
           enabled: true,
-          format: '{y}%'
+          color: 'white'
         }
       }
     },
@@ -68,27 +64,7 @@ export class StackedColumnComponent implements OnChanges {
     credits: {
       enabled: false
     },
-    series: [{
-      type: 'column',
-      name: 'Open',
-      data: [25, 35, 25, 15, 40, 10, 25],  // Random data to not always total 100%
-      color: '#028691'  // Primary color
-    }, {
-      type: 'column',
-      name: 'Restricted',
-      data: [45, 30, 35, 45, 20, 60, 20],
-      color: '#e4587c'  // Secondary color
-    }, {
-      type: 'column',
-      name: 'Closed',
-      data: [15, 25, 30, 20, 25, 20, 40],  // Adding varying percentages
-      color: '#515252'  // Color for 'Closed' category
-    }, {
-      type: 'column',
-      name: 'Embargo',
-      data: [15, 10, 10, 20, 15, 10, 15],  // New category 'Embargo'
-      color: '#fae0d1'  // Another color
-    }]
+    series: []
   }
 
 
@@ -102,7 +78,29 @@ export class StackedColumnComponent implements OnChanges {
     if (this.chart) {
       // console.log(this.data);
       this.chart.update({
-        // series: this.series as SeriesOptionsType[]
+        title: {
+          text: this.title
+        },
+        xAxis: {
+          categories: this.categories,
+        },
+        yAxis: {
+          title: {
+            text: this.yAxis,
+          }
+        },
+        tooltip: {
+          pointFormat: this.pointFormat
+        },
+        plotOptions: {
+          column: {
+            dataLabels: {
+              format: this.plotFormat || undefined
+            }
+          }
+        },
+        legend: this.legend || {},
+        series: this.series as SeriesOptionsType[]
       }, true, true);
     } else {
 

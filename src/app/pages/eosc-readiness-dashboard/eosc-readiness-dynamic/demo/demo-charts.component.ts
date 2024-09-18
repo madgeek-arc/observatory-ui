@@ -7,6 +7,7 @@ import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
 import { isNumeric } from "rxjs/internal-compatibility";
 import { countriesNumbers } from "../../eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { PointOptionsObject, SeriesBubbleOptions, SeriesOptionsType } from "highcharts";
+import * as Highcharts from "highcharts";
 
 @Component({
   selector: "demo-charts",
@@ -133,6 +134,68 @@ export class DemoChartsComponent implements OnInit {
     xAxis: 'Policy on',
     yAxis: 'Percentage of countries with national policies',
   }
+
+  stackedColumnCategories = ['Bioentity<br>(total = 37,405,521)', 'Dataset<br>(total = 19,188,757)', 'Image<br>(total = 3,283,874)', 'Collection<br>(total = 579,542)', 'Audiovisual<br>(total = 224,732)', 'Clinical Trial<br>(total = 150,099)', 'Other<br>(total = TBD)'];
+  stackedColumnSeries = [
+    {
+      type: 'column',
+      name: 'Open',
+      data: [25, 35, 25, 15, 40, 10, 25],  // Random data to not always total 100%
+      color: '#028691'  // Primary color
+    }, {
+      type: 'column',
+      name: 'Restricted',
+      data: [45, 30, 35, 45, 20, 60, 20],
+      color: '#e4587c'  // Secondary color
+    }, {
+      type: 'column',
+      name: 'Closed',
+      data: [15, 25, 30, 20, 25, 20, 40],  // Adding varying percentages
+      color: '#515252'  // Color for 'Closed' category
+    }, {
+      type: 'column',
+      name: 'Embargo',
+      data: [15, 10, 10, 20, 15, 10, 15],  // New category 'Embargo'
+      color: '#fae0d1'  // Another color
+    }
+  ];
+  yAxisTitle = 'Percentage of Open Data'
+  tooltipPointFormat = '{series.name}: {point.y} %<br/>Total: {point.total} %';
+  plotFormat = '{y}%';
+
+  stackedColumnCategories1 = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
+  stackedColumnSeries1 = [
+    {
+      name: 'Open',
+      data: [150000, 155000, 160000, 165000, 170000, 175000, 180000, 185000, 190000, 195000],
+      color: '#028691' // Primary color
+    }, {
+      name: 'Restricted',
+      data: [120000, 125000, 130000, 135000, 140000, 145000, 150000, 155000, 160000, 165000],
+      color: '#e4587c' // Secondary color
+    }, {
+      name: 'Closed',
+      data: [80000, 85000, 90000, 95000, 100000, 105000, 110000, 115000, 120000, 125000],
+      color: '#fae0d1' // Tertiary color
+    }, {
+      name: 'Embargo',
+      data: [50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000, 95000],
+      color: '#515252' // Additional color
+    }
+  ];
+  yAxisTitle1 = 'Number of Data Sets'
+  legend = {
+    align: 'right',
+    x: -30,
+    verticalAlign: 'top',
+    y: 25,
+    floating: true,
+    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
+    borderColor: '#CCC',
+    borderWidth: 1,
+    shadow: false
+  };
+  tooltipPointFormat1 = '{series.name}: {point.y}<br/>Total: {point.total}';
 
   constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService,
               private dataHandlerService: DataHandlerService) {}
