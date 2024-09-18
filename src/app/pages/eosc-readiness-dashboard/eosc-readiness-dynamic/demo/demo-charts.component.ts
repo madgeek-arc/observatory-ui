@@ -197,6 +197,26 @@ export class DemoChartsComponent implements OnInit {
   };
   tooltipPointFormat1 = '{series.name}: {point.y}<br/>Total: {point.total}';
 
+  stackedColumnSeries2 = [{
+    name: 'Research Performing Organisations with Policy',
+    data: [75, 80, 85],
+    color: '#028691' // Primary color
+  }, {
+    name: 'Research Founding Organisations with Policy',
+    data: [70, 75, 80],
+    color: '#e4587c' // Secondary color
+  }, {
+    name: 'Research Performing Organisations without Policy',
+    data: [10, 15, 20],
+    color: '#fae0d1' // Tertiary color
+  }, {
+    name: 'Research Founding Organisations without Policy',
+    data: [5, 10, 5],
+    color: '#515252' // Additional color
+  }];
+  stackedColumnCategories2 = ['2021', '2022', '2023'];
+  yAxisTitle2 = 'Percentage of Policies on FAIR Data'
+
   constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService,
               private dataHandlerService: DataHandlerService) {}
 

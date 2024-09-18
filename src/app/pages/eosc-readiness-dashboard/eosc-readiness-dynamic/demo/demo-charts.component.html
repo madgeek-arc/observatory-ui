@@ -38,7 +38,12 @@
   </div>
   <div class="uk-padding-small">
     <app-stacked-column title="Trend of Open Data Over Time" [categories]="stackedColumnCategories1" [legend]="legend"
-                        [series]="stackedColumnSeries1" [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat1">
+                        [series]="stackedColumnSeries1" [yAxis]="yAxisTitle1" [pointFormat]="tooltipPointFormat1">
+    </app-stacked-column>
+  </div>
+  <div class="uk-padding-small">
+    <app-stacked-column title="Trends in FAIR Data Policies Across Organizations (2021-2023)" [categories]="stackedColumnCategories2"
+                        [series]="stackedColumnSeries2" [yAxis]="yAxisTitle1">
     </app-stacked-column>
   </div>
 </div>
