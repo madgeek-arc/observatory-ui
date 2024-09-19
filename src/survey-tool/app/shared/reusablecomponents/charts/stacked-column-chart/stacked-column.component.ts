@@ -13,7 +13,10 @@ export class StackedColumnComponent implements OnChanges {
   @Input() title: string = null;
   @Input() subTitle: string = null;
   @Input() categories: string[] = [];
+  @Input() xAxis: string = null;
   @Input() yAxis: string = null;
+  @Input() yAxisMax: number = null;
+  @Input() yAxisLabelsFormat: string = null;
   @Input() pointFormat: string = null;
   @Input() plotFormat: string = null;
   @Input() legend = null;
@@ -31,7 +34,7 @@ export class StackedColumnComponent implements OnChanges {
       // Updated categories to include specific document types and their totals
       categories: this.categories,
       title: {
-        text: null
+        text: this.xAxis
       }
     },
     yAxis: {
@@ -42,6 +45,9 @@ export class StackedColumnComponent implements OnChanges {
       },
       labels: {
         overflow: 'justify'
+      },
+      stackLabels: {
+        enabled: true
       }
     },
     tooltip: {
@@ -83,10 +89,17 @@ export class StackedColumnComponent implements OnChanges {
         },
         xAxis: {
           categories: this.categories,
+          title: {
+            text: this.xAxis || undefined
+          }
         },
         yAxis: {
+          max: this.yAxisMax || undefined,
           title: {
             text: this.yAxis,
+          },
+          labels: {
+            format: this.yAxisLabelsFormat || undefined
           }
         },
         tooltip: {

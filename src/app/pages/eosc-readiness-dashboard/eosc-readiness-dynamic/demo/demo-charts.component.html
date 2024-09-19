@@ -32,18 +32,27 @@
     <app-multi-bar-chart [series]="barChartSeries" [categories]="barChartCategories" [titles]="barChartTitles"></app-multi-bar-chart>
   </div>
   <div class="uk-padding-small">
-    <app-stacked-column title="Distribution of Open Data Access Rates by Document Type" [categories]="stackedColumnCategories"
+    <app-stacked-column title="Distribution of Open Data Types by Different Document Type" [categories]="stackedColumnCategories"
                         [series]="stackedColumnSeries" [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [plotFormat]="plotFormat">
     </app-stacked-column>
   </div>
   <div class="uk-padding-small">
-    <app-stacked-column title="Trend of Open Data Over Time" [categories]="stackedColumnCategories1" [legend]="legend"
+    <app-stacked-column title="Trend of Open Data" [categories]="stackedColumnCategories1" [legend]="legend"
                         [series]="stackedColumnSeries1" [yAxis]="yAxisTitle1" [pointFormat]="tooltipPointFormat1">
     </app-stacked-column>
   </div>
   <div class="uk-padding-small">
-    <app-stacked-column title="Trends in FAIR Data Policies Across Organizations (2021-2023)" [categories]="stackedColumnCategories2"
-                        [series]="stackedColumnSeries2" [yAxis]="yAxisTitle1">
+    <app-stacked-column title="Trend of Policies on FAIR Data among Research Performing and Research Founding Organisations"
+                        [categories]="stackedColumnCategories2" [series]="stackedColumnSeries2" [yAxis]="yAxisTitle2"
+                        [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat2" [yAxisMax]="100"
+                        [yAxisLabelsFormat]="labelFormat2" [xAxis]="xAxisTitle2">
+    </app-stacked-column>
+  </div>
+  <div class="uk-padding-small">
+    <app-stacked-column title="Trend of Policies on Data Management among Research Performing and Research Founding Organisations"
+                        [categories]="stackedColumnCategories3" [series]="stackedColumnSeries3" [yAxis]="yAxisTitle3"
+                        [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat3" [yAxisMax]="100"
+                        [yAxisLabelsFormat]="labelFormat3" [xAxis]="xAxisTitle3">
     </app-stacked-column>
   </div>
 </div>
