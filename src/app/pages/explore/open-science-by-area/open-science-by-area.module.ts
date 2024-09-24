@@ -12,12 +12,14 @@ import {DataHandlerService} from "../../services/data-handler.service";
 import {StakeholdersService} from "../../../../survey-tool/app/services/stakeholders.service";
 import {OpenScienceByAreaPublicationsComponent} from "./areas/open-science-by-area-publications.component";
 import {OpenScienceByAreaOpenDataComponent} from "./areas/open-science-by-area-open-data.component";
+import { OpenScienceByAreaFairDataComponent } from "./areas/open-science-by-area-fair-data.component";
 
 @NgModule({
   declarations: [
     OpenScienceByAreaComponent,
     OpenScienceByAreaPublicationsComponent,
-    OpenScienceByAreaOpenDataComponent
+    OpenScienceByAreaOpenDataComponent,
+    OpenScienceByAreaFairDataComponent
   ],
   imports: [
     CommonModule,

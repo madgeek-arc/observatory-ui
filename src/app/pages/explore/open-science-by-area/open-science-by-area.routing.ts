@@ -1,8 +1,9 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import {OpenScienceByAreaComponent} from "./open-science-by-area.component";
-import {OpenScienceByAreaPublicationsComponent} from "./areas/open-science-by-area-publications.component";
-import {OpenScienceByAreaOpenDataComponent} from "./areas/open-science-by-area-open-data.component";
+import { OpenScienceByAreaComponent } from "./open-science-by-area.component";
+import { OpenScienceByAreaPublicationsComponent } from "./areas/open-science-by-area-publications.component";
+import { OpenScienceByAreaOpenDataComponent } from "./areas/open-science-by-area-open-data.component";
+import { OpenScienceByAreaFairDataComponent } from "./areas/open-science-by-area-fair-data.component";
 
 const openScienceAreaRoutes: Routes = [
   {
@@ -16,6 +17,10 @@ const openScienceAreaRoutes: Routes = [
   {
     path: 'open-data',
     component: OpenScienceByAreaOpenDataComponent
+  },
+  {
+    path: 'fair-data',
+    component: OpenScienceByAreaFairDataComponent
   }
 ];
 
