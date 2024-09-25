@@ -25,6 +25,13 @@
       <div class="uk-container uk-container-expand">
         <h5>General Overview of FAIR Data in Europe for 2023</h5>
 
+        <div>
+          <p>Percentage of EU Countries with Policy on FAIR Data</p>
+          <span *ngIf="countriesWithPolicy.length === 2">{{countriesWithPolicy[1]}}%</span>
+          <span *ngIf="countriesWithPolicy.length === 2">
+            {{(countriesWithPolicy[1] > countriesWithPolicy[0] ? 'Improved by ' : 'Reduced by ') + Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1])}}% vs last year
+          </span>
+        </div>
       </div>
     </div>
 
@@ -35,8 +42,7 @@
 
         <div class="uk-grid uk-margin-medium-top">
           <div class="uk-width-2-3" style="height: 450px">
-            <app-stacked-column title="Trend of Policies on FAIR Data among Research Performing and Research Founding Organisations"
-                                [categories]="stackedColumnCategories" [series]="stackedColumnSeries" [yAxis]="yAxisTitle"
+            <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries" [yAxis]="yAxisTitle"
                                 [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
                                 [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle">
             </app-stacked-column>
