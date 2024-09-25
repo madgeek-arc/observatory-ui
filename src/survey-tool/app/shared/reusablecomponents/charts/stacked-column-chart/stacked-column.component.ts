@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
-import { SeriesOptionsType } from "highcharts";
 
 @Component({
   selector: "app-stacked-column",
@@ -9,7 +8,7 @@ import { SeriesOptionsType } from "highcharts";
 
 export class StackedColumnComponent implements OnChanges {
 
-  @Input() series: any = [];
+  @Input() series: Highcharts.SeriesColumnOptions[] = [];
   @Input() title: string = null;
   @Input() subTitle: string = null;
   @Input() categories: string[] = [];
@@ -17,6 +16,7 @@ export class StackedColumnComponent implements OnChanges {
   @Input() yAxis: string = null;
   @Input() yAxisMax: number = null;
   @Input() yAxisLabelsFormat: string = null;
+  @Input() stackLabels: boolean = true;
   @Input() pointFormat: string = null;
   @Input() plotFormat: string = null;
   @Input() legend = null;
@@ -47,7 +47,7 @@ export class StackedColumnComponent implements OnChanges {
         overflow: 'justify'
       },
       stackLabels: {
-        enabled: true
+        enabled: this.stackLabels
       }
     },
     tooltip: {
@@ -76,13 +76,22 @@ export class StackedColumnComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    // console.log(changes['data']);
+    // console.log(changes['series']);
     this.updateChart();
   }
 
   updateChart() {
     if (this.chart) {
-      // console.log(this.data);
+
+      while (this.chart.series.length) {
+        this.chart.series[0].remove(false); // `false` to avoid redrawing after each removal
+      }
+
+      // Add the new series
+      this.series.forEach(series => {
+        this.chart.addSeries(series, false); // `false` to avoid redrawing after each addition
+      });
+
       this.chart.update({
         title: {
           text: this.title
@@ -100,6 +109,9 @@ export class StackedColumnComponent implements OnChanges {
           },
           labels: {
             format: this.yAxisLabelsFormat || undefined
+          },
+          stackLabels: {
+            enabled: this.stackLabels
           }
         },
         tooltip: {
@@ -113,8 +125,9 @@ export class StackedColumnComponent implements OnChanges {
           }
         },
         legend: this.legend || {},
-        series: this.series as SeriesOptionsType[]
-      }, true, true);
+        // series: this.series
+      }, true, true, true);
+
     } else {
 
     }

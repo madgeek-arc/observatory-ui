@@ -158,7 +158,7 @@ export class DemoChartsComponent implements OnInit {
       data: [15, 10, 10, 20, 15, 10, 15],  // New category 'Embargo'
       color: '#fae0d1'  // Another color
     }
-  ];
+  ] as Highcharts.SeriesColumnOptions[];
   yAxisTitle = 'Percentage of Open Data'
   tooltipPointFormat = '{series.name}: {point.y} %<br/>Total: {point.total} %';
   plotFormat = '{y}%';
@@ -166,23 +166,27 @@ export class DemoChartsComponent implements OnInit {
   stackedColumnCategories1 = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
   stackedColumnSeries1 = [
     {
+      type: 'column',
       name: 'Gold OA only',
       data: [120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000, 200000, 210000],
       color: '#FFD700' // Gold color
     }, {
+      type: 'column',
       name: 'Green OA only',
       data: [80000, 85000, 90000, 95000, 100000, 105000, 110000, 115000, 120000, 125000],
       color: '#228B22' // Forest green color
     }, {
+      type: 'column',
       name: 'Both Gold & Green OA',
       data: [40000, 45000, 50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000],
       color: '#FF69B4' // Hot pink color for mixed category
     }, {
+      type: 'column',
       name: 'Neither',
       data: [20000, 25000, 30000, 35000, 40000, 45000, 50000, 55000, 60000, 65000],
       color: '#808080' // Grey color
     }
-  ];
+  ] as Highcharts.SeriesColumnOptions[];
   yAxisTitle1 = 'Number of Data Sets'
   legend = {
     align: 'right',
@@ -199,23 +203,27 @@ export class DemoChartsComponent implements OnInit {
 
   stackedColumnSeries2 = [
     {
+      type: 'column',
       name: 'Research Performing Organisations with Policy',
       data: [75, 80, 85],
       color: '#028691' // Primary color
     }, {
+      type: 'column',
       name: 'Research Founding Organisations with Policy',
       data: [70, 75, 80],
       color: '#e4587c' // Secondary color
     }, {
+      type: 'column',
       name: 'Research Performing Organisations without Policy',
       data: [10, 15, 20],
       color: '#fae0d1' // Tertiary color
     }, {
+      type: 'column',
       name: 'Research Founding Organisations without Policy',
       data: [5, 10, 5],
       color: '#515252' // Additional color
     }
-  ];
+  ] as Highcharts.SeriesColumnOptions[];
   stackedColumnCategories2 = ['2021', '2022', '2023'];
   xAxisTitle2 = 'Year'
   yAxisTitle2 = 'Percentage of Policies on FAIR Data'
@@ -223,22 +231,26 @@ export class DemoChartsComponent implements OnInit {
   labelFormat2 = '{value}%';
 
   stackedColumnSeries3 = [{
+    type: 'column',
     name: 'RPOs with Policy on Data Management',
     data: [40, 45, 10], // Example data
     color: '#028691' // Primary color
   }, {
+    type: 'column',
     name: 'RFOs with Policy on Data Management',
     data: [20, 35, 20], // Example data
     color: '#e4587c' // Secondary color
   }, {
+    type: 'column',
     name: 'RPOs without Policy on Data Management',
     data: [30, 25, 30], // Example data
     color: '#fae0d1' // Tertiary color
   }, {
+    type: 'column',
     name: 'RFOs without Policy on Data Management',
     data: [20, 15, 40], // Example data
     color: '#515252' // Additional color
-  }];
+  }] as Highcharts.SeriesColumnOptions[];
   stackedColumnCategories3 = ['2021', '2022', '2023'];
   xAxisTitle3 = 'Year'
   yAxisTitle3 = 'Percentage of Policies on FAIR Data'
