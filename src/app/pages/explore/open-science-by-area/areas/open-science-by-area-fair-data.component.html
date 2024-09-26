@@ -25,13 +25,38 @@
       <div class="uk-container uk-container-expand">
         <h5>General Overview of FAIR Data in Europe for 2023</h5>
 
-        <div>
+        <div *ngIf="countriesWithPolicy.length === 2">
           <p>Percentage of EU Countries with Policy on FAIR Data</p>
-          <span *ngIf="countriesWithPolicy.length === 2">{{countriesWithPolicy[1]}}%</span>
-          <span *ngIf="countriesWithPolicy.length === 2">
-            {{(countriesWithPolicy[1] > countriesWithPolicy[0] ? 'Improved by ' : 'Reduced by ') + Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1])}}% vs last year
+          <span>{{ countriesWithPolicy[1] }}%</span>
+          <span>
+            {{ (countriesWithPolicy[1] > countriesWithPolicy[0] ? 'Improved by ' : 'Reduced by ') + Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}% vs last year
           </span>
         </div>
+
+        <div *ngIf="totalInvestments.length === 2" class="uk-margin-top">
+          <p>Total amount of financial investments in Open Data</p>
+          <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
+          <span>
+            {{ (totalInvestments[1] > totalInvestments[0] ? 'Improved by ' : 'Reduced by ') + calculatePercentageChange(totalInvestments) }}% vs last year
+          </span>
+        </div>
+
+        <div *ngIf="countriesWithStrategy.length === 2" class="uk-margin-top">
+          <p>Percentage of EU Countries with Policy on FAIR Data</p>
+          <span>{{ countriesWithStrategy[1] }}%</span>
+          <span>
+            {{ (countriesWithStrategy[1] > countriesWithStrategy[0] ? 'Improved by ' : 'Reduced by ') + Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}% vs last year
+          </span>
+        </div>
+
+        <div *ngIf="countriesWithMonitoring.length === 2" class="uk-margin-top">
+          <p>Percentage of EU Countries with Policy on FAIR Data</p>
+          <span>{{ countriesWithMonitoring[1] }}%</span>
+          <span>
+            {{ (countriesWithMonitoring[1] > countriesWithMonitoring[0] ? 'Improved by ' : 'Reduced by ') + Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}% vs last year
+          </span>
+        </div>
+
       </div>
     </div>
 
@@ -53,10 +78,9 @@
             <p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science, OpenAIRE Graph.</p>
 
           </div>
-
+        </div>
       </div>
     </div>
-
 
   </div>
 </div>

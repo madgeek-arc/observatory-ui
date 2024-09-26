@@ -4,7 +4,6 @@ import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
 import * as Highcharts from "highcharts/highcharts.src";
-import { isNumeric } from "rxjs/internal-compatibility";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 
 @Component({
@@ -13,6 +12,8 @@ import { StakeholdersService } from "../../../../../survey-tool/app/services/sta
 })
 
 export class OpenScienceByAreaFairDataComponent implements OnInit {
+  protected readonly Math = Math;
+
   private destroyRef = inject(DestroyRef);
 
   countriesArray: string[] = [];
@@ -49,6 +50,9 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
   plotFormat = '{y}%';
 
   countriesWithPolicy: number[] = [];
+  countriesWithStrategy: number[] = [];
+  countriesWithMonitoring: number[] = [];
+  totalInvestments: number[] = [];
 
   constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService) {}
 
@@ -57,7 +61,16 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       next: value => {
         this.countriesArray = value; // FIXME: Need the number of countries at that year!
         this.years.forEach((year, index) => {
-          this.getCountriesWithPolicy(year);
+          this.getCountriesWithPolicy(year, index);
+        });
+        this.years.forEach((year, index) => {
+          this.getTotalFairInvestments(year, index);
+        });
+        this.years.forEach((year, index) => {
+          this.getCountriesWithFinancialStrategy(year, index);
+        });
+        this.years.forEach((year, index) => {
+          this.getNationalMonitoring(year, index);
         });
       },
       error: err => console.error(err)
@@ -65,28 +78,47 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
 
     this.years.forEach((year, index) => {
       this.getStackedColumnData(year, index);
-      // if (this.years.length === index+1)
-        // this.stackedColumnSeries = [...this.stackedColumnSeries];
     });
 
   }
 
-  getCountriesWithPolicy(year: string) {
-    this.queryData.getQuestion(year, 'Question14').pipe().subscribe({ // Country has a national policy on FAIR data?
+  /** Get national monitoring on FAIR Data -------------------------------------------------------------------------> **/
+  getNationalMonitoring(year: string, index: number) {
+    this.queryData.getQuestion(year, 'Question62').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({ // National monitoring in FAIR data
       next: value => {
-        this.calculatePercentage(value, this.countriesArray.length);
+        this.countriesWithMonitoring[index] = this.calculatePercentage(value, this.countriesArray.length);
       }
     });
   }
 
-  calculatePercentage(data: RawData, totalCountries: number) {
-    let count = 0;
-    data.datasets[0].series.result.forEach(item => {
-      if (item.row[1] === 'Yes')
-        count++;
+  /** Get financial strategy on FAIR Data -------------------------------------------------------------------------> **/
+  getCountriesWithFinancialStrategy(year: string, index: number) {
+    this.queryData.getQuestion(year, 'Question15').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({ // Financial strategy in FAIR data
+      next: value => {
+        this.countriesWithStrategy[index] = this.calculatePercentage(value, this.countriesArray.length);
+      }
     });
-    this.countriesWithPolicy.push((Math.round(((count/totalCountries) + Number.EPSILON) * 100)));
   }
+
+
+  /** Get investments on FAIR Data --------------------------------------------------------------------------------> **/
+  getTotalFairInvestments(year: string, index: number) {
+    this.queryData.getQuestion(year, 'Question64').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({ // Financial investment in FAIR data
+      next: value => {
+        this.totalInvestments[index] = this.calculateSum(value);
+      }
+    });
+  }
+
+  /** Get countries with policy on FAIR Data percentage -----------------------------------------------------------> **/
+  getCountriesWithPolicy(year: string, index: number) {
+    this.queryData.getQuestion(year, 'Question14').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({ // Country has a national policy on FAIR data
+      next: value => {
+        this.countriesWithPolicy[index] = this.calculatePercentage(value, this.countriesArray.length);
+      }
+    });
+  }
+  /** <----------------------------------------------------------- Get countries with policy on FAIR Data percentage **/
 
   /** Stacked column chart ----------------------------------------------------------------------------------------> **/
   getStackedColumnData(year: string, index: number) {
@@ -97,36 +129,36 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       this.queryData.getQuestion(year, 'Question17'),  // research funding organisations with policy on FAIR data
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value =>  {
-        this.createStackedColumnSeries(value, year);
+        this.createStackedColumnSeries(value);
         if (this.years.length === index+1)
           this.stackedColumnSeries = [...this.stackedColumnSeries];
       }
     });
   }
 
-  createStackedColumnSeries(data: RawData[], year: string) {
+  createStackedColumnSeries(data: RawData[]) {
     let RPOCount = 0;
     let RPOCountWithPolicy = 0;
     let RFOCount = 0;
     let RFOCountWithPolicy = 0;
 
     data[0].datasets[0].series.result.forEach((result) => {
-      if (isNumeric(result.row[1]))
+      if (this.isNumeric(result.row[1]))
         RPOCount += +result.row[1];
     });
 
     data[1].datasets[0].series.result.forEach((result) => {
-      if (isNumeric(result.row[1]))
+      if (this.isNumeric(result.row[1]))
         RFOCount += +result.row[1];
     });
 
     data[2].datasets[0].series.result.forEach((result) => {
-      if (isNumeric(result.row[1]))
+      if (this.isNumeric(result.row[1]))
         RPOCountWithPolicy += +result.row[1];
     });
 
     data[3].datasets[0].series.result.forEach((result) => {
-      if (isNumeric(result.row[1]))
+      if (this.isNumeric(result.row[1]))
         RFOCountWithPolicy += +result.row[1];
     });
 
@@ -137,6 +169,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
   }
   /** <---------------------------------------------------------------------------------------- Stacked column chart **/
 
+  /** Other ------------------------------------------------------------------------------------------------------>  **/
   isNumeric(value: string | null): boolean {
     // Check if the value is empty
     if (value === null)
@@ -153,5 +186,28 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
     return !isNaN(number) && isFinite(number) && String(number) === value;
   }
 
-  protected readonly Math = Math;
+  calculatePercentage(data: RawData, totalCountries: number) {
+    let count = 0;
+    data.datasets[0].series.result.forEach(item => {
+      if (item.row[1] === 'Yes')
+        count++;
+    });
+    return(Math.round(((count/totalCountries) + Number.EPSILON) * 100));
+  }
+
+  calculatePercentageChange(data: number[]) {
+    let percentage = Math.abs((data[1] - data[0]) / data[0]);
+    return Math.round((percentage + Number.EPSILON) * 100);
+
+  }
+
+  calculateSum(data: RawData) {
+    let sum = 0;
+    data.datasets[0].series.result.forEach(item => {
+      if (this.isNumeric(item.row[1]))
+        sum += +item.row[1];
+    });
+    return sum;
+  }
+
 }
