@@ -4,6 +4,7 @@ import { OpenScienceByAreaComponent } from "./open-science-by-area.component";
 import { OpenScienceByAreaPublicationsComponent } from "./areas/open-science-by-area-publications.component";
 import { OpenScienceByAreaOpenDataComponent } from "./areas/open-science-by-area-open-data.component";
 import { OpenScienceByAreaFairDataComponent } from "./areas/open-science-by-area-fair-data.component";
+import { OpenScienceByAreaDataManagementComponent } from "./areas/open-science-by-area-data-management.component";
 
 const openScienceAreaRoutes: Routes = [
   {
@@ -21,6 +22,10 @@ const openScienceAreaRoutes: Routes = [
   {
     path: 'fair-data',
     component: OpenScienceByAreaFairDataComponent
+  },
+  {
+    path: 'data-management',
+    component: OpenScienceByAreaDataManagementComponent
   }
 ];
 

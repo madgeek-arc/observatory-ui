@@ -118,7 +118,6 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       }
     });
   }
-  /** <----------------------------------------------------------- Get countries with policy on FAIR Data percentage **/
 
   /** Stacked column chart ----------------------------------------------------------------------------------------> **/
   getStackedColumnData(year: string, index: number) {

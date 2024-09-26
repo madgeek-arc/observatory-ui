@@ -33,10 +33,19 @@
           <div class="number big">
             <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
           </div>
-          <div class="uk-margin-top">
-            <span>
-            {{ (countriesWithPolicy[1] > countriesWithPolicy[0] ? 'Improved by ' : 'Reduced by ') + Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}% vs last year
-          </span>
+          <div class="uk-margin-top uk-flex uk-flex-middle uk-width-1-1">
+            <span *ngIf="countriesWithPolicy[1] > countriesWithPolicy[0]; else policyDown" class="material-symbols-outlined" >arrow_upward</span>
+              {{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}% vs last year
+              <div class="uk-flex uk-flex-right">
+                <img src="../assets/images/explore/trend_green.svg" alt="Upward trend line">
+              </div>
+            <ng-template #policyDown>
+              <span class="material-symbols-outlined">arrow_downward</span>
+              {{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}% vs last year
+              <div class="uk-flex uk-flex-right">
+                <img src="../assets/images/explore/trend_red.svg" alt="Downward trend line">
+              </div>
+            </ng-template>
           </div>
         </div>
       </div>

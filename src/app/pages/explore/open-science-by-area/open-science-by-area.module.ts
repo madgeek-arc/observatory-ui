@@ -13,13 +13,15 @@ import {StakeholdersService} from "../../../../survey-tool/app/services/stakehol
 import {OpenScienceByAreaPublicationsComponent} from "./areas/open-science-by-area-publications.component";
 import {OpenScienceByAreaOpenDataComponent} from "./areas/open-science-by-area-open-data.component";
 import { OpenScienceByAreaFairDataComponent } from "./areas/open-science-by-area-fair-data.component";
+import { OpenScienceByAreaDataManagementComponent } from "./areas/open-science-by-area-data-management.component";
 
 @NgModule({
   declarations: [
     OpenScienceByAreaComponent,
     OpenScienceByAreaPublicationsComponent,
     OpenScienceByAreaOpenDataComponent,
-    OpenScienceByAreaFairDataComponent
+    OpenScienceByAreaFairDataComponent,
+    OpenScienceByAreaDataManagementComponent
   ],
   imports: [
     CommonModule,
