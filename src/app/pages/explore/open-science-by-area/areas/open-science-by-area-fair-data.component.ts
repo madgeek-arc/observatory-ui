@@ -20,7 +20,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
   countriesArray: string[] = [];
   years = ['2022', '2023']
 
-  stackedColumnSeries = [
+  stackedColumnSeries1 = [
     {
       type: 'column',
       name: 'Research Performing Organisations with Policy',
@@ -28,17 +28,20 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       color: '#028691' // Primary color
     }, {
       type: 'column',
-      name: 'Research Founding Organisations with Policy',
+      name: 'Research Performing Organisations without Policy',
+      data: [],
+      color: '#fae0d1' // Tertiary color
+    }
+  ] as Highcharts.SeriesColumnOptions[];
+  stackedColumnSeries2 = [
+    {
+      type: 'column',
+      name: 'Research Funding Organisations with Policy',
       data: [],
       color: '#e4587c' // Secondary color
     }, {
       type: 'column',
-      name: 'Research Performing Organisations without Policy',
-      data: [],
-      color: '#fae0d1' // Tertiary color
-    }, {
-      type: 'column',
-      name: 'Research Founding Organisations without Policy',
+      name: 'Research Funding Organisations without Policy',
       data: [],
       color: '#515252' // Additional color
     }
@@ -63,14 +66,8 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
         this.countriesArray = value; // FIXME: Need the number of countries at that year!
         this.years.forEach((year, index) => {
           this.getCountriesWithPolicy(year, index);
-        });
-        this.years.forEach((year, index) => {
           this.getTotalFairInvestments(year, index);
-        });
-        this.years.forEach((year, index) => {
           this.getCountriesWithFinancialStrategy(year, index);
-        });
-        this.years.forEach((year, index) => {
           this.getNationalMonitoring(year, index);
         });
       },
@@ -129,43 +126,31 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       this.queryData.getQuestion(year, 'Question17'),  // research funding organisations with policy on FAIR data
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value =>  {
-        this.createStackedColumnSeries(value);
-        if (this.years.length === index+1)
-          this.stackedColumnSeries = [...this.stackedColumnSeries];
+        this.createStackedColumnSeries([value[0], value[2]], this.stackedColumnSeries1);
+        this.createStackedColumnSeries([value[1], value[3]], this.stackedColumnSeries2);
+        if (this.years.length === index+1) {
+          this.stackedColumnSeries1 = [...this.stackedColumnSeries1];
+          this.stackedColumnSeries2 = [...this.stackedColumnSeries2];
+        }
       }
     });
   }
 
-  createStackedColumnSeries(data: RawData[]) {
-    let RPOCount = 0;
-    let RPOCountWithPolicy = 0;
-    let RFOCount = 0;
-    let RFOCountWithPolicy = 0;
-
+  createStackedColumnSeries(data: RawData[], series: Highcharts.SeriesColumnOptions[]) {
+    let orgCount = 0;
+    let orgCountWithPolicy = 0;
     data[0].datasets[0].series.result.forEach((result) => {
       if (this.isNumeric(result.row[1]))
-        RPOCount += +result.row[1];
+        orgCount += +result.row[1];
     });
 
     data[1].datasets[0].series.result.forEach((result) => {
       if (this.isNumeric(result.row[1]))
-        RFOCount += +result.row[1];
+        orgCountWithPolicy += +result.row[1];
     });
 
-    data[2].datasets[0].series.result.forEach((result) => {
-      if (this.isNumeric(result.row[1]))
-        RPOCountWithPolicy += +result.row[1];
-    });
-
-    data[3].datasets[0].series.result.forEach((result) => {
-      if (this.isNumeric(result.row[1]))
-        RFOCountWithPolicy += +result.row[1];
-    });
-
-    this.stackedColumnSeries[0].data.push(Math.round(((RPOCountWithPolicy/RPOCount) + Number.EPSILON) * 100));
-    this.stackedColumnSeries[1].data.push(Math.round(((RFOCountWithPolicy/RFOCount) + Number.EPSILON) * 100));
-    this.stackedColumnSeries[2].data.push(Math.round((((RPOCount-RPOCountWithPolicy)/RPOCount) + Number.EPSILON) * 100));
-    this.stackedColumnSeries[3].data.push(Math.round((((RFOCount-RFOCountWithPolicy)/RFOCount) + Number.EPSILON) * 100));
+    series[0].data.push(Math.round(((orgCountWithPolicy/orgCount) + Number.EPSILON) * 100));
+    series[1].data.push(Math.round((((orgCount-orgCountWithPolicy)/orgCount) + Number.EPSILON) * 100));
   }
   /** <---------------------------------------------------------------------------------------- Stacked column chart **/
 
