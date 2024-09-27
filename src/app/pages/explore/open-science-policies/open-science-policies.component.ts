@@ -21,6 +21,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   countriesArray: string[] = [];
+  years = ['2022', '2023']
   year = '2022';
 
   barChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills/Training', 'Incentives/Rewards for OS', 'Citizen Science'];
@@ -47,15 +48,15 @@ export class OpenSciencePoliciesComponent implements OnInit {
       error: err => console.error(err)
     });
 
-    ['2022', '2023'].forEach(year => {
-      this.getBarChartData(year);
+    this.years.forEach((year, index) => {
+      this.getBarChartData(year, index);
     });
     this.getBubbleChartData();
     this.getTableData();
   }
 
   /** Bar chart ---------------------------------------------------------------------------------------------------> **/
-  getBarChartData(year: string) {
+  getBarChartData(year: string, index: number) {
     zip(
       this.queryData.getQuestion(year, 'Question6'),   // national policy on open access publications
       this.queryData.getQuestion(year, 'Question14'),  // national policy on FAIR data
@@ -72,7 +73,10 @@ export class OpenSciencePoliciesComponent implements OnInit {
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
-        this.barChartSeries = [...this.barChartSeries, this.createBarChartSeries(value, year)];
+        this.barChartSeries.push(this.createBarChartSeries(value, year));
+
+        if (this.years.length === index+1)
+          this.barChartSeries = [...this.barChartSeries];
       },
       error: err => {console.error(err)}
     });

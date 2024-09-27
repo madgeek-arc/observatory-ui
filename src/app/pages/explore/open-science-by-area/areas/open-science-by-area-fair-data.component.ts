@@ -9,6 +9,7 @@ import { StakeholdersService } from "../../../../../survey-tool/app/services/sta
 @Component({
   selector: 'app-open-science-by-area-fair-data',
   templateUrl: './open-science-by-area-fair-data.component.html',
+  styleUrls: ['../../../../../assets/css/explore-dashboard.scss']
 })
 
 export class OpenScienceByAreaFairDataComponent implements OnInit {

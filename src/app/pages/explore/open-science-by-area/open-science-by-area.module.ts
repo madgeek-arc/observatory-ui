@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import {OpenScienceByAreaComponent} from "./open-science-by-area.component";
 import {
   ReusableComponentsModule
@@ -28,6 +28,7 @@ import { OpenScienceByAreaDataManagementComponent } from "./areas/open-science-b
     ReusableComponentsModule,
     OpenScienceByAreaRouting,
     HighchartsChartModule,
+    NgOptimizedImage,
   ],
   providers: [
     DataService,
