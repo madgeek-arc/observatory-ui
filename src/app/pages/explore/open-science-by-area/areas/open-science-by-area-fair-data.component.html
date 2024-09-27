@@ -33,17 +33,21 @@
           <div class="number big">
             <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
           </div>
-          <div class="uk-margin-top uk-flex uk-flex-middle uk-width-1-1">
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
             <ng-container *ngIf="countriesWithPolicy[1] > countriesWithPolicy[0]; else policyDown">
-              <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
-              <span class="percentage-up-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}</span>% vs last year
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; vs last year
+              </div>
               <div class="uk-flex uk-flex-right">
                 <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
               </div>
             </ng-container>
             <ng-template #policyDown>
-              <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-              <span class="percentage-down-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}</span>% vs last year
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; vs last year
+              </div>
               <div class="uk-flex uk-flex-right">
                 <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
               </div>
