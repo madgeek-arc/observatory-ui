@@ -207,7 +207,8 @@ export class OpenScienceByAreaDataManagementComponent {
       if (this.isNumeric(item.row[1]))
         sum += +item.row[1];
     });
-    return sum;
+
+    return Math.round(sum * 100) / 100;
   }
 
 }
