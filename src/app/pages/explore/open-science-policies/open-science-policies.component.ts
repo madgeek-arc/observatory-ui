@@ -3,9 +3,9 @@ import { SeriesBarOptions, SeriesBubbleOptions, SeriesOptionsType } from "highch
 import { zip } from "rxjs/internal/observable/zip";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
-import {RawData, Row} from "../../../../survey-tool/app/domain/raw-data";
+import { RawData, Row } from "../../../../survey-tool/app/domain/raw-data";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
-import {countriesNumbers} from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
+import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { DataHandlerService } from "../../services/data-handler.service";
 import { countries } from "../../../../survey-tool/app/domain/countries";
 
@@ -21,12 +21,13 @@ export class OpenSciencePoliciesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   countriesArray: string[] = [];
-  years = ['2022', '2023']
+  years = ['2022', '2023'];
   year = '2022';
 
   barChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills/Training', 'Incentives/Rewards for OS', 'Citizen Science'];
 
   barChartSeries: SeriesOptionsType[] = [];
+  barChart2Series: SeriesOptionsType[] = [];
 
   barChartTitles = {
     // title: 'Percentage of countries with national policies different Open Science Categories',
@@ -50,12 +51,13 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
     this.years.forEach((year, index) => {
       this.getBarChartData(year, index);
+      this.getFinancialBarChartData(year, index);
     });
     this.getBubbleChartData();
     this.getTableData();
   }
 
-  /** Bar chart ---------------------------------------------------------------------------------------------------> **/
+  /** Bar charts ---------------------------------------------------------------------------------------------------> **/
   getBarChartData(year: string, index: number) {
     zip(
       this.queryData.getQuestion(year, 'Question6'),   // national policy on open access publications
@@ -82,6 +84,32 @@ export class OpenSciencePoliciesComponent implements OnInit {
     });
   }
 
+  getFinancialBarChartData(year: string, index: number) {
+    zip(
+      this.queryData.getQuestion(year, 'Question7'),  // Publications
+      this.queryData.getQuestion(year, 'Question15'), // FAIR-data
+      this.queryData.getQuestion(year, 'Question11'), // Data-management
+      this.queryData.getQuestion(year, 'Question19'), // Open-data
+      this.queryData.getQuestion(year, 'Question23'), // Software
+      this.queryData.getQuestion(year, 'Question27'), // Services
+      this.queryData.getQuestion(year, 'Question31'), // Connecting repositories to EOSC
+      this.queryData.getQuestion(year, 'Question35'), // Data stewardship
+      this.queryData.getQuestion(year, 'Question39'),// Long-term data preservation
+      this.queryData.getQuestion(year, 'Question43'),// Skills/Training
+      this.queryData.getQuestion(year, 'Question47'),// Assessment
+      this.queryData.getQuestion(year, 'Question51'), // Engagement
+    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        // console.log(value);
+        this.barChart2Series.push(this.createBarChartSeries(value, year));
+
+        if (this.years.length === index+1)
+          this.barChart2Series = [...this.barChart2Series];
+      },
+      error: err => {console.error(err)}
+    });
+  }
+
   createBarChartSeries(data: RawData[], year: string) {
     let series: SeriesBarOptions = {
       type: 'bar',
@@ -95,7 +123,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
         if (item.row[1] === 'Yes')
           count++;
       });
-      series.data.push(Math.round(((count/this.countriesArray.length + Number.EPSILON) * 100)));
+      series.data.push(Math.round(((count/el.datasets[0].series.result.length + Number.EPSILON) * 100)));
     });
     return series;
   }
