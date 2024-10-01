@@ -19,6 +19,37 @@
 
     <div class="uk-child-width-1-3 uk-grid-match uk-grid-row-medium uk-flex-center" uk-grid>
 
+      <div *ngIf="OAPublications.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of <strong>OA Publication in Europe</strong> (OA vs Closed)</p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ OAPublications[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="OAPublications[1] >= OAPublications[0]; else pubsDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(OAPublications[0] - OAPublications[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #pubsDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(OAPublications[0] - OAPublications[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
       <div *ngIf="countriesWithPolicy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
@@ -155,8 +186,11 @@
     <h5>Trend of Open Access Publications</h5>
 
     <div class="uk-grid uk-margin-medium-top">
-      <div class="uk-width-2-3" style="height: 450px">
-        Coming soon...
+      <div class="uk-width-2-3" style="height: 500px">
+        <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend" [series]="stackedColumnSeries"
+                            [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
+                            [dataLabels]="false">
+        </app-stacked-column>
       </div>
       <div class="uk-width-1-3">
         <h6>Understanding the data</h6>

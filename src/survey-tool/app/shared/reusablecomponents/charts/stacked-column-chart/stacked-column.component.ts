@@ -17,6 +17,7 @@ export class StackedColumnComponent implements OnChanges {
   @Input() yAxisMax: number = null;
   @Input() yAxisLabelsFormat: string = null;
   @Input() stackLabels: boolean = true;
+  @Input() dataLabels: boolean = true;
   @Input() pointFormat: string = null;
   @Input() plotFormat: string = null;
   @Input() legend = null;
@@ -52,7 +53,20 @@ export class StackedColumnComponent implements OnChanges {
     },
     tooltip: {
       headerFormat: '<b>{point.x}</b><br/>',
-      pointFormat: this.pointFormat
+      pointFormat: this.pointFormat,
+      // Custom formatter to dynamically apply pointFormat and format numbers
+      formatter: function () {
+        let formattedHeaderFormat = this.series.chart.options.tooltip.headerFormat
+          .replace('{point.x}', this.key);  // `this.key` corresponds to the x-axis category
+
+        // Replace point.y and point.total with formatted values
+        let formattedPointFormat = this.series.chart.options.tooltip.pointFormat
+          .replace('{point.y}', Highcharts.numberFormat(this.point.y, 0, '.', ','))
+          .replace('{point.total}', Highcharts.numberFormat(this.point.total, 0, '.', ','))
+          .replace('{series.name}', this.series.name);
+
+        return formattedHeaderFormat + formattedPointFormat;
+      }
     },
     plotOptions: {
       column: {
@@ -120,6 +134,7 @@ export class StackedColumnComponent implements OnChanges {
         plotOptions: {
           column: {
             dataLabels: {
+              enabled: this.dataLabels,
               format: this.plotFormat || undefined
             }
           }

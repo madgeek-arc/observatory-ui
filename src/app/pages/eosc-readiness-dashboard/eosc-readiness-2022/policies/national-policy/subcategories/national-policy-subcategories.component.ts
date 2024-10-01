@@ -165,9 +165,9 @@ export class NationalPolicySubcategoriesComponent implements OnInit{
       this.stakeholdersService.getEOSCSBCountries(),
       // this.queryData.getQuestion30(),
       this.queryData.getQuestion(this.year, 'Question30'),
-      this.queryData.getQuestion30_1(),
+      // this.queryData.getQuestion30_1(),
       this.queryData.getQuestion(this.year, 'Question30.1'),
-      this.queryData.getQuestion30comment(),
+      // this.queryData.getQuestion30comment(),
       this.queryData.getQuestionComment(this.year, 'Question30'),
     ).subscribe(
       res => {

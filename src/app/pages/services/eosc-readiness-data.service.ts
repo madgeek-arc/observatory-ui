@@ -1,8 +1,8 @@
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Injectable} from "@angular/core";
-import {environment} from "../../../environments/environment";
-import {Observable} from "rxjs";
-import {RawData} from "../../../survey-tool/app/domain/raw-data";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { environment } from "../../../environments/environment";
+import { Observable } from "rxjs";
+import { Data, RawData } from "../../../survey-tool/app/domain/raw-data";
 
 
 const headerOptions = {
@@ -18,8 +18,7 @@ export class EoscReadinessDataService {
   private OSOStatsAPIURL = environment.OSO_STATS_API_ENDPOINT + 'raw?json=';
   private osoProfileName = environment.osoStatsProfileName;
 
-  constructor(private httpClient: HttpClient) {
-  }
+  constructor(private httpClient: HttpClient) {}
 
   // ======= DYNAMIC ========
   getQuestion(year: string, name: string): Observable<RawData> {
@@ -30,6 +29,12 @@ export class EoscReadinessDataService {
   getQuestionComment(year: string, name: string): Observable<RawData> {
     const query: string = `{"series":[{"query":{"name":"eosc.sb.${year}.${name}.comment","profile":"${this.profileName}"}}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
+  // ======= EXPLORE =======
+
+  getOSOStats(JSONString: string): Observable<Data> {
+    return this.httpClient.get<Data>(this.OSOStatsAPIURL + encodeURIComponent(JSONString), headerOptions);
   }
 
   // ======= GENERAL ========

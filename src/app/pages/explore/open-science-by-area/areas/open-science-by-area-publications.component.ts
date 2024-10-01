@@ -2,9 +2,9 @@ import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
+import { OAPublicationVSClosed, trendOfOAPublications } from "../../OSO-stats-queries/explore-queries";
+import * as Highcharts from "highcharts";
 
-
-// declare var UIkit;
 
 @Component({
   selector: 'app-open-science-by-area-publications',
@@ -19,14 +19,61 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
 
   years = ['2022', '2023'];
 
+  stackedColumnCategories = ['2020', '2021', '2022', '2023', '2024'];
+  stackedColumnSeries = [
+    {
+      type: 'column',
+      name: 'Gold OA only',
+      data: [],
+      color: '#FFD700' // Gold color
+    }, {
+      type: 'column',
+      name: 'Green OA only',
+      data: [],
+      color: '#228B22' // Forest green color
+    }, {
+      type: 'column',
+      name: 'Both Gold & Green OA',
+      data: [],
+      color: '#FF69B4' // Hot pink color for mixed category
+    }, {
+      type: 'column',
+      name: 'Neither',
+      data: [],
+      color: '#b0c4de'
+    }, {
+      type: 'column',
+      name: 'Closed',
+      data: [],
+      color: '#808080' // Grey color
+    }
+  ] as Highcharts.SeriesColumnOptions[];
+  yAxisTitle = 'Number of Publications'
+  legend = {
+    align: 'right',
+    x: -30,
+    verticalAlign: 'top',
+    y: -10,
+    floating: true,
+    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
+    borderColor: '#CCC',
+    borderWidth: 1,
+    shadow: false
+  };
+  tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
+
   countriesWithPolicy: number[] = [];
   countriesWithStrategy: number[] = [];
   countriesWithMonitoring: number[] = [];
   totalInvestments: number[] = [];
+  OAPublications: number[] = [];
 
   constructor(private queryData: EoscReadinessDataService) {}
 
   ngOnInit() {
+    this.getPublicationPercentage();
+    this.getTrends();
+
     this.years.forEach((year, index) => {
       this.getCountriesWithPolicy(year, index);
       this.getTotalInvestments(year, index);
@@ -34,9 +81,33 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
       this.getNationalMonitoring(year, index);
       // this.getPlans(year, index);
     });
+
   }
 
+  /** Get trends of Publications ----------------------------------------------------------------------------------> **/
+  getTrends() {
+    this.queryData.getOSOStats(trendOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        value.data.forEach((item, index) => {
+          item.forEach(el => {
+            this.stackedColumnSeries[index].data.push(+el[0]);
+          });
+        });
+        // console.log(this.stackedColumnSeries);
+        this.stackedColumnSeries = [...this.stackedColumnSeries];
+      }
+    });
+  }
 
+  /** Get OA VS closed, restricted and embargoed Publications ---------------------------------------------------  > **/
+  getPublicationPercentage() {
+    this.queryData.getOSOStats(OAPublicationVSClosed()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        this.OAPublications[0] = (Math.round((+value.data[2]/+value.data[3] + Number.EPSILON) * 100));
+        this.OAPublications[1] = (Math.round((+value.data[0]/+value.data[1] + Number.EPSILON) * 100));
+      }
+    });
+  }
 
   /** Get national monitoring on Publications -------------------------------------------------------------------  > **/
   getNationalMonitoring(year: string, index: number) {

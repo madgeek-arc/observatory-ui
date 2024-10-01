@@ -25,3 +25,7 @@ export class Query {
 export class Row {
   row: string[];
 }
+
+export class Data {
+  data: [][] = [];
+}
