@@ -4,19 +4,19 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
 
 @Component({
-  selector: 'app-open-science-by-area-citizen-science',
-  templateUrl: './open-science-by-area-citizen-science.component.html',
+  selector: 'app-open-science-by-area-software',
+  templateUrl: './open-science-by-area-software.component.html',
   styleUrls: ['../../../../../assets/css/explore-dashboard.scss']
 })
 
-export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
+export class OpenScienceByAreaSoftwareComponent implements OnInit {
   protected readonly Math = Math;
 
   private destroyRef = inject(DestroyRef);
 
   years = ['2022', '2023'];
 
-  citizenProjects: number[] = [];
+  sets: number[] = [];
   countriesWithPolicy: number[] = [];
   countriesWithStrategy: number[] = [];
   countriesWithMonitoring: number[] = [];
@@ -30,52 +30,52 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
       this.getTotalInvestments(year, index);
       this.getCountriesWithFinancialStrategy(year, index);
       this.getNationalMonitoring(year, index);
-      this.getCitizenScienceProjects(year, index);
+      this.getSets(year, index);
     });
   }
 
-
-  /** Get national monitoring on Citizen science ------------------------------------------------------------------> **/
+  /** Get national monitoring on sopen source software ------------------------------------------------------------> **/
   getNationalMonitoring(year: string, index: number) {
-    this.queryData.getQuestion(year, 'Question98').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getQuestion(year, 'Question70').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.countriesWithMonitoring[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
       }
     });
   }
 
-  /** Get financial strategy on Citizen science -------------------------------------------------------------------> **/
+  /** Get financial strategy on open source software --------------------------------------------------------------> **/
   getCountriesWithFinancialStrategy(year: string, index: number) {
-    this.queryData.getQuestion(year, 'Question51').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getQuestion(year, 'Question23').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.countriesWithStrategy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
+        console.log(this.countriesWithStrategy);
       }
     });
   }
 
-  /** Get investments in Citizen science --------------------------------------------------------------------------> **/
+  /** Get investments in open source software ---------------------------------------------------------------------> **/
   getTotalInvestments(year: string, index: number) {
-    this.queryData.getQuestion(year, 'Question100').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getQuestion(year, 'Question72').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.totalInvestments[index] = this.calculateSum(value);
       }
     });
   }
 
-  /** Get countries with policy on Citizen science percentage -----------------------------------------------------> **/
+  /** Get countries with policy on open source software -----------------------------------------------------------> **/
   getCountriesWithPolicy(year: string, index: number) {
-    this.queryData.getQuestion(year, 'Question50').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getQuestion(year, 'Question22').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.countriesWithPolicy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
       }
     });
   }
 
-  /** Get projects with a citizen science dimension count -------------------------------------------------------- > **/
-  getCitizenScienceProjects(year: string, index: number) {
-    this.queryData.getQuestion(year, 'Question101').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+  /** Get how many open source software sets were published -------------------------------------------------------> **/
+  getSets(year: string, index: number) {
+    this.queryData.getQuestion(year, 'Question73').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.citizenProjects[index] = this.calculateSum(value);
+        this.sets[index] = this.calculateSum(value);
       }
     });
   }

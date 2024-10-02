@@ -26,16 +26,16 @@
       <div *ngIf="countriesWithPlans.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Number of <strong>Number of published Data Management Plans</strong> in EU Countries</p>
+            <p>Number of <strong>published Data Management Plans</strong> in EU Countries</p>
           </div>
-          <div class="number big">
-            <span class="uk-text-bold">{{ countriesWithPlans[1] }}%</span>
+          <div class="">
+            <span class="uk-text-bold"><span class="number big">{{ countriesWithPlans[1] }}</span> DMP </span>
           </div>
           <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
             <ng-container *ngIf="countriesWithPlans[1] >= countriesWithPlans[0]; else policyDown">
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
-                <span class="percentage-up-color">{{ Math.abs(countriesWithPlans[0] - countriesWithPlans[1]) }}%</span>&nbsp; vs last year
+                <span class="percentage-up-color">{{ calculatePercentageChange(countriesWithPlans) }}%</span>&nbsp; vs last year
               </div>
               <div>
                 <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
@@ -44,7 +44,7 @@
             <ng-template #policyDown>
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                <span class="percentage-down-color">{{ Math.abs(countriesWithPlans[0] - countriesWithPlans[1]) }}%</span>&nbsp; vs last year
+                <span class="percentage-down-color">{{ calculatePercentageChange(countriesWithPlans) }}%</span>&nbsp; vs last year
               </div>
               <div>
                 <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
@@ -178,6 +178,10 @@
         </div>
       </div>
 
+    </div>
+
+    <div class="uk-flex uk-flex-center uk-margin-top">
+      <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science.
     </div>
 
   </div>

@@ -3,26 +3,31 @@
 
     <ul class="uk-breadcrumb">
       <li><a [routerLink]="['/explore/open-science-by-area']">Open Science by Area</a></li>
-      <li><span aria-current="page">Open Data</span></li>
+      <li><span aria-current="page">Training for Open Science</span></li>
     </ul>
-
-    <h4>Open Science by Area</h4>
-    <h5>Open Data</h5>
-    <p>The European Union defines Open Data as the information collected, produced, or paid for by public bodies which is made freely available for anyone to reuse for any purpose. This data is typically provided under an open license and in a convenient, modifiable form that is machine-readable. Open Data policies in the EU are aimed at increasing transparency, fostering innovation, and enhancing public access to valuable information, thereby promoting economic growth and social welfare​ (source: Publications Office of the EU).The graphic below offers a comprehensive overview of key metrics that monitor the advancement of Open Data initiatives and policies across Europe. Understanding these indicators is essential for assessing the degree to which Europe is embracing and implementing Open Data and Open Science principles.</p>
 
   </div>
 </div>
 
 <div class="uk-section uk-section-small uk-margin-top">
   <div class="uk-container uk-container-expand">
-    <h5>General Overview of Open Data in Europe for 2023</h5>
+    <h4>Open Science by Area</h4>
+    <h5>Training for Open Science</h5>
+    <p>Training is essential for the successful adoption of Open Science, equipping key stakeholders with the skills to implement open practices, share research outputs, and foster global collaboration. This page offers an overview of skills and training initiatives in Europe, including policies, financial investments, and strategies from the Survey on National Contributions to EOSC and Open Science.</p>
+  </div>
+</div>
+
+
+<div class="uk-section uk-section-small uk-margin-top">
+  <div class="uk-container uk-container-expand">
+    <h5>General Overview of Data Management in Europe for 2023</h5>
 
     <div class="uk-child-width-1-3 uk-grid-match uk-grid-row-medium uk-flex-center" uk-grid>
 
       <div *ngIf="countriesWithPolicy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of <strong>EU Countries with Policy on Open Data</strong></p>
+            <p>Percentage of <strong>EU Countries with Policy on Connecting repositories to EOSC</strong></p>
           </div>
           <div class="number big">
             <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
@@ -53,7 +58,7 @@
       <div *ngIf="totalInvestments.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Total amount of <strong>financial investments</strong> in Open Data</p>
+            <p>Total amount of <strong>financial investments</strong> in connecting repositories to EOSC</p>
           </div>
           <div class="number big">
             <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
@@ -84,7 +89,7 @@
       <div *ngIf="countriesWithStrategy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of <strong>EU Countries with Financial Strategy on Open Data</strong></p>
+            <p>Percentage of <strong>EU Countries with Financial Strategy on connecting repositories to EOSC</strong></p>
           </div>
           <div class="number big">
             <span class="uk-text-bold">{{ countriesWithStrategy[1] }}%</span>
@@ -115,7 +120,7 @@
       <div *ngIf="countriesWithMonitoring.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of EU Countries with National Open Data <strong>Monitoring Initiatives</strong></p>
+            <p>Percentage of EU Countries with <strong>Monitoring Initiatives</strong> on connecting repositories to EOSC</p>
           </div>
           <div class="number big">
             <span class="uk-text-bold">{{ countriesWithMonitoring[1] }}%</span>
@@ -147,60 +152,6 @@
 
     <div class="uk-flex uk-flex-center uk-margin-top">
       <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science.
-    </div>
-
-  </div>
-</div>
-
-<div class="uk-section uk-section-small uk-margin-top">
-  <div class="uk-container uk-container-expand">
-    <h5>Trend of Open Data</h5>
-
-    <div class="uk-grid uk-margin-medium-top">
-      <div class="uk-width-2-3" style="height: 450px">
-        Coming soon...
-      </div>
-      <div class="uk-width-1-3">
-        <h6>Understanding the data</h6>
-        <p>The graph provides a comprehensive view of how data accessibility has evolved from 2015 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of open data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>
-        <p><strong>Data Source: </strong> OpenAIRE Graph.</p>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div class="uk-section uk-section-small uk-margin-top">
-  <div class="uk-container uk-container-expand">
-    <h5>Distribution of Open Data Types by Different Document Type</h5>
-
-    <div class="uk-grid uk-margin-medium-top">
-      <div class="uk-width-2-3" style="height: 450px">
-        Coming soon...
-      </div>
-      <div class="uk-width-1-3">
-        <h6>Understanding the data</h6>
-        <p>The  graph illustrates how open data is implemented across various types of documents. It segments the open data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each colored according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance  accessibility and foster a more transparent, reproducible and inclusive science.</p>
-        <p><strong>Data Source: </strong> OpenAIRE Graph. data for 2023</p>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div class="uk-section uk-section-small uk-margin-top">
-  <div class="uk-container uk-container-expand">
-    <h5>Distribution of Open Data Types by Field of Science</h5>
-
-    <div class="uk-grid uk-margin-medium-top">
-      <div class="uk-width-2-3" style="height: 450px">
-        Coming soon...
-      </div>
-      <div class="uk-width-1-3">
-        <h6>Understanding the data</h6>
-        <p>The graph displays a treemap visualization of the distribution of Open Data practices across various fields of science, such as Medical and Health Sciences, Social Sciences, Engineering and Technology, Natural Science, Humanities, and Agricultural Sciences. Each segment's size and color represent the proportion of Open Data activities, including Open, Restricted, Closed, and Embargo data access within that field. This visualization serves as a visual index to help understand how different scientific disciplines engage with Open Data principles, indicating the relative openness and restrictions in data sharing practices within each area.</p>
-        <p><strong>Data Source: </strong> OpenAIRE Graph. data for 2023</p>
-      </div>
     </div>
 
   </div>

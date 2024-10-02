@@ -1,0 +1,189 @@
+<div class="uk-section uk-section-small">
+  <div class="uk-container uk-container-expand">
+
+    <ul class="uk-breadcrumb">
+      <li><a [routerLink]="['/explore/open-science-by-area']">Open Science by Area</a></li>
+      <li><span aria-current="page">Citizen Science</span></li>
+    </ul>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top">
+  <div class="uk-container uk-container-expand">
+    <h4>Open Science by Area</h4>
+    <h5>Citizen Science</h5>
+    <p>Citizen Science involves public participation and collaboration in scientific research to increase the accessibility, transparency, and democratization of knowledge creation. The aim is to foster innovative discoveries by combining the efforts of scientists with contributions from citizens. This page provides an overview of Citizen Science in Europe, featuring key data from the Survey on National Contributions to EOSC and Open Science. The data highlights progress and engagement in Citizen Science, supporting broader Open Science goals.</p>
+  </div>
+</div>
+
+
+<div class="uk-section uk-section-small uk-margin-top">
+  <div class="uk-container uk-container-expand">
+    <h5>General Overview of Data Management in Europe for 2023</h5>
+
+    <div class="uk-child-width-1-3 uk-grid-match uk-grid-row-medium uk-flex-center" uk-grid>
+
+      <div *ngIf="citizenProjects.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Number of <strong>new Citizen Science project</strong> in EU Countries</p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ citizenProjects[1] }} projects</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="citizenProjects[1] >= citizenProjects[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ calculatePercentageChange(citizenProjects) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ calculatePercentageChange(citizenProjects) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="countriesWithPolicy.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of <strong>EU Countries with Policy on Citizen Science</strong></p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="countriesWithPolicy[1] >= countriesWithPolicy[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="totalInvestments.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Total amount of <strong>financial investments</strong> in Citizen Science</p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="totalInvestments[1] >= totalInvestments[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="countriesWithStrategy.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of <strong>EU Countries with Financial Strategy on Citizen Science</strong></p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ countriesWithStrategy[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="countriesWithStrategy[1] >= countriesWithStrategy[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="countriesWithMonitoring.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of EU Countries with Citizen Science <strong>Monitoring Initiatives</strong></p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ countriesWithMonitoring[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="countriesWithMonitoring[1] >= countriesWithMonitoring[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="uk-flex uk-flex-center uk-margin-top">
+      <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science.
+    </div>
+
+  </div>
+</div>

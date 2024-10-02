@@ -4,19 +4,18 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
 
 @Component({
-  selector: 'app-open-science-by-area-citizen-science',
-  templateUrl: './open-science-by-area-citizen-science.component.html',
+  selector: 'app-open-science-by-area-training',
+  templateUrl: './open-science-by-area-training.component.html',
   styleUrls: ['../../../../../assets/css/explore-dashboard.scss']
 })
 
-export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
+export class OpenScienceByAreaTrainingComponent implements OnInit {
   protected readonly Math = Math;
 
   private destroyRef = inject(DestroyRef);
 
   years = ['2022', '2023'];
 
-  citizenProjects: number[] = [];
   countriesWithPolicy: number[] = [];
   countriesWithStrategy: number[] = [];
   countriesWithMonitoring: number[] = [];
@@ -30,52 +29,42 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
       this.getTotalInvestments(year, index);
       this.getCountriesWithFinancialStrategy(year, index);
       this.getNationalMonitoring(year, index);
-      this.getCitizenScienceProjects(year, index);
     });
   }
 
 
-  /** Get national monitoring on Citizen science ------------------------------------------------------------------> **/
+  /** Get national monitoring on skills/training for OS -----------------------------------------------------------> **/
   getNationalMonitoring(year: string, index: number) {
-    this.queryData.getQuestion(year, 'Question98').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getQuestion(year, 'Question90').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.countriesWithMonitoring[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
       }
     });
   }
 
-  /** Get financial strategy on Citizen science -------------------------------------------------------------------> **/
+  /** Get financial strategy on skills/training for OS ------------------------------------------------------------> **/
   getCountriesWithFinancialStrategy(year: string, index: number) {
-    this.queryData.getQuestion(year, 'Question51').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getQuestion(year, 'Question43').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.countriesWithStrategy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
       }
     });
   }
 
-  /** Get investments in Citizen science --------------------------------------------------------------------------> **/
+  /** Get investments in skills/training for OS -------------------------------------------------------------------> **/
   getTotalInvestments(year: string, index: number) {
-    this.queryData.getQuestion(year, 'Question100').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getQuestion(year, 'Question92').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.totalInvestments[index] = this.calculateSum(value);
       }
     });
   }
 
-  /** Get countries with policy on Citizen science percentage -----------------------------------------------------> **/
+  /** Get countries with policy on skills/training for OS ---------------------------------------------------------> **/
   getCountriesWithPolicy(year: string, index: number) {
-    this.queryData.getQuestion(year, 'Question50').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getQuestion(year, 'Question42').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.countriesWithPolicy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
-      }
-    });
-  }
-
-  /** Get projects with a citizen science dimension count -------------------------------------------------------- > **/
-  getCitizenScienceProjects(year: string, index: number) {
-    this.queryData.getQuestion(year, 'Question101').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: value => {
-        this.citizenProjects[index] = this.calculateSum(value);
       }
     });
   }

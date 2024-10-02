@@ -3,44 +3,49 @@
 
     <ul class="uk-breadcrumb">
       <li><a [routerLink]="['/explore/open-science-by-area']">Open Science by Area</a></li>
-      <li><span aria-current="page">Publications</span></li>
+      <li><span aria-current="page">Repositories</span></li>
     </ul>
-
-    <h4>Open Science by Area</h4>
-    <h5>Open Access Publications</h5>
-    <p>Open Access (OA) represents a transformative approach within the scholarly communication landscape, aiming to make research outputs freely accessible to all, without subscription or price barriers. The graphics below provides a high-level overview of key indicators tracking the progress of OA publishing and policies in Europe. Understanding these indicators provides critical insights into how well Europe is adopting and integrating OA and Open Science principles. By evaluating the extent of OA publications, the impact of policy, financial investments, and monitoring efforts, stakeholders can identify strengths and areas for improvement in the European landscape and thus contribute towards more accessible knowledge.</p>
 
   </div>
 </div>
 
 <div class="uk-section uk-section-small uk-margin-top">
   <div class="uk-container uk-container-expand">
-    <h5>General Overview of Open Data in Europe for 2023</h5>
+    <h4>Open Science by Area</h4>
+    <h5>Repositories</h5>
+    <p>Repositories are essential for the uptake and advancement of Open Science, providing secure platforms for storing, sharing, and preserving research outputs in line with FAIR principles. They promote transparency, reproducibility, and collaboration while supporting long-term knowledge preservation. By connecting national and regional research systems, repositories play a key role in advancing Open Science and contributing to the EOSC. This page provides an overview of the state of repositories in Europe based on the data from the Survey on National Contributions to EOSC and Open Science.</p>
+  </div>
+</div>
+
+
+<div class="uk-section uk-section-small uk-margin-top">
+  <div class="uk-container uk-container-expand">
+    <h5>General Overview of Data Management in Europe for 2023</h5>
 
     <div class="uk-child-width-1-3 uk-grid-match uk-grid-row-medium uk-flex-center" uk-grid>
 
-      <div *ngIf="OAPublications.length === 2">
+      <div *ngIf="repositories.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of <strong>OA Publication in Europe</strong> (OA vs Closed)</p>
+            <p>Number of <strong>repositories offered long-term preservation</strong> in EU Countries</p>
           </div>
           <div class="number big">
-            <span class="uk-text-bold">{{ OAPublications[1] }}%</span>
+            <span class="uk-text-bold">{{ repositories[1] }} repositories</span>
           </div>
           <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-            <ng-container *ngIf="OAPublications[1] >= OAPublications[0]; else pubsDown">
+            <ng-container *ngIf="repositories[1] >= repositories[0]; else repositoriesDown">
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
-                <span class="percentage-up-color">{{ Math.abs(OAPublications[0] - OAPublications[1]) }}%</span>&nbsp; vs last year
+                <span class="percentage-up-color">{{ calculatePercentageChange(repositories) }}%</span>&nbsp; vs last year
               </div>
               <div>
                 <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
               </div>
             </ng-container>
-            <ng-template #pubsDown>
+            <ng-template #repositoriesDown>
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                <span class="percentage-down-color">{{ Math.abs(OAPublications[0] - OAPublications[1]) }}%</span>&nbsp; vs last year
+                <span class="percentage-down-color">{{ calculatePercentageChange(repositories) }}%</span>&nbsp; vs last year
               </div>
               <div>
                 <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
@@ -53,7 +58,7 @@
       <div *ngIf="countriesWithPolicy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of <strong>EU Countries with Policy on OA Publication</strong></p>
+            <p>Percentage of <strong>EU Countries with Policy on Connecting repositories to EOSC</strong></p>
           </div>
           <div class="number big">
             <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
@@ -84,7 +89,7 @@
       <div *ngIf="totalInvestments.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Total amount of <strong>financial investments</strong> in OA Publication</p>
+            <p>Total amount of <strong>financial investments</strong> in connecting repositories to EOSC</p>
           </div>
           <div class="number big">
             <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
@@ -115,7 +120,7 @@
       <div *ngIf="countriesWithStrategy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of <strong>EU Countries with Financial Strategy on OA Publication</strong></p>
+            <p>Percentage of <strong>EU Countries with Financial Strategy on connecting repositories to EOSC</strong></p>
           </div>
           <div class="number big">
             <span class="uk-text-bold">{{ countriesWithStrategy[1] }}%</span>
@@ -146,7 +151,7 @@
       <div *ngIf="countriesWithMonitoring.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of EU Countries with National OA Publication <strong>Monitoring Initiatives</strong></p>
+            <p>Percentage of EU Countries with <strong>Monitoring Initiatives</strong> on connecting repositories to EOSC</p>
           </div>
           <div class="number big">
             <span class="uk-text-bold">{{ countriesWithMonitoring[1] }}%</span>
@@ -178,73 +183,6 @@
 
     <div class="uk-flex uk-flex-center uk-margin-top">
       <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science.
-    </div>
-
-  </div>
-</div>
-
-
-
-<div class="uk-section uk-section-small uk-margin-top">
-  <div class="uk-container uk-container-expand">
-    <h5>Trend of Open Access Publications</h5>
-
-    <div class="uk-grid uk-margin-medium-top">
-      <div class="uk-width-2-3" style="height: 500px">
-        <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend" [series]="stackedColumnSeries"
-                            [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
-                            [dataLabels]="false">
-        </app-stacked-column>
-      </div>
-      <div class="uk-width-1-3">
-        <h6>Understanding the data</h6>
-        <p>The graph provides a detailed view of the evolution of OA publication types from 2015 to 2024. It displays the annual distribution of publications according to their access type. Each bar in the graph represents the total number of publications for a given year, segmented by these categories.</p>
-        <ul>
-          <li><p><span class="uk-text-bold">Gold OA only:</span> Publications that are available via Open Access without any embargo period, typically involving processing fees.</p></li>
-          <li><p><span class="uk-text-bold">Green OA only:</span> Publications that are made freely accessible in a repository, possibly after an embargo period.</p></li>
-          <li><p><span class="uk-text-bold">Both Gold and Green OA:</span> Publications that are available both as Gold and Green OA.</p></li>
-          <li><p><span class="uk-text-bold">Neither:</span> Publications that do not fall into the OA category but are not completely closed either.</p></li>
-          <li><p><span class="uk-text-bold">Closed:</span> Publications that are behind paywalls with no free or OA available.</p></li>
-        </ul>
-        <p>This visualization highlights the shifting landscape of OA publication practices over time, illustrating how the proportions of different access types have evolved, which reflects broader trends in publishing and access policies within the academic and research communities.</p>
-        <p><strong>Data Source: </strong> OpenAIRE Graph.</p>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div class="uk-section uk-section-small uk-margin-top">
-  <div class="uk-container uk-container-expand">
-    <h5>Distribution of Open Access Types by Different Scholarly Publication Outputs</h5>
-
-    <div class="uk-grid uk-margin-medium-top">
-      <div class="uk-width-2-3" style="height: 450px">
-        Coming soon...
-      </div>
-      <div class="uk-width-1-3">
-        <h6>Understanding the data</h6>
-        <p>The graph displays the distribution of OA types across different scholarly publication categories, revealing distinct preferences and practices in the dissemination of research outputs. This visualization provides insight into the diverse adoption rates and strategies for OA across various academic outputs. Understanding these differences is crucial for identifying specific barriers and opportunities within each publication category, thereby guide stakeholders in tailoring interventions that encourage broader adoption of OA. This targeted approach can significantly contribute to enhancing the accessibility of knowledge, fostering a more open and collaborative scientific community.</p>
-        <p><strong>Data Source: </strong> OpenAIRE Graph. data for 2023</p>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div class="uk-section uk-section-small uk-margin-top">
-  <div class="uk-container uk-container-expand">
-    <h5>Distribution of Open Access Types by Fields of Science</h5>
-
-    <div class="uk-grid uk-margin-medium-top">
-      <div class="uk-width-2-3" style="height: 450px">
-        Coming soon...
-      </div>
-      <div class="uk-width-1-3">
-        <h6>Understanding the data</h6>
-        <p>This treemap illustrates the distribution of Open Access types within various scientific disciplines including Medical and Health Sciences, Engineering and Technology, Agricultural Sciences, Natural Science, Social Sciences, and Humanities. Each color-coded segment represents the prevalence of Open Access practices—such as Gold OA only, Green OA only, Both Gold and Green OA, and Closed access—across these fields.</p>
-        <p><strong>Data Source: </strong> OpenAIRE Graph. data for 2023</p>
-      </div>
     </div>
 
   </div>

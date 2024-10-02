@@ -17,8 +17,7 @@ export class OpenScienceByAreaDataManagementComponent {
 
   private destroyRef = inject(DestroyRef);
 
-  countriesArray: string[] = [];
-  years = ['2022', '2023']
+  years = ['2022', '2023'];
 
   stackedColumnSeries1 = [
     {
@@ -65,18 +64,12 @@ export class OpenScienceByAreaDataManagementComponent {
 
   ngOnInit() {
 
-    this.stakeholdersService.getEOSCSBCountries().pipe().subscribe({
-      next: value => {
-        this.countriesArray = value; // FIXME: Need the number of countries at that year!
-        this.years.forEach((year, index) => {
-          this.getCountriesWithPolicy(year, index);
-          this.getTotalInvestments(year, index);
-          this.getCountriesWithFinancialStrategy(year, index);
-          this.getNationalMonitoring(year, index);
-          this.getPlans(year, index);
-        });
-      },
-      error: err => console.error(err)
+    this.years.forEach((year, index) => {
+      this.getCountriesWithPolicy(year, index);
+      this.getTotalInvestments(year, index);
+      this.getCountriesWithFinancialStrategy(year, index);
+      this.getNationalMonitoring(year, index);
+      this.getPlans(year, index);
     });
 
     this.years.forEach((year, index) => {
@@ -88,7 +81,7 @@ export class OpenScienceByAreaDataManagementComponent {
   getNationalMonitoring(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question58').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({ // National monitoring in FAIR data
       next: value => {
-        this.countriesWithMonitoring[index] = this.calculatePercentage(value, this.countriesArray.length);
+        this.countriesWithMonitoring[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
       }
     });
   }
@@ -97,11 +90,10 @@ export class OpenScienceByAreaDataManagementComponent {
   getCountriesWithFinancialStrategy(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question11').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({ // Financial strategy in FAIR data
       next: value => {
-        this.countriesWithStrategy[index] = this.calculatePercentage(value, this.countriesArray.length);
+        this.countriesWithStrategy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
       }
     });
   }
-
 
   /** Get investments on Data Management --------------------------------------------------------------------------> **/
   getTotalInvestments(year: string, index: number) {
@@ -116,7 +108,7 @@ export class OpenScienceByAreaDataManagementComponent {
   getCountriesWithPolicy(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question10').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({ // Country has a national policy on FAIR data
       next: value => {
-        this.countriesWithPolicy[index] = this.calculatePercentage(value, this.countriesArray.length);
+        this.countriesWithPolicy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
       }
     });
   }
@@ -196,6 +188,9 @@ export class OpenScienceByAreaDataManagementComponent {
   }
 
   calculatePercentageChange(data: number[]) {
+    if (data[0] === 0)
+      return '--';
+
     let percentage = Math.abs((data[1] - data[0]) / data[0]);
     return Math.round((percentage + Number.EPSILON) * 100);
 
