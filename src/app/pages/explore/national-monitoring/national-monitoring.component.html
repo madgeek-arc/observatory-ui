@@ -1,6 +1,92 @@
 <div class="uk-section uk-section-small">
   <div class="uk-container uk-container-expand">
-    National Monitoring.....
+
+    <h4>National Monitoring</h4>
+    <p>Monitoring Open Science at the national level is crucial for assessing the implementation and progress of Open Science policies and initiatives. It provides valuable insights into how effectively countries are adopting open practices, ensuring alignment with global standards such as FAIR principles. National monitoring helps identify gaps, track improvements, and promote accountability, while also enabling governments and institutions to make informed decisions that foster transparency, collaboration, and innovation in research. This page offers an overview of the current state of national monitoring efforts across key areas of Open Science, highlighting progress and emerging trends.</p>
+
   </div>
 </div>
 
+<div class="uk-section uk-section-small uk-margin-top">
+  <div class="uk-container uk-container-expand">
+
+    <h5>National Monitoring of Open Science by Areas</h5>
+
+    <div class="uk-grid uk-margin-medium-top">
+      <div class="uk-width-2-3" style="height: 450px">
+        <app-multi-bar-chart [series]="barChartSeries" [categories]="barChartCategories" [titles]="barChartTitles"></app-multi-bar-chart>
+      </div>
+      <div class="uk-width-1-3">
+        <h6>Understanding the data</h6>
+        <p>This bar chart illustrates the percentage of countries with national monitoring initiatives in various Open Science areas for the years 2022 and 2023. Each bar represents an area of Open Science, such as Open Access Publications, FAIR Data, Open Software, and Citizen Science, showing the changes in monitoring adoption from one year to the next. The chart highlights where countries are increasingly focusing their monitoring efforts, with significant progress in areas like Open Access Publications and FAIR Data, reflecting the growing importance of these aspects in the broader Open Science landscape.</p>
+        <!--        <p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science.</p>-->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top">
+  <div class="uk-container uk-container-expand">
+
+    <h5>National Monitoring of Open Science  by Countries and Areas</h5>
+
+    <table class="uk-table uk-table-divider uk-table-middle bordered-table">
+      <thead>
+      <tr>
+        <th></th>
+        <th>
+          <div class="uk-text-bold">Publications</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Data</div>
+          <div class="uk-text-secondary uk-text-small uk-text-italic">Data management</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Data</div>
+          <div class="uk-text-secondary uk-text-small uk-text-italic">FAIR data</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Data</div>
+          <div class="uk-text-secondary uk-text-small uk-text-italic">Open Data</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Software</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Services</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Infrastructure</div>
+          <div class="uk-text-secondary uk-text-small uk-text-italic">Connecting repositories to EOSC</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Infrastructure</div>
+          <div class="uk-text-secondary uk-text-small uk-text-italic">Data stewardship</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Infrastructure</div>
+          <div class="uk-text-secondary uk-text-small uk-text-italic">Long-term data preservation</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Skills/Training</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Assessment</div>
+        </th>
+        <th>
+          <div class="uk-text-bold">Engagement</div>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of tableData">
+        <td *ngFor="let item of row; let i = index" [ngClass]="{valueTrue: item === 'true', valueFalse: item==='-'}">
+          <div *ngIf="i === 0" class="uk-text-bold">{{ item }}</div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>

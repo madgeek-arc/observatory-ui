@@ -48,7 +48,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
       color: '#808080' // Grey color
     }
   ] as Highcharts.SeriesColumnOptions[];
-  yAxisTitle = 'Number of Publications'
+  yAxisTitle = 'Number of Publications';
   legend = {
     align: 'right',
     x: -30,

@@ -27,13 +27,19 @@ export class OpenSciencePoliciesComponent implements OnInit {
   barChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills/Training', 'Incentives/Rewards for OS', 'Citizen Science'];
 
   barChartSeries: SeriesOptionsType[] = [];
-  barChart2Series: SeriesOptionsType[] = [];
-
   barChartTitles = {
     // title: 'Percentage of countries with national policies different Open Science Categories',
     title: '',
     xAxis: 'Policy on',
     yAxis: 'Percentage of countries with national policies',
+  }
+
+  barChart2Series: SeriesOptionsType[] = [];
+  barChart2Titles = {
+    // title: 'Percentage of countries with national policies different Open Science Categories',
+    title: '',
+    xAxis: 'Financial Strategy on',
+    yAxis: 'Percentage of countries with Financial Strategy',
   }
 
   bubbleWithCategories = [] as SeriesBubbleOptions[];
