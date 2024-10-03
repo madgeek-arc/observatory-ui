@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment";
 import { Observable } from "rxjs";
-import { Data, RawData } from "../../../survey-tool/app/domain/raw-data";
+import { ChartData, Data, RawData } from "../../../survey-tool/app/domain/raw-data";
 
 
 const headerOptions = {
@@ -15,7 +15,7 @@ export class EoscReadinessDataService {
 
   private statsAPIURL = environment.STATS_API_ENDPOINT + 'raw?json=';
   private profileName = environment.profileName;
-  private OSOStatsAPIURL = environment.OSO_STATS_API_ENDPOINT + 'raw?json=';
+  private OSOStatsAPIURL = environment.OSO_STATS_API_ENDPOINT ;
   private osoProfileName = environment.osoStatsProfileName;
 
   constructor(private httpClient: HttpClient) {}
@@ -34,7 +34,11 @@ export class EoscReadinessDataService {
   // ======= EXPLORE =======
 
   getOSOStats(JSONString: string): Observable<Data> {
-    return this.httpClient.get<Data>(this.OSOStatsAPIURL + encodeURIComponent(JSONString), headerOptions);
+    return this.httpClient.get<Data>(this.OSOStatsAPIURL + 'raw?json=' + encodeURIComponent(JSONString), headerOptions);
+  }
+
+  getOSOStatsChartData(JSONString: string): Observable<ChartData> {
+    return this.httpClient.get<ChartData>(this.OSOStatsAPIURL + 'chart/json?json=' + encodeURIComponent(JSONString), headerOptions);
   }
 
   // ======= GENERAL ========

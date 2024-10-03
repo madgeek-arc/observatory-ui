@@ -2,7 +2,11 @@ import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
-import { OAPublicationVSClosed, trendOfOAPublications } from "../../OSO-stats-queries/explore-queries";
+import {
+  distributionOfOAPublications,
+  OAPublicationVSClosed,
+  trendOfOAPublications
+} from "../../OSO-stats-queries/explore-queries";
 import * as Highcharts from "highcharts";
 
 
@@ -62,6 +66,52 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
+  stackedColumn2Categories = [];
+  stackedColumn2Series = [
+    {
+      type: 'column',
+      name: 'Gold OA only',
+      data: [],
+      color: '#FFD700' // Gold color
+    }, {
+      type: 'column',
+      name: 'Green OA only',
+      data: [],
+      color: '#228B22' // Forest green color
+    }, {
+      type: 'column',
+      name: 'Both Gold & Green OA',
+      data: [],
+      color: '#FF69B4' // Hot pink color for mixed category
+    }, {
+      type: 'column',
+      name: 'Neither',
+      data: [],
+      color: '#b0c4de'
+    }, {
+      type: 'column',
+      name: 'Closed',
+      data: [],
+      color: '#808080' // Grey color
+    }
+  ] as Highcharts.SeriesColumnOptions[];
+  yAxisTitle2 = 'Number of Publications';
+  legend2 = {
+    align: 'right',
+    x: -30,
+    verticalAlign: 'top',
+    y: -10,
+    floating: true,
+    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
+    borderColor: '#CCC',
+    borderWidth: 1,
+    shadow: false
+  };
+  tooltipPointFormat2 = '{series.name}: {point.y}<br/>Total: {point.total}';
+  xAxisTitle2 = 'Year';
+  labelFormat = '{value}%';
+  plotFormat = '{y}%';
+
   countriesWithPolicy: number[] = [];
   countriesWithStrategy: number[] = [];
   countriesWithMonitoring: number[] = [];
@@ -73,6 +123,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   ngOnInit() {
     this.getPublicationPercentage();
     this.getTrends();
+    this.getDistributionOAPublication();
 
     this.years.forEach((year, index) => {
       this.getCountriesWithPolicy(year, index);
@@ -95,6 +146,42 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
         });
         // console.log(this.stackedColumnSeries);
         this.stackedColumnSeries = [...this.stackedColumnSeries];
+      }
+    });
+  }
+
+  /** Get Distribution of Open Access Types by Different Scholarly Publication Outputs **/
+  getDistributionOAPublication() {
+    this.queryData.getOSOStatsChartData(distributionOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        console.log(value);
+        this.stackedColumn2Categories = value.xAxis_categories;
+        value.series.forEach((series, index) => {
+          series.data.forEach((item) => {
+            this.stackedColumn2Series[index].data.push(item);
+          })
+        });
+        // this.stackedColumn2Series.forEach(series => {
+        //   const tmpArr: number[] = [];
+        //   series.data.forEach(item => {
+        //     tmpArr.push(+item);
+        //   })
+        //
+        //   // Calculate the sum of the array
+        //   const sum = (tmpArr).reduce((acc, val) => acc + val, 0);
+        //
+        //   // Convert each number to its percentage of the total sum
+        //   const percentages = (tmpArr).map(num => (num / sum) * 100);
+        //   series.data = percentages;
+        // });
+        console.log(this.stackedColumn2Series);
+        // value.data.forEach((item, index) => {
+        //   item.forEach(el => {
+        //     this.stackedColumnSeries[index].data.push(+el[0]);
+        //   });
+        // });
+        // // console.log(this.stackedColumnSeries);
+        // this.stackedColumnSeries = [...this.stackedColumnSeries];
       }
     });
   }

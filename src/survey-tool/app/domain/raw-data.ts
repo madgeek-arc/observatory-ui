@@ -29,3 +29,15 @@ export class Row {
 export class Data {
   data: [][] = [];
 }
+
+export class ChartData {
+  xAxis_categories: string[] = [];
+  dataSeriesNames: string[] = [];
+  dataSeriesTypes: string[] = [];
+  drilldown: any = null;
+  series: SeriesData[] = [];
+}
+
+class SeriesData {
+  data: number[] = [];
+}
