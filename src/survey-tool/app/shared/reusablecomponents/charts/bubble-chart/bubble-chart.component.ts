@@ -166,6 +166,7 @@ export class BubbleChartComponent implements OnChanges {
           }] : []
         },
         yAxis: {
+          type: this.categories.length > 0 ? 'linear' : 'logarithmic',
           categories: this.categories.length > 0 ? this.categories : undefined,
           title: {
             text: this.yAxisTitle
