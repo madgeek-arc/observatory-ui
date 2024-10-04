@@ -147,7 +147,7 @@ export class OpenScienceTrendsComponent implements OnInit {
   createBarChartSeries(data: RawData[], year: string) {
     let series: SeriesBarOptions = {
       type: 'bar',
-      name: 'Year '+ year,
+      name: 'Year '+ (+year-1),
       data: []
     }
 

@@ -137,6 +137,7 @@ export class NationalMonitoringComponent implements OnInit {
     this.tableData[12] = this.dataHandlerService.convertRawDataForCumulativeTable(value[11], countriesEOSC);
 
     this.tableData[0] = countriesEOSC;
+    console.log(this.tableData);
     // Transpose 2d array
     this.tableData = this.tableData[0].map((_, colIndex) => this.tableData.map(row => row[colIndex]));
 

@@ -23,6 +23,7 @@ import { StreamGraphComponent } from "./charts/stream-graph/stream-graph.compone
 import { FixedTooltipMapComponent } from "./charts/fixed-tooltip-map/fixed-tooltip-map.component";
 import { BarChartComponent } from "./charts/bar-chart/bar-chart.component";
 import { StackedColumnComponent } from "./charts/stacked-column-chart/stacked-column.component";
+import { TreemapComponent } from "./charts/treemap/treemap.component";
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { StackedColumnComponent } from "./charts/stacked-column-chart/stacked-co
     StreamGraphComponent,
     FixedTooltipMapComponent,
     BarChartComponent,
-    StackedColumnComponent
+    StackedColumnComponent,
+    TreemapComponent
   ],
   exports: [
     SideMenuDashboardComponent,
@@ -73,7 +75,8 @@ import { StackedColumnComponent } from "./charts/stacked-column-chart/stacked-co
     StreamGraphComponent,
     FixedTooltipMapComponent,
     BarChartComponent,
-    StackedColumnComponent
+    StackedColumnComponent,
+    TreemapComponent
   ],
   providers: [],
 })

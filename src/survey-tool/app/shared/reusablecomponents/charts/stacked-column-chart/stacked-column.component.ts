@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
+import { OptionsStackingValue } from "highcharts";
 
 @Component({
   selector: "app-stacked-column",
@@ -21,6 +22,7 @@ export class StackedColumnComponent implements OnChanges {
   @Input() pointFormat: string = null;
   @Input() plotFormat: string = null;
   @Input() legend = null;
+  @Input() stacking: OptionsStackingValue = 'normal';
 
   Highcharts: typeof Highcharts = Highcharts;
   chart!: Highcharts.Chart;
@@ -70,7 +72,7 @@ export class StackedColumnComponent implements OnChanges {
     },
     plotOptions: {
       column: {
-        stacking: 'normal',
+        stacking: this.stacking,
         dataLabels: {
           enabled: true,
           color: 'white'
@@ -133,6 +135,7 @@ export class StackedColumnComponent implements OnChanges {
         },
         plotOptions: {
           column: {
+            stacking: this.stacking,
             dataLabels: {
               enabled: this.dataLabels,
               format: this.plotFormat || undefined
