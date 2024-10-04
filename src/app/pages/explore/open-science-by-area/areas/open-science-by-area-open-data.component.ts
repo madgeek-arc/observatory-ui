@@ -2,6 +2,13 @@ import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
+import * as Highcharts from "highcharts";
+import {
+  distributionByDocumentType,
+  distributionOfOAByScienceFields, OAPublicationVSClosed, OpenDataVSClosed,
+  trendOfOpenData
+} from "../../OSO-stats-queries/explore-queries";
+import { OptionsStackingValue } from "highcharts";
 
 
 @Component({
@@ -17,6 +24,73 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
 
   years = ['2022', '2023'];
 
+  stackedColumnCategories = [];
+  stackedColumnSeries = [
+    {
+      type: 'column',
+      name: 'Open',
+      data: [],
+      color: '#028691'
+    }, {
+      type: 'column',
+      name: 'Closed',
+      data: [],
+      color: '#fae0d1'
+    }, {
+      type: 'column',
+      name: 'Restricted',
+      data: [],
+      color: '#e4587c'
+    }, {
+      type: 'column',
+      name: 'Embargo',
+      data: [],
+      color: '#515252'
+    }
+  ] as Highcharts.SeriesColumnOptions[];
+  yAxisTitle = 'Number of Data Sets';
+  legend = {
+    align: 'right',
+    x: -30,
+    verticalAlign: 'top',
+    y: -10,
+    floating: true,
+    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
+    borderColor: '#CCC',
+    borderWidth: 1,
+    shadow: false
+  };
+  tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
+
+  stackedColumn2Categories = [];
+  stackedColumn2Series = [
+    {
+      type: 'column',
+      name: 'Open',
+      data: [],
+      color: '#028691'
+    }, {
+      type: 'column',
+      name: 'Closed',
+      data: [],
+      color: '#fae0d1'
+    }, {
+      type: 'column',
+      name: 'Restricted',
+      data: [],
+      color: '#e4587c'
+    }, {
+      type: 'column',
+      name: 'Embargo',
+      data: [],
+      color: '#515252'
+    }
+  ] as Highcharts.SeriesColumnOptions[];
+  yAxisTitle2 = 'Percentage of Open Data';
+  stacking: OptionsStackingValue = 'percent';
+  dataLabels_format = '{point.percentage:.0f}%';
+
+  openData: number[] = [];
   countriesWithPolicy: number[] = [];
   countriesWithStrategy: number[] = [];
   countriesWithMonitoring: number[] = [];
@@ -30,9 +104,57 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
       this.getTotalInvestments(year, index);
       this.getCountriesWithFinancialStrategy(year, index);
       this.getNationalMonitoring(year, index);
-      // this.getPlans(year, index);
     });
 
+    this.getTrend();
+    this.getDistributionByDocumentType();
+    this.getOpenDataPercentage();
+
+  }
+
+  /** Get Trend of Open Data --------------------------------------------------------------------------------------> **/
+  getTrend() {
+    this.queryData.getOSOStatsChartData(trendOfOpenData()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        value.series.forEach((series, index) => {
+          this.stackedColumnSeries[index].data.push(...series.data);
+        });
+
+        this.stackedColumnCategories = value.xAxis_categories;
+      }
+    });
+  }
+
+  /** Get Distribution of Open Data Types by Different Document Type ----------------------------------------------> **/
+  getDistributionByDocumentType() {
+    this.queryData.getOSOStatsChartData(distributionByDocumentType()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        value.series.forEach((series, index) => {
+          this.stackedColumn2Series[index].data.push(...series.data);
+        });
+
+        this.stackedColumn2Categories = value.xAxis_categories;
+        this.stackedColumn2Series[0].data.forEach((item, index) => {
+          let sum = 0;
+          this.stackedColumn2Series.forEach(series => {
+            sum += (+series.data[index]);
+          });
+          this.stackedColumn2Categories[index] = this.stackedColumn2Categories[index]+ ` (total = ${sum.toLocaleString('en-GB')} )`
+        });
+      }
+    });
+  }
+
+
+
+  /** Get Open Data VS closed, restricted and embargoed sets ------------------------------------------------------> **/
+  getOpenDataPercentage() {
+    this.queryData.getOSOStats(OpenDataVSClosed()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        this.openData[0] = (Math.round((+value.data[2]/+value.data[3] + Number.EPSILON) * 100));
+        this.openData[1] = (Math.round((+value.data[0]/+value.data[1] + Number.EPSILON) * 100));
+      }
+    });
   }
 
   /** Get national monitoring on Open Data ----------------------------------------------------------------------  > **/

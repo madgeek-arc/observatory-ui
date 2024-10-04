@@ -201,9 +201,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     this.queryData.getOSOStatsChartData(distributionOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
-          series.data.forEach((item) => {
-            this.stackedColumn2Series[index].data.push(item);
-          });
+            this.stackedColumn2Series[index].data.push(...series.data);
         });
 
         this.stackedColumn2Categories = value.xAxis_categories;

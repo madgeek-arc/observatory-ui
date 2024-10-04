@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import * as Highcharts from "highcharts";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
-import { trendOfOAPublications } from "../OSO-stats-queries/explore-queries";
+import { trendOfOAPublications, trendOfOpenData } from "../OSO-stats-queries/explore-queries";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { zip } from "rxjs";
 import { SeriesBarOptions, SeriesOptionsType } from "highcharts";
@@ -80,6 +80,44 @@ export class OpenScienceTrendsComponent implements OnInit {
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
+  stackedColumn2Categories = [];
+  stackedColumn2Series = [
+    {
+      type: 'column',
+      name: 'Open',
+      data: [],
+      color: '#028691'
+    }, {
+      type: 'column',
+      name: 'Closed',
+      data: [],
+      color: '#fae0d1'
+    }, {
+      type: 'column',
+      name: 'Restricted',
+      data: [],
+      color: '#e4587c'
+    }, {
+      type: 'column',
+      name: 'Embargo',
+      data: [],
+      color: '#515252'
+    }
+  ] as Highcharts.SeriesColumnOptions[];
+  yAxis2Title = 'Number of Data Sets';
+  // legend = {
+  //   align: 'right',
+  //   x: -30,
+  //   verticalAlign: 'top',
+  //   y: -10,
+  //   floating: true,
+  //   backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
+  //   borderColor: '#CCC',
+  //   borderWidth: 1,
+  //   shadow: false
+  // };
+  // tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
+
   constructor(private queryData: EoscReadinessDataService) {}
 
   ngOnInit() {
@@ -88,7 +126,8 @@ export class OpenScienceTrendsComponent implements OnInit {
       this.getFinancialBarChartData(year, index);
     });
 
-    this.getTrends();
+    this.getTrendsPublications();
+    this.getTrendsOpenData();
   }
 
   /** Bar charts ---------------------------------------------------------------------------------------------------> **/
@@ -163,7 +202,7 @@ export class OpenScienceTrendsComponent implements OnInit {
   }
 
   /** Get trends of Publications ----------------------------------------------------------------------------------> **/
-  getTrends() {
+  getTrendsPublications() {
     this.queryData.getOSOStats(trendOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.data.forEach((item, index) => {
@@ -176,4 +215,18 @@ export class OpenScienceTrendsComponent implements OnInit {
       }
     });
   }
+
+  /** Get trends of Publications ----------------------------------------------------------------------------------> **/
+  getTrendsOpenData() {
+    this.queryData.getOSOStatsChartData(trendOfOpenData()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        value.series.forEach((series, index) => {
+          this.stackedColumn2Series[index].data.push(...series.data);
+        });
+
+        this.stackedColumn2Categories = value.xAxis_categories;
+      }
+    });
+  }
+
 }
