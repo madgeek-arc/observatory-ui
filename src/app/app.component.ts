@@ -18,7 +18,7 @@ export class AppComponent {
   }
 
   isEOSCReadinessDashboardRoute() {
-    return (this.router.url.startsWith('/eoscreadiness'));
+    return (this.router.url.startsWith('/eoscreadiness') || this.router.url.startsWith('/explore'));
   }
 
 }
