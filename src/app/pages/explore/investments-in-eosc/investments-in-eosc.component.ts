@@ -16,7 +16,7 @@ export class InvestmentsInEoscComponent implements OnInit {
 
   private destroyRef = inject(DestroyRef);
 
-  year = '2022';
+  year = '2023';
 
   treeGraph: PointOptionsObject[] = [];
 

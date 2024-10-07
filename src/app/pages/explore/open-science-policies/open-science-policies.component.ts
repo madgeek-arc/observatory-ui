@@ -21,7 +21,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   years = ['2022', '2023'];
-  year = '2022';
+  year = '2023';
 
   barChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills/Training', 'Incentives/Rewards for OS', 'Citizen Science'];
 
