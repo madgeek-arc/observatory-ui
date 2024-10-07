@@ -5,6 +5,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
 import * as Highcharts from "highcharts/highcharts.src";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
+import { PdfExportService } from "../../../services/pdf-export.service";
 
 @Component({
   selector: 'app-open-science-by-area-fair-data',
@@ -58,7 +59,8 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
   countriesWithMonitoring: number[] = [];
   totalInvestments: number[] = [];
 
-  constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService) {}
+  constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService,
+              private pdfService: PdfExportService) {}
 
   ngOnInit() {
     this.stakeholdersService.getEOSCSBCountries().pipe().subscribe({
@@ -153,6 +155,11 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
     series[1].data.push(Math.round((((orgCount-orgCountWithPolicy)/orgCount) + Number.EPSILON) * 100));
   }
   /** <---------------------------------------------------------------------------------------- Stacked column chart **/
+
+  /** Export to PDF -----------------------------------------------------------------------------------------------> **/
+  exportToPDF(content: HTMLElement, filename?: string) {
+    this.pdfService.export(content, filename);
+  }
 
   /** Other ------------------------------------------------------------------------------------------------------>  **/
   isNumeric(value: string | null): boolean {

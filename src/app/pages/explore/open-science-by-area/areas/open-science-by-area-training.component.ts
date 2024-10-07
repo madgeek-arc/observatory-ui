@@ -2,6 +2,7 @@ import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
+import { PdfExportService } from "../../../services/pdf-export.service";
 
 @Component({
   selector: 'app-open-science-by-area-training',
@@ -21,7 +22,7 @@ export class OpenScienceByAreaTrainingComponent implements OnInit {
   countriesWithMonitoring: number[] = [];
   totalInvestments: number[] = [];
 
-  constructor(private queryData: EoscReadinessDataService) {}
+  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
     this.years.forEach((year, index) => {
@@ -67,6 +68,11 @@ export class OpenScienceByAreaTrainingComponent implements OnInit {
         this.countriesWithPolicy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
       }
     });
+  }
+
+  /** Export to PDF -----------------------------------------------------------------------------------------------> **/
+  exportToPDF(content: HTMLElement, filename?: string) {
+    this.pdfService.export(content, filename);
   }
 
   /** Other ------------------------------------------------------------------------------------------------------>  **/

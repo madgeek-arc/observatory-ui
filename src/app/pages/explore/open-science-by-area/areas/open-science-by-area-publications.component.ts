@@ -10,6 +10,7 @@ import {
 } from "../../OSO-stats-queries/explore-queries";
 import * as Highcharts from "highcharts";
 import { OptionsStackingValue } from "highcharts";
+import { PdfExportService } from "../../../services/pdf-export.service";
 
 
 @Component({
@@ -109,7 +110,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   totalInvestments: number[] = [];
   OAPublications: number[] = [];
 
-  constructor(private queryData: EoscReadinessDataService) {}
+  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
     this.getPublicationPercentage();
@@ -261,6 +262,11 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
         this.countriesWithPolicy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
       }
     });
+  }
+
+  /** Export to PDF -----------------------------------------------------------------------------------------------> **/
+  exportToPDF(content: HTMLElement, filename?: string) {
+    this.pdfService.export(content, filename);
   }
 
   /** Other ------------------------------------------------------------------------------------------------------>  **/

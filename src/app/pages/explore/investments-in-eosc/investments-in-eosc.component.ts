@@ -5,6 +5,7 @@ import { RawData, Row } from "../../../../survey-tool/app/domain/raw-data";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { PdfExportService } from "../../services/pdf-export.service";
 type MergedElement = { x: string; y: string; z: string; name: string; country: string };
 
 @Component({
@@ -41,7 +42,7 @@ export class InvestmentsInEoscComponent implements OnInit {
     followPointer: true
   }
 
-  constructor(private queryData: EoscReadinessDataService) {}
+  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
     this.getPieChartData();
@@ -220,6 +221,11 @@ export class InvestmentsInEoscComponent implements OnInit {
     // series[0].data.sort((a, b) => a.y - b.y);
     // console.log(series);
     return series;
+  }
+
+  /** Export to PDF -----------------------------------------------------------------------------------------------> **/
+  exportToPDF(content: HTMLElement, filename?: string) {
+    this.pdfService.export(content, filename);
   }
 
   /** Other -------------------------------------------------------------------------------------------------------> **/

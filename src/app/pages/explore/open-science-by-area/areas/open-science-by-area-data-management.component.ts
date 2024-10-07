@@ -5,6 +5,7 @@ import { StakeholdersService } from "../../../../../survey-tool/app/services/sta
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
 import { zip } from "rxjs/internal/observable/zip";
+import { PdfExportService } from "../../../services/pdf-export.service";
 
 @Component({
   selector: 'app-open-science-by-area-data-management',
@@ -60,7 +61,7 @@ export class OpenScienceByAreaDataManagementComponent {
   countriesWithMonitoring: number[] = [];
   totalInvestments: number[] = [];
 
-  constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService) {}
+  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
 
@@ -159,6 +160,11 @@ export class OpenScienceByAreaDataManagementComponent {
     series[1].data.push(Math.round((((orgCount-orgCountWithPolicy)/orgCount) + Number.EPSILON) * 100));
   }
   /** <---------------------------------------------------------------------------------------- Stacked column chart **/
+
+  /** Export to PDF -----------------------------------------------------------------------------------------------> **/
+  exportToPDF(content: HTMLElement, filename?: string) {
+    this.pdfService.export(content, filename);
+  }
 
 
   /** Other ------------------------------------------------------------------------------------------------------>  **/

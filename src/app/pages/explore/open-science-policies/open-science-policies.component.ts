@@ -8,6 +8,7 @@ import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-
 import { DataHandlerService } from "../../services/data-handler.service";
 import { countries } from "../../../../survey-tool/app/domain/countries";
 import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
+import { PdfExportService } from "../../services/pdf-export.service";
 
 
 
@@ -46,7 +47,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
   tableData: string[][] = [];
 
   constructor(private queryData: EoscReadinessDataService, private surveyService: SurveyService,
-              private dataHandlerService: DataHandlerService) {}
+              private dataHandlerService: DataHandlerService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
 
@@ -243,6 +244,11 @@ export class OpenSciencePoliciesComponent implements OnInit {
     }
     // console.log(this.tableData);
 
+  }
+
+  /** Export to PDF -----------------------------------------------------------------------------------------------> **/
+  exportToPDF(content: HTMLElement, filename?: string) {
+    this.pdfService.export(content, filename);
   }
 
   /** Other stuff -------------------------------------------------------------------------------------------------> **/

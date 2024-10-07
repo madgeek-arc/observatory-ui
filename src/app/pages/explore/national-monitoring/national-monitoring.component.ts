@@ -5,9 +5,9 @@ import { RawData } from "../../../../survey-tool/app/domain/raw-data";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { zip } from "rxjs";
 import { DataHandlerService } from "../../services/data-handler.service";
-import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { countries } from "../../../../survey-tool/app/domain/countries";
 import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
+import { PdfExportService } from "../../services/pdf-export.service";
 
 @Component({
   selector: 'app-national-monitoring',
@@ -34,7 +34,7 @@ export class NationalMonitoringComponent implements OnInit {
   }
 
   constructor(private queryData: EoscReadinessDataService, private surveyService: SurveyService,
-              private dataHandlerService: DataHandlerService) {}
+              private dataHandlerService: DataHandlerService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
     this.years.forEach((year, index) => {
@@ -146,6 +146,11 @@ export class NationalMonitoringComponent implements OnInit {
         this.tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
     }
     // console.log(this.tableData);
+  }
+
+  /** Export to PDF -----------------------------------------------------------------------------------------------> **/
+  exportToPDF(content: HTMLElement, filename?: string) {
+    this.pdfService.export(content, filename);
   }
 
 }
