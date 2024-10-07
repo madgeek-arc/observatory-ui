@@ -7,6 +7,7 @@ import { zip } from "rxjs";
 import { DataHandlerService } from "../../services/data-handler.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { countries } from "../../../../survey-tool/app/domain/countries";
+import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
 
 @Component({
   selector: 'app-national-monitoring',
@@ -32,7 +33,7 @@ export class NationalMonitoringComponent implements OnInit {
     yAxis: 'Percentage of countries with National Monitoring',
   }
 
-  constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService,
+  constructor(private queryData: EoscReadinessDataService, private surveyService: SurveyService,
               private dataHandlerService: DataHandlerService) {}
 
   ngOnInit() {
@@ -63,13 +64,6 @@ export class NationalMonitoringComponent implements OnInit {
         this.barChartSeries.push(this.createBarChartSeries(value, year));
 
         if (this.years.length === index+1) {
-          this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-            next: countries => {
-              this.createTable(value, countries);
-            },
-            error: err => {console.error(err)}
-          });
-
           this.barChartSeries = [...this.barChartSeries];
         }
       },
@@ -110,11 +104,16 @@ export class NationalMonitoringComponent implements OnInit {
       this.queryData.getQuestion(this.year, 'Question42'), // Skills/Training
       this.queryData.getQuestion(this.year, 'Question46'), // Assessment
       this.queryData.getQuestion(this.year, 'Question50'), // Engagement
-      this.stakeholdersService.getEOSCSBCountries()
+      // this.surveyService.getSurveyValidatedCountries('m-eosc-sb-2023')
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (value: any) => {
         // console.log(value);
-        // this.createTable(value);
+        this.surveyService.getSurveyValidatedCountries('m-eosc-sb-2023').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+          next: countries => {
+            this.createTable(value, countries);
+          },
+          error: err => {console.error(err)}
+        });
       },
       error: err => {console.error(err)}
     });
@@ -137,7 +136,7 @@ export class NationalMonitoringComponent implements OnInit {
     this.tableData[12] = this.dataHandlerService.convertRawDataForCumulativeTable(value[11], countriesEOSC);
 
     this.tableData[0] = countriesEOSC;
-    console.log(this.tableData);
+    // console.log(this.tableData);
     // Transpose 2d array
     this.tableData = this.tableData[0].map((_, colIndex) => this.tableData.map(row => row[colIndex]));
 
