@@ -49,7 +49,7 @@ export class OpenScienceByAreaDataManagementComponent {
 
   stackedColumnCategories = ['2021', '2022'];
   xAxisTitle = 'Year'
-  yAxisTitle = 'Percentage of Policies on FAIR Data'
+  yAxisTitle = 'Percentage of Policies on Data management'
   tooltipPointFormat = '{series.name}: {point.y}%';
   labelFormat = '{value}%';
   plotFormat = '{y}%';
