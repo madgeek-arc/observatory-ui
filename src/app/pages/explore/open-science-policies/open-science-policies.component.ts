@@ -4,10 +4,10 @@ import { zip } from "rxjs/internal/observable/zip";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { RawData, Row } from "../../../../survey-tool/app/domain/raw-data";
-import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { DataHandlerService } from "../../services/data-handler.service";
 import { countries } from "../../../../survey-tool/app/domain/countries";
+import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
 
 
 
@@ -20,7 +20,6 @@ import { countries } from "../../../../survey-tool/app/domain/countries";
 export class OpenSciencePoliciesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
-  countriesArray: string[] = [];
   years = ['2022', '2023'];
   year = '2022';
 
@@ -46,14 +45,10 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
   tableData: string[][] = [];
 
-  constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService,
+  constructor(private queryData: EoscReadinessDataService, private surveyService: SurveyService,
               private dataHandlerService: DataHandlerService) {}
 
   ngOnInit() {
-    this.stakeholdersService.getEOSCSBCountries().pipe().subscribe({
-      next: value => this.countriesArray = value,
-      error: err => console.error(err)
-    });
 
     this.years.forEach((year, index) => {
       this.getBarChartData(year, index);
@@ -210,32 +205,44 @@ export class OpenSciencePoliciesComponent implements OnInit {
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
-        this.tableData[1] = this.dataHandlerService.convertRawDataForCumulativeTable(value[0], this.countriesArray);
-        this.tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(value[1], this.countriesArray);
-        this.tableData[3] = this.dataHandlerService.convertRawDataForCumulativeTable(value[2], this.countriesArray);
-        this.tableData[4] = this.dataHandlerService.convertRawDataForCumulativeTable(value[3], this.countriesArray);
-        this.tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(value[4], this.countriesArray);
-        this.tableData[6] = this.dataHandlerService.convertRawDataForCumulativeTable(value[5], this.countriesArray);
-        this.tableData[7] = this.dataHandlerService.convertRawDataForCumulativeTable(value[6], this.countriesArray);
-        this.tableData[8] = this.dataHandlerService.convertRawDataForCumulativeTable(value[7], this.countriesArray);
-        this.tableData[9] = this.dataHandlerService.convertRawDataForCumulativeTable(value[8], this.countriesArray);
-        this.tableData[10] = this.dataHandlerService.convertRawDataForCumulativeTable(value[9], this.countriesArray);
-        this.tableData[11] = this.dataHandlerService.convertRawDataForCumulativeTable(value[10], this.countriesArray);
-        this.tableData[12] = this.dataHandlerService.convertRawDataForCumulativeTable(value[11], this.countriesArray);
-
-        this.tableData[0] = this.countriesArray;
-        // Transpose 2d array
-        this.tableData = this.tableData[0].map((_, colIndex) => this.tableData.map(row => row[colIndex]));
-
-        for (let i = 0; i < this.tableData.length; i++) {
-          let tmpData = countries.find(country => country.id === this.tableData[i][0]);
-          if (tmpData)
-            this.tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
-        }
-        // console.log(this.tableData);
+        this.surveyService.getSurveyValidatedCountries('m-eosc-sb-2023').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+          next: countries => {
+            this.createTable(value, countries);
+          },
+          error: err => {console.error(err)}
+        });
       },
       error: err => {console.error(err)}
     });
+  }
+
+  createTable(value: RawData[], countriesEOSC: string[]) {
+    this.tableData = [];
+
+    this.tableData[1] = this.dataHandlerService.convertRawDataForCumulativeTable(value[0], countriesEOSC);
+    this.tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(value[1], countriesEOSC);
+    this.tableData[3] = this.dataHandlerService.convertRawDataForCumulativeTable(value[2], countriesEOSC);
+    this.tableData[4] = this.dataHandlerService.convertRawDataForCumulativeTable(value[3], countriesEOSC);
+    this.tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(value[4], countriesEOSC);
+    this.tableData[6] = this.dataHandlerService.convertRawDataForCumulativeTable(value[5], countriesEOSC);
+    this.tableData[7] = this.dataHandlerService.convertRawDataForCumulativeTable(value[6], countriesEOSC);
+    this.tableData[8] = this.dataHandlerService.convertRawDataForCumulativeTable(value[7], countriesEOSC);
+    this.tableData[9] = this.dataHandlerService.convertRawDataForCumulativeTable(value[8], countriesEOSC);
+    this.tableData[10] = this.dataHandlerService.convertRawDataForCumulativeTable(value[9], countriesEOSC);
+    this.tableData[11] = this.dataHandlerService.convertRawDataForCumulativeTable(value[10], countriesEOSC);
+    this.tableData[12] = this.dataHandlerService.convertRawDataForCumulativeTable(value[11], countriesEOSC);
+
+    this.tableData[0] = countriesEOSC;
+    // Transpose 2d array
+    this.tableData = this.tableData[0].map((_, colIndex) => this.tableData.map(row => row[colIndex]));
+
+    for (let i = 0; i < this.tableData.length; i++) {
+      let tmpData = countries.find(country => country.id === this.tableData[i][0]);
+      if (tmpData)
+        this.tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
+    }
+    // console.log(this.tableData);
+
   }
 
   /** Other stuff -------------------------------------------------------------------------------------------------> **/
