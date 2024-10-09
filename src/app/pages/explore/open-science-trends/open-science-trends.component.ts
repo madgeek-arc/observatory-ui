@@ -7,6 +7,8 @@ import { zip } from "rxjs";
 import { SeriesBarOptions, SeriesOptionsType } from "highcharts";
 import { RawData } from "../../../../survey-tool/app/domain/raw-data";
 import { PdfExportService } from "../../services/pdf-export.service";
+import html2canvas from "html2canvas";
+import JsPDF from "jspdf";
 
 
 @Component({
@@ -231,7 +233,48 @@ export class OpenScienceTrendsComponent implements OnInit {
   }
 
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
-  exportToPDF(content: HTMLElement, filename?: string) {
-    this.pdfService.export(content, filename);
+  exportToPDF(contents: HTMLElement[], filename?: string) {
+    // this.pdfService.export(content, filename);
+    const pdf = new JsPDF('p', 'mm', 'a4');
+
+    const pageHeight = 297; // A4 page height in mm
+    let currentYPosition = 0; // Track the current vertical position on the page
+
+    // Helper function to process each element
+    const processElement = (index: number) => {
+      if (index >= contents.length) {
+        // All elements processed, save the PDF
+        pdf.save(filename);
+        return;
+      }
+
+      const element = contents[index];
+
+      html2canvas(element).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = 210; // A4 width in mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width; // Scale the height proportionally
+
+        // Check if the image fits in the remaining space on the current page
+        console.log(`Current Y Position: ${currentYPosition}, Element Height: ${imgHeight}`);
+        if (currentYPosition + imgHeight > pageHeight) {
+          pdf.addPage(); // Add a new page if it doesn't fit
+          currentYPosition = 0; // Reset Y position for new page
+        }
+
+        // Add image to the current page at the current Y position
+        pdf.addImage(imgData, 'PNG', 0, currentYPosition, imgWidth, imgHeight);
+
+        // Update the current Y position for the next element
+        currentYPosition += imgHeight;
+
+        // Process the next element
+        processElement(++index);
+      });
+    };
+
+    // Start processing elements
+    processElement(0);
   }
+
 }
