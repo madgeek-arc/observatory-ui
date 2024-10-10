@@ -1,63 +1,65 @@
-<div #exportContent>
-  <div class="uk-section uk-section-small">
-    <div class="uk-container uk-container-expand">
+<div class="uk-section uk-section-small" #exportContent>
+  <div class="uk-container uk-container-expand">
 
-      <div class="uk-flex uk-flex-between uk-flex-middle">
-        <h4>Investments in EOSC</h4>
-        <div class="uk-flex uk-flex-center" (click)="exportToPDF(exportContent, 'Investments in EOSC')" style="cursor: pointer">
-          <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
-            <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">Export report</span>
+    <div class="uk-flex uk-flex-between uk-flex-middle">
+      <h4>Investments in EOSC</h4>
+      <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3], 'Investments in EOSC')" style="cursor: pointer">
+        <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+          <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">Export report</span>
+          <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" uk-spinner="ratio: 0.7"></span>
+          <ng-template #elseBlock>
             <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-          </div>
-        </div>
-      </div>
-
-      <p>Understanding the financial contributions to Open Science and the EOSC is vital for assessing the distribution and impact of investments across Europe. Monitoring these investments allows stakeholders to understand which areas receive the most funding and identify potential disparities in financial commitment across different countries and Open Science areas. This page offers an overview of investments by presenting the allocation of funds across various sectors of Open Science, the specific countries making these investments, and the relations between funding and Open Access publication outputs.</p>
-
-    </div>
-  </div>
-
-  <div class="uk-section uk-section-small">
-    <div class="uk-container uk-container-expand">
-
-      <h5>Overview of investments in EOSC and Open Science</h5>
-
-      <div class="uk-grid uk-margin-medium-top">
-        <div class="uk-width-2-3">
-          <app-pie-chart *ngIf="variablePie[0]?.data.length" chartId="variablePie" type="variablepie" title=""
-                         [series]="variablePie" [tooltip]="pieTooltip">
-          </app-pie-chart>
-        </div>
-        <div class="uk-width-1-3">
-          <h6>Understanding the data</h6>
-          <p>The graph illustrates the financial investments made in different areas of Open Science. Each segment of the graph represents a specific area , that were made by countries of the EOSC association.</p>
-          <p>This data highlights how funds are allocated across these various sectors, indicating the focus areas for enhancing Open Science infrastructure and initiatives. </p>
-          <p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science.</p>
+          </ng-template>
         </div>
       </div>
     </div>
+
+    <p>Understanding the financial contributions to Open Science and the EOSC is vital for assessing the distribution and impact of investments across Europe. Monitoring these investments allows stakeholders to understand which areas receive the most funding and identify potential disparities in financial commitment across different countries and Open Science areas. This page offers an overview of investments by presenting the allocation of funds across various sectors of Open Science, the specific countries making these investments, and the relations between funding and Open Access publication outputs.</p>
+
   </div>
+</div>
 
-  <div class="uk-section uk-section-small uk-margin-top">
-    <div class="uk-container uk-container-expand">
+<div class="uk-section uk-section-small" #exportContent1>
+  <div class="uk-container uk-container-expand">
 
-      <h5>Overview of investments in EOSC and Open Science in European Countries</h5>
+    <h5>Overview of investments in EOSC and Open Science</h5>
 
-      <div class="uk-grid uk-margin-medium-top">
-        <div class="uk-width-2-3" style="height: 550px">
-          <app-tree-graph [data]="treeGraph" style="height: 100%"></app-tree-graph>
-        </div>
-        <div class="uk-width-1-3">
-          <h6>Understanding the data</h6>
-          <p>The graph illustrates the financial investments made by various European countries in the EOSC and Open Science. The investments are categorized in ranges to show the distribution and scale of funding.</p>
-          <p>This data highlights the commitment and support from different countries towards advancing open science initiatives and building the EOSC infrastructure.</p>
-          <p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science.</p>
-        </div>
+    <div class="uk-grid uk-margin-medium-top">
+      <div class="uk-width-2-3">
+        <app-pie-chart *ngIf="variablePie[0]?.data.length" chartId="variablePie" type="variablepie" title=""
+                       [series]="variablePie" [tooltip]="pieTooltip">
+        </app-pie-chart>
+      </div>
+      <div class="uk-width-1-3">
+        <h6>Understanding the data</h6>
+        <p>The graph illustrates the financial investments made in different areas of Open Science. Each segment of the graph represents a specific area , that were made by countries of the EOSC association.</p>
+        <p>This data highlights how funds are allocated across these various sectors, indicating the focus areas for enhancing Open Science infrastructure and initiatives. </p>
+        <p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science.</p>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="uk-section uk-section-small uk-margin-top">
+<div class="uk-section uk-section-small uk-margin-top" #exportContent2>
+  <div class="uk-container uk-container-expand">
+
+    <h5>Overview of investments in EOSC and Open Science in European Countries</h5>
+
+    <div class="uk-grid uk-margin-medium-top">
+      <div class="uk-width-2-3" style="height: 550px">
+        <app-tree-graph [data]="treeGraph" style="height: 100%"></app-tree-graph>
+      </div>
+      <div class="uk-width-1-3">
+        <h6>Understanding the data</h6>
+        <p>The graph illustrates the financial investments made by various European countries in the EOSC and Open Science. The investments are categorized in ranges to show the distribution and scale of funding.</p>
+        <p>This data highlights the commitment and support from different countries towards advancing open science initiatives and building the EOSC infrastructure.</p>
+        <p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent3>
   <div class="uk-container uk-container-expand">
 
     <h5>Total Investments in EOSC and Open Science with Open Access Publication Investments Across Nations</h5>
@@ -78,5 +80,4 @@
       </div>
     </div>
   </div>
-</div>
 </div>

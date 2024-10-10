@@ -1,257 +1,240 @@
-<div #exportContent>
-  <div class="uk-section uk-section-small">
-    <div class="uk-container uk-container-expand">
+<div class="uk-section uk-section-small" #exportContent>
+  <div class="uk-container uk-container-expand">
 
-      <ul class="uk-breadcrumb">
-        <li><a [routerLink]="['/explore/open-science-by-area']">Open Science by Area</a></li>
-        <li><span aria-current="page">Open Data</span></li>
-      </ul>
+    <ul class="uk-breadcrumb">
+      <li><a [routerLink]="['/explore/open-science-by-area']">Open Science by Area</a></li>
+      <li><span aria-current="page">Open Data</span></li>
+    </ul>
 
-      <div class="uk-flex uk-flex-between uk-flex-middle">
-        <h4>Open Science by Area</h4>
-        <div class="uk-flex uk-flex-center" (click)="exportToPDF(exportContent, 'Open Data')" style="cursor: pointer">
-          <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
-          <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
-            Export report
-          </span>
+    <div class="uk-flex uk-flex-between uk-flex-middle">
+      <h4>Open Science by Area</h4>
+      <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3], 'Open Data')" style="cursor: pointer">
+        <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+        <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+          Export report
+        </span>
+          <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" uk-spinner="ratio: 0.7"></span>
+          <ng-template #elseBlock>
             <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-          </div>
+          </ng-template>
         </div>
       </div>
-
-      <h5>Open Data</h5>
-      <p>The European Union defines Open Data as the information collected, produced, or paid for by public bodies which is made freely available for anyone to reuse for any purpose. This data is typically provided under an open license and in a convenient, modifiable form that is machine-readable. Open Data policies in the EU are aimed at increasing transparency, fostering innovation, and enhancing public access to valuable information, thereby promoting economic growth and social welfare​ (source: Publications Office of the EU).The graphic below offers a comprehensive overview of key metrics that monitor the advancement of Open Data initiatives and policies across Europe. Understanding these indicators is essential for assessing the degree to which Europe is embracing and implementing Open Data and Open Science principles.</p>
-
     </div>
+
+    <h5>Open Data</h5>
+    <p>The European Union defines Open Data as the information collected, produced, or paid for by public bodies which is made freely available for anyone to reuse for any purpose. This data is typically provided under an open license and in a convenient, modifiable form that is machine-readable. Open Data policies in the EU are aimed at increasing transparency, fostering innovation, and enhancing public access to valuable information, thereby promoting economic growth and social welfare​ (source: Publications Office of the EU).The graphic below offers a comprehensive overview of key metrics that monitor the advancement of Open Data initiatives and policies across Europe. Understanding these indicators is essential for assessing the degree to which Europe is embracing and implementing Open Data and Open Science principles.</p>
+
   </div>
+</div>
 
-  <div class="uk-section uk-section-small">
-    <div class="uk-container uk-container-expand">
-      <h5>General Overview of Open Data in Europe for 2022</h5>
+<div class="uk-section uk-section-small"  #exportContent1>
+  <div class="uk-container uk-container-expand">
+    <h5>General Overview of Open Data in Europe for 2022</h5>
 
-      <div class="uk-child-width-1-3 uk-grid-match uk-grid-row-medium uk-flex-center" uk-grid>
+    <div class="uk-child-width-1-3 uk-grid-match uk-grid-row-medium uk-flex-center" uk-grid>
 
-        <div *ngIf="openData.length === 2">
-          <div class="uk-card card-simple uk-card-small uk-card-body">
-            <div>
-              <p>Percentage of <strong>OA Publication in Europe</strong> (OA vs Closed)</p>
-            </div>
-            <div class="number big">
-              <span class="uk-text-bold">{{ openData[1] }}%</span>
-            </div>
-            <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-              <ng-container *ngIf="openData[1] >= openData[0]; else pubsDown">
-                <div class="uk-flex uk-flex-middle">
-                  <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
-                  <span class="percentage-up-color">{{ Math.abs(openData[0] - openData[1]) }}%</span>&nbsp; vs last year
-                </div>
-                <div>
-                  <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
-                </div>
-              </ng-container>
-              <ng-template #pubsDown>
-                <div class="uk-flex uk-flex-middle">
-                  <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                  <span class="percentage-down-color">{{ Math.abs(openData[0] - openData[1]) }}%</span>&nbsp; vs last year
-                </div>
-                <div>
-                  <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
-                </div>
-              </ng-template>
-            </div>
+      <div *ngIf="openData.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of <strong>OA Publication in Europe</strong> (OA vs Closed)</p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ openData[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="openData[1] >= openData[0]; else pubsDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(openData[0] - openData[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #pubsDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(openData[0] - openData[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
           </div>
         </div>
-
-        <div *ngIf="countriesWithPolicy.length === 2">
-          <div class="uk-card card-simple uk-card-small uk-card-body">
-            <div>
-              <p>Percentage of <strong>EU Countries with Policy on Open Data</strong></p>
-            </div>
-            <div class="number big">
-              <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
-            </div>
-            <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-              <ng-container *ngIf="countriesWithPolicy[1] >= countriesWithPolicy[0]; else policyDown">
-                <div class="uk-flex uk-flex-middle">
-                  <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
-                  <span class="percentage-up-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; vs last year
-                </div>
-                <div>
-                  <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
-                </div>
-              </ng-container>
-              <ng-template #policyDown>
-                <div class="uk-flex uk-flex-middle">
-                  <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                  <span class="percentage-down-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; vs last year
-                </div>
-                <div>
-                  <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
-                </div>
-              </ng-template>
-            </div>
-          </div>
-        </div>
-
-        <div *ngIf="totalInvestments.length === 2">
-          <div class="uk-card card-simple uk-card-small uk-card-body">
-            <div>
-              <p>Total amount of <strong>financial investments</strong> in Open Data</p>
-            </div>
-            <div class="number big">
-              <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
-            </div>
-            <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-              <ng-container *ngIf="totalInvestments[1] >= totalInvestments[0]; else policyDown">
-                <div class="uk-flex uk-flex-middle">
-                  <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
-                  <span class="percentage-up-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp; vs last year
-                </div>
-                <div>
-                  <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
-                </div>
-              </ng-container>
-              <ng-template #policyDown>
-                <div class="uk-flex uk-flex-middle">
-                  <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                  <span class="percentage-down-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp; vs last year
-                </div>
-                <div>
-                  <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
-                </div>
-              </ng-template>
-            </div>
-          </div>
-        </div>
-
-        <div *ngIf="countriesWithStrategy.length === 2">
-          <div class="uk-card card-simple uk-card-small uk-card-body">
-            <div>
-              <p>Percentage of <strong>EU Countries with Financial Strategy on Open Data</strong></p>
-            </div>
-            <div class="number big">
-              <span class="uk-text-bold">{{ countriesWithStrategy[1] }}%</span>
-            </div>
-            <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-              <ng-container *ngIf="countriesWithStrategy[1] >= countriesWithStrategy[0]; else policyDown">
-                <div class="uk-flex uk-flex-middle">
-                  <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
-                  <span class="percentage-up-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}%</span>&nbsp; vs last year
-                </div>
-                <div>
-                  <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
-                </div>
-              </ng-container>
-              <ng-template #policyDown>
-                <div class="uk-flex uk-flex-middle">
-                  <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                  <span class="percentage-down-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}%</span>&nbsp; vs last year
-                </div>
-                <div>
-                  <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
-                </div>
-              </ng-template>
-            </div>
-          </div>
-        </div>
-
-        <div *ngIf="countriesWithMonitoring.length === 2">
-          <div class="uk-card card-simple uk-card-small uk-card-body">
-            <div>
-              <p>Percentage of EU Countries with National Open Data <strong>Monitoring Initiatives</strong></p>
-            </div>
-            <div class="number big">
-              <span class="uk-text-bold">{{ countriesWithMonitoring[1] }}%</span>
-            </div>
-            <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-              <ng-container *ngIf="countriesWithMonitoring[1] >= countriesWithMonitoring[0]; else policyDown">
-                <div class="uk-flex uk-flex-middle">
-                  <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
-                  <span class="percentage-up-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}%</span>&nbsp; vs last year
-                </div>
-                <div>
-                  <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
-                </div>
-              </ng-container>
-              <ng-template #policyDown>
-                <div class="uk-flex uk-flex-middle">
-                  <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                  <span class="percentage-down-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}%</span>&nbsp; vs last year
-                </div>
-                <div>
-                  <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
-                </div>
-              </ng-template>
-            </div>
-          </div>
-        </div>
-
       </div>
 
-      <div class="uk-flex uk-flex-center uk-margin-top">
-        <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science.
+      <div *ngIf="countriesWithPolicy.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of <strong>EU Countries with Policy on Open Data</strong></p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="countriesWithPolicy[1] >= countriesWithPolicy[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
       </div>
 
-    </div>
-  </div>
-
-  <div class="uk-section uk-section-small uk-margin-top">
-    <div class="uk-container uk-container-expand">
-      <h5>Trend of Open Data</h5>
-
-      <div class="uk-grid uk-margin-medium-top">
-        <div class="uk-width-2-3" style="height: 450px">
-          <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend" [series]="stackedColumnSeries"
-                              [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
-                              [dataLabels]="false">
-          </app-stacked-column>
+      <div *ngIf="totalInvestments.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Total amount of <strong>financial investments</strong> in Open Data</p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="totalInvestments[1] >= totalInvestments[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
         </div>
-        <div class="uk-width-1-3">
-          <h6>Understanding the data</h6>
-          <p>The graph provides a comprehensive view of how data accessibility has evolved from 2020 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of open data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>
-          <p><strong>Data Source: </strong> OpenAIRE Graph.</p>
+      </div>
+
+      <div *ngIf="countriesWithStrategy.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of <strong>EU Countries with Financial Strategy on Open Data</strong></p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ countriesWithStrategy[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="countriesWithStrategy[1] >= countriesWithStrategy[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="countriesWithMonitoring.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of EU Countries with National Open Data <strong>Monitoring Initiatives</strong></p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ countriesWithMonitoring[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="countriesWithMonitoring[1] >= countriesWithMonitoring[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
         </div>
       </div>
 
     </div>
-  </div>
 
-  <div class="uk-section uk-section-small uk-margin-top">
-    <div class="uk-container uk-container-expand">
-      <h5>Distribution of Open Data Types by Different Document Type</h5>
-
-      <div class="uk-grid uk-margin-medium-top">
-        <div class="uk-width-2-3" style="height: 450px">
-          <app-stacked-column [categories]="stackedColumn2Categories" [series]="stackedColumn2Series" [yAxis]="yAxisTitle2"
-                              [pointFormat]="tooltipPointFormat" [stackLabels]="false" [stacking]="stacking"
-                              [plotFormat]="dataLabels_format">
-          </app-stacked-column>
-        </div>
-        <div class="uk-width-1-3">
-          <h6>Understanding the data</h6>
-          <p>The  graph illustrates how open data is implemented across various types of documents. It segments the open data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each colored according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance  accessibility and foster a more transparent, reproducible and inclusive science.</p>
-          <p><strong>Data Source: </strong> OpenAIRE Graph. data for 2022</p>
-        </div>
-      </div>
-
+    <div class="uk-flex uk-flex-center uk-margin-top">
+      <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science.
     </div>
+
   </div>
+</div>
 
-  <!--<div class="uk-section uk-section-small uk-margin-top">-->
-  <!--  <div class="uk-container uk-container-expand">-->
-  <!--    <h5>Distribution of Open Data Types by Field of Science</h5>-->
+<div class="uk-section uk-section-small uk-margin-top"  #exportContent2>
+  <div class="uk-container uk-container-expand">
+    <h5>Trend of Open Data</h5>
 
-  <!--    <div class="uk-grid uk-margin-medium-top">-->
-  <!--      <div class="uk-width-2-3" style="height: 450px">-->
-  <!--        Coming soon...-->
-  <!--      </div>-->
-  <!--      <div class="uk-width-1-3">-->
-  <!--        <h6>Understanding the data</h6>-->
-  <!--        <p>The graph displays a treemap visualization of the distribution of Open Data practices across various fields of science, such as Medical and Health Sciences, Social Sciences, Engineering and Technology, Natural Science, Humanities, and Agricultural Sciences. Each segment's size and color represent the proportion of Open Data activities, including Open, Restricted, Closed, and Embargo data access within that field. This visualization serves as a visual index to help understand how different scientific disciplines engage with Open Data principles, indicating the relative openness and restrictions in data sharing practices within each area.</p>-->
-  <!--        <p><strong>Data Source: </strong> OpenAIRE Graph. data for 2023</p>-->
-  <!--      </div>-->
-  <!--    </div>-->
+    <div class="uk-grid uk-margin-medium-top">
+      <div class="uk-width-2-3" style="height: 450px">
+        <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend" [series]="stackedColumnSeries"
+                            [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
+                            [dataLabels]="false">
+        </app-stacked-column>
+      </div>
+      <div class="uk-width-1-3">
+        <h6>Understanding the data</h6>
+        <p>The graph provides a comprehensive view of how data accessibility has evolved from 2020 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of open data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>
+        <p><strong>Data Source: </strong> OpenAIRE Graph.</p>
+      </div>
+    </div>
 
-  <!--  </div>-->
-  <!--</div>-->
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent3>
+  <div class="uk-container uk-container-expand">
+    <h5>Distribution of Open Data Types by Different Document Type</h5>
+
+    <div class="uk-grid uk-margin-medium-top">
+      <div class="uk-width-2-3" style="height: 450px">
+        <app-stacked-column [categories]="stackedColumn2Categories" [series]="stackedColumn2Series" [yAxis]="yAxisTitle2"
+                            [pointFormat]="tooltipPointFormat" [stackLabels]="false" [stacking]="stacking"
+                            [plotFormat]="dataLabels_format">
+        </app-stacked-column>
+      </div>
+      <div class="uk-width-1-3">
+        <h6>Understanding the data</h6>
+        <p>The  graph illustrates how open data is implemented across various types of documents. It segments the open data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each colored according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance  accessibility and foster a more transparent, reproducible and inclusive science.</p>
+        <p><strong>Data Source: </strong> OpenAIRE Graph. data for 2022</p>
+      </div>
+    </div>
+
+  </div>
 </div>

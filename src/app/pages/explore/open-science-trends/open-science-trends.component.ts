@@ -19,6 +19,8 @@ import JsPDF from "jspdf";
 export class OpenScienceTrendsComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
+  exportActive = false;
+
   years = ['2022', '2023'];
 
   barChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills/Training', 'Incentives/Rewards for OS', 'Citizen Science'];
@@ -133,7 +135,7 @@ export class OpenScienceTrendsComponent implements OnInit {
     this.getTrendsOpenData();
   }
 
-  /** Bar charts ---------------------------------------------------------------------------------------------------> **/
+  /** Bar charts --------------------------------------------------------------------------------------------------> **/
   getBarChartData(year: string, index: number) {
     zip(
       this.queryData.getQuestion(year, 'Question6'),   // national policy on open access publications
@@ -213,7 +215,7 @@ export class OpenScienceTrendsComponent implements OnInit {
             this.stackedColumnSeries[index].data.push(+el[0]);
           });
         });
-        // console.log(this.stackedColumnSeries);
+        // console.log(this.stackedColumnSeries);rm
         this.stackedColumnSeries = [...this.stackedColumnSeries];
       }
     });
@@ -233,48 +235,15 @@ export class OpenScienceTrendsComponent implements OnInit {
   }
 
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
+
   exportToPDF(contents: HTMLElement[], filename?: string) {
-    // this.pdfService.export(content, filename);
-    const pdf = new JsPDF('p', 'mm', 'a4');
-
-    const pageHeight = 297; // A4 page height in mm
-    let currentYPosition = 0; // Track the current vertical position on the page
-
-    // Helper function to process each element
-    const processElement = (index: number) => {
-      if (index >= contents.length) {
-        // All elements processed, save the PDF
-        pdf.save(filename);
-        return;
-      }
-
-      const element = contents[index];
-
-      html2canvas(element).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const imgWidth = 210; // A4 width in mm
-        const imgHeight = (canvas.height * imgWidth) / canvas.width; // Scale the height proportionally
-
-        // Check if the image fits in the remaining space on the current page
-        console.log(`Current Y Position: ${currentYPosition}, Element Height: ${imgHeight}`);
-        if (currentYPosition + imgHeight > pageHeight) {
-          pdf.addPage(); // Add a new page if it doesn't fit
-          currentYPosition = 0; // Reset Y position for new page
-        }
-
-        // Add image to the current page at the current Y position
-        pdf.addImage(imgData, 'PNG', 0, currentYPosition, imgWidth, imgHeight);
-
-        // Update the current Y position for the next element
-        currentYPosition += imgHeight;
-
-        // Process the next element
-        processElement(++index);
-      });
-    };
-
-    // Start processing elements
-    processElement(0);
+    this.exportActive = true
+    this.pdfService.export(contents, filename).then(() => {
+      this.exportActive = false;
+    }).catch((error) => {
+      this.exportActive = false;
+      console.error('Error during PDF generation:', error);
+    });
   }
 
 }

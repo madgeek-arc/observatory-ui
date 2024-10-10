@@ -17,6 +17,7 @@ import { PdfExportService } from "../../services/pdf-export.service";
 
 export class NationalMonitoringComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  exportActive = false;
 
   year = '2023';
   years = ['2022', '2023'];
@@ -149,8 +150,14 @@ export class NationalMonitoringComponent implements OnInit {
   }
 
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
-  exportToPDF(content: HTMLElement, filename?: string) {
-    this.pdfService.export(content, filename);
+  exportToPDF(contents: HTMLElement[], filename?: string) {
+    this.exportActive = true
+    this.pdfService.export(contents, filename).then(() => {
+      this.exportActive = false;
+    }).catch((error) => {
+      this.exportActive = false;
+      console.error('Error during PDF generation:', error);
+    });
   }
 
 }

@@ -11,7 +11,6 @@ import { SurveyService } from "../../../../survey-tool/app/services/survey.servi
 import { PdfExportService } from "../../services/pdf-export.service";
 
 
-
 @Component({
   selector: 'app-open-science-policies',
   templateUrl: './open-science-policies.component.html',
@@ -20,6 +19,7 @@ import { PdfExportService } from "../../services/pdf-export.service";
 
 export class OpenSciencePoliciesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  exportActive = false;
 
   years = ['2022', '2023'];
   year = '2023';
@@ -247,8 +247,14 @@ export class OpenSciencePoliciesComponent implements OnInit {
   }
 
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
-  exportToPDF(content: HTMLElement, filename?: string) {
-    this.pdfService.export(content, filename);
+  exportToPDF(contents: HTMLElement[], filename?: string) {
+    this.exportActive = true
+    this.pdfService.export(contents, filename).then(() => {
+      this.exportActive = false;
+    }).catch((error) => {
+      this.exportActive = false;
+      console.error('Error during PDF generation:', error);
+    });
   }
 
   /** Other stuff -------------------------------------------------------------------------------------------------> **/
