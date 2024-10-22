@@ -190,7 +190,6 @@ export class NationalPolicyComponent implements OnInit {
       this.queryData.getQuestionComment(this.year, 'Question6'),
     ).subscribe(
       res => {
-        console.log(res);
         this.countriesArray = res[0];
         this.tableAbsoluteDataArray[0] = this.dataHandlerService.convertRawDataToTableData(res[1]);
         this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
