@@ -1,9 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { UserInfo } from "../../../../survey-tool/app/domain/userInfo";
-import { UserService } from "../../../../survey-tool/app/services/user.service";
-import { AuthenticationService } from "../../../../survey-tool/app/services/authentication.service";
-
 
 declare var UIkit;
 
@@ -17,17 +14,13 @@ export class EoscReadinessDashboardComponent implements OnInit, AfterViewInit {
 
   @ViewChild("nav") nav: ElementRef;
 
-  subscriptions = [];
   open: boolean = true;
   activeSection: string = null;
-  isPracticesActive: boolean = false;
-  isInvestmentsActive: boolean = false;
-  // showInvestments: boolean = false;
   userInfo: UserInfo = null;
+  year: string = null;
   activeTab: string;
 
-  constructor(private route: ActivatedRoute, private router: Router,
-              private userService: UserService, private authentication: AuthenticationService) {
+  constructor(private route: ActivatedRoute, private router: Router) {
 
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
@@ -40,32 +33,18 @@ export class EoscReadinessDashboardComponent implements OnInit, AfterViewInit {
         } else
           this.activeTab = 'glossary'
 
-        // console.log(this.route.firstChild.snapshot.url[0].path);
+        // console.log('activeTab -> ', this.activeTab);
       }
     });
 
   }
 
   ngAfterViewInit() {
-    switch (this.activeSection) {
-      case 'general':
-        UIkit.nav(this.nav.nativeElement).toggle(0, false);
-        break;
-      case 'policies':
-        UIkit.nav(this.nav.nativeElement).toggle(1, false);
-        break;
-      case 'practices':
-        UIkit.nav(this.nav.nativeElement).toggle(2, false);
-        break;
-      case 'glossary':
-        UIkit.nav(this.nav.nativeElement).toggle(3, false);
-        break;
-      default:
-        UIkit.nav(this.nav.nativeElement).toggle(0, false);
-    }
+    this.initDropNavigation(this.activeSection);
   }
 
   ngOnInit(): void {
+
     this.route.firstChild.url.subscribe(url => {
       this.activeSection = url[0]['path'];
     });
@@ -85,26 +64,45 @@ export class EoscReadinessDashboardComponent implements OnInit, AfterViewInit {
     } else
       this.activeTab = 'glossary';
 
+
+    this.route.paramMap.subscribe({
+      next: value => {
+        if (this.year && this.year !== value.get('year')) {
+
+          this.route.firstChild.url.subscribe(url => {
+            if (this.activeSection !== url[0]['path']) {
+              this.activeSection = url[0]['path'];
+              this.initDropNavigation(this.activeSection);
+            }
+          });
+
+        }
+        this.year = value.get('year');
+      }
+    });
+
   }
 
-  // coordinatorOrManager(name: string) {
-  //   let userInfo: UserInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-  //   if (userInfo.coordinators.filter(c => c.type === name).length > 0) {
-  //     return true;
-  //   } else if (userInfo.stakeholders.filter(c => c.type === name).length > 0) {
-  //     let stakeHolders: Stakeholder[] = userInfo.stakeholders.filter(c => c.type === name);
-  //     // let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-  //     for (const stakeHolder of stakeHolders) {
-  //       // console.log(stakeHolder.name);
-  //       if (stakeHolder.managers.indexOf(userInfo.user.email) >= 0)
-  //         return true;
-  //     }
-  //     return false
-  //   } else {
-  //     return false
-  //   }
-  //
-  // }
+  initDropNavigation(activeSection: string): void {
+    // console.log(UIkit.nav(this.nav.nativeElement));
+    switch (activeSection) {
+      case 'general':
+        UIkit.nav(this.nav.nativeElement).toggle(0, false);
+        break;
+      case 'policies':
+        UIkit.nav(this.nav.nativeElement).toggle(1, false);
+        break;
+      case 'practices':
+        UIkit.nav(this.nav.nativeElement).toggle(2, false);
+        break;
+      case 'glossary':
+        UIkit.nav(this.nav.nativeElement).toggle(3, false);
+        break;
+      default:
+        UIkit.nav(this.nav.nativeElement).toggle(0, false);
+    }
+  }
+
 
   toggleSidebar() {
     const el: HTMLElement = document.getElementById('sidebar_toggle');

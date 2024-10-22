@@ -42,41 +42,44 @@ export class General2022Component implements OnInit {
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {}
 
   ngOnInit() {
-    this.year = this.route.parent.snapshot.paramMap.get('year');
-    if (!this.year)
-      this.year = '2022';
+    this.route.parent.paramMap.subscribe({
+      next: value => {
+        if (this.year && this.year !== value.get('year')) {
+          if (this.type) {
+            this.initCharts(this.type);
+          }
+        }
+        this.year = value.get('year');
+      }
+    });
 
     this.route.params.subscribe(
       params => {
         this.type = params['type'];
-        if (params['type'] === 'researchers') {
-          this.getResearchersData();
-        }
-        if (params['type'] === 'RPOs') {
-          this.getRPOsData();
-        }
-        if (params['type'] === 'RFOs') {
-          this.getRFOsData();
-        }
-        if (params['type'] === 'repositories') {
-          this.getRepositoriesData();
-        }
-        if (params['type'] === 'investments') {
-          this.getInvestmentsData(8);
-          // this.getInvestmentsData(9);
-        }
-
+        this.initCharts(this.type);
       }
     );
 
-    // this.route.fragment.subscribe(
-    //   fragment => {
-    //     this.fragment = fragment;
-    //     if (this.fragment)
-    //       this.activateSwitcher(fragment);
-    //   }
-    // );
+  }
 
+  initCharts(type: string) {
+    switch (type) {
+      case 'researchers':
+        this.getResearchersData();
+        break;
+      case 'RPOs':
+        this.getRPOsData();
+        break;
+      case 'RFOs':
+        this.getRFOsData();
+        break;
+      case 'repositories':
+        this.getRepositoriesData();
+        break;
+      case 'investments':
+        this.getInvestmentsData(8);
+        break;
+    }
   }
 
   getResearchersData() {
