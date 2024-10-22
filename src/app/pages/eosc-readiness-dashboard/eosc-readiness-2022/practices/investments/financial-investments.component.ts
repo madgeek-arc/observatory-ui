@@ -40,8 +40,8 @@ export class FinancialInvestmentsComponent implements OnInit {
 
   ngOnInit() {
     this.year = this.route.parent.parent.snapshot.paramMap.get('year');
-    if (!this.year)
-      this.year = '2022';
+    // if (!this.year)
+    //   this.year = '2022';
 
     this.route.params.subscribe(
       params => {

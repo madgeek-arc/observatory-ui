@@ -54,7 +54,7 @@ import { DemoChartsComponent } from "./eosc-readiness-dynamic/demo/demo-charts.c
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
     path: '',
-    redirectTo: '2022',
+    redirectTo: '2023',
     pathMatch: 'full'
   },
   {
@@ -86,122 +86,122 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
     ],
     runGuardsAndResolvers: 'always'
   },
-  {
-    path: '2022',
-    component: EoscReadinessDashboard2022Component,
-    // canActivateChild: [ArchiveGuardService],
-    children: [
-      {
-        path: '',
-        redirectTo: 'general/researchers',
-        pathMatch: 'full',
-      },
-      {
-        path: 'general/:type',
-        component: General2022Component
-      },
-      {
-        path: 'policies',
-        component: Policies2022Component,
-        children: [
-          {
-            path: 'nationalPolicy/:type',
-            component: NationalPolicyComponent,
-            children: [
-              {
-                path: ':dataType',
-                component: NationalPolicySubcategoriesComponent,
-              }
-            ]
-          },
-          {
-            path: 'financialStrategy/:type',
-            component: FinancialStrategyComponent,
-            children: [
-              {
-                path: ':dataType',
-                component: FinancialStrategySubcategoriesComponent,
-              }
-            ]
-          },
-          {
-            path: 'RPOs/:type',
-            component: RPOsComponent,
-            children: [
-              {
-                path: ':dataType',
-                component: RPOsSubcategoriesComponent,
-              }
-            ]
-          },
-          {
-            path: 'RFOs/:type',
-            component: RFOsComponent,
-            children: [
-              {
-                path: ':dataType',
-                component: RFOsSubcategoriesComponent,
-              }
-            ]
-          }
-        ]
-      },
-      {
-        path: 'practices',
-        component: Practices2022Component,
-        children: [
-          {
-            path: 'nationalMonitoring/:type',
-            component: NationalMonitoringComponent,
-            children: [
-              {
-                path: ':dataType',
-                component: NationalMonitoringSubcategoriesComponent,
-              }
-            ]
-          },
-          {
-            path: 'useCases/:type',
-            component: UseCasesComponent,
-            children: [
-              {
-                path: ':dataType',
-                component: UseCasesSubcategoriesComponent,
-              }
-            ]
-          },
-          {
-            path: 'investments/:type',
-            component: FinancialInvestmentsComponent,
-            children: [
-              {
-                path: ':dataType',
-                component: FinancialInvestmentsSubcategoriesComponent,
-              }
-            ]
-          },
-          {
-            path: 'outputs/:type',
-            component: OutputsComponent,
-            children: [
-              {
-                path: ':dataType',
-                component: OutputsSubcategoriesComponent,
-              }
-            ]
-          }
-        ]
-      },
-      {
-        path: 'glossary',
-        component: Glossary2022Component
-      }
-    ]
-  },
+  // {
+  //   path: '2022',
+  //   component: EoscReadinessDashboard2022Component,
+  //   // canActivateChild: [ArchiveGuardService],
+  //   children: [
+  //     {
+  //       path: '',
+  //       redirectTo: 'general/researchers',
+  //       pathMatch: 'full',
+  //     },
+  //     {
+  //       path: 'general/:type',
+  //       component: General2022Component
+  //     },
+  //     {
+  //       path: 'policies',
+  //       component: Policies2022Component,
+  //       children: [
+  //         {
+  //           path: 'nationalPolicy/:type',
+  //           component: NationalPolicyComponent,
+  //           children: [
+  //             {
+  //               path: ':dataType',
+  //               component: NationalPolicySubcategoriesComponent,
+  //             }
+  //           ]
+  //         },
+  //         {
+  //           path: 'financialStrategy/:type',
+  //           component: FinancialStrategyComponent,
+  //           children: [
+  //             {
+  //               path: ':dataType',
+  //               component: FinancialStrategySubcategoriesComponent,
+  //             }
+  //           ]
+  //         },
+  //         {
+  //           path: 'RPOs/:type',
+  //           component: RPOsComponent,
+  //           children: [
+  //             {
+  //               path: ':dataType',
+  //               component: RPOsSubcategoriesComponent,
+  //             }
+  //           ]
+  //         },
+  //         {
+  //           path: 'RFOs/:type',
+  //           component: RFOsComponent,
+  //           children: [
+  //             {
+  //               path: ':dataType',
+  //               component: RFOsSubcategoriesComponent,
+  //             }
+  //           ]
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       path: 'practices',
+  //       component: Practices2022Component,
+  //       children: [
+  //         {
+  //           path: 'nationalMonitoring/:type',
+  //           component: NationalMonitoringComponent,
+  //           children: [
+  //             {
+  //               path: ':dataType',
+  //               component: NationalMonitoringSubcategoriesComponent,
+  //             }
+  //           ]
+  //         },
+  //         {
+  //           path: 'useCases/:type',
+  //           component: UseCasesComponent,
+  //           children: [
+  //             {
+  //               path: ':dataType',
+  //               component: UseCasesSubcategoriesComponent,
+  //             }
+  //           ]
+  //         },
+  //         {
+  //           path: 'investments/:type',
+  //           component: FinancialInvestmentsComponent,
+  //           children: [
+  //             {
+  //               path: ':dataType',
+  //               component: FinancialInvestmentsSubcategoriesComponent,
+  //             }
+  //           ]
+  //         },
+  //         {
+  //           path: 'outputs/:type',
+  //           component: OutputsComponent,
+  //           children: [
+  //             {
+  //               path: ':dataType',
+  //               component: OutputsSubcategoriesComponent,
+  //             }
+  //           ]
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       path: 'glossary',
+  //       component: Glossary2022Component
+  //     }
+  //   ]
+  // },
   {
     path: ':year',
     component: EoscReadinessDashboardComponent,
-    canActivateChild: [EoscReadinessGuard],
+    // canActivateChild: [EoscReadinessGuard],
     children: [
       {
         path: '',
