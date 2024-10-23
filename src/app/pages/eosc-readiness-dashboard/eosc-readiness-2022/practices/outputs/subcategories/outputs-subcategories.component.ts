@@ -39,7 +39,6 @@ export class OutputsSubcategoriesComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.route);
     this.year = this.route.parent.parent.parent.snapshot.paramMap.get('year');
     // if (!this.year)
     //   this.year = '2022';
