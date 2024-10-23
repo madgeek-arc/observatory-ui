@@ -176,7 +176,13 @@ export class DataHandlerService {
     }
     if (mergedArray) {
       for (let i = 0; i < mergedArray.length; i++) {
-        if (mergedArray[i] !== 'true' || tmpArr[i] !== 'true') {
+        if (isNumeric(mergedArray[i]) && isNumeric(tmpArr[i])) {
+          tmpArr[i] = (+mergedArray[i] + +tmpArr[i]).toString();
+        } else if (isNumeric(mergedArray[i])) {
+          tmpArr[i] = mergedArray[i];
+        } else if (isNumeric(tmpArr[i])) {
+          tmpArr[i] = tmpArr[i];
+        } else if (mergedArray[i] !== 'true' || tmpArr[i] !== 'true') {
           tmpArr[i] = '-';
         }
       }

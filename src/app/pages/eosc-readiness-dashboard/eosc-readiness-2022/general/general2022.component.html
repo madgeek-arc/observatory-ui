@@ -19,7 +19,9 @@
                   <span class="uk-text-muted">(in full-time equivalents)</span>
                 </div>
                 <div *ngIf="!sumsArray[0]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="sumsArray[0]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[0]}}</strong></div>
+                <div *ngIf="sumsArray[0]" class="uk-text-lead uk-margin-small-top">
+                  <strong>{{ sumsArray[0] | number: '':'el-GR' }}</strong>
+                </div>
               </div>
             </div>
 
@@ -46,7 +48,9 @@
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="indicator-label">Total number of Research-performing Organisations</div>
                 <div *ngIf="!sumsArray[1]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="sumsArray[1]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[1]}}</strong></div>
+                <div *ngIf="sumsArray[1]" class="uk-text-lead uk-margin-small-top">
+                  <strong>{{ sumsArray[1] | number: '':'el-GR' }}</strong>
+                </div>
               </div>
             </div>
 
@@ -72,7 +76,9 @@
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="indicator-label">Total number of Research-funding Organisations</div>
                 <div *ngIf="!sumsArray[2]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="sumsArray[2]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[2]}}</strong></div>
+                <div *ngIf="sumsArray[2]" class="uk-text-lead uk-margin-small-top">
+                  <strong>{{ sumsArray[2] | number: '':'el-GR' }}</strong>
+                </div>
               </div>
             </div>
 
@@ -98,7 +104,9 @@
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="indicator-label">Total number of repositories</div>
                 <div *ngIf="!sumsArray[3]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="sumsArray[3]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[3]}}</strong></div>
+                <div *ngIf="sumsArray[3]" class="uk-text-lead uk-margin-small-top">
+                  <strong>{{ sumsArray[3] | number: '':'el-GR' }}</strong>
+                </div>
               </div>
             </div>
 
@@ -234,7 +242,9 @@
                       <span class="uk-text-muted">(in millions of Euro)</span>
                     </div>
                     <div *ngIf="!sumsArray[8]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                    <div *ngIf="sumsArray[8]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[8]}} M</strong></div>
+                    <div *ngIf="sumsArray[8]" class="uk-text-lead uk-margin-small-top">
+                      <strong>{{ sumsArray[8] }} M</strong>
+                    </div>
                   </div>
                 </div>
                 <div class="uk-card uk-card-default uk-card-body">

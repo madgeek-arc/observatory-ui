@@ -9,6 +9,10 @@ import { zip } from "rxjs/internal/observable/zip";
 import { RawData } from "../../../../../../../survey-tool/app/domain/raw-data";
 import { isNumeric } from "rxjs/internal-compatibility";
 import UIkit from "uikit";
+import { registerLocaleData } from "@angular/common";
+import localeEL from '@angular/common/locales/el';
+
+registerLocaleData(localeEL); // Register Greek locale
 
 @Component({
   selector: 'app-outputs-subcategories',
@@ -35,9 +39,9 @@ export class OutputsSubcategoriesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.year = this.route.parent.parent.snapshot.paramMap.get('year');
-    if (!this.year)
-      this.year = '2022';
+    this.year = this.route.parent.parent.parent.snapshot.paramMap.get('year');
+    // if (!this.year)
+    //   this.year = '2022';
 
     this.route.params.subscribe(
       params => {

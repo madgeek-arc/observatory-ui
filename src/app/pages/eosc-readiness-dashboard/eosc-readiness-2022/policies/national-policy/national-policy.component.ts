@@ -1,15 +1,15 @@
-import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {EoscReadinessDataService} from "../../../../services/eosc-readiness-data.service";
-import {StakeholdersService} from "../../../../../../survey-tool/app/services/stakeholders.service";
-import {DataHandlerService} from "../../../../services/data-handler.service";
-import {CountryTableData} from "../../../../../../survey-tool/app/domain/country-table-data";
-import {ColorPallet, EoscReadiness2022MapSubtitles} from "../../eosc-readiness2022-map-subtitles";
-import {latlong} from "../../../../../../survey-tool/app/domain/countries-lat-lon";
-import {ActivityGauge, CategorizedAreaData, Series} from "../../../../../../survey-tool/app/domain/categorizedAreaData";
-import {zip} from "rxjs/internal/observable/zip";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
+import { StakeholdersService } from "../../../../../../survey-tool/app/services/stakeholders.service";
+import { DataHandlerService } from "../../../../services/data-handler.service";
+import { CountryTableData } from "../../../../../../survey-tool/app/domain/country-table-data";
+import { ColorPallet, EoscReadiness2022MapSubtitles } from "../../eosc-readiness2022-map-subtitles";
+import { latlong } from "../../../../../../survey-tool/app/domain/countries-lat-lon";
+import { ActivityGauge, CategorizedAreaData, Series } from "../../../../../../survey-tool/app/domain/categorizedAreaData";
+import { zip } from "rxjs/internal/observable/zip";
+import { countries } from "../../../../../../survey-tool/app/domain/countries";
 import UIkit from "uikit";
-import {countries} from "../../../../../../survey-tool/app/domain/countries";
 
 @Component({
   selector: 'app-national-policy',
@@ -18,6 +18,7 @@ import {countries} from "../../../../../../survey-tool/app/domain/countries";
 
 export class NationalPolicyComponent implements OnInit {
 
+  type: string = null;
   year: string = null;
 
   countriesArray: string[] = [];
@@ -39,12 +40,13 @@ export class NationalPolicyComponent implements OnInit {
 
   ngOnInit() {
     this.year = this.route.parent.parent.snapshot.paramMap.get('year');
-    if (!this.year)
-      this.year = '2022';
+    // if (!this.year)
+    //   this.year = '2022';
 
     this.route.params.subscribe(
       params => {
         // console.log('policies component params');
+        this.type = params['type'];
         if (params['type'] === 'all') {
           UIkit.switcher('#topSelector').show(0);
           this.getAllData();
@@ -188,7 +190,6 @@ export class NationalPolicyComponent implements OnInit {
       this.queryData.getQuestionComment(this.year, 'Question6'),
     ).subscribe(
       res => {
-        console.log(res);
         this.countriesArray = res[0];
         this.tableAbsoluteDataArray[0] = this.dataHandlerService.convertRawDataToTableData(res[1]);
         this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
