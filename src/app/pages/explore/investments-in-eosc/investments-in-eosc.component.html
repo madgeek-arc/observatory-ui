@@ -40,6 +40,42 @@
   </div>
 </div>
 
+<!--<div class="uk-section uk-section-small">-->
+<!--  <div class="uk-container uk-container-expand">-->
+<!--    <table class="uk-table uk-table-divider">-->
+<!--      <thead>-->
+<!--      <tr>-->
+<!--        <th>Country</th>-->
+<!--        <th>Citizen Science</th>-->
+<!--        <th>Software</th>-->
+<!--        <th>Open Data</th>-->
+<!--        <th>FAIR Data</th>-->
+<!--        <th>Data Management</th>-->
+<!--        <th>Services in EOSC</th>-->
+<!--        <th>Repositories</th>-->
+<!--        <th>Data stewardship</th>-->
+<!--        <th>Data preservation</th>-->
+<!--        <th>Open Access</th>-->
+<!--        <th>Skills/training</th>-->
+<!--        <th>Incentives/Rewards</th>-->
+<!--        <th>Other</th>-->
+<!--        <th>Total</th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr *ngFor="let row of countryArray">-->
+<!--        <td *ngFor="let rowEl of row; let i=index">-->
+<!--          <span *ngIf="i !== row.length-2; else calcOther">{{ (rowEl === 'null' || rowEl === '') ? '&#45;&#45;' : rowEl }}</span>-->
+<!--          <ng-template #calcOther>-->
+<!--            {{ (row[row.length-1] === 'null' || row[row.length-1] === '') ? '&#45;&#45;' : (+row[row.length-1] - (+row[row.length-2])).toFixed(2) }}-->
+<!--          </ng-template>-->
+<!--        </td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--  </div>-->
+<!--</div>-->
+
 <div class="uk-section uk-section-small uk-margin-top" #exportContent2>
   <div class="uk-container uk-container-expand">
 

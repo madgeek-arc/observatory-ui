@@ -43,6 +43,8 @@ export class InvestmentsInEoscComponent implements OnInit {
     followPointer: true
   }
 
+  countryArray: string[][] = [];
+
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
@@ -184,20 +186,27 @@ export class InvestmentsInEoscComponent implements OnInit {
       this.queryData.getQuestion(this.year, 'Question72'),  // Investments in open source software
       this.queryData.getQuestion(this.year, 'Question68'),  // Investments in open data
       this.queryData.getQuestion(this.year, 'Question64'),  // Investments in FAIR data
+      // this.queryData.getQuestion(this.year, 'Question60'),  // Investments in Data Management
       this.queryData.getQuestion(this.year, 'Question76'),  // Investments in offering services through EOSC
       this.queryData.getQuestion(this.year, 'Question80'),  // Investments in connecting repositories to EOSC
+      // this.queryData.getQuestion(this.year, 'Question84'),  // Investments in data stewardship
+      // this.queryData.getQuestion(this.year, 'Question88'),  // Investments in long-term Data Preservation
       this.queryData.getQuestion(this.year, 'Question56'),  // Investments in open access publications
+      // this.queryData.getQuestion(this.year, 'Question92'),  // Investments in skills/training
+      // this.queryData.getQuestion(this.year, 'Question96'),  // Investments in incentives/rewards
+      this.queryData.getQuestion(this.year, 'Question5'),   // Total Investments per country
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
         this.variablePie = this.createPieSeries(value);
+        // this.countryArray = this.mergeByCountryCode(value);
       },
       error: err => {console.error(err)}
     });
   }
 
   createPieSeries(data: RawData[]) {
-    const names = ['Citizen Science', 'Software', 'Open Data', 'FAIR Data', 'Services in EOSC', 'Repositories', 'Open Access'];
+    const names = ['Citizen Science', 'Software', 'Open Data', 'FAIR Data', 'Services in EOSC', 'Repositories', 'Open Access', 'Other'];
     const series = [{
       minPointSize: 10,
       innerSize: '20%',
@@ -212,15 +221,20 @@ export class InvestmentsInEoscComponent implements OnInit {
         '#1feeaf',
         '#0ff3a0',
         '#00e887',
-        '#23e274'
+        '#23e274',
+        '#26cd6e'
       ]
     }];
-    for (let i = 0; i < data.length; i++) {
+
+    let sum = 0.0;
+    for (let i = 0; i < data.length-1; i++) {
       let item = {name: names[i], y: this.calculateSum(data[i]), z: 80};
+      sum += item.y;
       series[0].data.push(item);
     }
-    // series[0].data.sort((a, b) => a.y - b.y);
-    // console.log(series);
+
+    let other = +(this.calculateSum(data[data.length-1]) - sum).toFixed(2);
+    series[0].data.push({name: names[names.length-1], y: other, z: 80});
     return series;
   }
 
@@ -301,6 +315,44 @@ export class InvestmentsInEoscComponent implements OnInit {
       }
     }
     return (Math.round((sum + Number.EPSILON) * 100) / 100);
+  }
+
+  mergeByCountryCode(rawData: RawData[]): string[][] { // Function to merge arrays by country code
+    let data: string[][][] = [];
+    for (let i = 0; i < rawData.length; i++) {
+      data[i] = [];
+      rawData[i].datasets[0].series.result.forEach(el => {
+        data[i].push(el.row);
+      })
+    }
+
+    const mergedData: Record<string, string[]> = {};
+
+    // Loop through each internal array
+    data.forEach((array) => {
+      array.forEach(([country, value]) => {
+        if (!mergedData[country]) {
+          mergedData[country] = []; // Initialize if not existing
+        }
+        mergedData[country].push(value); // Add value to the country
+      });
+    });
+    // console.log(mergedData);
+    for (let mergedDataKey in mergedData) {
+      // console.log(mergedData[mergedDataKey]);
+      let sum = 0.0;
+      mergedData[mergedDataKey].forEach((value, index) => {
+        if (index === mergedData[mergedDataKey].length-1) // Ignore total
+          return;
+
+        if (this.isNumeric(value))
+          sum += +value;
+      });
+      mergedData[mergedDataKey].splice(mergedData[mergedDataKey].length-1, 0, sum.toFixed(2));
+    }
+
+    // Convert the merged data into an array of arrays, each starting with the country code
+    return Object.entries(mergedData).map(([country, values]) => [country, ...values]);
   }
 
 }
