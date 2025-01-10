@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:madgeek-arc/messaging-system-ui.git
 	branch = main
-	commit = 66f37c3f207ac4319b432e3c73f84df0a9961a35
+	commit = aeba120c1cce305992114559a7badbd59beb94cd
 	method = merge
-	cmdver = 0.4.1
+	cmdver = 0.4.3
 	parent = 1160076306fe9efab393710a299653542f3f286a
