@@ -24,6 +24,9 @@ import { FixedTooltipMapComponent } from "./charts/fixed-tooltip-map/fixed-toolt
 import { BarChartComponent } from "./charts/bar-chart/bar-chart.component";
 import { StackedColumnComponent } from "./charts/stacked-column-chart/stacked-column.component";
 import { TreemapComponent } from "./charts/treemap/treemap.component";
+import {
+  HighchartsCustomHighlightedMapComponent
+} from "./charts/custom-highlighted-map/highcharts-custom-highlighted-map.component";
 
 @NgModule({
   imports: [
@@ -41,6 +44,7 @@ import { TreemapComponent } from "./charts/treemap/treemap.component";
     HighchartsCategoryMapComponent,
     HighchartsBubbleMapComponent,
     HighchartsColorAxisMapComponent,
+    HighchartsCustomHighlightedMapComponent,
     HighchartsBarComponent,
     HighchartsColumnRangesComponent,
     GaugeActivityComponent,
@@ -61,6 +65,7 @@ import { TreemapComponent } from "./charts/treemap/treemap.component";
     ForbiddenPageComponent,
     HighchartsTilemapComponent,
     HighchartsCategoryMapComponent,
+    HighchartsCustomHighlightedMapComponent,
     HighchartsBubbleMapComponent,
     HighchartsColorAxisMapComponent,
     HighchartsBarComponent,
