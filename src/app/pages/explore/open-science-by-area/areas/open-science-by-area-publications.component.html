@@ -8,7 +8,7 @@
 
     <div class="uk-flex uk-flex-between uk-flex-middle">
       <h4>Open Science by Area</h4>
-      <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4], 'Open Access Publications')" style="cursor: pointer">
+      <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5], 'Open Access Publications')" style="cursor: pointer">
         <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
           <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
             Export report
@@ -126,6 +126,37 @@
         </div>
       </div>
 
+      <div *ngIf="countriesWithPolicyImmediate.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of <strong>EU countries with Policy on Immediate OA Publications</strong></p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ countriesWithPolicyImmediate[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="countriesWithPolicyImmediate[1] >= countriesWithPolicyImmediate[0]; else policyImmediateDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(countriesWithPolicyImmediate[0] - countriesWithPolicyImmediate[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyImmediateDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(countriesWithPolicyImmediate[0] - countriesWithPolicyImmediate[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
       <div *ngIf="countriesWithStrategy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
@@ -191,14 +222,30 @@
     </div>
 
     <div class="uk-flex uk-flex-center uk-margin-top">
-      <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science.
+      <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022; OpenAIRE Graph data from [date of last data download].
     </div>
 
   </div>
 </div>
 
-
 <div class="uk-section uk-section-small uk-margin-top" #exportContent2>
+  <div class="uk-container uk-container-expand">
+
+    <div class="uk-child-width-1-2 uk-grid-match" uk-grid>
+      <div style="height: 600px">
+        <app-highcharts-category-map [mapData]="questionsDataArray[0]" [subtitle]="" [toolTipData]="toolTipData[0]"
+                                     [title]="'National policy on open access publications'" [backgroundColor]="'#ffffff'">
+        </app-highcharts-category-map>
+      </div>
+      <div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent3>
   <div class="uk-container uk-container-expand">
     <h5>Trend of Open Access Publications</h5>
 
@@ -227,7 +274,7 @@
   </div>
 </div>
 
-<div class="uk-section uk-section-small uk-margin-top" #exportContent3>
+<div class="uk-section uk-section-small uk-margin-top" #exportContent4>
   <div class="uk-container uk-container-expand">
     <h5>Distribution of Open Access Types by Different Scholarly Publication Outputs</h5>
 
@@ -248,7 +295,7 @@
   </div>
 </div>
 
-<div class="uk-section uk-section-small uk-margin-top" #exportContent4>
+<div class="uk-section uk-section-small uk-margin-top" #exportContent5>
   <div class="uk-container uk-container-expand">
     <h5>Distribution of Open Access Types by Fields of Science</h5>
 

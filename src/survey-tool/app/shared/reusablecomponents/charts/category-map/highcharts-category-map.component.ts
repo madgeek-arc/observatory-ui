@@ -5,6 +5,7 @@ import { SeriesOptionsType } from "highcharts/highmaps";
 import { PremiumSortPipe } from "../../../../../catalogue-ui/shared/pipes/premium-sort.pipe";
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
+import {backgroundColor} from "html2canvas/dist/types/css/property-descriptors/background-color";
 
 HC_exporting(Highcharts);
 HC_ExportingOffline(Highcharts);
@@ -26,6 +27,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   @Input() pointFormat: string = null;
   @Input() mapType: string = null;
   @Input() toolTipData: Map<string, string> = new Map;
+  @Input() backgroundColor?: string = undefined;
   @Output() mapClick = new EventEmitter<any>();
 
   chart;
@@ -33,12 +35,13 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   updateFlag = false;
   Highcharts: typeof Highcharts = Highcharts;
   colorPallet = ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#A9A9A9'];
-  backgroundColor: string = '#ffffff';
   datasetOrder = [ 'Yes', 'Partly', 'In planning', 'No', 'Awaiting data' ];
   premiumSort = new PremiumSortPipe();
   chartConstructor = "mapChart";
   ready = false;
   chartOptions: Highcharts.Options;
+
+  customLabelText = 'Custom Info Box <br>with <strong>Variable</strong>';
 
   constructor() {
     const self = this;
@@ -52,7 +55,8 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--medium-grey');
+    if(!this.backgroundColor)
+      this.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--medium-grey');
     this.createMap();
   }
 
@@ -104,7 +108,66 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       chart: {
         map: worldMap,
         spacingBottom: 20,
-        backgroundColor: this.backgroundColor
+        backgroundColor: this.backgroundColor,
+        events: {
+          // load: function () {
+          //   // Create a custom info box
+          //   const infoBox = document.createElement('div');
+          //   infoBox.innerHTML = 'Custom Info Box';
+          //   infoBox.style.position = 'absolute';
+          //   infoBox.style.top = '130px';
+          //   infoBox.style.right = '30px';
+          //   infoBox.style.backgroundColor = 'white';
+          //   infoBox.style.padding = '10px';
+          //   infoBox.style.border = '1px solid #ccc';
+          //   infoBox.style.zIndex = '1000'; // Ensure it's on top
+          //   this.container.appendChild(infoBox);
+          // }
+          load: function () {
+            // Define your custom label text
+            // const customLabelText = 'Custom Info Box <br>with <strong>Variable</strong>';
+
+            const chart = this;
+            const infoBox = chart.renderer.label(that.customLabelText, 10, 10, null, null, null, true)
+              .attr({
+                fill: '#AAD3D7',
+                padding: 10,
+                zIndex: 5,
+                borderWidth: 1,
+                borderColor: '#AAD3D7',
+                borderRadius: 30
+              })
+              .css({
+                color: '#333',
+                borderRadius: 30
+              })
+              .add();
+
+            // Position the info box at the top right corner
+            // infoBox.translate(chart.plotWidth - 120, 10);
+            infoBox.translate(chart.plotWidth - 160, 130);
+            // const chart = this;
+            //
+            // const customLabelHTML = '<strong>Custom Info Box</strong><br><em>Styled with HTML</em>';
+            //
+            // // Create a div for the custom info box
+            // const infoBox = document.createElement('div');
+            // infoBox.innerHTML = customLabelHTML;
+            // infoBox.style.position = 'absolute';
+            // infoBox.style.top = '130px';
+            // infoBox.style.right = '30px';
+            // infoBox.style.backgroundColor = '#f9f9f9'; // Custom background color
+            // infoBox.style.padding = '10px';
+            // infoBox.style.border = '1px solid #ccc';
+            // infoBox.style.borderRadius = '5px';
+            // infoBox.style.zIndex = '1000'; // Ensure it's on top
+            // infoBox.style.color = '#333';
+            // infoBox.style.fontSize = '14px';
+            //
+            // // Append the info box to the chart container
+            // chart.container.appendChild(infoBox);
+          }
+        }
       },
       mapView: {
         center: [15, 50],
@@ -175,7 +238,26 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       series: [] as SeriesOptionsType[],
       exporting: {
         sourceWidth: 1200,
-        sourceHeight: 800
+        sourceHeight: 800,
+        // chartOptions: {
+        //   // Include the custom info box in the export
+        //   chart: {
+        //     events: {
+        //       load: function () {
+        //         const infoBox = document.createElement('div');
+        //         infoBox.innerHTML = 'Custom Info Box';
+        //         infoBox.style.position = 'absolute';
+        //         infoBox.style.top = '130px';
+        //         infoBox.style.right = '30px';
+        //         infoBox.style.backgroundColor = 'white';
+        //         infoBox.style.padding = '10px';
+        //         infoBox.style.border = '1px solid #ccc';
+        //         infoBox.style.zIndex = '1000';
+        //         this.container.appendChild(infoBox);
+        //       }
+        //     }
+        //   }
+        // }
         // scale: 1,
       }
     }

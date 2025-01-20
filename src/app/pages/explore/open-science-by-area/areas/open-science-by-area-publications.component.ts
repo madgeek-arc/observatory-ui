@@ -11,6 +11,16 @@ import {
 import * as Highcharts from "highcharts";
 import { OptionsStackingValue } from "highcharts";
 import { PdfExportService } from "../../../services/pdf-export.service";
+import {zip} from "rxjs/internal/observable/zip";
+import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
+import {CategorizedAreaData, Series} from "../../../../../survey-tool/app/domain/categorizedAreaData";
+import {
+  ColorPallet,
+  EoscReadiness2022MapSubtitles
+} from "../../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
+import {latlong} from "../../../../../survey-tool/app/domain/countries-lat-lon";
+import {DataHandlerService} from "../../../services/data-handler.service";
+import {CountryTableData} from "../../../../../survey-tool/app/domain/country-table-data";
 
 
 @Component({
@@ -106,12 +116,22 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   treemapData: Highcharts.PointOptionsObject[] = [];
 
   countriesWithPolicy: number[] = [];
+  countriesWithPolicyImmediate: number[] = [];
   countriesWithStrategy: number[] = [];
   countriesWithMonitoring: number[] = [];
   totalInvestments: number[] = [];
   OAPublications: number[] = [];
 
-  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
+  countriesArray: string[] = [];
+  questionsDataArray: any[] = [];
+  tmpQuestionsDataArray: any[] = [];
+  mapPointData: CountryTableData[];
+  toolTipData: Map<string, string>[] = [];
+
+  mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
+
+  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
+              private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {}
 
   ngOnInit() {
     this.getPublicationPercentage();
@@ -124,9 +144,98 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
       this.getTotalInvestments(year, index);
       this.getCountriesWithFinancialStrategy(year, index);
       this.getNationalMonitoring(year, index);
+      this.getCountriesWithPolicyImmediate(year, index);
+      this.getPublicationsMapData();
       // this.getPlans(year, index);
     });
 
+  }
+
+  /** Get maps data ----------------------------------------------------------------------------------> **/
+  getPublicationsMapData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      // this.queryData.getQuestion6(),
+      this.queryData.getQuestion(this.years[this.years.length-1], 'Question6'),
+      // this.queryData.getQuestion6_1(),
+      this.queryData.getQuestion(this.years[this.years.length-1], 'Question6.1'),
+      // this.queryData.getQuestion6comment(),
+      this.queryData.getQuestionComment(this.years[this.years.length-1], 'Question6'),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
+          this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
+        }
+        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[3]);
+        this.mapPointData = this.dataHandlerService.convertRawDataToTableData(res[2]);
+        this.createMapDataFromCategorizationWithDots(0,0);
+
+      },
+      error => {console.error(error)},
+      () => {}
+    );
+  }
+
+  createMapDataFromCategorizationWithDots(index: number, mapCount: number) {
+    // this.mapSubtitles[index] = this.mapSubtitlesArray[mapCount][index];
+
+    this.questionsDataArray[index] = new CategorizedAreaData();
+
+    let position = 0;
+    for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
+      if (this.tmpQuestionsDataArray[index].series[i].name === 'Awaiting data')
+        continue;
+      position = this.tmpQuestionsDataArray[index].series[i].name === 'No'? 1 : 0;
+      this.questionsDataArray[index].series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
+      this.questionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
+      this.questionsDataArray[index].series[i].showInLegend = true;
+      this.questionsDataArray[index].series[i].color = ColorPallet[position];
+    }
+    let countryCodeArray = [];
+    for (let i = 0; i < this.questionsDataArray[index].series.length; i++) {
+      for (const data of this.questionsDataArray[index].series[i].data) {
+        countryCodeArray.push(data.code)
+      }
+    }
+
+    if (countryCodeArray.length > 0) {
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[2];
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data.map(code => ({ code }));
+    }
+
+    let mapPointArray1 = [];
+    let mapPointArray2 = [];
+    for (let i = 0; i < this.mapPointData.length; i++) {
+      if (this.mapPointData[i].dedicatedFinancialContributionsToEOSCLinkedToPolicies === 'Yes') {
+        mapPointArray1.push({name: this.mapPointData[i].code, lat: latlong.get(this.mapPointData[i].code).latitude, lon: latlong.get(this.mapPointData[i].code).longitude});
+      } else if (this.mapPointData[i].dedicatedFinancialContributionsToEOSCLinkedToPolicies === 'No') {
+        mapPointArray2.push({name: this.mapPointData[i].code, lat: latlong.get(this.mapPointData[i].code).latitude, lon: latlong.get(this.mapPointData[i].code).longitude});
+      }
+    }
+
+    let pos: number;
+    if (mapPointArray1.length > 0) {
+      pos = this.questionsDataArray[index].series.length;
+      this.questionsDataArray[index].series[pos] = new Series('National policy is mandatory', false, 'mappoint');
+      this.questionsDataArray[index].series[pos].data = mapPointArray1;
+      this.questionsDataArray[index].series[pos].color = '#7CFC00';
+      this.questionsDataArray[index].series[pos].marker.symbol = 'circle';
+      this.questionsDataArray[index].series[pos].showInLegend = true;
+    }
+
+    if (mapPointArray2.length > 0) {
+      pos = this.questionsDataArray[index].series.length;
+      this.questionsDataArray[index].series[pos] = new Series('National policy is not mandatory', false, 'mappoint');
+      this.questionsDataArray[index].series[pos].data = mapPointArray2;
+      this.questionsDataArray[index].series[pos].color = '#FFEF00';
+      this.questionsDataArray[index].series[pos].marker.symbol = 'diamond';
+      this.questionsDataArray[index].series[pos].showInLegend = true;
+    }
   }
 
   /** Get trends of Publications ----------------------------------------------------------------------------------> **/
@@ -261,6 +370,15 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     this.queryData.getQuestion(year, 'Question6').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.countriesWithPolicy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
+      }
+    });
+  }
+
+  /** Get countries with policy on immediate OA Publications percentage --------------------------------------------------------> **/
+  getCountriesWithPolicyImmediate(year: string, index: number) {
+    this.queryData.getQuestion(year, 'Question6.3').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        this.countriesWithPolicyImmediate[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
       }
     });
   }
