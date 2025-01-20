@@ -5,7 +5,6 @@ import { SeriesOptionsType } from "highcharts/highmaps";
 import { PremiumSortPipe } from "../../../../../catalogue-ui/shared/pipes/premium-sort.pipe";
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
-import {backgroundColor} from "html2canvas/dist/types/css/property-descriptors/background-color";
 
 HC_exporting(Highcharts);
 HC_ExportingOffline(Highcharts);
@@ -27,7 +26,10 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   @Input() pointFormat: string = null;
   @Input() mapType: string = null;
   @Input() toolTipData: Map<string, string> = new Map;
+  @Input() customLabelText?: string = undefined;
   @Input() backgroundColor?: string = undefined;
+  @Input() caption?: string = undefined;
+
   @Output() mapClick = new EventEmitter<any>();
 
   chart;
@@ -40,8 +42,6 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   chartConstructor = "mapChart";
   ready = false;
   chartOptions: Highcharts.Options;
-
-  customLabelText = 'Custom Info Box <br>with <strong>Variable</strong>';
 
   constructor() {
     const self = this;
@@ -124,28 +124,29 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
           //   this.container.appendChild(infoBox);
           // }
           load: function () {
-            // Define your custom label text
+
             // const customLabelText = 'Custom Info Box <br>with <strong>Variable</strong>';
+            if (that.customLabelText) {
+              // Define your custom label text
+              const infoBox = this.renderer.label(that.customLabelText, 10, 10, null, null, null, true)
+                .attr({
+                  fill: '#AAD3D7',
+                  padding: 10,
+                  zIndex: 5,
+                  borderWidth: 1,
+                  borderColor: '#AAD3D7',
+                  borderRadius: 30
+                })
+                .css({
+                  color: '#333',
+                  borderRadius: 30
+                })
+                .add();
 
-            const chart = this;
-            const infoBox = chart.renderer.label(that.customLabelText, 10, 10, null, null, null, true)
-              .attr({
-                fill: '#AAD3D7',
-                padding: 10,
-                zIndex: 5,
-                borderWidth: 1,
-                borderColor: '#AAD3D7',
-                borderRadius: 30
-              })
-              .css({
-                color: '#333',
-                borderRadius: 30
-              })
-              .add();
+              // Position the info box in the top right corner
+              infoBox.translate(this.plotWidth - 180, 130);
+            }
 
-            // Position the info box at the top right corner
-            // infoBox.translate(chart.plotWidth - 120, 10);
-            infoBox.translate(chart.plotWidth - 160, 130);
             // const chart = this;
             //
             // const customLabelHTML = '<strong>Custom Info Box</strong><br><em>Styled with HTML</em>';

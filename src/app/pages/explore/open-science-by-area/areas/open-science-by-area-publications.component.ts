@@ -36,6 +36,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   exportActive = false;
 
   years = ['2022', '2023'];
+  lastUpdateDate: Date | null = null;
 
   stackedColumnCategories = ['2020', '2021', '2022', '2023', '2024'];
   stackedColumnSeries = [
@@ -125,6 +126,8 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   countriesArray: string[] = [];
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
+  participatingCountries: number[] = [];
+  total: number[] = [];
   mapPointData: CountryTableData[];
   toolTipData: Map<string, string>[] = [];
 
@@ -139,20 +142,37 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     this.getDistributionOAPublication();
     this.getDistributionOAByScienceFields();
 
+    this.queryData.getLastUpdateDate().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: data => {
+        let lastUpdateDate: string;
+
+        for (const series of data.datasets) {
+          if (series.series.query.name === 'creation_date') {
+            lastUpdateDate = series.series.result[0].row[0];
+          }
+        }
+        this.lastUpdateDate = new Date(lastUpdateDate);
+      },
+      error: error => {
+        console.error(error);
+      }
+    });
+
     this.years.forEach((year, index) => {
       this.getCountriesWithPolicy(year, index);
       this.getTotalInvestments(year, index);
       this.getCountriesWithFinancialStrategy(year, index);
       this.getNationalMonitoring(year, index);
       this.getCountriesWithPolicyImmediate(year, index);
-      this.getPublicationsMapData();
+      this.getPoliciesOnPublicationsMapData();
+      this.getMonitoringPublicationsData();
       // this.getPlans(year, index);
     });
 
   }
 
   /** Get maps data ----------------------------------------------------------------------------------> **/
-  getPublicationsMapData() {
+  getPoliciesOnPublicationsMapData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       // this.queryData.getQuestion6(),
@@ -165,6 +185,8 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
       res => {
         this.countriesArray = res[0];
         this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[0] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.total[0] = res[1].datasets[0].series.result.length;
         for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
@@ -176,6 +198,57 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
       error => {console.error(error)},
       () => {}
     );
+  }
+
+  getMonitoringPublicationsData() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      // this.queryData.getQuestion54(),
+      this.queryData.getQuestion(this.years[this.years.length-1], 'Question54'),
+      // this.queryData.getQuestion54comment(),
+      this.queryData.getQuestionComment(this.years[this.years.length-1], 'Question54'),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[1] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.total[1] = res[1].datasets[0].series.result.length;
+        for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
+          this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
+        }
+        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        this.createMapDataFromCategorization(1,2);
+      }
+    );
+  }
+
+  createMapDataFromCategorization(index: number, mapCount: number) {
+    // this.mapSubtitles[mapCount] = this.mapSubtitlesArray[mapCount][index];
+
+    this.questionsDataArray[index] = new CategorizedAreaData();
+
+    let position = 0;
+    for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
+      if (this.tmpQuestionsDataArray[index].series[i].name === 'Awaiting data')
+        continue;
+      position = this.tmpQuestionsDataArray[index].series[i].name === 'No'? 1 : 0;
+      this.questionsDataArray[index].series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
+      this.questionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
+      this.questionsDataArray[index].series[i].showInLegend = true;
+      this.questionsDataArray[index].series[i].color = ColorPallet[position];
+    }
+    let countryCodeArray = [];
+    for (let i = 0; i < this.questionsDataArray[index].series.length; i++) {
+      for (const data of this.questionsDataArray[index].series[i].data) {
+        countryCodeArray.push(data.code)
+      }
+    }
+
+    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
+    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
+    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[2];
+    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
+    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data.map(code => ({ code }));
   }
 
   createMapDataFromCategorizationWithDots(index: number, mapCount: number) {

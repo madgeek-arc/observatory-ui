@@ -232,13 +232,25 @@
   <div class="uk-container uk-container-expand">
 
     <div class="uk-child-width-1-2 uk-grid-match" uk-grid>
-      <div style="height: 600px">
-        <app-highcharts-category-map [mapData]="questionsDataArray[0]" [subtitle]="" [toolTipData]="toolTipData[0]"
-                                     [title]="'National policy on open access publications'" [backgroundColor]="'#ffffff'">
-        </app-highcharts-category-map>
+      <div>
+        <div style="height: 600px">
+          <app-highcharts-category-map
+            [mapData]="questionsDataArray[0]" [subtitle]="" [toolTipData]="toolTipData[0]"
+            [title]="'National policy on open access publications'" [backgroundColor]="'#ffffff'"
+            [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on open<br> access publications'">
+          </app-highcharts-category-map>
+        </div>
+        <p><b>Data source:</b> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>
       </div>
       <div>
-
+        <div style="height: 600px">
+          <app-highcharts-category-map
+            [mapData]="questionsDataArray[1]" [subtitle]="" [toolTipData]="toolTipData[1]"
+            [title]="'National monitoring on open access publications'" [backgroundColor]="'#ffffff'"
+            [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>open access <br>publications'">
+          </app-highcharts-category-map>
+        </div>
+        <p><b>Data source:</b> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>
       </div>
     </div>
 

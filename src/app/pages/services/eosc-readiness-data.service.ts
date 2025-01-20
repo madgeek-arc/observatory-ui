@@ -41,6 +41,10 @@ export class EoscReadinessDataService {
     return this.httpClient.get<ChartData>(this.OSOStatsAPIURL + 'chart/json?json=' + encodeURIComponent(JSONString), headerOptions);
   }
 
+  getLastUpdateDate() {
+    return this.httpClient.get<RawData>(this.OSOStatsAPIURL + 'raw?json={"series":[{"query":{"name":"creation_date","profile":"observatory"}}],"verbose":true}');
+  }
+
   // ======= GENERAL ========
   public getQuestion1(): Observable<RawData> {
     const query: string = `{"series":[{"query":{"name":"eosc.sb.2022.Question1","profile":"${this.profileName}"}}],"verbose":true}`
