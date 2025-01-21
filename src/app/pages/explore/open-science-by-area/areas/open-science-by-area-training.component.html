@@ -8,7 +8,7 @@
 
     <div class="uk-flex uk-flex-between uk-flex-middle">
       <h4>Open Science by Area</h4>
-      <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1], 'Training for Open Science')" style="cursor: pointer">
+      <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2], 'Training for Open Science')" style="cursor: pointer">
         <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
         <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
           Export report
@@ -170,6 +170,31 @@
 
     <div class="uk-flex uk-flex-center uk-margin-top">
       <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science.
+    </div>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent2>
+  <div class="uk-container uk-container-expand">
+
+    <div class="uk-child-width-1-2 uk-grid-match" uk-grid>
+      <div style="height: 600px">
+        <app-highcharts-category-map
+          [mapData]="questionsDataArray[0]" [subtitle]="" [toolTipData]="toolTipData[0]"
+          [title]="'National Policy on Skills/Training in Open Science'" [backgroundColor]="'#ffffff'"
+          [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on open<br> access publications'"
+          [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
+        </app-highcharts-category-map>
+      </div>
+      <div style="height: 600px">
+        <app-highcharts-category-map
+          [mapData]="questionsDataArray[1]" [subtitle]="" [toolTipData]="toolTipData[1]"
+          [title]="'National Monitoring on Skills/Training in Open Science'" [backgroundColor]="'#ffffff'"
+          [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>open access <br>publications'"
+          [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
+        </app-highcharts-category-map>
+      </div>
     </div>
 
   </div>

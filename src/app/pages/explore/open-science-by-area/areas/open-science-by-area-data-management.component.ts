@@ -6,6 +6,14 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
 import { zip } from "rxjs/internal/observable/zip";
 import { PdfExportService } from "../../../services/pdf-export.service";
+import { CountryTableData } from "../../../../../survey-tool/app/domain/country-table-data";
+import {
+  ColorPallet,
+  EoscReadiness2022MapSubtitles
+} from "../../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
+import { CategorizedAreaData, Series } from "../../../../../survey-tool/app/domain/categorizedAreaData";
+import { latlong } from "../../../../../survey-tool/app/domain/countries-lat-lon";
+import { DataHandlerService } from "../../../services/data-handler.service";
 
 @Component({
   selector: 'app-open-science-by-area-data-management',
@@ -62,7 +70,18 @@ export class OpenScienceByAreaDataManagementComponent {
   countriesWithMonitoring: number[] = [];
   totalInvestments: number[] = [];
 
-  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
+  countriesArray: string[] = [];
+  questionsDataArray: any[] = [];
+  tmpQuestionsDataArray: any[] = [];
+  participatingCountries: number[] = [];
+  total: number[] = [];
+  mapPointData: CountryTableData[];
+  toolTipData: Map<string, string>[] = [];
+
+  mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
+
+  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
+              private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {}
 
   ngOnInit() {
 
@@ -72,14 +91,151 @@ export class OpenScienceByAreaDataManagementComponent {
       this.getCountriesWithFinancialStrategy(year, index);
       this.getNationalMonitoring(year, index);
       this.getPlans(year, index);
-    });
 
-    this.years.forEach((year, index) => {
       this.getStackedColumnData(year, index);
     });
+
+    // Maps
+    this.getPoliciesOnDataManagement();
+    this.getMonitoringOnDataManagement();
   }
 
-/** Get national monitoring on Data Management ------------------------------------------------------------------  > **/
+  /** Get maps data ----------------------------------------------------------------------------------> **/
+  getPoliciesOnDataManagement() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion(this.years[this.years.length-1], 'Question10'),
+      this.queryData.getQuestion(this.years[this.years.length-1], 'Question10.1'),
+      this.queryData.getQuestionComment(this.years[this.years.length-1], 'Question10'),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[0] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.total[0] = res[1].datasets[0].series.result.length;
+        for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
+          this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
+        }
+        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[3]);
+        this.mapPointData = this.dataHandlerService.convertRawDataToTableData(res[2]);
+        this.createMapDataFromCategorizationWithDots(0,0);
+
+      },
+      error => {console.error(error)},
+      () => {}
+    );
+  }
+
+  getMonitoringOnDataManagement() {
+    zip(
+      this.stakeholdersService.getEOSCSBCountries(),
+      this.queryData.getQuestion(this.years[this.years.length-1], 'Question58'),
+      this.queryData.getQuestionComment(this.years[this.years.length-1], 'Question58'),
+    ).subscribe(
+      res => {
+        this.countriesArray = res[0];
+        this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
+        this.participatingCountries[1] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.total[1] = res[1].datasets[0].series.result.length;
+        for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
+          this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
+        }
+        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        this.createMapDataFromCategorization(1,2);
+      }
+    );
+  }
+
+  createMapDataFromCategorization(index: number, mapCount: number) {
+    // this.mapSubtitles[mapCount] = this.mapSubtitlesArray[mapCount][index];
+
+    this.questionsDataArray[index] = new CategorizedAreaData();
+
+    let position = 0;
+    for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
+      if (this.tmpQuestionsDataArray[index].series[i].name === 'Awaiting data')
+        continue;
+      position = this.tmpQuestionsDataArray[index].series[i].name === 'No'? 1 : 0;
+      this.questionsDataArray[index].series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
+      this.questionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
+      this.questionsDataArray[index].series[i].showInLegend = true;
+      this.questionsDataArray[index].series[i].color = ColorPallet[position];
+    }
+    let countryCodeArray = [];
+    for (let i = 0; i < this.questionsDataArray[index].series.length; i++) {
+      for (const data of this.questionsDataArray[index].series[i].data) {
+        countryCodeArray.push(data.code)
+      }
+    }
+
+    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
+    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
+    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[2];
+    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
+    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data.map(code => ({ code }));
+  }
+
+  createMapDataFromCategorizationWithDots(index: number, mapCount: number) {
+    // this.mapSubtitles[index] = this.mapSubtitlesArray[mapCount][index];
+
+    this.questionsDataArray[index] = new CategorizedAreaData();
+
+    let position = 0;
+    for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
+      if (this.tmpQuestionsDataArray[index].series[i].name === 'Awaiting data')
+        continue;
+      position = this.tmpQuestionsDataArray[index].series[i].name === 'No'? 1 : 0;
+      this.questionsDataArray[index].series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
+      this.questionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
+      this.questionsDataArray[index].series[i].showInLegend = true;
+      this.questionsDataArray[index].series[i].color = ColorPallet[position];
+    }
+    let countryCodeArray = [];
+    for (let i = 0; i < this.questionsDataArray[index].series.length; i++) {
+      for (const data of this.questionsDataArray[index].series[i].data) {
+        countryCodeArray.push(data.code)
+      }
+    }
+
+    if (countryCodeArray.length > 0) {
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[2];
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
+      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data.map(code => ({ code }));
+    }
+
+    let mapPointArray1 = [];
+    let mapPointArray2 = [];
+    for (let i = 0; i < this.mapPointData.length; i++) {
+      if (this.mapPointData[i].dedicatedFinancialContributionsToEOSCLinkedToPolicies === 'Yes') {
+        mapPointArray1.push({name: this.mapPointData[i].code, lat: latlong.get(this.mapPointData[i].code).latitude, lon: latlong.get(this.mapPointData[i].code).longitude});
+      } else if (this.mapPointData[i].dedicatedFinancialContributionsToEOSCLinkedToPolicies === 'No') {
+        mapPointArray2.push({name: this.mapPointData[i].code, lat: latlong.get(this.mapPointData[i].code).latitude, lon: latlong.get(this.mapPointData[i].code).longitude});
+      }
+    }
+
+    let pos: number;
+    if (mapPointArray1.length > 0) {
+      pos = this.questionsDataArray[index].series.length;
+      this.questionsDataArray[index].series[pos] = new Series('National policy is mandatory', false, 'mappoint');
+      this.questionsDataArray[index].series[pos].data = mapPointArray1;
+      this.questionsDataArray[index].series[pos].color = '#7CFC00';
+      this.questionsDataArray[index].series[pos].marker.symbol = 'circle';
+      this.questionsDataArray[index].series[pos].showInLegend = true;
+    }
+
+    if (mapPointArray2.length > 0) {
+      pos = this.questionsDataArray[index].series.length;
+      this.questionsDataArray[index].series[pos] = new Series('National policy is not mandatory', false, 'mappoint');
+      this.questionsDataArray[index].series[pos].data = mapPointArray2;
+      this.questionsDataArray[index].series[pos].color = '#FFEF00';
+      this.questionsDataArray[index].series[pos].marker.symbol = 'diamond';
+      this.questionsDataArray[index].series[pos].showInLegend = true;
+    }
+  }
+
+  /** Get national monitoring on Data Management ------------------------------------------------------------------  > **/
   getNationalMonitoring(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question58').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({ // National monitoring in FAIR data
       next: value => {

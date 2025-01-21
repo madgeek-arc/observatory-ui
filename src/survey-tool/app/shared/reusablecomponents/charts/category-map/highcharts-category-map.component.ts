@@ -183,6 +183,14 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
         text: this.subtitle
       },
 
+      caption: {
+        text: this.caption
+      },
+
+      credits: {
+        enabled: false
+      },
+
       mapNavigation: {
         enabled: true,
         buttonOptions: {

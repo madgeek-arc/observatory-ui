@@ -142,6 +142,20 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     this.getDistributionOAPublication();
     this.getDistributionOAByScienceFields();
 
+    // Maps
+    this.getPoliciesOnPublicationsMapData();
+    this.getMonitoringPublicationsData();
+
+    // Multi-year Bars
+    this.years.forEach((year, index) => {
+      this.getCountriesWithPolicy(year, index);
+      this.getTotalInvestments(year, index);
+      this.getCountriesWithFinancialStrategy(year, index);
+      this.getNationalMonitoring(year, index);
+      this.getCountriesWithPolicyImmediate(year, index);
+      // this.getPlans(year, index);
+    });
+
     this.queryData.getLastUpdateDate().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: data => {
         let lastUpdateDate: string;
@@ -158,28 +172,14 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
       }
     });
 
-    this.years.forEach((year, index) => {
-      this.getCountriesWithPolicy(year, index);
-      this.getTotalInvestments(year, index);
-      this.getCountriesWithFinancialStrategy(year, index);
-      this.getNationalMonitoring(year, index);
-      this.getCountriesWithPolicyImmediate(year, index);
-      this.getPoliciesOnPublicationsMapData();
-      this.getMonitoringPublicationsData();
-      // this.getPlans(year, index);
-    });
-
   }
 
   /** Get maps data ----------------------------------------------------------------------------------> **/
   getPoliciesOnPublicationsMapData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      // this.queryData.getQuestion6(),
       this.queryData.getQuestion(this.years[this.years.length-1], 'Question6'),
-      // this.queryData.getQuestion6_1(),
       this.queryData.getQuestion(this.years[this.years.length-1], 'Question6.1'),
-      // this.queryData.getQuestion6comment(),
       this.queryData.getQuestionComment(this.years[this.years.length-1], 'Question6'),
     ).subscribe(
       res => {
@@ -203,9 +203,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   getMonitoringPublicationsData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      // this.queryData.getQuestion54(),
       this.queryData.getQuestion(this.years[this.years.length-1], 'Question54'),
-      // this.queryData.getQuestion54comment(),
       this.queryData.getQuestionComment(this.years[this.years.length-1], 'Question54'),
     ).subscribe(
       res => {
