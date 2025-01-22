@@ -3,12 +3,12 @@ import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
 import * as Highcharts from "highcharts";
-import { OptionsStackingValue } from "highcharts";
+import { OptionsStackingValue, PointOptionsObject } from "highcharts";
 import { distributionByDocumentType, OpenDataVSClosed, trendOfOpenData } from "../../OSO-stats-queries/explore-queries";
 import { PdfExportService } from "../../../services/pdf-export.service";
 import { CountryTableData } from "../../../../../survey-tool/app/domain/country-table-data";
 import {
-  ColorPallet,
+  ColorPallet, countriesNumbers,
   EoscReadiness2022MapSubtitles
 } from "../../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { zip } from "rxjs/internal/observable/zip";
@@ -104,6 +104,8 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   countriesWithMonitoring: number[] = [];
   totalInvestments: number[] = [];
 
+  treeGraph: PointOptionsObject[] = [];
+
   countriesArray: string[] = [];
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
@@ -127,6 +129,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
 
     this.getOpenDataPercentage();
 
+    this.getTreeGraphData();
     this.getTrend();
     this.getDistributionByDocumentType();
 
@@ -350,6 +353,74 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
     });
   }
 
+  getTreeGraphData() {
+    this.queryData.getQuestion(this.years[this.years.length-1], 'Question68').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+      res => {
+        this.treeGraph = this.createRanges(res);
+      }
+    );
+  }
+
+  /** Investments as tree graph **/
+  createRanges(data: RawData) {
+    const arr = [{id: '0.0', parent: '', name: 'Country investments'}];
+
+    let count = 0;
+
+    data.datasets[0].series.result.forEach((element: any) => {
+
+      if (!this.isNumeric(element.row[1]))
+        return;
+
+      if (+element.row[1] === 0)
+        return;
+
+      count++;
+      let countryName = this.findCountryName(element.row[0]).name;
+
+      let item = {
+        id: '2.' + count,
+        parent: '1.',
+        name: countryName,
+        y: +element.row[1]
+      }
+
+      if (+element.row[1] < 1) {
+        if(arr.findIndex(elem => elem.id === '1.1') < 0)
+          arr.push({id: '1.1', parent: '0.0', name: '< 1 M'});
+
+        item.parent = '1.1';
+      } else if (+element.row[1] < 5) {
+        if(arr.findIndex(elem => elem.id === '1.2') < 0)
+          arr.push({id: '1.2', parent: '0.0', name: '1-5 M'});
+
+        item.parent = '1.2';
+      } else if (+element.row[1] < 10) {
+        if(arr.findIndex(elem => elem.id === '1.3') < 0)
+          arr.push({id: '1.3', parent: '0.0', name: '5-10 M'});
+
+        item.parent = '1.3';
+      } else if (+element.row[1] < 20) {
+        if(arr.findIndex(elem => elem.id === '1.4') < 0)
+          arr.push({id: '1.4', parent: '0.0', name: '10-20M'});
+
+        item.parent = '1.4';
+      } else if (+element.row[1] >= 20) {
+        if(arr.findIndex(elem => elem.id === '1.5') < 0)
+          arr.push(
+            {id: '1.5', parent: '0.0', name: '> 20 M'});
+
+        item.parent = '1.5';
+      }
+
+      arr.push(item);
+
+    });
+
+    // console.log(arr);
+    return arr;
+  }
+
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
   exportToPDF(contents: HTMLElement[], filename?: string) {
     this.exportActive = true
@@ -401,6 +472,12 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
     });
 
     return Math.round(sum * 100) / 100;
+  }
+
+  findCountryName(code: string) {
+    return countriesNumbers.find(
+      elem => elem.id === code
+    );
   }
 
 }

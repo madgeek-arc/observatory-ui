@@ -205,7 +205,7 @@
         <app-highcharts-category-map
           [mapData]="questionsDataArray[0]" [subtitle]="" [toolTipData]="toolTipData[0]"
           [title]="'National Policy on Connecting Repositories to EOSC'" [backgroundColor]="'#ffffff'"
-          [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on open<br> access publications'"
+          [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on <br>connecting repositories <br>to EOSC'"
           [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
         </app-highcharts-category-map>
       </div>
@@ -213,7 +213,32 @@
         <app-highcharts-category-map
           [mapData]="questionsDataArray[1]" [subtitle]="" [toolTipData]="toolTipData[1]"
           [title]="'National Monitoring on Connecting Repositories to EOSC'" [backgroundColor]="'#ffffff'"
-          [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>open access <br>publications'"
+          [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>connecting repositories <br>to EOSC '"
+          [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
+        </app-highcharts-category-map>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent3>
+  <div class="uk-container uk-container-expand">
+
+    <div class="uk-child-width-1-2 uk-grid-match" uk-grid>
+      <div style="height: 600px">
+        <app-highcharts-category-map
+          [mapData]="questionsDataArray[2]" [subtitle]="" [toolTipData]="toolTipData[2]"
+          [title]="'National Policy on Long-term Data Preservation'" [backgroundColor]="'#ffffff'"
+          [customLabelText]="'<strong>'+participatingCountries[2] + ' out of '+ total[2] + '</strong><br> countries have a <br>national policy on <br>long-term <br>data preservation'"
+          [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
+        </app-highcharts-category-map>
+      </div>
+      <div style="height: 600px">
+        <app-highcharts-category-map
+          [mapData]="questionsDataArray[3]" [subtitle]="" [toolTipData]="toolTipData[3]"
+          [title]="'National Monitoring on Long-term Data Preservation'" [backgroundColor]="'#ffffff'"
+          [customLabelText]="'<strong>'+participatingCountries[3] + ' out of '+ total[3] + '</strong><br> countries have a <br>national monitoring <br>on long-term <br>data preservation'"
           [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
         </app-highcharts-category-map>
       </div>
