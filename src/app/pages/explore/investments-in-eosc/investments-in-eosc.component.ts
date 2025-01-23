@@ -6,11 +6,13 @@ import { EoscReadinessDataService } from "../../services/eosc-readiness-data.ser
 import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PdfExportService } from "../../services/pdf-export.service";
+
 type MergedElement = { x: string; y: string; z: string; name: string; country: string };
 
 @Component({
   selector: 'app-investments-in-eosc',
   templateUrl: './investments-in-eosc.component.html',
+  styleUrls: ['../../../../assets/css/explore-dashboard.scss']
 })
 
 export class InvestmentsInEoscComponent implements OnInit {
@@ -18,6 +20,7 @@ export class InvestmentsInEoscComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   exportActive = false;
 
+  years = ['2022', '2023'];
   year = '2023';
 
   treeGraph: PointOptionsObject[] = [];
@@ -43,7 +46,7 @@ export class InvestmentsInEoscComponent implements OnInit {
     followPointer: true
   }
 
-  countryArray: string[][] = [];
+  totalInvestments: number[] = [];
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
 
@@ -51,8 +54,21 @@ export class InvestmentsInEoscComponent implements OnInit {
     this.getPieChartData();
     this.getTreeGraphData();
     this.getBubbleChartData();
+    this.years.forEach((year, index) => {
+      this.getTotalInvestments(year, index);
+    });
   }
 
+  /** Get total investments ---------------------------------------------------------------------------------------> **/
+  getTotalInvestments(year: string, index: number) {
+    this.queryData.getQuestion(year, 'Question5').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        this.totalInvestments[index] = this.calculateSum(value);
+      }
+    });
+  }
+
+  /** Tree graph --------------------------------------------------------------------------------------------------> **/
   getTreeGraphData() {
     this.queryData.getQuestion(this.year, 'Question5').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
@@ -315,6 +331,12 @@ export class InvestmentsInEoscComponent implements OnInit {
       }
     }
     return (Math.round((sum + Number.EPSILON) * 100) / 100);
+  }
+
+  calculatePercentageChange(data: number[]) {
+    let percentage = Math.abs((data[1] - data[0]) / data[0]);
+    return Math.round((percentage + Number.EPSILON) * 100);
+
   }
 
   mergeByCountryCode(rawData: RawData[]): string[][] { // Function to merge arrays by country code
