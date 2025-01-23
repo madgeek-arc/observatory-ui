@@ -10,9 +10,9 @@
               Export report
             </span>
             <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" uk-spinner="ratio: 0.7"></span>
-          <ng-template #elseBlock>
-            <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-          </ng-template>
+            <ng-template #elseBlock>
+              <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
+            </ng-template>
           </div>
         </div>
       </div>
@@ -40,6 +40,15 @@
 
     </div>
   </div>
+
+  <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill uk-margin-remove" data-uk-switcher="{connect:'#map-vs-table-view', animation: 'fade'}">
+    <li class="" *ngFor="let pill of navPills"><a class="uk-margin-remove-bottom"><span>{{ pill }}</span></a></li>
+  </ul>
+
+  <ul id="map-vs-table-view" class="uk-switcher uk-margin">
+    <li class="" style="animation-duration: 200ms;" *ngFor="let pill">
+    </li>
+  </ul>
 
   <div class="uk-section uk-section-small uk-margin-top" #exportContent2>
     <div class="uk-container uk-container-expand">

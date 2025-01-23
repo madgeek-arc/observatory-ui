@@ -6,6 +6,7 @@ import { EoscReadinessDataService } from "../../services/eosc-readiness-data.ser
 import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PdfExportService } from "../../services/pdf-export.service";
+import { ExploreService } from "../explore.service";
 
 type MergedElement = { x: string; y: string; z: string; name: string; country: string };
 
@@ -48,7 +49,8 @@ export class InvestmentsInEoscComponent implements OnInit {
 
   totalInvestments: number[] = [];
 
-  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
+  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
+              private exploreService: ExploreService) {}
 
   ngOnInit() {
     this.getPieChartData();
@@ -72,84 +74,9 @@ export class InvestmentsInEoscComponent implements OnInit {
   getTreeGraphData() {
     this.queryData.getQuestion(this.year, 'Question5').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.treeGraph = this.createRanges(res);
+        this.treeGraph = this.exploreService.createRanges(res);
       }
     );
-  }
-
-  createRanges(data: RawData) {
-    const arr = [
-      {
-        id: '0.0',
-        parent: '',
-        name: 'Country investments'
-      },
-      {
-        id: '1.1',
-        parent: '0.0',
-        name: '< 1 M'
-      },
-      {
-        id: '1.2',
-        parent: '0.0',
-        name: '1-5 M'
-      },
-      {
-        id: '1.3',
-        parent: '0.0',
-        name: '5-10 M'
-      },
-      {
-        id: '1.4',
-        parent: '0.0',
-        name: '10-20M'
-      },
-      {
-        id: '1.5',
-        parent: '0.0',
-        name: '> 20 M'
-      }
-
-    ];
-
-    let count = 0;
-
-    data.datasets[0].series.result.forEach((element: any) => {
-
-      if (!this.isNumeric(element.row[1]))
-        return;
-
-      if (+element.row[1] === 0)
-        return;
-
-      count++;
-      let countryName = this.findCountryName(element.row[0]).name;
-
-      let item = {
-        id: '2.' + count,
-        parent: '1.',
-        name: countryName,
-        y: +element.row[1]
-      }
-
-      if (+element.row[1] < 1) {
-        item.parent = '1.1';
-      } else if (+element.row[1] < 5) {
-        item.parent = '1.2';
-      } else if (+element.row[1] < 10) {
-        item.parent = '1.3';
-      } else if (+element.row[1] < 20) {
-        item.parent = '1.4';
-      } else if (+element.row[1] >= 20) {
-        item.parent = '1.5';
-      }
-
-      arr.push(item);
-
-    });
-
-    // console.log(arr);
-    return arr;
   }
 
   /** Bubble chart ------------------------------------------------------------------------------------------------> **/
@@ -178,7 +105,7 @@ export class InvestmentsInEoscComponent implements OnInit {
 
     // console.log(result);
     result.forEach(el => {
-      if (!this.isNumeric(el.x) || !this.isNumeric(el.y) || !this.isNumeric(el.z))
+      if (!this.exploreService.isNumeric(el.x) || !this.exploreService.isNumeric(el.y) || !this.exploreService.isNumeric(el.z))
         return;
 
       let item = {
@@ -186,7 +113,7 @@ export class InvestmentsInEoscComponent implements OnInit {
         y: +el.y,
         z: +el.z,
         name: el.name,
-        country: this.findCountryName(el.name).name
+        country: this.exploreService.findCountryName(el.name).name
       };
       series[0].data.push(item);
     });
@@ -266,28 +193,6 @@ export class InvestmentsInEoscComponent implements OnInit {
   }
 
   /** Other -------------------------------------------------------------------------------------------------------> **/
-  findCountryName(code: string) {
-    return countriesNumbers.find(
-      elem => elem.id === code
-    );
-  }
-
-  isNumeric(value: string | null): boolean {
-    // Check if the value is empty
-    if (value === null)
-      return false;
-
-    if (value.trim() === '') {
-      return false;
-    }
-
-    // Attempt to parse the value as a float
-    const number = parseFloat(value);
-
-    // Check if parsing resulted in NaN or the value has extraneous characters
-    return !isNaN(number) && isFinite(number) && String(number) === value;
-  }
-
   mergeArrays = (arr1: Row[], arr2: Row[], arr3: Row[]): MergedElement[] => {
     const map = new Map<string, Partial<MergedElement>>();
 
@@ -325,7 +230,7 @@ export class InvestmentsInEoscComponent implements OnInit {
     let sum = 0.0;
     for (const series of rawData.datasets) {
       for (const rowResult of series.series.result) {
-        if (this.isNumeric(rowResult.row[1])) {
+        if (this.exploreService.isNumeric(rowResult.row[1])) {
           sum += +rowResult.row[1];
         }
       }
@@ -367,7 +272,7 @@ export class InvestmentsInEoscComponent implements OnInit {
         if (index === mergedData[mergedDataKey].length-1) // Ignore total
           return;
 
-        if (this.isNumeric(value))
+        if (this.exploreService.isNumeric(value))
           sum += +value;
       });
       mergedData[mergedDataKey].splice(mergedData[mergedDataKey].length-1, 0, sum.toFixed(2));

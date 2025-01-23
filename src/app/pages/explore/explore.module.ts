@@ -17,6 +17,7 @@ import { OpenSciencePoliciesComponent } from "./open-science-policies/open-scien
 import { OpenScienceResourceRegistryComponent } from "./open-science-resource-registry/open-science-resource-registry.component";
 import { OpenScienceTrendsComponent } from "./open-science-trends/open-science-trends.component";
 import { OpenScienceUseCasesComponent } from "./open-science-use-cases/open-science-use-cases.component";
+import { ExploreService } from "./explore.service";
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { OpenScienceUseCasesComponent } from "./open-science-use-cases/open-scie
     DataService,
     EoscReadinessDataService,
     DataHandlerService,
-    StakeholdersService
+    StakeholdersService,
+    ExploreService
   ],
 })
 

@@ -34,6 +34,8 @@ export class NationalMonitoringComponent implements OnInit {
     yAxis: 'Percentage of countries with National Monitoring',
   }
 
+  navPills = ['Publications', 'Open Data', 'FAIR Data', 'Data Management', 'Citizen Science', 'Repositories', 'Long-term Data', 'Training', 'Software'];
+
   constructor(private queryData: EoscReadinessDataService, private surveyService: SurveyService,
               private dataHandlerService: DataHandlerService, private pdfService: PdfExportService) {}
 

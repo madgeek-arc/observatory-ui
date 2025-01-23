@@ -14,6 +14,7 @@ import { CountryTableData } from "../../../../../survey-tool/app/domain/country-
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
 import { PointOptionsObject } from "highcharts";
+import { ExploreService } from "../../explore.service";
 
 @Component({
   selector: 'app-open-science-by-area-software',
@@ -48,7 +49,8 @@ export class OpenScienceByAreaSoftwareComponent implements OnInit {
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
-              private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {}
+              private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,
+              private exploreService: ExploreService) {}
 
   ngOnInit() {
     this.years.forEach((year, index) => {
@@ -262,7 +264,7 @@ export class OpenScienceByAreaSoftwareComponent implements OnInit {
   getTreeGraphData(question: string) {
     this.queryData.getQuestion(this.years[this.years.length-1], question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.treeGraph = this.createRanges(res);
+        this.treeGraph = this.exploreService.createRanges(res);
       }
     );
   }

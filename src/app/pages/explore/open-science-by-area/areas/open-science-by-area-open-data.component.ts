@@ -16,6 +16,7 @@ import { StakeholdersService } from "../../../../../survey-tool/app/services/sta
 import { DataHandlerService } from "../../../services/data-handler.service";
 import { CategorizedAreaData, Series } from "../../../../../survey-tool/app/domain/categorizedAreaData";
 import { latlong } from "../../../../../survey-tool/app/domain/countries-lat-lon";
+import { ExploreService } from "../../explore.service";
 
 
 @Component({
@@ -117,7 +118,8 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
-              private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {}
+              private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,
+              private exploreService: ExploreService) {}
 
   ngOnInit() {
     this.years.forEach((year, index) => {
@@ -353,72 +355,13 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
     });
   }
 
+  /** Investments as tree graph ------------------------------------------------------------------------------------>**/
   getTreeGraphData() {
     this.queryData.getQuestion(this.years[this.years.length-1], 'Question68').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.treeGraph = this.createRanges(res);
+        this.treeGraph = this.exploreService.createRanges(res);
       }
     );
-  }
-
-  /** Investments as tree graph **/
-  createRanges(data: RawData) {
-    const arr = [{id: '0.0', parent: '', name: 'Country investments'}];
-
-    let count = 0;
-
-    data.datasets[0].series.result.forEach((element: any) => {
-
-      if (!this.isNumeric(element.row[1]))
-        return;
-
-      if (+element.row[1] === 0)
-        return;
-
-      count++;
-      let countryName = this.findCountryName(element.row[0]).name;
-
-      let item = {
-        id: '2.' + count,
-        parent: '1.',
-        name: countryName,
-        y: +element.row[1]
-      }
-
-      if (+element.row[1] < 1) {
-        if(arr.findIndex(elem => elem.id === '1.1') < 0)
-          arr.push({id: '1.1', parent: '0.0', name: '< 1 M'});
-
-        item.parent = '1.1';
-      } else if (+element.row[1] < 5) {
-        if(arr.findIndex(elem => elem.id === '1.2') < 0)
-          arr.push({id: '1.2', parent: '0.0', name: '1-5 M'});
-
-        item.parent = '1.2';
-      } else if (+element.row[1] < 10) {
-        if(arr.findIndex(elem => elem.id === '1.3') < 0)
-          arr.push({id: '1.3', parent: '0.0', name: '5-10 M'});
-
-        item.parent = '1.3';
-      } else if (+element.row[1] < 20) {
-        if(arr.findIndex(elem => elem.id === '1.4') < 0)
-          arr.push({id: '1.4', parent: '0.0', name: '10-20M'});
-
-        item.parent = '1.4';
-      } else if (+element.row[1] >= 20) {
-        if(arr.findIndex(elem => elem.id === '1.5') < 0)
-          arr.push(
-            {id: '1.5', parent: '0.0', name: '> 20 M'});
-
-        item.parent = '1.5';
-      }
-
-      arr.push(item);
-
-    });
-
-    // console.log(arr);
-    return arr;
   }
 
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
@@ -433,22 +376,6 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   }
 
   /** Other ------------------------------------------------------------------------------------------------------>  **/
-  isNumeric(value: string | null): boolean {
-    // Check if the value is empty
-    if (value === null)
-      return false;
-
-    if (value.trim() === '') {
-      return false;
-    }
-
-    // Attempt to parse the value as a float
-    const number = parseFloat(value);
-
-    // Check if parsing resulted in NaN or the value has extraneous characters
-    return !isNaN(number) && isFinite(number) && String(number) === value;
-  }
-
   calculatePercentage(data: RawData, totalCountries: number) {
     let count = 0;
     data.datasets[0].series.result.forEach(item => {
@@ -461,23 +388,16 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   calculatePercentageChange(data: number[]) {
     let percentage = Math.abs((data[1] - data[0]) / data[0]);
     return Math.round((percentage + Number.EPSILON) * 100);
-
   }
 
   calculateSum(data: RawData) {
     let sum = 0;
     data.datasets[0].series.result.forEach(item => {
-      if (this.isNumeric(item.row[1]))
+      if (this.exploreService.isNumeric(item.row[1]))
         sum += +item.row[1];
     });
 
     return Math.round(sum * 100) / 100;
-  }
-
-  findCountryName(code: string) {
-    return countriesNumbers.find(
-      elem => elem.id === code
-    );
   }
 
 }
