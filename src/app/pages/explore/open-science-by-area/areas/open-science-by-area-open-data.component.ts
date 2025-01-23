@@ -7,9 +7,6 @@ import { OptionsStackingValue, PointOptionsObject } from "highcharts";
 import { distributionByDocumentType, OpenDataVSClosed, trendOfOpenData } from "../../OSO-stats-queries/explore-queries";
 import { PdfExportService } from "../../../services/pdf-export.service";
 import { CountryTableData } from "../../../../../survey-tool/app/domain/country-table-data";
-import {
-  EoscReadiness2022MapSubtitles
-} from "../../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { zip } from "rxjs/internal/observable/zip";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
@@ -111,8 +108,6 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   total: number[] = [];
   mapPointData: CountryTableData[];
   toolTipData: Map<string, string>[] = [];
-
-  mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,

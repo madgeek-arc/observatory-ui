@@ -8,6 +8,9 @@ import { DataHandlerService } from "../../services/data-handler.service";
 import { countries } from "../../../../survey-tool/app/domain/countries";
 import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
 import { PdfExportService } from "../../services/pdf-export.service";
+import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
+import { CountryTableData } from "../../../../survey-tool/app/domain/country-table-data";
+import { ExploreService } from "../explore.service";
 
 @Component({
   selector: 'app-national-monitoring',
@@ -36,8 +39,17 @@ export class NationalMonitoringComponent implements OnInit {
 
   navPills = ['Publications', 'Open Data', 'FAIR Data', 'Data Management', 'Citizen Science', 'Repositories', 'Long-term Data', 'Training', 'Software'];
 
+  countriesArray: string[] = [];
+  questionsDataArray: any[] = [];
+  tmpQuestionsDataArray: any[] = [];
+  participatingCountries: number[] = [];
+  total: number[] = [];
+  mapPointData: CountryTableData[];
+  toolTipData: Map<string, string>[] = [];
+
   constructor(private queryData: EoscReadinessDataService, private surveyService: SurveyService,
-              private dataHandlerService: DataHandlerService, private pdfService: PdfExportService) {}
+              private dataHandlerService: DataHandlerService, private pdfService: PdfExportService,
+              private stakeholdersService: StakeholdersService, private exploreService: ExploreService) {}
 
   ngOnInit() {
     this.years.forEach((year, index) => {
@@ -45,6 +57,38 @@ export class NationalMonitoringComponent implements OnInit {
     });
 
     this.getTableData();
+
+    // Maps
+    this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: countries => {
+        this.countriesArray = countries;
+        this.getMonitoring('Question98', 0, 2);
+        this.getMonitoring('Question98', 1, 2);
+        this.getMonitoring('Question98', 2, 2);
+      },
+      error: error => {console.error(error);}
+    });
+  }
+
+  /** Get maps data ----------------------------------------------------------------------------------> **/
+  getMonitoring(question: string, index: number, mapCount: number) {
+    zip(
+      this.queryData.getQuestion(this.years[this.years.length-1], question),
+      this.queryData.getQuestionComment(this.years[this.years.length-1], question),
+    ).subscribe({
+      next: res => {
+        this.tmpQuestionsDataArray[index] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[0]);
+        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(res[0]);
+        this.total[index] = res[0].datasets[0].series.result.length; // Total countries with validated response
+
+        for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
+          this.tmpQuestionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data.map(code => ({ code }));
+        }
+        this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[1]);
+        this.questionsDataArray[index] = this.exploreService.createMapDataFromCategorization(this.tmpQuestionsDataArray[index], this.countriesArray, mapCount);
+      },
+      error: err => {console.error(err)}
+    });
   }
 
   /** Bar charts ---------------------------------------------------------------------------------------------------> **/
