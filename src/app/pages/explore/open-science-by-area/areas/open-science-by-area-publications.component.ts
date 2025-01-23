@@ -11,16 +11,13 @@ import {
 import * as Highcharts from "highcharts";
 import { OptionsStackingValue, PointOptionsObject } from "highcharts";
 import { PdfExportService } from "../../../services/pdf-export.service";
-import {zip} from "rxjs/internal/observable/zip";
-import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
-import {CategorizedAreaData, Series} from "../../../../../survey-tool/app/domain/categorizedAreaData";
+import { zip } from "rxjs/internal/observable/zip";
+import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import {
-  ColorPallet, countriesNumbers,
   EoscReadiness2022MapSubtitles
 } from "../../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
-import {latlong} from "../../../../../survey-tool/app/domain/countries-lat-lon";
-import {DataHandlerService} from "../../../services/data-handler.service";
-import {CountryTableData} from "../../../../../survey-tool/app/domain/country-table-data";
+import { DataHandlerService } from "../../../services/data-handler.service";
+import { CountryTableData } from "../../../../../survey-tool/app/domain/country-table-data";
 import { ExploreService } from "../../explore.service";
 
 
@@ -149,8 +146,14 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     this.getTreeGraphData('Question56');
 
     // Maps
-    this.getPoliciesOnPublicationsMapData();
-    this.getMonitoringPublicationsData();
+    this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: countries => {
+        this.countriesArray = countries;
+        this.getNationalPolicies('Question6', 0, 0);
+        this.getMonitoring('Question54', 1, 2);
+      },
+      error: error => {console.error(error);}
+    });
 
     // Multi-year Bars
     this.years.forEach((year, index) => {
@@ -181,138 +184,47 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   }
 
   /** Get maps data ----------------------------------------------------------------------------------> **/
-  getPoliciesOnPublicationsMapData() {
+  getNationalPolicies(question: string, index: number, mapCount: number) {
     zip(
-      this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion(this.years[this.years.length-1], 'Question6'),
-      this.queryData.getQuestion(this.years[this.years.length-1], 'Question6.1'),
-      this.queryData.getQuestionComment(this.years[this.years.length-1], 'Question6'),
-    ).subscribe(
-      res => {
-        this.countriesArray = res[0];
-        this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        this.participatingCountries[0] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        this.total[0] = res[1].datasets[0].series.result.length;
-        for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
-          this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
-        }
-        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[3]);
-        this.mapPointData = this.dataHandlerService.convertRawDataToTableData(res[2]);
-        this.createMapDataFromCategorizationWithDots(0,0);
+      this.queryData.getQuestion(this.years[this.years.length-1], question),
+      this.queryData.getQuestion(this.years[this.years.length-1], question + '.1'),
+      this.queryData.getQuestionComment(this.years[this.years.length-1], question),
+    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: res => {
+        this.tmpQuestionsDataArray[index] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[0]);
+        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(res[0]);
+        this.total[index] = res[0].datasets[0].series.result.length; // Total countries with validated response
 
+        this.mapPointData = this.dataHandlerService.convertRawDataToTableData(res[1]);
+
+        for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
+          this.tmpQuestionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data.map(code => ({ code }));
+        }
+        this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        this.questionsDataArray[index] = this.exploreService.createMapDataFromCategorizationWithDots(this.tmpQuestionsDataArray[index], this.countriesArray, this.mapPointData, mapCount);
       },
-      error => {console.error(error)},
-      () => {}
-    );
+      error: err => {console.error(err)}
+    });
   }
 
-  getMonitoringPublicationsData() {
+  getMonitoring(question: string, index: number, mapCount: number) {
     zip(
-      this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion(this.years[this.years.length-1], 'Question54'),
-      this.queryData.getQuestionComment(this.years[this.years.length-1], 'Question54'),
-    ).subscribe(
-      res => {
-        this.countriesArray = res[0];
-        this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        this.participatingCountries[1] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        this.total[1] = res[1].datasets[0].series.result.length;
-        for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
-          this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
+      this.queryData.getQuestion(this.years[this.years.length-1], question),
+      this.queryData.getQuestionComment(this.years[this.years.length-1], question),
+    ).subscribe({
+      next: res => {
+        this.tmpQuestionsDataArray[index] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[0]);
+        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(res[0]);
+        this.total[index] = res[0].datasets[0].series.result.length; // Total countries with validated response
+
+        for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
+          this.tmpQuestionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data.map(code => ({ code }));
         }
-        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.createMapDataFromCategorization(1,2);
-      }
-    );
-  }
-
-  createMapDataFromCategorization(index: number, mapCount: number) {
-    // this.mapSubtitles[mapCount] = this.mapSubtitlesArray[mapCount][index];
-
-    this.questionsDataArray[index] = new CategorizedAreaData();
-
-    let position = 0;
-    for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
-      if (this.tmpQuestionsDataArray[index].series[i].name === 'Awaiting data')
-        continue;
-      position = this.tmpQuestionsDataArray[index].series[i].name === 'No'? 1 : 0;
-      this.questionsDataArray[index].series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
-      this.questionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
-      this.questionsDataArray[index].series[i].showInLegend = true;
-      this.questionsDataArray[index].series[i].color = ColorPallet[position];
-    }
-    let countryCodeArray = [];
-    for (let i = 0; i < this.questionsDataArray[index].series.length; i++) {
-      for (const data of this.questionsDataArray[index].series[i].data) {
-        countryCodeArray.push(data.code)
-      }
-    }
-
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[2];
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data.map(code => ({ code }));
-  }
-
-  createMapDataFromCategorizationWithDots(index: number, mapCount: number) {
-    // this.mapSubtitles[index] = this.mapSubtitlesArray[mapCount][index];
-
-    this.questionsDataArray[index] = new CategorizedAreaData();
-
-    let position = 0;
-    for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
-      if (this.tmpQuestionsDataArray[index].series[i].name === 'Awaiting data')
-        continue;
-      position = this.tmpQuestionsDataArray[index].series[i].name === 'No'? 1 : 0;
-      this.questionsDataArray[index].series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
-      this.questionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
-      this.questionsDataArray[index].series[i].showInLegend = true;
-      this.questionsDataArray[index].series[i].color = ColorPallet[position];
-    }
-    let countryCodeArray = [];
-    for (let i = 0; i < this.questionsDataArray[index].series.length; i++) {
-      for (const data of this.questionsDataArray[index].series[i].data) {
-        countryCodeArray.push(data.code)
-      }
-    }
-
-    if (countryCodeArray.length > 0) {
-      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
-      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
-      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[2];
-      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
-      this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data.map(code => ({ code }));
-    }
-
-    let mapPointArray1 = [];
-    let mapPointArray2 = [];
-    for (let i = 0; i < this.mapPointData.length; i++) {
-      if (this.mapPointData[i].dedicatedFinancialContributionsToEOSCLinkedToPolicies === 'Yes') {
-        mapPointArray1.push({name: this.mapPointData[i].code, lat: latlong.get(this.mapPointData[i].code).latitude, lon: latlong.get(this.mapPointData[i].code).longitude});
-      } else if (this.mapPointData[i].dedicatedFinancialContributionsToEOSCLinkedToPolicies === 'No') {
-        mapPointArray2.push({name: this.mapPointData[i].code, lat: latlong.get(this.mapPointData[i].code).latitude, lon: latlong.get(this.mapPointData[i].code).longitude});
-      }
-    }
-
-    let pos: number;
-    if (mapPointArray1.length > 0) {
-      pos = this.questionsDataArray[index].series.length;
-      this.questionsDataArray[index].series[pos] = new Series('National policy is mandatory', false, 'mappoint');
-      this.questionsDataArray[index].series[pos].data = mapPointArray1;
-      this.questionsDataArray[index].series[pos].color = '#7CFC00';
-      this.questionsDataArray[index].series[pos].marker.symbol = 'circle';
-      this.questionsDataArray[index].series[pos].showInLegend = true;
-    }
-
-    if (mapPointArray2.length > 0) {
-      pos = this.questionsDataArray[index].series.length;
-      this.questionsDataArray[index].series[pos] = new Series('National policy is not mandatory', false, 'mappoint');
-      this.questionsDataArray[index].series[pos].data = mapPointArray2;
-      this.questionsDataArray[index].series[pos].color = '#FFEF00';
-      this.questionsDataArray[index].series[pos].marker.symbol = 'diamond';
-      this.questionsDataArray[index].series[pos].showInLegend = true;
-    }
+        this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[1]);
+        this.questionsDataArray[index] = this.exploreService.createMapDataFromCategorization(this.tmpQuestionsDataArray[index], this.countriesArray, mapCount);
+      },
+      error: err => {console.error(err)}
+    });
   }
 
   /** Get trends of Publications ----------------------------------------------------------------------------------> **/

@@ -49,7 +49,7 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
       this.getCountriesWithPolicy(year, index);
       this.getTotalInvestments(year, index);
       this.getCountriesWithFinancialStrategy(year, index);
-      this.getNationalMonitoring(year, index);
+      this.getMonitoringPercentage(year, index);
       this.getRepositories(year, index);
     });
 
@@ -57,14 +57,15 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
     this.getTreeGraphData('Question88', 1);
 
     // Maps
-    this.stakeholdersService.getEOSCSBCountries().pipe().subscribe({
+    this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: countries => {
         this.countriesArray = countries;
         this.getNationalPolicies('Question30', 0, 0); // National Policy on Connecting Repositories to EOSC
         this.getMonitoring('Question78', 1, 2); // National Monitoring on Connecting Repositories to EOSC
         this.getNationalPolicies('Question38', 2, 0); // National Policy on long-term data preservation
         this.getMonitoring('Question86', 3, 2); // National Monitoring on long-term data preservation
-      }
+      },
+      error: error => {console.error(error);}
     });
 
   }
@@ -102,19 +103,19 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
         this.tmpQuestionsDataArray[index] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[0]);
         this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(res[0]);
         this.total[index] = res[0].datasets[0].series.result.length; // Total countries with validated response
-        for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
+
+        for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
           this.tmpQuestionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data.map(code => ({ code }));
         }
         this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[1]);
         this.questionsDataArray[index] = this.exploreService.createMapDataFromCategorization(this.tmpQuestionsDataArray[index], this.countriesArray, mapCount);
-        // this.createMapDataFromCategorization(index, mapCount);
       },
       error: err => {console.error(err)}
     });
   }
 
   /** Get national monitoring on connecting repositories ----------------------------------------------------------> **/
-  getNationalMonitoring(year: string, index: number) {
+  getMonitoringPercentage(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question78').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.countriesWithMonitoring[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
