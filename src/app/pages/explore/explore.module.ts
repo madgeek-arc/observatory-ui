@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ReusableComponentsModule } from "../../../survey-tool/app/shared/reusablecomponents/reusable-components.module";
 import { HighchartsChartModule } from "highcharts-angular";
 import { DataService } from "../services/data.service";
@@ -37,6 +37,7 @@ import { ExploreService } from "./explore.service";
     ReusableComponentsModule,
     ExploreRouting,
     HighchartsChartModule,
+    NgOptimizedImage,
   ],
   providers: [
     DataService,
