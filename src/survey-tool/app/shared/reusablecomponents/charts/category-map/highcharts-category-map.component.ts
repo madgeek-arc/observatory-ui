@@ -176,7 +176,9 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       },
 
       title: {
-        text: this.title
+        text: this.title,
+        // verticalAlign: 'bottom',
+        // y: -5 // Adjusts the vertical position of the title
       },
 
       subtitle: {
