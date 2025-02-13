@@ -9,7 +9,7 @@ import {
   trendOfOAPublications
 } from "../../OSO-stats-queries/explore-queries";
 import * as Highcharts from "highcharts";
-import { OptionsStackingValue, PointOptionsObject } from "highcharts";
+import { OptionsStackingValue, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { PdfExportService } from "../../../services/pdf-export.service";
 import { zip } from "rxjs/internal/observable/zip";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
@@ -119,6 +119,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   OAPublications: number[] = [];
 
   treeGraph: PointOptionsObject[] = [];
+  bar: SeriesBarOptions[] = [];
 
   countriesArray: string[] = [];
   questionsDataArray: any[] = [];
@@ -370,6 +371,8 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   getTreeGraphData(question: string) {
     this.queryData.getQuestion(this.years[this.years.length-1], question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
+        // console.log(this.exploreService.createInvestmentBar(res));
+        this.bar = this.exploreService.createInvestmentBar(res);
         this.treeGraph = this.exploreService.createRanges(res);
       }
     );

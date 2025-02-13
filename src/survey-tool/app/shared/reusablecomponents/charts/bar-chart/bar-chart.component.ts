@@ -11,6 +11,7 @@ export class BarChartComponent implements OnChanges {
   @Input() series: SeriesOptionsType[] = [];
   @Input() categories: string[] = [];
   @Input() titles = {title: '', xAxis: '', yAxis: ''};
+  @Input() stacking?: Highcharts.OptionsStackingValue;
 
 
   Highcharts: typeof Highcharts = Highcharts;
@@ -52,7 +53,10 @@ export class BarChartComponent implements OnChanges {
           enabled: true
         },
         groupPadding: 0.1
-      }
+      },
+      series: {
+        stacking: this.stacking
+      },
     },
     legend: {
       layout: 'vertical',
@@ -83,6 +87,7 @@ export class BarChartComponent implements OnChanges {
           text: this.titles.title
         },
         xAxis: {
+          type: 'category',
           categories: this.categories,
           title: {
             text: this.titles.xAxis
@@ -92,6 +97,18 @@ export class BarChartComponent implements OnChanges {
           title: {
             text: this.titles.yAxis
           }
+        },
+        plotOptions: {
+          bar: {
+            borderRadius: '50%',
+            dataLabels: {
+              enabled: true
+            },
+            groupPadding: 0.1
+          },
+          series: {
+            stacking: this.stacking
+          },
         },
         series: this.series as SeriesOptionsType[]
       }, true, true, true);

@@ -6,7 +6,8 @@ import {
 } from "../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { latlong } from "../../../survey-tool/app/domain/countries-lat-lon";
 import { CountryTableData } from "../../../survey-tool/app/domain/country-table-data";
-import { RawData } from "../../../survey-tool/app/domain/raw-data";
+import { RawData, Row } from "../../../survey-tool/app/domain/raw-data";
+import { PointOptionsObject, SeriesBarOptions, SeriesOptionsType } from "highcharts";
 
 @Injectable()
 export class ExploreService {
@@ -102,6 +103,68 @@ export class ExploreService {
     }
 
     return questionsData;
+  }
+
+  createInvestmentBar(data: RawData) {
+    let series: SeriesBarOptions[] = [];
+
+    let index = -1;
+    data.datasets[0].series.result.forEach((element: Row) => {
+
+      if (!this.isNumeric(element.row[1]))
+        return;
+
+      if (+element.row[1] === 0)
+        return;
+
+      if (+element.row[1] < 1) {
+        index = series.findIndex(elem => elem.name === '< 1 M');
+        if (index < 0)
+          series.push({type: 'bar', name: '< 1 M', data: [element.row[0]]});
+        else
+          series[index].data.push(element.row[0]);
+
+      } else if (+element.row[1] < 5) {
+        index = series.findIndex(elem => elem.name === '1-5 M');
+        if (index < 0)
+          series.push({type: 'bar', name: '1-5 M', data: [element.row[0]]});
+        else
+          series[index].data.push(element.row[0]);
+
+      } else if (+element.row[1] < 10) {
+        index = series.findIndex(elem => elem.name === '5-10 M');
+        if (index < 0)
+          series.push({type: 'bar', name: '5-10 M', data: [element.row[0]]});
+        else
+          series[index].data.push(element.row[0]);
+
+      } else if (+element.row[1] < 20) {
+        index = series.findIndex(elem => elem.name === '10-20M');
+        if (index < 0)
+          series.push({type: 'bar', name: '10-20M', data: [element.row[0]]});
+        else
+          series[index].data.push(element.row[0]);
+
+      } else if (+element.row[1] >= 20) {
+        index = series.findIndex(elem => elem.name === '> 20 M');
+        if (index < 0)
+          series.push({type: 'bar', name: '> 20 M', data: [element.row[0]]});
+        else
+          series[index].data.push(element.row[0]);
+
+      }
+    });
+
+    series.forEach(series => {
+      series.data.forEach((element: string, index: number) => {
+        series.data[index] = this.findCountryName(element).name;
+      });
+
+      let countryCount = series.data.length
+      series.data = [series.data.toString(), countryCount];
+    })
+
+    return series;
   }
 
   // Tree graph data

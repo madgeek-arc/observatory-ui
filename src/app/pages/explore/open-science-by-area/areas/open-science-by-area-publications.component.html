@@ -262,6 +262,7 @@
 
     <div class="uk-grid uk-margin-medium-top">
       <div class="uk-width-2-3" style="height: 550px">
+        <app-multi-bar-chart [series]="bar" [stacking]="'normal'" [categories]="['Number of countries per Investment Category']" style="height: 100%"></app-multi-bar-chart>
         <app-tree-graph [data]="treeGraph" style="height: 100%"></app-tree-graph>
       </div>
       <div class="uk-width-1-3">
