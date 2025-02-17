@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { PointOptionsObject, SeriesBubbleOptions } from "highcharts";
+import { LegendOptions, PointOptionsObject, SeriesBarOptions, SeriesBubbleOptions } from "highcharts";
 import { zip } from "rxjs/internal/observable/zip";
 import { RawData, Row } from "../../../../survey-tool/app/domain/raw-data";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
@@ -25,6 +25,11 @@ export class InvestmentsInEoscComponent implements OnInit {
   year = '2023';
 
   treeGraph: PointOptionsObject[] = [];
+  bar: SeriesBarOptions[] = [];
+  legendOptions: LegendOptions = {
+    align: 'center',
+    verticalAlign: 'top',
+  };
 
   variablePie = [];
 
@@ -74,6 +79,7 @@ export class InvestmentsInEoscComponent implements OnInit {
   getTreeGraphData() {
     this.queryData.getQuestion(this.year, 'Question5').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
+        this.bar = this.exploreService.createInvestmentBar(res);
         this.treeGraph = this.exploreService.createRanges(res);
       }
     );

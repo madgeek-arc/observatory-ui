@@ -133,9 +133,22 @@
     <h5>Overview of investments in EOSC and Open Science in European Countries</h5>
 
     <div class="uk-grid uk-margin-medium-top">
-      <div class="uk-width-2-3" style="height: 550px">
-        <app-tree-graph [data]="treeGraph" style="height: 100%"></app-tree-graph>
-      </div>
+      <ul class="uk-subnav uk-subnav-pill uk-width-1-1" uk-switcher="{connect:'#investments', animation: 'fade'}">
+        <li><a class="uk-margin-remove-bottom">Overview</a></li>
+        <li><a class="uk-margin-remove-bottom">Details</a></li>
+      </ul>
+
+      <ul id="investments" class="uk-switcher uk-margin uk-width-2-3">
+        <li style="height: 350px">
+          <app-multi-bar-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
+                               [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
+                               [customTooltip]="true" [yAxisLabels]="false" style="height: 100%">
+          </app-multi-bar-chart>
+        </li>
+        <li style="height: 550px">
+          <app-tree-graph [data]="treeGraph" style="height: 100%"></app-tree-graph>
+        </li>
+      </ul>
       <div class="uk-width-1-3">
         <h6>Understanding the data</h6>
         <p>The graph illustrates the financial investments made by various European countries in the EOSC and Open Science. The investments are categorized in ranges to show the distribution and scale of funding.</p>

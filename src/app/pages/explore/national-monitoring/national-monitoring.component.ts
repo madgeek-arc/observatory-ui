@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { SeriesBarOptions, SeriesOptionsType } from "highcharts";
+import { LegendOptions, SeriesBarOptions, SeriesOptionsType } from "highcharts";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { RawData } from "../../../../survey-tool/app/domain/raw-data";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
@@ -10,6 +10,7 @@ import { SurveyService } from "../../../../survey-tool/app/services/survey.servi
 import { PdfExportService } from "../../services/pdf-export.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { ExploreService } from "../explore.service";
+import * as Highcharts from "highcharts";
 
 @Component({
   selector: 'app-national-monitoring',
@@ -35,6 +36,17 @@ export class NationalMonitoringComponent implements OnInit {
     xAxis: 'National Monitoring on',
     yAxis: 'Percentage of countries with National Monitoring',
   }
+  legendOptions: LegendOptions = {
+    layout: 'vertical',
+    align: 'right',
+    verticalAlign: 'bottom',
+    x: -40,
+    y: -70,
+    floating: true,
+    borderWidth: 1,
+    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+    shadow: true
+  };
 
   navPills = ['Publications', 'Open Data', 'FAIR Data', 'Data Management', 'Citizen Science', 'Repositories', 'Long-term Data Preservation', 'Skills/Training', 'Software'];
   mapTitles = ['National monitoring on open access publications', 'National Monitoring on Open Data', 'National Monitoring on FAIR Data', 'National Monitoring on Data Management', 'National Monitoring on Citizen Science', 'National Monitoring on Connecting Repositories to EOSC', 'National Monitoring on Long-term Data Preservation', 'National Monitoring on Skills/Training in Open Science', 'National Monitoring on Open Sources Software']

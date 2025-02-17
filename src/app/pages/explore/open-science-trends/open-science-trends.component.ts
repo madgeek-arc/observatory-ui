@@ -4,7 +4,7 @@ import { EoscReadinessDataService } from "../../services/eosc-readiness-data.ser
 import { trendOfOAPublications, trendOfOpenData } from "../OSO-stats-queries/explore-queries";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { zip } from "rxjs";
-import { SeriesBarOptions, SeriesOptionsType } from "highcharts";
+import { LegendOptions, SeriesBarOptions, SeriesOptionsType } from "highcharts";
 import { RawData } from "../../../../survey-tool/app/domain/raw-data";
 import { PdfExportService } from "../../services/pdf-export.service";
 import html2canvas from "html2canvas";
@@ -40,6 +40,17 @@ export class OpenScienceTrendsComponent implements OnInit {
     xAxis: 'Financial Strategy on',
     yAxis: 'Percentage of countries with Financial Strategy',
   }
+  legendOptions: LegendOptions = {
+    layout: 'vertical',
+    align: 'right',
+    verticalAlign: 'bottom',
+    x: -40,
+    y: -70,
+    floating: true,
+    borderWidth: 1,
+    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+    shadow: true
+  };
 
 
   stackedColumnCategories = ['2020', '2021', '2022', '2023', '2024'];

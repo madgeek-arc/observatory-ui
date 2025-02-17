@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { SeriesBarOptions, SeriesBubbleOptions, SeriesOptionsType } from "highcharts";
+import { LegendOptions, SeriesBarOptions, SeriesBubbleOptions, SeriesOptionsType } from "highcharts";
 import { zip } from "rxjs/internal/observable/zip";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
@@ -9,6 +9,7 @@ import { DataHandlerService } from "../../services/data-handler.service";
 import { countries } from "../../../../survey-tool/app/domain/countries";
 import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
 import { PdfExportService } from "../../services/pdf-export.service";
+import * as Highcharts from "highcharts";
 
 
 @Component({
@@ -41,6 +42,17 @@ export class OpenSciencePoliciesComponent implements OnInit {
     xAxis: 'Financial Strategy on',
     yAxis: 'Percentage of countries with Financial Strategy',
   }
+  legendOptions: LegendOptions = {
+    layout: 'vertical',
+    align: 'right',
+    verticalAlign: 'bottom',
+    x: -40,
+    y: -70,
+    floating: true,
+    borderWidth: 1,
+    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+    shadow: true
+  };
 
   bubbleWithCategories = [] as SeriesBubbleOptions[];
 

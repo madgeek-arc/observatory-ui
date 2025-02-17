@@ -8,7 +8,7 @@ import { zip } from "rxjs/internal/observable/zip";
 import { PdfExportService } from "../../../services/pdf-export.service";
 import { CountryTableData } from "../../../../../survey-tool/app/domain/country-table-data";
 import { DataHandlerService } from "../../../services/data-handler.service";
-import { PointOptionsObject } from "highcharts";
+import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
 
 @Component({
@@ -67,6 +67,11 @@ export class OpenScienceByAreaDataManagementComponent {
   totalInvestments: number[] = [];
 
   treeGraph: PointOptionsObject[] = [];
+  bar: SeriesBarOptions[] = [];
+  legendOptions: LegendOptions = {
+    align: 'center',
+    verticalAlign: 'top',
+  };
 
   countriesArray: string[] = [];
   questionsDataArray: any[] = [];
@@ -236,6 +241,7 @@ export class OpenScienceByAreaDataManagementComponent {
   getTreeGraphData() {
     this.queryData.getQuestion(this.years[this.years.length-1], 'Question60').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
+        this.bar = this.exploreService.createInvestmentBar(res);
         this.treeGraph = this.exploreService.createRanges(res);
       }
     );

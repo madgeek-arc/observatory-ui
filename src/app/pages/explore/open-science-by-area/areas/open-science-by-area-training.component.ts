@@ -7,7 +7,7 @@ import { CountryTableData } from "../../../../../survey-tool/app/domain/country-
 import { zip } from "rxjs/internal/observable/zip";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
-import { PointOptionsObject } from "highcharts";
+import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
 
 @Component({
@@ -30,6 +30,11 @@ export class OpenScienceByAreaTrainingComponent implements OnInit {
   totalInvestments: number[] = [];
 
   treeGraph: PointOptionsObject[] = [];
+  bar: SeriesBarOptions[] = [];
+  legendOptions: LegendOptions = {
+    align: 'center',
+    verticalAlign: 'top',
+  };
 
   countriesArray: string[] = [];
   questionsDataArray: any[] = [];
@@ -149,6 +154,7 @@ export class OpenScienceByAreaTrainingComponent implements OnInit {
   getTreeGraphData(question: string) {
     this.queryData.getQuestion(this.years[this.years.length-1], question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
+        this.bar = this.exploreService.createInvestmentBar(res);
         this.treeGraph = this.exploreService.createRanges(res);
       }
     );

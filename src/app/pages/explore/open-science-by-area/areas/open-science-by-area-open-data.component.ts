@@ -3,7 +3,7 @@ import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
 import * as Highcharts from "highcharts";
-import { OptionsStackingValue, PointOptionsObject } from "highcharts";
+import { LegendOptions, OptionsStackingValue, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { distributionByDocumentType, OpenDataVSClosed, trendOfOpenData } from "../../OSO-stats-queries/explore-queries";
 import { PdfExportService } from "../../../services/pdf-export.service";
 import { CountryTableData } from "../../../../../survey-tool/app/domain/country-table-data";
@@ -100,6 +100,11 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   totalInvestments: number[] = [];
 
   treeGraph: PointOptionsObject[] = [];
+  bar: SeriesBarOptions[] = [];
+  legendOptions: LegendOptions = {
+    align: 'center',
+    verticalAlign: 'top',
+  };
 
   countriesArray: string[] = [];
   questionsDataArray: any[] = [];

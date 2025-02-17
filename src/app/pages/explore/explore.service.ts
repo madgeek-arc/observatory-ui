@@ -161,8 +161,9 @@ export class ExploreService {
       });
 
       let countryCount = series.data.length
-      series.data = [series.data.toString(), countryCount];
-    })
+      series.custom = series.data;
+      series.data = [countryCount];
+    });
 
     return series;
   }

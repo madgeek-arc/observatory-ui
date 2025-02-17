@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
-import { SeriesOptionsType } from "highcharts";
+import { LegendOptions, SeriesOptionsType } from "highcharts";
 
 @Component({
   selector: 'app-multi-bar-chart',
@@ -12,6 +12,12 @@ export class BarChartComponent implements OnChanges {
   @Input() categories: string[] = [];
   @Input() titles = {title: '', xAxis: '', yAxis: ''};
   @Input() stacking?: Highcharts.OptionsStackingValue;
+  @Input() legendOptions?: LegendOptions = {};
+  @Input() borderRadius?: (number|string|Highcharts.BorderRadiusOptionsObject) = undefined;
+  @Input() pointWidth?: number = undefined;
+  @Input() valueSuffix?: string = undefined;
+  @Input() customTooltip?: boolean = false;
+  @Input() yAxisLabels?: boolean = true;
 
 
   Highcharts: typeof Highcharts = Highcharts;
@@ -44,11 +50,11 @@ export class BarChartComponent implements OnChanges {
       gridLineWidth: 0
     },
     tooltip: {
-      valueSuffix: ' %'
+      valueSuffix: this.valueSuffix,
     },
     plotOptions: {
       bar: {
-        borderRadius: '50%',
+        borderRadius: this.borderRadius,
         dataLabels: {
           enabled: true
         },
@@ -58,17 +64,7 @@ export class BarChartComponent implements OnChanges {
         stacking: this.stacking
       },
     },
-    legend: {
-      layout: 'vertical',
-      align: 'right',
-      verticalAlign: 'bottom',
-      x: -40,
-      y: -70,
-      floating: true,
-      borderWidth: 1,
-      backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-      shadow: true
-    },
+    legend: this.legendOptions,
     credits: {
       enabled: false
     },
@@ -81,7 +77,6 @@ export class BarChartComponent implements OnChanges {
 
   updateChart() {
     if (this.chart) {
-      // console.log(this.series);
       this.chart.update({
         title: {
           text: this.titles.title
@@ -95,12 +90,24 @@ export class BarChartComponent implements OnChanges {
         },
         yAxis: {
           title: {
-            text: this.titles.yAxis
+            text: this.titles.yAxis,
+          },
+          labels: {
+            enabled: this.yAxisLabels
           }
+        },
+        tooltip: {
+          valueSuffix: this.valueSuffix,
+          // pointFormat: '{series.name}: {point.y}',
+          headerFormat: this.customTooltip ? '<b>{series.name}</b><br>' : undefined,
+          pointFormatter: this.customTooltip ? function () {
+            return   'Countries: ' + this.series.userOptions.custom;
+          } : undefined
         },
         plotOptions: {
           bar: {
-            borderRadius: '50%',
+            borderRadius: this.borderRadius,
+            pointWidth: this.pointWidth,
             dataLabels: {
               enabled: true
             },
@@ -110,6 +117,7 @@ export class BarChartComponent implements OnChanges {
             stacking: this.stacking
           },
         },
+        legend: this.legendOptions,
         series: this.series as SeriesOptionsType[]
       }, true, true, true);
     } else {
