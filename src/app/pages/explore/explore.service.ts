@@ -43,9 +43,52 @@ export class ExploreService {
     return questionsData;
   }
 
+  createCategorizedMapDataFromMergedResponse(tmpQuestionsData: RawData, countriesArray: string[]) {
+
+    const countriesWithAnswer: string[] = [];
+    const questionsData = new CategorizedAreaData();
+
+    questionsData.series.push(new Series('Has mandatory national policy', true));
+    questionsData.series[0].showInLegend = true;
+    questionsData.series[0].color = ColorPallet[0];
+    questionsData.series.push(new Series('Has national policy but not mandatory', false));
+    questionsData.series[1].showInLegend = true;
+    questionsData.series[1].color = ColorPallet[3];
+    questionsData.series.push(new Series('Does not have national policy', false));
+    questionsData.series[2].showInLegend = true;
+    questionsData.series[2].color = ColorPallet[1];
+
+    tmpQuestionsData.datasets[0].series.result.forEach(result => {
+      if (result.row[1] === 'No') {
+        questionsData.series[2].data.push({code: result.row[0]});
+      } else if (result.row[1] === 'Yes') {
+        if (result.row[2] === 'Yes') {
+          questionsData.series[0].data.push({code: result.row[0]});
+        } else if (result.row[2] === 'No') {
+          questionsData.series[1].data.push({code: result.row[0]});
+        }
+      }
+
+      countriesWithAnswer.push(result.row[0]);
+    });
+
+    questionsData.series[3] = new Series('Awaiting Data', false);
+    questionsData.series[3].showInLegend = true;
+    questionsData.series[3].color = ColorPallet[2];
+    questionsData.series[3].data = countriesArray.filter(code => !countriesWithAnswer.includes(code));
+    questionsData.series[3].data = questionsData.series[3].data.map(code => ({ code }));
+
+    for (let i = questionsData.series.length-1; i >= 0; i--) {
+      if (questionsData.series[i].data.length === 0)
+        questionsData.series.splice(i, 1);
+    }
+
+    return questionsData;
+  }
+
   createMapDataFromCategorizationWithDots(tmpQuestionsData: CategorizedAreaData, countriesArray: string[], mapPointData: CountryTableData[], mapCount: number) {
     // this.mapSubtitles[index] = this.mapSubtitlesArray[mapCount][index];
-
+    console.log(tmpQuestionsData);
     let questionsData = new CategorizedAreaData();
 
     let position = 0;

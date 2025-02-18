@@ -6,7 +6,7 @@ export const EoscReadiness2022MapSubtitles: string[][] = [
   ['Has national monitoring', 'Does not have national monitoring'],
 ]
 
-export const ColorPallet = ['#008792', '#E76F51', '#a9a9a9'];
+export const ColorPallet = ['#008792', '#E76F51', '#a9a9a9', '#00afbf'];
 
 export const countriesNumbers = [
   {id : 'AD', name : 'Andorra', gdp: 0, gerd: 0, income: 0},

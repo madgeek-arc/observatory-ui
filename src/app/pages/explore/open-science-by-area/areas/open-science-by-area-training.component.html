@@ -179,24 +179,55 @@
 <div class="uk-section uk-section-small uk-margin-top" #exportContent2>
   <div class="uk-container uk-container-expand">
 
-    <div class="uk-child-width-1-2 uk-grid-match" uk-grid>
-      <div style="height: 600px">
-        <app-highcharts-category-map
-          [mapData]="questionsDataArray[0]" [subtitle]="" [toolTipData]="toolTipData[0]"
-          [title]="'National Policy on Skills/Training in Open Science'" [backgroundColor]="'#ffffff'"
-          [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on <br>skills/training for<br>Open Science'"
-          [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
-        </app-highcharts-category-map>
-      </div>
-      <div style="height: 600px">
-        <app-highcharts-category-map
-          [mapData]="questionsDataArray[1]" [subtitle]="" [toolTipData]="toolTipData[1]"
-          [title]="'National Monitoring on Skills/Training in Open Science'" [backgroundColor]="'#ffffff'"
-          [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring <br>on skills/training for<br>Open Science'"
-          [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
-        </app-highcharts-category-map>
-      </div>
-    </div>
+    <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#maps', animation: 'fade'}">
+      <li><a class="uk-margin-remove-bottom" (click)="comment = undefined">Policies</a></li>
+      <li><a class="uk-margin-remove-bottom" (click)="comment = undefined">Monitoring</a></li>
+    </ul>
+
+    <ul id="maps" class="uk-switcher uk-child-width-1-1 uk-grid-match" uk-grid>
+      <li>
+        <div class="uk-width-2-3" style="height: 600px">
+          <app-highcharts-category-map
+            [mapData]="questionsDataArray[0]"
+            [title]="'National policy on open access publications'" [backgroundColor]="'#ffffff'"
+            [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on open<br> access publications'"
+            [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
+            (mapClick)="showComment(0, $event)">
+          </app-highcharts-category-map>
+        </div>
+        <div class="uk-width-1-3">
+          <h6>Understanding the data</h6>
+          <p>This map illustrates the status of national policies on OA publications across European countries. OA policies are essential for promoting the free sharing of scientific knowledge and ensuring research outputs are widely accessible.</p>
+          <p>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>
+          <div>
+            <h6>Click on country for additional information</h6>
+            <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
+            <ng-template #noComment>--</ng-template>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="uk-width-2-3" style="height: 600px">
+          <app-highcharts-category-map
+            [mapData]="questionsDataArray[1]"
+            [title]="'National monitoring on open access publications'" [backgroundColor]="'#ffffff'"
+            [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>open access <br>publications'"
+            [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
+            (mapClick)="showComment(1, $event)">
+          </app-highcharts-category-map>
+        </div>
+        <div class="uk-width-1-3">
+          <h6>Understanding the data</h6>
+          <p>This map illustrates the status of national monitoring on OA publications across European countries.OA monitoring is essential for tracking progress, evaluating policy implementation, and ensuring that research outputs are freely accessible.</p>
+          <p>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>
+          <div>
+            <h6>Click on country for additional information</h6>
+            <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
+            <ng-template #noComment>--</ng-template>
+          </div>
+        </div>
+      </li>
+    </ul>
 
   </div>
 </div>

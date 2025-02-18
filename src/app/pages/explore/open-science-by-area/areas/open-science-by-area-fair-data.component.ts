@@ -77,6 +77,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
   total: number[] = [];
   mapPointData: CountryTableData[];
   toolTipData: Map<string, string>[] = [];
+  comment?: string;
 
   constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService,
               private pdfService: PdfExportService, private dataHandlerService: DataHandlerService,
@@ -98,7 +99,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
     this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: countries => {
         this.countriesArray = countries;
-        this.getNationalPolicies('Question14', 0, 0);
+        this.getNationalPolicies('Question14', 0);
         this.getMonitoring('Question62', 1, 2);
       },
       error: error => {console.error(error);}
@@ -107,24 +108,19 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
   }
 
   /** Get maps data ----------------------------------------------------------------------------------> **/
-  getNationalPolicies(question: string, index: number, mapCount: number) {
+  getNationalPolicies(question: string, index: number) {
     zip(
       this.queryData.getQuestion(this.years[this.years.length-1], question),
       this.queryData.getQuestion(this.years[this.years.length-1], question + '.1'),
       this.queryData.getQuestionComment(this.years[this.years.length-1], question),
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: res => {
-        this.tmpQuestionsDataArray[index] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[0]);
+        this.tmpQuestionsDataArray[index] = this.dataHandlerService.mergePolicyQuestionData(res[0], res[1]);
         this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(res[0]);
         this.total[index] = res[0].datasets[0].series.result.length; // Total countries with validated response
 
-        this.mapPointData = this.dataHandlerService.convertRawDataToTableData(res[1]);
-
-        for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
-          this.tmpQuestionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data.map(code => ({ code }));
-        }
         this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.questionsDataArray[index] = this.exploreService.createMapDataFromCategorizationWithDots(this.tmpQuestionsDataArray[index], this.countriesArray, this.mapPointData, mapCount);
+        this.questionsDataArray[index] = this.exploreService.createCategorizedMapDataFromMergedResponse(this.tmpQuestionsDataArray[index], this.countriesArray);
       },
       error: err => {console.error(err)}
     });
@@ -268,6 +264,10 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
     });
 
     return Math.round(sum * 100) / 100;
+  }
+
+  showComment(index: number, country: {code: string}) {
+    this.comment = this.toolTipData[index].get(country.code.toLowerCase())?.replace(/\\n/g,'<br>').replace(/\\t/g,'  ') ?? undefined;
   }
 
 }

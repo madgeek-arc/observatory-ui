@@ -239,7 +239,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
             events: {
               click: function () {
                 // console.log(this);
-                that.mapClick.emit(this);
+                that.mapClick.emit(this.options);
               },
             }
           }
