@@ -7,10 +7,29 @@ import {
 import { latlong } from "../../../survey-tool/app/domain/countries-lat-lon";
 import { CountryTableData } from "../../../survey-tool/app/domain/country-table-data";
 import { RawData, Row } from "../../../survey-tool/app/domain/raw-data";
-import { PointOptionsObject, SeriesBarOptions, SeriesOptionsType } from "highcharts";
+import { SeriesBarOptions } from "highcharts";
+import { EoscReadinessDataService } from "../services/eosc-readiness-data.service";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable()
 export class ExploreService {
+
+  _lastUpdateDate: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+
+  constructor(private eoscReadiness: EoscReadinessDataService) {
+    this.getLastUpdateDate();
+  }
+
+  getLastUpdateDate() {
+    return this.eoscReadiness.getLastUpdateDate().subscribe({
+      next: data => {
+        this._lastUpdateDate.next(data.datasets[0].series.result[0].row[0]);
+      },
+      error: err => {
+        console.error(err);
+      }
+    });
+  }
 
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
 

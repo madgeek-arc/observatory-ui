@@ -22,6 +22,7 @@ export class OpenScienceByAreaDataManagementComponent {
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;
+  lastUpdateDate?: string;
 
   years = ['2022', '2023'];
 
@@ -108,6 +109,10 @@ export class OpenScienceByAreaDataManagementComponent {
         this.getMonitoring('Question58', 1, 2);
       },
       error: error => {console.error(error);}
+    });
+
+    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => this.lastUpdateDate = value
     });
   }
 

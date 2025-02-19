@@ -42,7 +42,7 @@ export class EoscReadinessDataService {
   }
 
   getLastUpdateDate() {
-    return this.httpClient.get<RawData>(this.OSOStatsAPIURL + 'raw?json={"series":[{"query":{"name":"creation_date","profile":"observatory"}}],"verbose":true}');
+    return this.httpClient.get<RawData>(this.OSOStatsAPIURL + 'raw?json=' + encodeURIComponent('{"series":[{"query":{"name":"creation_date","profile":"observatory"}}],"verbose":true}'));
   }
 
   // ======= GENERAL ========
