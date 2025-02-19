@@ -120,7 +120,7 @@ export class DataHandlerService {
 
     // sort descending Yes, No
     mapData.series.sort((a, b) => (a.name > b.name) ? -1 : ((b.name > a.name) ? 1 : 0));
-    console.log(mapData);
+
     return mapData
   }
 
