@@ -21,6 +21,8 @@
 .explore_sidebar_main_active #explore_sidebar_main {
   -webkit-transform: translate3d(0,0,0);
   transform: translate3d(0,0,0);
+
+  overflow: auto;
 }
 
 /* ========================================================================
@@ -90,7 +92,8 @@
   background-color: transparent;
 }
 
-#explore_sidebar_main .menu_section > ul > li.current_section a {
+#explore_sidebar_main .menu_section ul li.current_section > a {
+//#explore_sidebar_main .menu_section > ul > li.current_section > a {
   /*background-color: rgba(255, 205, 0, 0.5);*/
   background-color: var(--active-sidemenu-background-color);
   //border-radius: 6px;
@@ -101,7 +104,7 @@
   /*background-color: rgba(255, 205, 0, 0.5);*/
 }
 
-#explore_sidebar_main .menu_section > ul > li.current_section a {
+#explore_sidebar_main .menu_section > ul > li.current_section > a {
   color: #1A1A1A !important;
   font-weight: bold !important;
 }
@@ -128,7 +131,8 @@
 /*color: #6b6b6b;*/
 /*}*/
 
-#explore_sidebar_main .menu_section > ul > li > a {
+//#explore_sidebar_main .menu_section > ul > li > a {
+#explore_sidebar_main .menu_section ul li a {
   font-weight: 400;
   font-size: var(--sidebar-font-size);
   color: #212121;
@@ -136,6 +140,10 @@
   display: block;
   overflow: hidden;
   position: relative;
+}
+
+#explore_sidebar_main .menu_section ul li ul li a {
+  padding: 8px 25px 8px 65px;
 }
 
 
