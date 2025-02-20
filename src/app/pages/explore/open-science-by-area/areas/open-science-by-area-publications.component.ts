@@ -29,9 +29,9 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;
+  lastUpdateDate?: string;
 
   years = ['2022', '2023'];
-  lastUpdateDate: Date | null = null;
 
   stackedColumnCategories = ['2020', '2021', '2022', '2023', '2024'];
   stackedColumnSeries = [
@@ -166,20 +166,8 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
       // this.getPlans(year, index);
     });
 
-    this.queryData.getLastUpdateDate().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: data => {
-        let lastUpdateDate: string;
-
-        for (const series of data.datasets) {
-          if (series.series.query.name === 'creation_date') {
-            lastUpdateDate = series.series.result[0].row[0];
-          }
-        }
-        this.lastUpdateDate = new Date(lastUpdateDate);
-      },
-      error: error => {
-        console.error(error);
-      }
+    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => this.lastUpdateDate = value
     });
 
   }
