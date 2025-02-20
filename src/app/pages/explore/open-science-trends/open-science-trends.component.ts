@@ -9,6 +9,7 @@ import { RawData } from "../../../../survey-tool/app/domain/raw-data";
 import { PdfExportService } from "../../services/pdf-export.service";
 import html2canvas from "html2canvas";
 import JsPDF from "jspdf";
+import { ExploreService } from "../explore.service";
 
 
 @Component({
@@ -17,9 +18,10 @@ import JsPDF from "jspdf";
 })
 
 export class OpenScienceTrendsComponent implements OnInit {
-  private destroyRef = inject(DestroyRef);
 
+  private destroyRef = inject(DestroyRef);
   exportActive = false;
+  lastUpdateDate?: string;
 
   years = ['2022', '2023'];
 
@@ -121,20 +123,10 @@ export class OpenScienceTrendsComponent implements OnInit {
     }
   ] as Highcharts.SeriesColumnOptions[];
   yAxis2Title = 'Number of Data Sets';
-  // legend = {
-  //   align: 'right',
-  //   x: -30,
-  //   verticalAlign: 'top',
-  //   y: -10,
-  //   floating: true,
-  //   backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
-  //   borderColor: '#CCC',
-  //   borderWidth: 1,
-  //   shadow: false
-  // };
-  // tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
-  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
+
+  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
+              private exploreService: ExploreService) {}
 
   ngOnInit() {
     this.years.forEach((year, index) => {
@@ -144,6 +136,10 @@ export class OpenScienceTrendsComponent implements OnInit {
 
     this.getTrendsPublications();
     this.getTrendsOpenData();
+
+    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => this.lastUpdateDate = value
+    });
   }
 
   /** Bar charts --------------------------------------------------------------------------------------------------> **/

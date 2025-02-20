@@ -201,8 +201,8 @@
   <div class="uk-container uk-container-expand">
 
     <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#maps', animation: 'fade'}">
-      <li><a class="uk-margin-remove-bottom" (click)="comment = undefined">Policies</a></li>
-      <li><a class="uk-margin-remove-bottom" (click)="comment = undefined">Monitoring</a></li>
+      <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Policies</a></li>
+      <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
     </ul>
 
     <ul id="maps" class="uk-switcher uk-child-width-1-1 uk-grid-match" uk-grid>
@@ -222,6 +222,7 @@
           <p>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>
           <div>
             <h6>Click on country for additional information</h6>
+            <p *ngIf="countryName">{{ countryName }}</p>
             <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
             <ng-template #noComment>--</ng-template>
           </div>
@@ -243,6 +244,7 @@
           <p>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>
           <div>
             <h6>Click on country for additional information</h6>
+            <p *ngIf="countryName">{{ countryName }}</p>
             <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
             <ng-template #noComment>--</ng-template>
           </div>
@@ -308,7 +310,7 @@
       <div class="uk-width-1-3">
         <h6>Understanding the data</h6>
         <p>The graph provides a comprehensive view of how data accessibility has evolved from 2020 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of open data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>
-        <p><strong>Data Source: </strong> OpenAIRE Graph (updated at {{lastUpdateDate}}).</p>
+        <p><strong>Data Source: </strong> OpenAIRE Graph (updated on {{ lastUpdateDate }}).</p>
       </div>
     </div>
 
@@ -329,7 +331,7 @@
       <div class="uk-width-1-3">
         <h6>Understanding the data</h6>
         <p>The  graph illustrates how open data is implemented across various types of documents. It segments the open data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each colored according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance  accessibility and foster a more transparent, reproducible and inclusive science.</p>
-        <p><strong>Data Source: </strong> OpenAIRE Graph. data for 2022</p>
+        <p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on {{ lastUpdateDate }}).</p>
       </div>
     </div>
 

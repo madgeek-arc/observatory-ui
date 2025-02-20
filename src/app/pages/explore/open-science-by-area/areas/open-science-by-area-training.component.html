@@ -180,8 +180,8 @@
   <div class="uk-container uk-container-expand">
 
     <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#maps', animation: 'fade'}">
-      <li><a class="uk-margin-remove-bottom" (click)="comment = undefined">Policies</a></li>
-      <li><a class="uk-margin-remove-bottom" (click)="comment = undefined">Monitoring</a></li>
+      <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Policies</a></li>
+      <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
     </ul>
 
     <ul id="maps" class="uk-switcher uk-child-width-1-1 uk-grid-match" uk-grid>
@@ -201,6 +201,7 @@
           <p>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>
           <div>
             <h6>Click on country for additional information</h6>
+            <p *ngIf="countryName">{{ countryName }}</p>
             <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
             <ng-template #noComment>--</ng-template>
           </div>
@@ -222,6 +223,7 @@
           <p>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>
           <div>
             <h6>Click on country for additional information</h6>
+            <p *ngIf="countryName">{{ countryName }}</p>
             <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
             <ng-template #noComment>--</ng-template>
           </div>

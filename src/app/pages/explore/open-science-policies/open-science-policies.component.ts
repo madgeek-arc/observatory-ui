@@ -10,6 +10,7 @@ import { countries } from "../../../../survey-tool/app/domain/countries";
 import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
 import { PdfExportService } from "../../services/pdf-export.service";
 import * as Highcharts from "highcharts";
+import { ExploreService } from "../explore.service";
 
 
 @Component({
@@ -24,6 +25,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
   years = ['2022', '2023'];
   year = '2023';
+  lastUpdateDate?: string;
 
   barChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills/Training', 'Incentives/Rewards for OS', 'Citizen Science'];
 
@@ -59,7 +61,8 @@ export class OpenSciencePoliciesComponent implements OnInit {
   tableData: string[][] = [];
 
   constructor(private queryData: EoscReadinessDataService, private surveyService: SurveyService,
-              private dataHandlerService: DataHandlerService, private pdfService: PdfExportService) {}
+              private dataHandlerService: DataHandlerService, private pdfService: PdfExportService,
+              private exploreService: ExploreService) {}
 
   ngOnInit() {
 
@@ -67,8 +70,13 @@ export class OpenSciencePoliciesComponent implements OnInit {
       this.getBarChartData(year, index);
       this.getFinancialBarChartData(year, index);
     });
+
     this.getBubbleChartData();
     this.getTableData();
+
+    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => this.lastUpdateDate = value
+    });
   }
 
   /** Bar charts ---------------------------------------------------------------------------------------------------> **/

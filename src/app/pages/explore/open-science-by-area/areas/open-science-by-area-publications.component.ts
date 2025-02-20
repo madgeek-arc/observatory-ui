@@ -133,6 +133,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   mapPointData: CountryTableData[];
   toolTipData: Map<string, string>[] = [];
   comment?: string;
+  countryName?: string;
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,
@@ -404,7 +405,8 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   }
 
   showComment(index: number, country: {code: string}) {
-    this.comment = this.toolTipData[index].get(country.code.toLowerCase())?.replace(/\\n/g,'<br>').replace(/\\t/g,'  ') ?? undefined;
+    this.comment = this.toolTipData[index].get(country.code.toLowerCase())?.replace(/\\n/g,'<br>').replace(/\\t/g,'  ') ?? 'N/A';
+    this.countryName = this.exploreService.findCountryName(country.code).name
   }
 
 }

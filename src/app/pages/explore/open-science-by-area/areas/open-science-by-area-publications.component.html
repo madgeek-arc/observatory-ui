@@ -222,7 +222,7 @@
     </div>
 
     <div class="uk-flex uk-flex-center uk-margin-top">
-      <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022; OpenAIRE Graph data for 2022 (updated on {{lastUpdateDate}}).
+      <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022; OpenAIRE Graph data for 2022 (updated on {{ lastUpdateDate }}).
     </div>
 
   </div>
@@ -234,8 +234,8 @@
     <h5>Open Access Policy and Monitoring Across Europe</h5>
 
     <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#maps', animation: 'fade'}">
-      <li><a class="uk-margin-remove-bottom" (click)="comment = undefined">Policies</a></li>
-      <li><a class="uk-margin-remove-bottom" (click)="comment = undefined">Monitoring</a></li>
+      <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Policies</a></li>
+      <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
     </ul>
 
     <ul id="maps" class="uk-switcher uk-child-width-1-1 uk-grid-match" uk-grid>
@@ -255,6 +255,7 @@
           <p>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>
           <div>
             <h6>Click on country for additional information</h6>
+            <p *ngIf="countryName">{{ countryName }}</p>
             <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
             <ng-template #noComment>--</ng-template>
           </div>
@@ -276,6 +277,7 @@
           <p>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>
           <div>
             <h6>Click on country for additional information</h6>
+            <p *ngIf="countryName">{{ countryName }}</p>
             <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
             <ng-template #noComment>--</ng-template>
           </div>
@@ -373,7 +375,7 @@
       <div class="uk-width-1-3">
         <h6>Understanding the data</h6>
         <p>The graph displays the distribution of OA types across different scholarly publication categories, revealing distinct preferences and practices in the dissemination of research outputs. This visualization provides insight into the diverse adoption rates and strategies for OA across various academic outputs. Understanding these differences is crucial for identifying specific barriers and opportunities within each publication category, thereby guide stakeholders in tailoring interventions that encourage broader adoption of OA. This targeted approach can significantly contribute to enhancing the accessibility of knowledge, fostering a more open and collaborative scientific community.</p>
-        <p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on {{lastUpdateDate}})</p>
+        <p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on {{ lastUpdateDate }})</p>
       </div>
     </div>
 
