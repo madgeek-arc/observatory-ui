@@ -1,34 +1,22 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { Component} from "@angular/core";
 
 @Component({
   selector: 'app-explore',
-  templateUrl: './explore.component.html',
-  styles: []
+  templateUrl: './explore.component.html'
 })
 
-export class ExploreComponent implements OnInit {
+export class ExploreComponent {
 
-  open: boolean = true;
+  hideSubNavigation: boolean = true;
   activeSection: string = null;
 
-
-  constructor(private route: ActivatedRoute, private router: Router) {}
-
-  ngOnInit() {
-
-    this.router.events.subscribe(event => {
-
-      if (event instanceof NavigationEnd) {
-
-        if (event.url.includes('open-science-by-area') && event.url.split('/').length === 4) {
-          console.log(event.url);
-        }
-      }
-    })
+  toggleAreaSubNav() {
+    this.hideSubNavigation = !this.hideSubNavigation;
   }
 
   linkIsActive(event, name: string) {
-    console.log(name+' active: '+event);
+    // console.log(name+' active: '+event);
+    if (event)
+      this.hideSubNavigation = false;
   }
 }

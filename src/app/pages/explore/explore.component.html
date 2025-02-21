@@ -1,4 +1,4 @@
-<div id="explore_sidebar_main_content" class="explore_sidebar_main_swipe explore_sidebar_main_active" [class.explore_sidebar_main_active]="open">
+<div id="explore_sidebar_main_content" class="explore_sidebar_main_swipe explore_sidebar_main_active">
 
   <aside id="explore_sidebar_main">
 
@@ -7,24 +7,21 @@
 
       <div  class="menu_section" style="min-height: 30vh">
 
-        <ul #nav class="uk-list uk-nav uk-nav-default uk-nav-parent-icon" uk-nav="duration: 500">
+        <ul class="uk-list uk-nav uk-nav-default uk-nav-parent-icon">
 
-          <li [routerLinkActive]="'uk-active current_section'" [routerLinkActiveOptions]="{exact: true}"
-              (isActiveChange)="linkIsActive($event, 'Area')"
+          <li [routerLinkActive]="'uk-active current_section'" (isActiveChange)="linkIsActive($event, 'Area')"
               class="no-icon uk-parent uk-margin-top">
-              <a [routerLink]="'open-science-by-area'" class="uk-flex uk-flex-middle">
+              <a [routerLink]="'open-science-by-area'" class="uk-flex uk-flex-middle" (click)="toggleAreaSubNav()">
                 <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science by Area</span>
               </a>
 
-            <ul class="">
-              <li [routerLinkActive]="'uk-active current_section'"
-                  (isActiveChange)="linkIsActive($event, 'Publications')">
+            <ul [hidden]="hideSubNavigation" class="uk-animation-fade">
+              <li [routerLinkActive]="'uk-active current_section'">
                 <a [routerLink]="'open-science-by-area/publications'">
                   <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Publications</span>
                 </a>
               </li>
-              <li [routerLinkActive]="'uk-active current_section'"
-                  (isActiveChange)="linkIsActive($event, 'Open Data')">
+              <li [routerLinkActive]="'uk-active current_section'">
                 <a [routerLink]="'open-science-by-area/open-data'">
                   <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Data</span>
                 </a>
