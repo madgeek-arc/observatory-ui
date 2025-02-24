@@ -48,8 +48,8 @@ export class NationalMonitoringComponent implements OnInit {
     shadow: true
   };
 
-  navPills = ['Publications', 'Open Data', 'FAIR Data', 'Data Management', 'Citizen Science', 'Repositories', 'Long-term Data Preservation', 'Skills/Training', 'Software'];
-  mapTitles = ['National monitoring on open access publications', 'National Monitoring on Open Data', 'National Monitoring on FAIR Data', 'National Monitoring on Data Management', 'National Monitoring on Citizen Science', 'National Monitoring on Connecting Repositories to EOSC', 'National Monitoring on Long-term Data Preservation', 'National Monitoring on Skills/Training in Open Science', 'National Monitoring on Open Sources Software']
+  navPills = ['Publications', 'FAIR Data', 'Data Management', 'Open Data', 'Software', 'Services', 'Repositories', 'Long-term Data Preservation', 'Skills/Training', 'Incentives', 'Citizen Science'];
+  mapTitles = ['National Monitoring on open access publications', 'National Monitoring on FAIR Data', 'National Monitoring on Data Management', 'National Monitoring on Open Data', 'National Monitoring on Open Sources Software', 'National Monitoring on offering services through EOSC', 'National Monitoring on Connecting Repositories to EOSC', 'National Monitoring on data stewardship', 'National Monitoring on Long-term Data Preservation', 'National Monitoring on Skills/Training in Open Science', 'National Monitoring on incentives/rewards for Open Science', 'National Monitoring on Citizen Science'];
 
   countriesArray: string[] = [];
   questionsDataArray: any[] = [];
@@ -73,7 +73,8 @@ export class NationalMonitoringComponent implements OnInit {
     this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: countries => {
         this.countriesArray = countries;
-        this.getMonitoring('Question54', 0, 2); // National monitoring on open access publications
+        this.getChart(0);
+        // this.getMonitoring('Question54', 0, 2); // National monitoring on open access publications
         // this.getMonitoring('Question66', 1, 2); // National Monitoring on Open Data
         // this.getMonitoring('Question62', 2, 2); // National Monitoring on FAIR Data
         // this.getMonitoring('Question58', 3, 2); // National Monitoring on Data Management
@@ -109,7 +110,7 @@ export class NationalMonitoringComponent implements OnInit {
   }
 
   getChart(index: number) {
-    console.log(this.questionsDataArray);
+    // console.log(this.questionsDataArray);
     switch (index) {
       case 0:
         if (!this.questionsDataArray[index])
@@ -117,35 +118,47 @@ export class NationalMonitoringComponent implements OnInit {
         break;
       case 1:
         if (!this.questionsDataArray[index])
-          this.getMonitoring('Question66', index, 2); // National Monitoring on Open Data
+          this.getMonitoring('Question62', index, 2); // National Monitoring on FAIR Data
         break;
       case 2:
         if (!this.questionsDataArray[index])
-          this.getMonitoring('Question62', index, 2); // National Monitoring on FAIR Data
+          this.getMonitoring('Question58', index, 2); // National Monitoring on Data Management
         break;
       case 3:
         if (!this.questionsDataArray[index])
-          this.getMonitoring('Question58', index, 2); // National Monitoring on Data Management
+          this.getMonitoring('Question66', index, 2); // National Monitoring on Open Data
         break;
       case 4:
         if (!this.questionsDataArray[index])
-          this.getMonitoring('Question98', index, 2); // National Monitoring on Citizen Science
+          this.getMonitoring('Question70', index, 2); // National Monitoring on Open Sources Software
         break;
       case 5:
         if (!this.questionsDataArray[index])
-          this.getMonitoring('Question78', index, 2); // National Monitoring on Connecting Repositories to EOSC
+          this.getMonitoring('Question74', index, 2); // National Monitoring on Services
         break;
       case 6:
         if (!this.questionsDataArray[index])
-          this.getMonitoring('Question86', index, 2); // National Monitoring on Long-term Data Preservation
+          this.getMonitoring('Question78', index, 2); // National Monitoring on Connecting Repositories to EOSC
         break;
       case 7:
         if (!this.questionsDataArray[index])
-          this.getMonitoring('Question90', index, 2); // National Monitoring on Skills/Training in Open Science
+          this.getMonitoring('Question82', index, 2); // National Monitoring on Data stewardship
         break;
       case 8:
         if (!this.questionsDataArray[index])
-          this.getMonitoring('Question70', index, 2); // National Monitoring on Open Sources Software
+          this.getMonitoring('Question86', index, 2); // National Monitoring on Long-term Data Preservation
+        break;
+      case 9:
+        if (!this.questionsDataArray[index])
+          this.getMonitoring('Question90', index, 2); // National Monitoring on Skills/Training in Open Science
+        break;
+      case 10:
+        if (!this.questionsDataArray[index])
+          this.getMonitoring('Question94', index, 2); // National Monitoring on Incentives/rewards for Open Science
+        break;
+      case 11:
+        if (!this.questionsDataArray[index])
+          this.getMonitoring('Question98', index, 2); // National Monitoring on Citizen Science
         break;
     }
   }
@@ -153,7 +166,7 @@ export class NationalMonitoringComponent implements OnInit {
   /** Bar charts ---------------------------------------------------------------------------------------------------> **/
   getBarChartData(year: string, index: number) {
     zip(
-      this.queryData.getQuestion(year, 'Question54'), // publications
+      this.queryData.getQuestion(year, 'Question54'), // Publications
       this.queryData.getQuestion(year, 'Question62'), // FAIR data
       this.queryData.getQuestion(year, 'Question58'), // Data management
       this.queryData.getQuestion(year, 'Question66'), // Open data

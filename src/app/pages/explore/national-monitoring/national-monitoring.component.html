@@ -55,7 +55,7 @@
         <app-highcharts-category-map
           [mapData]="questionsDataArray[i]" [subtitle]="" [toolTipData]="toolTipData[i]"
           [title]="mapTitles[i]" [backgroundColor]="'#ffffff'"
-          [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national policy on <br> citizen science'"
+          [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ navPills[i]"
           [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
         </app-highcharts-category-map>
       </div>
