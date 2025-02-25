@@ -3,7 +3,7 @@
 
     <div class="uk-flex uk-flex-between uk-flex-middle">
       <h4>Open Science Policies</h4>
-      <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4], 'Open Science Policies')" style="cursor: pointer">
+      <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5], 'Open Science Policies')" style="cursor: pointer">
         <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
           <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
             Export report
@@ -41,7 +41,27 @@
   </div>
 </div>
 
-<div class="uk-section uk-section-small uk-margin-top" #exportContent2>
+<div class="uk-section uk-section-small" #exportContent2>
+  <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill uk-margin-remove" data-uk-switcher="{connect:'#map-charts', animation: 'fade'}">
+    <li class="" *ngFor="let pill of openScienceAreas; let i=index">
+      <a class="uk-margin-remove-bottom" (click)="getChart(i)"><span>{{ pill }}</span></a>
+    </li>
+  </ul>
+
+  <ul id="map-charts" class="uk-switcher uk-margin">
+    <li *ngFor="let pill of openScienceAreas; let i = index">
+      <div style="height: 600px">
+        <app-highcharts-category-map
+          [mapData]="questionsDataArray[i]" [title]="mapTitles[i]" [toolTipData]="toolTipData[i]" [backgroundColor]="'#ffffff'"
+          [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
+          [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
+        </app-highcharts-category-map>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent3>
   <div class="uk-container uk-container-expand">
 
     <h5>Impact of Policy and Investment on Open Access Publications</h5>
@@ -50,7 +70,8 @@
       <div class="uk-width-2-3" style="height: 450px">
         <app-bubble-chart [enablePlotLines]="false" [categories]="['<1', '1-5', '5-10', '10-20','>20']"
                           xAxisTitle="Number of OA publication" yAxisTitle="Financial investmetsin OA"
-                          [series]="bubbleWithCategories" [enableLegend]="true"></app-bubble-chart>
+                          [series]="bubbleWithCategories" [enableLegend]="true">
+        </app-bubble-chart>
       </div>
       <div class="uk-width-1-3">
         <h6>Understanding the data</h6>
@@ -63,7 +84,7 @@
   </div>
 </div>
 
-<div class="uk-section uk-section-small uk-margin-top" #exportContent3>
+<div class="uk-section uk-section-small uk-margin-top" #exportContent4>
   <div class="uk-container uk-container-expand">
 
     <h5>Financial Strategy on EOSC and Open Science by Areas</h5>
@@ -83,7 +104,7 @@
   </div>
 </div>
 
-<div class="uk-section uk-section-small uk-margin-top" #exportContent4>
+<div class="uk-section uk-section-small uk-margin-top" #exportContent5>
   <div class="uk-container uk-container-expand">
 
     <h5>National Open Science Policies by Countries and Areas</h5>

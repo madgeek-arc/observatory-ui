@@ -114,7 +114,7 @@ export class NationalMonitoringComponent implements OnInit {
     switch (index) {
       case 0:
         if (!this.questionsDataArray[index])
-          this.getMonitoring('Question54', index, 2); // National monitoring on open access publications
+          this.getMonitoring('Question54', index, 2); // National Monitoring on open access publications
         break;
       case 1:
         if (!this.questionsDataArray[index])
@@ -182,7 +182,7 @@ export class NationalMonitoringComponent implements OnInit {
       next: value => {
         this.barChartSeries.push(this.createBarChartSeries(value, year));
 
-        if (this.years.length === index+1) {
+        if (this.years.length === ++index) {
           this.barChartSeries = [...this.barChartSeries];
         }
       },
