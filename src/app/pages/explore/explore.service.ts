@@ -16,6 +16,8 @@ export class ExploreService {
 
   _lastUpdateDate: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
+  mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
+
   constructor(private eoscReadiness: EoscReadinessDataService) {
     this.getLastUpdateDate();
   }
@@ -31,8 +33,7 @@ export class ExploreService {
     });
   }
 
-  mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
-
+  // Maps
   createMapDataFromCategorization(tmpQuestionsData: CategorizedAreaData, countriesArray: string[], mapCount: number) {
     let questionsData = new CategorizedAreaData();
 
@@ -165,6 +166,27 @@ export class ExploreService {
     }
 
     return questionsData;
+  }
+
+  mergeMonitoringData(data: RawData[], areas: string[]) {
+    let mergedData: string[][] = [];
+    let record: Record<string, string[]> = {};
+
+    for (let i = 0; i < data[0].datasets[0].series.result.length; i++) {
+      let answerArray: string[] = [];
+      let hasPositiveAnswer = false;
+      for (let j = 0; j < data.length; j++) {
+        if (data[j].datasets[0].series.result[i].row[1] === 'Yes')
+          hasPositiveAnswer = true;
+
+        answerArray.push(areas[j] + ': ' + data[j].datasets[0].series.result[i].row[1]);
+      }
+      mergedData.push([data[0].datasets[0].series.result[i].row[0], hasPositiveAnswer ? 'Yes' : 'No']);
+
+      record[data[0].datasets[0].series.result[i].row[0]] = answerArray;
+    }
+    console.log(record);
+    console.log(mergedData);
   }
 
   createInvestmentBar(data: RawData) {

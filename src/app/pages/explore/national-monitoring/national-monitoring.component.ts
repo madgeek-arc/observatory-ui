@@ -27,7 +27,7 @@ export class NationalMonitoringComponent implements OnInit {
 
   tableData: string[][] = [];
 
-  barChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills/Training', 'Incentives/Rewards for OS', 'Citizen Science'];
+  barChartCategories = ['Open Access Publications', 'Data Management', 'Fair Data', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills/Training', 'Incentives/Rewards for OS', 'Citizen Science'];
 
   barChartSeries: SeriesOptionsType[] = [];
   barChartTitles = {
@@ -48,9 +48,10 @@ export class NationalMonitoringComponent implements OnInit {
     shadow: true
   };
 
-  navPills = ['Publications', 'FAIR Data', 'Data Management', 'Open Data', 'Software', 'Services', 'Repositories', 'Long-term Data Preservation', 'Skills/Training', 'Incentives', 'Citizen Science'];
-  mapTitles = ['National Monitoring on open access publications', 'National Monitoring on FAIR Data', 'National Monitoring on Data Management', 'National Monitoring on Open Data', 'National Monitoring on Open Sources Software', 'National Monitoring on offering services through EOSC', 'National Monitoring on Connecting Repositories to EOSC', 'National Monitoring on data stewardship', 'National Monitoring on Long-term Data Preservation', 'National Monitoring on Skills/Training in Open Science', 'National Monitoring on incentives/rewards for Open Science', 'National Monitoring on Citizen Science'];
+  navPills = ['Publications', 'Data Management', 'FAIR Data', 'Open Data', 'Software', 'Services', 'Repositories', 'Data stewardship', 'Long-term Data Preservation', 'Skills/Training', 'Incentives', 'Citizen Science'];
+  mapTitles = ['National Monitoring on open access publications', 'National Monitoring on Data Management', 'National Monitoring on FAIR Data', 'National Monitoring on Open Data', 'National Monitoring on Open Sources Software', 'National Monitoring on offering services through EOSC', 'National Monitoring on Connecting Repositories to EOSC', 'National Monitoring on data stewardship', 'National Monitoring on Long-term Data Preservation', 'National Monitoring on Skills/Training in Open Science', 'National Monitoring on incentives/rewards for Open Science', 'National Monitoring on Citizen Science'];
 
+  monitoringRawData: RawData[] = [];
   countriesArray: string[] = [];
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
@@ -67,42 +68,33 @@ export class NationalMonitoringComponent implements OnInit {
       this.getBarChartData(year, index);
     });
 
-    this.getTableData();
+    // this.getTableData();
 
     // Maps
-    this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: countries => {
-        this.countriesArray = countries;
-        this.getChart(0);
-        // this.getMonitoring('Question54', 0, 2); // National monitoring on open access publications
-        // this.getMonitoring('Question66', 1, 2); // National Monitoring on Open Data
-        // this.getMonitoring('Question62', 2, 2); // National Monitoring on FAIR Data
-        // this.getMonitoring('Question58', 3, 2); // National Monitoring on Data Management
-        // this.getMonitoring('Question98', 4, 2); // National Monitoring on Citizen Science
-        // this.getMonitoring('Question78', 5, 2); // National Monitoring on Connecting Repositories to EOSC
-        // this.getMonitoring('Question86', 6, 2); // National Monitoring on Long-term Data Preservation
-        // this.getMonitoring('Question90', 7, 2); // National Monitoring on Skills/Training in Open Science
-        // this.getMonitoring('Question70', 8, 2); // National Monitoring on Open Sources Software
-      },
-      error: error => {console.error(error);}
-    });
+    // this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    //   next: countries => {
+    //     this.countriesArray = countries;
+    //     this.getChart(0);
+    //   },
+    //   error: error => {console.error(error);}
+    // });
   }
 
   /** Get maps data ----------------------------------------------------------------------------------> **/
   getMonitoring(question: string, index: number, mapCount: number) {
     zip(
-      this.queryData.getQuestion(this.years[this.years.length-1], question),
+      // this.queryData.getQuestion(this.years[this.years.length-1], question),
       this.queryData.getQuestionComment(this.years[this.years.length-1], question),
     ).subscribe({
       next: res => {
-        this.tmpQuestionsDataArray[index] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[0]);
-        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(res[0]);
-        this.total[index] = res[0].datasets[0].series.result.length; // Total countries with validated response
+        this.tmpQuestionsDataArray[index] = this.dataHandlerService.convertRawDataToCategorizedAreasData(this.monitoringRawData[index]);
+        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(this.monitoringRawData[index]);
+        this.total[index] = this.monitoringRawData[index].datasets[0].series.result.length; // Total countries with validated response
 
         for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
           this.tmpQuestionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data.map(code => ({ code }));
         }
-        this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[1]);
+        this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[0]);
         this.questionsDataArray[index] = this.exploreService.createMapDataFromCategorization(this.tmpQuestionsDataArray[index], this.countriesArray, mapCount);
       },
       error: err => {console.error(err)}
@@ -111,6 +103,7 @@ export class NationalMonitoringComponent implements OnInit {
 
   getChart(index: number) {
     // console.log(this.questionsDataArray);
+    this.exploreService.mergeMonitoringData(this.monitoringRawData, this.navPills);
     switch (index) {
       case 0:
         if (!this.questionsDataArray[index])
@@ -118,11 +111,11 @@ export class NationalMonitoringComponent implements OnInit {
         break;
       case 1:
         if (!this.questionsDataArray[index])
-          this.getMonitoring('Question62', index, 2); // National Monitoring on FAIR Data
+          this.getMonitoring('Question58', index, 2); // National Monitoring on Data Management
         break;
       case 2:
         if (!this.questionsDataArray[index])
-          this.getMonitoring('Question58', index, 2); // National Monitoring on Data Management
+          this.getMonitoring('Question62', index, 2); // National Monitoring on FAIR Data
         break;
       case 3:
         if (!this.questionsDataArray[index])
@@ -167,8 +160,8 @@ export class NationalMonitoringComponent implements OnInit {
   getBarChartData(year: string, index: number) {
     zip(
       this.queryData.getQuestion(year, 'Question54'), // Publications
-      this.queryData.getQuestion(year, 'Question62'), // FAIR data
       this.queryData.getQuestion(year, 'Question58'), // Data management
+      this.queryData.getQuestion(year, 'Question62'), // FAIR data
       this.queryData.getQuestion(year, 'Question66'), // Open data
       this.queryData.getQuestion(year, 'Question70'), // Software
       this.queryData.getQuestion(year, 'Question74'), // Services
@@ -184,6 +177,18 @@ export class NationalMonitoringComponent implements OnInit {
 
         if (this.years.length === ++index) {
           this.barChartSeries = [...this.barChartSeries];
+          this.monitoringRawData = value; // Store monitoring data for use in other charts
+
+          this.getTableData(); // Call here to avoid duplicate api calls
+
+          // Call Map initialization here to avoid duplicate api calls
+          this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+            next: countries => {
+              this.countriesArray = countries;
+              this.getChart(0); // Draw first map
+            },
+            error: error => {console.error(error);}
+          });
         }
       },
       error: err => {console.error(err)}
@@ -210,19 +215,30 @@ export class NationalMonitoringComponent implements OnInit {
 
   /** Create table ------------------------------------------------------------------------------------------------> **/
   getTableData() {
+    if (this.monitoringRawData.length) {
+      this.surveyService.getSurveyValidatedCountries('m-eosc-sb-2023').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: countries => {
+          this.createTable(this.monitoringRawData, countries);
+        },
+        error: err => {console.error(err)}
+      });
+
+      return;
+    }
+
     zip(
-      this.queryData.getQuestion(this.year, 'Question6'),  // Publications
-      this.queryData.getQuestion(this.year, 'Question10'), // Data-management
-      this.queryData.getQuestion(this.year, 'Question14'), // FAIR-data
-      this.queryData.getQuestion(this.year, 'Question18'), // Open-data
-      this.queryData.getQuestion(this.year, 'Question22'), // Software
-      this.queryData.getQuestion(this.year, 'Question26'), // Services
-      this.queryData.getQuestion(this.year, 'Question30'), // Connecting repositories to EOSC
-      this.queryData.getQuestion(this.year, 'Question34'), // Data stewardship
-      this.queryData.getQuestion(this.year, 'Question38'), // Long-term data preservation
-      this.queryData.getQuestion(this.year, 'Question42'), // Skills/Training
-      this.queryData.getQuestion(this.year, 'Question46'), // Assessment
-      this.queryData.getQuestion(this.year, 'Question50'), // Engagement
+      this.queryData.getQuestion(this.year, 'Question54'), // Publications
+      this.queryData.getQuestion(this.year, 'Question58'), // Data management
+      this.queryData.getQuestion(this.year, 'Question62'), // FAIR data
+      this.queryData.getQuestion(this.year, 'Question66'), // Open data
+      this.queryData.getQuestion(this.year, 'Question70'), // Software
+      this.queryData.getQuestion(this.year, 'Question74'), // Services
+      this.queryData.getQuestion(this.year, 'Question78'), // Connecting repositories to EOSC
+      this.queryData.getQuestion(this.year, 'Question82'), // Data stewardship
+      this.queryData.getQuestion(this.year, 'Question86'), // Long-term data preservation
+      this.queryData.getQuestion(this.year, 'Question90'), // Skills/training for Open Science
+      this.queryData.getQuestion(this.year, 'Question94'), // Incentives/rewards for Open Science
+      this.queryData.getQuestion(this.year, 'Question98'), // Citizen science
       // this.surveyService.getSurveyValidatedCountries('m-eosc-sb-2023')
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (value: any) => {

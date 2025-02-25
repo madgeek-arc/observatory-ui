@@ -11,6 +11,7 @@ import { SurveyService } from "../../../../survey-tool/app/services/survey.servi
 import { PdfExportService } from "../../services/pdf-export.service";
 import * as Highcharts from "highcharts";
 import { ExploreService } from "../explore.service";
+import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 
 
 @Component({
@@ -27,7 +28,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
   year = '2023';
   lastUpdateDate?: string;
 
-  barChartCategories=  ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills/Training', 'Incentives/Rewards for OS', 'Citizen Science'];
+  barChartCategories=  ['Open Access Publications', 'Data Management', 'Fair Data', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills/Training', 'Incentives/Rewards for OS', 'Citizen Science'];
 
   barChartSeries: SeriesOptionsType[] = [];
   barChartTitles = {
@@ -61,7 +62,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
   tableData: string[][] = [];
 
   openScienceAreas = this.barChartCategories;
-  mapTitles = ['National Policy on open access publications', 'National Policy on FAIR Data', 'National Policy on Data Management', 'National Policy on Open Data', 'National Policy on Open Sources Software', 'National Policy on offering services through EOSC', 'National Policy on Connecting Repositories to EOSC', 'National Policy on data stewardship', 'National Policy on Long-term Data Preservation', 'National Policy on Skills/Training in Open Science', 'National Policy on incentives/rewards for Open Science', 'National Policy on Citizen Science'];
+  mapTitles = ['National Policy on open access publications', 'National Policy on Data Management', 'National Policy on FAIR Data', 'National Policy on Open Data', 'National Policy on Open Sources Software', 'National Policy on offering services through EOSC', 'National Policy on Connecting Repositories to EOSC', 'National Policy on data stewardship', 'National Policy on Long-term Data Preservation', 'National Policy on Skills/Training in Open Science', 'National Policy on incentives/rewards for Open Science', 'National Policy on Citizen Science'];
   policiesRawData: RawData[] = [];
   countriesArray: string[] = [];
   questionsDataArray: any[] = [];
@@ -72,7 +73,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
   constructor(private queryData: EoscReadinessDataService, private surveyService: SurveyService,
               private dataHandlerService: DataHandlerService, private pdfService: PdfExportService,
-              private exploreService: ExploreService) {}
+              private exploreService: ExploreService, private stakeholdersService: StakeholdersService) {}
 
   ngOnInit() {
 
@@ -93,8 +94,8 @@ export class OpenSciencePoliciesComponent implements OnInit {
   getBarChartData(year: string, index: number) {
     zip(
       this.queryData.getQuestion(year, 'Question6'),   // national policy on open access publications
-      this.queryData.getQuestion(year, 'Question14'),  // national policy on FAIR data
       this.queryData.getQuestion(year, 'Question10'),  // national policy on data management
+      this.queryData.getQuestion(year, 'Question14'),  // national policy on FAIR data
       this.queryData.getQuestion(year, 'Question18'),  // national policy on Open data
       this.queryData.getQuestion(year, 'Question22'),  // national policy on software
       this.queryData.getQuestion(year, 'Question26'),  // national policy on offering services through EOSC
@@ -112,8 +113,17 @@ export class OpenSciencePoliciesComponent implements OnInit {
         if (this.years.length === ++index) {
           this.barChartSeries = [...this.barChartSeries];
           this.policiesRawData = value; // Store response to use in other charts
-          this.getChart(0); // Draw first map chart
+
           this.getTableData(); // Call here to avoid duplicate api calls
+
+          // Call Map initialization here to avoid duplicate api calls
+          this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+            next: countries => {
+              this.countriesArray = countries;
+              this.getChart(0); // Draw first map
+            },
+            error: error => {console.error(error);}
+          });
         }
       },
       error: err => {console.error(err)}
