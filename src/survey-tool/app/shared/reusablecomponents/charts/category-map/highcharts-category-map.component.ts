@@ -216,7 +216,12 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
           comment = comment.replace(/\\n/g,'<br>');
           comment = comment.replace(/\\t/g,' ');
 
-          return '<b>'+this.point.name+'</b>' + (comment ?  '<br><br>' + '<p>'+comment+'</p>' : '');
+          let areas: string = '<br>'; // Open science Areas for merged monitoring/policy maps
+          this.point.series.userOptions.custom[this.point['code']]?.forEach((item: string) => {
+            areas = areas.concat(item,'<br>');
+          });
+
+          return '<b>'+this.point.name+'</b>' + (comment ?  '<br><br>' + '<p>'+comment+'</p>' : '') + areas;
         },
       },
 

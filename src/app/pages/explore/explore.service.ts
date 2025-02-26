@@ -168,7 +168,44 @@ export class ExploreService {
     return questionsData;
   }
 
-  mergeMonitoringData(data: RawData[], areas: string[]) {
+  createMapDataFromMergedData(data: string[][], dictionary: Record<string, string[]>,  countriesArray: string[]) {
+    const countriesWithAnswer: string[] = [];
+    const questionsData = new CategorizedAreaData();
+
+    questionsData.series.push(new Series('Has national monitoring', true));
+    questionsData.series[0].showInLegend = true;
+    questionsData.series[0].color = ColorPallet[0];
+    questionsData.series.push(new Series('Does not have national monitoring', false));
+    questionsData.series[1].showInLegend = true;
+    questionsData.series[1].color = ColorPallet[1];
+
+    data.forEach(value => {
+      if (value[1] === 'Yes') {
+        questionsData.series[0].data.push({code: value[0]});
+        questionsData.series[0].custom[value[0]] = dictionary[value[0]];
+      } else if (value[1] === 'No') {
+        questionsData.series[1].data.push({code: value[0]});
+        questionsData.series[1].custom[value[0]] = dictionary[value[0]];
+      }
+
+      countriesWithAnswer.push(value[0]);
+    });
+
+    questionsData.series[2] = new Series('Awaiting Data', false);
+    questionsData.series[2].showInLegend = true;
+    questionsData.series[2].color = ColorPallet[2];
+    questionsData.series[2].data = countriesArray.filter(code => !countriesWithAnswer.includes(code));
+    questionsData.series[2].data = questionsData.series[2].data.map(code => ({ code }));
+
+    for (let i = questionsData.series.length-1; i >= 0; i--) {
+      if (questionsData.series[i].data.length === 0)
+        questionsData.series.splice(i, 1);
+    }
+
+    return questionsData;
+  }
+
+  mergeMonitoringData(data: RawData[], areas: string[], countries: string[]) {
     let mergedData: string[][] = [];
     let record: Record<string, string[]> = {};
 
@@ -185,8 +222,10 @@ export class ExploreService {
 
       record[data[0].datasets[0].series.result[i].row[0]] = answerArray;
     }
-    console.log(record);
-    console.log(mergedData);
+    // console.log(record);
+    // console.log(mergedData);
+
+    return this.createMapDataFromMergedData(mergedData, record, countries);
   }
 
   createInvestmentBar(data: RawData) {

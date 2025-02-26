@@ -11,6 +11,7 @@ import { PdfExportService } from "../../services/pdf-export.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { ExploreService } from "../explore.service";
 import * as Highcharts from "highcharts";
+import { CategorizedAreaData } from "../../../../survey-tool/app/domain/categorizedAreaData";
 
 @Component({
   selector: 'app-national-monitoring',
@@ -52,6 +53,7 @@ export class NationalMonitoringComponent implements OnInit {
   mapTitles = ['National Monitoring on open access publications', 'National Monitoring on Data Management', 'National Monitoring on FAIR Data', 'National Monitoring on Open Data', 'National Monitoring on Open Sources Software', 'National Monitoring on offering services through EOSC', 'National Monitoring on Connecting Repositories to EOSC', 'National Monitoring on data stewardship', 'National Monitoring on Long-term Data Preservation', 'National Monitoring on Skills/Training in Open Science', 'National Monitoring on incentives/rewards for Open Science', 'National Monitoring on Citizen Science'];
 
   monitoringRawData: RawData[] = [];
+  monitoringMapData: CategorizedAreaData = new CategorizedAreaData();
   countriesArray: string[] = [];
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
@@ -103,7 +105,6 @@ export class NationalMonitoringComponent implements OnInit {
 
   getChart(index: number) {
     // console.log(this.questionsDataArray);
-    this.exploreService.mergeMonitoringData(this.monitoringRawData, this.navPills);
     switch (index) {
       case 0:
         if (!this.questionsDataArray[index])
@@ -186,6 +187,7 @@ export class NationalMonitoringComponent implements OnInit {
             next: countries => {
               this.countriesArray = countries;
               this.getChart(0); // Draw first map
+              this.monitoringMapData = this.exploreService.mergeMonitoringData(this.monitoringRawData, this.navPills, this.countriesArray);
             },
             error: error => {console.error(error);}
           });
