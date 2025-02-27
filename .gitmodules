@@ -1,0 +1,3 @@
+[submodule "src/survey-tool"]
+	path = src/survey-tool
+	url = git@github.com:madgeek-arc/survey-tool.git
