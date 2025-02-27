@@ -34,6 +34,10 @@ const routes: Routes = [
     component: CountryLandingPageComponent
   },
   {
+    path: 'explore',
+    loadChildren: () => import('./pages/explore/explore.module').then(m => m.ExploreModule),
+  },
+  {
     path: 'eoscreadiness',
     loadChildren: () => import('./pages/eosc-readiness-dashboard/eosc-readiness-dashboard.module').then(m => m.EoscReadinessDashboardModule),
   },

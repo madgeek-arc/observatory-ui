@@ -1,0 +1,153 @@
+<div id="explore_sidebar_main_content" class="explore_sidebar_main_swipe explore_sidebar_main_active">
+
+  <aside id="explore_sidebar_main">
+
+
+    <div id="explore_sidebar_content">
+
+      <div  class="menu_section" style="min-height: 30vh">
+
+        <ul class="uk-list uk-nav uk-nav-default uk-nav-parent-icon">
+
+          <li [routerLinkActive]="'uk-active current_section'" (isActiveChange)="linkIsActive($event, 'Area')"
+              class="no-icon uk-parent uk-margin-top">
+              <a [routerLink]="'open-science-by-area'" class="uk-flex uk-flex-middle" (click)="toggleAreaSubNav()">
+                <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science by Area</span>
+              </a>
+
+            <ul [hidden]="hideSubNavigation" class="uk-animation-fade">
+              <li [routerLinkActive]="'uk-active current_section'">
+                <a [routerLink]="'open-science-by-area/publications'">
+                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Publications</span>
+                </a>
+              </li>
+              <li [routerLinkActive]="'uk-active current_section'">
+                <a [routerLink]="'open-science-by-area/open-data'">
+                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Data</span>
+                </a>
+              </li>
+              <li [routerLinkActive]="'uk-active current_section'">
+                <a [routerLink]="'open-science-by-area/fair-data'">
+                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Fair Data</span>
+                </a>
+              </li>
+              <li [routerLinkActive]="'uk-active current_section'">
+                <a [routerLink]="'open-science-by-area/data-management'">
+                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Data Management</span>
+                </a>
+              </li>
+              <li [routerLinkActive]="'uk-active current_section'">
+                <a [routerLink]="'open-science-by-area/citizen-science'">
+                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Citizen Science</span>
+                </a>
+              </li>
+              <li [routerLinkActive]="'uk-active current_section'">
+                <a [routerLink]="'open-science-by-area/repositories'">
+                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Repositories</span>
+                </a>
+              </li>
+              <li [routerLinkActive]="'uk-active current_section'">
+                <a [routerLink]="'open-science-by-area/training'">
+                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Training</span>
+                </a>
+              </li>
+              <li [routerLinkActive]="'uk-active current_section'">
+                <a [routerLink]="'open-science-by-area/software'">
+                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Software</span>
+                </a>
+              </li>
+              <li [routerLinkActive]="'uk-active current_section'" >
+                <a [routerLink]="'open-science-by-area/licensing'" class="custom-disabled-link" data-uk-tooltip="Coming soon..">
+                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Licencing</span>
+                </a>
+              </li>
+              <li [routerLinkActive]="'uk-active current_section'" >
+                <a [routerLink]="'open-science-by-area/persistentIdentifiers'" class="custom-disabled-link" data-uk-tooltip="Coming soon..">
+                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Persistent Identifiers</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">
+              <span [class.uk-text-bolder]="activeSection === 'open-science-by-area'"
+                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science by Country
+              </span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'open-science-trends'" class="uk-flex uk-flex-middle">
+              <span [class.uk-text-bolder]="activeSection === 'open-science-trends'"
+                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Trends
+              </span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'investments-in-eosc'" class="uk-flex uk-flex-middle">
+              <span [class.uk-text-bolder]="activeSection === 'investments-in-eosc'"
+                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Investments in EOSC
+              </span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'national-monitoring'" class="uk-flex uk-flex-middle">
+              <span [class.uk-text-bolder]="activeSection === 'national-monitoring'"
+                    class="uk-width-expand uk-text-truncate uk-margin-small-left">National Monitoring
+              </span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">
+              <span [class.uk-text-bolder]="activeSection === 'open-science-use-cases'"
+                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Use Cases
+              </span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'open-science-policies'" class="uk-flex uk-flex-middle">
+              <span [class.uk-text-bolder]="activeSection === 'open-science-policies'"
+                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Policies
+              </span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">
+              <span [class.uk-text-bolder]="activeSection === 'open-science-resource-registry'"
+                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Resource Registry
+              </span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">
+              <span [class.uk-text-bolder]="activeSection === 'open-science-impact'"
+                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Impact
+              </span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">
+              <span [class.uk-text-bolder]="activeSection === 'custom-search'"
+                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Custom Search
+              </span>
+            </a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+  </aside>
+
+  <div id="page_content" class="dashboard">
+    <router-outlet></router-outlet>
+  </div>
+</div>

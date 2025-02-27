@@ -1,0 +1,157 @@
+<div>
+  <div class="uk-section uk-section-small" #exportContent>
+    <div class="uk-container uk-container-expand">
+
+      <div class="uk-flex uk-flex-between uk-flex-middle">
+        <h4>National Monitoring</h4>
+        <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4], 'National Monitoring')" style="cursor: pointer">
+          <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+            <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+              Export report
+            </span>
+            <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" uk-spinner="ratio: 0.7"></span>
+            <ng-template #elseBlock>
+              <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <p>Monitoring Open Science at the national level is crucial for assessing the implementation and progress of Open Science policies and initiatives. It provides valuable insights into how effectively countries are adopting open practices, ensuring alignment with global standards such as FAIR principles. National monitoring helps identify gaps, track improvements, and promote accountability, while also enabling governments and institutions to make informed decisions that foster transparency, collaboration, and innovation in research. This page offers an overview of the current state of national monitoring efforts across key areas of Open Science, highlighting progress and emerging trends.</p>
+
+    </div>
+  </div>
+
+  <div class="uk-section uk-section-small" #exportContent1>
+    <div class="uk-container uk-container-expand">
+
+      <h5>National Monitoring of Open Science by Areas</h5>
+
+      <div class="uk-grid uk-margin-medium-top">
+        <div class="uk-width-2-3" style="height: 450px">
+          <app-multi-bar-chart [series]="barChartSeries" [categories]="barChartCategories" [titles]="barChartTitles"
+                               [legendOptions]="legendOptions" valueSuffix=" %" borderRadius="50">
+          </app-multi-bar-chart>
+        </div>
+        <div class="uk-width-1-3">
+          <h6>Understanding the data</h6>
+          <p>This bar chart illustrates the percentage of countries with national monitoring initiatives in various Open Science areas for the years 2021 and 2022. Each bar represents an area of Open Science, such as Open Access Publications, FAIR Data, Open Software, and Citizen Science, showing the changes in monitoring adoption from one year to the next. The chart highlights where countries are increasingly focusing their monitoring efforts, with significant progress in areas like Open Access Publications and FAIR Data, reflecting the growing importance of these aspects in the broader Open Science landscape.</p>
+          <!--        <p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science.</p>-->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="uk-section uk-section-small" #exportContent2>
+    <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill uk-margin-remove" data-uk-switcher="{connect:'#map-charts', animation: 'fade'}">
+      <li class="" *ngFor="let pill of navPills; let i=index">
+        <a class="uk-margin-remove-bottom" (click)="getChart(i)"><span>{{ pill }}</span></a>
+      </li>
+    </ul>
+
+    <ul id="map-charts" class="uk-switcher uk-margin">
+      <li class="" style="animation-duration: 200ms;" *ngFor="let pill of navPills; let i = index">
+        <div style="height: 600px">
+          <app-highcharts-category-map
+            [mapData]="questionsDataArray[i]" [subtitle]="" [toolTipData]="toolTipData[i]"
+            [title]="mapTitles[i]" [backgroundColor]="'#ffffff'"
+            [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ navPills[i]"
+            [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
+          </app-highcharts-category-map>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="uk-section uk-section-small" #exportContent3>
+    <div *ngIf="monitoringMapData.series.length" style="height: 600px">
+      <app-highcharts-category-map
+        [mapData]="monitoringMapData" [title]="'National Monitoring'" [backgroundColor]="'#ffffff'">
+      </app-highcharts-category-map>
+    </div>
+  </div>
+
+  <div class="uk-section uk-section-small uk-margin-top" #exportContent4>
+    <div class="uk-container uk-container-expand">
+
+      <h5>National Monitoring of Open Science  by Countries and Areas</h5>
+
+      <table class="uk-table uk-table-divider uk-table-middle bordered-table">
+        <thead>
+        <tr>
+          <th></th>
+          <th>
+            <div class="uk-text-bold">Publications</div>
+          </th>
+          <th colspan="3">
+            <div class="uk-text-bold">Data</div>
+  <!--          <div class="uk-text-secondary uk-text-small uk-text-italic">Data management</div>-->
+          </th>
+  <!--        <th>-->
+  <!--          <div class="uk-text-bold">Data</div>-->
+  <!--          <div class="uk-text-secondary uk-text-small uk-text-italic">FAIR data</div>-->
+  <!--        </th>-->
+  <!--        <th>-->
+  <!--          <div class="uk-text-bold">Data</div>-->
+  <!--          <div class="uk-text-secondary uk-text-small uk-text-italic">Open Data</div>-->
+  <!--        </th>-->
+          <th>
+            <div class="uk-text-bold">Software</div>
+          </th>
+          <th>
+            <div class="uk-text-bold">Services</div>
+          </th>
+          <th colspan="3">
+            <div class="uk-text-bold">Infrastructure</div>
+  <!--          <div class="uk-text-secondary uk-text-small uk-text-italic">Connecting repositories to EOSC</div>-->
+          </th>
+  <!--        <th>-->
+  <!--          <div class="uk-text-bold">Infrastructure</div>-->
+  <!--          <div class="uk-text-secondary uk-text-small uk-text-italic">Data stewardship</div>-->
+  <!--        </th>-->
+  <!--        <th>-->
+  <!--          <div class="uk-text-bold">Infrastructure</div>-->
+  <!--          <div class="uk-text-secondary uk-text-small uk-text-italic">Long-term data preservation</div>-->
+  <!--        </th>-->
+          <th>
+            <div class="uk-text-bold">Skills/Training</div>
+          </th>
+          <th>
+            <div class="uk-text-bold">Assessment</div>
+          </th>
+          <th>
+            <div class="uk-text-bold">Engagement</div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of tableData">
+          <td *ngFor="let item of row; let i = index" [ngClass]="{valueTrue: item === 'true', valueFalse: item==='-'}">
+            <div *ngIf="i === 0" class="uk-text-bold">{{ item }}</div>
+            <div *ngIf="(i===2)" uk-tooltip="Data management" style="width:100%; height:100%">
+              <a style="width:100%; height:100%">&#8203;</a>
+            </div>
+            <div *ngIf="(i===3)" uk-tooltip="FAIR data" style="width:100%; height:100%">
+              <a style="width:100%; height:100%">&#8203;</a>
+            </div>
+            <div *ngIf="(i===4)" uk-tooltip="Open data" style="width:100%; height:100%">
+              <a style="width:100%; height:100%">&#8203;</a>
+            </div>
+            <div *ngIf="(i===7)" uk-tooltip="Connecting repositories to EOSC" style="width:100%; height:100%">
+              <a style="width:100%; height:100%">&#8203;</a>
+            </div>
+            <div *ngIf="(i===8)" uk-tooltip="Data stewardship" style="width:100%; height:100%">
+              <a style="width:100%; height:100%">&#8203;</a>
+            </div>
+            <div *ngIf="(i===9)" uk-tooltip="Long-term data preservation" style="width:100%; height:100%">
+              <a style="width:100%; height:100%">&#8203;</a>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>

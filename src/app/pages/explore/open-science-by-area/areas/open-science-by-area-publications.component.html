@@ -1,0 +1,401 @@
+<div class="uk-section uk-section-small" #exportContent>
+  <div class="uk-container uk-container-expand">
+
+    <ul class="uk-breadcrumb">
+      <li><a [routerLink]="['/explore/open-science-by-area']">Open Science by Area</a></li>
+      <li><span aria-current="page">Publications</span></li>
+    </ul>
+
+    <div class="uk-flex uk-flex-between uk-flex-middle">
+      <h4>Open Science by Area</h4>
+      <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5, exportContent6], 'Open Access Publications')" style="cursor: pointer">
+        <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+          <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+            Export report
+          </span>
+          <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" uk-spinner="ratio: 0.7"></span>
+          <ng-template #elseBlock>
+            <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <h5>Open Access Publications</h5>
+    <p>Open Access (OA) represents a transformative approach within the scholarly communication landscape, aiming to make research outputs freely accessible to all, without subscription or price barriers. The graphics below provides a high-level overview of key indicators tracking the progress of OA publishing and policies in Europe. Understanding these indicators provides critical insights into how well Europe is adopting and integrating OA and Open Science principles. By evaluating the extent of OA publications, the impact of policy, financial investments, and monitoring efforts, stakeholders can identify strengths and areas for improvement in the European landscape and thus contribute towards more accessible knowledge.</p>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small" #exportContent1>
+  <div class="uk-container uk-container-expand">
+    <h5>General Overview of Open Access Publishing in Europe for 2022</h5>
+
+    <div class="uk-child-width-1-3 uk-grid-match uk-grid-row-medium uk-flex-center" uk-grid>
+
+      <div *ngIf="OAPublications.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of <strong>OA Publication in Europe</strong> (OA vs Closed)</p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ OAPublications[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="OAPublications[1] >= OAPublications[0]; else pubsDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(OAPublications[0] - OAPublications[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #pubsDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(OAPublications[0] - OAPublications[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="countriesWithPolicy.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of <strong>EU Countries with Policy on OA Publication</strong></p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="countriesWithPolicy[1] >= countriesWithPolicy[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="totalInvestments.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Total amount of <strong>financial investments</strong> in OA Publication</p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="totalInvestments[1] >= totalInvestments[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="countriesWithPolicyImmediate.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of <strong>EU countries with Policy on Immediate OA Publications</strong></p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ countriesWithPolicyImmediate[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="countriesWithPolicyImmediate[1] >= countriesWithPolicyImmediate[0]; else policyImmediateDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(countriesWithPolicyImmediate[0] - countriesWithPolicyImmediate[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyImmediateDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(countriesWithPolicyImmediate[0] - countriesWithPolicyImmediate[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="countriesWithStrategy.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of <strong>EU Countries with Financial Strategy on OA Publication</strong></p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ countriesWithStrategy[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="countriesWithStrategy[1] >= countriesWithStrategy[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="countriesWithMonitoring.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of EU Countries with National OA Publication <strong>Monitoring Initiatives</strong></p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ countriesWithMonitoring[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="countriesWithMonitoring[1] >= countriesWithMonitoring[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="uk-flex uk-flex-center uk-margin-top">
+      <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022; OpenAIRE Graph data for 2022 (updated on {{ lastUpdateDate }}).
+    </div>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent2>
+  <div class="uk-container uk-container-expand">
+
+    <h5>Open Access Policy and Monitoring Across Europe</h5>
+
+    <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#maps', animation: 'fade'}">
+      <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Policies</a></li>
+      <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
+    </ul>
+
+    <ul id="maps" class="uk-switcher uk-child-width-1-1 uk-grid-match" uk-grid>
+      <li>
+        <div class="uk-width-2-3" style="height: 600px">
+          <app-highcharts-category-map
+            [mapData]="questionsDataArray[0]"
+            [title]="'National policy on open access publications'" [backgroundColor]="'#ffffff'"
+            [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on open<br> access publications'"
+            [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
+            (mapClick)="showComment(0, $event)">
+          </app-highcharts-category-map>
+        </div>
+        <div class="uk-width-1-3">
+          <h6>Understanding the data</h6>
+          <p>This map illustrates the status of national policies on OA publications across European countries. OA policies are essential for promoting the free sharing of scientific knowledge and ensuring research outputs are widely accessible.</p>
+          <p>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>
+          <div>
+            <h6>Click on country for additional information</h6>
+            <p *ngIf="countryName">{{ countryName }}</p>
+            <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
+            <ng-template #noComment>--</ng-template>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="uk-width-2-3" style="height: 600px">
+          <app-highcharts-category-map
+            [mapData]="questionsDataArray[1]"
+            [title]="'National monitoring on open access publications'" [backgroundColor]="'#ffffff'"
+            [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>open access <br>publications'"
+            [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
+            (mapClick)="showComment(1, $event)">
+          </app-highcharts-category-map>
+        </div>
+        <div class="uk-width-1-3">
+          <h6>Understanding the data</h6>
+          <p>This map illustrates the status of national monitoring on OA publications across European countries.OA monitoring is essential for tracking progress, evaluating policy implementation, and ensuring that research outputs are freely accessible.</p>
+          <p>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>
+          <div>
+            <h6>Click on country for additional information</h6>
+            <p *ngIf="countryName">{{ countryName }}</p>
+            <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
+            <ng-template #noComment>--</ng-template>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent3>
+  <div class="uk-container uk-container-expand">
+
+    <h5>Financial Investments in Open Access Publications in 2022</h5>
+
+
+      <ul class="uk-subnav uk-subnav-pill uk-width-1-1" uk-switcher="{connect:'#investments', animation: 'fade'}">
+        <li><a class="uk-margin-remove-bottom">Overview</a></li>
+        <li><a class="uk-margin-remove-bottom">Details</a></li>
+      </ul>
+
+      <ul id="investments" class="uk-switcher uk-child-width-1-1 uk-width-match" uk-grid>
+        <li uk-grid>
+          <div class="uk-width-2-3" style="height: 350px">
+            <app-multi-bar-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
+                                 [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
+                                 [customTooltip]="true" [yAxisLabels]="false" style="height: 100%">
+            </app-multi-bar-chart>
+          </div>
+          <div class="uk-width-1-3">
+            <h6>Understanding the data</h6>
+            <p>The graph illustrates the financial investments in Open Access Publications made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>
+            <!--        <p>This data highlights the commitment and support from different countries towards advancing open science initiatives and building the EOSC infrastructure.</p>-->
+            <p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>
+          </div>
+        </li>
+        <li uk-grid>
+          <div class="uk-width-2-3" style="height: 550px">
+            <app-tree-graph [data]="treeGraph" style="height: 100%"></app-tree-graph>
+          </div>
+          <div class="uk-width-1-3">
+            <h6>Understanding the data</h6>
+            <p>The graph illustrates the financial investments in Open Access Publications made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>
+            <!--        <p>This data highlights the commitment and support from different countries towards advancing open science initiatives and building the EOSC infrastructure.</p>-->
+            <p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+
+
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent4>
+  <div class="uk-container uk-container-expand">
+    <h5>Trend of Open Access Publications</h5>
+
+    <div class="uk-grid uk-margin-medium-top">
+      <div class="uk-width-2-3" style="height: 500px">
+        <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend" [series]="stackedColumnSeries"
+                            [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
+                            [dataLabels]="false">
+        </app-stacked-column>
+      </div>
+      <div class="uk-width-1-3">
+        <h6>Understanding the data</h6>
+        <p>The graph provides a detailed view of the evolution of OA publication types from 2020 to 2024. It displays the annual distribution of publications according to their access type. Each bar in the graph represents the total number of publications for a given year, segmented by these categories.</p>
+        <ul>
+          <li><p><span class="uk-text-bold">Gold OA only:</span> Publications that are available via Open Access without any embargo period, typically involving processing fees.</p></li>
+          <li><p><span class="uk-text-bold">Green OA only:</span> Publications that are made freely accessible in a repository, possibly after an embargo period.</p></li>
+          <li><p><span class="uk-text-bold">Both Gold and Green OA:</span> Publications that are available both as Gold and Green OA.</p></li>
+          <li><p><span class="uk-text-bold">Neither:</span> Publications that do not fall into the OA category but are not completely closed either.</p></li>
+          <li><p><span class="uk-text-bold">Closed:</span> Publications that are behind paywalls with no free or OA available.</p></li>
+        </ul>
+        <p>This visualization highlights the shifting landscape of OA publication practices over time, illustrating how the proportions of different access types have evolved, which reflects broader trends in publishing and access policies within the academic and research communities.</p>
+        <p><strong>Data Source: </strong> OpenAIRE Graph data (updated on {{ lastUpdateDate }}).</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent5>
+  <div class="uk-container uk-container-expand">
+    <h5>Distribution of Open Access Types by Different Scholarly Publication Outputs</h5>
+
+    <div class="uk-grid uk-margin-medium-top">
+      <div class="uk-width-2-3" style="height: 450px">
+        <app-stacked-column [categories]="stackedColumn2Categories" [series]="stackedColumn2Series" [yAxis]="yAxisTitle2"
+                            [pointFormat]="tooltipPointFormat" [stackLabels]="false" [stacking]="stacking"
+                            [plotFormat]="dataLabels_format">
+        </app-stacked-column>
+      </div>
+      <div class="uk-width-1-3">
+        <h6>Understanding the data</h6>
+        <p>The graph displays the distribution of OA types across different scholarly publication categories, revealing distinct preferences and practices in the dissemination of research outputs. This visualization provides insight into the diverse adoption rates and strategies for OA across various academic outputs. Understanding these differences is crucial for identifying specific barriers and opportunities within each publication category, thereby guide stakeholders in tailoring interventions that encourage broader adoption of OA. This targeted approach can significantly contribute to enhancing the accessibility of knowledge, fostering a more open and collaborative scientific community.</p>
+        <p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on {{ lastUpdateDate }})</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent6>
+  <div class="uk-container uk-container-expand">
+    <h5>Distribution of Open Access Types by Fields of Science</h5>
+
+    <div class="uk-grid uk-margin-medium-top">
+      <div class="uk-width-2-3" style="height: 450px">
+        <app-treemap [data]="treemapData"></app-treemap>
+      </div>
+      <div class="uk-width-1-3">
+        <h6>Understanding the data</h6>
+        <p>This treemap illustrates the distribution of Open Access types within various scientific disciplines including Medical and Health Sciences, Engineering and Technology, Agricultural Sciences, Natural Science, Social Sciences, and Humanities. Each color-coded segment represents the prevalence of Open Access practices—such as Gold OA only, Green OA only, Both Gold and Green OA, and Closed access—across these fields.</p>
+        <p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on {{ lastUpdateDate }})</p>
+      </div>
+    </div>
+
+  </div>
+</div>
