@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
 import { StakeholdersService } from "../../../../../../survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../../services/data-handler.service";

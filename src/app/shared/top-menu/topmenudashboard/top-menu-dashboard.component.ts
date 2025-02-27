@@ -167,15 +167,25 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   checkIfManager(): boolean {
-    if (this.currentStakeholder) {
-      let userInfo = this.userService.getCurrentUserInfo();
-      for (const manager of this.currentStakeholder.admins) {
-        if (userInfo.user.email === manager) {
-          return true;
+    if (this.userInfo.stakeholders?.length > 0) {
+      for (const stakeholder of this.userInfo.stakeholders) {
+        for (const manager of stakeholder.admins) {
+          if (this.userInfo.user.email === manager) {
+            return true;
+          }
         }
       }
-      return false;
     }
+
+    // if (this.currentStakeholder) {
+    //   let userInfo = this.userService.getCurrentUserInfo();
+    //   for (const manager of this.currentStakeholder.admins) {
+    //     if (userInfo.user.email === manager) {
+    //       return true;
+    //     }
+    //   }
+    //   return false;
+    // }
     return false;
   }
 
