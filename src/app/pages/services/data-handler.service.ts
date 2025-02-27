@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import {RawData, Row} from '../../../survey-tool/app/domain/raw-data';
+import { Datasets, RawData, Row, SeriesItem } from '../../../survey-tool/app/domain/raw-data';
 import { CountryTableData } from '../../../survey-tool/app/domain/country-table-data';
-import {CategorizedAreaData, Series} from "../../../survey-tool/app/domain/categorizedAreaData";
-import {FundingForEOSCSums} from "../../../survey-tool/app/domain/funding-for-eosc";
-import {identity, isNumeric} from "rxjs/internal-compatibility";
-import {SeriesMapbubbleDataOptions, SeriesMapbubbleOptions} from "highcharts";
-import {SeriesMapDataOptions} from "highcharts/highmaps";
+import { CategorizedAreaData, Series } from "../../../survey-tool/app/domain/categorizedAreaData";
+import { FundingForEOSCSums } from "../../../survey-tool/app/domain/funding-for-eosc";
+import { isNumeric } from "rxjs/internal-compatibility";
+import { SeriesMapbubbleDataOptions, SeriesMapbubbleOptions } from "highcharts";
+import { SeriesMapDataOptions } from "highcharts/highmaps";
 
-@Injectable ()
+@Injectable()
 export class DataHandlerService {
 
   public convertRawDataToTableData(rawData: RawData) {
@@ -98,7 +98,7 @@ export class DataHandlerService {
           }
           if (!found) {
             mapSeries.push(new Series('Awaiting data', false));
-            mapSeries[mapSeries.length-1].data.push(rowResult.row[0]);
+            mapSeries[mapSeries.length - 1].data.push(rowResult.row[0]);
           }
         } else {
           let found = false;
@@ -110,7 +110,7 @@ export class DataHandlerService {
           }
           if (!found) {
             mapSeries.push(new Series(rowResult.row[1], false));
-            mapSeries[mapSeries.length-1].data.push(rowResult.row[0]);
+            mapSeries[mapSeries.length - 1].data.push(rowResult.row[0]);
           }
         }
 
@@ -119,9 +119,44 @@ export class DataHandlerService {
     }
 
     // sort descending Yes, No
-    mapData.series.sort((a,b) => (a.name > b.name) ? -1 : ((b.name > a.name) ? 1 : 0));
+    mapData.series.sort((a, b) => (a.name > b.name) ? -1 : ((b.name > a.name) ? 1 : 0));
 
     return mapData
+  }
+
+  public mergePolicyQuestionData(hasPolicy: RawData, isMandatory: RawData) {
+    const mergedMap = new Map<string, string[]>();
+
+    // Process the first dataset
+    hasPolicy.datasets[0].series.result.forEach(item => {
+      const countryCode = item.row[0];
+      // Store a copy of the row
+      mergedMap.set(countryCode, [...item.row]);
+    });
+
+    // Process the second dataset
+    isMandatory.datasets[0].series.result.forEach(item => {
+      const countryCode = item.row[0];
+      if (mergedMap.has(countryCode)) {
+        // If the country code exists, merge by concatenating the additional values
+        const existingRow = mergedMap.get(countryCode)!;
+        // Exclude the first element (country code) from the merging
+        const additionalData = item.row.slice(1);
+        mergedMap.set(countryCode, existingRow.concat(additionalData));
+      } else {
+        mergedMap.set(countryCode, [...item.row]);
+      }
+    });
+
+    // Convert the merged map back into the DataResult structure
+    const mergedResult: Row[] = Array.from(mergedMap.entries()).map(
+      ([_, row]) => ({row})
+    );
+
+    const returnValue: RawData = new RawData();
+    returnValue.datasets.push(new Datasets());
+    returnValue.datasets[0].series.result = mergedResult;
+    return returnValue;
   }
 
   public covertRawDataToColorAxisMap(rawData: RawData) {
@@ -291,7 +326,7 @@ export class DataHandlerService {
   public convertRawDataToBubbleMapSeries(rawData: RawData) {
     let series = [];
     for (const dataset of rawData.datasets) {
-      let dataOptions:SeriesMapbubbleDataOptions[] = [];
+      let dataOptions: SeriesMapbubbleDataOptions[] = [];
       for (const row of dataset.series.result) {
         if (isNumeric(row.row[1])) {
           let data: SeriesMapbubbleDataOptions = new class implements SeriesMapbubbleDataOptions {

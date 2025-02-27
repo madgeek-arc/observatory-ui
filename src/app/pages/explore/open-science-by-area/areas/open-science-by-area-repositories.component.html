@@ -1,0 +1,403 @@
+<div class="uk-section uk-section-small" #exportContent>
+  <div class="uk-container uk-container-expand">
+
+    <ul class="uk-breadcrumb">
+      <li><a [routerLink]="['/explore/open-science-by-area']">Open Science by Area</a></li>
+      <li><span aria-current="page">Repositories</span></li>
+    </ul>
+
+    <div class="uk-flex uk-flex-between uk-flex-middle">
+      <h4>Open Science by Area</h4>
+      <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5], 'Repositories')" style="cursor: pointer">
+        <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+        <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+          Export report
+        </span>
+        <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" uk-spinner="ratio: 0.7"></span>
+        <ng-template #elseBlock>
+          <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
+        </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <h5>Repositories</h5>
+    <p>Repositories are essential for the uptake and advancement of Open Science, providing secure platforms for storing, sharing, and preserving research outputs in line with FAIR principles. They promote transparency, reproducibility, and collaboration while supporting long-term knowledge preservation. By connecting national and regional research systems, repositories play a key role in advancing Open Science and contributing to the EOSC. This page provides an overview of the state of repositories in Europe based on the data from the Survey on National Contributions to EOSC and Open Science.</p>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small" #exportContent1>
+  <div class="uk-container uk-container-expand">
+    <h5>General Overview of Repositories in Europe for 2022</h5>
+
+    <div class="uk-child-width-1-3 uk-grid-match uk-grid-row-medium uk-flex-center" uk-grid>
+
+      <div *ngIf="repositories.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Number of <strong>repositories offered long-term preservation</strong> in EU Countries</p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ repositories[1] }} repositories</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="repositories[1] >= repositories[0]; else repositoriesDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ calculatePercentageChange(repositories) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #repositoriesDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ calculatePercentageChange(repositories) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="countriesWithPolicy.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of <strong>EU Countries with Policy on Connecting repositories to EOSC</strong></p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="countriesWithPolicy[1] >= countriesWithPolicy[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="totalInvestments.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Total amount of <strong>financial investments</strong> in connecting repositories to EOSC</p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="totalInvestments[1] >= totalInvestments[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="countriesWithStrategy.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of <strong>EU Countries with Financial Strategy on connecting repositories to EOSC</strong></p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ countriesWithStrategy[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="countriesWithStrategy[1] >= countriesWithStrategy[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="countriesWithMonitoring.length === 2">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
+          <div>
+            <p>Percentage of EU Countries with <strong>Monitoring Initiatives</strong> on connecting repositories to EOSC</p>
+          </div>
+          <div class="number big">
+            <span class="uk-text-bold">{{ countriesWithMonitoring[1] }}%</span>
+          </div>
+          <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+            <ng-container *ngIf="countriesWithMonitoring[1] >= countriesWithMonitoring[0]; else policyDown">
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
+                <span class="percentage-up-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+              </div>
+            </ng-container>
+            <ng-template #policyDown>
+              <div class="uk-flex uk-flex-middle">
+                <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                <span class="percentage-down-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}%</span>&nbsp; vs last year
+              </div>
+              <div>
+                <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="uk-flex uk-flex-center uk-margin-top">
+      <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science.
+    </div>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent2>
+  <div class="uk-container uk-container-expand">
+
+    <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#maps', animation: 'fade'}">
+      <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Policies</a></li>
+      <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
+    </ul>
+
+    <ul id="maps" class="uk-switcher uk-child-width-1-1 uk-grid-match" uk-grid>
+      <li>
+        <div class="uk-width-2-3" style="height: 600px">
+          <app-highcharts-category-map
+            [mapData]="questionsDataArray[0]"
+            [title]="'National Policy on Connecting Repositories to EOSC'" [backgroundColor]="'#ffffff'"
+            [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on <br>connecting repositories <br>to EOSC'"
+            [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
+            (mapClick)="showComment(0, $event)">
+          </app-highcharts-category-map>
+        </div>
+        <div class="uk-width-1-3">
+          <h6>Understanding the data</h6>
+          <p>This map illustrates the status of national policies on OA publications across European countries. OA policies are essential for promoting the free sharing of scientific knowledge and ensuring research outputs are widely accessible.</p>
+          <p>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>
+          <div>
+            <h6>Click on country for additional information</h6>
+            <p *ngIf="countryName">{{ countryName }}</p>
+            <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
+            <ng-template #noComment>--</ng-template>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="uk-width-2-3" style="height: 600px">
+          <app-highcharts-category-map
+            [mapData]="questionsDataArray[1]"
+            [title]="'National Monitoring on Connecting Repositories to EOSC'" [backgroundColor]="'#ffffff'"
+            [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>connecting repositories <br>to EOSC '"
+            [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
+            (mapClick)="showComment(1, $event)">
+          </app-highcharts-category-map>
+        </div>
+        <div class="uk-width-1-3">
+          <h6>Understanding the data</h6>
+          <p>This map illustrates the status of national monitoring on OA publications across European countries.OA monitoring is essential for tracking progress, evaluating policy implementation, and ensuring that research outputs are freely accessible.</p>
+          <p>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>
+          <div>
+            <h6>Click on country for additional information</h6>
+            <p *ngIf="countryName">{{ countryName }}</p>
+            <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
+            <ng-template #noComment>--</ng-template>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent3>
+  <div class="uk-container uk-container-expand">
+
+    <h5>Financial Investments in Connecting Repositories to EOSC in 2022</h5>
+
+    <ul class="uk-subnav uk-subnav-pill uk-width-1-1" uk-switcher="{connect:'#investments', animation: 'fade'}">
+      <li><a class="uk-margin-remove-bottom">Overview</a></li>
+      <li><a class="uk-margin-remove-bottom">Details</a></li>
+    </ul>
+
+    <ul id="investments" class="uk-switcher uk-child-width-1-1 uk-width-match" uk-grid>
+      <li uk-grid>
+        <div class="uk-width-2-3" style="height: 350px">
+          <app-multi-bar-chart [series]="bar[0]" [categories]="['Number of countries per Investment Category']"
+                               [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
+                               [customTooltip]="true" [yAxisLabels]="false" style="height: 100%">
+          </app-multi-bar-chart>
+        </div>
+        <div class="uk-width-1-3">
+          <h6>Understanding the data</h6>
+          <p>The graph illustrates the financial investments in connecting repositories to EOSC made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>
+          <!--        <p>This data highlights the commitment and support from different countries towards advancing open science initiatives and building the EOSC infrastructure.</p>-->
+          <p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>
+        </div>
+      </li>
+      <li uk-grid>
+        <div class="uk-width-2-3" style="height: 550px">
+          <app-tree-graph [data]="treeGraph[0]" style="height: 100%"></app-tree-graph>
+        </div>
+        <div class="uk-width-1-3">
+          <h6>Understanding the data</h6>
+          <p>The graph illustrates the financial investments in connecting repositories to EOSC made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>
+          <!--        <p>This data highlights the commitment and support from different countries towards advancing open science initiatives and building the EOSC infrastructure.</p>-->
+          <p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent4>
+  <div class="uk-container uk-container-expand">
+
+    <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#maps2', animation: 'fade'}">
+      <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Policies</a></li>
+      <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
+    </ul>
+
+    <ul id="maps2" class="uk-switcher uk-child-width-1-1 uk-grid-match" uk-grid>
+      <li>
+        <div class="uk-width-2-3" style="height: 600px">
+          <app-highcharts-category-map
+            [mapData]="questionsDataArray[2]"
+            [title]="'National Policy on Long-term Data Preservation'" [backgroundColor]="'#ffffff'"
+            [customLabelText]="'<strong>'+participatingCountries[2] + ' out of '+ total[2] + '</strong><br> countries have a <br>national policy on <br>long-term <br>data preservation'"
+            [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
+            (mapClick)="showComment(2, $event)">
+          </app-highcharts-category-map>
+        </div>
+        <div class="uk-width-1-3">
+          <h6>Understanding the data</h6>
+          <p>This map illustrates the status of national policies on OA publications across European countries. OA policies are essential for promoting the free sharing of scientific knowledge and ensuring research outputs are widely accessible.</p>
+          <p>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>
+          <div>
+            <h6>Click on country for additional information</h6>
+            <p *ngIf="countryName">{{ countryName }}</p>
+            <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
+            <ng-template #noComment>--</ng-template>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="uk-width-2-3" style="height: 600px">
+          <app-highcharts-category-map
+            [mapData]="questionsDataArray[3]"
+            [title]="'National Monitoring on Long-term Data Preservation'" [backgroundColor]="'#ffffff'"
+            [customLabelText]="'<strong>'+participatingCountries[3] + ' out of '+ total[3] + '</strong><br> countries have a <br>national monitoring <br>on long-term <br>data preservation'"
+            [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
+            (mapClick)="showComment(3, $event)">
+          </app-highcharts-category-map>
+        </div>
+        <div class="uk-width-1-3">
+          <h6>Understanding the data</h6>
+          <p>This map illustrates the status of national monitoring on OA publications across European countries.OA monitoring is essential for tracking progress, evaluating policy implementation, and ensuring that research outputs are freely accessible.</p>
+          <p>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>
+          <div>
+            <h6>Click on country for additional information</h6>
+            <p *ngIf="countryName">{{ countryName }}</p>
+            <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
+            <ng-template #noComment>--</ng-template>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent5>
+  <div class="uk-container uk-container-expand">
+
+    <h5>Financial Investments in Long-term Data Preservation in 2022</h5>
+
+    <ul class="uk-subnav uk-subnav-pill uk-width-1-1" uk-switcher="{connect:'#investments2', animation: 'fade'}">
+      <li><a class="uk-margin-remove-bottom">Overview</a></li>
+      <li><a class="uk-margin-remove-bottom">Details</a></li>
+    </ul>
+
+    <ul id="investments2" class="uk-switcher uk-child-width-1-1 uk-width-match" uk-grid>
+      <li uk-grid>
+        <div class="uk-width-2-3" style="height: 350px">
+          <app-multi-bar-chart [series]="bar[1]" [categories]="['Number of countries per Investment Category']"
+                               [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
+                               [customTooltip]="true" [yAxisLabels]="false" style="height: 100%">
+          </app-multi-bar-chart>
+        </div>
+        <div class="uk-width-1-3">
+          <h6>Understanding the data</h6>
+          <p>The graph illustrates the financial investments in long-term data preservation made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>
+          <!--        <p>This data highlights the commitment and support from different countries towards advancing open science initiatives and building the EOSC infrastructure.</p>-->
+          <p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>
+        </div>
+      </li>
+      <li uk-grid>
+        <div class="uk-width-2-3" style="height: 550px">
+          <app-tree-graph [data]="treeGraph[1]" style="height: 100%"></app-tree-graph>
+        </div>
+        <div class="uk-width-1-3">
+          <h6>Understanding the data</h6>
+          <p>The graph illustrates the financial investments in long-term data preservation made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>
+          <!--        <p>This data highlights the commitment and support from different countries towards advancing open science initiatives and building the EOSC infrastructure.</p>-->
+          <p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-xlarge-bottom">
+  <div class="uk-container uk-container-expand">
+    <h5 class="uk-margin-xlarge-bottom">More data and visualization TBA</h5>
+  </div>
+</div>

@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&family=Quicksand:wght@300..700&display=swap');
+
 :root {
 
   //--eosc-light-color: #ffcd00;
@@ -5,8 +8,12 @@
 
   --eosc-observatory-primary-color: #008792;
   --eosc-observatory-primary-color-light: #00afbe;
+  //--eosc-observatory-primary-color-light: #00b3b4;
   --eosc-observatory-primary-color-extra-light: rgba(0, 135, 146, 0.04);
   --eosc-observatory-secondary-color: #EB5C80;
+
+  --explore-sidebar-width: 290px;
+  --active-sidemenu-background-color: #b3dbde;
 
   --sidebar-width: 320px;
   --sidebar-width-invert: -320px;
@@ -18,9 +25,11 @@
 
   //--main-font-family: 'Helvetica Neue', 'Montserrat', 'Open Sans', sans-serif;
   //--main-font-family: 'Montserrat', 'Open Sans', sans-serif;
-  --main-font-family: 'Aileron', 'Open Sans', sans-serif;
+  //--main-font-family: 'Aileron', 'Open Sans', sans-serif;
+  --main-font-family: 'Oxygen', 'Open Sans', sans-serif;
   //--secondary-font-family: 'Ubuntu', sans-serif;
-  --secondary-font-family: 'Aileron', sans-serif;
+  //--secondary-font-family: 'Aileron', sans-serif;
+  --secondary-font-family: 'Quicksand', sans-serif;
   --black: #1A1A1A;
   --grey: #6E6E6E;
   --catalogue-light-purple: #AD20E7;
@@ -135,6 +144,12 @@
   border: 1px solid #eee;
 }
 
+.card-explore {
+  background-color: var(--white);
+  border-radius: 6px;
+  border: 2px solid #DAEEF3;
+}
+
 a.button-osobservatory {
   line-height: 35px !important;
 }
@@ -150,4 +165,29 @@ a.button-osobservatory {
 
 .button-osobservatory:visited {
   color: #fff;
+}
+
+.number.big {
+  font-size: 24px;
+}
+
+
+.uk-navbar-nav > li > a {
+  font-family: var(--main-font-family);
+}
+
+.text-black {
+  color: var(--black);
+}
+
+.material-symbols-outlined.filled {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24
+}
+
+.material-symbols-outlined { font-size: 30px }
+
+.custom-disabled-link {
+  //pointer-events: none; /* Disables clicks */
+  //color: gray; /* Optional: to indicate it's disabled */
+  cursor: not-allowed; /* Change the cursor to indicate disabled state */
 }

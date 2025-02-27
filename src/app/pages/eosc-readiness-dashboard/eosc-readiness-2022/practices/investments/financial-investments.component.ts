@@ -217,7 +217,7 @@ export class FinancialInvestmentsComponent implements OnInit {
       // this.queryData.getQuestion72(),
       this.queryData.getQuestion(this.year, 'Question72'),
       // this.queryData.getQuestion72comment(),
-      this.queryData.getQuestionComment(this.year, 'Question56'),
+      this.queryData.getQuestionComment(this.year, 'Question72'),
     ).subscribe(
       res => {
         this.questionsDataArray[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
