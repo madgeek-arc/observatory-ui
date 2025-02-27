@@ -1,3 +1,6 @@
 [submodule "src/survey-tool"]
 	path = src/survey-tool
 	url = git@github.com:madgeek-arc/survey-tool.git
+[submodule "src/messaging-system-ui"]
+	path = src/messaging-system-ui
+	url = git@github.com:madgeek-arc/messaging-system-ui.git
