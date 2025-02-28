@@ -1,10 +1,10 @@
-import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
-import {SurveyService} from "../../../../survey-tool/app/services/survey.service";
-import {SurveyAnswer} from "../../../../survey-tool/app/domain/survey";
-import {Model} from "../../../../survey-tool/catalogue-ui/domain/dynamic-form-model";
-import {countries} from "../../../../survey-tool/app/domain/countries";
-import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
+import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
+import { Model } from "../../../../survey-tool/catalogue-ui/domain/dynamic-form-model";
+import { countries } from "../../../domain/countries";
+import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
 @Component({
   selector: 'country-landing-page',

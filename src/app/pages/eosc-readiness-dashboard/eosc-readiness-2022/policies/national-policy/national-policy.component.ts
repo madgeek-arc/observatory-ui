@@ -3,12 +3,13 @@ import { ActivatedRoute } from "@angular/router";
 import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
 import { StakeholdersService } from "../../../../../../survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../../services/data-handler.service";
-import { CountryTableData } from "../../../../../../survey-tool/app/domain/country-table-data";
+import { CountryTableData } from "../../../../../domain/country-table-data";
 import { ColorPallet, EoscReadiness2022MapSubtitles } from "../../eosc-readiness2022-map-subtitles";
-import { latlong } from "../../../../../../survey-tool/app/domain/countries-lat-lon";
-import { ActivityGauge, CategorizedAreaData, Series } from "../../../../../../survey-tool/app/domain/categorizedAreaData";
+import { latlong } from "../../../../../domain/countries-lat-lon";
 import { zip } from "rxjs/internal/observable/zip";
-import { countries } from "../../../../../../survey-tool/app/domain/countries";
+import { countries } from "../../../../../domain/countries";
+import { CategorizedAreaData, Series } from "../../../../../domain/categorizedAreaData";
+import { ActivityGauge } from "../../../../../shared/charts/gauge-activity/gauge-activity.component";
 import UIkit from "uikit";
 
 @Component({

@@ -1,15 +1,15 @@
 import { Injectable } from "@angular/core";
-import { CategorizedAreaData, Series } from "../../../survey-tool/app/domain/categorizedAreaData";
 import {
   ColorPallet, countriesNumbers,
   EoscReadiness2022MapSubtitles
 } from "../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
-import { latlong } from "../../../survey-tool/app/domain/countries-lat-lon";
-import { CountryTableData } from "../../../survey-tool/app/domain/country-table-data";
-import { RawData, Row } from "../../../survey-tool/app/domain/raw-data";
-import { SeriesBarOptions } from "highcharts";
+import { latlong } from "../../domain/countries-lat-lon";
+import { CountryTableData } from "../../domain/country-table-data";
+import { RawData, Row } from "../../domain/raw-data";
 import { EoscReadinessDataService } from "../services/eosc-readiness-data.service";
+import { CategorizedAreaData, Series } from "../../domain/categorizedAreaData";
 import { BehaviorSubject } from "rxjs";
+import { SeriesBarOptions } from "highcharts";
 
 @Injectable()
 export class ExploreService {

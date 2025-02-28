@@ -5,10 +5,8 @@ import { trendOfOAPublications, trendOfOpenData } from "../OSO-stats-queries/exp
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { zip } from "rxjs";
 import { LegendOptions, SeriesBarOptions, SeriesOptionsType } from "highcharts";
-import { RawData } from "../../../../survey-tool/app/domain/raw-data";
+import { RawData } from "../../../domain/raw-data";
 import { PdfExportService } from "../../services/pdf-export.service";
-import html2canvas from "html2canvas";
-import JsPDF from "jspdf";
 import { ExploreService } from "../explore.service";
 
 

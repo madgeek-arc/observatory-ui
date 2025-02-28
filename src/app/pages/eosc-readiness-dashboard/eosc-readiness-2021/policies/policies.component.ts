@@ -1,14 +1,13 @@
-import {Component, OnInit} from "@angular/core";
-import {DataService} from "../../../services/data.service";
-import {CategorizedAreaData, Series} from "../../../../../survey-tool/app/domain/categorizedAreaData";
-import {DataHandlerService} from "../../../services/data-handler.service";
-import {CountryTableData} from "../../../../../survey-tool/app/domain/country-table-data";
-import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
-import {zip} from "rxjs/internal/observable/zip";
-import {mapSubtitles} from "../../../../../survey-tool/app/domain/mapSubtitles";
-import {latlong} from "../../../../../survey-tool/app/domain/countries-lat-lon";
-
-import {ActivatedRoute} from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { DataService } from "../../../services/data.service";
+import { DataHandlerService } from "../../../services/data-handler.service";
+import { CountryTableData } from "../../../../domain/country-table-data";
+import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
+import { mapSubtitles } from "../../../../domain/mapSubtitles";
+import { latlong } from "../../../../domain/countries-lat-lon";
+import { zip } from "rxjs/internal/observable/zip";
+import { CategorizedAreaData, Series } from "../../../../domain/categorizedAreaData";
 import UIkit from "uikit";
 
 @Component({

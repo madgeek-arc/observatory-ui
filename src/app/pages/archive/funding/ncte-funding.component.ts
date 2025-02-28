@@ -1,11 +1,10 @@
-import {Component, OnInit} from "@angular/core";
-import {DataService} from "../../services/data.service";
-import {CountryTableData} from "../../../../survey-tool/app/domain/country-table-data";
-import {DataHandlerService} from "../../services/data-handler.service";
-import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
-import {environment} from "../../../../environments/environment";
-import {CategorizedAreaData} from "../../../../survey-tool/app/domain/categorizedAreaData";
-import {FundingForEOSCSums} from "../../../../survey-tool/app/domain/funding-for-eosc";
+import { Component, OnInit } from "@angular/core";
+import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
+import { DataService } from "../../services/data.service";
+import { CountryTableData } from "../../../domain/country-table-data";
+import { DataHandlerService } from "../../services/data-handler.service";
+import { environment } from "../../../../environments/environment";
+import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 
 @Component({
   selector: 'app-ncte-funding',

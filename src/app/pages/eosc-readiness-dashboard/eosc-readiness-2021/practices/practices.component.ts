@@ -1,12 +1,12 @@
-import {Component, OnInit} from "@angular/core";
-import {CategorizedAreaData, Series} from "../../../../../survey-tool/app/domain/categorizedAreaData";
-import {DataService} from "../../../services/data.service";
-import {DataHandlerService} from "../../../services/data-handler.service";
-import {zip} from "rxjs/internal/observable/zip";
-import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
-import {CountryTableData} from "../../../../../survey-tool/app/domain/country-table-data";
-import {mapSubtitles} from "../../../../../survey-tool/app/domain/mapSubtitles";
-import {ActivatedRoute} from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { zip } from "rxjs/internal/observable/zip";
+import { DataService } from "../../../services/data.service";
+import { DataHandlerService } from "../../../services/data-handler.service";
+import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
+import { CountryTableData } from "../../../../domain/country-table-data";
+import { mapSubtitles } from "../../../../domain/mapSubtitles";
+import { CategorizedAreaData, Series } from "../../../../domain/categorizedAreaData";
 import UIkit from "uikit";
 
 @Component({

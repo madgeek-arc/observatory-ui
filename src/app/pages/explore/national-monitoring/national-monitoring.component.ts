@@ -1,17 +1,17 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { LegendOptions, SeriesBarOptions, SeriesOptionsType } from "highcharts";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
-import { RawData } from "../../../../survey-tool/app/domain/raw-data";
+import { RawData } from "../../../domain/raw-data";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { zip } from "rxjs";
 import { DataHandlerService } from "../../services/data-handler.service";
-import { countries } from "../../../../survey-tool/app/domain/countries";
 import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { ExploreService } from "../explore.service";
+import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
+import { countries } from "../../../domain/countries";
 import * as Highcharts from "highcharts";
-import { CategorizedAreaData } from "../../../../survey-tool/app/domain/categorizedAreaData";
 
 @Component({
   selector: 'app-national-monitoring',

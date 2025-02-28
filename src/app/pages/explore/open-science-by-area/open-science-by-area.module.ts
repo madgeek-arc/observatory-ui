@@ -16,6 +16,7 @@ import { OpenScienceByAreaCitizenScienceComponent } from "./areas/open-science-b
 import { OpenScienceByAreaRepositoriesComponent } from "./areas/open-science-by-area-repositories.component";
 import { OpenScienceByAreaTrainingComponent } from "./areas/open-science-by-area-training.component";
 import { OpenScienceByAreaSoftwareComponent } from "./areas/open-science-by-area-software.component";
+import { ChartsModule } from "../../../shared/charts/charts.module";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { OpenScienceByAreaSoftwareComponent } from "./areas/open-science-by-area
     ReusableComponentsModule,
     OpenScienceByAreaRouting,
     HighchartsChartModule,
+    ChartsModule,
     NgOptimizedImage,
   ],
   providers: [

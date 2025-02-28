@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Datasets, RawData, Row, SeriesItem } from '../../../survey-tool/app/domain/raw-data';
-import { CountryTableData } from '../../../survey-tool/app/domain/country-table-data';
-import { CategorizedAreaData, Series } from "../../../survey-tool/app/domain/categorizedAreaData";
-import { FundingForEOSCSums } from "../../../survey-tool/app/domain/funding-for-eosc";
+import { Datasets, RawData, Row } from "../../domain/raw-data";
+import { CountryTableData } from "../../domain/country-table-data";
+import { FundingForEOSCSums } from "../../domain/funding-for-eosc";
+import { CategorizedAreaData, Series } from "../../domain/categorizedAreaData";
 import { isNumeric } from "rxjs/internal-compatibility";
-import { SeriesMapbubbleDataOptions, SeriesMapbubbleOptions } from "highcharts";
+import { SeriesMapbubbleDataOptions } from "highcharts";
 import { SeriesMapDataOptions } from "highcharts/highmaps";
 
 @Injectable()

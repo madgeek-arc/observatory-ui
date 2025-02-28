@@ -1,12 +1,11 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { LegendOptions, PointOptionsObject, SeriesBarOptions, SeriesBubbleOptions } from "highcharts";
-import { zip } from "rxjs/internal/observable/zip";
-import { RawData, Row } from "../../../../survey-tool/app/domain/raw-data";
-import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
-import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { zip } from "rxjs/internal/observable/zip";
+import { RawData, Row } from "../../../domain/raw-data";
+import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
+import { LegendOptions, PointOptionsObject, SeriesBarOptions, SeriesBubbleOptions } from "highcharts";
 
 type MergedElement = { x: string; y: string; z: string; name: string; country: string };
 
