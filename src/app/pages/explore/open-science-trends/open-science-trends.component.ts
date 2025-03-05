@@ -57,6 +57,12 @@ export class OpenScienceTrendsComponent implements OnInit {
   stackedColumnSeries = [
     {
       type: 'column',
+      name: 'Diamond OA',
+      data: [],
+      color: '#100254' // Diamond color
+    },
+    {
+      type: 'column',
       name: 'Gold OA only',
       data: [],
       color: '#FFD700' // Gold color

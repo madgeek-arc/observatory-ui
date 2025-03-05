@@ -151,19 +151,15 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     {
       type: 'bar',
       name: 'Open',
-      data: [
-        452199.0,465847.0,717270.0,72712.0,273971.0,27036.0
-      ]
+      data: []
     },
     {
       type: 'bar',
       name: 'Closed',
-      data: [
-        -337146.0,-459458.0,-311775.0,-30432.0,-99920.0,-8723.0
-      ]
+      data: []
     }
   ];
-  barCategories: string[] = ["01 natural sciences","02 engineering and technology","03 medical and health sciences","04 agricultural and veterinary sciences","05 social sciences","06 humanities and the arts"];
+  barCategories: string[] = [];
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,
