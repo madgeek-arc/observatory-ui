@@ -3,6 +3,7 @@ import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../domain/raw-data";
 import {
+  distributionOfOA,
   distributionOfOAByScienceFields,
   distributionOfOAPublications,
   OAPublicationVSClosed,
@@ -42,6 +43,11 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   stackedColumnCategories = ['2020', '2021', '2022', '2023', '2024'];
   stackedColumnSeries = [
     {
+      type: 'column',
+      name: 'Diamond OA',
+      data: [],
+      color: '#100254' // Diamond color
+    }, {
       type: 'column',
       name: 'Gold OA only',
       data: [],
@@ -144,26 +150,20 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   bar2: SeriesOptionsType[] = [
     {
       type: 'bar',
-      name: 'Male',
+      name: 'Open',
       data: [
-        -1.38, -2.09, -2.45, -2.71, -2.97,
-        -3.69, -4.04, -3.81, -4.19, -4.61,
-        -4.56, -4.21, -3.53, -2.55, -1.82,
-        -1.46, -0.78, -0.71
+        452199.0,465847.0,717270.0,72712.0,273971.0,27036.0
       ]
     },
     {
       type: 'bar',
-      name: 'Female',
+      name: 'Closed',
       data: [
-        1.35, 1.98, 2.43, 2.39, 2.71,
-        3.02, 3.50, 3.52, 4.03, 4.40,
-        4.17, 3.88, 3.29, 2.42, 1.80,
-        1.39, 0.99, 1.15
+        -337146.0,-459458.0,-311775.0,-30432.0,-99920.0,-8723.0
       ]
     }
   ];
-  barCategories: string[] = ['0-4', '5-9', '10-14', '15-19', '20-24', '25-29', '30-34', '35-40', '40-45', '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80-84', '80+'];
+  barCategories: string[] = ["01 natural sciences","02 engineering and technology","03 medical and health sciences","04 agricultural and veterinary sciences","05 social sciences","06 humanities and the arts"];
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,
@@ -176,6 +176,8 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     this.getDistributionOAByScienceFields();
 
     this.getTreeGraphData('Question56');
+
+    this.getDistributionsOA();
 
     // Maps
     this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -253,6 +255,23 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
         });
         // console.log(this.stackedColumnSeries);
         this.stackedColumnSeries = [...this.stackedColumnSeries];
+      }
+    });
+  }
+
+  /** Get Distribution of Open Access Types by Fields of Science ----------------------------------------------------------------------------------> **/
+  getDistributionsOA() {
+    this.queryData.getOSOStatsChartData(distributionOfOA()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        console.log(value);
+        value.series.forEach((series, index) => {
+          (this.bar2[index] as SeriesBarOptions).data = series.data;
+        });
+        for (let i = 0; i < (this.bar2[this.bar2.length - 1] as SeriesBarOptions).data.length; i++) {
+          (this.bar2[this.bar2.length - 1] as SeriesBarOptions).data[i] = -(this.bar2[this.bar2.length - 1] as SeriesBarOptions).data[i];
+        }
+        this.barCategories = value.xAxis_categories;
+
       }
     });
   }

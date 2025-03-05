@@ -1,13 +1,14 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
-import * as Highcharts from "highcharts";
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { LegendOptions, SeriesOptionsType } from "highcharts";
+import * as Highcharts from "highcharts";
+
 
 @Component({
   selector: 'app-multi-bar-chart',
   template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
 })
 
-export class BarChartComponent implements OnChanges {
+export class BarChartComponent implements OnInit, OnChanges {
   @Input() series: SeriesOptionsType[] = [];
   @Input() categories: string[] = [];
   @Input() titles = {title: '', xAxis: '', yAxis: ''};
@@ -17,16 +18,20 @@ export class BarChartComponent implements OnChanges {
   @Input() pointWidth?: number = undefined;
   @Input() valueSuffix?: string = undefined;
   @Input() customTooltip?: boolean = false;
+  @Input() tooltip?: string;
+  @Input() dataLabelFormat?: string;
   @Input() yAxisLabels?: boolean = true;
   @Input() duplicateXAxis?: boolean = false;
   @Input() caption?: string;
 
 
+
   Highcharts: typeof Highcharts = Highcharts;
   chart!: Highcharts.Chart;
+  // Custom template helper
   chartOptions: Highcharts.Options = {
     chart: {
-      type: 'bar'
+      type: 'bar',
     },
     title: {
       text: this.titles.title,
@@ -76,6 +81,12 @@ export class BarChartComponent implements OnChanges {
     series: []
   }
 
+  ngOnInit() {
+    (Highcharts as any).Templating = (Highcharts as any).Templating || {};
+    (Highcharts as any).Templating.helpers = (Highcharts as any).Templating.helpers || {};
+    (Highcharts as any).Templating.helpers.abs = (value: number) => Math.abs(value);
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     this.updateChart();
   }
@@ -117,6 +128,7 @@ export class BarChartComponent implements OnChanges {
         tooltip: {
           valueSuffix: this.valueSuffix,
           // pointFormat: '{series.name}: {point.y}',
+          format: this.tooltip,
           headerFormat: this.customTooltip ? '<b>{series.name}</b><br>' : undefined,
           pointFormatter: this.customTooltip ? function () {
             return   'Countries: ' + this.series.userOptions.custom;
@@ -127,7 +139,8 @@ export class BarChartComponent implements OnChanges {
             borderRadius: this.borderRadius,
             pointWidth: this.pointWidth,
             dataLabels: {
-              enabled: true
+              enabled: true,
+              format: '{(abs point.y)}'
             },
             groupPadding: 0.1
           },
