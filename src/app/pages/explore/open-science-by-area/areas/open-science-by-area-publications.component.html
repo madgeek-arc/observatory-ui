@@ -422,7 +422,7 @@
     <div class="uk-grid uk-margin-medium-top">
       <div class="uk-width-2-3" style="height: 450px">
         <app-multi-bar-chart [series]="bar2" [categories]="barCategories" stacking="normal"
-                             [duplicateXAxis]="true" [yAxisLabels]="true" [dataLabelFormat]="'{(abs point.y)}'"
+                             [duplicateXAxis]="true" [yAxisLabels]="true" [dataLabelFormat]="'{(abs value)}'"
                              [tooltip]="'<b>{series.name},</b> {point.category}<br/>{(abs point.y)}'"
           [caption]="'<strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on '+ lastUpdateDate +')'">
         </app-multi-bar-chart>

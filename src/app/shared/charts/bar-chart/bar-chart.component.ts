@@ -85,6 +85,12 @@ export class BarChartComponent implements OnInit, OnChanges {
     (Highcharts as any).Templating = (Highcharts as any).Templating || {};
     (Highcharts as any).Templating.helpers = (Highcharts as any).Templating.helpers || {};
     (Highcharts as any).Templating.helpers.abs = (value: number) => Math.abs(value);
+
+    Highcharts.setOptions({
+      lang: {
+        thousandsSep: '.'
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -92,6 +98,7 @@ export class BarChartComponent implements OnInit, OnChanges {
   }
 
   updateChart() {
+    const that = this;
     if (this.chart) {
       this.chart.update({
         title: {
@@ -122,7 +129,20 @@ export class BarChartComponent implements OnInit, OnChanges {
           },
           labels: {
             enabled: this.yAxisLabels,
-            format: this.duplicateXAxis ? '{abs value}' : undefined
+            // format: this.dataLabelFormat,
+            formatter: function () {
+              if (that.duplicateXAxis) {
+                const val = Math.abs(this.value as number);
+                // Divide by x and remove any trailing .0
+                if (val >= 1000000) {
+                  return (val / 1000000).toFixed(1).replace(/\.0$/, '').toString() + 'M';
+                } else if (val >= 1000) {
+                  return `${(val / 1000).toFixed(1).replace(/\.0$/, '')}` + 'k';
+                }
+                return val.toString();
+              }
+              return this.value.toString();
+            }
           }
         },
         tooltip: {
@@ -140,7 +160,11 @@ export class BarChartComponent implements OnInit, OnChanges {
             pointWidth: this.pointWidth,
             dataLabels: {
               enabled: true,
-              format: '{(abs point.y)}'
+              formatter: function () {
+                if (that.duplicateXAxis)
+                  return `${Highcharts.numberFormat(Math.abs(this.point.y), 0)}`
+                return this.point.y;
+              }
             },
             groupPadding: 0.1
           },
