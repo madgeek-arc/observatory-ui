@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import {
-  ColorPallet, countriesNumbers,
-  EoscReadiness2022MapSubtitles
+  ColorPallet, countriesNumbers, EoscReadiness2022MapSubtitles
 } from "../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { latlong } from "../../domain/countries-lat-lon";
 import { CountryTableData } from "../../domain/country-table-data";
@@ -10,6 +9,7 @@ import { EoscReadinessDataService } from "../services/eosc-readiness-data.servic
 import { CategorizedAreaData, Series } from "../../domain/categorizedAreaData";
 import { BehaviorSubject } from "rxjs";
 import { SeriesBarOptions } from "highcharts";
+import { isNumeric } from "rxjs/internal-compatibility";
 
 @Injectable()
 export class ExploreService {
@@ -366,6 +366,19 @@ export class ExploreService {
 
     // Check if parsing resulted in NaN or the value has extraneous characters
     return !isNaN(number) && isFinite(number) && String(number) === value;
+  }
+
+  calculateSum(rawData: RawData): string {
+    let sum = 0.0;
+    for (const series of rawData.datasets) {
+      for (const rowResult of series.series.result) {
+        if (this.isNumeric(rowResult.row[1])) {
+          sum += +rowResult.row[1];
+        }
+      }
+    }
+
+    return (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
   }
 
   findCountryName(code: string) {

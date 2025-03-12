@@ -45,6 +45,14 @@ export class OpenSciencePoliciesComponent implements OnInit {
     xAxis: 'Financial Strategy on',
     yAxis: 'Percentage of countries with Financial Strategy',
   }
+
+  barChart3Series: SeriesOptionsType[] = [];
+  barChart3Titles = {
+    // title: 'Percentage of countries with national policies different Open Science Categories',
+    title: '',
+    xAxis: 'National Policy on',
+    yAxis: 'Percentage of Researchers Covered',
+  }
   legendOptions: LegendOptions = {
     layout: 'vertical',
     align: 'right',
@@ -56,6 +64,9 @@ export class OpenSciencePoliciesComponent implements OnInit {
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
     shadow: true
   };
+  policiesPerCountryPerYear = new Map<string, RawData[]>();
+  researchersPerCountryPerYear = new Map<string, RawData>();
+  totalResearchersPerYear = new Map<string, string>();
 
   bubbleWithCategories = [] as SeriesBubbleOptions[];
 
@@ -108,10 +119,19 @@ export class OpenSciencePoliciesComponent implements OnInit {
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
+        this.policiesPerCountryPerYear.set(year, value);
         this.barChartSeries.push(this.createBarChartSeries(value, year));
 
-        if (this.years.length === ++index) {
+        if (this.barChartSeries.length === this.years.length) {
           this.barChartSeries = [...this.barChartSeries];
+        }
+
+        if (this.policiesPerCountryPerYear.size === 2) {
+          console.log(this.policiesPerCountryPerYear);
+          this.getResearchersByYear();
+        }
+
+        if (this.years.length === ++index) {
           this.policiesRawData = value; // Store response to use in other charts
 
           this.getTableData(); // Call here to avoid duplicate api calls
@@ -149,11 +169,28 @@ export class OpenSciencePoliciesComponent implements OnInit {
         // console.log(value);
         this.barChart2Series.push(this.createBarChartSeries(value, year));
 
-        if (this.years.length === index+1)
+        if (this.years.length === this.barChart2Series.length)
           this.barChart2Series = [...this.barChart2Series];
       },
       error: err => {console.error(err)}
     });
+  }
+
+  getResearchersByYear(): void {
+    this.years.forEach((year) => {
+      this.queryData.getQuestion(year, 'Question1').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: value => {
+          this.researchersPerCountryPerYear.set(year, value);
+          this.totalResearchersPerYear.set(year, this.exploreService.calculateSum(value));
+
+          this.barChart3Series.push(this.createResearchersBarChartSeries(year));
+
+          if (this.barChart3Series.length === this.years.length)
+            this.barChart3Series = [...this.barChart3Series];
+        },
+        error: error => {console.error(error);}
+      });
+    })
   }
 
   createBarChartSeries(data: RawData[], year: string) {
@@ -171,6 +208,32 @@ export class OpenSciencePoliciesComponent implements OnInit {
       });
       series.data.push(Math.round(((count/el.datasets[0].series.result.length + Number.EPSILON) * 100)));
     });
+    return series;
+  }
+
+  createResearchersBarChartSeries(year: string) {
+    let series: SeriesBarOptions = {
+      type: 'bar',
+      name: 'Year '+ (+year-1),
+      data: []
+    }
+
+    this.policiesPerCountryPerYear.get(year).forEach(data => {
+      let researchersCount = 0;
+      data.datasets[0].series.result.forEach(item => {
+        if (item.row[1] === 'Yes') {
+          this.researchersPerCountryPerYear.get(year).datasets[0].series.result.forEach(data => {
+            if (data.row[0] === item.row[0]) {
+              if (this.exploreService.isNumeric(data.row[1])) {
+                researchersCount+= +data.row[1];
+              }
+            }
+          });
+        }
+      });
+      series.data.push(Math.round(((researchersCount/(+this.totalResearchersPerYear.get(year)) + Number.EPSILON) * 100)));
+    });
+    console.log(series);
     return series;
   }
 

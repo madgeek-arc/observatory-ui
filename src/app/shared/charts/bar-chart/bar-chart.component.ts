@@ -66,7 +66,7 @@ export class BarChartComponent implements OnInit, OnChanges {
       bar: {
         borderRadius: this.borderRadius,
         dataLabels: {
-          enabled: true
+          enabled: true,
         },
         groupPadding: 0.1
       },
@@ -103,6 +103,9 @@ export class BarChartComponent implements OnInit, OnChanges {
       this.chart.update({
         title: {
           text: this.titles.title
+        },
+        caption: {
+          text: this.caption,
         },
         xAxis: [{
           type: 'category',
@@ -163,8 +166,8 @@ export class BarChartComponent implements OnInit, OnChanges {
               formatter: function () {
                 if (that.duplicateXAxis)
                   return `${Highcharts.numberFormat(Math.abs(this.point.y), 0)}`
-                return this.point.y;
-              }
+                return this.point.y + that.valueSuffix ?? '';
+              },
             },
             groupPadding: 0.1
           },
