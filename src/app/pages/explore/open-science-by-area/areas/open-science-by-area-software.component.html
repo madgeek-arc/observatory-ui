@@ -45,7 +45,7 @@
             <ng-container *ngIf="sets[1] >= sets[0]; else setsDown">
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
-                <span class="percentage-up-color">{{ calculatePercentageChange(sets) }}%</span>&nbsp; vs last year
+                <span class="percentage-up-color">{{ calculatePercentageChange(sets) }}%</span>&nbsp; from last year
               </div>
               <div>
                 <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
@@ -54,7 +54,7 @@
             <ng-template #setsDown>
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                <span class="percentage-down-color">{{ calculatePercentageChange(sets) }}%</span>&nbsp; vs last year
+                <span class="percentage-down-color">{{ calculatePercentageChange(sets) }}%</span>&nbsp; from last year
               </div>
               <div>
                 <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
@@ -76,7 +76,7 @@
             <ng-container *ngIf="countriesWithPolicy[1] >= countriesWithPolicy[0]; else policyDown">
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
-                <span class="percentage-up-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; vs last year
+                <span class="percentage-up-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; from last year
               </div>
               <div>
                 <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
@@ -85,7 +85,7 @@
             <ng-template #policyDown>
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                <span class="percentage-down-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; vs last year
+                <span class="percentage-down-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%</span>&nbsp; from last year
               </div>
               <div>
                 <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
@@ -107,7 +107,7 @@
             <ng-container *ngIf="totalInvestments[1] >= totalInvestments[0]; else investmentsDown">
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
-                <span class="percentage-up-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp; vs last year
+                <span class="percentage-up-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp; from last year
               </div>
               <div>
                 <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
@@ -116,7 +116,7 @@
             <ng-template #investmentsDown>
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                <span class="percentage-down-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp; vs last year
+                <span class="percentage-down-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp; from last year
               </div>
               <div>
                 <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
@@ -138,7 +138,7 @@
             <ng-container *ngIf="countriesWithStrategy[1] >= countriesWithStrategy[0]; else strategyDown">
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
-                <span class="percentage-up-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}%</span>&nbsp; vs last year
+                <span class="percentage-up-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}%</span>&nbsp; from last year
               </div>
               <div>
                 <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
@@ -147,7 +147,7 @@
             <ng-template #strategyDown>
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                <span class="percentage-down-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}%</span>&nbsp; vs last year
+                <span class="percentage-down-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}%</span>&nbsp; from last year
               </div>
               <div>
                 <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
@@ -169,7 +169,7 @@
             <ng-container *ngIf="countriesWithMonitoring[1] >= countriesWithMonitoring[0]; else monitoringDown">
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined up-arrow-color" >arrow_upward</span>
-                <span class="percentage-up-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}%</span>&nbsp; vs last year
+                <span class="percentage-up-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}%</span>&nbsp; from last year
               </div>
               <div>
                 <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
@@ -178,7 +178,7 @@
             <ng-template #monitoringDown>
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                <span class="percentage-down-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}%</span>&nbsp; vs last year
+                <span class="percentage-down-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}%</span>&nbsp; from last year
               </div>
               <div>
                 <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
