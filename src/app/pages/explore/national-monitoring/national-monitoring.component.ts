@@ -186,7 +186,7 @@ export class NationalMonitoringComponent implements OnInit {
           this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
             next: countries => {
               this.countriesArray = countries;
-              this.getChart(0); // Draw first map
+              // this.getChart(0); // Draw first map
               this.monitoringMapData = this.exploreService.mergeMonitoringData(this.monitoringRawData, this.navPills, this.countriesArray);
             },
             error: error => {console.error(error);}

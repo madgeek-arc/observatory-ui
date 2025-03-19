@@ -4,7 +4,8 @@
 
       <div class="uk-flex uk-flex-between uk-flex-middle">
         <h4>National Monitoring</h4>
-        <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4], 'National Monitoring')" style="cursor: pointer">
+        <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent4], 'National Monitoring')" style="cursor: pointer">
+<!--          <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4], 'National Monitoring')" style="cursor: pointer">-->
           <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
             <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
               Export report
@@ -44,33 +45,56 @@
   </div>
 
   <div class="uk-section uk-section-small" #exportContent2>
-    <ul class="uk-flex-inline uk-flex-left uk-subnav uk-subnav-pill uk-margin-remove" data-uk-switcher="{connect:'#map-charts', animation: 'fade'}">
-      <li class="" *ngFor="let pill of navPills; let i=index">
-        <a class="uk-margin-remove-bottom" (click)="getChart(i)"><span>{{ pill }}</span></a>
-      </li>
-    </ul>
+    <div class="uk-container uk-container-expand">
 
-    <ul id="map-charts" class="uk-switcher uk-margin">
-      <li class="" style="animation-duration: 200ms;" *ngFor="let pill of navPills; let i = index">
-        <div style="height: 600px">
-          <app-highcharts-category-map
-            [mapData]="questionsDataArray[i]" [subtitle]="" [toolTipData]="toolTipData[i]"
-            [title]="mapTitles[i]" [backgroundColor]="'#ffffff'"
-            [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ navPills[i]"
-            [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
-          </app-highcharts-category-map>
+      <h5>National Monitoring on Different Areas of Open Science</h5>
+
+      <div class="uk-grid uk-flex">
+        <div class="uk-width-1-4 uk-flex-last">
+          <ul class="uk-flex-inline uk-flex-left uk-tab uk-tab-right uk-margin-remove" data-uk-switcher="connect: #map-charts; animation: 'fade'">
+            <li>
+              <a class="uk-margin-remove-bottom"><span>Overview</span></a>
+            </li>
+            <li class="" *ngFor="let pill of navPills; let i=index">
+              <a class="uk-margin-remove-bottom" (click)="getChart(i)"><span>{{ pill }}</span></a>
+            </li>
+          </ul>
         </div>
-      </li>
-    </ul>
+        <div class="uk-width-3-4">
+          <ul id="map-charts" class="uk-switcher uk-margin">
+            <li class="" style="animation-duration: 200ms;" *ngIf="monitoringMapData.series.length">
+              <div style="height: 600px">
+                <app-highcharts-category-map
+                  [mapData]="monitoringMapData" [title]="'National Monitoring'" [backgroundColor]="'#ffffff'">
+                </app-highcharts-category-map>
+              </div>
+            </li>
+            <li class="" style="animation-duration: 200ms;" *ngFor="let pill of navPills; let i = index">
+              <div style="height: 600px">
+                <app-highcharts-category-map
+                  [mapData]="questionsDataArray[i]" [subtitle]="" [toolTipData]="toolTipData[i]"
+                  [title]="mapTitles[i]" [backgroundColor]="'#ffffff'"
+                  [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ navPills[i]"
+                  [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
+                </app-highcharts-category-map>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
   </div>
 
-  <div class="uk-section uk-section-small" #exportContent3>
-    <div *ngIf="monitoringMapData.series.length" style="height: 600px">
-      <app-highcharts-category-map
-        [mapData]="monitoringMapData" [title]="'National Monitoring'" [backgroundColor]="'#ffffff'">
-      </app-highcharts-category-map>
-    </div>
-  </div>
+<!--  <div class="uk-section uk-section-small" #exportContent3>-->
+<!--    <div *ngIf="monitoringMapData.series.length" style="height: 600px">-->
+<!--      <app-highcharts-category-map-->
+<!--        [mapData]="monitoringMapData" [title]="'National Monitoring'" [backgroundColor]="'#ffffff'">-->
+<!--      </app-highcharts-category-map>-->
+<!--    </div>-->
+<!--  </div>-->
 
   <div class="uk-section uk-section-small uk-margin-top" #exportContent4>
     <div class="uk-container uk-container-expand">
