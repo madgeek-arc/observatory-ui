@@ -127,7 +127,6 @@ export class OpenSciencePoliciesComponent implements OnInit {
         }
 
         if (this.policiesPerCountryPerYear.size === 2) {
-          console.log(this.policiesPerCountryPerYear);
           this.getResearchersByYear();
         }
 
@@ -233,7 +232,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
       });
       series.data.push(Math.round(((researchersCount/(+this.totalResearchersPerYear.get(year)) + Number.EPSILON) * 100)));
     });
-    console.log(series);
+
     return series;
   }
 

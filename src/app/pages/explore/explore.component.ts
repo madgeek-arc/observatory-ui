@@ -14,9 +14,8 @@ export class ExploreComponent {
     this.hideSubNavigation = !this.hideSubNavigation;
   }
 
-  linkIsActive(event, name: string) {
-    // console.log(name+' active: '+event);
-    if (event)
-      this.hideSubNavigation = false;
+  linkIsActive(event: boolean) {
+    // console.log(' active: '+event);
+    this.hideSubNavigation = !event;
   }
 }
