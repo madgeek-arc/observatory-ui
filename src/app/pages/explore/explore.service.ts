@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import {
-  ColorPallet, countriesNumbers, EoscReadiness2022MapSubtitles
+  ColorPallet,
+  countriesNumbers,
+  EoscReadiness2022MapSubtitles
 } from "../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { latlong } from "../../domain/countries-lat-lon";
 import { CountryTableData } from "../../domain/country-table-data";
@@ -9,7 +11,8 @@ import { EoscReadinessDataService } from "../services/eosc-readiness-data.servic
 import { CategorizedAreaData, Series } from "../../domain/categorizedAreaData";
 import { BehaviorSubject } from "rxjs";
 import { SeriesBarOptions } from "highcharts";
-import { isNumeric } from "rxjs/internal-compatibility";
+import { countries } from "../../domain/countries";
+import { DataHandlerService } from "../services/data-handler.service";
 
 @Injectable()
 export class ExploreService {
@@ -18,7 +21,7 @@ export class ExploreService {
 
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
 
-  constructor(private eoscReadiness: EoscReadinessDataService) {
+  constructor(private eoscReadiness: EoscReadinessDataService, private dataHandlerService: DataHandlerService) {
     this.getLastUpdateDate();
   }
 
@@ -228,7 +231,8 @@ export class ExploreService {
     return this.createMapDataFromMergedData(mergedData, record, countries);
   }
 
-  createInvestmentBar(data: RawData) {
+  // Bar charts
+  createInvestmentsBar(data: RawData) {
     let series: SeriesBarOptions[] = [];
 
     let index = -1;
@@ -291,6 +295,24 @@ export class ExploreService {
     return series;
   }
 
+  createBarChartSeries(data: RawData[], year: string) {
+    let series: SeriesBarOptions = {
+      type: 'bar',
+      name: 'Year '+ (+year-1),
+      data: []
+    }
+
+    data.forEach(el => {
+      let count = 0;
+      el.datasets[0].series.result.forEach(item => {
+        if (item.row[1] === 'Yes')
+          count++;
+      });
+      series.data.push(Math.round(((count/el.datasets[0].series.result.length + Number.EPSILON) * 100)));
+    });
+    return series;
+  }
+
   // Tree graph data
   createRanges(data: RawData) {
     const arr = [{id: '0.0', parent: '', name: 'Country investments'}];
@@ -349,6 +371,37 @@ export class ExploreService {
 
     // console.log(arr);
     return arr;
+  }
+
+  // Tables
+  createTable(value: RawData[], countriesEOSC: string[]) {
+    let tableData: string[][] = [];
+
+    tableData[1] = this.dataHandlerService.convertRawDataForCumulativeTable(value[0], countriesEOSC);
+    tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(value[1], countriesEOSC);
+    tableData[3] = this.dataHandlerService.convertRawDataForCumulativeTable(value[2], countriesEOSC);
+    tableData[4] = this.dataHandlerService.convertRawDataForCumulativeTable(value[3], countriesEOSC);
+    tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(value[4], countriesEOSC);
+    tableData[6] = this.dataHandlerService.convertRawDataForCumulativeTable(value[5], countriesEOSC);
+    tableData[7] = this.dataHandlerService.convertRawDataForCumulativeTable(value[6], countriesEOSC);
+    tableData[8] = this.dataHandlerService.convertRawDataForCumulativeTable(value[7], countriesEOSC);
+    tableData[9] = this.dataHandlerService.convertRawDataForCumulativeTable(value[8], countriesEOSC);
+    tableData[10] = this.dataHandlerService.convertRawDataForCumulativeTable(value[9], countriesEOSC);
+    tableData[11] = this.dataHandlerService.convertRawDataForCumulativeTable(value[10], countriesEOSC);
+    tableData[12] = this.dataHandlerService.convertRawDataForCumulativeTable(value[11], countriesEOSC);
+
+    tableData[0] = countriesEOSC;
+    // Transpose 2d array
+    tableData = tableData[0].map((_, colIndex) => tableData.map(row => row[colIndex]));
+
+    for (let i = 0; i < tableData.length; i++) {
+      let tmpData = countries.find(country => country.id === tableData[i][0]);
+      if (tmpData)
+        tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
+    }
+    // console.log(tableData);
+
+    return tableData;
   }
 
   // Utilities

@@ -166,7 +166,11 @@ export class BarChartComponent implements OnInit, OnChanges {
               formatter: function () {
                 if (that.duplicateXAxis)
                   return `${Highcharts.numberFormat(Math.abs(this.point.y), 0)}`
-                return this.point.y + that.valueSuffix ?? '';
+
+                if (that.valueSuffix)
+                  return this.point.y + that.valueSuffix ?? '';
+
+                return this.point.y
               },
             },
             groupPadding: 0.1
