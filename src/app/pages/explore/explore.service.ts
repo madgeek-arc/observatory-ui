@@ -171,14 +171,14 @@ export class ExploreService {
     return questionsData;
   }
 
-  createMapDataFromMergedData(data: string[][], dictionary: Record<string, string[]>,  countriesArray: string[]) {
+  createMapDataFromMergedData(data: string[][], dictionary: Record<string, string[]>,  countriesArray: string[], seriesName: string) {
     const countriesWithAnswer: string[] = [];
     const questionsData = new CategorizedAreaData();
 
-    questionsData.series.push(new Series('Has national monitoring', true));
+    questionsData.series.push(new Series('Has national ' + seriesName, true));
     questionsData.series[0].showInLegend = true;
     questionsData.series[0].color = ColorPallet[0];
-    questionsData.series.push(new Series('Does not have national monitoring', false));
+    questionsData.series.push(new Series('Does not have national ' + seriesName, false));
     questionsData.series[1].showInLegend = true;
     questionsData.series[1].color = ColorPallet[1];
 
@@ -208,7 +208,7 @@ export class ExploreService {
     return questionsData;
   }
 
-  mergeMonitoringData(data: RawData[], areas: string[], countries: string[]) {
+  mergeCategorizedMapData(data: RawData[], areas: string[], countries: string[], seriesName: string) {
     let mergedData: string[][] = [];
     let record: Record<string, string[]> = {};
 
@@ -228,7 +228,7 @@ export class ExploreService {
     // console.log(record);
     // console.log(mergedData);
 
-    return this.createMapDataFromMergedData(mergedData, record, countries);
+    return this.createMapDataFromMergedData(mergedData, record, countries, seriesName);
   }
 
   // Bar charts

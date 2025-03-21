@@ -1,5 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { LegendOptions, SeriesBarOptions, SeriesOptionsType } from "highcharts";
+import * as Highcharts from "highcharts";
+import { LegendOptions, SeriesOptionsType } from "highcharts";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { RawData } from "../../../domain/raw-data";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
@@ -10,8 +11,6 @@ import { PdfExportService } from "../../services/pdf-export.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { ExploreService } from "../explore.service";
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
-import { countries } from "../../../domain/countries";
-import * as Highcharts from "highcharts";
 
 @Component({
   selector: 'app-national-monitoring',
@@ -49,7 +48,7 @@ export class NationalMonitoringComponent implements OnInit {
     shadow: true
   };
 
-  navPills = ['Publications', 'Data Management', 'FAIR Data', 'Open Data', 'Software', 'Services', 'Repositories', 'Data stewardship', 'Long-term Data Preservation', 'Skills/Training', 'Incentives', 'Citizen Science'];
+  openScienceAreas = ['Publications', 'Data Management', 'FAIR Data', 'Open Data', 'Software', 'Services', 'Repositories', 'Data stewardship', 'Long-term Data Preservation', 'Skills/Training', 'Incentives', 'Citizen Science'];
   mapTitles = ['National Monitoring on open access publications', 'National Monitoring on Data Management', 'National Monitoring on FAIR Data', 'National Monitoring on Open Data', 'National Monitoring on Open Sources Software', 'National Monitoring on offering services through EOSC', 'National Monitoring on Connecting Repositories to EOSC', 'National Monitoring on data stewardship', 'National Monitoring on Long-term Data Preservation', 'National Monitoring on Skills/Training in Open Science', 'National Monitoring on incentives/rewards for Open Science', 'National Monitoring on Citizen Science'];
 
   monitoringRawData: RawData[] = [];
@@ -69,17 +68,6 @@ export class NationalMonitoringComponent implements OnInit {
     this.years.forEach((year, index) => {
       this.getMonitoringData(year, index);
     });
-
-    // this.getTableData();
-
-    // Maps
-    // this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-    //   next: countries => {
-    //     this.countriesArray = countries;
-    //     this.getChart(0);
-    //   },
-    //   error: error => {console.error(error);}
-    // });
   }
 
   /** Get maps data ----------------------------------------------------------------------------------> **/
@@ -182,12 +170,12 @@ export class NationalMonitoringComponent implements OnInit {
 
           this.getTableData(); // Create table
 
-          // Map initialization
+          // Overview Map creation
           this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
             next: countries => {
               this.countriesArray = countries;
               // this.getChart(0); // Draw first map
-              this.monitoringMapData = this.exploreService.mergeMonitoringData(this.monitoringRawData, this.navPills, this.countriesArray);
+              this.monitoringMapData = this.exploreService.mergeCategorizedMapData(this.monitoringRawData, this.openScienceAreas, this.countriesArray, 'monitoring');
             },
             error: error => {console.error(error);}
           });

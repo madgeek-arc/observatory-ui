@@ -55,7 +55,7 @@
             <li>
               <a class="uk-margin-remove-bottom"><span>Overview</span></a>
             </li>
-            <li class="" *ngFor="let pill of navPills; let i=index">
+            <li class="" *ngFor="let pill of openScienceAreas; let i=index">
               <a class="uk-margin-remove-bottom" (click)="getChart(i)"><span>{{ pill }}</span></a>
             </li>
           </ul>
@@ -69,12 +69,12 @@
                 </app-highcharts-category-map>
               </div>
             </li>
-            <li class="" style="animation-duration: 200ms;" *ngFor="let pill of navPills; let i = index">
+            <li class="" style="animation-duration: 200ms;" *ngFor="let pill of openScienceAreas; let i = index">
               <div style="height: 600px">
                 <app-highcharts-category-map
                   [mapData]="questionsDataArray[i]" [subtitle]="" [toolTipData]="toolTipData[i]"
                   [title]="mapTitles[i]" [backgroundColor]="'#ffffff'"
-                  [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ navPills[i]"
+                  [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
                   [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
                 </app-highcharts-category-map>
               </div>

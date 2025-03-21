@@ -12,6 +12,7 @@ import { ExploreService } from "../explore.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { countries } from "../../../domain/countries";
 import * as Highcharts from "highcharts";
+import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 
 
 @Component({
@@ -74,7 +75,9 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
   openScienceAreas = this.barChartCategories;
   mapTitles = ['National Policy on open access publications', 'National Policy on Data Management', 'National Policy on FAIR Data', 'National Policy on Open Data', 'National Policy on Open Sources Software', 'National Policy on offering services through EOSC', 'National Policy on Connecting Repositories to EOSC', 'National Policy on data stewardship', 'National Policy on Long-term Data Preservation', 'National Policy on Skills/Training in Open Science', 'National Policy on incentives/rewards for Open Science', 'National Policy on Citizen Science'];
+
   policiesRawData: RawData[] = [];
+  policiesMapData: CategorizedAreaData = new CategorizedAreaData();
   countriesArray: string[] = [];
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
@@ -140,6 +143,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
             next: countries => {
               this.countriesArray = countries;
               this.getChart(0); // Draw first map
+              this.policiesMapData = this.exploreService.mergeCategorizedMapData(this.policiesRawData, this.openScienceAreas, this.countriesArray, 'policies');
             },
             error: error => {console.error(error);}
           });
