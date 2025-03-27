@@ -84,8 +84,7 @@ import { ChartsModule } from "./shared/charts/charts.module";
     },
     {
       provide: APP_INITIALIZER,
-      useFactory: () => () => {
-      },
+      useFactory: () => () => {},
       deps: [Sentry.TraceService],
       multi: true,
     },
