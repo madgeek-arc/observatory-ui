@@ -5,17 +5,13 @@ import * as Sentry from "@sentry/angular-ivy";
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
-if (!environment.disableSentry)
+if (environment.enableSentry) {
   Sentry.init({
     dsn: environment.sentry.dsn,
     environment: environment.sentry.environment,
     integrations: [
-      new Sentry.BrowserTracing({
-        routingInstrumentation: Sentry.routingInstrumentation,
-      }),
-      new Sentry.Integrations.Breadcrumbs({
-        console: true,
-      }),
+      new Sentry.BrowserTracing({routingInstrumentation: Sentry.routingInstrumentation,}),
+      new Sentry.Integrations.Breadcrumbs({console: true,}),
       new Sentry.Replay(),
     ],
     // Performance Monitoring
@@ -23,7 +19,11 @@ if (!environment.disableSentry)
     // Session Replay
     replaysSessionSampleRate: environment.sentry.replaysSessionSampleRate, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
     replaysOnErrorSampleRate: environment.sentry.replaysOnErrorSampleRate, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
-});
+  });
+} else {
+  console.log("Sentry is disabled in development mode");
+}
+
 
 if (environment.production) {
   enableProdMode();

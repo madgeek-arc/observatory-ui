@@ -1,5 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { LegendOptions, SeriesBarOptions, SeriesOptionsType } from "highcharts";
+import * as Highcharts from "highcharts";
+import { LegendOptions, SeriesOptionsType } from "highcharts";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { RawData } from "../../../domain/raw-data";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
@@ -10,8 +11,6 @@ import { PdfExportService } from "../../services/pdf-export.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { ExploreService } from "../explore.service";
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
-import { countries } from "../../../domain/countries";
-import * as Highcharts from "highcharts";
 
 @Component({
   selector: 'app-national-monitoring',
@@ -49,7 +48,7 @@ export class NationalMonitoringComponent implements OnInit {
     shadow: true
   };
 
-  navPills = ['Publications', 'Data Management', 'FAIR Data', 'Open Data', 'Software', 'Services', 'Repositories', 'Data stewardship', 'Long-term Data Preservation', 'Skills/Training', 'Incentives', 'Citizen Science'];
+  openScienceAreas = ['Publications', 'Data Management', 'FAIR Data', 'Open Data', 'Software', 'Services', 'Repositories', 'Data stewardship', 'Long-term Data Preservation', 'Skills/Training', 'Incentives', 'Citizen Science'];
   mapTitles = ['National Monitoring on open access publications', 'National Monitoring on Data Management', 'National Monitoring on FAIR Data', 'National Monitoring on Open Data', 'National Monitoring on Open Sources Software', 'National Monitoring on offering services through EOSC', 'National Monitoring on Connecting Repositories to EOSC', 'National Monitoring on data stewardship', 'National Monitoring on Long-term Data Preservation', 'National Monitoring on Skills/Training in Open Science', 'National Monitoring on incentives/rewards for Open Science', 'National Monitoring on Citizen Science'];
 
   monitoringRawData: RawData[] = [];
@@ -67,19 +66,8 @@ export class NationalMonitoringComponent implements OnInit {
 
   ngOnInit() {
     this.years.forEach((year, index) => {
-      this.getBarChartData(year, index);
+      this.getMonitoringData(year, index);
     });
-
-    // this.getTableData();
-
-    // Maps
-    // this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-    //   next: countries => {
-    //     this.countriesArray = countries;
-    //     this.getChart(0);
-    //   },
-    //   error: error => {console.error(error);}
-    // });
   }
 
   /** Get maps data ----------------------------------------------------------------------------------> **/
@@ -157,8 +145,8 @@ export class NationalMonitoringComponent implements OnInit {
     }
   }
 
-  /** Bar charts ---------------------------------------------------------------------------------------------------> **/
-  getBarChartData(year: string, index: number) {
+  /** Chart initializations ---------------------------------------------------------------------------------------> **/
+  getMonitoringData(year: string, index: number) {
     zip(
       this.queryData.getQuestion(year, 'Question54'), // Publications
       this.queryData.getQuestion(year, 'Question58'), // Data management
@@ -174,20 +162,20 @@ export class NationalMonitoringComponent implements OnInit {
       this.queryData.getQuestion(year, 'Question98'), // Citizen science
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.barChartSeries.push(this.createBarChartSeries(value, year));
+        this.barChartSeries.push(this.exploreService.createBarChartSeries(value, year));
 
-        if (this.years.length === ++index) {
-          this.barChartSeries = [...this.barChartSeries];
+        if (this.years.length === ++index) { // If this is the last year
+          this.barChartSeries = [...this.barChartSeries]; // Trigger angular detection change
           this.monitoringRawData = value; // Store monitoring data for use in other charts
 
-          this.getTableData(); // Call here to avoid duplicate api calls
+          this.getTableData(); // Create table
 
-          // Call Map initialization here to avoid duplicate api calls
+          // Overview Map creation
           this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
             next: countries => {
               this.countriesArray = countries;
               // this.getChart(0); // Draw first map
-              this.monitoringMapData = this.exploreService.mergeMonitoringData(this.monitoringRawData, this.navPills, this.countriesArray);
+              this.monitoringMapData = this.exploreService.mergeCategorizedMapData(this.monitoringRawData, this.openScienceAreas, this.countriesArray, 'monitoring');
             },
             error: error => {console.error(error);}
           });
@@ -197,30 +185,12 @@ export class NationalMonitoringComponent implements OnInit {
     });
   }
 
-  createBarChartSeries(data: RawData[], year: string) {
-    let series: SeriesBarOptions = {
-      type: 'bar',
-      name: 'Year '+ (+year-1),
-      data: []
-    }
-
-    data.forEach(el => {
-      let count = 0;
-      el.datasets[0].series.result.forEach(item => {
-        if (item.row[1] === 'Yes')
-          count++;
-      });
-      series.data.push(Math.round(((count/el.datasets[0].series.result.length + Number.EPSILON) * 100)));
-    });
-    return series;
-  }
-
   /** Create table ------------------------------------------------------------------------------------------------> **/
   getTableData() {
     if (this.monitoringRawData.length) {
       this.surveyService.getSurveyValidatedCountries('m-eosc-sb-2023').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: countries => {
-          this.createTable(this.monitoringRawData, countries);
+          this.tableData = this.exploreService.createTable(this.monitoringRawData, countries);
         },
         error: err => {console.error(err)}
       });
@@ -247,42 +217,13 @@ export class NationalMonitoringComponent implements OnInit {
         // console.log(value);
         this.surveyService.getSurveyValidatedCountries('m-eosc-sb-2023').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: countries => {
-            this.createTable(value, countries);
+            this.tableData = this.exploreService.createTable(value, countries);
           },
           error: err => {console.error(err)}
         });
       },
       error: err => {console.error(err)}
     });
-  }
-
-  createTable(value: RawData[], countriesEOSC: string[]) {
-    this.tableData = [];
-
-    this.tableData[1] = this.dataHandlerService.convertRawDataForCumulativeTable(value[0], countriesEOSC);
-    this.tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(value[1], countriesEOSC);
-    this.tableData[3] = this.dataHandlerService.convertRawDataForCumulativeTable(value[2], countriesEOSC);
-    this.tableData[4] = this.dataHandlerService.convertRawDataForCumulativeTable(value[3], countriesEOSC);
-    this.tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(value[4], countriesEOSC);
-    this.tableData[6] = this.dataHandlerService.convertRawDataForCumulativeTable(value[5], countriesEOSC);
-    this.tableData[7] = this.dataHandlerService.convertRawDataForCumulativeTable(value[6], countriesEOSC);
-    this.tableData[8] = this.dataHandlerService.convertRawDataForCumulativeTable(value[7], countriesEOSC);
-    this.tableData[9] = this.dataHandlerService.convertRawDataForCumulativeTable(value[8], countriesEOSC);
-    this.tableData[10] = this.dataHandlerService.convertRawDataForCumulativeTable(value[9], countriesEOSC);
-    this.tableData[11] = this.dataHandlerService.convertRawDataForCumulativeTable(value[10], countriesEOSC);
-    this.tableData[12] = this.dataHandlerService.convertRawDataForCumulativeTable(value[11], countriesEOSC);
-
-    this.tableData[0] = countriesEOSC;
-    // console.log(this.tableData);
-    // Transpose 2d array
-    this.tableData = this.tableData[0].map((_, colIndex) => this.tableData.map(row => row[colIndex]));
-
-    for (let i = 0; i < this.tableData.length; i++) {
-      let tmpData = countries.find(country => country.id === this.tableData[i][0]);
-      if (tmpData)
-        this.tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
-    }
-    // console.log(this.tableData);
   }
 
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/

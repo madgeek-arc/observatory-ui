@@ -259,7 +259,6 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   getDistributionsOA() {
     this.queryData.getOSOStatsChartData(distributionOfOA()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        console.log(value);
         value.series.forEach((series, index) => {
           (this.bar2[index] as SeriesBarOptions).data = series.data;
         });
@@ -405,7 +404,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   getTreeGraphData(question: string) {
     this.queryData.getQuestion(this.years[this.years.length-1], question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.bar = this.exploreService.createInvestmentBar(res);
+        this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);
       }
     );

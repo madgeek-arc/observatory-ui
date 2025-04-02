@@ -165,7 +165,7 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
   getTreeGraphData(question: string, index: number) {
     this.queryData.getQuestion(this.years[this.years.length-1], question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.bar[index] = this.exploreService.createInvestmentBar(res);
+        this.bar[index] = this.exploreService.createInvestmentsBar(res);
         this.treeGraph[index] = this.exploreService.createRanges(res);
       }
     );

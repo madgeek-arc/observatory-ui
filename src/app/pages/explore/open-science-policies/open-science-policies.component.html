@@ -71,6 +71,9 @@
     <div class="uk-grid uk-flex">
       <div class="uk-width-1-4 uk-flex-last">
         <ul class="uk-flex-inline uk-flex-left uk-tab uk-tab-right uk-margin-remove" data-uk-switcher="connect: #map-charts; animation: 'fade'">
+          <li>
+            <a class="uk-margin-remove-bottom"><span>Overview</span></a>
+          </li>
           <li class="" *ngFor="let pill of openScienceAreas; let i=index">
             <a class="uk-margin-remove-bottom" (click)="getChart(i)"><span>{{ pill }}</span></a>
           </li>
@@ -78,6 +81,13 @@
       </div>
       <div class="uk-width-3-4">
         <ul id="map-charts" class="uk-switcher uk-margin">
+          <li class="" style="animation-duration: 200ms;" *ngIf="policiesMapData.series.length">
+            <div style="height: 600px">
+              <app-highcharts-category-map
+                [mapData]="policiesMapData" [title]="'National Policies'" [backgroundColor]="'#ffffff'">
+              </app-highcharts-category-map>
+            </div>
+          </li>
           <li *ngFor="let pill of openScienceAreas; let i = index">
             <div style="height: 600px">
               <app-highcharts-category-map

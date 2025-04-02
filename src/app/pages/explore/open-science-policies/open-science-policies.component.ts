@@ -12,6 +12,7 @@ import { ExploreService } from "../explore.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { countries } from "../../../domain/countries";
 import * as Highcharts from "highcharts";
+import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 
 
 @Component({
@@ -74,7 +75,9 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
   openScienceAreas = this.barChartCategories;
   mapTitles = ['National Policy on open access publications', 'National Policy on Data Management', 'National Policy on FAIR Data', 'National Policy on Open Data', 'National Policy on Open Sources Software', 'National Policy on offering services through EOSC', 'National Policy on Connecting Repositories to EOSC', 'National Policy on data stewardship', 'National Policy on Long-term Data Preservation', 'National Policy on Skills/Training in Open Science', 'National Policy on incentives/rewards for Open Science', 'National Policy on Citizen Science'];
+
   policiesRawData: RawData[] = [];
+  policiesMapData: CategorizedAreaData = new CategorizedAreaData();
   countriesArray: string[] = [];
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
@@ -120,7 +123,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
       next: value => {
         // console.log(value);
         this.policiesPerCountryPerYear.set(year, value);
-        this.barChartSeries.push(this.createBarChartSeries(value, year));
+        this.barChartSeries.push(this.exploreService.createBarChartSeries(value, year));
 
         if (this.barChartSeries.length === this.years.length) {
           this.barChartSeries = [...this.barChartSeries];
@@ -140,6 +143,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
             next: countries => {
               this.countriesArray = countries;
               this.getChart(0); // Draw first map
+              this.policiesMapData = this.exploreService.mergeCategorizedMapData(this.policiesRawData, this.openScienceAreas, this.countriesArray, 'policies');
             },
             error: error => {console.error(error);}
           });
@@ -166,7 +170,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
-        this.barChart2Series.push(this.createBarChartSeries(value, year));
+        this.barChart2Series.push(this.exploreService.createBarChartSeries(value, year));
 
         if (this.years.length === this.barChart2Series.length)
           this.barChart2Series = [...this.barChart2Series];
@@ -190,24 +194,6 @@ export class OpenSciencePoliciesComponent implements OnInit {
         error: error => {console.error(error);}
       });
     })
-  }
-
-  createBarChartSeries(data: RawData[], year: string) {
-    let series: SeriesBarOptions = {
-      type: 'bar',
-      name: 'Year '+ (+year-1),
-      data: []
-    }
-
-    data.forEach(el => {
-      let count = 0;
-      el.datasets[0].series.result.forEach(item => {
-        if (item.row[1] === 'Yes')
-          count++;
-      });
-      series.data.push(Math.round(((count/el.datasets[0].series.result.length + Number.EPSILON) * 100)));
-    });
-    return series;
   }
 
   createResearchersBarChartSeries(year: string) {
@@ -371,7 +357,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
     if (this.policiesRawData.length) {
       this.surveyService.getSurveyValidatedCountries('m-eosc-sb-2023').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: countries => {
-          this.createTable(this.policiesRawData, countries);
+          this.tableData = this.exploreService.createTable(this.policiesRawData, countries);
         },
         error: err => {console.error(err)}
       });
@@ -396,42 +382,13 @@ export class OpenSciencePoliciesComponent implements OnInit {
         // console.log(value);
         this.surveyService.getSurveyValidatedCountries('m-eosc-sb-2023').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: countries => {
-            this.createTable(value, countries);
+            this.tableData = this.exploreService.createTable(value, countries);
           },
           error: err => {console.error(err)}
         });
       },
       error: err => {console.error(err)}
     });
-  }
-
-  createTable(value: RawData[], countriesEOSC: string[]) {
-    this.tableData = [];
-
-    this.tableData[1] = this.dataHandlerService.convertRawDataForCumulativeTable(value[0], countriesEOSC);
-    this.tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(value[1], countriesEOSC);
-    this.tableData[3] = this.dataHandlerService.convertRawDataForCumulativeTable(value[2], countriesEOSC);
-    this.tableData[4] = this.dataHandlerService.convertRawDataForCumulativeTable(value[3], countriesEOSC);
-    this.tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(value[4], countriesEOSC);
-    this.tableData[6] = this.dataHandlerService.convertRawDataForCumulativeTable(value[5], countriesEOSC);
-    this.tableData[7] = this.dataHandlerService.convertRawDataForCumulativeTable(value[6], countriesEOSC);
-    this.tableData[8] = this.dataHandlerService.convertRawDataForCumulativeTable(value[7], countriesEOSC);
-    this.tableData[9] = this.dataHandlerService.convertRawDataForCumulativeTable(value[8], countriesEOSC);
-    this.tableData[10] = this.dataHandlerService.convertRawDataForCumulativeTable(value[9], countriesEOSC);
-    this.tableData[11] = this.dataHandlerService.convertRawDataForCumulativeTable(value[10], countriesEOSC);
-    this.tableData[12] = this.dataHandlerService.convertRawDataForCumulativeTable(value[11], countriesEOSC);
-
-    this.tableData[0] = countriesEOSC;
-    // Transpose 2d array
-    this.tableData = this.tableData[0].map((_, colIndex) => this.tableData.map(row => row[colIndex]));
-
-    for (let i = 0; i < this.tableData.length; i++) {
-      let tmpData = countries.find(country => country.id === this.tableData[i][0]);
-      if (tmpData)
-        this.tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
-    }
-    // console.log(this.tableData);
-
   }
 
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
