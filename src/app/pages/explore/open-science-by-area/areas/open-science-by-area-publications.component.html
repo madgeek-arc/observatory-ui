@@ -1,13 +1,13 @@
 <div class="uk-section uk-section-small" #exportContent>
   <div class="uk-container uk-container-expand">
 
-    <ul class="uk-breadcrumb">
-      <li><a [routerLink]="['/explore/open-science-by-area']">Open Science by Area</a></li>
-      <li><span aria-current="page">Publications</span></li>
-    </ul>
+<!--    <ul class="uk-breadcrumb">-->
+<!--      <li><a [routerLink]="['/explore/open-science-by-area']">Open Science by Area</a></li>-->
+<!--      <li><span aria-current="page">Publications</span></li>-->
+<!--    </ul>-->
 
     <div class="uk-flex uk-flex-between uk-flex-middle">
-      <h4>Open Science by Area</h4>
+      <h4>Open Science by Area / Open Access Publications</h4>
       <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5, exportContent6], 'Open Access Publications')" style="cursor: pointer">
         <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
           <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
@@ -21,8 +21,8 @@
       </div>
     </div>
 
-    <h5>Open Access Publications</h5>
-    <p>Open Access (OA) represents a transformative approach within the scholarly communication landscape, aiming to make research outputs freely accessible to all, without subscription or price barriers. The graphics below provides a high-level overview of key indicators tracking the progress of OA publishing and policies in Europe. Understanding these indicators provides critical insights into how well Europe is adopting and integrating OA and Open Science principles. By evaluating the extent of OA publications, the impact of policy, financial investments, and monitoring efforts, stakeholders can identify strengths and areas for improvement in the European landscape and thus contribute towards more accessible knowledge.</p>
+<!--    <h5>Open Access Publications</h5>-->
+    <p class="uk-text-lead">Open Access (OA) represents a transformative approach within the scholarly communication landscape, aiming to make research outputs freely accessible to all, without subscription or price barriers. The graphics below provides a high-level overview of key indicators tracking the progress of OA publishing and policies in Europe. Understanding these indicators provides critical insights into how well Europe is adopting and integrating OA and Open Science principles. By evaluating the extent of OA publications, the impact of policy, financial investments, and monitoring efforts, stakeholders can identify strengths and areas for improvement in the European landscape and thus contribute towards more accessible knowledge.</p>
 
   </div>
 </div>
@@ -36,9 +36,9 @@
       <div *ngIf="OAPublications.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of <strong>OA Publication in Europe</strong> (OA vs Closed)</p>
+            <p><strong>OA Publication in Europe</strong> (OA vs Closed)</p>
           </div>
-          <div class="number big">
+          <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ OAPublications[1] }}%</span>
           </div>
           <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
@@ -67,9 +67,9 @@
       <div *ngIf="countriesWithPolicy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of <strong>EU Countries with Policy on OA Publication</strong></p>
+            <p><strong>EU Countries with Policy on OA Publication</strong></p>
           </div>
-          <div class="number big">
+          <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
           </div>
           <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
@@ -98,9 +98,9 @@
       <div *ngIf="totalInvestments.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Total amount of <strong>financial investments</strong> in OA Publication</p>
+            <p><strong>Financial investments</strong> in OA Publication</p>
           </div>
-          <div class="number big">
+          <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
           </div>
           <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
@@ -129,9 +129,9 @@
       <div *ngIf="countriesWithPolicyImmediate.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of <strong>EU countries with Policy on Immediate OA Publications</strong></p>
+            <p><strong>EU countries with Policy on Immediate OA Publications</strong></p>
           </div>
-          <div class="number big">
+          <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithPolicyImmediate[1] }}%</span>
           </div>
           <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
@@ -160,9 +160,9 @@
       <div *ngIf="countriesWithStrategy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of <strong>EU Countries with Financial Strategy on OA Publication</strong></p>
+            <p><strong>EU Countries with Financial Strategy on OA Publication</strong></p>
           </div>
-          <div class="number big">
+          <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithStrategy[1] }}%</span>
           </div>
           <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
@@ -191,9 +191,9 @@
       <div *ngIf="countriesWithMonitoring.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of EU Countries with National OA Publication <strong>Monitoring Initiatives</strong></p>
+            <p>EU Countries with National OA Publication <strong>Monitoring Initiatives</strong></p>
           </div>
-          <div class="number big">
+          <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithMonitoring[1] }}%</span>
           </div>
           <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
@@ -221,7 +221,7 @@
 
     </div>
 
-    <div class="uk-flex uk-flex-center uk-margin-top">
+    <div class="uk-flex uk-margin-top">
       <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022; OpenAIRE Graph data for 2022 (updated on {{ lastUpdateDate }}).
     </div>
 

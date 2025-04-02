@@ -1,13 +1,13 @@
 <div class="uk-section uk-section-small" #exportContent>
   <div class="uk-container uk-container-expand">
 
-    <ul class="uk-breadcrumb">
-      <li><a [routerLink]="['/explore/open-science-by-area']">Open Science by Area</a></li>
-      <li><span aria-current="page">Open Data</span></li>
-    </ul>
+<!--    <ul class="uk-breadcrumb">-->
+<!--      <li><a [routerLink]="['/explore/open-science-by-area']">Open Science by Area</a></li>-->
+<!--      <li><span aria-current="page">Open Data</span></li>-->
+<!--    </ul>-->
 
     <div class="uk-flex uk-flex-between uk-flex-middle">
-      <h4>Open Science by Area</h4>
+      <h4>Open Science by Area / Open Data</h4>
       <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5], 'Open Data')" style="cursor: pointer">
         <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
         <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
@@ -21,8 +21,8 @@
       </div>
     </div>
 
-    <h5>Open Data</h5>
-    <p>The European Union defines Open Data as the information collected, produced, or paid for by public bodies which is made freely available for anyone to reuse for any purpose. This data is typically provided under an open license and in a convenient, modifiable form that is machine-readable. Open Data policies in the EU are aimed at increasing transparency, fostering innovation, and enhancing public access to valuable information, thereby promoting economic growth and social welfare​ (source: Publications Office of the EU).The graphic below offers a comprehensive overview of key metrics that monitor the advancement of Open Data initiatives and policies across Europe. Understanding these indicators is essential for assessing the degree to which Europe is embracing and implementing Open Data and Open Science principles.</p>
+<!--    <h5>Open Data</h5>-->
+    <p class="uk-text-lead">The European Union defines Open Data as the information collected, produced, or paid for by public bodies which is made freely available for anyone to reuse for any purpose. This data is typically provided under an open license and in a convenient, modifiable form that is machine-readable. Open Data policies in the EU are aimed at increasing transparency, fostering innovation, and enhancing public access to valuable information, thereby promoting economic growth and social welfare​ (source: Publications Office of the EU).The graphic below offers a comprehensive overview of key metrics that monitor the advancement of Open Data initiatives and policies across Europe. Understanding these indicators is essential for assessing the degree to which Europe is embracing and implementing Open Data and Open Science principles.</p>
 
   </div>
 </div>
@@ -36,9 +36,9 @@
       <div *ngIf="openData.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of <strong>OA Publication in Europe</strong> (OA vs Closed)</p>
+            <p><strong>OA Publication in Europe</strong> (OA vs Closed)</p>
           </div>
-          <div class="number big">
+          <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ openData[1] }}%</span>
           </div>
           <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
@@ -67,9 +67,9 @@
       <div *ngIf="countriesWithPolicy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of <strong>EU Countries with Policy on Open Data</strong></p>
+            <p><strong>EU Countries with Policy on Open Data</strong></p>
           </div>
-          <div class="number big">
+          <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
           </div>
           <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
@@ -98,9 +98,9 @@
       <div *ngIf="totalInvestments.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Total amount of <strong>financial investments</strong> in Open Data</p>
+            <p><strong>Financial investments</strong> in Open Data</p>
           </div>
-          <div class="number big">
+          <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
           </div>
           <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
@@ -129,9 +129,9 @@
       <div *ngIf="countriesWithStrategy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of <strong>EU Countries with Financial Strategy on Open Data</strong></p>
+            <p><strong>EU Countries with Financial Strategy on Open Data</strong></p>
           </div>
-          <div class="number big">
+          <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithStrategy[1] }}%</span>
           </div>
           <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
@@ -160,9 +160,9 @@
       <div *ngIf="countriesWithMonitoring.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>Percentage of EU Countries with National Open Data <strong>Monitoring Initiatives</strong></p>
+            <p>EU Countries with National Open Data <strong>Monitoring Initiatives</strong></p>
           </div>
-          <div class="number big">
+          <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithMonitoring[1] }}%</span>
           </div>
           <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
@@ -190,7 +190,7 @@
 
     </div>
 
-    <div class="uk-flex uk-flex-center uk-margin-top">
+    <div class="uk-flex uk-margin-top">
       <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022; OpenAIRE Graph data for 2022 (updated on {{ lastUpdateDate }}).
     </div>
 
