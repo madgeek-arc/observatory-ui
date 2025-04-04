@@ -315,15 +315,15 @@ export class OpenSciencePoliciesComponent implements OnInit {
     let series = [
       {
         name: 'Policy is mandatory',
-        color: '#32cd32',
+        // color: '#32cd32',
         data: []
       }, {
         name: 'Policy is not mandatory',
-        color: '#ff8c00',
+        // color: '#ff8c00',
         data: []
       }, {
         name: 'No policy',
-        color: '#808080',
+        // color: '#808080',
         data: []
       }
     ] as SeriesBubbleOptions[];

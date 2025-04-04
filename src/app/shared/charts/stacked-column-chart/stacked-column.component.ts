@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
 import { OptionsStackingValue } from "highcharts";
-import {colors} from "../../../domain/chart-color-palette";
-import {renderLogo} from "../highcharts-functions";
+import { colors } from "../../../domain/chart-color-palette";
+import { renderLogo } from "../highcharts-functions";
 
 @Component({
   selector: "app-stacked-column",
@@ -105,7 +105,6 @@ export class StackedColumnComponent implements OnChanges {
   }
 
 
-
   ngOnChanges(changes: SimpleChanges) {
     // console.log(changes['series']);
     this.updateChart();
@@ -130,7 +129,9 @@ export class StackedColumnComponent implements OnChanges {
           height: this.height,
           spacingBottom: 50,
           events: {
-            load: renderLogo
+            load: function () {
+              renderLogo(this.renderer, this.chartWidth, this.chartHeight);
+            }
           }
         },
         title: {

@@ -1,10 +1,11 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
 import { PointOptionsObject, SeriesBubbleOptions } from "highcharts";
-import {renderLogo} from "../highcharts-functions";
+import { renderLogo } from "../highcharts-functions";
+import { colors } from "../../../domain/chart-color-palette";
 
 @Component({
-  selector: "app-bubble-chart",
+  selector: 'app-bubble-chart',
   template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
 })
 
@@ -25,6 +26,7 @@ export class BubbleChartComponent implements OnChanges {
   Highcharts: typeof Highcharts = Highcharts;
   chart!: Highcharts.Chart;
   chartOptions: Highcharts.Options = {
+    colors: colors ?? Highcharts.getOptions().colors,
 
     chart: {
       type: 'bubble',
@@ -140,7 +142,7 @@ export class BubbleChartComponent implements OnChanges {
     series: [{
       type: 'bubble',
       data: [],
-      colorByPoint: true
+      // colorByPoint: true
     }] as unknown as Highcharts.SeriesBubbleOptions[]
 
   }
@@ -163,7 +165,9 @@ export class BubbleChartComponent implements OnChanges {
           height: this.height,
           spacingBottom: 50,
           events: {
-            load: renderLogo
+            load: function () {
+              renderLogo(this.renderer, this.chartWidth, this.chartHeight);
+            }
           }
         },
         title: {

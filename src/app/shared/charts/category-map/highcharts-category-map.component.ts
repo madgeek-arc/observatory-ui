@@ -5,7 +5,7 @@ import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 import { PremiumSortPipe } from "../../pipes/premium-sort.pipe";
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
 import HC_exporting from 'highcharts/modules/exporting';
-import {createInfoBox, renderLogo} from "../highcharts-functions";
+import { createInfoBox, renderLogo } from "../highcharts-functions";
 
 HC_exporting(Highcharts);
 HC_ExportingOffline(Highcharts);
@@ -39,7 +39,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   updateFlag = false;
   Highcharts: typeof Highcharts = Highcharts;
   colorPallet = ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#A9A9A9'];
-  datasetOrder = [ 'Yes', 'Partly', 'In planning', 'No', 'Awaiting data' ];
+  datasetOrder = ['Yes', 'Partly', 'In planning', 'No', 'Awaiting data'];
   premiumSort = new PremiumSortPipe();
   chartConstructor = "mapChart";
   ready = false;
@@ -57,7 +57,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    if(!this.backgroundColor)
+    if (!this.backgroundColor)
       this.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--medium-grey');
     this.createMap();
   }
@@ -102,6 +102,27 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
     }
   }
 
+  // createInfoBox(renderer: Highcharts.SVGRenderer, customLabelText: string, plotWidth: number) {
+  //   // Define your custom label text
+  //   const infoBox = this.renderer.label(customLabelText, 10, 10, null, null, null, true)
+  //     .attr({
+  //       fill: '#AAD3D7',
+  //       padding: 10,
+  //       zIndex: 5,
+  //       borderWidth: 1,
+  //       borderColor: '#AAD3D7',
+  //       borderRadius: 30
+  //     })
+  //     .css({
+  //       color: '#333',
+  //       borderRadius: 30
+  //     })
+  //     .add();
+  //
+  //   // Position the info box in the top right corner
+  //   infoBox.translate(plotWidth - 180, 130);
+  // }
+
   createMap() {
     const that = this;
 
@@ -129,33 +150,13 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
           //   infoBox.style.zIndex = '1000'; // Ensure it's on top
           //   this.container.appendChild(infoBox);
           // }
-          load: function () {
+          load: function() {
 
-            // createInfoBox(that.customLabelText, this.plotWidth);
-
-            // const customLabelText = 'Custom Info Box <br>with <strong>Variable</strong>';
             if (that.customLabelText) {
-              // Define your custom label text
-              const infoBox = this.renderer.label(that.customLabelText, 10, 10, null, null, null, true)
-                .attr({
-                  fill: '#AAD3D7',
-                  padding: 10,
-                  zIndex: 5,
-                  borderWidth: 1,
-                  borderColor: '#AAD3D7',
-                  borderRadius: 30
-                })
-                .css({
-                  color: '#333',
-                  borderRadius: 30
-                })
-                .add();
-
-              // Position the info box in the top right corner
-              infoBox.translate(this.plotWidth - 180, 130);
+              createInfoBox(that.chart.renderer, that.customLabelText, this.plotWidth);
             }
 
-
+            renderLogo(this.renderer, this.chartWidth, this.chartHeight);
 
 
             // const chart = this;
@@ -230,16 +231,16 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
 
       tooltip: {
         formatter: function () {
-          let comment = that.toolTipData.get(this?.point?.properties?.['iso-a2'].toLowerCase()) ? that.toolTipData.get(this.point.properties['iso-a2'].toLowerCase()):'';
-          comment = comment.replace(/\\n/g,'<br>');
-          comment = comment.replace(/\\t/g,' ');
+          let comment = that.toolTipData.get(this?.point?.properties?.['iso-a2'].toLowerCase()) ? that.toolTipData.get(this.point.properties['iso-a2'].toLowerCase()) : '';
+          comment = comment.replace(/\\n/g, '<br>');
+          comment = comment.replace(/\\t/g, ' ');
 
           let areas: string = '<br>'; // Open science Areas for merged monitoring/policy maps
           this.point.series.userOptions.custom[this.point['code']]?.forEach((item: string) => {
-            areas = areas.concat(item,'<br>');
+            areas = areas.concat(item, '<br>');
           });
 
-          return '<b>'+this.point.name+'</b>' + (comment ?  '<br><br>' + '<p>'+comment+'</p>' : '') + areas;
+          return '<b>' + this.point.name + '</b>' + (comment ? '<br><br>' + '<p>' + comment + '</p>' : '') + areas;
         },
       },
 
@@ -253,7 +254,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
         },
         series: {
           events: {
-            legendItemClick: function(e) {
+            legendItemClick: function (e) {
               // console.log(e);
               e.preventDefault(); // disable legend item click
             }

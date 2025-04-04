@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import VariablePie from 'highcharts/modules/variable-pie';
-import {colors} from "../../../domain/chart-color-palette";
-import {renderLogo} from "../highcharts-functions";
+import { colors } from "../../../domain/chart-color-palette";
+import { renderLogo } from "../highcharts-functions";
 
 // Initialize the variable pie module
 VariablePie(Highcharts);
@@ -23,7 +23,7 @@ export class PieChartComponent implements OnChanges {
   @Input() height?: number = 400;
 
   backgroundColor: string = '#FFFFFF';
-  pie: Highcharts.Chart;
+  chart: Highcharts.Chart;
 
 
   ngOnChanges() {
@@ -32,7 +32,7 @@ export class PieChartComponent implements OnChanges {
       setTimeout(() => { // Timeout with delay 0 to reorder the
         // console.log(document.getElementById(this.chartId));
         this.initChart();
-        this.pie.update({
+        this.chart.update({
           colors: colors ?? Highcharts.getOptions().colors,
           tooltip: this.tooltip,
           chart: {
@@ -41,7 +41,9 @@ export class PieChartComponent implements OnChanges {
             height: this.height,
             spacingBottom: 50,
             events: {
-              load: renderLogo
+              load: function () {
+                renderLogo(this.renderer, this.chartWidth, this.chartHeight);
+              }
             }
           },
           caption: {
@@ -59,14 +61,14 @@ export class PieChartComponent implements OnChanges {
           },
           series: this.series
         }, true, true, true);
-      }, 0)
+      }, 0);
 
     }
   }
 
   initChart() {
     // console.log(this.chartId);
-    this.pie = Highcharts.chart(this.chartId, {
+    this.chart = Highcharts.chart(this.chartId, {
       colors: colors ?? Highcharts.getOptions().colors,
       chart: {
         type: this.type,
@@ -74,7 +76,9 @@ export class PieChartComponent implements OnChanges {
         height: this.height,
         spacingBottom: 50,
         events: {
-          load: renderLogo
+          load: function () {
+            renderLogo(this.renderer, this.chartWidth, this.chartHeight);
+          }
         }
       },
       caption: {

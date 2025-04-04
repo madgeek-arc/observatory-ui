@@ -167,16 +167,6 @@ export class InvestmentsInEoscComponent implements OnInit {
       name: 'countries',
       borderRadius: 5,
       data: [],
-      colors: [
-        '#4caefe',
-        '#3dc3e8',
-        '#2dd9db',
-        '#1feeaf',
-        '#0ff3a0',
-        '#00e887',
-        '#23e274',
-        '#26cd6e'
-      ]
     }];
 
     let sum = 0.0;

@@ -1,11 +1,11 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
+import { PointOptionsObject, SeriesOptionsType } from "highcharts";
 import treemap from 'highcharts/modules/treemap';
 import treegraph from 'highcharts/modules/treegraph';
 import HC_more from 'highcharts/highcharts-more';
-import { PointOptionsObject, SeriesOptionsType } from "highcharts";
-import {renderLogo} from "../highcharts-functions";
-import {colors} from "../../../domain/chart-color-palette";
+import { renderLogo } from "../highcharts-functions";
+import { colors } from "../../../domain/chart-color-palette";
 
 treemap(Highcharts);
 HC_more(Highcharts);
@@ -13,7 +13,7 @@ treegraph(Highcharts);
 
 
 @Component({
-  selector: "app-tree-graph",
+  selector: 'app-tree-graph',
   template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
 })
 
@@ -31,9 +31,6 @@ export class TreeGraphComponent implements OnChanges {
     chart: {
       height: this.height,
       spacingBottom: 50,
-      events: {
-        load: renderLogo
-      }
     },
     title: {
       text: this.title,
@@ -118,7 +115,9 @@ export class TreeGraphComponent implements OnChanges {
           height: this.height,
           spacingBottom: 50,
           events: {
-            load: renderLogo
+            load: function () {
+              renderLogo(this.renderer, this.chartWidth, this.chartHeight);
+            }
           }
         },
         caption: {

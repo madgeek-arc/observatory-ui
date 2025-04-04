@@ -30,15 +30,11 @@ export class BarChartComponent implements OnInit, OnChanges {
 
   Highcharts: typeof Highcharts = Highcharts;
   chart!: Highcharts.Chart;
-  // Custom template helper
   chartOptions: Highcharts.Options = {
     chart: {
       type: 'bar',
       height: this.height,
-      spacingBottom: 50,
-      events: {
-        load: renderLogo
-      }
+      spacingBottom: 50
     },
     title: {
       text: this.titles.title,
@@ -120,7 +116,9 @@ export class BarChartComponent implements OnInit, OnChanges {
           height: this.height,
           spacingBottom: 50,
           events: {
-            load: renderLogo
+            load: function () {
+              renderLogo(this.renderer, this.chartWidth, this.chartHeight);
+            }
           }
         },
         title: {
