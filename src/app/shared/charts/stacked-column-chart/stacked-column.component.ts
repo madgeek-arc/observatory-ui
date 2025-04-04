@@ -3,9 +3,12 @@ import * as Highcharts from "highcharts";
 import { OptionsStackingValue } from "highcharts";
 import { colors } from "../../../domain/chart-color-palette";
 import { renderLogo } from "../highcharts-functions";
+import ExportingModule from 'highcharts/modules/exporting';
+
+ExportingModule(Highcharts); // Call this before using exporting
 
 @Component({
-  selector: "app-stacked-column",
+  selector: 'app-stacked-column',
   template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
 })
 
@@ -85,6 +88,9 @@ export class StackedColumnComponent implements OnChanges {
         return formattedHeaderFormat + formattedPointFormat;
       }
     },
+    exporting: {
+      enabled: true
+    },
     plotOptions: {
       column: {
         stacking: this.stacking,
@@ -148,8 +154,16 @@ export class StackedColumnComponent implements OnChanges {
           useHTML: true
         },
         exporting: {
+          enabled: true,
           sourceWidth: 1000,
           sourceHeight: this.height,
+          chartOptions: {
+            plotOptions: {
+              series: {
+                animation: false // Animations may sometime interfere with exporting, disable wile exporting
+              }
+            }
+          }
           // chartOptions: {
           //   chart: {
           //     margin: 100 // Increased margin ONLY for export
@@ -190,7 +204,7 @@ export class StackedColumnComponent implements OnChanges {
           }
         },
         legend: this.legend || {},
-        // series: this.series
+        series: this.series
       }, true, true, true);
 
     } else {
