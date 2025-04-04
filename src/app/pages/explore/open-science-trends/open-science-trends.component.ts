@@ -27,16 +27,14 @@ export class OpenScienceTrendsComponent implements OnInit {
 
   barChartSeries: SeriesOptionsType[] = [];
   barChartTitles = {
-    // title: 'Percentage of countries with national policies different Open Science Categories',
-    title: '',
+    title: 'Trends in National Open Science Policies by Areas',
     xAxis: 'Policy on',
     yAxis: 'Percentage of countries with national policies',
   }
 
   barChart2Series: SeriesOptionsType[] = [];
   barChart2Titles = {
-    // title: 'Percentage of countries with national policies different Open Science Categories',
-    title: '',
+    title: 'Trends in Financial Strategy on EOSC and Open Science by Areas',
     xAxis: 'Financial Strategy on',
     yAxis: 'Percentage of countries with Financial Strategy',
   }
@@ -45,7 +43,7 @@ export class OpenScienceTrendsComponent implements OnInit {
     align: 'right',
     verticalAlign: 'bottom',
     x: -40,
-    y: -70,
+    y: -180,
     floating: true,
     borderWidth: 1,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
@@ -59,33 +57,33 @@ export class OpenScienceTrendsComponent implements OnInit {
       type: 'column',
       name: 'Diamond OA',
       data: [],
-      color: '#100254' // Diamond color
+      // color: '#100254' // Diamond color
     },
     {
       type: 'column',
       name: 'Gold OA only',
       data: [],
-      color: '#FFD700' // Gold color
+      // color: '#FFD700' // Gold color
     }, {
       type: 'column',
       name: 'Green OA only',
       data: [],
-      color: '#228B22' // Forest green color
+      // color: '#228B22' // Forest green color
     }, {
       type: 'column',
       name: 'Both Gold & Green OA',
       data: [],
-      color: '#FF69B4' // Hot pink color for mixed category
+      // color: '#FF69B4' // Hot pink color for mixed category
     }, {
       type: 'column',
       name: 'Neither',
       data: [],
-      color: '#b0c4de'
+      // color: '#b0c4de'
     }, {
       type: 'column',
       name: 'Closed',
       data: [],
-      color: '#808080' // Grey color
+      // color: '#808080' // Grey color
     }
   ] as Highcharts.SeriesColumnOptions[];
   yAxisTitle = 'Number of Publications';
@@ -93,7 +91,7 @@ export class OpenScienceTrendsComponent implements OnInit {
     align: 'right',
     x: -30,
     verticalAlign: 'top',
-    y: -10,
+    y: 30,
     floating: true,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
@@ -108,22 +106,22 @@ export class OpenScienceTrendsComponent implements OnInit {
       type: 'column',
       name: 'Open',
       data: [],
-      color: '#028691'
+      // color: '#028691'
     }, {
       type: 'column',
       name: 'Closed',
       data: [],
-      color: '#fae0d1'
+      // color: '#fae0d1'
     }, {
       type: 'column',
       name: 'Restricted',
       data: [],
-      color: '#e4587c'
+      // color: '#e4587c'
     }, {
       type: 'column',
       name: 'Embargo',
       data: [],
-      color: '#515252'
+      // color: '#515252'
     }
   ] as Highcharts.SeriesColumnOptions[];
   yAxis2Title = 'Number of Data Sets';

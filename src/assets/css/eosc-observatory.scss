@@ -194,3 +194,9 @@ a.button-osobservatory {
   //color: gray; /* Optional: to indicate it's disabled */
   cursor: not-allowed; /* Change the cursor to indicate disabled state */
 }
+
+.highcharts-root, .highcharts-caption {
+  //font-family: 'Source Sans 3', sans-serif !important;
+  font-family: var(--secondary-font-family), sans-serif !important;
+  //font-family: 'Roboto', sans-serif !important;
+}

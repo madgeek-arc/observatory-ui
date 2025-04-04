@@ -47,6 +47,12 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
   comment?: string;
   countryName?: string;
 
+  barChartTitles = {
+    title: 'Financial Investments on Citizen Science in 2022',
+    xAxis: '',
+    yAxis: '',
+  }
+
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,
               private exploreService: ExploreService) {}

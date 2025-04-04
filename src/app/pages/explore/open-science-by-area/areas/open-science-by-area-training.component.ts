@@ -13,7 +13,6 @@ import { ExploreService } from "../../explore.service";
 @Component({
   selector: 'app-open-science-by-area-training',
   templateUrl: './open-science-by-area-training.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.scss']
 })
 
 export class OpenScienceByAreaTrainingComponent implements OnInit {
@@ -45,6 +44,12 @@ export class OpenScienceByAreaTrainingComponent implements OnInit {
   toolTipData: Map<string, string>[] = [];
   comment?: string;
   countryName?: string;
+
+  barChartTitles = {
+    title: 'Financial Investments in Skills/Training in Open Science in 2022',
+    xAxis: '',
+    yAxis: '',
+  }
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,

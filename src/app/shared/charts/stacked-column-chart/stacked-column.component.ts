@@ -1,6 +1,8 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
 import { OptionsStackingValue } from "highcharts";
+import {colors} from "../../../domain/chart-color-palette";
+import {renderLogo} from "../highcharts-functions";
 
 @Component({
   selector: "app-stacked-column",
@@ -23,15 +25,28 @@ export class StackedColumnComponent implements OnChanges {
   @Input() plotFormat: string = null;
   @Input() legend = null;
   @Input() stacking: OptionsStackingValue = 'normal';
+  @Input() caption?: string;
+  @Input() height?: number = 400;
 
   Highcharts: typeof Highcharts = Highcharts;
   chart!: Highcharts.Chart;
   chartOptions: Highcharts.Options = {
     chart: {
-      type: 'column'
+      type: 'column',
+      height: this.height,
     },
     title: {
-      text: this.title
+      text: this.title,
+      style: {
+        fontSize: '26px',
+        fontWeight: '600'
+      },
+      align: 'left',
+      margin: 40
+    },
+    caption: {
+      text: this.caption,
+      useHTML: true
     },
     xAxis: {
       // Updated categories to include specific document types and their totals
@@ -109,8 +124,39 @@ export class StackedColumnComponent implements OnChanges {
       });
 
       this.chart.update({
+        colors: colors ?? Highcharts.getOptions().colors,
+        chart: {
+          type: 'column',
+          height: this.height,
+          spacingBottom: 50,
+          events: {
+            load: renderLogo
+          }
+        },
         title: {
-          text: this.title
+          text: this.title,
+          style: {
+            fontSize: '26px',
+            fontWeight: '600'
+          },
+          align: 'left',
+          margin: 40
+        },
+        caption: {
+          text: this.caption,
+          useHTML: true
+        },
+        exporting: {
+          sourceWidth: 1000,
+          sourceHeight: this.height,
+          // chartOptions: {
+          //   chart: {
+          //     margin: 100 // Increased margin ONLY for export
+          //   },
+          //   // title: {
+          //   //   margin: 40 // Extra space below title when exporting
+          //   // }
+          // }
         },
         xAxis: {
           categories: this.categories,

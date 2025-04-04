@@ -1,6 +1,8 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { LegendOptions, SeriesOptionsType } from "highcharts";
 import * as Highcharts from "highcharts";
+import {colors} from "../../../domain/chart-color-palette";
+import {renderLogo} from "../highcharts-functions";
 
 
 @Component({
@@ -23,7 +25,7 @@ export class BarChartComponent implements OnInit, OnChanges {
   @Input() yAxisLabels?: boolean = true;
   @Input() duplicateXAxis?: boolean = false;
   @Input() caption?: string;
-
+  @Input() height?: number = 400;
 
 
   Highcharts: typeof Highcharts = Highcharts;
@@ -32,13 +34,24 @@ export class BarChartComponent implements OnInit, OnChanges {
   chartOptions: Highcharts.Options = {
     chart: {
       type: 'bar',
+      height: this.height,
+      spacingBottom: 50,
+      events: {
+        load: renderLogo
+      }
     },
     title: {
       text: this.titles.title,
-      align: 'left'
+      style: {
+        fontSize: '26px',
+        fontWeight: '600'
+      },
+      align: 'left',
+      margin: 40
     },
     caption: {
       text: this.caption,
+      useHTML: true
     },
     xAxis: {
       categories: this.categories,
@@ -101,11 +114,32 @@ export class BarChartComponent implements OnInit, OnChanges {
     const that = this;
     if (this.chart) {
       this.chart.update({
+        colors: colors ?? Highcharts.getOptions().colors,
+        chart: {
+          type: 'bar',
+          height: this.height,
+          spacingBottom: 50,
+          events: {
+            load: renderLogo
+          }
+        },
         title: {
           text: this.titles.title
         },
         caption: {
           text: this.caption,
+        },
+        exporting: {
+          sourceWidth: 1000,
+          sourceHeight: this.height,
+          // chartOptions: {
+          //   chart: {
+          //     margin: 100 // Increased margin ONLY for export
+          //   },
+          //   // title: {
+          //   //   margin: 40 // Extra space below title when exporting
+          //   // }
+          // }
         },
         xAxis: [{
           type: 'category',

@@ -12,7 +12,6 @@ type MergedElement = { x: string; y: string; z: string; name: string; country: s
 @Component({
   selector: 'app-investments-in-eosc',
   templateUrl: './investments-in-eosc.component.html',
-  styleUrls: ['../../../../assets/css/explore-dashboard.scss']
 })
 
 export class InvestmentsInEoscComponent implements OnInit {
@@ -52,6 +51,12 @@ export class InvestmentsInEoscComponent implements OnInit {
   }
 
   totalInvestments: number[] = [];
+
+  barChartTitles = {
+    title: 'Overview of investments in EOSC and Open Science in European Countries',
+    xAxis: '',
+    yAxis: '',
+  }
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private exploreService: ExploreService) {}

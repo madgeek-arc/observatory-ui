@@ -31,8 +31,7 @@ export class NationalMonitoringComponent implements OnInit {
 
   barChartSeries: SeriesOptionsType[] = [];
   barChartTitles = {
-    // title: 'Percentage of countries with national policies different Open Science Categories',
-    title: '',
+    title: 'National Monitoring of Open Science by Areas',
     xAxis: 'National Monitoring on',
     yAxis: 'Percentage of countries with National Monitoring',
   }
@@ -41,7 +40,7 @@ export class NationalMonitoringComponent implements OnInit {
     align: 'right',
     verticalAlign: 'bottom',
     x: -40,
-    y: -70,
+    y: -190,
     floating: true,
     borderWidth: 1,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',

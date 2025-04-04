@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
 import { PointOptionsObject, SeriesBubbleOptions } from "highcharts";
+import {renderLogo} from "../highcharts-functions";
 
 @Component({
   selector: "app-bubble-chart",
@@ -10,12 +11,16 @@ import { PointOptionsObject, SeriesBubbleOptions } from "highcharts";
 export class BubbleChartComponent implements OnChanges {
   @Input() data: PointOptionsObject[] = [];
   @Input() series: SeriesBubbleOptions[] = [];
+  @Input() title: string = null;
+  @Input() subTitle: string = null;
   @Input() xAxisTitle: string = '';
   @Input() yAxisTitle: string = '';
   @Input() toolTip = {};
   @Input() enablePlotLines: boolean = false;
   @Input() enableLegend: boolean = false;
   @Input() categories: string[] = [];
+  @Input() caption?: string;
+  @Input() height?: number = 400;
 
   Highcharts: typeof Highcharts = Highcharts;
   chart!: Highcharts.Chart;
@@ -24,15 +29,25 @@ export class BubbleChartComponent implements OnChanges {
     chart: {
       type: 'bubble',
       plotBorderWidth: 1,
+      height: this.height,
       // zooming: {
       //   type: 'xy'
       // }
     },
 
     title: {
-      text: ''
+      text: this.title,
+      style: {
+        fontSize: '26px',
+        fontWeight: '600'
+      },
+      align: 'left',
+      margin: 40
     },
-
+    caption: {
+      text: this.caption,
+      useHTML: true
+    },
     legend: {
       enabled: false
     },
@@ -142,6 +157,40 @@ export class BubbleChartComponent implements OnChanges {
     if (this.chart) {
       // console.log(this.data);
       this.chart.update({
+        chart: {
+          type: 'bubble',
+          plotBorderWidth: 1,
+          height: this.height,
+          spacingBottom: 50,
+          events: {
+            load: renderLogo
+          }
+        },
+        title: {
+          text: this.title,
+          style: {
+            fontSize: '26px',
+            fontWeight: '600'
+          },
+          align: 'left',
+          margin: 40
+        },
+        caption: {
+          text: this.caption,
+          useHTML: true
+        },
+        exporting: {
+          sourceWidth: 1000,
+          sourceHeight: this.height,
+          // chartOptions: {
+          //   chart: {
+          //     margin: 100 // Increased margin ONLY for export
+          //   },
+          //   // title: {
+          //   //   margin: 40 // Extra space below title when exporting
+          //   // }
+          // }
+        },
         xAxis: {
           title: {
             text: this.xAxisTitle

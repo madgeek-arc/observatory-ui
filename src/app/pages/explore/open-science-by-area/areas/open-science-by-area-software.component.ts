@@ -13,7 +13,6 @@ import { ExploreService } from "../../explore.service";
 @Component({
   selector: 'app-open-science-by-area-software',
   templateUrl: './open-science-by-area-software.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.scss']
 })
 
 export class OpenScienceByAreaSoftwareComponent implements OnInit {
@@ -46,6 +45,12 @@ export class OpenScienceByAreaSoftwareComponent implements OnInit {
   toolTipData: Map<string, string>[] = [];
   comment?: string;
   countryName?: string;
+
+  barChartTitles = {
+    title: 'Financial Investments in Open Source Software in 2022',
+    xAxis: '',
+    yAxis: '',
+  }
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,

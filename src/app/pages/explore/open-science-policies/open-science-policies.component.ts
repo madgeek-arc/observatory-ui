@@ -33,24 +33,21 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
   barChartSeries: SeriesOptionsType[] = [];
   barChartTitles = {
-    // title: 'Percentage of countries with national policies different Open Science Categories',
-    title: '',
+    title: 'National Open Science Policies by Areas',
     xAxis: 'Policy on',
     yAxis: 'Percentage of countries with national policies',
   }
 
   barChart2Series: SeriesOptionsType[] = [];
   barChart2Titles = {
-    // title: 'Percentage of countries with national policies different Open Science Categories',
-    title: '',
+    title: 'Financial Strategy on EOSC and Open Science by Areas',
     xAxis: 'Financial Strategy on',
     yAxis: 'Percentage of countries with Financial Strategy',
   }
 
   barChart3Series: SeriesOptionsType[] = [];
   barChart3Titles = {
-    // title: 'Percentage of countries with national policies different Open Science Categories',
-    title: '',
+    title: 'Coverage of Researchers by National Open Science Policies in Europe',
     xAxis: 'National Policy on',
     yAxis: 'Percentage of Researchers Covered',
   }
@@ -59,7 +56,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
     align: 'right',
     verticalAlign: 'bottom',
     x: -40,
-    y: -70,
+    y: -170,
     floating: true,
     borderWidth: 1,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',

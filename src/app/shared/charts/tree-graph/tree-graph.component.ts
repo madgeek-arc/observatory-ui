@@ -4,6 +4,8 @@ import treemap from 'highcharts/modules/treemap';
 import treegraph from 'highcharts/modules/treegraph';
 import HC_more from 'highcharts/highcharts-more';
 import { PointOptionsObject, SeriesOptionsType } from "highcharts";
+import {renderLogo} from "../highcharts-functions";
+import {colors} from "../../../domain/chart-color-palette";
 
 treemap(Highcharts);
 HC_more(Highcharts);
@@ -18,12 +20,29 @@ treegraph(Highcharts);
 
 export class TreeGraphComponent implements OnChanges {
   @Input() data: PointOptionsObject[] = [];
+  @Input() title: string = null;
+  @Input() subTitle: string = null;
+  @Input() caption?: string;
+  @Input() height?: number = 400;
 
   Highcharts: typeof Highcharts = Highcharts;
   chart!: Highcharts.Chart;
   chartOptions: Highcharts.Options = {
+    chart: {
+      height: this.height,
+      spacingBottom: 50,
+      events: {
+        load: renderLogo
+      }
+    },
     title: {
-      text: ''
+      text: this.title,
+      style: {
+        fontSize: '26px',
+        fontWeight: '600'
+      },
+      align: 'left',
+      margin: 40
     },
     credits: {
       enabled: false
@@ -31,7 +50,7 @@ export class TreeGraphComponent implements OnChanges {
     exporting: {
       buttons: {
         contextButton: {
-          align: 'left'
+          align: 'right'
         }
       }
     },
@@ -94,6 +113,27 @@ export class TreeGraphComponent implements OnChanges {
     if (this.chart) {
       // console.log(this.data);
       this.chart.update({
+        colors: colors ?? Highcharts.getOptions().colors,
+        chart: {
+          height: this.height,
+          spacingBottom: 50,
+          events: {
+            load: renderLogo
+          }
+        },
+        caption: {
+          text: this.caption,
+          useHTML: true
+        },
+        title: {
+          text: this.title,
+          style: {
+            fontSize: '26px',
+            fontWeight: '600'
+          },
+          align: 'left',
+          margin: 40
+        },
         series: [{
           data: this.data
         }] as SeriesOptionsType[]

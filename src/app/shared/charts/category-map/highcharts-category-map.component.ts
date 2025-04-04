@@ -5,6 +5,7 @@ import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 import { PremiumSortPipe } from "../../pipes/premium-sort.pipe";
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
 import HC_exporting from 'highcharts/modules/exporting';
+import {createInfoBox, renderLogo} from "../highcharts-functions";
 
 HC_exporting(Highcharts);
 HC_ExportingOffline(Highcharts);
@@ -29,6 +30,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   @Input() customLabelText?: string = undefined;
   @Input() backgroundColor?: string = undefined;
   @Input() caption?: string = undefined;
+  @Input() height?: number = 400;
 
   @Output() mapClick = new EventEmitter<any>();
 
@@ -107,7 +109,11 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
 
       chart: {
         map: worldMap,
-        spacingBottom: 20,
+        height: this.height,
+        spacingBottom: 50,
+        // events: {
+        //   load: renderLogo
+        // },
         backgroundColor: this.backgroundColor,
         events: {
           // load: function () {
@@ -124,6 +130,8 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
           //   this.container.appendChild(infoBox);
           // }
           load: function () {
+
+            // createInfoBox(that.customLabelText, this.plotWidth);
 
             // const customLabelText = 'Custom Info Box <br>with <strong>Variable</strong>';
             if (that.customLabelText) {
@@ -146,6 +154,9 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
               // Position the info box in the top right corner
               infoBox.translate(this.plotWidth - 180, 130);
             }
+
+
+
 
             // const chart = this;
             //
@@ -177,8 +188,12 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
 
       title: {
         text: this.title,
-        // verticalAlign: 'bottom',
-        // y: -5 // Adjusts the vertical position of the title
+        style: {
+          fontSize: '26px',
+          fontWeight: '600'
+        },
+        align: 'left',
+        margin: 40
       },
 
       subtitle: {
@@ -186,7 +201,8 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       },
 
       caption: {
-        text: this.caption
+        text: this.caption,
+        useHTML: true
       },
 
       credits: {
@@ -194,17 +210,19 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       },
 
       mapNavigation: {
-        enabled: true,
-        buttonOptions: {
-          alignTo: "spacingBox"
-        },
+        enabled: false,
+        // enabled: true,
+        // buttonOptions: {
+        //   alignTo: "spacingBox"
+        // },
         enableMouseWheelZoom: false
       },
 
       legend: {
         enabled: true,
         layout: 'horizontal',
-        verticalAlign: 'top',
+        // verticalAlign: 'top',
+        verticalAlign: 'bottom',
         accessibility: {
           enabled: true
         }

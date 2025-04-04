@@ -1,5 +1,5 @@
 <div class="uk-section uk-section-small" #exportContent>
-  <div class="uk-container uk-container-expand">
+  <div class="uk-container">
 
     <div class="uk-flex uk-flex-between uk-flex-middle">
       <h4>Open Science Policies</h4>
@@ -22,83 +22,86 @@
 </div>
 
 <div class="uk-section uk-section-small" #exportContent1>
-  <div class="uk-container uk-container-expand">
+  <div class="uk-container">
 
-    <h5>National Open Science Policies by Areas</h5>
+    <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-    <div class="uk-grid uk-margin-medium-top">
-      <div class="uk-width-2-3" style="height: 450px">
-        <app-multi-bar-chart [series]="barChartSeries" [categories]="barChartCategories" [titles]="barChartTitles"
-                             [legendOptions]="legendOptions" valueSuffix="%" borderRadius="50"
-                             [caption]="'<b>Data source:</b> Survey on National Contributions to EOSC and Open Science 2023 and 2022 - showing data for 2021 and 2022'">
-        </app-multi-bar-chart>
-      </div>
-      <div class="uk-width-1-3">
-        <h6>Understanding the data</h6>
-        <p>This bar chart illustrates the percentage of countries with established national policies across various Open Science areas for the years 2021 and 2022. Each bar represents a different area of Open Science, such as Open Access Publications, FAIR Data, and Citizen Science, showing the progression or changes in policy adoption from one year to the next. The comparison highlights the evolving landscape of Open Science initiatives at a national level, indicating which aspects of Open Science are gaining attention.</p>
+      <div class="uk-grid">
+        <div class="uk-width-1-1">
+          <app-multi-bar-chart [series]="barChartSeries" [categories]="barChartCategories" [titles]="barChartTitles"
+                               [legendOptions]="legendOptions" valueSuffix="%" borderRadius="50" [height]="600"
+                               [caption]="'<p>This bar chart illustrates the percentage of countries with established national policies across various Open Science areas for the years 2021 and 2022. Each bar represents a different area of Open Science, such as Open Access Publications, FAIR Data, and Citizen Science, showing the progression or changes in policy adoption from one year to the next. The comparison highlights the evolving landscape of Open Science initiatives at a national level, indicating which aspects of Open Science are gaining attention.</p>' +
+                               '<b>Data source:</b> Survey on National Contributions to EOSC and Open Science 2023 and 2022 - showing data for 2021 and 2022'">
+          </app-multi-bar-chart>
+        </div>
 
       </div>
+
     </div>
+
   </div>
 </div>
 
 <div class="uk-section uk-section-small" #exportContent2>
-  <div class="uk-container uk-container-expand">
+  <div class="uk-container">
 
-    <h5>Coverage of Researchers by National Open Science Policies in Europe</h5>
+    <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-    <div class="uk-grid uk-margin-medium-top">
-      <div class="uk-width-2-3" style="height: 450px">
-        <app-multi-bar-chart [series]="barChart3Series" [categories]="barChartCategories" [titles]="barChart3Titles"
-                             [legendOptions]="legendOptions" valueSuffix="%" borderRadius="50"
-                             caption='<b>Data source:</b> Survey on National Contributions to EOSC and Open Science 2023 and 2022 - showing data for 2021 and 2022; <a href="https://ec.europa.eu/eurostat/databrowser/view/tsc00004/default/table?lang=en" target="_blank" style="text-decoration: none; color: #2D72D6;">Eurostat</a>'>
-        </app-multi-bar-chart>
-      </div>
-      <div class="uk-width-1-3">
-        <h6>Understanding the data</h6>
-        <p>This bar chart illustrates the percentage of researchers covered by National Open Science Policies across various areas in Europe. Each bar represents the percentage of researchers covered by specific Open Science policies—such as Open Access Publications, Fair Data, and Skills/Training—across the Europe.</p>
+      <div class="uk-grid">
+        <div class="uk-width-1-1">
+          <app-multi-bar-chart [series]="barChart3Series" [categories]="barChartCategories" [titles]="barChart3Titles"
+                               [legendOptions]="legendOptions" valueSuffix="%" borderRadius="50" [height]="600"
+                               [caption]="'<p>This bar chart illustrates the percentage of researchers covered by National Open Science Policies across various areas in Europe. Each bar represents the percentage of researchers covered by specific Open Science policies—such as Open Access Publications, Fair Data, and Skills/Training—across the Europe.</p>' +
+                               '<b>Data source:</b> Survey on National Contributions to EOSC and Open Science 2023 and 2022 - showing data for 2021 and 2022'">
+          </app-multi-bar-chart>
+        </div>
 
       </div>
+
     </div>
+
   </div>
 </div>
 
 <div class="uk-section uk-section-small" #exportContent3>
-  <div class="uk-container uk-container-expand">
+  <div class="uk-container">
 
-    <h5>National Policy on Different Areas of Open Science</h5>
+    <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-    <div class="uk-grid uk-flex">
-      <div class="uk-width-1-4 uk-flex-last">
-        <ul class="uk-flex-inline uk-flex-left uk-tab uk-tab-right uk-margin-remove" data-uk-switcher="connect: #map-charts; animation: 'fade'">
-          <li>
-            <a class="uk-margin-remove-bottom"><span>Overview</span></a>
-          </li>
-          <li class="" *ngFor="let pill of openScienceAreas; let i=index">
-            <a class="uk-margin-remove-bottom" (click)="getChart(i)"><span>{{ pill }}</span></a>
-          </li>
-        </ul>
+      <div class="uk-grid uk-flex">
+        <div class="uk-width-1-4 uk-flex-last">
+          <ul class="uk-flex-inline uk-flex-left uk-tab uk-tab-right uk-margin-remove" data-uk-switcher="connect: #map-charts; animation: 'fade'">
+            <li>
+              <a class="uk-margin-remove-bottom"><span>Overview</span></a>
+            </li>
+            <li class="" *ngFor="let pill of openScienceAreas; let i=index">
+              <a class="uk-margin-remove-bottom" (click)="getChart(i)"><span>{{ pill }}</span></a>
+            </li>
+          </ul>
+        </div>
+        <div class="uk-width-3-4">
+          <ul id="map-charts" class="uk-switcher uk-margin">
+            <li class="" style="animation-duration: 200ms;" *ngIf="policiesMapData.series.length">
+              <div>
+                <app-highcharts-category-map
+                  [mapData]="policiesMapData" [title]="'National Policies'" [backgroundColor]="'#ffffff'" [height]="600">
+                </app-highcharts-category-map>
+              </div>
+            </li>
+            <li *ngFor="let pill of openScienceAreas; let i = index">
+              <div>
+                <app-highcharts-category-map
+                  [mapData]="questionsDataArray[i]" [title]="mapTitles[i]" [toolTipData]="toolTipData[i]"
+                  [backgroundColor]="'#ffffff'" [height]="600"
+                  [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
+                  [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
+                </app-highcharts-category-map>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="uk-width-3-4">
-        <ul id="map-charts" class="uk-switcher uk-margin">
-          <li class="" style="animation-duration: 200ms;" *ngIf="policiesMapData.series.length">
-            <div style="height: 600px">
-              <app-highcharts-category-map
-                [mapData]="policiesMapData" [title]="'National Policies'" [backgroundColor]="'#ffffff'">
-              </app-highcharts-category-map>
-            </div>
-          </li>
-          <li *ngFor="let pill of openScienceAreas; let i = index">
-            <div style="height: 600px">
-              <app-highcharts-category-map
-                [mapData]="questionsDataArray[i]" [title]="mapTitles[i]" [toolTipData]="toolTipData[i]" [backgroundColor]="'#ffffff'"
-                [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
-                [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
-              </app-highcharts-category-map>
-            </div>
-          </li>
-        </ul>
-      </div>
+
     </div>
 
   </div>
@@ -123,43 +126,44 @@
 </div>
 
 <div class="uk-section uk-section-small uk-margin-top" #exportContent4>
-  <div class="uk-container uk-container-expand">
+  <div class="uk-container">
 
-    <h5>Impact of Policy and Investment on Open Access Publications</h5>
+    <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-    <div class="uk-grid uk-margin-medium-top">
-      <div class="uk-width-2-3" style="height: 450px">
-        <app-bubble-chart [enablePlotLines]="false" [categories]="['<1', '1-5', '5-10', '10-20','>20']"
-                          xAxisTitle="Number of OA publication" yAxisTitle="Financial investmetsin OA"
-                          [series]="bubbleWithCategories" [enableLegend]="true">
-        </app-bubble-chart>
+      <div class="uk-grid">
+        <div class="uk-width-1-1">
+          <app-bubble-chart [enablePlotLines]="false" [categories]="['<1', '1-5', '5-10', '10-20','>20']"
+                            xAxisTitle="Number of OA publication" yAxisTitle="Financial investmetsin OA"
+                            [title]="'Impact of Policy and Investment on Open Access Publications'"
+                            [series]="bubbleWithCategories" [enableLegend]="true" [height]="700"
+                            [caption]="'<p>This interactive bubble chart explores the relationship between policy frameworks, financial investments, and the activity levels of Open Science (OS) initiatives across a selection of European countries. Each bubble represents a specific country, with the size indicating the percentage of OS activities relative to the total national output in this area. The bubble\'s color denotes the policy status—green for mandatory policies, orange for non-mandatory policies, and grey for countries without specific policies.</p>' +
+                            '<p>The x-axis quantifies the actual number of OS activities, providing a measure of how actively countries are engaged in OS projects. The y-axis categorizes the level of financial investment into OS, segmented into four major categories: \'<1M\', \'1-5M\', \'5-10M\', and \'>20M\'. These categories help illustrate the financial commitment to OS projects within each country.</p>' +
+                            '<p>By clicking on individual bubbles, viewers can access detailed information, including the country’s specific OS policy status, the exact count of OS activities, the percentage these constitute of total national output in this area, and the specific investment bracket.</p>' +
+                            '<p><strong>Data Source: </strong>Survey on National Contributions to EOSC and Open Science, OpenAIRE Graph data for 2022 (updated on' + lastUpdateDate + ').</p>'">
+          </app-bubble-chart>
+        </div>
+
       </div>
-      <div class="uk-width-1-3">
-        <h6>Understanding the data</h6>
-        <p>This interactive bubble chart explores the relationship between policy frameworks, financial investments, and the activity levels of Open Science (OS) initiatives across a selection of European countries. Each bubble represents a specific country, with the size indicating the percentage of OS activities relative to the total national output in this area. The bubble's color denotes the policy status—green for mandatory policies, orange for non-mandatory policies, and grey for countries without specific policies.</p>
-        <p>The x-axis quantifies the actual number of OS activities, providing a measure of how actively countries are engaged in OS projects. The y-axis categorizes the level of financial investment into OS, segmented into four major categories: '<1M', '1-5M', '5-10M', and '>20M'. These categories help illustrate the financial commitment to OS projects within each country.</p>
-        <p>By clicking on individual bubbles, viewers can access detailed information, including the country’s specific OS policy status, the exact count of OS activities, the percentage these constitute of total national output in this area, and the specific investment bracket.</p>
-        <p><strong>Data Source: </strong>Survey on National Contributions to EOSC and Open Science, OpenAIRE Graph data for 2022 (updated on {{ lastUpdateDate }}).</p>
-      </div>
+
     </div>
+
   </div>
 </div>
 
 <div class="uk-section uk-section-small uk-margin-top" #exportContent5>
-  <div class="uk-container uk-container-expand">
+  <div class="uk-container">
 
-    <h5>Financial Strategy on EOSC and Open Science by Areas</h5>
+    <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-    <div class="uk-grid uk-margin-medium-top">
-      <div class="uk-width-2-3" style="height: 450px">
-        <app-multi-bar-chart [series]="barChart2Series" [categories]="barChartCategories" [titles]="barChart2Titles"
-                             [legendOptions]="legendOptions" valueSuffix="%" borderRadius="50"
-                             [caption]="'<b>Data source:</b> Survey on National Contributions to EOSC and Open Science 2023 and 2022 - showing data for 2021 and 2022'">
-        </app-multi-bar-chart>
-      </div>
-      <div class="uk-width-1-3">
-        <h6>Understanding the data</h6>
-        <p>This graph presents an overview of the share of countries that have implemented financial strategies to support Open Science and EOSC initiatives across various domains. It illustrates the percentage of countries that have adopted financial frameworks within categories such as Open Access Publications, Fair Data, Data Management, and more.</p>
+      <div class="uk-grid">
+        <div class="uk-width-1-1">
+          <app-multi-bar-chart [series]="barChart2Series" [categories]="barChartCategories" [titles]="barChart2Titles"
+                               [legendOptions]="legendOptions" valueSuffix="%" borderRadius="50" [height]="600"
+                               [caption]="'<p>This graph presents an overview of the share of countries that have implemented financial strategies to support Open Science and EOSC initiatives across various domains. It illustrates the percentage of countries that have adopted financial frameworks within categories such as Open Access Publications, Fair Data, Data Management, and more.</p>' +
+                               '<b>Data source:</b> Survey on National Contributions to EOSC and Open Science 2023 and 2022 - showing data for 2021 and 2022'">
+          </app-multi-bar-chart>
+        </div>
+
       </div>
     </div>
 
@@ -167,7 +171,7 @@
 </div>
 
 <div class="uk-section uk-section-small uk-margin-top" #exportContent6>
-  <div class="uk-container uk-container-expand">
+  <div class="uk-container">
 
     <h5>National Open Science Policies by Countries and Areas</h5>
 

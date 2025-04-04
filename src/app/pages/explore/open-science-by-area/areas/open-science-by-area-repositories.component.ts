@@ -47,6 +47,18 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
   comment?: string;
   countryName?: string;
 
+  barChartTitles = {
+    title: 'Financial Investments in Connecting Repositories to EOSC in 2022',
+    xAxis: '',
+    yAxis: '',
+  }
+
+  barChartTitles2 = {
+    title: 'Financial Investments in Long-term Data Preservation in 2022',
+    xAxis: '',
+    yAxis: '',
+  }
+
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,
               private exploreService: ExploreService) {}
