@@ -81,6 +81,12 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
   comment?: string;
   countryName?: string;
 
+  barChartTitles = {
+    title: 'Financial Investments in FAIR Data in 2022',
+    xAxis: '',
+    yAxis: '',
+  }
+
   constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService,
               private pdfService: PdfExportService, private dataHandlerService: DataHandlerService,
               private exploreService: ExploreService) {}

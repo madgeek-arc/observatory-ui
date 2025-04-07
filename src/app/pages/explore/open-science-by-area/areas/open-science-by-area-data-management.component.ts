@@ -84,6 +84,12 @@ export class OpenScienceByAreaDataManagementComponent {
   comment?: string;
   countryName?: string;
 
+  barChartTitles = {
+    title: 'Financial Investments in Data Management in 2022',
+    xAxis: '',
+    yAxis: '',
+  }
+
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,
               private exploreService: ExploreService) {}

@@ -57,7 +57,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
     align: 'right',
     x: -30,
     verticalAlign: 'top',
-    y: -10,
+    y: 30,
     floating: true,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
@@ -116,6 +116,12 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   toolTipData: Map<string, string>[] = [];
   comment?: string;
   countryName?: string;
+
+  barChartTitles = {
+    title: 'Financial Investments in Open Data in 2022',
+    xAxis: '',
+    yAxis: '',
+  }
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,

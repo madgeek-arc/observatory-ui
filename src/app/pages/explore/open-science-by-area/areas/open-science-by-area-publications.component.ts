@@ -161,6 +161,18 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   ];
   barCategories: string[] = [];
 
+  barChartTitles = {
+    title: 'Financial Investments in Open Access Publications in 2022',
+    xAxis: '',
+    yAxis: '',
+  }
+
+  barChart2Titles = {
+    title: 'Distribution of Open Access Types by Fields of Science',
+    xAxis: '',
+    yAxis: '',
+  }
+
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,
               private exploreService: ExploreService) {}
