@@ -10,6 +10,7 @@ import { CountryTableData } from "../../../../domain/country-table-data";
 import { DataHandlerService } from "../../../services/data-handler.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
+import { colors } from "../../../../domain/chart-color-palette";
 
 @Component({
   selector: 'app-open-science-by-area-data-management',
@@ -30,13 +31,13 @@ export class OpenScienceByAreaDataManagementComponent {
     {
       type: 'column',
       name: 'RPOs with Policy on Data Management',
-      data: [], // Example data
-      color: '#028691' // Primary color
+      data: [],
+      color: colors[0]
     }, {
       type: 'column',
       name: 'RPOs without Policy on Data Management',
       data: [],
-      color: '#fae0d1' // Tertiary color
+      color: colors[7]
     }
   ] as Highcharts.SeriesColumnOptions[];
 
@@ -45,12 +46,12 @@ export class OpenScienceByAreaDataManagementComponent {
       type: 'column',
       name: 'RFOs with Policy on Data Management',
       data: [],
-      color: '#e4587c' // Secondary color
+      color: colors[1]
     }, {
       type: 'column',
       name: 'RFOs without Policy on Data Management',
       data: [],
-      color: '#515252' // Additional color
+      color: colors[8]
     }
   ] as Highcharts.SeriesColumnOptions[];
 

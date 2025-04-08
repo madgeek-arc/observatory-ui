@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import {
-  ColorPallet,
-  countriesNumbers,
-  EoscReadiness2022MapSubtitles
+  ColorPallet, countriesNumbers, EoscReadiness2022MapSubtitles
 } from "../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { latlong } from "../../domain/countries-lat-lon";
 import { CountryTableData } from "../../domain/country-table-data";
@@ -13,6 +11,8 @@ import { BehaviorSubject } from "rxjs";
 import { SeriesBarOptions } from "highcharts";
 import { countries } from "../../domain/countries";
 import { DataHandlerService } from "../services/data-handler.service";
+import * as Highcharts from "highcharts";
+import { colors } from "../../domain/chart-color-palette";
 
 @Injectable()
 export class ExploreService {
@@ -48,7 +48,7 @@ export class ExploreService {
       questionsData.series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
       questionsData.series[i].data = tmpQuestionsData.series[i].data;
       questionsData.series[i].showInLegend = true;
-      questionsData.series[i].color = ColorPallet[position];
+      questionsData.series[i].color = colors[position];
     }
     let countryCodeArray = [];
     for (let i = 0; i < questionsData.series.length; i++) {
@@ -73,13 +73,13 @@ export class ExploreService {
 
     questionsData.series.push(new Series('Has mandatory national policy', true));
     questionsData.series[0].showInLegend = true;
-    questionsData.series[0].color = ColorPallet[0];
+    questionsData.series[0].color = colors[0];
     questionsData.series.push(new Series('Has national policy but not mandatory', false));
     questionsData.series[1].showInLegend = true;
-    questionsData.series[1].color = ColorPallet[3];
+    questionsData.series[1].color = colors[3];
     questionsData.series.push(new Series('Does not have national policy', false));
     questionsData.series[2].showInLegend = true;
-    questionsData.series[2].color = ColorPallet[1];
+    questionsData.series[2].color = colors[1];
 
     tmpQuestionsData.datasets[0].series.result.forEach(result => {
       if (result.row[1] === 'No') {
@@ -177,10 +177,10 @@ export class ExploreService {
 
     questionsData.series.push(new Series('Has national ' + seriesName, true));
     questionsData.series[0].showInLegend = true;
-    questionsData.series[0].color = ColorPallet[0];
+    questionsData.series[0].color = colors[0];
     questionsData.series.push(new Series('Does not have national ' + seriesName, false));
     questionsData.series[1].showInLegend = true;
-    questionsData.series[1].color = ColorPallet[1];
+    questionsData.series[1].color = colors[1];
 
     data.forEach(value => {
       if (value[1] === 'Yes') {
@@ -295,9 +295,9 @@ export class ExploreService {
     return series;
   }
 
-  createBarChartSeries(data: RawData[], year: string) {
-    let series: SeriesBarOptions = {
-      type: 'bar',
+  createColumnChartSeries(data: RawData[], year: string) {
+    let series: Highcharts.SeriesColumnOptions = {
+      type: 'column',
       name: 'Year '+ (+year-1),
       data: []
     }

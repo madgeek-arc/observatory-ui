@@ -10,6 +10,7 @@ import { CountryTableData } from "../../../../domain/country-table-data";
 import { DataHandlerService } from "../../../services/data-handler.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
+import { colors } from "../../../../domain/chart-color-palette";
 
 @Component({
   selector: 'app-open-science-by-area-fair-data',
@@ -31,12 +32,12 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       type: 'column',
       name: 'Research Performing Organisations with Policy',
       data: [],
-      color: '#028691' // Primary color
+      color: colors[0]
     }, {
       type: 'column',
       name: 'Research Performing Organisations without Policy',
       data: [],
-      color: '#fae0d1' // Tertiary color
+      color: colors[7]
     }
   ] as Highcharts.SeriesColumnOptions[];
   stackedColumnSeries2 = [
@@ -44,12 +45,12 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       type: 'column',
       name: 'Research Funding Organisations with Policy',
       data: [],
-      color: '#e4587c' // Secondary color
+      color: colors[1]
     }, {
       type: 'column',
       name: 'Research Funding Organisations without Policy',
       data: [],
-      color: '#515252' // Additional color
+      color: colors[8]
     }
   ] as Highcharts.SeriesColumnOptions[];
   stackedColumnCategories = ['2021', '2022'];

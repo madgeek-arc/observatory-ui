@@ -152,14 +152,13 @@
 
         <ul id="investments" class="uk-switcher uk-margin uk-width-1-1">
           <li>
-            <app-multi-bar-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
-                                 [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
-                                 [titles]="barChartTitles"
-                                 [customTooltip]="true" [yAxisLabels]="false" style="height: 100%"
-                                 [caption]="'<p>The graph illustrates the financial investments made by various European countries in the EOSC and Open Science. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
-                               '<p>This data highlights the commitment and support from different countries towards advancing open science initiatives and building the EOSC infrastructure.</p>' +
-                               '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
-            </app-multi-bar-chart>
+            <app-multi-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
+                             [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
+                             [titles]="barChartTitles" [customTooltip]="true" [yAxisLabels]="false" style="height: 100%"
+                             [caption]="'<p>The graph illustrates the financial investments made by various European countries in the EOSC and Open Science. The investments are categorized in ranges to show the distribution and scale of funding.</p>'
+                             + '<p>This data highlights the commitment and support from different countries towards advancing open science initiatives and building the EOSC infrastructure.</p>'
+                             + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
+            </app-multi-chart>
           </li>
           <li>
             <app-tree-graph [data]="treeGraph" [title]="'Overview of investments in EOSC and Open Science in European Countries'"

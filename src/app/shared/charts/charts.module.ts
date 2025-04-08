@@ -17,7 +17,7 @@ import { PackedBubbleChartComponent } from "./packed-bubble-chart/packed-bubble-
 import { AreaChartComponent } from "./area-chart/area-chart-component";
 import { StreamGraphComponent } from "./stream-graph/stream-graph.component";
 import { FixedTooltipMapComponent } from "./fixed-tooltip-map/fixed-tooltip-map.component";
-import { BarChartComponent } from "./bar-chart/bar-chart.component";
+import { BarOrColumnChartComponent } from "./bar-chart/bar-or-column-chart.component";
 import { StackedColumnComponent } from "./stacked-column-chart/stacked-column.component";
 import { TreemapComponent } from "./treemap/treemap.component";
 import { SankeyChartComponent } from "./sankey-chart/sankey-chart.component";
@@ -45,7 +45,7 @@ import { SankeyChartComponent } from "./sankey-chart/sankey-chart.component";
     AreaChartComponent,
     StreamGraphComponent,
     FixedTooltipMapComponent,
-    BarChartComponent,
+    BarOrColumnChartComponent,
     StackedColumnComponent,
     TreemapComponent,
     SankeyChartComponent,
@@ -67,7 +67,7 @@ import { SankeyChartComponent } from "./sankey-chart/sankey-chart.component";
     AreaChartComponent,
     StreamGraphComponent,
     FixedTooltipMapComponent,
-    BarChartComponent,
+    BarOrColumnChartComponent,
     StackedColumnComponent,
     TreemapComponent,
     SankeyChartComponent,

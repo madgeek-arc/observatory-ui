@@ -23,17 +23,17 @@ export class OpenScienceTrendsComponent implements OnInit {
 
   years = ['2022', '2023'];
 
-  barChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills/Training', 'Incentives/Rewards for OS', 'Citizen Science'];
+  columnChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills / Training', 'Incentives / Rewards for OS', 'Citizen Science'];
 
-  barChartSeries: SeriesOptionsType[] = [];
-  barChartTitles = {
+  columnChartSeries: SeriesOptionsType[] = [];
+  columnChartTitles = {
     title: 'Trends in National Open Science Policies by Areas',
     xAxis: 'Policy on',
     yAxis: 'Percentage of countries with national policies',
   }
 
-  barChart2Series: SeriesOptionsType[] = [];
-  barChart2Titles = {
+  columnChart2Series: SeriesOptionsType[] = [];
+  columnChart2Titles = {
     title: 'Trends in Financial Strategy on EOSC and Open Science by Areas',
     xAxis: 'Financial Strategy on',
     yAxis: 'Percentage of countries with Financial Strategy',
@@ -41,9 +41,9 @@ export class OpenScienceTrendsComponent implements OnInit {
   legendOptions: LegendOptions = {
     layout: 'vertical',
     align: 'right',
-    verticalAlign: 'bottom',
-    x: -40,
-    y: -180,
+    verticalAlign: 'top',
+    x: 0,
+    y: 35,
     floating: true,
     borderWidth: 1,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
@@ -131,9 +131,9 @@ export class OpenScienceTrendsComponent implements OnInit {
               private exploreService: ExploreService) {}
 
   ngOnInit() {
-    this.years.forEach((year, index) => {
-      this.getBarChartData(year, index);
-      this.getFinancialBarChartData(year, index);
+    this.years.forEach((year) => {
+      this.getColumnChartData(year);
+      this.getFinancialColumnChartData(year);
     });
 
     this.getTrendsPublications();
@@ -145,7 +145,7 @@ export class OpenScienceTrendsComponent implements OnInit {
   }
 
   /** Bar charts --------------------------------------------------------------------------------------------------> **/
-  getBarChartData(year: string, index: number) {
+  getColumnChartData(year: string) {
     zip(
       this.queryData.getQuestion(year, 'Question6'),   // national policy on open access publications
       this.queryData.getQuestion(year, 'Question14'),  // national policy on FAIR data
@@ -162,16 +162,17 @@ export class OpenScienceTrendsComponent implements OnInit {
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
-        this.barChartSeries.push(this.createBarChartSeries(value, year));
+        this.columnChartSeries.push(this.exploreService.createColumnChartSeries(value, year));
 
-        if (this.years.length === index+1)
-          this.barChartSeries = [...this.barChartSeries];
+        if (this.columnChartSeries.length === this.years.length) { // When series complete
+          this.columnChartSeries = [...this.columnChartSeries]; // Trigger angular detection change
+        }
       },
       error: err => {console.error(err)}
     });
   }
 
-  getFinancialBarChartData(year: string, index: number) {
+  getFinancialColumnChartData(year: string) {
     zip(
       this.queryData.getQuestion(year, 'Question7'),  // Publications
       this.queryData.getQuestion(year, 'Question15'), // FAIR-data
@@ -188,32 +189,34 @@ export class OpenScienceTrendsComponent implements OnInit {
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
-        this.barChart2Series.push(this.createBarChartSeries(value, year));
+        this.columnChart2Series.push(this.exploreService.createColumnChartSeries(value, year));
 
-        if (this.years.length === index+1)
-          this.barChart2Series = [...this.barChart2Series];
+        if (this.columnChart2Series.length === this.years.length) { // When series complete
+          this.columnChart2Series = [...this.columnChart2Series]; // Trigger angular detection change
+        }
+
       },
       error: err => {console.error(err)}
     });
   }
 
-  createBarChartSeries(data: RawData[], year: string) {
-    let series: SeriesBarOptions = {
-      type: 'bar',
-      name: 'Year '+ (+year-1),
-      data: []
-    }
-
-    data.forEach(el => {
-      let count = 0;
-      el.datasets[0].series.result.forEach(item => {
-        if (item.row[1] === 'Yes')
-          count++;
-      });
-      series.data.push(Math.round(((count/el.datasets[0].series.result.length + Number.EPSILON) * 100)));
-    });
-    return series;
-  }
+  // createColumnChartSeries(data: RawData[], year: string) {
+  //   let series: Highcharts.SeriesColumnOptions = {
+  //     type: 'column',
+  //     name: 'Year '+ (+year-1),
+  //     data: []
+  //   }
+  //
+  //   data.forEach(el => {
+  //     let count = 0;
+  //     el.datasets[0].series.result.forEach(item => {
+  //       if (item.row[1] === 'Yes')
+  //         count++;
+  //     });
+  //     series.data.push(Math.round(((count/el.datasets[0].series.result.length + Number.EPSILON) * 100)));
+  //   });
+  //   return series;
+  // }
 
   /** Get trends of Publications ----------------------------------------------------------------------------------> **/
   getTrendsPublications() {

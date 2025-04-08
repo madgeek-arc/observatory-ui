@@ -27,10 +27,10 @@ export class NationalMonitoringComponent implements OnInit {
 
   tableData: string[][] = [];
 
-  barChartCategories = ['Open Access Publications', 'Data Management', 'Fair Data', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills/Training', 'Incentives/Rewards for OS', 'Citizen Science'];
+  columnChartCategories = ['Open Access Publications', 'Data Management', 'Fair Data', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills / Training', 'Incentives / Rewards for OS', 'Citizen Science'];
 
-  barChartSeries: SeriesOptionsType[] = [];
-  barChartTitles = {
+  columnChartSeries: SeriesOptionsType[] = [];
+  columnChartTitles = {
     title: 'National Monitoring of Open Science by Areas',
     xAxis: 'National Monitoring on',
     yAxis: 'Percentage of countries with National Monitoring',
@@ -38,9 +38,9 @@ export class NationalMonitoringComponent implements OnInit {
   legendOptions: LegendOptions = {
     layout: 'vertical',
     align: 'right',
-    verticalAlign: 'bottom',
-    x: -40,
-    y: -190,
+    verticalAlign: 'top',
+    x: 0,
+    y: 35,
     floating: true,
     borderWidth: 1,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
@@ -161,10 +161,13 @@ export class NationalMonitoringComponent implements OnInit {
       this.queryData.getQuestion(year, 'Question98'), // Citizen science
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.barChartSeries.push(this.exploreService.createBarChartSeries(value, year));
+        this.columnChartSeries.push(this.exploreService.createColumnChartSeries(value, year));
+
+        if (this.columnChartSeries.length === this.years.length) { // When series complete
+          this.columnChartSeries = [...this.columnChartSeries]; // Trigger angular detection change
+        }
 
         if (this.years.length === ++index) { // If this is the last year
-          this.barChartSeries = [...this.barChartSeries]; // Trigger angular detection change
           this.monitoringRawData = value; // Store monitoring data for use in other charts
 
           this.getTableData(); // Create table

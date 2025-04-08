@@ -305,13 +305,13 @@
       <ul id="investments" class="uk-switcher">
         <li>
           <div class="">
-            <app-multi-bar-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
+            <app-multi-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
                                  [titles]="barChartTitles"
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
                                  [customTooltip]="true" [yAxisLabels]="false" style="height: 100%"
                                  [caption]="'<p>The graph illustrates the financial investments in Open Access Publications made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
                                  '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.</p>'">
-            </app-multi-bar-chart>
+            </app-multi-chart>
           </div>
         </li>
         <li>
@@ -418,13 +418,13 @@
   <div class="uk-container">
 
     <div class="uk-card uk-card-default visualisation-card uk-card-body">
-      <app-multi-bar-chart [series]="bar2" [categories]="barCategories" stacking="normal"
-                           [titles]="barChart2Titles" [height]="500"
-                           [duplicateXAxis]="true" [yAxisLabels]="true" [dataLabelFormat]="'{(abs value)}'"
-                           [tooltip]="'<b>{series.name},</b> {point.category}<br/>{(abs point.y)}'"
-                           [caption]="'<p>This garaph illustrates the distribution of OA types within various scientific disciplines including Medical and Health Sciences, Engineering and Technology, Agricultural Sciences, Natural Science, Social Sciences, and Humanities.</p>' +
-                           '<strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on '+ lastUpdateDate +')'">
-      </app-multi-bar-chart>
+      <app-multi-chart [series]="bar2" [categories]="barCategories" stacking="normal"
+                       [titles]="barChart2Titles" [height]="500"
+                       [duplicateXAxis]="true" [yAxisLabels]="true" [dataLabelFormat]="'{(abs value)}'"
+                       [tooltip]="'<b>{series.name},</b> {point.category}<br/>{(abs point.y)}'"
+                       [caption]="'<p>This garaph illustrates the distribution of OA types within various scientific disciplines including Medical and Health Sciences, Engineering and Technology, Agricultural Sciences, Natural Science, Social Sciences, and Humanities.</p>'
+                       + '<strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on '+ lastUpdateDate +')'">
+      </app-multi-chart>
     </div>
 
   </div>

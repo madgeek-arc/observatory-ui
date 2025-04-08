@@ -1,5 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { LegendOptions, SeriesBarOptions, SeriesBubbleOptions, SeriesOptionsType } from "highcharts";
+import * as Highcharts from "highcharts";
+import { LegendOptions, SeriesBubbleOptions, SeriesOptionsType } from "highcharts";
 import { zip } from "rxjs/internal/observable/zip";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
@@ -10,8 +11,6 @@ import { SurveyService } from "../../../../survey-tool/app/services/survey.servi
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
-import { countries } from "../../../domain/countries";
-import * as Highcharts from "highcharts";
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 
 
@@ -29,24 +28,24 @@ export class OpenSciencePoliciesComponent implements OnInit {
   year = '2023';
   lastUpdateDate?: string;
 
-  barChartCategories=  ['Open Access Publications', 'Data Management', 'Fair Data', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills/Training', 'Incentives/Rewards for OS', 'Citizen Science'];
+  columnChartCategories=  ['Open Access Publications', 'Data Management', 'Fair Data', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills / Training', 'Incentives / Rewards for OS', 'Citizen Science'];
 
-  barChartSeries: SeriesOptionsType[] = [];
-  barChartTitles = {
+  columnChartSeries: SeriesOptionsType[] = [];
+  columnChartTitles = {
     title: 'National Open Science Policies by Areas',
     xAxis: 'Policy on',
     yAxis: 'Percentage of countries with national policies',
   }
 
-  barChart2Series: SeriesOptionsType[] = [];
-  barChart2Titles = {
+  columnChart2Series: SeriesOptionsType[] = [];
+  columnChart2Titles = {
     title: 'Financial Strategy on EOSC and Open Science by Areas',
     xAxis: 'Financial Strategy on',
     yAxis: 'Percentage of countries with Financial Strategy',
   }
 
-  barChart3Series: SeriesOptionsType[] = [];
-  barChart3Titles = {
+  columnChart3Series: SeriesOptionsType[] = [];
+  columnChart3Titles = {
     title: 'Coverage of Researchers by National Open Science Policies in Europe',
     xAxis: 'National Policy on',
     yAxis: 'Percentage of Researchers Covered',
@@ -54,9 +53,9 @@ export class OpenSciencePoliciesComponent implements OnInit {
   legendOptions: LegendOptions = {
     layout: 'vertical',
     align: 'right',
-    verticalAlign: 'bottom',
-    x: -40,
-    y: -170,
+    verticalAlign: 'top',
+    x: 0,
+    y: 35,
     floating: true,
     borderWidth: 1,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
@@ -70,7 +69,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
   tableData: string[][] = [];
 
-  openScienceAreas = this.barChartCategories;
+  openScienceAreas = this.columnChartCategories;
   mapTitles = ['National Policy on open access publications', 'National Policy on Data Management', 'National Policy on FAIR Data', 'National Policy on Open Data', 'National Policy on Open Sources Software', 'National Policy on offering services through EOSC', 'National Policy on Connecting Repositories to EOSC', 'National Policy on data stewardship', 'National Policy on Long-term Data Preservation', 'National Policy on Skills/Training in Open Science', 'National Policy on incentives/rewards for Open Science', 'National Policy on Citizen Science'];
 
   policiesRawData: RawData[] = [];
@@ -89,8 +88,8 @@ export class OpenSciencePoliciesComponent implements OnInit {
   ngOnInit() {
 
     this.years.forEach((year, index) => {
-      this.getBarChartData(year, index);
-      this.getFinancialBarChartData(year, index);
+      this.getColumnChartData(year, index);
+      this.getFinancialColumnChartData(year, index);
     });
 
     this.getBubbleChartData();
@@ -102,7 +101,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
   }
 
   /** Bar charts ---------------------------------------------------------------------------------------------------> **/
-  getBarChartData(year: string, index: number) {
+  getColumnChartData(year: string, index: number) {
     zip(
       this.queryData.getQuestion(year, 'Question6'),   // national policy on open access publications
       this.queryData.getQuestion(year, 'Question10'),  // national policy on data management
@@ -120,10 +119,10 @@ export class OpenSciencePoliciesComponent implements OnInit {
       next: value => {
         // console.log(value);
         this.policiesPerCountryPerYear.set(year, value);
-        this.barChartSeries.push(this.exploreService.createBarChartSeries(value, year));
+        this.columnChartSeries.push(this.exploreService.createColumnChartSeries(value, year));
 
-        if (this.barChartSeries.length === this.years.length) {
-          this.barChartSeries = [...this.barChartSeries];
+        if (this.columnChartSeries.length === this.years.length) {
+          this.columnChartSeries = [...this.columnChartSeries];
         }
 
         if (this.policiesPerCountryPerYear.size === 2) {
@@ -150,7 +149,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
     });
   }
 
-  getFinancialBarChartData(year: string, index: number) {
+  getFinancialColumnChartData(year: string, index: number) {
     zip(
       this.queryData.getQuestion(year, 'Question7'),  // Publications
       this.queryData.getQuestion(year, 'Question15'), // FAIR-data
@@ -167,10 +166,10 @@ export class OpenSciencePoliciesComponent implements OnInit {
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
-        this.barChart2Series.push(this.exploreService.createBarChartSeries(value, year));
+        this.columnChart2Series.push(this.exploreService.createColumnChartSeries(value, year));
 
-        if (this.years.length === this.barChart2Series.length)
-          this.barChart2Series = [...this.barChart2Series];
+        if (this.years.length === this.columnChart2Series.length)
+          this.columnChart2Series = [...this.columnChart2Series];
       },
       error: err => {console.error(err)}
     });
@@ -183,19 +182,19 @@ export class OpenSciencePoliciesComponent implements OnInit {
           this.researchersPerCountryPerYear.set(year, value);
           this.totalResearchersPerYear.set(year, this.exploreService.calculateSum(value));
 
-          this.barChart3Series.push(this.createResearchersBarChartSeries(year));
+          this.columnChart3Series.push(this.createResearchersColumnChartSeries(year));
 
-          if (this.barChart3Series.length === this.years.length)
-            this.barChart3Series = [...this.barChart3Series];
+          if (this.columnChart3Series.length === this.years.length)
+            this.columnChart3Series = [...this.columnChart3Series];
         },
         error: error => {console.error(error);}
       });
     })
   }
 
-  createResearchersBarChartSeries(year: string) {
-    let series: SeriesBarOptions = {
-      type: 'bar',
+  createResearchersColumnChartSeries(year: string) {
+    let series: Highcharts.SeriesColumnOptions = {
+      type: 'column',
       name: 'Year '+ (+year-1),
       data: []
     }

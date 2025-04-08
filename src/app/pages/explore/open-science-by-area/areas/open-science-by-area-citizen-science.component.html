@@ -275,13 +275,12 @@
       <ul id="investments" class="uk-switcher">
         <li>
           <div class="">
-            <app-multi-bar-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
-                                 [titles]="barChartTitles"
-                                 [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
-                                 [customTooltip]="true" [yAxisLabels]="false" style="height: 100%"
-                                 [caption]="'<p>The graph illustrates the financial investments in Citizen Science made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
-                                 '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.</p>'">
-            </app-multi-bar-chart>
+            <app-multi-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
+                             [titles]="barChartTitles" [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
+                             [customTooltip]="true" [yAxisLabels]="false" style="height: 100%"
+                             [caption]="'<p>The graph illustrates the financial investments in Citizen Science made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>'
+                             + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.</p>'">
+            </app-multi-chart>
           </div>
         </li>
         <li>

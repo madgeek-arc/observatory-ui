@@ -30,11 +30,11 @@
 
         <div class="uk-grid">
           <div class="uk-width-1-1">
-            <app-multi-bar-chart [series]="barChartSeries" [categories]="barChartCategories" [titles]="barChartTitles"
-                                 [legendOptions]="legendOptions" valueSuffix=" %" borderRadius="50" [height]="600"
-                                 [caption]="'<p>This bar chart illustrates the percentage of countries with national monitoring initiatives in various Open Science areas for the years 2021 and 2022. Each bar represents an area of Open Science, such as Open Access Publications, FAIR Data, Open Software, and Citizen Science, showing the changes in monitoring adoption from one year to the next. The chart highlights where countries are increasingly focusing their monitoring efforts, with significant progress in areas like Open Access Publications and FAIR Data, reflecting the growing importance of these aspects in the broader Open Science landscape.</p>' +
-                                 '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
-            </app-multi-bar-chart>
+            <app-multi-chart chartType='column' [series]="columnChartSeries" [categories]="columnChartCategories"
+                             [height]="600" [titles]="columnChartTitles" [legendOptions]="legendOptions" valueSuffix=" %"
+                             [caption]="'<p>This bar chart illustrates the percentage of countries with national monitoring initiatives in various Open Science areas for the years 2021 and 2022. Each bar represents an area of Open Science, such as Open Access Publications, FAIR Data, Open Software, and Citizen Science, showing the changes in monitoring adoption from one year to the next. The chart highlights where countries are increasingly focusing their monitoring efforts, with significant progress in areas like Open Access Publications and FAIR Data, reflecting the growing importance of these aspects in the broader Open Science landscape.</p>'
+                             + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
+            </app-multi-chart>
           </div>
 
         </div>
