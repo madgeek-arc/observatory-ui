@@ -32,12 +32,12 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       type: 'column',
       name: 'Research Performing Organisations with Policy',
       data: [],
-      color: colors[0]
+      // color: colors[0]
     }, {
       type: 'column',
       name: 'Research Performing Organisations without Policy',
       data: [],
-      color: colors[7]
+      // color: colors[7]
     }
   ] as Highcharts.SeriesColumnOptions[];
   stackedColumnSeries2 = [
@@ -45,12 +45,12 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       type: 'column',
       name: 'Research Funding Organisations with Policy',
       data: [],
-      color: colors[1]
+      // color: colors[1]
     }, {
       type: 'column',
       name: 'Research Funding Organisations without Policy',
       data: [],
-      color: colors[8]
+      // color: colors[8]
     }
   ] as Highcharts.SeriesColumnOptions[];
   stackedColumnCategories = ['2021', '2022'];

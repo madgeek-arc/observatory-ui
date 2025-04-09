@@ -32,12 +32,12 @@ export class OpenScienceByAreaDataManagementComponent {
       type: 'column',
       name: 'RPOs with Policy on Data Management',
       data: [],
-      color: colors[0]
+      // color: colors[0]
     }, {
       type: 'column',
       name: 'RPOs without Policy on Data Management',
       data: [],
-      color: colors[7]
+      // color: colors[7]
     }
   ] as Highcharts.SeriesColumnOptions[];
 
@@ -46,12 +46,12 @@ export class OpenScienceByAreaDataManagementComponent {
       type: 'column',
       name: 'RFOs with Policy on Data Management',
       data: [],
-      color: colors[1]
+      // color: colors[1]
     }, {
       type: 'column',
       name: 'RFOs without Policy on Data Management',
       data: [],
-      color: colors[8]
+      // color: colors[8]
     }
   ] as Highcharts.SeriesColumnOptions[];
 
