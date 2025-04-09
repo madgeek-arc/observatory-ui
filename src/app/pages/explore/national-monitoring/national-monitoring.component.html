@@ -66,7 +66,9 @@
               <li class="" style="animation-duration: 200ms;" *ngIf="monitoringMapData.series.length">
                 <div>
                   <app-highcharts-category-map
-                    [mapData]="monitoringMapData" [title]="'National Monitoring'" [backgroundColor]="'#ffffff'" [height]="600">
+                    [mapData]="monitoringMapData" [title]="'National Monitoring'" [backgroundColor]="'#ffffff'" [height]="700"
+                    [caption]="'<p class=\'uk-text-justify\'>This map illustrates the existence or non-existence of national monitoring for Open Science (OS) areas across different countries. A country is marked as having \'national monitoring\' if at least one monitoring system for any of the OS areas (such as Publications, Data Management, FAIR Data, Open Data, etc.) is in place. When you hover over a country, a detailed view will display what specific monitoring is in place within that country. Additionally, you can browse through different OS areas by selecting options on the right side, allowing you to explore which areas of Open Science are being monitored in each country.</p>' +
+                    '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'">
                   </app-highcharts-category-map>
                 </div>
               </li>
@@ -76,7 +78,7 @@
                     [mapData]="questionsDataArray[i]" [subtitle]="" [toolTipData]="toolTipData[i]"
                     [title]="mapTitles[i]" [backgroundColor]="'#ffffff'" [height]="600"
                     [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
-                    [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
+                    [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'">
                   </app-highcharts-category-map>
                 </div>
               </li>

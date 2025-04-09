@@ -86,7 +86,9 @@
             <li class="" style="animation-duration: 200ms;" *ngIf="policiesMapData.series.length">
               <div>
                 <app-highcharts-category-map
-                  [mapData]="policiesMapData" [title]="'National Policies'" [backgroundColor]="'#ffffff'" [height]="600">
+                  [mapData]="policiesMapData" [title]="'National Policies'" [backgroundColor]="'#ffffff'" [height]="700"
+                  [caption]="'<p class=\'uk-text-justify\'>This map visualizes the presence or absence of national policies across various Open Science areas in European countries. A country is labelled as having a \'national policy\' if it has implemented at least one policy in areas such as Open Access Publications, Data Management, FAIR Data, Open Data, and others. By hovering over a country, you can view a detailed breakdown of the specific policies in place within that country. You can also filter the map by selecting different Open Science areas on the right side, allowing you to explore which aspects of Open Science are being monitored in each country.</p>' +
+                    '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'">
                 </app-highcharts-category-map>
               </div>
             </li>
