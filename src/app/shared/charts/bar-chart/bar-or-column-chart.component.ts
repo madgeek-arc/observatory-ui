@@ -67,7 +67,13 @@ export class BarOrColumnChartComponent implements OnInit, OnChanges {
           }
         },
         title: {
-          text: this.titles.title
+          text: this.titles.title,
+          style: {
+            fontSize: '26px',
+            fontWeight: '600'
+          },
+          align: 'left',
+          margin: 40
         },
         caption: {
           useHTML: true,
