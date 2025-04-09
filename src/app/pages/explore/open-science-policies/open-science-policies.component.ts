@@ -53,9 +53,9 @@ export class OpenSciencePoliciesComponent implements OnInit {
   legendOptions: LegendOptions = {
     layout: 'vertical',
     align: 'right',
-    verticalAlign: 'top',
-    x: 0,
-    y: 35,
+    verticalAlign: 'bottom',
+    x: -40,
+    y: -180,
     floating: true,
     borderWidth: 1,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
