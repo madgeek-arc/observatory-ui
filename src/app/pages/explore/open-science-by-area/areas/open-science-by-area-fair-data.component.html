@@ -262,7 +262,7 @@
         <li>
           <div class="">
             <app-multi-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
-                                 [titles]="barChartTitles"
+                                 [titles]="barChartTitles" [reversedStacks] = "false"
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
                                  [customTooltip]="true" [yAxisLabels]="false" style="height: 100%"
                                  [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Fair Data made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +

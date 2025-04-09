@@ -16,6 +16,7 @@ export class BarOrColumnChartComponent implements OnInit, OnChanges {
   @Input() categories: string[] = [];
   @Input() titles = {title: '', xAxis: '', yAxis: ''};
   @Input() stacking?: Highcharts.OptionsStackingValue;
+  @Input() reversedStacks?: boolean = true;
   @Input() legendOptions?: LegendOptions = {};
   @Input() borderRadius?: (number | string | Highcharts.BorderRadiusOptionsObject);
   @Input() pointWidth?: number;
@@ -108,6 +109,7 @@ export class BarOrColumnChartComponent implements OnInit, OnChanges {
             text: this.titles.yAxis,
             align: 'high'
           },
+          reversedStacks: this.reversedStacks,
           gridLineWidth: 0,
           labels: {
             enabled: this.yAxisLabels,
@@ -175,7 +177,7 @@ export class BarOrColumnChartComponent implements OnInit, OnChanges {
 
           },
           series: {
-            stacking: this.stacking
+            stacking: this.stacking,
           },
         },
         legend: this.legendOptions,
