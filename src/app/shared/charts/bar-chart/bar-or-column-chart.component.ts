@@ -19,6 +19,8 @@ export class BarOrColumnChartComponent implements OnInit, OnChanges {
   @Input() legendOptions?: LegendOptions = {};
   @Input() borderRadius?: (number | string | Highcharts.BorderRadiusOptionsObject) = undefined;
   @Input() pointWidth?: number = undefined;
+  @Input() groupPadding?: number = undefined;
+  @Input() pointPadding?: number = undefined;
   @Input() valueSuffix?: string = undefined;
   @Input() customTooltip?: boolean = false;
   @Input() tooltip?: string;
@@ -68,6 +70,7 @@ export class BarOrColumnChartComponent implements OnInit, OnChanges {
           text: this.titles.title
         },
         caption: {
+          useHTML: true,
           text: this.caption,
         },
         credits:{
@@ -143,7 +146,8 @@ export class BarOrColumnChartComponent implements OnInit, OnChanges {
                 return this.point.y
               },
             },
-            groupPadding: 0.1
+            groupPadding: this.groupPadding,
+            pointPadding: this.pointPadding
           },
           column: {
             borderRadius: this.borderRadius,
@@ -160,7 +164,8 @@ export class BarOrColumnChartComponent implements OnInit, OnChanges {
                 return this.point.y
               },
             },
-            groupPadding: 0.1
+            groupPadding: this.groupPadding,
+            pointPadding: this.pointPadding
           },
           series: {
             stacking: this.stacking
