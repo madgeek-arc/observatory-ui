@@ -22,7 +22,7 @@
     </div>
 
 <!--    <h5>Open Software</h5>-->
-    <p class="uk-text-lead">Open software is a vital component of Open Science, enabling key stakeholders to access, modify, and share tools that drive innovation and collaboration in research. It fosters transparency, reproducibility, and interoperability across scientific disciplines. This page provides an overview of open software initiatives in Europe, including data on policies, financial investments, and strategies from the Survey on National Contributions to EOSC and Open Science.</p>
+    <p class="uk-text-lead uk-text-justify">Open software is a vital component of Open Science, enabling key stakeholders to access, modify, and share tools that drive innovation and collaboration in research. It fosters transparency, reproducibility, and interoperability across scientific disciplines. This page provides an overview of open software initiatives in Europe, including data on policies, financial investments, and strategies from the Survey on National Contributions to EOSC and Open Science.</p>
 
   </div>
 </div>
@@ -215,8 +215,8 @@
                 [mapData]="questionsDataArray[0]" [height]="700"
                 [title]="'National Policy on Open Source Software'" [backgroundColor]="'#ffffff'"
                 [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on open<br> source software'"
-                [caption]="'<p>This map illustrates the status of national policies on OA publications across European countries. OA policies are essential for promoting the free sharing of scientific knowledge and ensuring research outputs are widely accessible.</p>' +
-              '<p>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>' +
+                [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national policies on OA publications across European countries. OA policies are essential for promoting the free sharing of scientific knowledge and ensuring research outputs are widely accessible.</p>' +
+              '<p class=\'uk-text-justify\'>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>' +
               '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
                 (mapClick)="showComment(0, $event)">
               </app-highcharts-category-map>
@@ -238,8 +238,8 @@
                 [mapData]="questionsDataArray[1]" [height]="700"
                 [title]="'National Monitoring on Open Source Software'" [backgroundColor]="'#ffffff'"
                 [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>open source software'"
-                [caption]="'<p>This map illustrates the status of national monitoring on OA publications across European countries.OA monitoring is essential for tracking progress, evaluating policy implementation, and ensuring that research outputs are freely accessible.</p>' +
-              '<p>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>' +
+                [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national monitoring on OA publications across European countries.OA monitoring is essential for tracking progress, evaluating policy implementation, and ensuring that research outputs are freely accessible.</p>' +
+              '<p class=\'uk-text-justify\'>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>' +
               '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
                 (mapClick)="showComment(1, $event)">
               </app-highcharts-category-map>
@@ -279,7 +279,7 @@
                                  [titles]="barChartTitles"
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
                                  [customTooltip]="true" [yAxisLabels]="false" style="height: 100%"
-                                 [caption]="'<p>The graph illustrates the financial investments in Open-Source Software made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
+                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Open-Source Software made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
                                  '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
             </app-multi-chart>
           </div>
@@ -288,7 +288,7 @@
           <div class="">
             <app-tree-graph [data]="treeGraph" style="height: 100%" [height]="700"
                             [title]="'Financial Investments in Open Sources Software in 2022'"
-                            [caption]="'<p>The graph illustrates the financial investments in Open-Source Software made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
+                            [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Open-Source Software made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
                             '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
             </app-tree-graph>
           </div>
