@@ -4,7 +4,7 @@ export function renderLogo(renderer: Highcharts.SVGRenderer, chartWidth: number,
   // const logoHeight = 50; // Set your logo height
   const logoWidth = 270; // Set your logo width
   const logoHeight = 31; // Set your logo height
-  const x = chartWidth - logoWidth - 5; // -5px from the right
+  const x = chartWidth - logoWidth - 20; // -5px from the right
   // const y = this.chartHeight - logoHeight + 5;
   const y = chartHeight - logoHeight;
 
