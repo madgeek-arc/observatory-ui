@@ -59,8 +59,8 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   stackedColumn2Categories = [];
   stackedColumn2Series:Highcharts.SeriesColumnOptions[] = [];
   yAxisTitle2 = 'Percentage of Publications';
-  stacking: OptionsStackingValue = 'normal';
-  // dataLabels_format = '{point.percentage:.0f}%';
+  stacking: OptionsStackingValue = 'percent';
+  dataLabels_format = '{point.percentage:.0f}%';
 
   treemapData: Highcharts.PointOptionsObject[] = [];
 
