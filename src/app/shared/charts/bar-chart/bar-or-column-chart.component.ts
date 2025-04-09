@@ -17,11 +17,11 @@ export class BarOrColumnChartComponent implements OnInit, OnChanges {
   @Input() titles = {title: '', xAxis: '', yAxis: ''};
   @Input() stacking?: Highcharts.OptionsStackingValue;
   @Input() legendOptions?: LegendOptions = {};
-  @Input() borderRadius?: (number | string | Highcharts.BorderRadiusOptionsObject) = undefined;
-  @Input() pointWidth?: number = undefined;
-  @Input() groupPadding?: number = undefined;
-  @Input() pointPadding?: number = undefined;
-  @Input() valueSuffix?: string = undefined;
+  @Input() borderRadius?: (number | string | Highcharts.BorderRadiusOptionsObject);
+  @Input() pointWidth?: number;
+  @Input() groupPadding?: number;
+  @Input() pointPadding?: number;
+  @Input() valueSuffix?: string;
   @Input() customTooltip?: boolean = false;
   @Input() tooltip?: string;
   @Input() dataLabelFormat?: string;
@@ -138,8 +138,8 @@ export class BarOrColumnChartComponent implements OnInit, OnChanges {
         },
         plotOptions: {
           bar: {
-            borderRadius: this.borderRadius,
-            pointWidth: this.pointWidth,
+            ...(this.borderRadius ? {borderRadius: this.borderRadius} : {}),
+            ...(this.pointWidth ? {pointWidth: this.pointWidth} : {}),
             dataLabels: {
               enabled: true,
               formatter: function () {
@@ -152,12 +152,10 @@ export class BarOrColumnChartComponent implements OnInit, OnChanges {
                 return this.point.y
               },
             },
-            groupPadding: this.groupPadding,
-            pointPadding: this.pointPadding
+            ...(this.groupPadding ? {groupPadding: this.groupPadding} : {}),
+            ...(this.pointPadding ? {pointPadding: this.pointPadding} : {}),
           },
           column: {
-            borderRadius: this.borderRadius,
-            pointWidth: this.pointWidth,
             dataLabels: {
               enabled: true,
               formatter: function () {
@@ -170,8 +168,11 @@ export class BarOrColumnChartComponent implements OnInit, OnChanges {
                 return this.point.y
               },
             },
-            groupPadding: this.groupPadding,
-            pointPadding: this.pointPadding
+            ...(this.borderRadius ? {borderRadius: this.borderRadius} : {}),
+            ...(this.pointWidth ? {pointWidth: this.pointWidth} : {}),
+            ...(this.groupPadding ? {groupPadding: this.groupPadding} : {}),
+            ...(this.pointPadding ? {pointPadding: this.pointPadding} : {}),
+
           },
           series: {
             stacking: this.stacking

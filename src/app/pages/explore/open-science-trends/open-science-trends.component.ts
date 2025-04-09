@@ -1,11 +1,10 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import * as Highcharts from "highcharts";
+import { LegendOptions, SeriesOptionsType } from "highcharts";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { trendOfOAPublications, trendOfOpenData } from "../OSO-stats-queries/explore-queries";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { zip } from "rxjs";
-import { LegendOptions, SeriesBarOptions, SeriesOptionsType } from "highcharts";
-import { RawData } from "../../../domain/raw-data";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
 
@@ -51,43 +50,10 @@ export class OpenScienceTrendsComponent implements OnInit {
   };
 
 
-  stackedColumnCategories = ['2020', '2021', '2022', '2023', '2024'];
-  stackedColumnSeries = [
-    {
-      type: 'column',
-      name: 'Diamond OA',
-      data: [],
-      // color: '#100254' // Diamond color
-    },
-    {
-      type: 'column',
-      name: 'Gold OA only',
-      data: [],
-      // color: '#FFD700' // Gold color
-    }, {
-      type: 'column',
-      name: 'Green OA only',
-      data: [],
-      // color: '#228B22' // Forest green color
-    }, {
-      type: 'column',
-      name: 'Both Gold & Green OA',
-      data: [],
-      // color: '#FF69B4' // Hot pink color for mixed category
-    }, {
-      type: 'column',
-      name: 'Neither',
-      data: [],
-      // color: '#b0c4de'
-    }, {
-      type: 'column',
-      name: 'Closed',
-      data: [],
-      // color: '#808080' // Grey color
-    }
-  ] as Highcharts.SeriesColumnOptions[];
+  stackedColumnCategories = [];
+  stackedColumnSeries = [] as Highcharts.SeriesColumnOptions[];
   yAxisTitle = 'Number of Publications';
-  legend = {
+  legend: LegendOptions = {
     align: 'right',
     x: -30,
     verticalAlign: 'top',
@@ -96,7 +62,8 @@ export class OpenScienceTrendsComponent implements OnInit {
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
     borderWidth: 1,
-    shadow: false
+    shadow: false,
+    reversed: false
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
@@ -220,15 +187,18 @@ export class OpenScienceTrendsComponent implements OnInit {
 
   /** Get trends of Publications ----------------------------------------------------------------------------------> **/
   getTrendsPublications() {
-    this.queryData.getOSOStats(trendOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(trendOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        value.data.forEach((item, index) => {
-          item.forEach(el => {
-            this.stackedColumnSeries[index].data.push(+el[0]);
-          });
+        this.stackedColumnSeries = [];
+        value.series.forEach((series, index) => {
+          const tmpSeries: SeriesOptionsType = {
+            type: 'column',
+            name: value.dataSeriesNames[index],
+            data: series.data,
+          };
+          this.stackedColumnSeries.push(tmpSeries);
         });
-        // console.log(this.stackedColumnSeries);rm
-        this.stackedColumnSeries = [...this.stackedColumnSeries];
+        this.stackedColumnCategories = value.xAxis_categories;
       }
     });
   }

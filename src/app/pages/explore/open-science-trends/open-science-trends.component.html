@@ -73,16 +73,8 @@
           <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend" [series]="stackedColumnSeries"
                               [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
                               [dataLabels]="false" [height]="700" [title]="'Trend of Open Access Publications'"
-                              [caption]="'<p>The graph provides a detailed view of the evolution of OA publication types from 2020 to 2024. It displays the annual distribution of publications according to their access type. Each bar in the graph represents the total number of publications for a given year, segmented by these categories.</p>' +
-                              '<ul>' +
-                              '<li><p><strong>Gold OA only:</strong> Publications that are available via Open Access without any embargo period, typically involving processing fees.</p></li>' +
-                              '<li><p><strong>Green OA only:</strong> Publications that are made freely accessible in a repository, possibly after an embargo period.</p></li>' +
-                              '<li><p><strong>Both Gold and Green OA:</strong> Publications that are available both as Gold and Green OA.</p></li>' +
-                              '<li><p><strong>Neither:</strong> Publications that do not fall into the OA category but are not completely closed either.</p></li>' +
-                              '<li><p><strong>Closed:</strong> Publications that are behind paywalls with no free or OA available.</p></li>' +
-                              '</ul>' +
-                              '<p>This visualization highlights the shifting landscape of OA publication practices over time, illustrating how the proportions of different access types have evolved, which reflects broader trends in publishing and access policies within the academic and research communities.</p>' +
-                              '<p><strong>Data Source: </strong> OpenAIRE Graph (updated on ' +  lastUpdateDate + ').</p>'">
+                              [caption]="'<p>The graph provides a view of the evolution of publication and its access type from 2015 to 2024. Each bar in the graph represents the total number of publications for a given year, segmented by access type categories (categories based on <a href=&quot;https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml&quot; target=\'_blank\'>https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml</a>).</p>'
+                              + '<p><strong>Data Source:</strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
           </app-stacked-column>
         </div>
 
