@@ -43,11 +43,11 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   stackedColumnCategories: string[] = [];
   stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [] ;
   yAxisTitle = 'Number of Publications';
-  legend = {
+  legend: LegendOptions = {
     align: 'right',
-    x: -30,
     verticalAlign: 'top',
-    y: -10,
+    x: 0,
+    y: 35,
     floating: true,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
