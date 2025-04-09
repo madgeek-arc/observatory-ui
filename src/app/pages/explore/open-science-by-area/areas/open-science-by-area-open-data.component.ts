@@ -3,7 +3,13 @@ import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../domain/raw-data";
 import * as Highcharts from "highcharts";
-import { LegendOptions, OptionsStackingValue, PointOptionsObject, SeriesBarOptions } from "highcharts";
+import {
+  LegendOptions,
+  OptionsStackingValue,
+  PointOptionsObject,
+  SeriesBarOptions,
+  SeriesOptionsType
+} from "highcharts";
 import { distributionByDocumentType, OpenDataVSClosed, trendOfOpenData } from "../../OSO-stats-queries/explore-queries";
 import { PdfExportService } from "../../../services/pdf-export.service";
 import { CountryTableData } from "../../../../domain/country-table-data";
@@ -29,31 +35,9 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   years = ['2022', '2023'];
 
   stackedColumnCategories = [];
-  stackedColumnSeries = [
-    {
-      type: 'column',
-      name: 'Open',
-      data: [],
-      color: '#028691'
-    }, {
-      type: 'column',
-      name: 'Closed',
-      data: [],
-      color: '#fae0d1'
-    }, {
-      type: 'column',
-      name: 'Restricted',
-      data: [],
-      color: '#e4587c'
-    }, {
-      type: 'column',
-      name: 'Embargo',
-      data: [],
-      color: '#515252'
-    }
-  ] as Highcharts.SeriesColumnOptions[];
+  stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
   yAxisTitle = 'Number of Data Sets';
-  legend = {
+  legend: LegendOptions = {
     align: 'right',
     x: -30,
     verticalAlign: 'top',
@@ -62,7 +46,8 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
     borderWidth: 1,
-    shadow: false
+    shadow: false,
+    reversed: false,
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
@@ -162,9 +147,13 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
     this.queryData.getOSOStatsChartData(trendOfOpenData()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
-          this.stackedColumnSeries[index].data.push(...series.data);
+          let tmpSeries: SeriesOptionsType = {
+            type: 'column',
+            name: value.dataSeriesNames[index],
+            data: series.data
+          }
+          this.stackedColumnSeries.push(tmpSeries);
         });
-
         this.stackedColumnCategories = value.xAxis_categories;
       }
     });

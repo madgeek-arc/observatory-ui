@@ -359,26 +359,24 @@
 <!--  </div>-->
 <!--</div>-->
 
-<!--<div class="uk-section uk-section-small uk-margin-top" #exportContent5>-->
-<!--  <div class="uk-container">-->
-<!--    <h5>Distribution of Open Access Types by Different Scholarly Publication Outputs</h5>-->
+<div class="uk-section uk-section-small uk-margin-top" #exportContent5>
+  <div class="uk-container">
+    <h5></h5>
+    <div class="uk-container">
 
-<!--    <div class="uk-grid uk-margin-medium-top">-->
-<!--      <div class="uk-width-2-3" style="height: 450px">-->
-<!--        <app-stacked-column [categories]="stackedColumn2Categories" [series]="stackedColumn2Series" [yAxis]="yAxisTitle2"-->
-<!--                            [pointFormat]="tooltipPointFormat" [stackLabels]="false" [stacking]="stacking"-->
-<!--                            [plotFormat]="dataLabels_format">-->
-<!--        </app-stacked-column>-->
-<!--      </div>-->
-<!--      <div class="uk-width-1-3">-->
-<!--        <h6>Understanding the data</h6>-->
-<!--        <p>The graph displays the distribution of OA types across different scholarly publication categories, revealing distinct preferences and practices in the dissemination of research outputs. This visualization provides insight into the diverse adoption rates and strategies for OA across various academic outputs. Understanding these differences is crucial for identifying specific barriers and opportunities within each publication category, thereby guide stakeholders in tailoring interventions that encourage broader adoption of OA. This targeted approach can significantly contribute to enhancing the accessibility of knowledge, fostering a more open and collaborative scientific community.</p>-->
-<!--        <p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on {{ lastUpdateDate }})</p>-->
-<!--      </div>-->
-<!--    </div>-->
+      <div class="uk-card uk-card-default visualisation-card uk-card-body">
+        <app-stacked-column [categories]="stackedColumn2Categories" [series]="stackedColumn2Series"
+                            [title]="'Distribution of Open Access Types by Different Scholarly Publication Outputs'"
+                            [yAxis]="yAxisTitle2" [pointFormat]="tooltipPointFormat"
+                            [stackLabels]="false" [stacking]="stacking" [height]="550"
+                            [caption]="'<p>The graph displays the distribution of OA types across different scholarly publication categories, revealing distinct preferences and practices in the dissemination of research outputs. This visualization provides insight into the diverse adoption rates and strategies for OA across various academic outputs. Understanding these differences is crucial for identifying specific barriers and opportunities within each publication category, thereby guide stakeholders in tailoring interventions that encourage broader adoption of OA. This targeted approach can significantly contribute to enhancing the accessibility of knowledge, fostering a more open and collaborative scientific community.</p>'
+                            + '<p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on' + lastUpdateDate + ')</p>'">
+        </app-stacked-column>
+      </div>
+    </div>
 
-<!--  </div>-->
-<!--</div>-->
+  </div>
+</div>
 
 <!--<div class="uk-section uk-section-small uk-margin-top" #exportContent6>-->
 <!--  <div class="uk-container">-->

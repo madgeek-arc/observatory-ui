@@ -57,37 +57,10 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
   stackedColumn2Categories = [];
-  stackedColumn2Series = [
-    {
-      type: 'column',
-      name: 'Gold OA only',
-      data: [],
-      color: '#FFD700' // Gold color
-    }, {
-      type: 'column',
-      name: 'Green OA only',
-      data: [],
-      color: '#228B22' // Forest green color
-    }, {
-      type: 'column',
-      name: 'Both Gold & Green OA',
-      data: [],
-      color: '#FF69B4' // Hot pink color for mixed category
-    }, {
-      type: 'column',
-      name: 'Neither',
-      data: [],
-      color: '#b0c4de'
-    }, {
-      type: 'column',
-      name: 'Closed',
-      data: [],
-      color: '#808080' // Grey color
-    }
-  ] as Highcharts.SeriesColumnOptions[];
+  stackedColumn2Series:Highcharts.SeriesColumnOptions[] = [];
   yAxisTitle2 = 'Percentage of Publications';
-  stacking: OptionsStackingValue = 'percent';
-  dataLabels_format = '{point.percentage:.0f}%';
+  stacking: OptionsStackingValue = 'normal';
+  // dataLabels_format = '{point.percentage:.0f}%';
 
   treemapData: Highcharts.PointOptionsObject[] = [];
 
@@ -311,17 +284,22 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     this.queryData.getOSOStatsChartData(distributionOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
-            this.stackedColumn2Series[index].data.push(...series.data);
-        });
+          const tmpSeries: SeriesOptionsType = {
+            type: 'column',
+            name: value.dataSeriesNames[index],
+            data: series.data,
+          }
 
-        this.stackedColumn2Categories = value.xAxis_categories;
-        this.stackedColumn2Series[0].data.forEach((item, index) => {
-          let sum = 0;
-          this.stackedColumn2Series.forEach(series => {
-            sum += (+series.data[index]);
-          });
-          this.stackedColumn2Categories[index] = this.stackedColumn2Categories[index]+ ` (total = ${sum.toLocaleString('en-GB')} )`
+          this.stackedColumn2Series.push(tmpSeries);
         });
+        this.stackedColumn2Categories = value.xAxis_categories;
+        // this.stackedColumn2Series[0].data.forEach((item, index) => {
+        //   let sum = 0;
+        //   this.stackedColumn2Series.forEach(series => {
+        //     sum += (+series.data[index]);
+        //   });
+        //   this.stackedColumn2Categories[index] = this.stackedColumn2Categories[index]+ ` (total = ${sum.toLocaleString('en-GB')} )`
+        // });
       }
     });
   }

@@ -102,7 +102,6 @@ export class StackedColumnComponent implements OnChanges {
     },
     legend: {
       backgroundColor: '#FFFFFF',
-      reversed: true
     },
     credits: {
       enabled: false

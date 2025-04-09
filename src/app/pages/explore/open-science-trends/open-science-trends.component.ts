@@ -67,30 +67,8 @@ export class OpenScienceTrendsComponent implements OnInit {
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
-  stackedColumn2Categories = [];
-  stackedColumn2Series = [
-    {
-      type: 'column',
-      name: 'Open',
-      data: [],
-      // color: '#028691'
-    }, {
-      type: 'column',
-      name: 'Closed',
-      data: [],
-      // color: '#fae0d1'
-    }, {
-      type: 'column',
-      name: 'Restricted',
-      data: [],
-      // color: '#e4587c'
-    }, {
-      type: 'column',
-      name: 'Embargo',
-      data: [],
-      // color: '#515252'
-    }
-  ] as Highcharts.SeriesColumnOptions[];
+  stackedColumn2Categories: string[] = [];
+  stackedColumn2Series: Highcharts.SeriesColumnOptions[] = [];
   yAxis2Title = 'Number of Data Sets';
 
 
@@ -189,7 +167,6 @@ export class OpenScienceTrendsComponent implements OnInit {
   getTrendsPublications() {
     this.queryData.getOSOStatsChartData(trendOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.stackedColumnSeries = [];
         value.series.forEach((series, index) => {
           const tmpSeries: SeriesOptionsType = {
             type: 'column',
@@ -208,7 +185,12 @@ export class OpenScienceTrendsComponent implements OnInit {
     this.queryData.getOSOStatsChartData(trendOfOpenData()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
-          this.stackedColumn2Series[index].data.push(...series.data);
+          let tmpSeries: SeriesOptionsType = {
+            type: 'column',
+            name: value.dataSeriesNames[index],
+            data: series.data
+          }
+          this.stackedColumn2Series.push(tmpSeries);
         });
 
         this.stackedColumn2Categories = value.xAxis_categories;
