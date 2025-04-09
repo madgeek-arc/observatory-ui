@@ -2,13 +2,13 @@
 export function renderLogo(renderer: Highcharts.SVGRenderer, chartWidth: number, chartHeight: number) {
   // const logoWidth = 150; // Set your logo width
   // const logoHeight = 50; // Set your logo height
-  const logoWidth = 190; // Set your logo width
-  const logoHeight = 40; // Set your logo height
-  const x = chartWidth - logoWidth - 5; // -5px from the right
+  const logoWidth = 270; // Set your logo width
+  const logoHeight = 31; // Set your logo height
+  const x = chartWidth - logoWidth - 20; // -5px from the right
   // const y = this.chartHeight - logoHeight + 5;
   const y = chartHeight - logoHeight;
 
-  renderer.image('./assets/logo/svg/logoVertical2.png', x, y, logoWidth, logoHeight) // (./assets/logo/svg/EOSC OPEN SCIENCE OBSERVATORY LOGO.svg)
+  renderer.image('./assets/logo/svg/logoVertical3.png', x, y, logoWidth, logoHeight) // (./assets/logo/svg/EOSC OPEN SCIENCE OBSERVATORY LOGO.svg)
     .attr({
       zIndex: 10 // Ensure the logo is on top
     }).add();

@@ -32,12 +32,12 @@ export class OpenScienceByAreaDataManagementComponent {
       type: 'column',
       name: 'RPOs with Policy on Data Management',
       data: [],
-      color: colors[0]
+      // color: colors[0]
     }, {
       type: 'column',
       name: 'RPOs without Policy on Data Management',
       data: [],
-      color: colors[7]
+      // color: colors[7]
     }
   ] as Highcharts.SeriesColumnOptions[];
 
@@ -46,12 +46,12 @@ export class OpenScienceByAreaDataManagementComponent {
       type: 'column',
       name: 'RFOs with Policy on Data Management',
       data: [],
-      color: colors[1]
+      // color: colors[1]
     }, {
       type: 'column',
       name: 'RFOs without Policy on Data Management',
       data: [],
-      color: colors[8]
+      // color: colors[8]
     }
   ] as Highcharts.SeriesColumnOptions[];
 
@@ -84,6 +84,7 @@ export class OpenScienceByAreaDataManagementComponent {
   toolTipData: Map<string, string>[] = [];
   comment?: string;
   countryName?: string;
+  countryCode?: string;
 
   barChartTitles = {
     title: 'Financial Investments in Data Management in 2022',
@@ -299,6 +300,7 @@ export class OpenScienceByAreaDataManagementComponent {
 
   showComment(index: number, country: {code: string}) {
     this.comment = this.toolTipData[index].get(country.code.toLowerCase())?.replace(/\\n/g,'<br>').replace(/\\t/g,'  ') ?? 'N/A';
+    this.countryCode = country.code.toLowerCase();
     this.countryName = this.exploreService.findCountryName(country.code).name
   }
 

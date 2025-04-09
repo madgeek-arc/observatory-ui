@@ -32,12 +32,12 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       type: 'column',
       name: 'Research Performing Organisations with Policy',
       data: [],
-      color: colors[0]
+      // color: colors[0]
     }, {
       type: 'column',
       name: 'Research Performing Organisations without Policy',
       data: [],
-      color: colors[7]
+      // color: colors[7]
     }
   ] as Highcharts.SeriesColumnOptions[];
   stackedColumnSeries2 = [
@@ -45,12 +45,12 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       type: 'column',
       name: 'Research Funding Organisations with Policy',
       data: [],
-      color: colors[1]
+      // color: colors[1]
     }, {
       type: 'column',
       name: 'Research Funding Organisations without Policy',
       data: [],
-      color: colors[8]
+      // color: colors[8]
     }
   ] as Highcharts.SeriesColumnOptions[];
   stackedColumnCategories = ['2021', '2022'];
@@ -81,6 +81,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
   toolTipData: Map<string, string>[] = [];
   comment?: string;
   countryName?: string;
+  countryCode?: string;
 
   barChartTitles = {
     title: 'Financial Investments in FAIR Data in 2022',
@@ -281,6 +282,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
 
   showComment(index: number, country: {code: string}) {
     this.comment = this.toolTipData[index].get(country.code.toLowerCase())?.replace(/\\n/g,'<br>').replace(/\\t/g,'  ') ?? 'N/A';
+    this.countryCode = country.code.toLowerCase();
     this.countryName = this.exploreService.findCountryName(country.code).name
   }
 

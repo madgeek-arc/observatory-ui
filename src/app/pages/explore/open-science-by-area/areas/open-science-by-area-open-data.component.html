@@ -22,7 +22,7 @@
     </div>
 
 <!--    <h5>Open Data</h5>-->
-    <p class="uk-text-lead">The European Union defines Open Data as the information collected, produced, or paid for by public bodies which is made freely available for anyone to reuse for any purpose. This data is typically provided under an open license and in a convenient, modifiable form that is machine-readable. Open Data policies in the EU are aimed at increasing transparency, fostering innovation, and enhancing public access to valuable information, thereby promoting economic growth and social welfare​ (source: Publications Office of the EU).The graphic below offers a comprehensive overview of key metrics that monitor the advancement of Open Data initiatives and policies across Europe. Understanding these indicators is essential for assessing the degree to which Europe is embracing and implementing Open Data and Open Science principles.</p>
+    <p class="uk-text-lead uk-text-justify">The European Union defines Open Data as the information collected, produced, or paid for by public bodies which is made freely available for anyone to reuse for any purpose. This data is typically provided under an open license and in a convenient, modifiable form that is machine-readable. Open Data policies in the EU are aimed at increasing transparency, fostering innovation, and enhancing public access to valuable information, thereby promoting economic growth and social welfare​ (source: Publications Office of the EU).The graphic below offers a comprehensive overview of key metrics that monitor the advancement of Open Data initiatives and policies across Europe. Understanding these indicators is essential for assessing the degree to which Europe is embracing and implementing Open Data and Open Science principles.</p>
 
   </div>
 </div>
@@ -215,17 +215,22 @@
                 [mapData]="questionsDataArray[0]" [height]="700"
                 [title]="'National policy on Open Data'" [backgroundColor]="'#ffffff'"
                 [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on <br>Open data'"
-                [caption]="'<p>This map illustrates the status of national policies on OA publications across European countries. OA policies are essential for promoting the free sharing of scientific knowledge and ensuring research outputs are widely accessible.</p>' +
-                '<p>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>' +
+                [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national policies on OA publications across European countries. OA policies are essential for promoting the free sharing of scientific knowledge and ensuring research outputs are widely accessible.</p>' +
+                '<p class=\'uk-text-justify\'>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>' +
                 '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
                 (mapClick)="showComment(0, $event)">
               </app-highcharts-category-map>
             </div>
             <div class="uk-width-1-3">
               <div>
-                <h6>Click on country for additional information</h6>
-                <p *ngIf="countryName">{{ countryName }}</p>
-                <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
+                <h6>Start Exploring</h6>
+                <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
+                <!--                <h6>Click on country for additional information</h6>-->
+                <div class="uk-flex uk-flex-middle uk-margin-medium-top">
+                  <img *ngIf="countryCode" src="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png" width="30">
+                  <span *ngIf="countryName" class="uk-margin-small-left">{{ countryName }}</span>
+                </div>
+                <p *ngIf="comment; else noComment" [innerHTML]="comment" class="uk-text-justify uk-text-small overflow-wrap-break-word"></p>
                 <ng-template #noComment>--</ng-template>
               </div>
             </div>
@@ -238,17 +243,22 @@
                 [mapData]="questionsDataArray[1]" [height]="700"
                 [title]="'National monitoring on Open Data'" [backgroundColor]="'#ffffff'"
                 [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>Open data'"
-                [caption]="'<p>This map illustrates the status of national monitoring on OA publications across European countries.OA monitoring is essential for tracking progress, evaluating policy implementation, and ensuring that research outputs are freely accessible.</p>' +
-                '<p>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>' +
+                [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national monitoring on OA publications across European countries.OA monitoring is essential for tracking progress, evaluating policy implementation, and ensuring that research outputs are freely accessible.</p>' +
+                '<p class=\'uk-text-justify\'>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>' +
                 '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
                 (mapClick)="showComment(1, $event)">
               </app-highcharts-category-map>
             </div>
             <div class="uk-width-1-3">
               <div>
-                <h6>Click on country for additional information</h6>
-                <p *ngIf="countryName">{{ countryName }}</p>
-                <p *ngIf="comment; else noComment" [innerHTML]="comment"></p>
+                <h6>Start Exploring</h6>
+                <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
+                <!--                <h6>Click on country for additional information</h6>-->
+                <div class="uk-flex uk-flex-middle uk-margin-medium-top">
+                  <img *ngIf="countryCode" src="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png" width="30">
+                  <span *ngIf="countryName" class="uk-margin-small-left">{{ countryName }}</span>
+                </div>
+                <p *ngIf="comment; else noComment" [innerHTML]="comment" class="uk-text-justify uk-text-small overflow-wrap-break-word"></p>
                 <ng-template #noComment>--</ng-template>
               </div>
             </div>
@@ -279,7 +289,7 @@
                                  [titles]="barChartTitles"
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
                                  [customTooltip]="true" [yAxisLabels]="false" style="height: 100%"
-                                 [caption]="'<p>The graph illustrates the financial investments in Open Data made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
+                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Open Data made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
                                  '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
             </app-multi-chart>
           </div>
@@ -288,7 +298,7 @@
           <div class="">
             <app-tree-graph [data]="treeGraph" style="height: 100%" [height]="700"
                             [title]="'Financial Investments in Open Data in 2022'"
-                            [caption]="'<p>The graph illustrates the financial investments in Open Data made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
+                            [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Open Data made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
                             '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
             </app-tree-graph>
           </div>
@@ -308,7 +318,7 @@
                           [title]="'Trend of Open Data'" [height]="600"
                           [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
                           [dataLabels]="false"
-                          [caption]="'<p>The graph provides a comprehensive view of how data accessibility has evolved from 2015 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of open data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
+                          [caption]="'<p class=\'uk-text-justify\'>The graph provides a comprehensive view of how data accessibility has evolved from 2015 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of open data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
                               '<p><strong>Data Source: </strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
       </app-stacked-column>
 
@@ -326,7 +336,7 @@
                           [title]="'Distribution of Open Data Types by Different Document Type'" [height]="600"
                           [pointFormat]="tooltipPointFormat" [stackLabels]="false" [stacking]="stacking"
                           [plotFormat]="dataLabels_format"
-                          [caption]="'<p>The  graph illustrates how open data is implemented across various types of documents. It segments the open data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each colored according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance  accessibility and foster a more transparent, reproducible and inclusive science.</p>' +
+                          [caption]="'<p class=\'uk-text-justify\'>The  graph illustrates how open data is implemented across various types of documents. It segments the open data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each colored according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance  accessibility and foster a more transparent, reproducible and inclusive science.</p>' +
                           '<p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on ' + lastUpdateDate + ').</p>'">
       </app-stacked-column>
 

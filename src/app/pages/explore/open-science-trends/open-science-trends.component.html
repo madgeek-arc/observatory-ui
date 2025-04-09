@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <p class="uk-text-lead">Monitoring Open Science trends is crucial for understanding the adoption and impact of Open Science practices across different regions and disciplines. It enables policymakers, researchers, and institutions to gauge progress and align strategies with global standards and goals. This page displays an array of visualizations detailing the trends in national policies, financial strategies, Open Access publications, and Open Data, providing a snapshot of how Open Science is evolving across Europe.</p>
+    <p class="uk-text-lead uk-text-justify">Monitoring Open Science trends is crucial for understanding the adoption and impact of Open Science practices across different regions and disciplines. It enables policymakers, researchers, and institutions to gauge progress and align strategies with global standards and goals. This page displays an array of visualizations detailing the trends in national policies, financial strategies, Open Access publications, and Open Data, providing a snapshot of how Open Science is evolving across Europe.</p>
 
   </div>
 </div>
@@ -31,7 +31,7 @@
           <app-multi-chart chartType="bar" [series]="columnChartSeries" [categories]="columnChartCategories"
                            [titles]="columnChartTitles" [height]="750" [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
                            [legendOptions]="legendOptions" valueSuffix=" %" borderRadius="0"
-                           [caption]="'<p>This bar chart illustrates the percentage of countries with established national policies across various Open Science areas for the years 2021 and 2022. Each bar represents a different area of Open Science, such as Open Access Publications, FAIR Data, and Citizen Science, showing the progression or changes in policy adoption from one year to the next. The comparison highlights the evolving landscape of Open Science initiatives at a national level, indicating which aspects of Open Science are gaining attention.</p>'
+                           [caption]="'<p class=\'uk-text-justify\'>This bar chart illustrates the percentage of countries with established national policies across various Open Science areas for the years 2021 and 2022. Each bar represents a different area of Open Science, such as Open Access Publications, FAIR Data, and Citizen Science, showing the progression or changes in policy adoption from one year to the next. The comparison highlights the evolving landscape of Open Science initiatives at a national level, indicating which aspects of Open Science are gaining attention.</p>'
                            + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 and Survey on National Contribution to EOSC 2022 - showing data for 2022 and 2021 respectively.</p>'">
           </app-multi-chart>
         </div>
@@ -52,7 +52,7 @@
           <app-multi-chart chartType="bar" [series]="columnChart2Series" [categories]="columnChartCategories"
                            [titles]="columnChart2Titles" [height]="750" [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
                            [legendOptions]="legendOptions" valueSuffix=" %"
-                           [caption]="'<p>This graph presents an overview of the share of countries that have implemented financial strategies to support Open Science and EOSC initiatives across various domains. It illustrates the percentage of countries that have adopted financial frameworks within categories such as Open Access Publications, Fair Data, Data Management, and more.</p>'
+                           [caption]="'<p class=\'uk-text-justify\'>This graph presents an overview of the share of countries that have implemented financial strategies to support Open Science and EOSC initiatives across various domains. It illustrates the percentage of countries that have adopted financial frameworks within categories such as Open Access Publications, Fair Data, Data Management, and more.</p>'
                            + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 and Survey on National Contribution to EOSC 2022 - showing data for 2022 and 2021 respectively.</p>'">
           </app-multi-chart>
         </div>
@@ -73,7 +73,7 @@
           <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend" [series]="stackedColumnSeries"
                               [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
                               [dataLabels]="false" [height]="700" [title]="'Trend of Open Access Publications'"
-                              [caption]="'<p>The graph provides a view of the evolution of publication and its access type from 2015 to 2024. Each bar in the graph represents the total number of publications for a given year, segmented by access type categories (categories based on <a href=&quot;https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml&quot; target=\'_blank\'>https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml</a>).</p>'
+                              [caption]="'<p class=\'uk-text-justify\'>The graph provides a view of the evolution of publication and its access type from 2015 to 2024. Each bar in the graph represents the total number of publications for a given year, segmented by access type categories (categories based on <a href=&quot;https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml&quot; target=\'_blank\'>https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml</a>).</p>'
                               + '<p><strong>Data Source:</strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
           </app-stacked-column>
         </div>
@@ -94,7 +94,7 @@
           <app-stacked-column [categories]="stackedColumn2Categories" [legend]="legend" [series]="stackedColumn2Series"
                               [yAxis]="yAxis2Title" [pointFormat]="tooltipPointFormat" [stackLabels]="true"
                               [dataLabels]="false" [height]="600" [title]="'Trend of Open Data'"
-                              [caption]="'<p>The graph provides a comprehensive view of how data accessibility has evolved from 2015 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of open data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
+                              [caption]="'<p class=\'uk-text-justify\'>The graph provides a comprehensive view of how data accessibility has evolved from 2015 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of open data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
                               '<p><strong>Data Source: </strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
           </app-stacked-column>
         </div>
