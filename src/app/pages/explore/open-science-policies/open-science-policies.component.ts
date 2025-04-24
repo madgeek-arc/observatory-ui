@@ -70,7 +70,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
   tableData: string[][] = [];
 
   openScienceAreas = this.columnChartCategories;
-  mapTitles = ['National Policy on open access publications', 'National Policy on Data Management', 'National Policy on FAIR Data', 'National Policy on Open Data', 'National Policy on Open Sources Software', 'National Policy on offering services through EOSC', 'National Policy on Connecting Repositories to EOSC', 'National Policy on data stewardship', 'National Policy on Long-term Data Preservation', 'National Policy on Skills/Training in Open Science', 'National Policy on incentives/rewards for Open Science', 'National Policy on Citizen Science'];
+  mapTitles = ['National Policy on open access publications', 'National Policy on Data Management', 'National Policy on FAIR Data', 'National Policy on Open Data', 'National Policy on Open Sources Software', 'National Policy on offering services through EOSC', 'National Policy on Connecting Repositories to EOSC', 'National Policy on Data Stewardship', 'National Policy on Long-term Data Preservation', 'National Policy on Skills/Training in Open Science', 'National Policy on incentives/rewards for Open Science', 'National Policy on Citizen Science'];
 
   policiesRawData: RawData[] = [];
   policiesMapData: CategorizedAreaData = new CategorizedAreaData();

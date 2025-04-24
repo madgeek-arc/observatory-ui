@@ -27,10 +27,10 @@ export function createInfoBox(renderer: Highcharts.SVGRenderer, customLabelText:
       })
       .css({
         color: '#333',
-        borderRadius: 30
+        borderRadius: 30,
       })
       .add();
 
     // Position the info box in the top right corner
-    infoBox.translate(plotWidth - 180, 130);
+    infoBox.translate(plotWidth - 220, 130);
 }
