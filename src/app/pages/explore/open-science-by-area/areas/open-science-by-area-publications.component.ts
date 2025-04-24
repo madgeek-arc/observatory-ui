@@ -110,7 +110,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   }
 
   barChart2Titles = {
-    title: 'Distribution of Open Access Types by Fields of Science',
+    title: 'Distribution of Publications Access by Fields of Science',
     xAxis: '',
     yAxis: '',
   }
