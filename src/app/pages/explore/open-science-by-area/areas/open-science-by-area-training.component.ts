@@ -9,6 +9,7 @@ import { StakeholdersService } from "../../../../../survey-tool/app/services/sta
 import { DataHandlerService } from "../../../services/data-handler.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
+import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 
 @Component({
   selector: 'app-open-science-by-area-training',
@@ -207,4 +208,6 @@ export class OpenScienceByAreaTrainingComponent implements OnInit {
     this.countryName = this.exploreService.findCountryName(country.code).name
   }
 
+  protected readonly policesMapCaptions = policesMapCaptions;
+  protected readonly monitoringMapCaptions = monitoringMapCaptions;
 }

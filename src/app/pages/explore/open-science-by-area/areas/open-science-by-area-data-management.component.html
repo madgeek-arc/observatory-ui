@@ -22,7 +22,7 @@
     </div>
 
 <!--    <h5>Data Management</h5>-->
-    <p class="uk-text-lead uk-text-justify">Data management refers to the process of collecting, organizing, storing, and maintaining data throughout its lifecycle. It involves ensuring that data is accessible, secure, and usable, facilitating effective decision-making and research outcomes. A key component of modern data management is the adherence to the FAIR principles, which emphasize making data Findable, Accessible, Interoperable, and Reusable. These principles aim to improve the transparency, accessibility, and value of data for researchers, enabling better collaboration and discovery while ensuring compliance with ethical and legal standards.</p>
+    <p class="uk-text-lead uk-text-justify">Data Management refers to the process of collecting, organizing, storing, and maintaining data throughout its lifecycle. It involves ensuring that data is accessible, secure, and usable, facilitating effective decision-making and research outcomes. A key component of modern data management is the adherence to the FAIR principles, which emphasize making data Findable, Accessible, Interoperable, and Reusable. These principles aim to improve the transparency, accessibility, and value of data for researchers, enabling better collaboration and discovery while ensuring compliance with ethical and legal standards.</p>
 
   </div>
 </div>
@@ -216,9 +216,7 @@
                 [mapData]="questionsDataArray[0]" [height]="700"
                 [title]="'National Policy on Data Management'" [backgroundColor]="'#ffffff'"
                 [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on <br>data management'"
-                [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national policies on OA publications across European countries. OA policies are essential for promoting the free sharing of scientific knowledge and ensuring research outputs are widely accessible.</p>' +
-                '<p class=\'uk-text-justify\'>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>' +
-                '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
+                [caption]="policesMapCaptions[1] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
                 (mapClick)="showComment(0, $event)">
               </app-highcharts-category-map>
             </div>
@@ -244,9 +242,7 @@
                 [mapData]="questionsDataArray[1]" [height]="700"
                 [title]="'National Monitoring on Data Management'" [backgroundColor]="'#ffffff'"
                 [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>data management'"
-                [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national monitoring on OA publications across European countries.OA monitoring is essential for tracking progress, evaluating policy implementation, and ensuring that research outputs are freely accessible.</p>' +
-                '<p class=\'uk-text-justify\'>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>'+
-                '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
+                [caption]="monitoringMapCaptions[1] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
                 (mapClick)="showComment(1, $event)">
               </app-highcharts-category-map>
             </div>

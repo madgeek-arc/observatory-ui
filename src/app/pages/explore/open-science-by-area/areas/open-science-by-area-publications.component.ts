@@ -23,6 +23,7 @@ import { StakeholdersService } from "../../../../../survey-tool/app/services/sta
 import { DataHandlerService } from "../../../services/data-handler.service";
 import { CountryTableData } from "../../../../domain/country-table-data";
 import { ExploreService } from "../../explore.service";
+import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 
 
 @Component({
@@ -415,4 +416,6 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     this.countryName = this.exploreService.findCountryName(country.code).name
   }
 
+  protected readonly policesMapCaptions = policesMapCaptions;
+  protected readonly monitoringMapCaptions = monitoringMapCaptions;
 }
