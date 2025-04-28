@@ -17,6 +17,31 @@ export class PdfExportService {
       const margin = 0; // Add a margin to leave space around content
       let currentYPosition = margin; // Start with some top margin
 
+      const footerHeight = 17; // Reserve 17mm for the footer
+      const footerYPosition = pageHeight - 15; // 15mm from bottom
+
+      const logoUrl = 'assets/logo/svg/logoVertical2.png'; // Logo path
+      const currentDate = new Date().toLocaleDateString('en-GB'); // formatted date
+      const predefinedText: string[] = [
+        'Exported from the EOSC Open Science Observatory on ' + currentDate,
+        'EOSC Open Science Observatory has received funding from the European Union’s Horizon Europe framework programme under grant agreement No. 101148217 (EOSC Track) and builds upon EOSC Observatory funded by the European Union’s Horizon 2020 Research and Innovation programme under EOSC Future (No. 101017536).'
+      ];
+
+      const addFooter = () => {
+        // Add the predefined text
+        pdf.setFontSize(8);
+        pdf.text(predefinedText, 10, footerYPosition, {maxWidth: 150});
+
+        // // Add the current date
+        // pdf.text(currentDate, 100, footerYPosition); // adjust X position as needed
+
+        // Add logo
+        const logoWidth = 42;
+        const logoHeight = 7;
+        pdf.addImage(logoUrl, 'PNG', 165, footerYPosition + 4, logoWidth, logoHeight); // Adjust Y for better alignment
+      };
+
+
       // Show the loading spinner
       const spinner = document.getElementById('loadingSpinner');
       if (spinner) spinner.style.display = 'block'; // Show spinner
@@ -24,6 +49,7 @@ export class PdfExportService {
       // Helper function to process each element
       const processElement = (index: number) => {
         if (index >= contents.length) {
+          addFooter(); // Add footer to the last page
           // All elements processed, save the PDF
           pdf.save(filename);
           resolve(); // Resolve the promise after completion
@@ -48,7 +74,8 @@ export class PdfExportService {
           }
 
           // Check if the image fits in the remaining space on the current page
-          if (currentYPosition + imgHeight > pageHeight - margin) {
+          if (currentYPosition + imgHeight + footerHeight > pageHeight - margin) {
+            addFooter(); // Add footer before starting a new page
             pdf.addPage(); // Add a new page if it doesn't fit
             currentYPosition = margin; // Reset Y position for the new page
           }
