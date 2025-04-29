@@ -11,6 +11,7 @@ import { PdfExportService } from "../../services/pdf-export.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { ExploreService } from "../explore.service";
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
+import { monitoringMapCaptions } from "../../../domain/chart-captions";
 
 @Component({
   selector: 'app-national-monitoring',
@@ -20,6 +21,8 @@ import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 
 export class NationalMonitoringComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  protected readonly monitoringMapCaptions = monitoringMapCaptions;
+
   exportActive = false;
 
   year = '2023';

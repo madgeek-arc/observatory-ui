@@ -78,7 +78,7 @@
                     [mapData]="questionsDataArray[i]" [subtitle]="" [toolTipData]="toolTipData[i]"
                     [title]="mapTitles[i]" [backgroundColor]="'#ffffff'" [height]="600"
                     [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
-                    [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'">
+                    [caption]="monitoringMapCaptions[i] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'">
                   </app-highcharts-category-map>
                 </div>
               </li>

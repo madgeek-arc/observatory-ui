@@ -53,8 +53,8 @@
           <app-multi-chart chartType=bar [series]="columnChart3Series" [categories]="columnChartCategories"
                            [titles]="columnChart3Titles" [legendOptions]="legendOptions" valueSuffix="%"
                            [height]="800" [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
-                           [caption]="'<p class=\'uk-text-justify\'>This bar chart illustrates the percentage of researchers covered by National Open Science Policies across various areas in Europe. Each bar represents the percentage of researchers covered by specific Open Science policies—such as Open Access Publications, Fair Data, and Skills/Training—across the Europe.</p>'
-                           + '<b>Data source:</b> Survey on National Contributions to EOSC and Open Science 2023 and 2022 - showing data for 2021 and 2022'">
+                           [caption]="'<p class=\'uk-text-justify\'>This bar illustrates the coverage of researchers by national Open Science policies across various policy areas in Europe, as measured in Full-Time Equivalents (FTE). To calculate the percentage, we sum the number of researchers covered by each policy across all countries and then calculate the percentage in relation to the total number of researchers in Europe (using data from Eurostat). The graph displays this breakdown for each policy area, offering insights into the extent of policy coverage for Open Science across European countries.</p>'
+                           + '<b>Data source:</b> <a href=&quot;https://ec.europa.eu/eurostat/databrowser/view/tsc00004/default/table?lang=en&quot; target=&quot;_blank&quot;>Eurostat</a>'">
           </app-multi-chart>
         </div>
 
@@ -98,7 +98,7 @@
                   [mapData]="questionsDataArray[i]" [title]="mapTitles[i]" [toolTipData]="toolTipData[i]"
                   [backgroundColor]="'#ffffff'" [height]="600"
                   [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
-                  [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
+                  [caption]="policesMapCaptions[i] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
                 </app-highcharts-category-map>
               </div>
             </li>

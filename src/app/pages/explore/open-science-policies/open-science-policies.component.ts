@@ -12,6 +12,7 @@ import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
+import { policesMapCaptions } from "../../../domain/chart-captions";
 
 
 @Component({
@@ -22,6 +23,9 @@ import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 
 export class OpenSciencePoliciesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+
+  protected readonly policesMapCaptions = policesMapCaptions;
+
   exportActive = false;
 
   years = ['2022', '2023'];
