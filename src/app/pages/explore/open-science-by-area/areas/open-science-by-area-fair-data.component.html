@@ -291,8 +291,8 @@
         <div class="uk-card uk-card-default visualisation-card uk-card-body">
           <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries1" [yAxis]="yAxisTitle"
                               [title]="'Trend of Policies on FAIR Data among Research Performing Organisations'"
-                              [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
-                              [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [yAxisMax]="100" [height]="700"
+                              [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
+                              [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [height]="700"
                               [caption]="'<p class=\'uk-text-justify\'>Presented graph shows the adoption of FAIR data policies among Research Performing Organisations (RPOs). It highlights the percentage of RPOs that have implemented policies supporting FAIR data principles, compared to those without such policies.</p>' +
                               '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science.</p>'">
           </app-stacked-column>
@@ -302,8 +302,8 @@
         <div class="uk-card uk-card-default visualisation-card uk-card-body">
           <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries2" [yAxis]="yAxisTitle"
                               [title]="'Trend of Policies on FAIR Data among Research Funding Organisations'"
-                              [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
-                              [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [yAxisMax]="100" [height]="700"
+                              [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
+                              [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [height]="700"
                               [caption]="'<p class=\'uk-text-justify\'>Presented graph shows on Research Funding Organisations (RFOs) and their commitment to FAIR data policies. It illustrates the percentage of RFOs that have implemented FAIR data policies, alongside those that have not.</p>' +
                               '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science.</p>'">
           </app-stacked-column>

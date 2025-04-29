@@ -306,6 +306,26 @@ export class ExploreService {
     return series;
   }
 
+  // Stacked columns
+  createStackedColumnSeries(data: RawData[], series: Highcharts.SeriesColumnOptions[]) {
+    let orgCount = 0;
+    let orgCountWithPolicy = 0;
+    data[0].datasets[0].series.result.forEach((result) => {
+      if (this.isNumeric(result.row[1]))
+        orgCount += +result.row[1];
+    });
+
+    data[1].datasets[0].series.result.forEach((result) => {
+      if (this.isNumeric(result.row[1]))
+        orgCountWithPolicy += +result.row[1];
+    });
+
+    // series[0].data.push(Math.round(((orgCountWithPolicy/orgCount) + Number.EPSILON) * 100));
+    series[0].data.push(orgCountWithPolicy);
+    // series[1].data.push(Math.round((((orgCount-orgCountWithPolicy)/orgCount) + Number.EPSILON) * 100));
+    series[1].data.push(orgCount-orgCountWithPolicy);
+  }
+
   // Tree graph data
   createRanges(data: RawData) {
     const arr = [{id: '0.0', parent: '', name: 'Country investments'}];
