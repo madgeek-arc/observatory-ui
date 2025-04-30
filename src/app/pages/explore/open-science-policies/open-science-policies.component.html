@@ -143,7 +143,7 @@
                             [caption]="'<p class=\'uk-text-justify\'>This interactive bubble chart explores the relationship between policy frameworks, financial investments, and the activity levels of Open Science (OS) initiatives across a selection of European countries. Each bubble represents a specific country, with the size indicating the percentage of OS activities relative to the total national output in this area. The bubble\'s color denotes the policy status—green for mandatory policies, orange for non-mandatory policies, and grey for countries without specific policies.</p>' +
                             '<p class=\'uk-text-justify\'>The x-axis quantifies the actual number of OS activities, providing a measure of how actively countries are engaged in OS projects. The y-axis categorizes the level of financial investment into OS, segmented into four major categories: \'<1M\', \'1-5M\', \'5-10M\', and \'>20M\'. These categories help illustrate the financial commitment to OS projects within each country.</p>' +
                             '<p class=\'uk-text-justify\'>By clicking on individual bubbles, viewers can access detailed information, including the country’s specific OS policy status, the exact count of OS activities, the percentage these constitute of total national output in this area, and the specific investment bracket.</p>' +
-                            '<p><strong>Data Source: </strong>Survey on National Contributions to EOSC and Open Science, OpenAIRE Graph data for 2022 (updated on' + lastUpdateDate + ').</p>'">
+                            '<p><strong>Data Source: </strong>Survey on National Contributions to EOSC and Open Science, OpenAIRE Graph data for 2022 (updated on ' + lastUpdateDate + ').</p>'">
           </app-bubble-chart>
         </div>
 
@@ -231,25 +231,30 @@
       <tbody>
         <tr *ngFor="let row of tableData">
           <td *ngFor="let item of row; let i = index" [ngClass]="{valueTrue: item === 'true', valueFalse: item==='-'}">
-            <div *ngIf="i === 0" class="uk-text-bold">{{ item }}</div>
-            <div *ngIf="(i===2)" uk-tooltip="Data management" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
-            <div *ngIf="(i===3)" uk-tooltip="FAIR data" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
-            <div *ngIf="(i===4)" uk-tooltip="Open data" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
-            <div *ngIf="(i===7)" uk-tooltip="Connecting repositories to EOSC" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
-            <div *ngIf="(i===8)" uk-tooltip="Data stewardship" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
-            <div *ngIf="(i===9)" uk-tooltip="Long-term data preservation" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
+            <div *ngIf="i === 0; else addTooltip" class="uk-text-bold">{{ item }}</div>
+            <ng-template #addTooltip>
+              <div [title]="columnChartCategories[--i]" style="width:100%; height:100%">
+                <a style="width:100%; height:100%">&#8203;</a>
+              </div>
+            </ng-template>
+<!--            <div *ngIf="(i===2)" uk-tooltip="Data management" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
+<!--            <div *ngIf="(i===3)" uk-tooltip="FAIR data" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
+<!--            <div *ngIf="(i===4)" uk-tooltip="Open data" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
+<!--            <div *ngIf="(i===7)" uk-tooltip="Connecting repositories to EOSC" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
+<!--            <div *ngIf="(i===8)" uk-tooltip="Data stewardship" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
+<!--            <div *ngIf="(i===9)" uk-tooltip="Long-term data preservation" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
           </td>
         </tr>
       </tbody>

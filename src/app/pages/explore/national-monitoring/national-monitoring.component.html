@@ -114,16 +114,7 @@
           </th>
           <th colspan="3">
             <div class="uk-text-bold">Data</div>
-  <!--          <div class="uk-text-secondary uk-text-small uk-text-italic">Data management</div>-->
           </th>
-  <!--        <th>-->
-  <!--          <div class="uk-text-bold">Data</div>-->
-  <!--          <div class="uk-text-secondary uk-text-small uk-text-italic">FAIR data</div>-->
-  <!--        </th>-->
-  <!--        <th>-->
-  <!--          <div class="uk-text-bold">Data</div>-->
-  <!--          <div class="uk-text-secondary uk-text-small uk-text-italic">Open Data</div>-->
-  <!--        </th>-->
           <th>
             <div class="uk-text-bold">Software</div>
           </th>
@@ -132,16 +123,7 @@
           </th>
           <th colspan="3">
             <div class="uk-text-bold">Infrastructure</div>
-  <!--          <div class="uk-text-secondary uk-text-small uk-text-italic">Connecting repositories to EOSC</div>-->
           </th>
-  <!--        <th>-->
-  <!--          <div class="uk-text-bold">Infrastructure</div>-->
-  <!--          <div class="uk-text-secondary uk-text-small uk-text-italic">Data stewardship</div>-->
-  <!--        </th>-->
-  <!--        <th>-->
-  <!--          <div class="uk-text-bold">Infrastructure</div>-->
-  <!--          <div class="uk-text-secondary uk-text-small uk-text-italic">Long-term data preservation</div>-->
-  <!--        </th>-->
           <th>
             <div class="uk-text-bold">Skills/Training</div>
           </th>
@@ -156,25 +138,30 @@
         <tbody>
         <tr *ngFor="let row of tableData">
           <td *ngFor="let item of row; let i = index" [ngClass]="{valueTrue: item === 'true', valueFalse: item==='-'}">
-            <div *ngIf="i === 0" class="uk-text-bold">{{ item }}</div>
-            <div *ngIf="(i===2)" uk-tooltip="Data management" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
-            <div *ngIf="(i===3)" uk-tooltip="FAIR data" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
-            <div *ngIf="(i===4)" uk-tooltip="Open data" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
-            <div *ngIf="(i===7)" uk-tooltip="Connecting repositories to EOSC" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
-            <div *ngIf="(i===8)" uk-tooltip="Data stewardship" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
-            <div *ngIf="(i===9)" uk-tooltip="Long-term data preservation" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
+            <div *ngIf="i === 0; else addTooltip" class="uk-text-bold">{{ item }}</div>
+            <ng-template #addTooltip>
+              <div [title]="columnChartCategories[--i]" style="width:100%; height:100%">
+                <a style="width:100%; height:100%">&#8203;</a>
+              </div>
+            </ng-template>
+<!--            <div *ngIf="i === 2" data-uk-tooltip="Data management" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
+<!--            <div *ngIf=" i === 3 " data-uk-tooltip="FAIR data" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
+<!--            <div *ngIf="i === 4" data-uk-tooltip="Open data" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
+<!--            <div *ngIf="i === 7" data-uk-tooltip="Connecting repositories to EOSC" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
+<!--            <div *ngIf="i === 8" data-uk-tooltip="Data stewardship" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
+<!--            <div *ngIf="i === 9" data-uk-tooltip="Long-term data preservation" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
           </td>
         </tr>
         </tbody>
