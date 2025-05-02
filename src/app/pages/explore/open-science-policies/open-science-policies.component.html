@@ -136,10 +136,10 @@
 
       <div class="uk-grid">
         <div class="uk-width-1-1">
-          <app-bubble-chart [enablePlotLines]="false" [categories]="['<1', '1-5', '5-10', '10-20','>20']"
-                            xAxisTitle="Number of OA publication" yAxisTitle="Financial investmetsin OA"
+          <app-bubble-chart [enablePlotLines]="false" [enableLegend]="false"
+                            xAxisTitle="Publications per Researcher FTE" yAxisTitle="Financial Investment per Researcher FTE"
                             [title]="'Impact of Policy and Investment on Open Access Publications'"
-                            [series]="bubbleWithCategories" [enableLegend]="true" [height]="700"
+                            [series]="bubbleWithCategories"  [height]="700"
                             [caption]="'<p class=\'uk-text-justify\'>This interactive bubble chart explores the relationship between policy frameworks, financial investments, and the activity levels of Open Science (OS) initiatives across a selection of European countries. Each bubble represents a specific country, with the size indicating the percentage of OS activities relative to the total national output in this area. The bubble\'s color denotes the policy status—green for mandatory policies, orange for non-mandatory policies, and grey for countries without specific policies.</p>' +
                             '<p class=\'uk-text-justify\'>The x-axis quantifies the actual number of OS activities, providing a measure of how actively countries are engaged in OS projects. The y-axis categorizes the level of financial investment into OS, segmented into four major categories: \'<1M\', \'1-5M\', \'5-10M\', and \'>20M\'. These categories help illustrate the financial commitment to OS projects within each country.</p>' +
                             '<p class=\'uk-text-justify\'>By clicking on individual bubbles, viewers can access detailed information, including the country’s specific OS policy status, the exact count of OS activities, the percentage these constitute of total national output in this area, and the specific investment bracket.</p>' +
