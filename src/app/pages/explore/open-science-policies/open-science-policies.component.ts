@@ -12,7 +12,7 @@ import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
-import { policesMapCaptions } from "../../../domain/chart-captions";
+import { openScienceAreas, policesMapCaptions } from "../../../domain/chart-captions";
 
 
 @Component({
@@ -32,7 +32,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
   year = '2023';
   lastUpdateDate?: string;
 
-  columnChartCategories=  ['Open Access Publications', 'Data Management', 'Fair Data', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills / Training', 'Incentives / Rewards for OS', 'Citizen Science'];
+  columnChartCategories= openScienceAreas;
 
   columnChartSeries: SeriesOptionsType[] = [];
   columnChartTitles = {

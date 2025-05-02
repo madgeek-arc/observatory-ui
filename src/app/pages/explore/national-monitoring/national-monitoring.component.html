@@ -76,7 +76,7 @@
                 <div>
                   <app-highcharts-category-map
                     [mapData]="questionsDataArray[i]" [subtitle]="" [toolTipData]="toolTipData[i]"
-                    [title]="mapTitles[i]" [backgroundColor]="'#ffffff'" [height]="600"
+                    [title]="mapTitles[i]" [backgroundColor]="'#ffffff'" [height]="700"
                     [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
                     [caption]="monitoringMapCaptions[i] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'">
                   </app-highcharts-category-map>
@@ -109,30 +109,14 @@
         <thead>
         <tr>
           <th></th>
-          <th>
-            <div class="uk-text-bold">Publications</div>
-          </th>
-          <th colspan="3">
-            <div class="uk-text-bold">Data</div>
-          </th>
-          <th>
-            <div class="uk-text-bold">Software</div>
-          </th>
-          <th>
-            <div class="uk-text-bold">Services</div>
-          </th>
-          <th colspan="3">
-            <div class="uk-text-bold">Infrastructure</div>
-          </th>
-          <th>
-            <div class="uk-text-bold">Skills/Training</div>
-          </th>
-          <th>
-            <div class="uk-text-bold">Assessment</div>
-          </th>
-          <th>
-            <div class="uk-text-bold">Engagement</div>
-          </th>
+          <th><div class="uk-text-bold">Publications</div></th>
+          <th colspan="3"><div class="uk-text-bold">Data</div></th>
+          <th><div class="uk-text-bold">Software</div></th>
+          <th><div class="uk-text-bold">Services</div></th>
+          <th colspan="3"><div class="uk-text-bold">Infrastructure</div></th>
+          <th><div class="uk-text-bold">Skills/Training</div></th>
+          <th><div class="uk-text-bold">Assessment</div></th>
+          <th><div class="uk-text-bold">Engagement</div></th>
         </tr>
         </thead>
         <tbody>

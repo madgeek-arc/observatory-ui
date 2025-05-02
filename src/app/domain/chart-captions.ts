@@ -1,3 +1,18 @@
+export const openScienceAreas: string[] = [
+  'Publications',
+  'Data Management',
+  'FAIR Data',
+  'Open Data',
+  'Open Software',
+  'Services',
+  'Connecting Repositories to EOSC',
+  'Data Stewardship',
+  'Long-term Data Preservation',
+  'Open Science Training',
+  'Incentives/Rewards for OS',
+  'Citizen Science'
+];
+
 export const policesMapCaptions: string[] = [
   // Publications
   '<p class=\'uk-text-justify\'>This map illustrates the status of national policies on OA publications across European countries. OA policies are essential for promoting the free sharing of scientific knowledge and ensuring research outputs are widely accessible.</p><p class=\'uk-text-justify\'>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>',

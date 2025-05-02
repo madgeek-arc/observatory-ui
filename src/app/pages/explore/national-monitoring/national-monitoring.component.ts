@@ -11,7 +11,7 @@ import { PdfExportService } from "../../services/pdf-export.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { ExploreService } from "../explore.service";
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
-import { monitoringMapCaptions } from "../../../domain/chart-captions";
+import { monitoringMapCaptions, openScienceAreas } from "../../../domain/chart-captions";
 
 @Component({
   selector: 'app-national-monitoring',
@@ -30,7 +30,7 @@ export class NationalMonitoringComponent implements OnInit {
 
   tableData: string[][] = [];
 
-  columnChartCategories = ['Open Access Publications', 'Data Management', 'Fair Data', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills / Training', 'Incentives / Rewards for OS', 'Citizen Science'];
+  columnChartCategories = openScienceAreas
 
   columnChartSeries: SeriesOptionsType[] = [];
   columnChartTitles = {
@@ -50,7 +50,8 @@ export class NationalMonitoringComponent implements OnInit {
     shadow: true
   };
 
-  openScienceAreas = ['Publications', 'Data Management', 'FAIR Data', 'Open Data', 'Software', 'Services', 'Repositories', 'Data stewardship', 'Long-term Data Preservation', 'Skills/Training', 'Incentives', 'Citizen Science'];
+  openScienceAreas = this.columnChartCategories;
+
   mapTitles = ['National Monitoring on open access publications', 'National Monitoring on Data Management', 'National Monitoring on FAIR Data', 'National Monitoring on Open Data', 'National Monitoring on Open Sources Software', 'National Monitoring on offering services through EOSC', 'National Monitoring on Connecting Repositories to EOSC', 'National Monitoring on data stewardship', 'National Monitoring on Long-term Data Preservation', 'National Monitoring on Skills/Training in Open Science', 'National Monitoring on incentives/rewards for Open Science', 'National Monitoring on Citizen Science'];
 
   monitoringRawData: RawData[] = [];
