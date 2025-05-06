@@ -1,14 +1,11 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import * as Highcharts from "highcharts";
+import { LegendOptions, SeriesOptionsType } from "highcharts";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { trendOfOAPublications, trendOfOpenData } from "../OSO-stats-queries/explore-queries";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { zip } from "rxjs";
-import { LegendOptions, SeriesBarOptions, SeriesOptionsType } from "highcharts";
-import { RawData } from "../../../../survey-tool/app/domain/raw-data";
 import { PdfExportService } from "../../services/pdf-export.service";
-import html2canvas from "html2canvas";
-import JsPDF from "jspdf";
 import { ExploreService } from "../explore.service";
 
 
@@ -25,20 +22,18 @@ export class OpenScienceTrendsComponent implements OnInit {
 
   years = ['2022', '2023'];
 
-  barChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills/Training', 'Incentives/Rewards for OS', 'Citizen Science'];
+  columnChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills / Training', 'Incentives / Rewards for OS', 'Citizen Science'];
 
-  barChartSeries: SeriesOptionsType[] = [];
-  barChartTitles = {
-    // title: 'Percentage of countries with national policies different Open Science Categories',
-    title: '',
+  columnChartSeries: SeriesOptionsType[] = [];
+  columnChartTitles = {
+    title: 'Trends in National Open Science Policies by Areas',
     xAxis: 'Policy on',
     yAxis: 'Percentage of countries with national policies',
   }
 
-  barChart2Series: SeriesOptionsType[] = [];
-  barChart2Titles = {
-    // title: 'Percentage of countries with national policies different Open Science Categories',
-    title: '',
+  columnChart2Series: SeriesOptionsType[] = [];
+  columnChart2Titles = {
+    title: 'Trends in Financial Strategy on EOSC and Open Science by Areas',
     xAxis: 'Financial Strategy on',
     yAxis: 'Percentage of countries with Financial Strategy',
   }
@@ -47,7 +42,7 @@ export class OpenScienceTrendsComponent implements OnInit {
     align: 'right',
     verticalAlign: 'bottom',
     x: -40,
-    y: -70,
+    y: -180,
     floating: true,
     borderWidth: 1,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
@@ -55,73 +50,25 @@ export class OpenScienceTrendsComponent implements OnInit {
   };
 
 
-  stackedColumnCategories = ['2020', '2021', '2022', '2023', '2024'];
-  stackedColumnSeries = [
-    {
-      type: 'column',
-      name: 'Gold OA only',
-      data: [],
-      color: '#FFD700' // Gold color
-    }, {
-      type: 'column',
-      name: 'Green OA only',
-      data: [],
-      color: '#228B22' // Forest green color
-    }, {
-      type: 'column',
-      name: 'Both Gold & Green OA',
-      data: [],
-      color: '#FF69B4' // Hot pink color for mixed category
-    }, {
-      type: 'column',
-      name: 'Neither',
-      data: [],
-      color: '#b0c4de'
-    }, {
-      type: 'column',
-      name: 'Closed',
-      data: [],
-      color: '#808080' // Grey color
-    }
-  ] as Highcharts.SeriesColumnOptions[];
+  stackedColumnCategories = [];
+  stackedColumnSeries = [] as Highcharts.SeriesColumnOptions[];
   yAxisTitle = 'Number of Publications';
-  legend = {
+  legend: LegendOptions = {
     align: 'right',
     x: -30,
     verticalAlign: 'top',
-    y: -10,
+    y: 30,
     floating: true,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
     borderWidth: 1,
-    shadow: false
+    shadow: false,
+    reversed: false
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
-  stackedColumn2Categories = [];
-  stackedColumn2Series = [
-    {
-      type: 'column',
-      name: 'Open',
-      data: [],
-      color: '#028691'
-    }, {
-      type: 'column',
-      name: 'Closed',
-      data: [],
-      color: '#fae0d1'
-    }, {
-      type: 'column',
-      name: 'Restricted',
-      data: [],
-      color: '#e4587c'
-    }, {
-      type: 'column',
-      name: 'Embargo',
-      data: [],
-      color: '#515252'
-    }
-  ] as Highcharts.SeriesColumnOptions[];
+  stackedColumn2Categories: string[] = [];
+  stackedColumn2Series: Highcharts.SeriesColumnOptions[] = [];
   yAxis2Title = 'Number of Data Sets';
 
 
@@ -129,9 +76,9 @@ export class OpenScienceTrendsComponent implements OnInit {
               private exploreService: ExploreService) {}
 
   ngOnInit() {
-    this.years.forEach((year, index) => {
-      this.getBarChartData(year, index);
-      this.getFinancialBarChartData(year, index);
+    this.years.forEach((year) => {
+      this.getColumnChartData(year);
+      this.getFinancialColumnChartData(year);
     });
 
     this.getTrendsPublications();
@@ -143,7 +90,7 @@ export class OpenScienceTrendsComponent implements OnInit {
   }
 
   /** Bar charts --------------------------------------------------------------------------------------------------> **/
-  getBarChartData(year: string, index: number) {
+  getColumnChartData(year: string) {
     zip(
       this.queryData.getQuestion(year, 'Question6'),   // national policy on open access publications
       this.queryData.getQuestion(year, 'Question14'),  // national policy on FAIR data
@@ -160,16 +107,17 @@ export class OpenScienceTrendsComponent implements OnInit {
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
-        this.barChartSeries.push(this.createBarChartSeries(value, year));
+        this.columnChartSeries.push(this.exploreService.createColumnChartSeries(value, year));
 
-        if (this.years.length === index+1)
-          this.barChartSeries = [...this.barChartSeries];
+        if (this.columnChartSeries.length === this.years.length) { // When series complete
+          this.columnChartSeries = [...this.columnChartSeries]; // Trigger angular detection change
+        }
       },
       error: err => {console.error(err)}
     });
   }
 
-  getFinancialBarChartData(year: string, index: number) {
+  getFinancialColumnChartData(year: string) {
     zip(
       this.queryData.getQuestion(year, 'Question7'),  // Publications
       this.queryData.getQuestion(year, 'Question15'), // FAIR-data
@@ -186,44 +134,48 @@ export class OpenScienceTrendsComponent implements OnInit {
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
-        this.barChart2Series.push(this.createBarChartSeries(value, year));
+        this.columnChart2Series.push(this.exploreService.createColumnChartSeries(value, year));
 
-        if (this.years.length === index+1)
-          this.barChart2Series = [...this.barChart2Series];
+        if (this.columnChart2Series.length === this.years.length) { // When series complete
+          this.columnChart2Series = [...this.columnChart2Series]; // Trigger angular detection change
+        }
+
       },
       error: err => {console.error(err)}
     });
   }
 
-  createBarChartSeries(data: RawData[], year: string) {
-    let series: SeriesBarOptions = {
-      type: 'bar',
-      name: 'Year '+ (+year-1),
-      data: []
-    }
-
-    data.forEach(el => {
-      let count = 0;
-      el.datasets[0].series.result.forEach(item => {
-        if (item.row[1] === 'Yes')
-          count++;
-      });
-      series.data.push(Math.round(((count/el.datasets[0].series.result.length + Number.EPSILON) * 100)));
-    });
-    return series;
-  }
+  // createColumnChartSeries(data: RawData[], year: string) {
+  //   let series: Highcharts.SeriesColumnOptions = {
+  //     type: 'column',
+  //     name: 'Year '+ (+year-1),
+  //     data: []
+  //   }
+  //
+  //   data.forEach(el => {
+  //     let count = 0;
+  //     el.datasets[0].series.result.forEach(item => {
+  //       if (item.row[1] === 'Yes')
+  //         count++;
+  //     });
+  //     series.data.push(Math.round(((count/el.datasets[0].series.result.length + Number.EPSILON) * 100)));
+  //   });
+  //   return series;
+  // }
 
   /** Get trends of Publications ----------------------------------------------------------------------------------> **/
   getTrendsPublications() {
-    this.queryData.getOSOStats(trendOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(trendOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        value.data.forEach((item, index) => {
-          item.forEach(el => {
-            this.stackedColumnSeries[index].data.push(+el[0]);
-          });
+        value.series.forEach((series, index) => {
+          const tmpSeries: SeriesOptionsType = {
+            type: 'column',
+            name: value.dataSeriesNames[index],
+            data: series.data,
+          };
+          this.stackedColumnSeries.push(tmpSeries);
         });
-        // console.log(this.stackedColumnSeries);rm
-        this.stackedColumnSeries = [...this.stackedColumnSeries];
+        this.stackedColumnCategories = value.xAxis_categories;
       }
     });
   }
@@ -233,7 +185,12 @@ export class OpenScienceTrendsComponent implements OnInit {
     this.queryData.getOSOStatsChartData(trendOfOpenData()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
-          this.stackedColumn2Series[index].data.push(...series.data);
+          let tmpSeries: SeriesOptionsType = {
+            type: 'column',
+            name: value.dataSeriesNames[index],
+            data: series.data
+          }
+          this.stackedColumn2Series.push(tmpSeries);
         });
 
         this.stackedColumn2Categories = value.xAxis_categories;

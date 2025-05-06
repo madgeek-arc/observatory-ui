@@ -1,19 +1,17 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { LegendOptions, PointOptionsObject, SeriesBarOptions, SeriesBubbleOptions } from "highcharts";
-import { zip } from "rxjs/internal/observable/zip";
-import { RawData, Row } from "../../../../survey-tool/app/domain/raw-data";
-import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
-import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { zip } from "rxjs/internal/observable/zip";
+import { RawData, Row } from "../../../domain/raw-data";
+import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
+import { LegendOptions, PointOptionsObject, SeriesBarOptions, SeriesBubbleOptions } from "highcharts";
 
 type MergedElement = { x: string; y: string; z: string; name: string; country: string };
 
 @Component({
   selector: 'app-investments-in-eosc',
   templateUrl: './investments-in-eosc.component.html',
-  styleUrls: ['../../../../assets/css/explore-dashboard.scss']
 })
 
 export class InvestmentsInEoscComponent implements OnInit {
@@ -54,6 +52,12 @@ export class InvestmentsInEoscComponent implements OnInit {
 
   totalInvestments: number[] = [];
 
+  barChartTitles = {
+    title: 'Overview of investments in EOSC and Open Science in European Countries',
+    xAxis: '',
+    yAxis: '',
+  }
+
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private exploreService: ExploreService) {}
 
@@ -79,7 +83,7 @@ export class InvestmentsInEoscComponent implements OnInit {
   getTreeGraphData() {
     this.queryData.getQuestion(this.year, 'Question5').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.bar = this.exploreService.createInvestmentBar(res);
+        this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);
       }
     );
@@ -163,16 +167,6 @@ export class InvestmentsInEoscComponent implements OnInit {
       name: 'countries',
       borderRadius: 5,
       data: [],
-      colors: [
-        '#4caefe',
-        '#3dc3e8',
-        '#2dd9db',
-        '#1feeaf',
-        '#0ff3a0',
-        '#00e887',
-        '#23e274',
-        '#26cd6e'
-      ]
     }];
 
     let sum = 0.0;

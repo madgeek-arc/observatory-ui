@@ -36,6 +36,7 @@ import { CumulativeDataTablesComponent } from "./eosc-readiness-2022/tables/cumu
 import { Glossary2022Component } from "./eosc-readiness-2022/glossary/glossary-2022.component";
 import { EoscReadinessDashboardComponent } from "./eosc-readiness-dynamic/eosc-readiness-dashboard.component";
 import { DemoChartsComponent } from "./eosc-readiness-dynamic/demo/demo-charts.component";
+import { ChartsModule } from "../../shared/charts/charts.module";
 
 @NgModule({
   declarations: [
@@ -71,10 +72,10 @@ import { DemoChartsComponent } from "./eosc-readiness-dynamic/demo/demo-charts.c
   ],
   imports: [
     CommonModule,
-    ReusableComponentsModule,
     EoscReadinessDashboardRouting,
     HighchartsChartModule,
-    ArchiveModule
+    ArchiveModule,
+    ChartsModule,
   ],
   providers: [
     DataService,

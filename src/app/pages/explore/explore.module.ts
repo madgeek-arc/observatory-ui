@@ -18,6 +18,8 @@ import { OpenScienceResourceRegistryComponent } from "./open-science-resource-re
 import { OpenScienceTrendsComponent } from "./open-science-trends/open-science-trends.component";
 import { OpenScienceUseCasesComponent } from "./open-science-use-cases/open-science-use-cases.component";
 import { ExploreService } from "./explore.service";
+import { SharedModule } from "../../shared/shared.module";
+import { ChartsModule } from "../../shared/charts/charts.module";
 
 @NgModule({
   declarations: [
@@ -36,7 +38,7 @@ import { ExploreService } from "./explore.service";
     CommonModule,
     ReusableComponentsModule,
     ExploreRouting,
-    HighchartsChartModule,
+    ChartsModule,
     NgOptimizedImage,
   ],
   providers: [

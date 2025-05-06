@@ -3,13 +3,14 @@ import * as Highcharts from "highcharts/highcharts.src";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
+import { RawData } from "../../../../domain/raw-data";
 import { zip } from "rxjs/internal/observable/zip";
 import { PdfExportService } from "../../../services/pdf-export.service";
-import { CountryTableData } from "../../../../../survey-tool/app/domain/country-table-data";
+import { CountryTableData } from "../../../../domain/country-table-data";
 import { DataHandlerService } from "../../../services/data-handler.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
+import { colors } from "../../../../domain/chart-color-palette";
 
 @Component({
   selector: 'app-open-science-by-area-data-management',
@@ -30,13 +31,13 @@ export class OpenScienceByAreaDataManagementComponent {
     {
       type: 'column',
       name: 'RPOs with Policy on Data Management',
-      data: [], // Example data
-      color: '#028691' // Primary color
+      data: [],
+      // color: colors[0]
     }, {
       type: 'column',
       name: 'RPOs without Policy on Data Management',
       data: [],
-      color: '#fae0d1' // Tertiary color
+      // color: colors[7]
     }
   ] as Highcharts.SeriesColumnOptions[];
 
@@ -45,12 +46,12 @@ export class OpenScienceByAreaDataManagementComponent {
       type: 'column',
       name: 'RFOs with Policy on Data Management',
       data: [],
-      color: '#e4587c' // Secondary color
+      // color: colors[1]
     }, {
       type: 'column',
       name: 'RFOs without Policy on Data Management',
       data: [],
-      color: '#515252' // Additional color
+      // color: colors[8]
     }
   ] as Highcharts.SeriesColumnOptions[];
 
@@ -83,6 +84,13 @@ export class OpenScienceByAreaDataManagementComponent {
   toolTipData: Map<string, string>[] = [];
   comment?: string;
   countryName?: string;
+  countryCode?: string;
+
+  barChartTitles = {
+    title: 'Financial Investments in Data Management in 2022',
+    xAxis: '',
+    yAxis: '',
+  }
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,
@@ -243,7 +251,7 @@ export class OpenScienceByAreaDataManagementComponent {
   getTreeGraphData() {
     this.queryData.getQuestion(this.years[this.years.length-1], 'Question60').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.bar = this.exploreService.createInvestmentBar(res);
+        this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);
       }
     );
@@ -292,6 +300,7 @@ export class OpenScienceByAreaDataManagementComponent {
 
   showComment(index: number, country: {code: string}) {
     this.comment = this.toolTipData[index].get(country.code.toLowerCase())?.replace(/\\n/g,'<br>').replace(/\\t/g,'  ') ?? 'N/A';
+    this.countryCode = country.code.toLowerCase();
     this.countryName = this.exploreService.findCountryName(country.code).name
   }
 

@@ -1,20 +1,27 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
+import { RawData } from "../../../../domain/raw-data";
 import {
+  distributionOfOA,
   distributionOfOAByScienceFields,
   distributionOfOAPublications,
   OAPublicationVSClosed,
   trendOfOAPublications
 } from "../../OSO-stats-queries/explore-queries";
 import * as Highcharts from "highcharts";
-import { LegendOptions, OptionsStackingValue, PointOptionsObject, SeriesBarOptions } from "highcharts";
+import {
+  LegendOptions,
+  OptionsStackingValue,
+  PointOptionsObject,
+  SeriesBarOptions,
+  SeriesOptionsType
+} from "highcharts";
 import { PdfExportService } from "../../../services/pdf-export.service";
 import { zip } from "rxjs/internal/observable/zip";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
-import { CountryTableData } from "../../../../../survey-tool/app/domain/country-table-data";
+import { CountryTableData } from "../../../../domain/country-table-data";
 import { ExploreService } from "../../explore.service";
 
 
@@ -33,41 +40,14 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
 
   years = ['2022', '2023'];
 
-  stackedColumnCategories = ['2020', '2021', '2022', '2023', '2024'];
-  stackedColumnSeries = [
-    {
-      type: 'column',
-      name: 'Gold OA only',
-      data: [],
-      color: '#FFD700' // Gold color
-    }, {
-      type: 'column',
-      name: 'Green OA only',
-      data: [],
-      color: '#228B22' // Forest green color
-    }, {
-      type: 'column',
-      name: 'Both Gold & Green OA',
-      data: [],
-      color: '#FF69B4' // Hot pink color for mixed category
-    }, {
-      type: 'column',
-      name: 'Neither',
-      data: [],
-      color: '#b0c4de'
-    }, {
-      type: 'column',
-      name: 'Closed',
-      data: [],
-      color: '#808080' // Grey color
-    }
-  ] as Highcharts.SeriesColumnOptions[];
+  stackedColumnCategories: string[] = [];
+  stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [] ;
   yAxisTitle = 'Number of Publications';
-  legend = {
+  legend: LegendOptions = {
     align: 'right',
-    x: -30,
     verticalAlign: 'top',
-    y: -10,
+    x: 0,
+    y: 35,
     floating: true,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
@@ -77,34 +57,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
   stackedColumn2Categories = [];
-  stackedColumn2Series = [
-    {
-      type: 'column',
-      name: 'Gold OA only',
-      data: [],
-      color: '#FFD700' // Gold color
-    }, {
-      type: 'column',
-      name: 'Green OA only',
-      data: [],
-      color: '#228B22' // Forest green color
-    }, {
-      type: 'column',
-      name: 'Both Gold & Green OA',
-      data: [],
-      color: '#FF69B4' // Hot pink color for mixed category
-    }, {
-      type: 'column',
-      name: 'Neither',
-      data: [],
-      color: '#b0c4de'
-    }, {
-      type: 'column',
-      name: 'Closed',
-      data: [],
-      color: '#808080' // Grey color
-    }
-  ] as Highcharts.SeriesColumnOptions[];
+  stackedColumn2Series:Highcharts.SeriesColumnOptions[] = [];
   yAxisTitle2 = 'Percentage of Publications';
   stacking: OptionsStackingValue = 'percent';
   dataLabels_format = '{point.percentage:.0f}%';
@@ -134,6 +87,33 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   toolTipData: Map<string, string>[] = [];
   comment?: string;
   countryName?: string;
+  countryCode?: string;
+
+  bar2: SeriesOptionsType[] = [
+    {
+      type: 'bar',
+      name: 'Open',
+      data: []
+    },
+    {
+      type: 'bar',
+      name: 'Closed',
+      data: []
+    }
+  ];
+  barCategories: string[] = [];
+
+  barChartTitles = {
+    title: 'Financial Investments in Open Access Publications in 2022',
+    xAxis: '',
+    yAxis: '',
+  }
+
+  barChart2Titles = {
+    title: 'Distribution of Open Access Types by Fields of Science',
+    xAxis: '',
+    yAxis: '',
+  }
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,
@@ -146,6 +126,8 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     this.getDistributionOAByScienceFields();
 
     this.getTreeGraphData('Question56');
+
+    this.getDistributionsOA();
 
     // Maps
     this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -214,15 +196,33 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
 
   /** Get trends of Publications ----------------------------------------------------------------------------------> **/
   getTrends() {
-    this.queryData.getOSOStats(trendOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(trendOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        value.data.forEach((item, index) => {
-          item.forEach(el => {
-            this.stackedColumnSeries[index].data.push(+el[0]);
-          });
+        value.series.forEach((series, index) => {
+          const tmpSeries: SeriesOptionsType = {
+            type: 'column',
+            name: value.dataSeriesNames[index],
+            data: series.data,
+          };
+          this.stackedColumnSeries.push(tmpSeries);
         });
-        // console.log(this.stackedColumnSeries);
-        this.stackedColumnSeries = [...this.stackedColumnSeries];
+        this.stackedColumnCategories = value.xAxis_categories;
+      }
+    });
+  }
+
+  /** Get Distribution of Open Access Types by Fields of Science ----------------------------------------------------------------------------------> **/
+  getDistributionsOA() {
+    this.queryData.getOSOStatsChartData(distributionOfOA()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        value.series.forEach((series, index) => {
+          (this.bar2[index] as SeriesBarOptions).data = series.data;
+        });
+        for (let i = 0; i < (this.bar2[this.bar2.length - 1] as SeriesBarOptions).data.length; i++) {
+          (this.bar2[this.bar2.length - 1] as SeriesBarOptions).data[i] = -(this.bar2[this.bar2.length - 1] as SeriesBarOptions).data[i];
+        }
+        this.barCategories = value.xAxis_categories;
+
       }
     });
   }
@@ -285,17 +285,22 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     this.queryData.getOSOStatsChartData(distributionOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
-            this.stackedColumn2Series[index].data.push(...series.data);
-        });
+          const tmpSeries: SeriesOptionsType = {
+            type: 'column',
+            name: value.dataSeriesNames[index],
+            data: series.data,
+          }
 
-        this.stackedColumn2Categories = value.xAxis_categories;
-        this.stackedColumn2Series[0].data.forEach((item, index) => {
-          let sum = 0;
-          this.stackedColumn2Series.forEach(series => {
-            sum += (+series.data[index]);
-          });
-          this.stackedColumn2Categories[index] = this.stackedColumn2Categories[index]+ ` (total = ${sum.toLocaleString('en-GB')} )`
+          this.stackedColumn2Series.push(tmpSeries);
         });
+        this.stackedColumn2Categories = value.xAxis_categories;
+        // this.stackedColumn2Series[0].data.forEach((item, index) => {
+        //   let sum = 0;
+        //   this.stackedColumn2Series.forEach(series => {
+        //     sum += (+series.data[index]);
+        //   });
+        //   this.stackedColumn2Categories[index] = this.stackedColumn2Categories[index]+ ` (total = ${sum.toLocaleString('en-GB')} )`
+        // });
       }
     });
   }
@@ -360,7 +365,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   getTreeGraphData(question: string) {
     this.queryData.getQuestion(this.years[this.years.length-1], question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.bar = this.exploreService.createInvestmentBar(res);
+        this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);
       }
     );
@@ -406,6 +411,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
 
   showComment(index: number, country: {code: string}) {
     this.comment = this.toolTipData[index].get(country.code.toLowerCase())?.replace(/\\n/g,'<br>').replace(/\\t/g,'  ') ?? 'N/A';
+    this.countryCode = country.code.toLowerCase();
     this.countryName = this.exploreService.findCountryName(country.code).name
   }
 

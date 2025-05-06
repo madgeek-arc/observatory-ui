@@ -83,10 +83,13 @@
 .uk-tab > * > a {
   //padding: 9px 20px;
   padding: 9px 12px;
-  border-bottom: 2px solid transparent;
   //text-transform: uppercase;
   transition: color .1s ease-in-out;
   line-height: 20px;
+}
+
+.uk-tab:not(.uk-tab-left):not(.uk-tab-right) > * > a {
+  border-bottom: 2px solid transparent;
 }
 
 .uk-tab > .uk-active > a {
@@ -190,4 +193,14 @@ a.button-osobservatory {
   //pointer-events: none; /* Disables clicks */
   //color: gray; /* Optional: to indicate it's disabled */
   cursor: not-allowed; /* Change the cursor to indicate disabled state */
+}
+
+.highcharts-root, .highcharts-caption {
+  //font-family: 'Source Sans 3', sans-serif !important;
+  font-family: var(--secondary-font-family), sans-serif !important;
+  //font-family: 'Roboto', sans-serif !important;
+}
+
+.overflow-wrap-break-word {
+  overflow-wrap: break-word;
 }

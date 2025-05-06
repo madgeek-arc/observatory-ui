@@ -17,7 +17,7 @@ export const environment = {
   matomoTrackerUrl: 'https://eosc-analytics.openaire.eu/matamo.php',
   matomoSiteId: 2,
   RECAPTCHA_V3_KEY: '$RECAPTCHA_V3_SITE_KEY',
-  disableSentry: false,
+  enableSentry: true,
   sentry: {
     dsn: 'https://f3877c1b0e3334d3869db0c5113dc30e@sentry.vereniki.athenarc.gr/5',
     environment: 'dl123',

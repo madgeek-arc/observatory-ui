@@ -1,16 +1,16 @@
 import { Component, OnInit } from "@angular/core";
+import { registerLocaleData } from "@angular/common";
+import localeEL from '@angular/common/locales/el';
 import { ActivatedRoute } from "@angular/router";
-import { CountryTableData } from "../../../../../../../survey-tool/app/domain/country-table-data";
+import { CountryTableData } from "../../../../../../domain/country-table-data";
 import { EoscReadiness2022MapSubtitles } from "../../../eosc-readiness2022-map-subtitles";
 import { EoscReadinessDataService } from "../../../../../services/eosc-readiness-data.service";
 import { StakeholdersService } from "../../../../../../../survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../../../services/data-handler.service";
+import { RawData } from "../../../../../../domain/raw-data";
 import { zip } from "rxjs/internal/observable/zip";
-import { RawData } from "../../../../../../../survey-tool/app/domain/raw-data";
 import { isNumeric } from "rxjs/internal-compatibility";
 import UIkit from "uikit";
-import { registerLocaleData } from "@angular/common";
-import localeEL from '@angular/common/locales/el';
 
 registerLocaleData(localeEL); // Register Greek locale
 

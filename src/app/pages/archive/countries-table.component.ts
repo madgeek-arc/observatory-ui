@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { CountryTableData } from "../../../survey-tool/app/domain/country-table-data";
+import { CountryTableData } from "../../domain/country-table-data";
 
 
 @Component({

@@ -1,15 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { CountryTableData } from "../../../../../survey-tool/app/domain/country-table-data";
+import { CountryTableData } from "../../../../domain/country-table-data";
 import { countriesNumbers, EoscReadiness2022MapSubtitles } from "../eosc-readiness2022-map-subtitles";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
-import { zip } from "rxjs/internal/observable/zip";
-import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
+import { RawData } from "../../../../domain/raw-data";
 import { isNumeric } from "rxjs/internal-compatibility";
-import * as Highcharts from "highcharts";
+import { zip } from "rxjs/internal/observable/zip";
 import { ColorAxisOptions, LegendOptions } from "highcharts";
+import * as Highcharts from "highcharts";
 import UIkit from "uikit";
 
 @Component({

@@ -1,15 +1,18 @@
 import { Injectable } from "@angular/core";
-import { CategorizedAreaData, Series } from "../../../survey-tool/app/domain/categorizedAreaData";
 import {
-  ColorPallet, countriesNumbers,
-  EoscReadiness2022MapSubtitles
+  ColorPallet, countriesNumbers, EoscReadiness2022MapSubtitles
 } from "../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
-import { latlong } from "../../../survey-tool/app/domain/countries-lat-lon";
-import { CountryTableData } from "../../../survey-tool/app/domain/country-table-data";
-import { RawData, Row } from "../../../survey-tool/app/domain/raw-data";
-import { SeriesBarOptions } from "highcharts";
+import { latlong } from "../../domain/countries-lat-lon";
+import { CountryTableData } from "../../domain/country-table-data";
+import { RawData, Row } from "../../domain/raw-data";
 import { EoscReadinessDataService } from "../services/eosc-readiness-data.service";
+import { CategorizedAreaData, Series } from "../../domain/categorizedAreaData";
 import { BehaviorSubject } from "rxjs";
+import { SeriesBarOptions } from "highcharts";
+import { countries } from "../../domain/countries";
+import { DataHandlerService } from "../services/data-handler.service";
+import * as Highcharts from "highcharts";
+import { colors } from "../../domain/chart-color-palette";
 
 @Injectable()
 export class ExploreService {
@@ -18,7 +21,7 @@ export class ExploreService {
 
   mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
 
-  constructor(private eoscReadiness: EoscReadinessDataService) {
+  constructor(private eoscReadiness: EoscReadinessDataService, private dataHandlerService: DataHandlerService) {
     this.getLastUpdateDate();
   }
 
@@ -45,7 +48,7 @@ export class ExploreService {
       questionsData.series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
       questionsData.series[i].data = tmpQuestionsData.series[i].data;
       questionsData.series[i].showInLegend = true;
-      questionsData.series[i].color = ColorPallet[position];
+      questionsData.series[i].color = colors[position];
     }
     let countryCodeArray = [];
     for (let i = 0; i < questionsData.series.length; i++) {
@@ -70,13 +73,13 @@ export class ExploreService {
 
     questionsData.series.push(new Series('Has mandatory national policy', true));
     questionsData.series[0].showInLegend = true;
-    questionsData.series[0].color = ColorPallet[0];
+    questionsData.series[0].color = colors[0];
     questionsData.series.push(new Series('Has national policy but not mandatory', false));
     questionsData.series[1].showInLegend = true;
-    questionsData.series[1].color = ColorPallet[3];
+    questionsData.series[1].color = colors[3];
     questionsData.series.push(new Series('Does not have national policy', false));
     questionsData.series[2].showInLegend = true;
-    questionsData.series[2].color = ColorPallet[1];
+    questionsData.series[2].color = colors[1];
 
     tmpQuestionsData.datasets[0].series.result.forEach(result => {
       if (result.row[1] === 'No') {
@@ -168,16 +171,16 @@ export class ExploreService {
     return questionsData;
   }
 
-  createMapDataFromMergedData(data: string[][], dictionary: Record<string, string[]>,  countriesArray: string[]) {
+  createMapDataFromMergedData(data: string[][], dictionary: Record<string, string[]>,  countriesArray: string[], seriesName: string) {
     const countriesWithAnswer: string[] = [];
     const questionsData = new CategorizedAreaData();
 
-    questionsData.series.push(new Series('Has national monitoring', true));
+    questionsData.series.push(new Series('Has national ' + seriesName, true));
     questionsData.series[0].showInLegend = true;
-    questionsData.series[0].color = ColorPallet[0];
-    questionsData.series.push(new Series('Does not have national monitoring', false));
+    questionsData.series[0].color = colors[0];
+    questionsData.series.push(new Series('Does not have national ' + seriesName, false));
     questionsData.series[1].showInLegend = true;
-    questionsData.series[1].color = ColorPallet[1];
+    questionsData.series[1].color = colors[1];
 
     data.forEach(value => {
       if (value[1] === 'Yes') {
@@ -205,7 +208,7 @@ export class ExploreService {
     return questionsData;
   }
 
-  mergeMonitoringData(data: RawData[], areas: string[], countries: string[]) {
+  mergeCategorizedMapData(data: RawData[], areas: string[], countries: string[], seriesName: string) {
     let mergedData: string[][] = [];
     let record: Record<string, string[]> = {};
 
@@ -225,11 +228,18 @@ export class ExploreService {
     // console.log(record);
     // console.log(mergedData);
 
-    return this.createMapDataFromMergedData(mergedData, record, countries);
+    return this.createMapDataFromMergedData(mergedData, record, countries, seriesName);
   }
 
-  createInvestmentBar(data: RawData) {
-    let series: SeriesBarOptions[] = [];
+  // Bar charts
+  createInvestmentsBar(data: RawData) {
+    let series: SeriesBarOptions[] = [
+      {type: 'bar', name: '< 1 M', data: []},
+      {type: 'bar', name: '1-5 M', data: []},
+      {type: 'bar', name: '5-10 M', data: []},
+      {type: 'bar', name: '10-20M', data: []},
+      {type: 'bar', name: '> 20 M', data: []}
+    ];
 
     let index = -1;
     data.datasets[0].series.result.forEach((element: Row) => {
@@ -242,41 +252,28 @@ export class ExploreService {
 
       if (+element.row[1] < 1) {
         index = series.findIndex(elem => elem.name === '< 1 M');
-        if (index < 0)
-          series.push({type: 'bar', name: '< 1 M', data: [element.row[0]]});
-        else
-          series[index].data.push(element.row[0]);
+        series[index].data.push(element.row[0]);
 
       } else if (+element.row[1] < 5) {
         index = series.findIndex(elem => elem.name === '1-5 M');
-        if (index < 0)
-          series.push({type: 'bar', name: '1-5 M', data: [element.row[0]]});
-        else
-          series[index].data.push(element.row[0]);
+        series[index].data.push(element.row[0]);
 
       } else if (+element.row[1] < 10) {
         index = series.findIndex(elem => elem.name === '5-10 M');
-        if (index < 0)
-          series.push({type: 'bar', name: '5-10 M', data: [element.row[0]]});
-        else
-          series[index].data.push(element.row[0]);
+        series[index].data.push(element.row[0]);
 
       } else if (+element.row[1] < 20) {
         index = series.findIndex(elem => elem.name === '10-20M');
-        if (index < 0)
-          series.push({type: 'bar', name: '10-20M', data: [element.row[0]]});
-        else
-          series[index].data.push(element.row[0]);
+        series[index].data.push(element.row[0]);
 
       } else if (+element.row[1] >= 20) {
         index = series.findIndex(elem => elem.name === '> 20 M');
-        if (index < 0)
-          series.push({type: 'bar', name: '> 20 M', data: [element.row[0]]});
-        else
-          series[index].data.push(element.row[0]);
+        series[index].data.push(element.row[0]);
 
       }
     });
+
+    series = series.filter(elem => elem.data.length !== 0);
 
     series.forEach(series => {
       series.data.forEach((element: string, index: number) => {
@@ -288,6 +285,24 @@ export class ExploreService {
       series.data = [countryCount];
     });
 
+    return series;
+  }
+
+  createColumnChartSeries(data: RawData[], year: string) {
+    let series: Highcharts.SeriesColumnOptions = {
+      type: 'column',
+      name: 'Year '+ (+year-1),
+      data: []
+    }
+
+    data.forEach(el => {
+      let count = 0;
+      el.datasets[0].series.result.forEach(item => {
+        if (item.row[1] === 'Yes')
+          count++;
+      });
+      series.data.push(Math.round(((count/el.datasets[0].series.result.length + Number.EPSILON) * 100)));
+    });
     return series;
   }
 
@@ -351,6 +366,37 @@ export class ExploreService {
     return arr;
   }
 
+  // Tables
+  createTable(value: RawData[], countriesEOSC: string[]) {
+    let tableData: string[][] = [];
+
+    tableData[1] = this.dataHandlerService.convertRawDataForCumulativeTable(value[0], countriesEOSC);
+    tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(value[1], countriesEOSC);
+    tableData[3] = this.dataHandlerService.convertRawDataForCumulativeTable(value[2], countriesEOSC);
+    tableData[4] = this.dataHandlerService.convertRawDataForCumulativeTable(value[3], countriesEOSC);
+    tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(value[4], countriesEOSC);
+    tableData[6] = this.dataHandlerService.convertRawDataForCumulativeTable(value[5], countriesEOSC);
+    tableData[7] = this.dataHandlerService.convertRawDataForCumulativeTable(value[6], countriesEOSC);
+    tableData[8] = this.dataHandlerService.convertRawDataForCumulativeTable(value[7], countriesEOSC);
+    tableData[9] = this.dataHandlerService.convertRawDataForCumulativeTable(value[8], countriesEOSC);
+    tableData[10] = this.dataHandlerService.convertRawDataForCumulativeTable(value[9], countriesEOSC);
+    tableData[11] = this.dataHandlerService.convertRawDataForCumulativeTable(value[10], countriesEOSC);
+    tableData[12] = this.dataHandlerService.convertRawDataForCumulativeTable(value[11], countriesEOSC);
+
+    tableData[0] = countriesEOSC;
+    // Transpose 2d array
+    tableData = tableData[0].map((_, colIndex) => tableData.map(row => row[colIndex]));
+
+    for (let i = 0; i < tableData.length; i++) {
+      let tmpData = countries.find(country => country.id === tableData[i][0]);
+      if (tmpData)
+        tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
+    }
+    // console.log(tableData);
+
+    return tableData;
+  }
+
   // Utilities
   isNumeric(value: string | null): boolean {
     // Check if the value is empty
@@ -366,6 +412,19 @@ export class ExploreService {
 
     // Check if parsing resulted in NaN or the value has extraneous characters
     return !isNaN(number) && isFinite(number) && String(number) === value;
+  }
+
+  calculateSum(rawData: RawData): string {
+    let sum = 0.0;
+    for (const series of rawData.datasets) {
+      for (const rowResult of series.series.result) {
+        if (this.isNumeric(rowResult.row[1])) {
+          sum += +rowResult.row[1];
+        }
+      }
+    }
+
+    return (Math.round((sum + Number.EPSILON) * 100) / 100).toString();
   }
 
   findCountryName(code: string) {

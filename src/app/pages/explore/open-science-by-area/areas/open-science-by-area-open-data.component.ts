@@ -1,12 +1,18 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
+import { RawData } from "../../../../domain/raw-data";
 import * as Highcharts from "highcharts";
-import { LegendOptions, OptionsStackingValue, PointOptionsObject, SeriesBarOptions } from "highcharts";
+import {
+  LegendOptions,
+  OptionsStackingValue,
+  PointOptionsObject,
+  SeriesBarOptions,
+  SeriesOptionsType
+} from "highcharts";
 import { distributionByDocumentType, OpenDataVSClosed, trendOfOpenData } from "../../OSO-stats-queries/explore-queries";
 import { PdfExportService } from "../../../services/pdf-export.service";
-import { CountryTableData } from "../../../../../survey-tool/app/domain/country-table-data";
+import { CountryTableData } from "../../../../domain/country-table-data";
 import { zip } from "rxjs/internal/observable/zip";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
@@ -29,40 +35,19 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   years = ['2022', '2023'];
 
   stackedColumnCategories = [];
-  stackedColumnSeries = [
-    {
-      type: 'column',
-      name: 'Open',
-      data: [],
-      color: '#028691'
-    }, {
-      type: 'column',
-      name: 'Closed',
-      data: [],
-      color: '#fae0d1'
-    }, {
-      type: 'column',
-      name: 'Restricted',
-      data: [],
-      color: '#e4587c'
-    }, {
-      type: 'column',
-      name: 'Embargo',
-      data: [],
-      color: '#515252'
-    }
-  ] as Highcharts.SeriesColumnOptions[];
+  stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
   yAxisTitle = 'Number of Data Sets';
-  legend = {
+  legend: LegendOptions = {
     align: 'right',
     x: -30,
     verticalAlign: 'top',
-    y: -10,
+    y: 30,
     floating: true,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
     borderWidth: 1,
-    shadow: false
+    shadow: false,
+    reversed: false,
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
@@ -116,6 +101,13 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   toolTipData: Map<string, string>[] = [];
   comment?: string;
   countryName?: string;
+  countryCode?: string;
+
+  barChartTitles = {
+    title: 'Financial Investments in Open Data in 2022',
+    xAxis: '',
+    yAxis: '',
+  }
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,
@@ -156,9 +148,13 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
     this.queryData.getOSOStatsChartData(trendOfOpenData()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
-          this.stackedColumnSeries[index].data.push(...series.data);
+          let tmpSeries: SeriesOptionsType = {
+            type: 'column',
+            name: value.dataSeriesNames[index],
+            data: series.data
+          }
+          this.stackedColumnSeries.push(tmpSeries);
         });
-
         this.stackedColumnCategories = value.xAxis_categories;
       }
     });
@@ -273,7 +269,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   getTreeGraphData() {
     this.queryData.getQuestion(this.years[this.years.length-1], 'Question68').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.bar = this.exploreService.createInvestmentBar(res);
+        this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);
       }
     );
@@ -317,6 +313,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
 
   showComment(index: number, country: {code: string}) {
     this.comment = this.toolTipData[index].get(country.code.toLowerCase())?.replace(/\\n/g,'<br>').replace(/\\t/g,'  ') ?? 'N/A';
+    this.countryCode = country.code.toLowerCase();
     this.countryName = this.exploreService.findCountryName(country.code).name
   }
 

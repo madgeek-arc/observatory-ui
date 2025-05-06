@@ -1,22 +1,18 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { zip } from "rxjs/internal/observable/zip";
+import { isNumeric } from "rxjs/internal-compatibility";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
-import { ChartData, RawData } from "../../../../../survey-tool/app/domain/raw-data";
-import { isNumeric } from "rxjs/internal-compatibility";
-import {
-  ColorPallet,
-  countriesNumbers,
-  EoscReadiness2022MapSubtitles
-} from "../../eosc-readiness-2022/eosc-readiness2022-map-subtitles";
+import { RawData } from "../../../../domain/raw-data";
+import { ColorPallet, countriesNumbers, EoscReadiness2022MapSubtitles } from "../../eosc-readiness-2022/eosc-readiness2022-map-subtitles";
+import { latlong } from "../../../../domain/countries-lat-lon";
+import { SurveyService } from "../../../../../survey-tool/app/services/survey.service";
+import { CountryTableData } from "../../../../domain/country-table-data";
+import { CategorizedAreaData, Series } from "../../../../domain/categorizedAreaData";
 import { PointOptionsObject, SeriesBubbleOptions, SeriesOptionsType } from "highcharts";
 import * as Highcharts from "highcharts";
-import { CategorizedAreaData, Series } from "../../../../../survey-tool/app/domain/categorizedAreaData";
-import { latlong } from "../../../../../survey-tool/app/domain/countries-lat-lon";
-import { SurveyService } from "../../../../../survey-tool/app/services/survey.service";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { CountryTableData } from "../../../../../survey-tool/app/domain/country-table-data";
 
 @Component({
   selector: "demo-charts",

@@ -1,9 +1,9 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
+import { RawData } from "../../../../domain/raw-data";
 import { PdfExportService } from "../../../services/pdf-export.service";
-import { CountryTableData } from "../../../../../survey-tool/app/domain/country-table-data";
+import { CountryTableData } from "../../../../domain/country-table-data";
 import { zip } from "rxjs/internal/observable/zip";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
@@ -46,6 +46,13 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
   toolTipData: Map<string, string>[] = [];
   comment?: string;
   countryName?: string;
+  countryCode?: string;
+
+  barChartTitles = {
+    title: 'Financial Investments on Citizen Science in 2022',
+    xAxis: '',
+    yAxis: '',
+  }
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,
@@ -161,7 +168,7 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
   getTreeGraphData() {
     this.queryData.getQuestion(this.years[this.years.length-1], 'Question100').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.bar = this.exploreService.createInvestmentBar(res);
+        this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);
       }
     );
@@ -206,6 +213,7 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
 
   showComment(index: number, country: {code: string}) {
     this.comment = this.toolTipData[index].get(country.code.toLowerCase())?.replace(/\\n/g,'<br>').replace(/\\t/g,'  ') ?? 'N/A';
+    this.countryCode = country.code.toLowerCase();
     this.countryName = this.exploreService.findCountryName(country.code).name
   }
 

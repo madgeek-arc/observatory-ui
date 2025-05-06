@@ -2,14 +2,15 @@ import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { zip } from "rxjs/internal/observable/zip";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { RawData } from "../../../../../survey-tool/app/domain/raw-data";
+import { RawData } from "../../../../domain/raw-data";
 import * as Highcharts from "highcharts/highcharts.src";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { PdfExportService } from "../../../services/pdf-export.service";
-import { CountryTableData } from "../../../../../survey-tool/app/domain/country-table-data";
+import { CountryTableData } from "../../../../domain/country-table-data";
 import { DataHandlerService } from "../../../services/data-handler.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
+import { colors } from "../../../../domain/chart-color-palette";
 
 @Component({
   selector: 'app-open-science-by-area-fair-data',
@@ -31,12 +32,12 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       type: 'column',
       name: 'Research Performing Organisations with Policy',
       data: [],
-      color: '#028691' // Primary color
+      // color: colors[0]
     }, {
       type: 'column',
       name: 'Research Performing Organisations without Policy',
       data: [],
-      color: '#fae0d1' // Tertiary color
+      // color: colors[7]
     }
   ] as Highcharts.SeriesColumnOptions[];
   stackedColumnSeries2 = [
@@ -44,12 +45,12 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       type: 'column',
       name: 'Research Funding Organisations with Policy',
       data: [],
-      color: '#e4587c' // Secondary color
+      // color: colors[1]
     }, {
       type: 'column',
       name: 'Research Funding Organisations without Policy',
       data: [],
-      color: '#515252' // Additional color
+      // color: colors[8]
     }
   ] as Highcharts.SeriesColumnOptions[];
   stackedColumnCategories = ['2021', '2022'];
@@ -80,6 +81,13 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
   toolTipData: Map<string, string>[] = [];
   comment?: string;
   countryName?: string;
+  countryCode?: string;
+
+  barChartTitles = {
+    title: 'Financial Investments in FAIR Data in 2022',
+    xAxis: '',
+    yAxis: '',
+  }
 
   constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService,
               private pdfService: PdfExportService, private dataHandlerService: DataHandlerService,
@@ -229,7 +237,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
   getTreeGraphData() {
     this.queryData.getQuestion(this.years[this.years.length-1], 'Question64').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.bar = this.exploreService.createInvestmentBar(res);
+        this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);
       }
     );
@@ -274,6 +282,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
 
   showComment(index: number, country: {code: string}) {
     this.comment = this.toolTipData[index].get(country.code.toLowerCase())?.replace(/\\n/g,'<br>').replace(/\\t/g,'  ') ?? 'N/A';
+    this.countryCode = country.code.toLowerCase();
     this.countryName = this.exploreService.findCountryName(country.code).name
   }
 

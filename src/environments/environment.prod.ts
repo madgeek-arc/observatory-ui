@@ -13,7 +13,7 @@ export const environment = {
   matomoTrackerUrl: '$MATOMO_URL',
   matomoSiteId: '$MATOMO_SITE_ID',
   RECAPTCHA_V3_KEY: '$RECAPTCHA_V3_SITE_KEY',
-  disableSentry: false,
+  enableSentry: true,
   sentry: {
     dsn: '$SENTRY_DSN',
     environment: '$SENTRY_ENV',
