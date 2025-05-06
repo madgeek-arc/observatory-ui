@@ -70,6 +70,16 @@ export class OpenSciencePoliciesComponent implements OnInit {
   totalResearchersPerYear = new Map<string, string>();
 
   bubbleWithCategories = [] as SeriesBubbleOptions[];
+  bubbleChartTooltip = {
+    useHTML: true,
+    headerFormat: '<table>',
+    pointFormat: '<tr><th colspan="2"><h4>{point.country}</h4></th></tr>' +
+      '<tr><th>Publications per Researcher FTE:</th><td>{point.x}</td></tr>' +
+      '<tr><th>Financial investment per researcher FTE:</th><td>{point.y}</td></tr>',
+      // + '<tr><th>Number of publications:</th><td>{point.z}</td></tr>',
+    footerFormat: '</table>',
+    followPointer: true
+  }
 
   tableData: string[][] = [];
 
@@ -315,17 +325,25 @@ export class OpenSciencePoliciesComponent implements OnInit {
   createBubbleChartSeries(data: RawData[]) {
     const tmpArr = this.mergeArrays(data[0].datasets[0].series.result, data[1].datasets[0].series.result, data[2].datasets[0].series.result);
     // console.log(tmpArr);
-    let series = [
-      {data: []}
-    ] as SeriesBubbleOptions[];
+    let series = [{
+      data: [],
+      colorByPoint: true
+    }] as unknown as SeriesBubbleOptions[];
 
     tmpArr.forEach(el => {
 
-      if (!this.exploreService.isNumeric(el[1]) || !this.exploreService.isNumeric(el[2]))
+      if (!this.exploreService.isNumeric(el[1]) || !this.exploreService.isNumeric(el[2]) || !this.exploreService.isNumeric(el[3]))
         return;
 
-      //TODO: Z is statically set to 10 until corresponding query is provided
-      let item = {x: +el[1], y: +el[2], z: 10, name: el[0], country: this.findCountryName(el[0]).name};
+      let item = {
+        x: Math.round(((+el[3] * 1000000 / +el[1]) + Number.EPSILON) * 100) / 100,
+        // x: (+el[3] * 1000000) / +el[1],
+        y: Math.round((((+el[2] * 1000000) / +el[1]) + Number.EPSILON) * 100) / 100,
+        //TODO: Z is statically set to 10 until corresponding query is provided
+        z: 10,
+        name: el[0],
+        country: this.findCountryName(el[0]).name
+      };
 
       series[0].data.push(item);
 

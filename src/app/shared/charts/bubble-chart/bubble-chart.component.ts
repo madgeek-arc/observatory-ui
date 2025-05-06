@@ -15,7 +15,9 @@ export class BubbleChartComponent implements OnChanges {
   @Input() title: string = null;
   @Input() subTitle: string = null;
   @Input() xAxisTitle: string = '';
+  @Input() xAxisLabelFormat?: string;
   @Input() yAxisTitle: string = '';
+  @Input() yAxisLabelFormat?: string;
   @Input() toolTip = {};
   @Input() enablePlotLines: boolean = false;
   @Input() enableLegend: boolean = false;
@@ -54,36 +56,11 @@ export class BubbleChartComponent implements OnChanges {
       enabled: false
     },
 
-    accessibility: {
-      point: {
-        valueDescriptionFormat: '{index}. {point.name}, fat: {point.x}g, ' +
-          'sugar: {point.y}g, obesity: {point.z}%.'
-      }
-    },
-
     xAxis: {
       gridLineWidth: 1,
       title: {
         text: this.xAxisTitle
       },
-      // labels: {
-      //   format: '{value} M'
-      // },
-      plotLines: [{
-        color: 'black',
-        dashStyle: 'Dot',
-        width: 2,
-        value: 65,
-        label: {
-          rotation: 0,
-          y: 15,
-          style: {
-            fontStyle: 'italic'
-          },
-          text: 'Averege Investments in EOSC and OS'
-        },
-        zIndex: 3
-      }],
       accessibility: {
         rangeDescription: 'Avarage investment in EOSC and OS'
       }
@@ -95,25 +72,7 @@ export class BubbleChartComponent implements OnChanges {
       title: {
         text: this.yAxisTitle
       },
-      labels: {
-        format: '{value} M'
-      },
       maxPadding: 0.2,
-      plotLines: [{
-        color: 'black',
-        dashStyle: 'Dot',
-        width: 2,
-        value: 50,
-        label: {
-          align: 'right',
-          style: {
-            fontStyle: 'italic'
-          },
-          text: 'Average Investments in OA',
-          x: -10
-        },
-        zIndex: 3
-      }],
       accessibility: {
         rangeDescription: 'Total Investments in OA'
       }
@@ -129,7 +88,7 @@ export class BubbleChartComponent implements OnChanges {
         },
         events: {
           click: (event) => {
-            console.log(event.point.name);
+            // console.log(event.point.name);
           }
         }
       }
@@ -148,6 +107,15 @@ export class BubbleChartComponent implements OnChanges {
   }
   xAverage = 0;
   yAverage = 0;
+
+  constructor() {
+    Highcharts.setOptions({
+      lang: {
+        decimalPoint: ',',
+        thousandsSep: ' '
+      }
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.enablePlotLines)
@@ -200,7 +168,7 @@ export class BubbleChartComponent implements OnChanges {
             text: this.xAxisTitle
           },
           labels: {
-            format: this.enablePlotLines ? '{value} M' : undefined
+            format: this.xAxisLabelFormat
           },
           plotLines: this.enablePlotLines ? [{
             color: 'black',
@@ -223,6 +191,9 @@ export class BubbleChartComponent implements OnChanges {
           categories: this.categories.length > 0 ? this.categories : undefined,
           title: {
             text: this.yAxisTitle
+          },
+          labels: {
+            format: this.yAxisLabelFormat
           },
           plotLines: this.enablePlotLines ? [{
             color: 'black',

@@ -136,8 +136,9 @@
 
       <div class="uk-grid">
         <div class="uk-width-1-1">
-          <app-bubble-chart [enablePlotLines]="false" [enableLegend]="false"
-                            xAxisTitle="Publications per Researcher FTE" yAxisTitle="Financial Investment per Researcher FTE"
+          <app-bubble-chart [enablePlotLines]="false" [enableLegend]="false" [toolTip]="bubbleChartTooltip"
+                            xAxisTitle="Publications per Researcher FTE"
+                            yAxisTitle="Financial Investment per Researcher FTE"
                             [title]="'Impact of Policy and Investment on Open Access Publications'"
                             [series]="bubbleWithCategories"  [height]="700"
                             [caption]="'<p class=\'uk-text-justify\'>This interactive bubble chart explores the relationship between policy frameworks, financial investments, and the activity levels of Open Science (OS) initiatives across a selection of European countries. Each bubble represents a specific country, with the size indicating the percentage of OS activities relative to the total national output in this area. The bubble\'s color denotes the policy status—green for mandatory policies, orange for non-mandatory policies, and grey for countries without specific policies.</p>' +
