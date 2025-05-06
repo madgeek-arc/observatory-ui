@@ -306,9 +306,36 @@ export class ExploreService {
     return series;
   }
 
+  // Stacked columns
+  createStackedColumnSeries(data: RawData[], series: Highcharts.SeriesColumnOptions[]) {
+    let orgCount = 0;
+    let orgCountWithPolicy = 0;
+    data[0].datasets[0].series.result.forEach((result) => {
+      if (this.isNumeric(result.row[1]))
+        orgCount += +result.row[1];
+    });
+
+    data[1].datasets[0].series.result.forEach((result) => {
+      if (this.isNumeric(result.row[1]))
+        orgCountWithPolicy += +result.row[1];
+    });
+
+    // series[0].data.push(Math.round(((orgCountWithPolicy/orgCount) + Number.EPSILON) * 100));
+    series[0].data.push(orgCountWithPolicy);
+    // series[1].data.push(Math.round((((orgCount-orgCountWithPolicy)/orgCount) + Number.EPSILON) * 100));
+    series[1].data.push(orgCount-orgCountWithPolicy);
+  }
+
   // Tree graph data
   createRanges(data: RawData) {
-    const arr = [{id: '0.0', parent: '', name: 'Country investments'}];
+    const arr = [
+      {id: '0.0', parent: '', name: 'Country investments'},
+      {id: '1.1', parent: '0.0', name: '< 1 M'},
+      {id: '1.2', parent: '0.0', name: '1-5 M'},
+      {id: '1.3', parent: '0.0', name: '5-10 M'},
+      {id: '1.4', parent: '0.0', name: '10-20M'},
+      {id: '1.5', parent: '0.0', name: '> 20 M'}
+    ];
 
     let count = 0;
 
@@ -331,30 +358,14 @@ export class ExploreService {
       }
 
       if (+element.row[1] < 1) {
-        if (arr.findIndex(elem => elem.id === '1.1') < 0)
-          arr.push({id: '1.1', parent: '0.0', name: '< 1 M'});
-
         item.parent = '1.1';
       } else if (+element.row[1] < 5) {
-        if (arr.findIndex(elem => elem.id === '1.2') < 0)
-          arr.push({id: '1.2', parent: '0.0', name: '1-5 M'});
-
         item.parent = '1.2';
       } else if (+element.row[1] < 10) {
-        if (arr.findIndex(elem => elem.id === '1.3') < 0)
-          arr.push({id: '1.3', parent: '0.0', name: '5-10 M'});
-
         item.parent = '1.3';
       } else if (+element.row[1] < 20) {
-        if (arr.findIndex(elem => elem.id === '1.4') < 0)
-          arr.push({id: '1.4', parent: '0.0', name: '10-20M'});
-
         item.parent = '1.4';
       } else if (+element.row[1] >= 20) {
-        if (arr.findIndex(elem => elem.id === '1.5') < 0)
-          arr.push(
-            {id: '1.5', parent: '0.0', name: '> 20 M'});
-
         item.parent = '1.5';
       }
 
@@ -363,8 +374,19 @@ export class ExploreService {
     });
 
     // console.log(arr);
-    return arr;
+    return this.trimNodes(arr);
   }
+
+  trimNodes(data: any[]): any[] {
+    const parentIds = new Set(data.map(item => item.parent).filter(p => p));
+    const leafIds = new Set(data.filter(d => d.y != null).map(d => d.parent));
+    return data.filter(item =>
+      item.parent === "" ||         // keep root
+      item.y != null ||             // keep leaf nodes
+      leafIds.has(item.id)          // keep parents that actually have children
+    );
+  }
+
 
   // Tables
   createTable(value: RawData[], countriesEOSC: string[]) {

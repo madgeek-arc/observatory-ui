@@ -53,8 +53,8 @@
           <app-multi-chart chartType=bar [series]="columnChart3Series" [categories]="columnChartCategories"
                            [titles]="columnChart3Titles" [legendOptions]="legendOptions" valueSuffix="%"
                            [height]="800" [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
-                           [caption]="'<p class=\'uk-text-justify\'>This bar chart illustrates the percentage of researchers covered by National Open Science Policies across various areas in Europe. Each bar represents the percentage of researchers covered by specific Open Science policies—such as Open Access Publications, Fair Data, and Skills/Training—across the Europe.</p>'
-                           + '<b>Data source:</b> Survey on National Contributions to EOSC and Open Science 2023 and 2022 - showing data for 2021 and 2022'">
+                           [caption]="'<p class=\'uk-text-justify\'>This bar illustrates the coverage of researchers by national Open Science policies across various policy areas in Europe, as measured in Full-Time Equivalents (FTE). To calculate the percentage, we sum the number of researchers covered by each policy across all countries and then calculate the percentage in relation to the total number of researchers in Europe (using data from Eurostat). The graph displays this breakdown for each policy area, offering insights into the extent of policy coverage for Open Science across European countries.</p>'
+                           + '<b>Data source:</b> <a href=&quot;https://ec.europa.eu/eurostat/databrowser/view/tsc00004/default/table?lang=en&quot; target=&quot;_blank&quot;>Eurostat</a>'">
           </app-multi-chart>
         </div>
 
@@ -96,9 +96,9 @@
               <div>
                 <app-highcharts-category-map
                   [mapData]="questionsDataArray[i]" [title]="mapTitles[i]" [toolTipData]="toolTipData[i]"
-                  [backgroundColor]="'#ffffff'" [height]="600"
+                  [backgroundColor]="'#ffffff'" [height]="700"
                   [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
-                  [caption]="'<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
+                  [caption]="policesMapCaptions[i] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
                 </app-highcharts-category-map>
               </div>
             </li>
@@ -136,14 +136,15 @@
 
       <div class="uk-grid">
         <div class="uk-width-1-1">
-          <app-bubble-chart [enablePlotLines]="false" [categories]="['<1', '1-5', '5-10', '10-20','>20']"
-                            xAxisTitle="Number of OA publication" yAxisTitle="Financial investmetsin OA"
+          <app-bubble-chart [enablePlotLines]="false" [enableLegend]="false" [toolTip]="bubbleChartTooltip"
+                            xAxisTitle="Publications per Researcher FTE"
+                            yAxisTitle="Financial Investment per Researcher FTE"
                             [title]="'Impact of Policy and Investment on Open Access Publications'"
-                            [series]="bubbleWithCategories" [enableLegend]="true" [height]="700"
+                            [series]="bubbleWithCategories"  [height]="700"
                             [caption]="'<p class=\'uk-text-justify\'>This interactive bubble chart explores the relationship between policy frameworks, financial investments, and the activity levels of Open Science (OS) initiatives across a selection of European countries. Each bubble represents a specific country, with the size indicating the percentage of OS activities relative to the total national output in this area. The bubble\'s color denotes the policy status—green for mandatory policies, orange for non-mandatory policies, and grey for countries without specific policies.</p>' +
                             '<p class=\'uk-text-justify\'>The x-axis quantifies the actual number of OS activities, providing a measure of how actively countries are engaged in OS projects. The y-axis categorizes the level of financial investment into OS, segmented into four major categories: \'<1M\', \'1-5M\', \'5-10M\', and \'>20M\'. These categories help illustrate the financial commitment to OS projects within each country.</p>' +
                             '<p class=\'uk-text-justify\'>By clicking on individual bubbles, viewers can access detailed information, including the country’s specific OS policy status, the exact count of OS activities, the percentage these constitute of total national output in this area, and the specific investment bracket.</p>' +
-                            '<p><strong>Data Source: </strong>Survey on National Contributions to EOSC and Open Science, OpenAIRE Graph data for 2022 (updated on' + lastUpdateDate + ').</p>'">
+                            '<p><strong>Data Source: </strong>Survey on National Contributions to EOSC and Open Science, OpenAIRE Graph data for 2022 (updated on ' + lastUpdateDate + ').</p>'">
           </app-bubble-chart>
         </div>
 
@@ -231,25 +232,30 @@
       <tbody>
         <tr *ngFor="let row of tableData">
           <td *ngFor="let item of row; let i = index" [ngClass]="{valueTrue: item === 'true', valueFalse: item==='-'}">
-            <div *ngIf="i === 0" class="uk-text-bold">{{ item }}</div>
-            <div *ngIf="(i===2)" uk-tooltip="Data management" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
-            <div *ngIf="(i===3)" uk-tooltip="FAIR data" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
-            <div *ngIf="(i===4)" uk-tooltip="Open data" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
-            <div *ngIf="(i===7)" uk-tooltip="Connecting repositories to EOSC" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
-            <div *ngIf="(i===8)" uk-tooltip="Data stewardship" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
-            <div *ngIf="(i===9)" uk-tooltip="Long-term data preservation" style="width:100%; height:100%">
-              <a style="width:100%; height:100%">&#8203;</a>
-            </div>
+            <div *ngIf="i === 0; else addTooltip" class="uk-text-bold">{{ item }}</div>
+            <ng-template #addTooltip>
+              <div [title]="columnChartCategories[--i]" style="width:100%; height:100%">
+                <a style="width:100%; height:100%">&#8203;</a>
+              </div>
+            </ng-template>
+<!--            <div *ngIf="(i===2)" uk-tooltip="Data management" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
+<!--            <div *ngIf="(i===3)" uk-tooltip="FAIR data" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
+<!--            <div *ngIf="(i===4)" uk-tooltip="Open data" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
+<!--            <div *ngIf="(i===7)" uk-tooltip="Connecting repositories to EOSC" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
+<!--            <div *ngIf="(i===8)" uk-tooltip="Data stewardship" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
+<!--            <div *ngIf="(i===9)" uk-tooltip="Long-term data preservation" style="width:100%; height:100%">-->
+<!--              <a style="width:100%; height:100%">&#8203;</a>-->
+<!--            </div>-->
           </td>
         </tr>
       </tbody>

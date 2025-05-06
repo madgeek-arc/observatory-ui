@@ -42,7 +42,7 @@
       <div *ngIf="countriesWithPolicy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p><strong>EU Countries with Policy on FAIR Data</strong></p>
+            <p>EU Countries with Policy on FAIR Data</p>
           </div>
           <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
@@ -73,7 +73,7 @@
       <div *ngIf="totalInvestments.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p><strong>Financial investments</strong> in Open Data</p>
+            <p>Financial investments in Open Data</p>
           </div>
           <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
@@ -104,7 +104,7 @@
       <div *ngIf="countriesWithStrategy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p><strong>EU Countries with Financial Strategy on FAIR Data</strong></p>
+            <p>EU Countries with Financial Strategy on FAIR Data</p>
           </div>
           <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithStrategy[1] }}%</span>
@@ -135,7 +135,7 @@
       <div *ngIf="countriesWithMonitoring.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>EU Countries with National FAIR Data <strong>Monitoring Initiatives</strong></p>
+            <p>EU Countries with National FAIR Data Monitoring Initiatives</p>
           </div>
           <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithMonitoring[1] }}%</span>
@@ -191,9 +191,7 @@
                 [mapData]="questionsDataArray[0]" [height]="700"
                 [title]="'National Policy on FAIR Data'" [backgroundColor]="'#ffffff'"
                 [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on <br> FAIR data'"
-                [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national policies on OA publications across European countries. OA policies are essential for promoting the free sharing of scientific knowledge and ensuring research outputs are widely accessible.</p>' +
-                '<p class=\'uk-text-justify\'>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>' +
-                '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
+                [caption]="policesMapCaptions[2] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
                 (mapClick)="showComment(0, $event)">
               </app-highcharts-category-map>
             </div>
@@ -219,9 +217,7 @@
                 [mapData]="questionsDataArray[1]" [height]="700"
                 [title]="'National Monitoring on FAIR Data'" [backgroundColor]="'#ffffff'"
                 [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>FAIR data'"
-                [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national monitoring on OA publications across European countries.OA monitoring is essential for tracking progress, evaluating policy implementation, and ensuring that research outputs are freely accessible.</p>' +
-                '<p class=\'uk-text-justify\'>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>' +
-                '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
+                [caption]="monitoringMapCaptions[2] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
                 (mapClick)="showComment(1, $event)">
               </app-highcharts-category-map>
             </div>
@@ -295,8 +291,8 @@
         <div class="uk-card uk-card-default visualisation-card uk-card-body">
           <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries1" [yAxis]="yAxisTitle"
                               [title]="'Trend of Policies on FAIR Data among Research Performing Organisations'"
-                              [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
-                              [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [yAxisMax]="100" [height]="700"
+                              [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
+                              [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [height]="700"
                               [caption]="'<p class=\'uk-text-justify\'>Presented graph shows the adoption of FAIR data policies among Research Performing Organisations (RPOs). It highlights the percentage of RPOs that have implemented policies supporting FAIR data principles, compared to those without such policies.</p>' +
                               '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science.</p>'">
           </app-stacked-column>
@@ -306,8 +302,8 @@
         <div class="uk-card uk-card-default visualisation-card uk-card-body">
           <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries2" [yAxis]="yAxisTitle"
                               [title]="'Trend of Policies on FAIR Data among Research Funding Organisations'"
-                              [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
-                              [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [yAxisMax]="100" [height]="700"
+                              [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
+                              [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [height]="700"
                               [caption]="'<p class=\'uk-text-justify\'>Presented graph shows on Research Funding Organisations (RFOs) and their commitment to FAIR data policies. It illustrates the percentage of RFOs that have implemented FAIR data policies, alongside those that have not.</p>' +
                               '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science.</p>'">
           </app-stacked-column>

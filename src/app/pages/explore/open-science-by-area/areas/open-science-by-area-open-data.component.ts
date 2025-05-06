@@ -17,6 +17,7 @@ import { zip } from "rxjs/internal/observable/zip";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
 import { ExploreService } from "../../explore.service";
+import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 
 
 @Component({
@@ -317,4 +318,6 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
     this.countryName = this.exploreService.findCountryName(country.code).name
   }
 
+  protected readonly policesMapCaptions = policesMapCaptions;
+  protected readonly monitoringMapCaptions = monitoringMapCaptions;
 }

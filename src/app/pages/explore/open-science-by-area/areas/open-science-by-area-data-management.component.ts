@@ -11,6 +11,7 @@ import { DataHandlerService } from "../../../services/data-handler.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
 import { colors } from "../../../../domain/chart-color-palette";
+import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 
 @Component({
   selector: 'app-open-science-by-area-data-management',
@@ -58,9 +59,9 @@ export class OpenScienceByAreaDataManagementComponent {
   stackedColumnCategories = ['2021', '2022'];
   xAxisTitle = 'Year'
   yAxisTitle = 'Percentage of Policies on Data management'
-  tooltipPointFormat = '{series.name}: {point.y}%';
+  tooltipPointFormat = '<span style="color:{series.color}">{series.name}</span> : <b>{point.y}</b>';
   labelFormat = '{value}%';
-  plotFormat = '{y}%';
+  plotFormat = '{point.percentage:.0f}%';
 
   countriesWithPlans: number[] = [];
   countriesWithPolicy: number[] = [];
@@ -219,31 +220,14 @@ export class OpenScienceByAreaDataManagementComponent {
       this.queryData.getQuestion(year, 'Question13'), // research funding organisations in your country have a policy on data management
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value =>  {
-        this.createStackedColumnSeries([value[0], value[2]], this.stackedColumnSeries1);
-        this.createStackedColumnSeries([value[1], value[3]], this.stackedColumnSeries2);
+        this.exploreService.createStackedColumnSeries([value[0], value[2]], this.stackedColumnSeries1);
+        this.exploreService.createStackedColumnSeries([value[1], value[3]], this.stackedColumnSeries2);
         if (this.years.length === index+1) {
           this.stackedColumnSeries1 = [...this.stackedColumnSeries1];
           this.stackedColumnSeries2 = [...this.stackedColumnSeries2];
         }
       }
     });
-  }
-
-  createStackedColumnSeries(data: RawData[], series: Highcharts.SeriesColumnOptions[]) {
-    let orgCount = 0;
-    let orgCountWithPolicy = 0;
-    data[0].datasets[0].series.result.forEach((result) => {
-      if (this.exploreService.isNumeric(result.row[1]))
-        orgCount += +result.row[1];
-    });
-
-    data[1].datasets[0].series.result.forEach((result) => {
-      if (this.exploreService.isNumeric(result.row[1]))
-        orgCountWithPolicy += +result.row[1];
-    });
-
-    series[0].data.push(Math.round(((orgCountWithPolicy/orgCount) + Number.EPSILON) * 100));
-    series[1].data.push(Math.round((((orgCount-orgCountWithPolicy)/orgCount) + Number.EPSILON) * 100));
   }
   /** <---------------------------------------------------------------------------------------- Stacked column chart **/
 
@@ -304,4 +288,6 @@ export class OpenScienceByAreaDataManagementComponent {
     this.countryName = this.exploreService.findCountryName(country.code).name
   }
 
+  protected readonly policesMapCaptions = policesMapCaptions;
+  protected readonly monitoringMapCaptions = monitoringMapCaptions;
 }
