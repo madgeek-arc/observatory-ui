@@ -1,0 +1,32 @@
+<div id="explore_sidebar_main_content" class="explore_sidebar_main_swipe explore_sidebar_main_active">
+
+  <aside id="explore_sidebar_main">
+
+    <div id="explore_sidebar_content">
+
+      <div  class="menu_section" style="min-height: 30vh">
+        <ul class="uk-list uk-nav uk-nav-default uk-nav-parent-icon">
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'policy-overview'" class="uk-flex uk-flex-middle">
+              <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Policy overview</span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'open-access-publications'" class="uk-flex uk-flex-middle">
+              <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Access Publications</span>
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+    </div>
+
+  </aside>
+
+  <div id="page_content" class="dashboard">
+    <router-outlet></router-outlet>
+  </div>
+</div>
