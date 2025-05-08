@@ -1,13 +1,13 @@
-import {NgModule} from '@angular/core';
-import { ExtraOptions, PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import {HomeComponent} from "./pages/home/home.component";
-import {CountrySelectorComponent} from "./pages/dashboard/country-selector/country-selector.component";
-import {CountryLandingPageComponent} from "./pages/dashboard/country-landing-page/country-landing-page.component";
+import { NgModule } from '@angular/core';
+import { ExtraOptions, RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from "./pages/home/home.component";
+import { CountryLandingPageComponent } from "./pages/dashboard/country-landing-page/country-landing-page.component";
 import {
   ContributionsHomeExtentionComponent
 } from "./pages/dashboard/contribution-dashboard-extension/home/contributions-home-extention.component";
-import {AuthGuard} from "../survey-tool/app/services/auth-guard.service";
+import { AuthGuard } from "../survey-tool/app/services/auth-guard.service";
 import { countryPagesRoutes } from "./pages/country-pages/country-pages.routing";
+import { CountrySelectorComponent } from "./pages/dashboard/country-selector/country-selector.component";
 
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: "enabled",
@@ -36,6 +36,10 @@ const routes: Routes = [
   },
   {
     path: 'country-pages',
+    loadComponent: () => import('./pages/dashboard/country-selector/country-selector.component').then(m => m.CountrySelectorComponent),
+  },
+  {
+    path: 'country/:code',
     children: countryPagesRoutes
   },
   {

@@ -1,6 +1,7 @@
 import { Route } from "@angular/router";
 import { PolicyOverviewComponent } from "./policy-overview/policy-overview.component";
 import { OpenAccessPublicationsPage } from "./open-access-publications/open-access-publications";
+import { GeneralRDOverviewComponent } from "./general-R&D-overview/general-R&D-overview.component";
 
 export const countryPagesRoutes: Route[] = [
   {
@@ -10,14 +11,18 @@ export const countryPagesRoutes: Route[] = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'policy-overview',
+        redirectTo: '',
       },
       {
-        path: 'policy-overview',
+        path: 'general',
+        component: GeneralRDOverviewComponent,
+      },
+      {
+        path: 'policy',
         component: PolicyOverviewComponent,
       },
       {
-        path: 'open-access-publications',
+        path: 'publications',
         component: OpenAccessPublicationsPage,
       }
     ]

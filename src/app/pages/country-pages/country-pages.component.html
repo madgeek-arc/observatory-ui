@@ -5,17 +5,30 @@
     <div id="explore_sidebar_content">
 
       <div  class="menu_section" style="min-height: 30vh">
+        <div class="uk-flex uk-flex-middle uk-margin-left">
+          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png" class="flag-image"
+               width="30" height="30">
+          <div class="uk-margin-small-left">
+            <h5 class="uk-margin-remove-bottom uk-text-muted">{{ findCountryByCode(countryCode) }}</h5>
+          </div>
+        </div>
         <ul class="uk-list uk-nav uk-nav-default uk-nav-parent-icon">
 
           <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
-            <a [routerLink]="'policy-overview'" class="uk-flex uk-flex-middle">
-              <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Policy overview</span>
+            <a [routerLink]="'general'" class="uk-flex uk-flex-middle">
+              <span class="uk-width-expand uk-text-truncate">General R&D Overview</span>
             </a>
           </li>
 
           <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
-            <a [routerLink]="'open-access-publications'" class="uk-flex uk-flex-middle">
-              <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Access Publications</span>
+            <a [routerLink]="'policy'" class="uk-flex uk-flex-middle">
+              <span class="uk-width-expand uk-text-truncate">Policy overview</span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'publications'" class="uk-flex uk-flex-middle">
+              <span class="uk-width-expand uk-text-truncate">Open Access Publications</span>
             </a>
           </li>
 
