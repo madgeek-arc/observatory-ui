@@ -11,7 +11,7 @@ export const countryPagesRoutes: Route[] = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: '',
+        redirectTo: 'general',
       },
       {
         path: 'general',
