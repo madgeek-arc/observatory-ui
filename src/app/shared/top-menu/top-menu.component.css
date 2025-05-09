@@ -115,3 +115,6 @@ a.uk-icon span {
   background-color: #ececec;
 }
 
+.uk-dropbar-top {
+  border-top: 2px solid #e6e6e6;
+}

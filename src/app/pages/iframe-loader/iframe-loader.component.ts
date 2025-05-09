@@ -5,21 +5,22 @@ import { SafeUrlPipe } from "../../../survey-tool/catalogue-ui/shared/pipes/safe
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
 @Component({
-  selector: 'app-about',
+  selector: 'app-iframe-loader',
   standalone: true,
-  templateUrl: './about.component.html',
+  templateUrl: './iframe-loader.component.html',
   imports: [
     NgIf
   ]
 })
 
-export class AboutComponent implements OnInit {
+export class IframeLoaderComponent implements OnInit {
   iframeUrl?: SafeResourceUrl;
   sanitizeUrl = new SafeUrlPipe(this.sanitizer);
 
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
+
     this.route.params.subscribe(params => {
       console.log(params);
       this.urlSelector(params['selector']);
