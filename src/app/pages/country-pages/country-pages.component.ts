@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
-import { DatePipe, LowerCasePipe, NgIf, NgOptimizedImage } from "@angular/common";
+import { LowerCasePipe, NgOptimizedImage } from "@angular/common";
 import { countries } from "../../domain/countries";
+import { DataShareService } from "./services/data-share.service";
 
 @Component({
   selector: 'app-country-pages',
@@ -22,13 +23,16 @@ export class CountryPagesComponent implements OnInit {
   countryCode?: string;
   countryName?: string;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private dataService: DataShareService) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       console.log(params['code']);
       this.countryCode = params['code'];
+      this.dataService.countryCode.next(this.countryCode);
+
       this.countryName = this.findCountryByCode(this.countryCode);
+      this.dataService.countryName.next(this.countryName);
     });
   }
 
