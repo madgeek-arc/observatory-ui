@@ -41,7 +41,6 @@ import {
 } from "./pages/dashboard/contribution-dashboard-extension/home/contributions-home-extention.component";
 import { ChartsModule } from "./shared/charts/charts.module";
 import { OpenDataComponent } from './pages/country-pages/open-data/open-data.component';
-import { CitizenScienceComponent } from './pages/country-pages/citizen-science/citizen-science.component';
 import { DataManagementComponent } from './pages/country-pages/data-management/data-management.component';
 import { FairDataComponent } from './pages/country-pages/fair-data/fair-data.component';
 
@@ -59,7 +58,6 @@ import { FairDataComponent } from './pages/country-pages/fair-data/fair-data.com
     CategoryIndicatorsRowComponent,
     ContributionsHomeExtentionComponent,
     OpenDataComponent,
-    CitizenScienceComponent,
     DataManagementComponent,
     FairDataComponent
   ],
