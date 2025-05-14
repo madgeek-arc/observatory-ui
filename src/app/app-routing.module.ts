@@ -26,6 +26,10 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
+    path: 'about/:selector',
+    loadComponent: () => import('./pages/about/about.component').then(m => m.AboutComponent),
+  },
+  {
     path: 'country_selector',
     component: CountrySelectorComponent
   },
