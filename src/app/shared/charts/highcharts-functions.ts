@@ -32,5 +32,5 @@ export function createInfoBox(renderer: Highcharts.SVGRenderer, customLabelText:
       .add();
 
     // Position the info box in the top right corner
-    infoBox.translate(plotWidth - 220, 130);
+    infoBox.translate(plotWidth - 260, 130);
 }

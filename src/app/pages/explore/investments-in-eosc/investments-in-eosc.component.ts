@@ -45,7 +45,7 @@ export class InvestmentsInEoscComponent implements OnInit {
     pointFormat: '<tr><th colspan="2"><h4>{point.country}</h4></th></tr>' +
       '<tr><th>Investment in EOSC and OS:</th><td>{point.x}M</td></tr>' +
       '<tr><th>Investment in OA:</th><td>{point.y}M</td></tr>' +
-      '<tr><th>Number of publications:</th><td>{point.z}</td></tr>',
+      '<tr><th>Number of Publications:</th><td>{point.z}</td></tr>',
     footerFormat: '</table>',
     followPointer: true
   }
@@ -137,14 +137,14 @@ export class InvestmentsInEoscComponent implements OnInit {
     zip(
       this.queryData.getQuestion(this.year, 'Question100'), // Investments in citizen science
       this.queryData.getQuestion(this.year, 'Question72'),  // Investments in open source software
-      this.queryData.getQuestion(this.year, 'Question68'),  // Investments in open data
+      this.queryData.getQuestion(this.year, 'Question68'),  // Investments in Open Data
       this.queryData.getQuestion(this.year, 'Question64'),  // Investments in FAIR data
       // this.queryData.getQuestion(this.year, 'Question60'),  // Investments in Data Management
       this.queryData.getQuestion(this.year, 'Question76'),  // Investments in offering services through EOSC
       this.queryData.getQuestion(this.year, 'Question80'),  // Investments in connecting repositories to EOSC
       // this.queryData.getQuestion(this.year, 'Question84'),  // Investments in data stewardship
       // this.queryData.getQuestion(this.year, 'Question88'),  // Investments in long-term Data Preservation
-      this.queryData.getQuestion(this.year, 'Question56'),  // Investments in open access publications
+      this.queryData.getQuestion(this.year, 'Question56'),  // Investments in Open Access publications
       // this.queryData.getQuestion(this.year, 'Question92'),  // Investments in skills/training
       // this.queryData.getQuestion(this.year, 'Question96'),  // Investments in incentives/rewards
       this.queryData.getQuestion(this.year, 'Question5'),   // Total Investments per country

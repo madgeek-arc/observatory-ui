@@ -16,6 +16,7 @@
               </a>
 
             <ul [hidden]="hideSubNavigation" class="uk-animation-fade">
+
               <li [routerLinkActive]="'uk-active current_section'">
                 <a [routerLink]="'open-science-by-area/publications'">
                   <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Publications</span>
@@ -56,6 +57,9 @@
                   <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Software</span>
                 </a>
               </li>
+
+              <hr class="uk-divider-icon uk-margin-remove">
+
               <li [routerLinkActive]="'uk-active current_section'" >
                 <a [routerLink]="'open-science-by-area/licensing'" class="custom-disabled-link" data-uk-tooltip="Coming soon..">
                   <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Licencing</span>
@@ -66,15 +70,8 @@
                   <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Persistent Identifiers</span>
                 </a>
               </li>
-            </ul>
-          </li>
 
-          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
-            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">
-              <span [class.uk-text-bolder]="activeSection === 'open-science-by-area'"
-                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science by Country
-              </span>
-            </a>
+            </ul>
           </li>
 
           <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
@@ -102,6 +99,16 @@
           </li>
 
           <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'open-science-policies'" class="uk-flex uk-flex-middle">
+              <span [class.uk-text-bolder]="activeSection === 'open-science-policies'"
+                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Policies
+              </span>
+            </a>
+          </li>
+
+          <hr class="uk-divider-icon uk-margin-remove">
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
             <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">
               <span [class.uk-text-bolder]="activeSection === 'open-science-use-cases'"
                     class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Use Cases
@@ -110,9 +117,9 @@
           </li>
 
           <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
-            <a [routerLink]="'open-science-policies'" class="uk-flex uk-flex-middle">
-              <span [class.uk-text-bolder]="activeSection === 'open-science-policies'"
-                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Policies
+            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">
+              <span [class.uk-text-bolder]="activeSection === 'open-science-by-area'"
+                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science by Country
               </span>
             </a>
           </li>

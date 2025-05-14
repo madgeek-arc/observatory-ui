@@ -22,7 +22,7 @@
     </div>
 
 <!--    <h5>Open Access Publications</h5>-->
-    <p class="uk-text-lead uk-text-justify">Open Access (OA) represents a transformative approach within the scholarly communication landscape, aiming to make research outputs freely accessible to all, without subscription or price barriers. The graphics below provides a high-level overview of key indicators tracking the progress of OA publishing and policies in Europe. Understanding these indicators provides critical insights into how well Europe is adopting and integrating OA and Open Science principles. By evaluating the extent of OA publications, the impact of policy, financial investments, and monitoring efforts, stakeholders can identify strengths and areas for improvement in the European landscape and thus contribute towards more accessible knowledge.</p>
+    <p class="uk-text-lead uk-text-justify">Open Access (OA) represents a transformative approach within the scholarly communication landscape, aiming to make research outputs freely accessible to all, without subscription or price barriers. The graphics below provides a high-level overview of key indicators tracking the progress of OA publishing and policies in Europe. Understanding these indicators provides critical insights into how well Europe is adopting and integrating OA and Open Science principles. By evaluating the extent of OA Publications, the impact of policy, financial investments, and monitoring efforts, stakeholders can identify strengths and areas for improvement in the European landscape and thus contribute towards more accessible knowledge.</p>
 
   </div>
 </div>
@@ -233,7 +233,7 @@
 
     <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-      <ul class="uk-subnav uk-subnav-pill uk-flex-right" uk-switcher="{connect:'#maps', animation: 'fade'}">
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#maps', animation: 'fade'}">
         <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Policies</a></li>
         <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
       </ul>
@@ -244,8 +244,8 @@
             <div class="uk-width-2-3">
               <app-highcharts-category-map
                 [mapData]="questionsDataArray[0]" [height]="700"
-                [title]="'National policy on open access publications'" [backgroundColor]="'#ffffff'"
-                [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on open<br> access publications'"
+                [title]="'National policy on Open Access publications'" [backgroundColor]="'#ffffff'"
+                [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on Open<br> Access Publications'"
                 [caption]="policesMapCaptions[0] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
                 (mapClick)="showComment(0, $event)">
               </app-highcharts-category-map>
@@ -270,8 +270,8 @@
             <div class="uk-width-2-3">
               <app-highcharts-category-map
                 [mapData]="questionsDataArray[1]" [height]="700"
-                [title]="'National monitoring on open access publications'" [backgroundColor]="'#ffffff'"
-                [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>open access <br>publications'"
+                [title]="'National monitoring on Open Access publications'" [backgroundColor]="'#ffffff'"
+                [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>Open Access <br>publications'"
                 [caption]=" monitoringMapCaptions[0] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
                 (mapClick)="showComment(1, $event)">
               </app-highcharts-category-map>
@@ -303,7 +303,7 @@
 
     <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-      <ul class="uk-subnav uk-subnav-pill uk-flex-right" uk-switcher="{connect:'#investments', animation: 'fade'}">
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#investments', animation: 'fade'}">
         <li><a class="uk-margin-remove-bottom">Overview</a></li>
         <li><a class="uk-margin-remove-bottom">Details</a></li>
       </ul>

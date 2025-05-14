@@ -84,7 +84,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
   tableData: string[][] = [];
 
   openScienceAreas = this.columnChartCategories;
-  mapTitles = ['National Policy on open access publications', 'National Policy on Data Management', 'National Policy on FAIR Data', 'National Policy on Open Data', 'National Policy on Open Sources Software', 'National Policy on offering services through EOSC', 'National Policy on Connecting Repositories to EOSC', 'National Policy on Data Stewardship', 'National Policy on Long-term Data Preservation', 'National Policy on Skills/Training in Open Science', 'National Policy on incentives/rewards for Open Science', 'National Policy on Citizen Science'];
+  mapTitles = ['National Policy on Open Access Publications', 'National Policy on Data Management', 'National Policy on FAIR Data', 'National Policy on Open Data', 'National Policy on Open Sources Software', 'National Policy on offering services through EOSC', 'National Policy on Connecting Repositories to EOSC', 'National Policy on Data Stewardship', 'National Policy on Long-term Data Preservation', 'National Policy on Skills/Training in Open Science', 'National Policy on Incentives/Rewards for Open Science', 'National Policy on Citizen Science'];
 
   policiesRawData: RawData[] = [];
   policiesMapData: CategorizedAreaData = new CategorizedAreaData();
@@ -117,7 +117,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
   /** Bar charts ---------------------------------------------------------------------------------------------------> **/
   getColumnChartData(year: string, index: number) {
     zip(
-      this.queryData.getQuestion(year, 'Question6'),   // national policy on open access publications
+      this.queryData.getQuestion(year, 'Question6'),   // national policy on Open Access publications
       this.queryData.getQuestion(year, 'Question10'),  // national policy on data management
       this.queryData.getQuestion(year, 'Question14'),  // national policy on FAIR data
       this.queryData.getQuestion(year, 'Question18'),  // national policy on Open data
@@ -256,7 +256,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
     switch (index) {
       case 0:
         if (!this.questionsDataArray[index])
-          this.getNationalPolicies('Question6', index); // National Policy on open access publications
+          this.getNationalPolicies('Question6', index); // National Policy on Open Access publications
         break;
       case 1:
         if (!this.questionsDataArray[index])
@@ -310,8 +310,8 @@ export class OpenSciencePoliciesComponent implements OnInit {
     zip(
       this.queryData.getQuestion(this.year, 'Question1'),   // Number of Researchers in FTE per country
       this.queryData.getQuestion(this.year, 'Question5'),   // Financial investments in EOSC and Open Science per country
-      this.queryData.getQuestion(this.year, 'Question56'),  // Financial investments in open access publications
-      // this.queryData.getQuestion(this.year, 'Question57'),  // number of publications published in open access
+      this.queryData.getQuestion(this.year, 'Question56'),  // Financial investments in Open Access publications
+      // this.queryData.getQuestion(this.year, 'Question57'),  // number of publications published in Open Access
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);

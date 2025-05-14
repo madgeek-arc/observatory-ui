@@ -202,7 +202,7 @@
 
     <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-      <ul class="uk-subnav uk-subnav-pill uk-flex-right" uk-switcher="{connect:'#maps', animation: 'fade'}">
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#maps', animation: 'fade'}">
         <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Policies</a></li>
         <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
       </ul>
@@ -273,7 +273,7 @@
 
     <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-      <ul class="uk-subnav uk-subnav-pill uk-flex-right" uk-switcher="{connect:'#investments', animation: 'fade'}">
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#investments', animation: 'fade'}">
         <li><a class="uk-margin-remove-bottom">Overview</a></li>
         <li><a class="uk-margin-remove-bottom">Details</a></li>
       </ul>
@@ -312,7 +312,7 @@
                           [title]="'Trend of Open Data'" [height]="600"
                           [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
                           [dataLabels]="false"
-                          [caption]="'<p class=\'uk-text-justify\'>The graph provides a comprehensive view of how data accessibility has evolved from 2015 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of open data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
+                          [caption]="'<p class=\'uk-text-justify\'>The graph provides a comprehensive view of how data accessibility has evolved from 2015 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of Open Data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
                               '<p><strong>Data Source: </strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
       </app-stacked-column>
 
@@ -330,7 +330,7 @@
                           [title]="'Distribution of Open Data Types by Different Document Type'" [height]="600"
                           [pointFormat]="tooltipPointFormat" [stackLabels]="false" [stacking]="stacking"
                           [plotFormat]="dataLabels_format"
-                          [caption]="'<p class=\'uk-text-justify\'>The  graph illustrates how open data is implemented across various types of documents. It segments the open data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each colored according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance  accessibility and foster a more transparent, reproducible and inclusive science.</p>' +
+                          [caption]="'<p class=\'uk-text-justify\'>The  graph illustrates how Open Data is implemented across various types of documents. It segments the Open Data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each colored according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance  accessibility and foster a more transparent, reproducible and inclusive science.</p>' +
                           '<p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on ' + lastUpdateDate + ').</p>'">
       </app-stacked-column>
 
