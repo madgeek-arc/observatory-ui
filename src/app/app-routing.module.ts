@@ -27,7 +27,11 @@ const routes: Routes = [
   },
   {
     path: 'about/:selector',
-    loadComponent: () => import('./pages/about/about.component').then(m => m.AboutComponent),
+    loadComponent: () => import('./pages/iframe-loader/iframe-loader.component').then(m => m.IframeLoaderComponent),
+  },
+  {
+    path: 'resources/:selector',
+    loadComponent: () => import('./pages/iframe-loader/iframe-loader.component').then(m => m.IframeLoaderComponent),
   },
   {
     path: 'country_selector',
