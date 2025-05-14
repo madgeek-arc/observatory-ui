@@ -23,29 +23,51 @@
                 <a class="uk-icon uk-animation-fade" aria-expanded="false">
                   <span class="uk-text-small uk-margin-small-right">About</span>
                 </a>
-                <div id="about-dropbar" class="uk-dropbar uk-dropbar-top" uk-dropdown="stretch: x; mode: click; top: 81px; offset: 1">
-<!--                  <div id="about-dropbar" class="uk-dropbar uk-dropbar-top" uk-drop="stretch: x; mode: click">-->
-                  <div class="uk-grid-divider" uk-grid>
-                    <div class="uk-width-1-4">
-                      <h3>About</h3>
-                    </div>
-                    <div class="uk-width-3-4">
-                      <div class="uk-child-width-1-2" uk-grid>
+<!--                <div id="about-dropbar" class="uk-dropbar uk-dropbar-top" uk-dropdown="stretch: x; mode: click; top: 81px; offset: 1">-->
+                  <div id="about-dropbar" class="uk-dropbar uk-dropbar-top" uk-dropdown="mode: click; pos: bottom-center" style="width: 50vw">
+<!--                  <div class="uk-grid-divider" uk-grid>-->
+<!--                    <div class="uk-width-1-4">-->
+<!--                      <h3>About</h3>-->
+<!--                    </div>-->
+<!--                    <div class="uk-width-3-4">-->
+<!--                      <div class="uk-child-width-1-2" uk-grid>-->
+<!--                        <a class="uk-link-reset" (click)="navigate('/about/eosc-observatory', 'about-dropbar')">-->
+<!--                          <h6 class="uk-text-primary">About EOSC Observatory</h6>-->
+<!--                          <div>Explore the EOSC Open Science Observatory, a platform for monitoring Open Science and EOSC progress across Europe.</div>-->
+<!--                        </a>-->
+<!--                        <a class="uk-link-reset" (click)="navigate('/about/eosc-track', 'about-dropbar')">-->
+<!--                          <h6 class="uk-text-primary">About EOSC Track</h6>-->
+<!--                          <div>Learn about EOSC Track, a project enhancing the EOSC Open Science Observatory to support Open Science monitoring.</div>-->
+<!--                        </a>-->
+<!--                        <a class="uk-link-reset" (click)="navigate('/about/news', 'about-dropbar')">-->
+<!--                          <h6 class="uk-text-primary">News</h6>-->
+<!--                          <div>Get the latest updates on the EOSC Open Science Observatory and EOSC Track project.</div>-->
+<!--                        </a>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+                    <div>
+                      <div class="uk-drop-grid uk-child-width-1-3 uk-grid-match" uk-grid>
                         <a class="uk-link-reset" (click)="navigate('/about/eosc-observatory', 'about-dropbar')">
-                          <h6 class="uk-text-primary">About EOSC Observatory</h6>
-                          <div>Explore the EOSC Open Science Observatory, a platform for monitoring Open Science and EOSC progress across Europe.</div>
+                          <div class="uk-tile uk-tile-default uk-tile-hover uk-padding-xsmall">
+                            <h6 class="uk-text-primary">About EOSC Observatory</h6>
+                            <div>Explore the EOSC Open Science Observatory, a platform for monitoring Open Science and EOSC progress across Europe.</div>
+                          </div>
                         </a>
                         <a class="uk-link-reset" (click)="navigate('/about/eosc-track', 'about-dropbar')">
-                          <h6 class="uk-text-primary">About EOSC Track</h6>
-                          <div>Learn about EOSC Track, a project enhancing the EOSC Open Science Observatory to support Open Science monitoring.</div>
+                          <div class="uk-tile uk-tile-default uk-tile-hover uk-padding-xsmall">
+                            <h6 class="uk-text-primary">About EOSC Track</h6>
+                            <div>Learn about EOSC Track, a project enhancing the EOSC Open Science Observatory to support Open Science monitoring.</div>
+                          </div>
                         </a>
                         <a class="uk-link-reset" (click)="navigate('/about/news', 'about-dropbar')">
-                          <h6 class="uk-text-primary">News</h6>
-                          <div>Get the latest updates on the EOSC Open Science Observatory and EOSC Track project.</div>
+                          <div class="uk-tile uk-tile-default uk-tile-hover uk-padding-xsmall">
+                            <h6 class="uk-text-primary">News</h6>
+                            <div>Get the latest updates on the EOSC Open Science Observatory and EOSC Track project.</div>
+                          </div>
                         </a>
                       </div>
                     </div>
-                  </div>
                 </div>
               </li>
               <li [routerLinkActive]="'uk-active'">
@@ -58,31 +80,34 @@
                 <a class="uk-icon uk-animation-fade" aria-expanded="false">
                   <span class="uk-text-small uk-margin-small-right">Resources</span>
                 </a>
-                <div id="resources-dropbar" class="uk-dropbar uk-dropbar-top" uk-dropdown="stretch: x; mode: click; top: 81px; offset: 1">
+                <div id="resources-dropbar" class="uk-dropbar uk-dropbar-top" uk-dropdown="mode: click; pos: bottom-center" style="width: 60vw">
                   <!--                  <div id="about-dropbar" class="uk-dropbar uk-dropbar-top" uk-drop="stretch: x; mode: click">-->
-                  <div class="uk-grid-divider" uk-grid>
-                    <div class="uk-width-1-4">
-                      <h3>Resources</h3>
-                    </div>
-                    <div class="uk-width-3-4">
-                      <div class="uk-child-width-1-2" uk-grid>
-                        <a class="uk-link-reset" (click)="navigate('/resources/data-workflow-and-methodology', 'resources-dropbar')">
+                  <div>
+                    <div class="uk-drop-grid uk-child-width-1-4 uk-grid-match" uk-grid>
+                      <a class="uk-link-reset" (click)="navigate('/resources/data-workflow-and-methodology', 'resources-dropbar')">
+                        <div class="uk-tile uk-tile-default uk-tile-hover uk-padding-xsmall">
                           <h6 class="uk-text-primary">Data Workflow & Methodology</h6>
                           <div>Learn about the EOSC Open Science Observatory data workflow and the methodology used for monitoring Open Science and EOSC progress.</div>
-                        </a>
-                        <a class="uk-link-reset" (click)="navigate('/resources/publications-and-deliverables', 'resources-dropbar')">
+                        </div>
+                      </a>
+                      <a class="uk-link-reset" (click)="navigate('/resources/publications-and-deliverables', 'resources-dropbar')">
+                        <div class="uk-tile uk-tile-default uk-tile-hover uk-padding-xsmall">
                           <h6 class="uk-text-primary">Publications & Deliverables</h6>
                           <div>Access key publications related to the EOSC Open Science Observatory and on Open Science monitoring.</div>
-                        </a>
-                        <a class="uk-link-reset" (click)="navigate('/resources/data-download', 'resources-dropbar')">
+                        </div>
+                      </a>
+                      <a class="uk-link-reset" (click)="navigate('/resources/data-download', 'resources-dropbar')">
+                        <div class="uk-tile uk-tile-default uk-tile-hover uk-padding-xsmall">
                           <h6 class="uk-text-primary">Data Download</h6>
                           <div>Get the latest updates and download data from the EOSC Open Science Observatory.</div>
-                        </a>
-                        <a class="uk-link-reset" (click)="navigate('/resources/support-and-faq', 'resources-dropbar')">
+                        </div>
+                      </a>
+                      <a class="uk-link-reset" (click)="navigate('/resources/support-and-faq', 'resources-dropbar')">
+                        <div class="uk-tile uk-tile-default uk-tile-hover uk-padding-xsmall">
                           <h6 class="uk-text-primary">Support & FAQ</h6>
                           <div>Find support and guidance for using the EOSC Open Science Observatory platform.</div>
-                        </a>
-                      </div>
+                        </div>
+                      </a>
                     </div>
                   </div>
                 </div>

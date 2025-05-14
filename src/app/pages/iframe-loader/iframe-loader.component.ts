@@ -29,11 +29,27 @@ export class IframeLoaderComponent implements OnInit {
 
   urlSelector(selector: string) {
     switch (selector) {
-      case '1':
-        this.iframeUrl = this.sanitizeUrl.transform('https://www.youtube.com/embed/', 'resourceUrl');
+      case 'eosc-observatory':
+        this.iframeUrl = this.sanitizeUrl.transform('http://localhost:4200/pages?option=com_content&view=article&id=10&tmpl=yootheme', 'resourceUrl');
         break;
-      case '2':
-        this.iframeUrl = this.sanitizeUrl.transform('https://google.com/embed/', 'resourceUrl');
+      case 'eosc-track':
+        // this.iframeUrl = this.sanitizeUrl.transform('http://88.197.53.1/?option=com_content&view=article&id=10', 'resourceUrl');
+        this.iframeUrl = this.sanitizeUrl.transform('http://localhost:4200/pages?option=com_content&view=article&id=10&tmpl=yootheme', 'resourceUrl');
+        break;
+      case 'news':
+        this.iframeUrl = this.sanitizeUrl.transform('http://localhost:4200/pages?option=com_content&view=article&id=10&tmpl=yootheme', 'resourceUrl');
+        break;
+      case 'data-workflow-and-methodology':
+        this.iframeUrl = this.sanitizeUrl.transform('http://localhost:4200/pages?option=com_content&view=article&id=10&tmpl=yootheme', 'resourceUrl');
+        break;
+      case 'publications-and-deliverables':
+        this.iframeUrl = this.sanitizeUrl.transform('http://localhost:4200/pages?option=com_content&view=article&id=10&tmpl=yootheme', 'resourceUrl');
+        break;
+      case 'data-download':
+        this.iframeUrl = this.sanitizeUrl.transform('http://localhost:4200/pages?option=com_content&view=article&id=10&tmpl=yootheme', 'resourceUrl');
+        break;
+      case 'support-and-faq':
+        this.iframeUrl = this.sanitizeUrl.transform('http://localhost:4200/pages?option=com_content&view=article&id=10&tmpl=yootheme', 'resourceUrl');
         break;
       default:
         // maybe have a fallback / handle url errors
