@@ -121,7 +121,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let row of tableData">
-          <<ng-container *ngFor="let item of row; let i = index">
+          <ng-container *ngFor="let item of row; let i = index">
           <td *ngIf="i === 0; else addTooltip" class="uk-text-bold">
             {{ item }}
           </td>
