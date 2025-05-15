@@ -34,7 +34,7 @@
 }
 
 .noads.visualisation-card::before {
-  background-color: var(--eosc-observatory-secondary-color);
+  background-color: var(--eosc-observatory-noads-color);
 }
 
 .openaire-graph.visualisation-card::before {
@@ -42,5 +42,5 @@
 }
 
 .external-sources.visualisation-card::before {
-  background-color: var(--eosc-observatory-secondary-color);
+  background-color: var(--eosc-observatory-external-sources-color);
 }
