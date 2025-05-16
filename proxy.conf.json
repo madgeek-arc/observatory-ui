@@ -30,5 +30,17 @@
     "secure": true,
     "logLevel": "debug",
     "changeOrigin": true
+  },
+  "/media/system/*": {
+    "target": "https://dl001.madgik.di.uoa.gr/",
+    "secure": true,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/media/vendor/*": {
+    "target": "https://dl001.madgik.di.uoa.gr/",
+    "secure": true,
+    "logLevel": "debug",
+    "changeOrigin": true
   }
 }
