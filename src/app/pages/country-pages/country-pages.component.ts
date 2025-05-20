@@ -5,6 +5,7 @@ import { countries } from "../../domain/countries";
 import { DataShareService } from "./services/data-share.service";
 import { SurveyService } from "../../../survey-tool/app/services/survey.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { SurveyPublicAnswer } from "./services/coutry-pages.service";
 
 @Component({
   selector: 'app-country-pages',
@@ -24,12 +25,15 @@ export class CountryPagesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   modelsIds: string[] = [ 'm-jlFggsCN', 'm-eosc-sb-2023'];
+  OSModelId = 'm-GPFhURKK';
 
   stakeholderId?: string;
+  countryStakeholderId?: string;
   countryCode?: string;
   countryName?: string;
 
-  constructor(private route: ActivatedRoute, private dataService: DataShareService, private surveyService: SurveyService) {}
+  constructor(private route: ActivatedRoute, private dataService: DataShareService,
+              private surveyAnswer: SurveyPublicAnswer) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -37,19 +41,27 @@ export class CountryPagesComponent implements OnInit {
       this.countryCode = params['code'];
       this.dataService.countryCode.next(this.countryCode);
       this.stakeholderId = 'sh-eosc-sb-' + params['code'];
+      this.countryStakeholderId = 'sh-country-' + params['code'];
 
       this.countryName = this.findCountryByCode(this.countryCode);
       this.dataService.countryName.next(this.countryName);
 
       this.modelsIds.forEach((modelId, index) => {
-        this.surveyService.getLatestAnswer(this.stakeholderId, modelId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        this.surveyAnswer.getAnswer(this.stakeholderId, modelId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: (answer) => {
             this.dataService.setItemAt(index, answer);
             // this.surveyAnswers[index] = answer;
           },
           error: (error) => {console.error(error);}
-        })
+        });
       });
+
+      this.surveyAnswer.getOSAnswer(this.countryStakeholderId, this.OSModelId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (answer) => {
+          this.dataService.countrySurveyAnswer.next(answer);
+        }
+      });
+
     });
   }
 

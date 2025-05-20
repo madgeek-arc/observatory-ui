@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { JsonPipe, LowerCasePipe, NgForOf, NgOptimizedImage } from "@angular/common";
+import { JsonPipe, LowerCasePipe, NgForOf, NgIf, NgOptimizedImage } from "@angular/common";
 import { DataShareService } from "../services/data-share.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
@@ -12,7 +12,8 @@ import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
     LowerCasePipe,
     NgOptimizedImage,
     JsonPipe,
-    NgForOf
+    NgForOf,
+    NgIf
   ]
 })
 
@@ -22,6 +23,7 @@ export class GeneralRDOverviewComponent implements OnInit {
   countryCode?: string;
   countryName?: string;
   surveyAnswers: SurveyAnswer[] = [];
+  countrySurveyAnswer?: SurveyAnswer;
 
   constructor(private dataShareService: DataShareService) {}
 
@@ -43,6 +45,15 @@ export class GeneralRDOverviewComponent implements OnInit {
         this.surveyAnswers = answers;
       }
     });
+
+    this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (answer) => {
+        this.countrySurveyAnswer = answer;
+        console.log(this.countrySurveyAnswer);
+      }
+    });
+
+    this.dataShareService.calculateSum();
   }
 
 }
