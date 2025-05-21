@@ -22,8 +22,8 @@ export class GeneralRDOverviewComponent implements OnInit {
 
   countryCode?: string;
   countryName?: string;
-  surveyAnswers: SurveyAnswer[] = [];
-  countrySurveyAnswer?: SurveyAnswer;
+  surveyAnswers: Object[] = [];
+  countrySurveyAnswer?: Object;
 
   constructor(private dataShareService: DataShareService) {}
 
@@ -49,11 +49,8 @@ export class GeneralRDOverviewComponent implements OnInit {
     this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answer) => {
         this.countrySurveyAnswer = answer;
-        console.log(this.countrySurveyAnswer);
       }
     });
-
-    this.dataShareService.calculateSum();
   }
 
 }

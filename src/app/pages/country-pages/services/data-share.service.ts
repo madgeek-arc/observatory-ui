@@ -9,17 +9,14 @@ import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
 export class DataShareService {
   countryCode: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   countryName: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-  surveyAnswers: BehaviorSubject<SurveyAnswer[]> = new BehaviorSubject<SurveyAnswer[]>([]);
-  countrySurveyAnswer: BehaviorSubject<SurveyAnswer | null> = new BehaviorSubject<SurveyAnswer | null>(null);
+  surveyAnswers: BehaviorSubject<Object[]> = new BehaviorSubject<Object[]>([]);
+  countrySurveyAnswer: BehaviorSubject<Object | null> = new BehaviorSubject<Object | null>(null);
 
 
-  setItemAt(index: number, item: SurveyAnswer) {
+  setItemAt(index: number, item: Object) {
     const current = [...this.surveyAnswers.getValue()];
     current[index] = item;
     this.surveyAnswers.next(current);
   }
 
-  calculateSum() {
-    return 10;
-  }
 }

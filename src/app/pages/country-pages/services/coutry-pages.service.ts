@@ -17,13 +17,13 @@ export class SurveyPublicAnswer {
     let params = new HttpParams();
     params = params.append('stakeholderId', stakeholderId);
     params = params.append('surveyId', surveyId);
-    return this.http.get<SurveyAnswer>(this.base + '/answers/public', {params});
+    return this.http.get<Object>(this.base + '/answers/public', {params});
   }
 
   getOSAnswer(stakeholderId: string, surveyId: string) {
     let params = new HttpParams();
     params = params.append('stakeholderId', stakeholderId);
     params = params.append('surveyId', surveyId);
-    return this.http.get<SurveyAnswer>(this.os_europe + '/answers/public', {params});
+    return this.http.get<Object>(this.os_europe + '/answers/public', {params});
   }
 }
