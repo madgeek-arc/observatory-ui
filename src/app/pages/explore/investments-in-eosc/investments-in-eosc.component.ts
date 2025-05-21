@@ -1,11 +1,13 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { zip } from "rxjs/internal/observable/zip";
-import { RawData, Row } from "../../../domain/raw-data";
+import { RawData, Row, Data } from "../../../domain/raw-data";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions, SeriesBubbleOptions } from "highcharts";
+import { OAPubsPerCountry } from "../OSO-stats-queries/explore-queries";
+import * as Highcharts from 'highcharts';
 
 type MergedElement = { x: string; y: string; z: string; name: string; country: string };
 
@@ -39,16 +41,34 @@ export class InvestmentsInEoscComponent implements OnInit {
   }
 
   bubbleWithPlotLines = [] as SeriesBubbleOptions[];
-  bubbleChartTooltip = {
+  bubbleChartTooltip: Highcharts.TooltipOptions = {
     useHTML: true,
-    headerFormat: '<table>',
-    pointFormat: '<tr><th colspan="2"><h4>{point.country}</h4></th></tr>' +
-      '<tr><th>Investment in EOSC and OS:</th><td>{point.x}M</td></tr>' +
-      '<tr><th>Investment in OA:</th><td>{point.y}M</td></tr>' +
-      '<tr><th>Number of Publications:</th><td>{point.z}</td></tr>',
-    footerFormat: '</table>',
-    followPointer: true
-  }
+    followPointer: true,
+    formatter: function () {
+      const investmentOS = Highcharts.numberFormat(this.point.x, -1, ',', '.');
+      const investmentOA = Highcharts.numberFormat(this.point.y, -1, ',', '.');
+      const publications = Highcharts.numberFormat(this.point['z'], -1, ',', '.');
+
+      return `
+      <table>
+        <tr><th colspan="2"><h4>${this.point['country']}</h4></th></tr>
+        <tr><th>Investment in EOSC and OS:</th><td>${investmentOS}M</td></tr>
+        <tr><th>Investment in OA:</th><td>${investmentOA}M</td></tr>
+        <tr><th>Number of Publications:</th><td>${publications}</td></tr>
+      </table>
+    `;
+    }
+  };
+  // bubbleChartTooltip = {
+  //   useHTML: true,
+  //   headerFormat: '<table>',
+  //   pointFormat: '<tr><th colspan="2"><h4>{point.country}</h4></th></tr>' +
+  //     '<tr><th>Investment in EOSC and OS:</th><td>{point.x}M</td></tr>' +
+  //     '<tr><th>Investment in OA:</th><td>{point.y}M</td></tr>' +
+  //     '<tr><th>Number of Publications:</th><td>{point.z}</td></tr>',
+  //   footerFormat: '</table>',
+  //   followPointer: true
+  // }
 
   totalInvestments: number[] = [];
 
@@ -94,24 +114,25 @@ export class InvestmentsInEoscComponent implements OnInit {
     zip(
       this.queryData.getQuestion(this.year, 'Question5'),  // Investments in EOSC and Open Science
       this.queryData.getQuestion(this.year, 'Question56'), // Investments in Open Access publications
-      this.queryData.getQuestion(this.year, 'Question57'), // Publications
+      // this.queryData.getQuestion(this.year, 'Question57'), // Publications
+      this.queryData.getOSOStats(OAPubsPerCountry()), // OA Publications from stat tool
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
-        this.bubbleWithPlotLines = this.createBubbleSeries(value);
+        this.bubbleWithPlotLines = this.createBubbleSeries([value[0], value[1]], value[2]);
       },
       error: err => {console.error(err)}
     });
   }
 
-  createBubbleSeries(data: RawData[]) {
+  createBubbleSeries(rawData: RawData[], data: Data) {
     const series = [{
       type: 'bubble',
       data: [],
       colorByPoint: true
     }] as unknown as SeriesBubbleOptions[];
 
-    const result = this.mergeArrays(data[0].datasets[0].series.result, data[1].datasets[0].series.result, data[2].datasets[0].series.result);
+    const result = this.mergeArrays(rawData[0].datasets[0].series.result, rawData[1].datasets[0].series.result, data);
 
     // console.log(result);
     result.forEach(el => {
@@ -126,6 +147,7 @@ export class InvestmentsInEoscComponent implements OnInit {
         country: this.exploreService.findCountryName(el.name).name
       };
       series[0].data.push(item);
+      console.log(series);
     });
 
     // console.log(series);
@@ -139,14 +161,14 @@ export class InvestmentsInEoscComponent implements OnInit {
       this.queryData.getQuestion(this.year, 'Question72'),  // Investments in open source software
       this.queryData.getQuestion(this.year, 'Question68'),  // Investments in Open Data
       this.queryData.getQuestion(this.year, 'Question64'),  // Investments in FAIR data
-      // this.queryData.getQuestion(this.year, 'Question60'),  // Investments in Data Management
+      // this.queryData.getQuestion(this.year, 'Question60'), // Investments in Data Management
       this.queryData.getQuestion(this.year, 'Question76'),  // Investments in offering services through EOSC
       this.queryData.getQuestion(this.year, 'Question80'),  // Investments in connecting repositories to EOSC
-      // this.queryData.getQuestion(this.year, 'Question84'),  // Investments in data stewardship
-      // this.queryData.getQuestion(this.year, 'Question88'),  // Investments in long-term Data Preservation
-      this.queryData.getQuestion(this.year, 'Question56'),  // Investments in Open Access publications
-      // this.queryData.getQuestion(this.year, 'Question92'),  // Investments in skills/training
-      // this.queryData.getQuestion(this.year, 'Question96'),  // Investments in incentives/rewards
+      // this.queryData.getQuestion(this.year, 'Question84'), // Investments in data stewardship
+      // this.queryData.getQuestion(this.year, 'Question88'), // Investments in long-term Data Preservation
+      this.queryData.getQuestion(this.year, 'Question56'),  // Investments in open access publications
+      // this.queryData.getQuestion(this.year, 'Question92'), // Investments in skills/training
+      // this.queryData.getQuestion(this.year, 'Question96'), // Investments in incentives/rewards
       this.queryData.getQuestion(this.year, 'Question5'),   // Total Investments per country
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
@@ -193,10 +215,10 @@ export class InvestmentsInEoscComponent implements OnInit {
   }
 
   /** Other -------------------------------------------------------------------------------------------------------> **/
-  mergeArrays = (arr1: Row[], arr2: Row[], arr3: Row[]): MergedElement[] => {
+  mergeArrays = (arr1: Row[], arr2: Row[], arr3: Data): MergedElement[] => {
     const map = new Map<string, Partial<MergedElement>>();
 
-    // Helper function to update map with values
+    // Helper function to update the map with values
     const addToMap = (arr: Row[], key: keyof MergedElement) => {
       for (const element of arr) {
         const name = element.row[0];
@@ -214,7 +236,14 @@ export class InvestmentsInEoscComponent implements OnInit {
     // Populate the map with values from each array
     addToMap(arr1, 'x');
     addToMap(arr2, 'y');
-    addToMap(arr3, 'z');
+    // addToMap(arr3, 'z');
+    arr3.data[0].forEach(row => {
+      const value = row[0];
+      const name = row[1];
+      const entry = map.get(name)!;
+      if (entry)
+        entry['z'] = String(value);
+    });
 
     // Convert the map to an array of MergedElement objects
     return Array.from(map.values()).map(entry => ({
@@ -244,42 +273,42 @@ export class InvestmentsInEoscComponent implements OnInit {
 
   }
 
-  mergeByCountryCode(rawData: RawData[]): string[][] { // Function to merge arrays by country code
-    let data: string[][][] = [];
-    for (let i = 0; i < rawData.length; i++) {
-      data[i] = [];
-      rawData[i].datasets[0].series.result.forEach(el => {
-        data[i].push(el.row);
-      })
-    }
-
-    const mergedData: Record<string, string[]> = {};
-
-    // Loop through each internal array
-    data.forEach((array) => {
-      array.forEach(([country, value]) => {
-        if (!mergedData[country]) {
-          mergedData[country] = []; // Initialize if not existing
-        }
-        mergedData[country].push(value); // Add value to the country
-      });
-    });
-    // console.log(mergedData);
-    for (let mergedDataKey in mergedData) {
-      // console.log(mergedData[mergedDataKey]);
-      let sum = 0.0;
-      mergedData[mergedDataKey].forEach((value, index) => {
-        if (index === mergedData[mergedDataKey].length-1) // Ignore total
-          return;
-
-        if (this.exploreService.isNumeric(value))
-          sum += +value;
-      });
-      mergedData[mergedDataKey].splice(mergedData[mergedDataKey].length-1, 0, sum.toFixed(2));
-    }
-
-    // Convert the merged data into an array of arrays, each starting with the country code
-    return Object.entries(mergedData).map(([country, values]) => [country, ...values]);
-  }
+  // mergeByCountryCode(rawData: RawData[]): string[][] { // Function to merge arrays by country code
+  //   let data: string[][][] = [];
+  //   for (let i = 0; i < rawData.length; i++) {
+  //     data[i] = [];
+  //     rawData[i].datasets[0].series.result.forEach(el => {
+  //       data[i].push(el.row);
+  //     })
+  //   }
+  //
+  //   const mergedData: Record<string, string[]> = {};
+  //
+  //   // Loop through each internal array
+  //   data.forEach((array) => {
+  //     array.forEach(([country, value]) => {
+  //       if (!mergedData[country]) {
+  //         mergedData[country] = []; // Initialize if not existing
+  //       }
+  //       mergedData[country].push(value); // Add value to the country
+  //     });
+  //   });
+  //   // console.log(mergedData);
+  //   for (let mergedDataKey in mergedData) {
+  //     // console.log(mergedData[mergedDataKey]);
+  //     let sum = 0.0;
+  //     mergedData[mergedDataKey].forEach((value, index) => {
+  //       if (index === mergedData[mergedDataKey].length-1) // Ignore total
+  //         return;
+  //
+  //       if (this.exploreService.isNumeric(value))
+  //         sum += +value;
+  //     });
+  //     mergedData[mergedDataKey].splice(mergedData[mergedDataKey].length-1, 0, sum.toFixed(2));
+  //   }
+  //
+  //   // Convert the merged data into an array of arrays, each starting with the country code
+  //   return Object.entries(mergedData).map(([country, values]) => [country, ...values]);
+  // }
 
 }
