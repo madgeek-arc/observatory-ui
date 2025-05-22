@@ -42,7 +42,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   years = ['2022', '2023'];
 
   stackedColumnCategories: string[] = [];
-  stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [] ;
+  stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
   yAxisTitle = 'Number of Publications';
   legend: LegendOptions = {
     align: 'right',
@@ -186,7 +186,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
         this.total[index] = res[0].datasets[0].series.result.length; // Total countries with validated response
 
         for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
-          this.tmpQuestionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data.map(code => ({ code }));
+          this.tmpQuestionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data.map((code: any) => ({ code }));
         }
         this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[1]);
         this.questionsDataArray[index] = this.exploreService.createMapDataFromCategorization(this.tmpQuestionsDataArray[index], this.countriesArray, mapCount);
@@ -306,7 +306,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     });
   }
 
-  /** Get OA VS closed, restricted and embargoed Publications ---------------------------------------------------  > **/
+  /** Get OA VS closed, restricted and embargoed Publications -----------------------------------------------------> **/
   getPublicationPercentage() {
     this.queryData.getOSOStats(OAPublicationVSClosed()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
@@ -316,7 +316,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     });
   }
 
-  /** Get national monitoring on Publications -------------------------------------------------------------------  > **/
+  /** Get national monitoring on Publications ---------------------------------------------------------------------> **/
   getNationalMonitoring(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question54').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {

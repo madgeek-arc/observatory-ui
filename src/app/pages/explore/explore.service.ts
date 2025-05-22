@@ -14,7 +14,7 @@ import { DataHandlerService } from "../services/data-handler.service";
 import * as Highcharts from "highcharts";
 import { colors } from "../../domain/chart-color-palette";
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class ExploreService {
 
   _lastUpdateDate: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
@@ -378,7 +378,7 @@ export class ExploreService {
   }
 
   trimNodes(data: any[]): any[] {
-    const parentIds = new Set(data.map(item => item.parent).filter(p => p));
+    // const parentIds = new Set(data.map(item => item.parent).filter(p => p));
     const leafIds = new Set(data.filter(d => d.y != null).map(d => d.parent));
     return data.filter(item =>
       item.parent === "" ||         // keep root

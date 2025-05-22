@@ -3,7 +3,6 @@ import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from "@ang
 import { LowerCasePipe, NgOptimizedImage } from "@angular/common";
 import { countries } from "../../domain/countries";
 import { DataShareService } from "./services/data-share.service";
-import { SurveyService } from "../../../survey-tool/app/services/survey.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SurveyPublicAnswer } from "./services/coutry-pages.service";
 
