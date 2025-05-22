@@ -1,8 +1,110 @@
 <div class="uk-section uk-section-small">
   <div class="uk-container">
 
-    <div class="uk-flex uk-flex-between uk-flex-middle">
-      <h4>Policy Overview</h4>
+    <div class="uk-flex uk-flex-middle uk-margin-bottom">
+      <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+           class="flag-image" width="42" height="42" alt="rounded flag image">
+      <div class="uk-margin-small-left">
+        <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>
+      </div>
+    </div>
+
+    <div class="uk-grid-small" uk-grid>
+      <!-- left card -->
+      <div class="uk-width-2-5">
+        <div class="uk-card uk-card-default uk-card-body visualisation-card">
+          <table class="uk-table uk-table-divider uk-table-small uk-table-middle">
+            <thead>
+              <tr>
+                <th></th>
+                <th class="uk-text-center">NATIONAL POLICY</th>
+                <th class="uk-text-center">FINANCIAL STRATEGY</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="uk-text-left uk-text-bold">Publications</td>
+                <td style="background-color: #d0f0c0;"></td>
+                <td style="background-color: #f8d7da;"></td>
+              </tr>
+              <tr>
+                <td class="uk-text-left uk-text-bold">Data management</td>
+                <td style="background-color: #d0f0c0;"></td>
+                <td style="background-color: #f8d7da;"></td>
+              </tr>
+              <tr>
+                <td class="uk-text-left uk-text-bold">FAIR Data</td>
+                <td style="background-color: #d0f0c0;"></td>
+                <td style="background-color: #f8d7da;"></td>
+              </tr>
+              <tr>
+                <td class="uk-text-left uk-text-bold">Open Data</td>
+                <td class="uk-background-muted"></td>
+                <td class="uk-background-muted"></td>
+              </tr>
+              <tr>
+                <td class="uk-text-left uk-text-bold">Software</td>
+                <td class="uk-background-muted"></td>
+                <td class="uk-background-muted"></td>
+              </tr>
+              <tr>
+                <td class="uk-text-left uk-text-bold">Services</td>
+                <td class="uk-background-muted"></td>
+                <td class="uk-background-muted"></td>
+              </tr>
+              <tr>
+                <td class="uk-text-left uk-text-bold">Connecting repositories to EOSC</td>
+                <td class="uk-background-muted"></td>
+                <td class="uk-background-muted"></td>
+              </tr>
+              <tr>
+                <td class="uk-text-left uk-text-bold">Data stewardship</td>
+                <td class="uk-background-muted"></td>
+                <td class="uk-background-muted"></td>
+              </tr>
+              <tr>
+                <td class="uk-text-left uk-text-bold">Long-term data preservation</td>
+                <td class="uk-background-muted"></td>
+                <td class="uk-background-muted"></td>
+              </tr>
+              <tr>
+                <td class="uk-text-left uk-text-bold">Skills/Training</td>
+                <td class="uk-background-muted"></td>
+                <td class="uk-background-muted"></td>
+              </tr>
+              <tr>
+                <td class="uk-text-left uk-text-bold">Assessment</td>
+                <td class="uk-background-muted"></td>
+                <td class="uk-background-muted"></td>
+              </tr>
+              <tr>
+                <td class="uk-text-left uk-text-bold">Engagement</td>
+                <td class="uk-background-muted"></td>
+                <td class="uk-background-muted"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- right card -->
+      <div class="uk-width-3-5">
+        <div class="uk-card uk-card-default uk-card-body">
+          <h4 class="uk-text-center">Policy Landscape in the Czech Republic</h4>
+          <p>This information has been compiled by Natiopnal Open Access Desks Klara Slanarova.</p>
+
+          <h5>Overview</h5>
+          <p>The Czech Republic, which holds a dense scientific community working on different aspects of the landscape, is advancing towards the implementation of a full strategy for Open Science.Czech universities and further research and funding institutions have made various efforts to develop and adopt Open Science in all disciplines. The working groups that have been set upt study specific easpects of EOSC's implementation in the Czech Republic (EOSC-CZ) resembles the Task Forces organised by the EOSC Association.</p>
+
+          <h5>National Policy and Legislation</h5>
+          <p>Praesent vitae sapien at lacus vehicula fermentum. Morbi auctor semper.</p>
+
+          <h5>Funder Policies</h5>
+          <p>Donec aliquam, ipsum a fringilla convallis, odio sapien consectetur libero.</p>
+
+        </div>
+      </div>
+
     </div>
 
   </div>

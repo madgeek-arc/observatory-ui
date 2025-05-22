@@ -1,5 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { JsonPipe, LowerCasePipe, NgForOf, NgIf, NgOptimizedImage } from "@angular/common";
+
+
+import { CommonModule, JsonPipe, LowerCasePipe, NgForOf, NgOptimizedImage } from "@angular/common";
 import { DataShareService } from "../services/data-share.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
@@ -9,16 +11,16 @@ import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
   standalone: true,
   templateUrl: './general-R&D-overview.component.html',
   imports: [
-    LowerCasePipe,
-    NgOptimizedImage,
-    JsonPipe,
-    NgForOf,
-    NgIf
+    CommonModule,
+    NgOptimizedImage
   ]
 })
 
 export class GeneralRDOverviewComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+
+  colorChange = 11;
+  openSoftware = [];
 
   countryCode?: string;
   countryName?: string;
@@ -43,6 +45,8 @@ export class GeneralRDOverviewComponent implements OnInit {
     this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answers) => {
         this.surveyAnswers = answers;
+        this.openSoftware[0] = this.surveyAnswers[0]?.['Practices']['Question73']['Question73-0'];
+        this.openSoftware[1] = this.surveyAnswers[1]?.['Practices']['Question73']['Question73-0'];
       }
     });
 

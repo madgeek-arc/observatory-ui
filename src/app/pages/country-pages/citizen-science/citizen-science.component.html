@@ -1,6 +1,17 @@
 <div class="uk-section uk-section-small">
   <div class="uk-container">
-    <h5>General Overview of Open Access for 2023</h5>
+    <h3>Open Science by Area</h3>
+    <div class="uk-flex uk-flex-middle uk-margin-bottom">
+      <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+           class="flag-image" width="42" height="42" alt="rounded flag image">
+      <div class="uk-margin-small-left">
+        <h4 class="uk-margin-remove-bottom">Citizen Science</h4>
+      </div>
+    </div>
+    <p>Citizen Science involves public participation and collaboration in scientific research to increase the accessibility, transparency, and democratization of knowledge creation. The aim is to foster innovative discoveries by combining the efforts of scientists with contributions from citizens. This page provides an overview of Citizen Science in Europe, featuring key data from the Survey on National Contributions to EOSC and Open Science. The data highlights progress and engagement in Citizen Science, supporting broader Open Science goals.</p>
+    <div class="uk-flex uk-flex-between uk-flex-middle">
+      <h4>General Overview of Citizen Science in Europe for 2023</h4>
+    </div>
 
     <div class="uk-card uk-card-default uk-card-body uk-margin visualisation-card">
 
@@ -8,17 +19,17 @@
         <div>
           <div class="uk-card card-simple uk-card-small uk-card-body">
             <div>
-              <p>Card Title</p>
+              <p>Number of new Citizen Science project in EU Countries</p>
             </div>
             <div class="number big uk-margin-medium-top">
-              <span class="uk-text-bold">Value_1</span>
+              <span class="uk-text-bold">711 projects</span>
             </div>
             <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined" [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
                   {{ colorChange >= 0 ? 'arrow_upward' : ' arrow_downward' }}
                 </span>
-                <span class="">{{ colorChange }}%</span>&nbsp; from last year
+                <span class="">{{ colorChange }}%</span>&nbsp; vs last year
               </div>
               <div>
                 <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
@@ -33,17 +44,17 @@
         <div>
           <div class="uk-card card-simple uk-card-small uk-card-body">
             <div>
-              <p>Card Title</p>
+              <p>Percentage of <span class="uk-text-bold">EU Countries with Policy on Citizen Science</span></p>
             </div>
             <div class="number big uk-margin-medium-top">
-              <span class="uk-text-bold">Value_2</span>
+              <span class="uk-text-bold">71%</span>
             </div>
             <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined" [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
                   {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                 </span>
-                <span class="">{{ colorChange }}%</span>&nbsp; from last year
+                <span class="">{{ colorChange }}%</span>&nbsp; vs last year
               </div>
               <div>
                 <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
@@ -58,17 +69,17 @@
         <div>
           <div class="uk-card card-simple uk-card-small uk-card-body">
             <div>
-              <p>Card Title</p>
+              <p>Total amount of <span class="uk-text-bold">financial investment</span> in Citizen Science</p>
             </div>
             <div class="number big uk-margin-medium-top">
-              <span class="uk-text-bold">Value_3</span>
+              <span class="uk-text-bold">2,420 mil Euro</span>
             </div>
             <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined" [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
                   {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                 </span>
-                <span class="">{{ colorChange }}%</span>&nbsp; from last year
+                <span class="">{{ colorChange }}%</span>&nbsp; vs last year
               </div>
               <div>
                 <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
@@ -83,16 +94,16 @@
         <div>
           <div class="uk-card card-simple uk-card-small uk-card-body">
             <div>
-              <p>Card Title</p>
+              <p>Percentage of <span class="uk-text-bold">EU Countries with a Financial Strategy on Citizen Science</span></p>
             </div>
             <div class="number big uk-margin-medium-top">
-              <span class="uk-text-bold">Value_4</span>
+              <span class="uk-text-bold">71%</span>
             </div>
             <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined"
                       [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">{{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}</span>
-                <span class="">{{ colorChange }}%</span>&nbsp; from last year
+                <span class="">{{ colorChange }}%</span>&nbsp; vs last year
               </div>
               <div>
                 <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
@@ -107,16 +118,16 @@
         <div>
           <div class="uk-card card-simple uk-card-small uk-card-body">
             <div>
-              <p>Card Title</p>
+              <p>Percentage amount of EU Countries with Citizen Science Monitoring Initiatives</p>
             </div>
             <div class="number big uk-margin-medium-top">
-              <span class="uk-text-bold">Value_5</span>
+              <span class="uk-text-bold">71%</span>
             </div>
             <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
               <div class="uk-flex uk-flex-middle">
                 <span class="material-symbols-outlined"
                       [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">{{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}</span>
-                <span class="">{{ colorChange }}%</span>&nbsp; from last year
+                <span class="">{{ colorChange }}%</span>&nbsp; vs last year
               </div>
               <div>
                 <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
@@ -129,7 +140,7 @@
       </div>
 
     </div>
-    <div class="uk-flex uk-margin-top">
+    <div class="uk-flex uk-margin-top uk-flex-center">
       <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Cotributions to EOSC and Open Science; OpenAIRE Graph.
     </div>
   </div>

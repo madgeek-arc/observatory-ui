@@ -21,6 +21,7 @@ import { SurveyPublicAnswer } from "./services/coutry-pages.service";
   styleUrls: ['../../../assets/css/explore-sidebar.scss', '../../../assets/css/explore-dashboard.scss']
 })
 
+
 export class CountryPagesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
@@ -36,6 +37,7 @@ export class CountryPagesComponent implements OnInit {
               private surveyAnswer: SurveyPublicAnswer) {}
 
   ngOnInit() {
+    console.log(this);
     this.route.params.subscribe(params => {
       // console.log(params['code']);
       this.countryCode = params['code'];

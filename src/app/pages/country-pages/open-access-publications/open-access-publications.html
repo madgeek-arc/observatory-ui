@@ -1,0 +1,160 @@
+<div class="uk-section uk-section-small">
+  <div class="uk-container">
+
+    <div class="uk-flex uk-flex-middle uk-margin-bottom">
+      <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+           class="flag-image" width="42" height="42" alt="rounded flag image">
+      <div class="uk-margin-small-left">
+        <h3 class="uk-margin-remove-bottom">Open Access Publications</h3>
+      </div>
+    </div>
+    <p>Open Access (OA) represents a transformative approach within the scholarly communication landscape, aiming to make research outputs freely accessible to all, without subscription or price barries. The graphics below provides a high-level overview of key indicators tracking the progress of OA publishing and policies in selected country.</p>
+    <div class="uk-flex uk-flex-between uk-flex-middle">
+      <h4>General Overview of Open Access for 2023</h4>
+    </div>
+
+    <div class="uk-grid-small" uk-grid>
+
+      <div class="uk-width-3-5">
+        <div class="uk-card uk-card-default uk-card-body external-sources visualisation-card">
+          <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
+
+            <!-- Card 1 -->
+            <div>
+              <div class="uk-card card-simple uk-card-small uk-card-body">
+                <p>Percentage of <span class="uk-text-bold">OA Publication in Czech Republic</span>(OA vs Closed)</p>
+                <div class="number big uk-margin-medium-top">
+                  <span class="uk-text-bold">71%</span>
+                </div>
+                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                  <div class="uk-flex uk-flex-middle">
+                    <span class="material-symbols-outlined"
+                          [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                    <span>{{ colorChange }}%</span>&nbsp; vs last year
+                  </div>
+                  <div>
+                    <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                         alt="trend image" height="50" width="99">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div *ngIf="rfoPublicationPercentage[1] !== null">
+              <div class="uk-card card-simple uk-card-small uk-card-body">
+                <p>Percentage of <span class="uk-text-bold">RFO's Policy on OA Publication</span></p>
+                <div class="number big uk-margin-medium-top">
+                  <span class="uk-text-bold">
+                    {{ rfoPublicationPercentage[1] }}%
+                  </span>
+                </div>
+                <div *ngIf="rfoPublicationPercentageChange !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                  <div class="uk-flex uk-flex-middle">
+                    <span class="material-symbols-outlined"
+                          [ngClass]="rfoPublicationPercentageChange > 0 ? 'up-arrow-color' : (rfoPublicationPercentageChange) < 0 ? 'down-arrow-color' : 'up-arrow-color'">
+                      {{ rfoPublicationPercentageChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                    <span [ngClass]="rfoPublicationPercentageChange > 0 ? 'up-arrow-color' : (rfoPublicationPercentageChange) < 0 ? 'down-arrow-color' : 'up-arrow-color'">
+                      {{rfoPublicationPercentageChange !== null ? (rfoPublicationPercentageChange < 0 ? (rfoPublicationPercentageChange * -1) : rfoPublicationPercentageChange) : 'N/A'}}%
+                    </span>&nbsp; vs last year
+                  </div>
+                  <div>
+                    <img [ngSrc]="'../assets/images/explore/' + (rfoPublicationPercentageChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                         alt="trend image" height="50" width="99">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div *ngIf="rpoPublicationPercentage[1] !== null">
+              <div class="uk-card card-simple uk-card-small uk-card-body">
+                <p>Percentage of <span class="uk-text-bold">RPO's Policy on OA Publication</span></p>
+                <div class="number big uk-margin-medium-top">
+                  <span class="uk-text-bold">
+                    {{ rpoPublicationPercentage[1] }}%
+                  </span>
+                </div>
+                <div *ngIf="rpoPublicationPercentageChange !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                  <div class="uk-flex uk-flex-middle">
+                    <span class="material-symbols-outlined"
+                          [ngClass]="rpoPublicationPercentageChange > 0 ? 'up-arrow-color' : (rpoPublicationPercentageChange) < 0 ? 'down-arrow-color' : 'up-arrow-color'">
+                      {{ rpoPublicationPercentageChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                    <span [ngClass]="rpoPublicationPercentageChange > 0 ? 'up-arrow-color' : (rpoPublicationPercentageChange) < 0 ? 'down-arrow-color' : 'up-arrow-color'">
+                      {{ rpoPublicationPercentageChange !==null ? (rpoPublicationPercentageChange < 0 ? (rpoPublicationPercentageChange * -1) : rpoPublicationPercentageChange) : 'N/A'}}%
+                    </span>&nbsp; vs last year
+                  </div>
+                  <div>
+                    <img [ngSrc]="'../assets/images/explore/' + (rpoPublicationPercentageChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                         alt="trend image" height="50" width="99">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div *ngIf="financialInvestment[1] !== null">
+              <div class="uk-card card-simple uk-card-small uk-card-body">
+                <p>Total amount of <span class="uk-text-bold">financial investments</span> in OA publications</p>
+                <div class="number big uk-margin-medium-top">
+                  <span class="uk-text-bold">
+                    {{ financialInvestment[1] !== null ? financialInvestment[1] + ' mil Euro' : 'No answer provided'}}
+                  </span>
+                </div>
+                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                  <div class="uk-flex uk-flex-middle">
+                    <span class="material-symbols-outlined"
+                          [ngClass]="financialInvestmentChange > 0 ? 'up-arrow-color' : (financialInvestmentChange) < 0 ? 'down-arrow-color' : 'up-arrow-color'">
+                      {{ financialInvestmentChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                    <span [ngClass]="financialInvestmentChange > 0 ? 'up-arrow-color' : (financialInvestmentChange) < 0 ? 'down-arrow-color' : 'up-arrow-color'">
+                      {{ financialInvestmentChange }}%
+                    </span>&nbsp; vs last year
+                  </div>
+                  <div>
+                    <img [ngSrc]="'../assets/images/explore/' + (financialInvestmentChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                         alt="trend image" height="50" width="99">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="uk-flex uk-margin-top">
+          <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science; OpenAIRE Graph.
+        </div>
+      </div>
+
+      <!-- Right Card (2/5) -->
+      <div class="uk-width-2-5">
+        <div class="uk-card uk-card-default uk-card-body noads visualisation-card">
+          <div>
+            <h5>National Policy on Open Access</h5>
+             <p>Until 2020, we had the Czech National Strategy for Open Access to Scientific Information for 2017-2020 (including publications and data) + Action Plan for its implementation.....</p>
+          </div>
+          <div>
+            <h5>Financial Strategy on Open Access</h5>
+              <p>In 2020, the Czech Government approved the National RDI Policy of the Czech Republic 2021+ as an overaching national-level strategic document for advancing all components of RDI. This document helps fullfill certain criteria of the basic conditions to be able to draw funding from EU funds in the 2021-2027 programming period.....</p>
+          </div>
+          <div>
+            <h5>Monitoring on Open Access</h5>
+            <p>At least partially, the Czech R&D Information System (IS VaVal - https://www.isvavai.cz/) via - Information Register of R&D results (RIV) monitors whether the result is in OA.....</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    
+    
+    <pre *ngFor="let element of surveyAnswers">{{element | json}}</pre>
+    
+
+  </div>
+</div>
