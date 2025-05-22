@@ -20,23 +20,23 @@
           <div class="uk-child-width-1-2 uk-grid-small uk-flex uk-flex-center" data-uk-grid>
 
             <!-- Card 1 -->
-            <div *ngIf="OAPublications[1] !== null" class="uk-animation-scale-up">
+            <div *ngIf="OAPubsPercentage[1] !== null" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <p>Percentage of <span class="uk-text-bold">OA Publication in {{ countryName }}</span> (OA vs Closed)</p>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">{{ OAPublications[1] }}%</span>
+                  <span class="uk-text-bold">{{ OAPubsPercentage[1] }}%</span>
                 </div>
-                <div *ngIf="OAPublications[0]" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                <div *ngIf="OAPubsPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined" [ngClass]="OAPublications[1] - OAPublications[0] >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ OAPublications[1] - OAPublications[0] >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    <span class="material-symbols-outlined" [ngClass]="OAPubsPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ OAPubsPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span [ngClass]="OAPublications[1] - OAPublications[0] >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ Math.abs(OAPublications[1] - OAPublications[0]) }}%
+                    <span [ngClass]="OAPubsPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ Math.abs(OAPubsPercentageDiff) }}%
                     </span>&nbsp; vs last year
                   </div>
                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (OAPublications[1] - OAPublications[0] >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                    <img [ngSrc]="'../assets/images/explore/' + (OAPubsPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
                   </div>
                 </div>
@@ -44,25 +44,25 @@
             </div>
 
             <!-- Card 2 -->
-            <div *ngIf="rfoPublicationPercentage[1] !== null" class="uk-animation-scale-up">
+            <div *ngIf="rfoPubsPercentage[1] !== null" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <p>Percentage of <span class="uk-text-bold">RFO's Policy on OA Publication</span></p>
                 <div class="number big uk-margin-medium-top">
                   <span class="uk-text-bold">
-                    {{ rfoPublicationPercentage[1] }}%
+                    {{ rfoPubsPercentage[1] }}%
                   </span>
                 </div>
-                <div *ngIf="rfoPublicationPercentageChange !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                <div *ngIf="rfoPubsPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined" [ngClass]="rfoPublicationPercentageChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ rfoPublicationPercentageChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    <span class="material-symbols-outlined" [ngClass]="rfoPubsPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ rfoPubsPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span [ngClass]="rfoPublicationPercentageChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ Math.abs(rfoPublicationPercentageChange) }}%
+                    <span [ngClass]="rfoPubsPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ Math.abs(rfoPubsPercentageDiff) }}%
                     </span>&nbsp; vs last year
                   </div>
                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (rfoPublicationPercentageChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                    <img [ngSrc]="'../assets/images/explore/' + (rfoPubsPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
                   </div>
                 </div>
@@ -70,25 +70,25 @@
             </div>
 
             <!-- Card 3 -->
-            <div *ngIf="rpoPublicationPercentage[1] !== null" class="uk-animation-scale-up">
+            <div *ngIf="rpoPubsPercentage[1] !== null" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <p>Percentage of <span class="uk-text-bold">RPO's Policy on OA Publication</span></p>
                 <div class="number big uk-margin-medium-top">
                   <span class="uk-text-bold">
-                    {{ rpoPublicationPercentage[1] }}%
+                    {{ rpoPubsPercentage[1] }}%
                   </span>
                 </div>
-                <div *ngIf="rpoPublicationPercentageChange !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                <div *ngIf="rpoPubsPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined" [ngClass]="rpoPublicationPercentageChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ rpoPublicationPercentageChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    <span class="material-symbols-outlined" [ngClass]="rpoPubsPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ rpoPubsPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span [ngClass]="rpoPublicationPercentageChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ Math.abs(rpoPublicationPercentageChange) }}%
+                    <span [ngClass]="rpoPubsPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ Math.abs(rpoPubsPercentageDiff) }}%
                     </span>&nbsp; vs last year
                   </div>
                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (rpoPublicationPercentageChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                    <img [ngSrc]="'../assets/images/explore/' + (rpoPubsPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
                   </div>
                 </div>
@@ -104,17 +104,17 @@
                     {{ financialInvestment[1]  + ' mil Euro' }}
                   </span>
                 </div>
-                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                <div *ngIf="financialInvestmentPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined" [ngClass]="financialInvestmentChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ financialInvestmentChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    <span class="material-symbols-outlined" [ngClass]="financialInvestmentPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ financialInvestmentPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span [ngClass]="financialInvestmentChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ financialInvestmentChange }}%
+                    <span [ngClass]="financialInvestmentPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ Math.abs(financialInvestmentPercentageDiff) }}%
                     </span>&nbsp; vs last year
                   </div>
                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (financialInvestmentChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                    <img [ngSrc]="'../assets/images/explore/' + (financialInvestmentPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
                   </div>
                 </div>
@@ -149,7 +149,7 @@
 
     </div>
 
-    <div class="uk-section uk-section-small uk-margin-top" #exportContent4>
+    <div class="uk-section uk-section-small uk-margin-top">
       <div class="uk-container">
 
         <div class="uk-card uk-card-default visualisation-card uk-card-body">

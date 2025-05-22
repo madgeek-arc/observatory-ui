@@ -36,7 +36,6 @@ export class CountryPagesComponent implements OnInit {
               private surveyAnswer: SurveyPublicAnswer) {}
 
   ngOnInit() {
-    console.log(this);
     this.route.params.subscribe(params => {
       // console.log(params['code']);
       this.countryCode = params['code'];
