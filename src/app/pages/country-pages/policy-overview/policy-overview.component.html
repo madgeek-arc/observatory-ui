@@ -22,66 +22,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="uk-text-left uk-text-bold">Publications</td>
-                <td style="background-color: #d0f0c0;"></td>
-                <td style="background-color: #f8d7da;"></td>
+              <tr *ngFor="let row of table">
+                <td class="uk-text-left uk-text-bold">{{row.OSArea}}</td>
+                <td [ngClass]="row.nationalPolicy === 'Yes' ? 'valueTrue' : 'valueFalse'"></td>
+                <td [ngClass]="row.financialStrategy === 'Yes' ? 'valueTrue' : 'valueFalse'"></td>
               </tr>
-              <tr>
-                <td class="uk-text-left uk-text-bold">Data management</td>
-                <td style="background-color: #d0f0c0;"></td>
-                <td style="background-color: #f8d7da;"></td>
-              </tr>
-              <tr>
-                <td class="uk-text-left uk-text-bold">FAIR Data</td>
-                <td style="background-color: #d0f0c0;"></td>
-                <td style="background-color: #f8d7da;"></td>
-              </tr>
-              <tr>
-                <td class="uk-text-left uk-text-bold">Open Data</td>
-                <td class="uk-background-muted"></td>
-                <td class="uk-background-muted"></td>
-              </tr>
-              <tr>
-                <td class="uk-text-left uk-text-bold">Software</td>
-                <td class="uk-background-muted"></td>
-                <td class="uk-background-muted"></td>
-              </tr>
-              <tr>
-                <td class="uk-text-left uk-text-bold">Services</td>
-                <td class="uk-background-muted"></td>
-                <td class="uk-background-muted"></td>
-              </tr>
-              <tr>
-                <td class="uk-text-left uk-text-bold">Connecting repositories to EOSC</td>
-                <td class="uk-background-muted"></td>
-                <td class="uk-background-muted"></td>
-              </tr>
-              <tr>
-                <td class="uk-text-left uk-text-bold">Data stewardship</td>
-                <td class="uk-background-muted"></td>
-                <td class="uk-background-muted"></td>
-              </tr>
-              <tr>
-                <td class="uk-text-left uk-text-bold">Long-term data preservation</td>
-                <td class="uk-background-muted"></td>
-                <td class="uk-background-muted"></td>
-              </tr>
-              <tr>
-                <td class="uk-text-left uk-text-bold">Skills/Training</td>
-                <td class="uk-background-muted"></td>
-                <td class="uk-background-muted"></td>
-              </tr>
-              <tr>
-                <td class="uk-text-left uk-text-bold">Assessment</td>
-                <td class="uk-background-muted"></td>
-                <td class="uk-background-muted"></td>
-              </tr>
-              <tr>
-                <td class="uk-text-left uk-text-bold">Engagement</td>
-                <td class="uk-background-muted"></td>
-                <td class="uk-background-muted"></td>
-              </tr>
+              
             </tbody>
           </table>
         </div>
@@ -89,8 +35,8 @@
 
       <!-- right card -->
       <div class="uk-width-3-5">
-        <div class="uk-card uk-card-default uk-card-body">
-          <h4 class="uk-text-center">Policy Landscape in the Czech Republic</h4>
+        <div class="uk-card uk-card-default uk-card-body noads visualisation-card">
+          <h4 class="uk-text-center">Policy Landscape in {{countryName}}</h4>
           <p>This information has been compiled by Natiopnal Open Access Desks Klara Slanarova.</p>
 
           <h5>Overview</h5>
