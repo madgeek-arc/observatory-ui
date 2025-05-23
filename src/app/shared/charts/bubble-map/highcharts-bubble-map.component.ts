@@ -1,8 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import * as Highcharts from "highcharts/highmaps";
 import HC_exporting from 'highcharts/modules/exporting';
+import ExportData from 'highcharts/modules/export-data';
 
 HC_exporting(Highcharts);
+ExportData(Highcharts);
 
 declare var require: any;
 const worldMap = require('@highcharts/map-collection/custom/world-highres3.topo.json');

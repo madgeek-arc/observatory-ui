@@ -2,10 +2,12 @@ import {Component, Input, OnChanges, SimpleChanges, ViewChild} from "@angular/co
 import * as Highcharts from "highcharts";
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
+import ExportData from 'highcharts/modules/export-data';
 import {SeriesMapDataOptions} from "highcharts/highmaps";
 
 HC_exporting(Highcharts);
 HC_ExportingOffline(Highcharts);
+ExportData(Highcharts);
 let componentContext;
 
 @Component({
