@@ -30,26 +30,26 @@ export class IframeLoaderComponent implements OnInit {
   urlSelector(selector: string) {
     switch (selector) {
       case 'eosc-observatory':
-        this.iframeUrl = this.sanitizeUrl.transform('./pages?option=com_content&view=article&id=10&tmpl=yootheme', 'resourceUrl');
+        this.iframeUrl = this.sanitizeUrl.transform('./pages?option=com_content&view=article&id=17&tmpl=yootheme', 'resourceUrl');
         break;
       case 'eosc-track':
         // this.iframeUrl = this.sanitizeUrl.transform('http://88.197.53.1/?option=com_content&view=article&id=10', 'resourceUrl');
-        this.iframeUrl = this.sanitizeUrl.transform('./pages?option=com_content&view=article&id=10&tmpl=yootheme', 'resourceUrl');
+        this.iframeUrl = this.sanitizeUrl.transform('./pages?option=com_content&view=article&id=18&tmpl=yootheme', 'resourceUrl');
         break;
       case 'news':
-        this.iframeUrl = this.sanitizeUrl.transform('./pages?option=com_content&view=article&id=10&tmpl=yootheme', 'resourceUrl');
+        this.iframeUrl = this.sanitizeUrl.transform('./pages?option=com_content&view=article&id=14&tmpl=yootheme', 'resourceUrl');
         break;
       case 'data-workflow-and-methodology':
-        this.iframeUrl = this.sanitizeUrl.transform('./pages?option=com_content&view=article&id=10&tmpl=yootheme', 'resourceUrl');
+        this.iframeUrl = this.sanitizeUrl.transform('./pages?option=com_content&view=article&id=15&tmpl=yootheme', 'resourceUrl');
         break;
       case 'publications-and-deliverables':
-        this.iframeUrl = this.sanitizeUrl.transform('./pages?option=com_content&view=article&id=10&tmpl=yootheme', 'resourceUrl');
+        this.iframeUrl = this.sanitizeUrl.transform('./pages?option=com_content&view=article&id=12&tmpl=yootheme', 'resourceUrl');
         break;
       case 'data-download':
-        this.iframeUrl = this.sanitizeUrl.transform('./pages?option=com_content&view=article&id=10&tmpl=yootheme', 'resourceUrl');
+        this.iframeUrl = this.sanitizeUrl.transform('./pages?option=com_content&view=article&id=13&tmpl=yootheme', 'resourceUrl');
         break;
       case 'support-and-faq':
-        this.iframeUrl = this.sanitizeUrl.transform('./pages?option=com_content&view=article&id=10&tmpl=yootheme', 'resourceUrl');
+        this.iframeUrl = this.sanitizeUrl.transform('./pages?option=com_content&view=article&id=16&tmpl=yootheme', 'resourceUrl');
         break;
       default:
         // maybe have a fallback / handle url errors
