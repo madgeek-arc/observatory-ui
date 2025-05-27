@@ -9,6 +9,7 @@
       </div>
     </div>
 
+    <h5>Policy Overview</h5>
     <div class="uk-grid-small" uk-grid>
       <!-- left card -->
       <div class="uk-width-2-5">
@@ -31,22 +32,51 @@
             </tbody>
           </table>
         </div>
+        <div class="uk-flex uk-margin-top">
+          <span class="uk-text-bold" style="white-space: nowrap;">Data source:</span>&nbsp;
+           Survey on National Contributions to EOSC and Open Science; OpenAIRE Graph.
+        </div>
       </div>
 
       <!-- right card -->
       <div class="uk-width-3-5">
         <div class="uk-card uk-card-default uk-card-body noads visualisation-card">
-          <h4 class="uk-text-center">Policy Landscape in {{countryName}}</h4>
-          <p>This information has been compiled by Natiopnal Open Access Desks Klara Slanarova.</p>
-
-          <h5>Overview</h5>
-          <p>The Czech Republic, which holds a dense scientific community working on different aspects of the landscape, is advancing towards the implementation of a full strategy for Open Science.Czech universities and further research and funding institutions have made various efforts to develop and adopt Open Science in all disciplines. The working groups that have been set upt study specific easpects of EOSC's implementation in the Czech Republic (EOSC-CZ) resembles the Task Forces organised by the EOSC Association.</p>
-
-          <h5>National Policy and Legislation</h5>
-          <p>Praesent vitae sapien at lacus vehicula fermentum. Morbi auctor semper.</p>
-
-          <h5>Funder Policies</h5>
-          <p>Donec aliquam, ipsum a fringilla convallis, odio sapien consectetur libero.</p>
+          <div class="uk-width-3-4" id="policies">
+          <div id="policies_overview">
+            <div class="uk-text-secondary">Overview</div>
+            <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']; else policies_overview">
+              <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']" class="uk-margin-medium-top"></div>
+            </ng-container>
+            <ng-template #policies_overview><p>N/A</p></ng-template>
+          </div>
+          <div id="national_policy_and_legislation">
+            <div class="uk-text-secondary">National Policy and Legislation</div>
+            <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']?.length; else legislation">
+              <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']" class="uk-margin-medium-top">
+                <div [innerHTML]="element['Question11-1']"></div>
+              </div>
+            </ng-container>
+            <ng-template #legislation><p>N/A</p></ng-template>
+          </div>
+          <div id="funder_policies">
+            <div class="uk-text-secondary">Funder Policies</div>
+            <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']?.length; else funder_policies">
+              <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']" class="uk-margin-medium-top">
+                <div [innerHTML]="element['Question12-1']"></div>
+              </div>
+            </ng-container>
+            <ng-template #funder_policies><p>N/A</p></ng-template>
+          </div>
+          <div id="institutional_policies">
+            <div class="uk-text-secondary">Institutional policies</div>
+            <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']?.length; else institutional_policies">
+              <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']" class="uk-margin-medium-top">
+                <div [innerHTML]="element['Question13-1']"></div>
+              </div>
+            </ng-container>
+            <ng-template #institutional_policies><p>N/A</p></ng-template>
+          </div>
+        </div>
 
         </div>
       </div>

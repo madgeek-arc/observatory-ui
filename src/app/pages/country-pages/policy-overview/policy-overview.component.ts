@@ -3,6 +3,7 @@ import { DataShareService } from "../services/data-share.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
 import { Component, inject, DestroyRef } from "@angular/core";
+import { CatalogueUiReusableComponentsModule } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
 
 
 
@@ -26,7 +27,8 @@ class TableRow {
   imports: [ 
     LowerCasePipe,
     NgOptimizedImage,
-    CommonModule
+    CommonModule,
+    CatalogueUiReusableComponentsModule
   ]
 })
 
@@ -37,7 +39,8 @@ export class PolicyOverviewComponent {
   countryName?: string;
   surveyAnswers: Object[] = [];
   table: TableRow[] = [];
-
+  surveyAnswer: Object[] = [];
+  countrySurveyAnswer?: Object;
 
   constructor(private dataShareService: DataShareService) {}
 
@@ -70,6 +73,13 @@ export class PolicyOverviewComponent {
         this.table.push(new TableRow('Skills/Training', this.surveyAnswers[1]?.['Policies']?.['Question42']?.['Question42-0'], this.surveyAnswers[1]?.['Policies']?.['Question43']?.['Question43-0']));
         this.table.push(new TableRow('Assessment', this.surveyAnswers[1]?.['Policies']?.['Question46']?.['Question46-0'], this.surveyAnswers[1]?.['Policies']?.['Question47']?.['Question47-0']));
         this.table.push(new TableRow('Engagement', this.surveyAnswers[1]?.['Policies']?.['Question50']?.['Question50-0'], this.surveyAnswers[1]?.['Policies']?.['Question51']?.['Question51-0']));
+      }
+    });
+    
+    this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (answer) => {
+        this.countrySurveyAnswer = answer;
+        
       }
     });
   }

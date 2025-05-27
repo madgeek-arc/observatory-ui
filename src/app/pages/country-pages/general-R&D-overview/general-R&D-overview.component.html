@@ -35,7 +35,7 @@
                     </span>
                     <span [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
                       {{ colorChange }}%
-                    </span>&nbsp; from last year
+                    </span>&nbsp; vs last year
                   </div>
                   <div>
                     <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
@@ -58,7 +58,7 @@
                           [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
                       {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span>{{ colorChange }}%</span>&nbsp; from last year
+                    <span>{{ colorChange }}%</span>&nbsp; vs last year
                   </div>
                   <div>
                     <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
@@ -80,15 +80,15 @@
                 <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined"
-                          [ngClass]="totalInvestmentChange > 0 ? 'up-arrow-color' : (totalInvestmentChange) < 0 ?'down-arrow-color' : 'up-arrow-color'">
+                          [ngClass]="totalInvestmentChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
                       {{ totalInvestmentChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span [ngClass]="totalInvestmentChange > 0 ? 'up-arrow-color' : (totalInvestmentChange) < 0 ? 'down-arrow-color' : 'up-arrow-color'">
+                    <span [ngClass]="totalInvestmentChange >=0 ? 'up-arrow-color' : 'down-arrow-color'">
                       {{ totalInvestmentChange }}%
-                    </span>&nbsp; from last year
+                    </span>&nbsp; vs last year
                   </div>
                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                    <img [ngSrc]="'../assets/images/explore/' + (totalInvestmentChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
                   </div>
                 </div>
@@ -107,13 +107,13 @@
                 <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined"
-                          [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                          [ngClass]="openSoftware[0] >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ openSoftware[0] >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span>{{ colorChange }}%</span>&nbsp; from last year
+                    <span>{{ Math.abs(openSoftwarePercentageDiff) }}%</span>&nbsp; vs last year
                   </div>
                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                    <img [ngSrc]="'../assets/images/explore/' + (openSoftwarePercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
                   </div>
                 </div>
@@ -160,6 +160,7 @@
 
     <div class="uk-margin-medium-top">
       <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
+        <h5>Open Science Key Actors in {{countryName}}</h5>
          <div id="research_funding_organisations">
                 <div class="uk-text-secondary">Research Funding Organisations</div>
                 <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']?.length > 0; else funding_organisations">

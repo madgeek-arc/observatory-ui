@@ -133,20 +133,46 @@
       <div class="uk-width-2-5">
         <div class="uk-card uk-card-default uk-card-body noads visualisation-card">
           <div>
-            <h5>National Policy on Open Access</h5>
-             <p>Until 2020, we had the Czech National Strategy for Open Access to Scientific Information for 2017-2020 (including publications and data) + Action Plan for its implementation.....</p>
+            <h5 class="uk-flex uk-flex-between">
+              National Policy on Open Access
+              <span *ngIf="nationalPolicyResponse === 'Yes'" class="material-symbols-outlined" style="color: green;" >check</span>
+              <span *ngIf="nationalPolicyResponse === 'No'" class="material-symbols-outlined" style="color: red;">close</span>
+            </h5>
+            <p *ngIf="policyMandatory === 'Yes'" class="uk-text-secondary">Mandatory policy</p>
+            <read-more-text [maxHeight]="65" [text]="nationalPolicyClarification"></read-more-text>
           </div>
           <div>
-            <h5>Financial Strategy on Open Access</h5>
-              <p>In 2020, the Czech Government approved the National RDI Policy of the Czech Republic 2021+ as an overarching national-level strategic document for advancing all components of RDI. This document helps fulfill certain criteria of the basic conditions to be able to draw funding from EU funds in the 2021-2027 programming period.....</p>
+            <h5 class="uk-flex uk-flex-between">
+              Financial Strategy on Open Access
+              <span *ngIf="financialStrategyResponse === 'Yes'" class="material-symbols-outlined" style="color: green;">check</span>
+              <span *ngIf="financialStrategyResponse === 'No'" class="material-symbols-outlined" style="color: red;">close</span>
+            </h5>
+              <read-more-text [maxHeight]="65" [text]="financialStrategyClarification"></read-more-text>
           </div>
           <div>
-            <h5>Monitoring on Open Access</h5>
-            <p>At least partially, the Czech R&D Information System (IS VaVal - https://www.isvavai.cz/) via - Information Register of R&D results (RIV) monitors whether the result is in OA.....</p>
+            <h5 class="uk-flex uk-flex-between">
+              Monitoring on Open Access
+              <span *ngIf="monitoringResponse === 'Yes'" class="material-symbols-outlined" style="color: green;">check</span>
+              <span *ngIf="monitoringResponse === 'No'" class="material-symbols-outlined" style="color: red;">close</span>
+            </h5>
+            <read-more-text [maxHeight]="65" [text]="monitoringClarification"></read-more-text>
           </div>
         </div>
       </div>
 
+    </div>
+
+    <div class="uk-margin-medium-top">
+      <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+        <h5>Open Access Landscape in {{countryName}}</h5>
+        <div id="open_access_publishing">
+          <div class="uk-text-secondary">Open Access Publishing</div>
+          <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question7']; else open_access">
+            <div [innerHTML]="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question7']" class="uk-margin-medium-top"></div>
+          </ng-container>
+          <ng-template #open_access><p>N/A</p></ng-template>
+          </div>
+      </div>
     </div>
 
     <div class="uk-section uk-section-small uk-margin-top">

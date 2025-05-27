@@ -8,6 +8,7 @@ import { LegendOptions, SeriesOptionsType } from "highcharts";
 import * as Highcharts from "highcharts";
 import { ChartsModule } from "../../../shared/charts/charts.module";
 import { ExploreService } from "../../explore/explore.service";
+import { CatalogueUiReusableComponentsModule } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
 
 
 @Component({
@@ -16,6 +17,7 @@ import { ExploreService } from "../../explore/explore.service";
     CommonModule,
     NgOptimizedImage,
     ChartsModule,
+    CatalogueUiReusableComponentsModule,
   ],
   standalone: true,
   templateUrl: './open-access-publications.html',
@@ -29,7 +31,7 @@ export class OpenAccessPublicationsPage implements OnInit {
   countryCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [];
-
+  countrySurveyAnswer?: Object;
   lastUpdateDate?: string;
 
   financialInvestment: (string | null)[] = [null, null];
@@ -40,6 +42,13 @@ export class OpenAccessPublicationsPage implements OnInit {
   rpoPubsPercentageDiff: number | null = null;
   rfoPubsPercentage: (number | null)[] = [null, null];
   rfoPubsPercentageDiff: number | null = null;
+  nationalPolicyResponse: string | null = null;
+  financialStrategyResponse: string | null = null;
+  nationalPolicyClarification: string | null = null;
+  financialStrategyClarification: string | null = null;
+  monitoringResponse: string | null = null;
+  monitoringClarification: string | null = null;
+  policyMandatory: string | null = null;
 
   stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
   stackedColumnCategories: string[] = [];
@@ -60,6 +69,7 @@ export class OpenAccessPublicationsPage implements OnInit {
   constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private exploreService: ExploreService) {}
 
   ngOnInit() {
+
 
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => this.lastUpdateDate = value
@@ -85,6 +95,12 @@ export class OpenAccessPublicationsPage implements OnInit {
       next: (answers) => {
         this.surveyAnswers = answers;
         this.initCardValues();
+      }
+    });
+
+    this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (answer) => {
+        this.countrySurveyAnswer = answer;
       }
     });
   }
@@ -129,6 +145,17 @@ export class OpenAccessPublicationsPage implements OnInit {
     this.rpoPubsPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question8']?.['Question8-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']);
     this.rpoPubsPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question8']?.['Question8-0'], this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0']);
     this.rpoPubsPercentageDiff = this.dataShareService.calculateDiff(this.rpoPubsPercentage[0], this.rpoPubsPercentage[1]);
+
+    this.nationalPolicyResponse = this.surveyAnswers[1]?.['Policies']?.['Question6']?.['Question6-0'];
+    this.nationalPolicyClarification = this.surveyAnswers[1]?.['Policies']?.['Question6']?.['Question6-6'];
+
+    this.financialStrategyResponse = this.surveyAnswers[1]?.['Policies']?.['Question7']?.['Question7-0'];
+    this.financialStrategyClarification = this.surveyAnswers[1]?.['Policies']?.['Question7']?.['Question7-1'];
+
+    this.monitoringResponse = this.surveyAnswers[1]?.['Practices']?.['Question54']?.['Question54-0'];
+    this.monitoringClarification = this.surveyAnswers[1]?.['Practices']?.['Question54']?.['Question54-1'];
+
+    this.policyMandatory = this.surveyAnswers[1]?.['Policies']?.['Question6']?.['Question6-1-0']?.['Question6-1'];
   }
 
 }
