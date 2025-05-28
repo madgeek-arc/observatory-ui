@@ -8,9 +8,11 @@
 
   --eosc-observatory-primary-color: #008792;
   --eosc-observatory-primary-color-light: #00afbe;
+  --eosc-observatory-primary-color-lighter: color-mix(in srgb, var(--eosc-observatory-primary-color) 50%, white);
   //--eosc-observatory-primary-color-light: #00b3b4;
   --eosc-observatory-primary-color-extra-light: rgba(0, 135, 146, 0.04);
   --eosc-observatory-secondary-color: #EB5C80;
+  ----eosc-observatory-secondary-color-lighter: color-mix(in srgb, var(--eosc-observatory-secondary-color) 50%, white);
 
   --eosc-observatory-noads-color: #F79D5C;
   --eosc-observatory-external-sources-color: #49306B;
@@ -206,4 +208,8 @@ a.button-osobservatory {
 
 .overflow-wrap-break-word {
   overflow-wrap: break-word;
+}
+
+.uk-padding-xsmall {
+  padding: 10px;
 }

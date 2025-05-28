@@ -1,5 +1,10 @@
 import { Component } from "@angular/core";
 import * as Highcharts from "highcharts";
+import Exporting from 'highcharts/modules/exporting';
+import ExportData from 'highcharts/modules/export-data';
+
+Exporting(Highcharts);
+ExportData(Highcharts);
 
 @Component({
   selector: "app-area-chart",

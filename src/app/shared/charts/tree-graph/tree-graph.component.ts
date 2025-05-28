@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
+import Exporting from 'highcharts/modules/exporting';
+import ExportData from 'highcharts/modules/export-data';
 import { PointOptionsObject, SeriesOptionsType } from "highcharts";
 import treemap from 'highcharts/modules/treemap';
 import treegraph from 'highcharts/modules/treegraph';
@@ -10,6 +12,8 @@ import { colors } from "../../../domain/chart-color-palette";
 treemap(Highcharts);
 HC_more(Highcharts);
 treegraph(Highcharts);
+Exporting(Highcharts);
+ExportData(Highcharts);
 
 
 @Component({

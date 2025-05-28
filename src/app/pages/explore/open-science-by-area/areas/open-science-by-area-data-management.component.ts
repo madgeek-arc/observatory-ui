@@ -58,7 +58,7 @@ export class OpenScienceByAreaDataManagementComponent {
 
   stackedColumnCategories = ['2021', '2022'];
   xAxisTitle = 'Year'
-  yAxisTitle = 'Percentage of Policies on Data management'
+  yAxisTitle = 'Percentage of Policies on Data Management'
   tooltipPointFormat = '<span style="color:{series.color}">{series.name}</span> : <b>{point.y}</b>';
   labelFormat = '{value}%';
   plotFormat = '{point.percentage:.0f}%';

@@ -22,7 +22,7 @@ export class OpenScienceTrendsComponent implements OnInit {
 
   years = ['2022', '2023'];
 
-  columnChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills / Training', 'Incentives / Rewards for OS', 'Citizen Science'];
+  columnChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data Stewardship', 'Long-term Data Preservation', 'Skills / Training', 'Incentives / Rewards for OS', 'Citizen Science'];
 
   columnChartSeries: SeriesOptionsType[] = [];
   columnChartTitles = {
@@ -92,7 +92,7 @@ export class OpenScienceTrendsComponent implements OnInit {
   /** Bar charts --------------------------------------------------------------------------------------------------> **/
   getColumnChartData(year: string) {
     zip(
-      this.queryData.getQuestion(year, 'Question6'),   // national policy on open access publications
+      this.queryData.getQuestion(year, 'Question6'),   // national policy on Open Access publications
       this.queryData.getQuestion(year, 'Question14'),  // national policy on FAIR data
       this.queryData.getQuestion(year, 'Question10'),  // national policy on data management
       this.queryData.getQuestion(year, 'Question18'),  // national policy on Open data

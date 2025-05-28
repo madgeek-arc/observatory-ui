@@ -1,9 +1,11 @@
 import * as Highcharts from "highcharts/highmaps";
 import HC_exporting from 'highcharts/modules/exporting';
+import ExportData from 'highcharts/modules/export-data';
 import HC_tilemap from 'highcharts/modules/tilemap';
 import {Component} from "@angular/core";
 HC_exporting(Highcharts);
 HC_tilemap(Highcharts);
+ExportData(Highcharts);
 
 declare var require: any;
 const worldMap = require('@highcharts/map-collection/custom/world.geo.json');

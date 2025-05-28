@@ -121,32 +121,16 @@
         </thead>
         <tbody>
         <tr *ngFor="let row of tableData">
-          <td *ngFor="let item of row; let i = index" [ngClass]="{valueTrue: item === 'true', valueFalse: item==='-'}">
-            <div *ngIf="i === 0; else addTooltip" class="uk-text-bold">{{ item }}</div>
-            <ng-template #addTooltip>
-              <div [title]="columnChartCategories[--i]" style="width:100%; height:100%">
-                <a style="width:100%; height:100%">&#8203;</a>
-              </div>
-            </ng-template>
-<!--            <div *ngIf="i === 2" data-uk-tooltip="Data management" style="width:100%; height:100%">-->
-<!--              <a style="width:100%; height:100%">&#8203;</a>-->
-<!--            </div>-->
-<!--            <div *ngIf=" i === 3 " data-uk-tooltip="FAIR data" style="width:100%; height:100%">-->
-<!--              <a style="width:100%; height:100%">&#8203;</a>-->
-<!--            </div>-->
-<!--            <div *ngIf="i === 4" data-uk-tooltip="Open data" style="width:100%; height:100%">-->
-<!--              <a style="width:100%; height:100%">&#8203;</a>-->
-<!--            </div>-->
-<!--            <div *ngIf="i === 7" data-uk-tooltip="Connecting repositories to EOSC" style="width:100%; height:100%">-->
-<!--              <a style="width:100%; height:100%">&#8203;</a>-->
-<!--            </div>-->
-<!--            <div *ngIf="i === 8" data-uk-tooltip="Data stewardship" style="width:100%; height:100%">-->
-<!--              <a style="width:100%; height:100%">&#8203;</a>-->
-<!--            </div>-->
-<!--            <div *ngIf="i === 9" data-uk-tooltip="Long-term data preservation" style="width:100%; height:100%">-->
-<!--              <a style="width:100%; height:100%">&#8203;</a>-->
-<!--            </div>-->
+          <ng-container *ngFor="let item of row; let i = index">
+          <td *ngIf="i === 0; else addTooltip" class="uk-text-bold">
+            {{ item }}
           </td>
+          <ng-template #addTooltip>
+            <td [title]="columnChartCategories[i-1]" [ngClass]="{valueTrue: item === 'true', valueFalse: item==='-'}" style="">
+              <a style="width:100%; height:100%">&#8203;</a>
+            </td>
+          </ng-template>
+        </ng-container>
         </tr>
         </tbody>
       </table>

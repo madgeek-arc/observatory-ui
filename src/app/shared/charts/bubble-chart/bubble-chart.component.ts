@@ -1,8 +1,13 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, Input, OnChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
+import Exporting from 'highcharts/modules/exporting';
+import ExportData from 'highcharts/modules/export-data';
 import { PointOptionsObject, SeriesBubbleOptions } from "highcharts";
 import { renderLogo } from "../highcharts-functions";
 import { colors } from "../../../domain/chart-color-palette";
+
+Exporting(Highcharts);
+ExportData(Highcharts);
 
 @Component({
   selector: 'app-bubble-chart',
@@ -62,7 +67,7 @@ export class BubbleChartComponent implements OnChanges {
         text: this.xAxisTitle
       },
       accessibility: {
-        rangeDescription: 'Avarage investment in EOSC and OS'
+        rangeDescription: 'Average investment in EOSC and OS'
       }
     },
 
@@ -87,9 +92,9 @@ export class BubbleChartComponent implements OnChanges {
           format: '{point.name}'
         },
         events: {
-          click: (event) => {
+          // click: (event) => {
             // console.log(event.point.name);
-          }
+          // }
         }
       }
     },
@@ -117,7 +122,7 @@ export class BubbleChartComponent implements OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     if (this.enablePlotLines)
       this.calculateAverage();
     this.updateChart();
@@ -181,7 +186,7 @@ export class BubbleChartComponent implements OnChanges {
               style: {
                 fontStyle: 'italic'
               },
-              text: 'Averege Investments in EOSC and OS'
+              text: 'Average Investments in EOSC and OS'
             },
             zIndex: 3
           }] : []

@@ -212,7 +212,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     });
   }
 
-  /** Get Distribution of Open Access Types by Fields of Science ----------------------------------------------------------------------------------> **/
+  /** Get Distribution of Open Access Types by Fields of Science --------------------------------------------------> **/
   getDistributionsOA() {
     this.queryData.getOSOStatsChartData(distributionOfOA()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {

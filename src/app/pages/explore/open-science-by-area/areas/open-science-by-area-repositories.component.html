@@ -202,7 +202,7 @@
 
     <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-      <ul class="uk-subnav uk-subnav-pill uk-flex-right" uk-switcher="{connect:'#maps', animation: 'fade'}">
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#maps', animation: 'fade'}">
         <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Policies</a></li>
         <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
       </ul>
@@ -273,7 +273,7 @@
 
     <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-      <ul class="uk-subnav uk-subnav-pill uk-flex-right" uk-switcher="{connect:'#investments', animation: 'fade'}">
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#investments', animation: 'fade'}">
         <li><a class="uk-margin-remove-bottom">Overview</a></li>
         <li><a class="uk-margin-remove-bottom">Details</a></li>
       </ul>
@@ -312,7 +312,7 @@
 
     <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-      <ul class="uk-subnav uk-subnav-pill uk-flex-right" uk-switcher="{connect:'#maps2', animation: 'fade'}">
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#maps2', animation: 'fade'}">
         <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Policies</a></li>
         <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
       </ul>
@@ -324,7 +324,7 @@
               <app-highcharts-category-map
                 [mapData]="questionsDataArray[2]" [height]="700"
                 [title]="'National Policy on Long-term Data Preservation'" [backgroundColor]="'#ffffff'"
-                [customLabelText]="'<strong>'+participatingCountries[2] + ' out of '+ total[2] + '</strong><br> countries have a <br>national policy on <br>long-term <br>data preservation'"
+                [customLabelText]="'<strong>'+participatingCountries[2] + ' out of '+ total[2] + '</strong><br> countries have a <br>national policy on <br>Long-term <br>Data Preservation'"
                 [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national policies on OA publications across European countries. OA policies are essential for promoting the free sharing of scientific knowledge and ensuring research outputs are widely accessible.</p>' +
                 '<p class=\'uk-text-justify\'>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>'+
                 '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
@@ -352,7 +352,7 @@
               <app-highcharts-category-map
                 [mapData]="questionsDataArray[3]" [height]="700"
                 [title]="'National Monitoring on Long-term Data Preservation'" [backgroundColor]="'#ffffff'"
-                [customLabelText]="'<strong>'+participatingCountries[3] + ' out of '+ total[3] + '</strong><br> countries have a <br>national monitoring <br>on long-term <br>data preservation'"
+                [customLabelText]="'<strong>'+participatingCountries[3] + ' out of '+ total[3] + '</strong><br> countries have a <br>national monitoring <br>on Long-term <br>Data Preservation'"
                 [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national monitoring on OA publications across European countries.OA monitoring is essential for tracking progress, evaluating policy implementation, and ensuring that research outputs are freely accessible.</p>' +
                 '<p class=\'uk-text-justify\'>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>' +
                 '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
@@ -387,7 +387,7 @@
 
     <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-      <ul class="uk-subnav uk-subnav-pill uk-flex-right" uk-switcher="{connect:'#investments2', animation: 'fade'}">
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#investments2', animation: 'fade'}">
         <li><a class="uk-margin-remove-bottom">Overview</a></li>
         <li><a class="uk-margin-remove-bottom">Details</a></li>
       </ul>
@@ -399,7 +399,7 @@
                                  [titles]="barChartTitles2"
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
                                  [customTooltip]="true" [yAxisLabels]="false" style="height: 100%"
-                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in long-term data preservation made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
+                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Long-term Data Preservation made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
                                  '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.</p>'">
             </app-multi-chart>
           </div>
@@ -408,7 +408,7 @@
           <div class="">
             <app-tree-graph [data]="treeGraph[1]" style="height: 100%" [height]="700"
                             [title]="'Financial Investments in Long-term Data Preservation in 2022'"
-                            [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in long-term data preservation made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
+                            [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Long-term Data Preservation made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
                             '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.</p>'">
 
             </app-tree-graph>

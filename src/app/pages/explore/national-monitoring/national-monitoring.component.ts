@@ -52,7 +52,7 @@ export class NationalMonitoringComponent implements OnInit {
 
   openScienceAreas = this.columnChartCategories;
 
-  mapTitles = ['National Monitoring on open access publications', 'National Monitoring on Data Management', 'National Monitoring on FAIR Data', 'National Monitoring on Open Data', 'National Monitoring on Open Sources Software', 'National Monitoring on offering services through EOSC', 'National Monitoring on Connecting Repositories to EOSC', 'National Monitoring on data stewardship', 'National Monitoring on Long-term Data Preservation', 'National Monitoring on Skills/Training in Open Science', 'National Monitoring on incentives/rewards for Open Science', 'National Monitoring on Citizen Science'];
+  mapTitles = ['National Monitoring on Open Access publications', 'National Monitoring on Data Management', 'National Monitoring on FAIR Data', 'National Monitoring on Open Data', 'National Monitoring on Open Sources Software', 'National Monitoring on offering services through EOSC', 'National Monitoring on Connecting Repositories to EOSC', 'National Monitoring on Data Stewardship', 'National Monitoring on Long-term Data Preservation', 'National Monitoring on Skills/Training in Open Science', 'National Monitoring on incentives/rewards for Open Science', 'National Monitoring on Citizen Science'];
 
   monitoringRawData: RawData[] = [];
   monitoringMapData: CategorizedAreaData = new CategorizedAreaData();
@@ -99,7 +99,7 @@ export class NationalMonitoringComponent implements OnInit {
     switch (index) {
       case 0:
         if (!this.questionsDataArray[index])
-          this.getMonitoring('Question54', index, 2); // National Monitoring on open access publications
+          this.getMonitoring('Question54', index, 2); // National Monitoring on Open Access publications
         break;
       case 1:
         if (!this.questionsDataArray[index])

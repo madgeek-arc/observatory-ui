@@ -1,11 +1,15 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import * as Highcharts from 'highcharts';
+import Exporting from 'highcharts/modules/exporting';
+import ExportData from 'highcharts/modules/export-data';
 import VariablePie from 'highcharts/modules/variable-pie';
 import { colors } from "../../../domain/chart-color-palette";
 import { renderLogo } from "../highcharts-functions";
 
 // Initialize the variable pie module
 VariablePie(Highcharts);
+Exporting(Highcharts);
+ExportData(Highcharts);
 
 @Component({
   selector: 'app-pie-chart',

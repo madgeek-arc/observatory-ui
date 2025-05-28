@@ -1,8 +1,12 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
+import Exporting from 'highcharts/modules/exporting';
+import ExportData from 'highcharts/modules/export-data';
 import TreemapModule from 'highcharts/modules/treemap';
 
 TreemapModule(Highcharts);
+Exporting(Highcharts);
+ExportData(Highcharts);
 
 @Component({
   selector: 'app-treemap',
