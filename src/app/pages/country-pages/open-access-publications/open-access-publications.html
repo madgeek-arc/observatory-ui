@@ -139,7 +139,7 @@
                 {{ nationalPolicyResponse === 'Yes' ? 'check' : 'close' }}
               </span>
             </h5>
-            <p *ngIf="policyMandatory === 'Yes'" class="uk-text-primary uk-text-bolder uk-margin-remove">Mandatory policy</p>
+            <p *ngIf="policyMandatory === 'Yes'" class="uk-text-primary uk-text-bolder uk-margin-remove-top">Mandatory policy</p>
             <read-more-text *ngIf="nationalPolicyClarification !== null" [maxHeight]="68" [text]="nationalPolicyClarification"></read-more-text>
           </div>
           <div class="uk-margin-top">
