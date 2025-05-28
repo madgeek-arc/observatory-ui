@@ -1,11 +1,9 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-
-
-import { CommonModule, JsonPipe, LowerCasePipe, NgForOf, NgOptimizedImage } from "@angular/common";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { DataShareService } from "../services/data-share.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
-import { ExploreService } from "../../explore/explore.service";
+import { OAvsTotalDataPerCountry, OAvsTotalPubsPerCountry } from "../coutry-pages.queries";
+import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 
 @Component({
   selector: 'app-general-R&D-overview',
@@ -21,21 +19,29 @@ export class GeneralRDOverviewComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   protected readonly Math = Math;
 
-  colorChange = 11;
-  openSoftware = [];
-  totalInvestment = [];
+  openSoftware: (string | null)[] = [null, null];
   openSoftwarePercentageDiff: number | null = null;
+  totalInvestment: (string | null)[] = [null, null];
+  investmentPercentageDiff: (number | null) = null;
+  investment: (number | null) = null;
+  OAPubsPercentage: (number | null)[] = [null, null];
+  OAPubsPercentageDiff: number | null = null;
+  OpenDataPercentage: (number | null)[] = [null, null];
+  OpenDataPercentageDiff: number | null = null;
+
   countryCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
 
-  constructor(private dataShareService: DataShareService, private exploreService: ExploreService) {}
+  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (code) => {
         this.countryCode = code;
+        this.getPublicationPercentage();
+        this.getOpenDataPercentage();
       }
     });
 
@@ -48,13 +54,13 @@ export class GeneralRDOverviewComponent implements OnInit {
     this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answers) => {
         this.surveyAnswers = answers;
-        this.openSoftware[0] = this.surveyAnswers[0]?.['Practices']['Question73']['Question73-0'];
-        this.openSoftware[1] = this.surveyAnswers[1]?.['Practices']['Question73']['Question73-0'];
-
+        this.openSoftware[0] = this.surveyAnswers[0]?.['Practices']?.['Question73']?.['Question73-0'] || null;
+        this.openSoftware[1] = this.surveyAnswers[1]?.['Practices']?.['Question73']?.['Question73-0'] || null;
         this.openSoftwarePercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.openSoftware[0], this.openSoftware[1]);
 
-        this.totalInvestment[0] = this.surveyAnswers[0]?.['General']['Question5']['Question5-0'];
-        this.totalInvestment[1] = this.surveyAnswers[1]?.['General']['Question5']['Question5-0'];
+        this.totalInvestment[0] = this.surveyAnswers[0]?.['General']?.['Question5']?.['Question5-0'] || null;
+        this.totalInvestment[1] = this.surveyAnswers[1]?.['General']?.['Question5']?.['Question5-0'] || null;
+        this.investmentPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.totalInvestment[0], this.totalInvestment[1]);
       }
     });
 
@@ -65,16 +71,26 @@ export class GeneralRDOverviewComponent implements OnInit {
     });
   }
 
-  get totalInvestmentChange(): number | null {
-      if (this.totalInvestment.length < 2) {
-        return null;
+  /** Get OA VS closed, restricted and embargoed Publications -----------------------------------------------------> **/
+  getPublicationPercentage() {
+    this.queryData.getOSOStats(OAvsTotalPubsPerCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        this.OAPubsPercentage[0] = this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]);
+        this.OAPubsPercentage[1] = this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]);
+        this.OAPubsPercentageDiff = this.dataShareService.calculateDiff(this.OAPubsPercentage[0], this.OAPubsPercentage[1]);
       }
-      const previous = this.totalInvestment[0];
-      const next = this.totalInvestment[1];
+    });
+  }
 
-      return this.dataShareService.calculateDiffAsPercentage(
-        previous !== undefined && previous !== null ? String(previous) : null,
-        next !== undefined && next !== null ? String(next) : null
-      );
- }
+  /** Get Open VS closed, restricted and embargoed Data -----------------------------------------------------------> **/
+  getOpenDataPercentage() {
+    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        this.OpenDataPercentage[0] = this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]);
+        this.OpenDataPercentage[1] = this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]);
+        this.OpenDataPercentageDiff = this.dataShareService.calculateDiff(this.OpenDataPercentage[0], this.OpenDataPercentage[1]);
+      }
+    });
+  }
+
 }

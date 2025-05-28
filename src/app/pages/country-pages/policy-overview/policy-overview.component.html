@@ -9,74 +9,77 @@
       </div>
     </div>
 
-    <h5>Policy Overview</h5>
-    <div class="uk-grid-small" uk-grid>
+    <div class="uk-flex uk-flex-between uk-flex-middle">
+      <h4>Policy Overview</h4>
+    </div>
+
+    <div class="uk-grid-small" data-uk-grid>
       <!-- left card -->
-      <div class="uk-width-2-5">
+      <div *ngIf="table.length" class="uk-width-2-5 uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body visualisation-card">
           <table class="uk-table uk-table-divider uk-table-small uk-table-middle">
             <thead>
-              <tr>
-                <th></th>
-                <th class="uk-text-center">NATIONAL POLICY</th>
-                <th class="uk-text-center">FINANCIAL STRATEGY</th>
-              </tr>
+            <tr>
+              <th></th>
+              <th class="uk-text-center">NATIONAL POLICY</th>
+              <th class="uk-text-center">FINANCIAL STRATEGY</th>
+            </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let row of table">
-                <td class="uk-text-left uk-text-bold">{{row.OSArea}}</td>
-                <td [ngClass]="row.nationalPolicy === 'Yes' ? 'valueTrue' : 'valueFalse'"></td>
-                <td [ngClass]="row.financialStrategy === 'Yes' ? 'valueTrue' : 'valueFalse'"></td>
-              </tr>
-              
+            <tr *ngFor="let row of table">
+              <td class="uk-text-left uk-text-bold">{{ row.OSArea }}</td>
+              <td [ngClass]="row.nationalPolicy === 'Yes' ? 'valueTrue' : 'valueFalse'"></td>
+              <td [ngClass]="row.financialStrategy === 'Yes' ? 'valueTrue' : 'valueFalse'"></td>
+            </tr>
+
             </tbody>
           </table>
         </div>
         <div class="uk-flex uk-margin-top">
           <span class="uk-text-bold" style="white-space: nowrap;">Data source:</span>&nbsp;
-           Survey on National Contributions to EOSC and Open Science; OpenAIRE Graph.
+          Survey on National Contributions to EOSC and Open Science; OpenAIRE Graph.
         </div>
       </div>
 
       <!-- right card -->
-      <div class="uk-width-3-5">
+      <div *ngIf="countrySurveyAnswer" class="uk-width-3-5 uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body noads visualisation-card">
           <div class="uk-width-3-4" id="policies">
-          <div id="policies_overview">
-            <div class="uk-text-secondary">Overview</div>
-            <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']; else policies_overview">
-              <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']" class="uk-margin-medium-top"></div>
-            </ng-container>
-            <ng-template #policies_overview><p>N/A</p></ng-template>
+            <div id="policies_overview">
+              <div class="uk-text-secondary">Overview</div>
+              <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']; else policies_overview">
+                <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']" class="uk-margin-medium-top"></div>
+              </ng-container>
+              <ng-template #policies_overview><p>N/A</p></ng-template>
+            </div>
+            <div id="national_policy_and_legislation">
+              <div class="uk-text-secondary">National Policy and Legislation</div>
+              <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']?.length; else legislation">
+                <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']" class="uk-margin-medium-top">
+                  <div [innerHTML]="element['Question11-1']"></div>
+                </div>
+              </ng-container>
+              <ng-template #legislation><p>N/A</p></ng-template>
+            </div>
+            <div id="funder_policies">
+              <div class="uk-text-secondary">Funder Policies</div>
+              <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']?.length; else funder_policies">
+                <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']" class="uk-margin-medium-top">
+                  <div [innerHTML]="element['Question12-1']"></div>
+                </div>
+              </ng-container>
+              <ng-template #funder_policies><p>N/A</p></ng-template>
+            </div>
+            <div id="institutional_policies">
+              <div class="uk-text-secondary">Institutional policies</div>
+              <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']?.length; else institutional_policies">
+                <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']" class="uk-margin-medium-top">
+                  <div [innerHTML]="element['Question13-1']"></div>
+                </div>
+              </ng-container>
+              <ng-template #institutional_policies><p>N/A</p></ng-template>
+            </div>
           </div>
-          <div id="national_policy_and_legislation">
-            <div class="uk-text-secondary">National Policy and Legislation</div>
-            <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']?.length; else legislation">
-              <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']" class="uk-margin-medium-top">
-                <div [innerHTML]="element['Question11-1']"></div>
-              </div>
-            </ng-container>
-            <ng-template #legislation><p>N/A</p></ng-template>
-          </div>
-          <div id="funder_policies">
-            <div class="uk-text-secondary">Funder Policies</div>
-            <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']?.length; else funder_policies">
-              <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']" class="uk-margin-medium-top">
-                <div [innerHTML]="element['Question12-1']"></div>
-              </div>
-            </ng-container>
-            <ng-template #funder_policies><p>N/A</p></ng-template>
-          </div>
-          <div id="institutional_policies">
-            <div class="uk-text-secondary">Institutional policies</div>
-            <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']?.length; else institutional_policies">
-              <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']" class="uk-margin-medium-top">
-                <div [innerHTML]="element['Question13-1']"></div>
-              </div>
-            </ng-container>
-            <ng-template #institutional_policies><p>N/A</p></ng-template>
-          </div>
-        </div>
 
         </div>
       </div>

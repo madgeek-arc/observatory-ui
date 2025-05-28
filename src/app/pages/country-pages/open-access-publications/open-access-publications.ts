@@ -138,24 +138,24 @@ export class OpenAccessPublicationsPage implements OnInit {
     this.rfoPubsPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question9']?.['Question9-0'], this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0']);
     this.rfoPubsPercentageDiff = this.dataShareService.calculateDiff(this.rfoPubsPercentage[0], this.rfoPubsPercentage[1]);
 
-    this.financialInvestment[0] = this.surveyAnswers[0]?.['Practices']?.['Question56']?.['Question56-0'];
-    this.financialInvestment[1] = this.surveyAnswers[1]?.['Practices']?.['Question56']?.['Question56-0'];
+    this.financialInvestment[0] = this.surveyAnswers[0]?.['Practices']?.['Question56']?.['Question56-0'] || null;
+    this.financialInvestment[1] = this.surveyAnswers[1]?.['Practices']?.['Question56']?.['Question56-0'] || null;
     this.financialInvestmentPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.financialInvestment[0], this.financialInvestment[1]);
 
     this.rpoPubsPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question8']?.['Question8-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']);
     this.rpoPubsPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question8']?.['Question8-0'], this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0']);
     this.rpoPubsPercentageDiff = this.dataShareService.calculateDiff(this.rpoPubsPercentage[0], this.rpoPubsPercentage[1]);
 
-    this.nationalPolicyResponse = this.surveyAnswers[1]?.['Policies']?.['Question6']?.['Question6-0'];
-    this.nationalPolicyClarification = this.surveyAnswers[1]?.['Policies']?.['Question6']?.['Question6-6'];
+    this.nationalPolicyResponse = this.surveyAnswers[1]?.['Policies']?.['Question6']?.['Question6-0'] || null;
+    this.nationalPolicyClarification = this.surveyAnswers[1]?.['Policies']?.['Question6']?.['Question6-6'] || null;
 
-    this.financialStrategyResponse = this.surveyAnswers[1]?.['Policies']?.['Question7']?.['Question7-0'];
-    this.financialStrategyClarification = this.surveyAnswers[1]?.['Policies']?.['Question7']?.['Question7-1'];
+    this.financialStrategyResponse = this.surveyAnswers[1]?.['Policies']?.['Question7']?.['Question7-0'] || null;
+    this.financialStrategyClarification = this.surveyAnswers[1]?.['Policies']?.['Question7']?.['Question7-1'] || null;
 
-    this.monitoringResponse = this.surveyAnswers[1]?.['Practices']?.['Question54']?.['Question54-0'];
-    this.monitoringClarification = this.surveyAnswers[1]?.['Practices']?.['Question54']?.['Question54-1'];
+    this.monitoringResponse = this.surveyAnswers[1]?.['Practices']?.['Question54']?.['Question54-0'] || null;
+    this.monitoringClarification = this.surveyAnswers[1]?.['Practices']?.['Question54']?.['Question54-1'] || null;
 
-    this.policyMandatory = this.surveyAnswers[1]?.['Policies']?.['Question6']?.['Question6-1-0']?.['Question6-1'];
+    this.policyMandatory = this.surveyAnswers[1]?.['Policies']?.['Question6']?.['Question6-1-0']?.['Question6-1'] || null;
   }
 
 }

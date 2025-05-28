@@ -13,32 +13,30 @@
       <h4>General Overview of Research & Development and Open Science for 2022</h4>
     </div>
 
-    <div class="uk-grid-small" uk-grid>
+    <div class="uk-grid-small" data-uk-grid>
 
-
-      <div class="uk-width-3-5">
+      <div class="uk-width-3-5 uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body visualisation-card">
-          <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
+          <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>
 
             <!-- Card 1 -->
-            <div>
+            <div *ngIf="OAPubsPercentage[1] !== null" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Percentage of <span class="uk-text-bold">OA Publication in {{countryName}}</span> (OA vs Closed)</p>
+                <p>Percentage of <span class="uk-text-bold">OA Publication in {{ countryName }}</span> (OA vs Closed)</p>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">71%</span>
+                  <span class="uk-text-bold">{{ OAPubsPercentage[1] }}%</span>
                 </div>
-                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                <div *ngIf="OAPubsPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined"
-                          [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    <span class="material-symbols-outlined" [ngClass]="OAPubsPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ OAPubsPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ colorChange }}%
+                    <span [ngClass]="OAPubsPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                      {{ Math.abs(OAPubsPercentageDiff) }}%
                     </span>&nbsp; vs last year
                   </div>
                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                    <img [ngSrc]="'../assets/images/explore/' + (OAPubsPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
                   </div>
                 </div>
@@ -46,22 +44,23 @@
             </div>
 
             <!-- Card 2 -->
-            <div>
+            <div *ngIf="OpenDataPercentage[1] !== null" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <p>Percentage of <span class="uk-text-bold">Open Data in {{countryName}}</span> (OA vs Closed)</p>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">71%</span>
+                  <span class="uk-text-bold">{{ OpenDataPercentage[1] }}%</span>
                 </div>
-                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                <div *ngIf="OpenDataPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined"
-                          [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    <span class="material-symbols-outlined" [ngClass]="OpenDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ OpenDataPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span>{{ colorChange }}%</span>&nbsp; vs last year
+                    <span [ngClass]="OpenDataPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                      {{ Math.abs(OpenDataPercentageDiff) }}%
+                    </span>&nbsp; vs last year
                   </div>
                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                    <img [ngSrc]="'../assets/images/explore/' + (OpenDataPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
                   </div>
                 </div>
@@ -73,22 +72,19 @@
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <p>Total investment in EOSC and Open Science</p>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">
-                    {{ totalInvestment[1] !==null ? totalInvestment[1] + ' mil Euro' : 'N/A'}}
-                  </span>
+                  <span class="uk-text-bold">{{ totalInvestment[1] + ' mil Euro' }}</span>
                 </div>
                 <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined"
-                          [ngClass]="totalInvestmentChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ totalInvestmentChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    <span class="material-symbols-outlined" [ngClass]="investmentPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ investmentPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span [ngClass]="totalInvestmentChange >=0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ totalInvestmentChange }}%
+                    <span [ngClass]="investmentPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                      {{ Math.abs(investmentPercentageDiff) }}%
                     </span>&nbsp; vs last year
                   </div>
                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (totalInvestmentChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                    <img [ngSrc]="'../assets/images/explore/' + (investmentPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
                   </div>
                 </div>
@@ -96,21 +92,20 @@
             </div>
 
             <!-- Card 4 -->
-            <div *ngIf="openSoftware[0] !== null">
+            <div *ngIf="openSoftware[1] !== null">
               <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Number of Open Software sets published in {{countryName}}</p>
+                <p>Number of Open Software sets published in {{ countryName }}</p>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">
-                    {{ openSoftware[0] + 'sets'}}
-                  </span>
+                  <span class="uk-text-bold">{{ openSoftware[1] + ' sets'}}</span>
                 </div>
-                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                <div *ngIf="openSoftwarePercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined"
-                          [ngClass]="openSoftware[0] >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ openSoftware[0] >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    <span class="material-symbols-outlined" [ngClass]="openSoftwarePercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ openSoftwarePercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span>{{ Math.abs(openSoftwarePercentageDiff) }}%</span>&nbsp; vs last year
+                    <span [ngClass]="openSoftwarePercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                      {{ Math.abs(openSoftwarePercentageDiff) }}%
+                    </span>&nbsp; vs last year
                   </div>
                   <div>
                     <img [ngSrc]="'../assets/images/explore/' + (openSoftwarePercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
@@ -129,85 +124,83 @@
       </div>
 
       <!-- Right Card (2/5) -->
-      <div class="uk-width-2-5">
+      <div class="uk-width-2-5 uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body external-sources visualisation-card">
-          <h5>R&D Informations</h5>
+          <h5>R&D Information's</h5>
+          <p>Data for 2022 coming soon</p>
 
-          <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
+<!--          <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>-->
 
             <!-- Card 1-6 -->
-            <ng-container *ngFor="let value of [ '1.18%', '1.18%', '12K', '12K', '6', '60' ]">
-              <div>
-                <div class="uk-card card-simple uk-card-small uk-card-body">
-                  <h5>{{ value }}</h5>
-                  <p>of GDP for 2022 R&D expenditure</p>
-                  <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined"
-                          [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                    </span>
-                    <span>{{ colorChange }}%</span>&nbsp; from last year
-                  </div>
-                </div>
-              </div>
-            </ng-container>
+<!--            <ng-container *ngFor="let value of [ '1.18%', '1.18%', '12K', '12K', '6', '60' ]">-->
+<!--              <div>-->
+<!--                <div class="uk-card card-simple uk-card-small uk-card-body">-->
+<!--                  <h5>{{ value }}</h5>-->
+<!--                  <p>of GDP for 2022 R&D expenditure</p>-->
+<!--                  <div class="uk-flex uk-flex-middle">-->
+<!--                    <span class="material-symbols-outlined"-->
+<!--                          [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">-->
+<!--                      {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}-->
+<!--                    </span>-->
+<!--                    <span>{{ colorChange }}%</span>&nbsp; from last year-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </ng-container>-->
 
-          </div>
+<!--          </div>-->
         </div>
       </div>
 
     </div>
 
-    <div class="uk-margin-medium-top">
+    <div *ngIf="countrySurveyAnswer" class="uk-margin-medium-top uk-animation-fade">
       <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
-        <h5>Open Science Key Actors in {{countryName}}</h5>
-         <div id="research_funding_organisations">
-                <div class="uk-text-secondary">Research Funding Organisations</div>
-                <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']?.length > 0; else funding_organisations">
-                  <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']" class="uk-margin-medium-top">
-                    <div [innerHTML]="element['Question2-1']"></div>
-                  </div>
-                </ng-container>
-                <ng-template #funding_organisations><p>N/A</p></ng-template>
-              </div>
+        <h5>Open Science Key Actors in {{ countryName }}</h5>
+        <div id="research_funding_organisations">
+          <div class="uk-text-secondary">Research Funding Organisations</div>
+          <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2'][0]['Question2-1']; else funding_organisations">
+            <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']" class="uk-margin-medium-top">
+              <div [innerHTML]="element['Question2-1']"></div>
+            </div>
+          </ng-container>
+          <ng-template #funding_organisations><p>N/A</p></ng-template>
+        </div>
 
-              <div id="research_performing_organisations">
-                <div class="uk-text-secondary">Research Performing Organisations</div>
-                <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3']?.length > 0; else performing_organisations">
-                  <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3']" class="uk-margin-medium-top">
-                    <div [innerHTML]="element['Question3-1']"></div>
-                  </div>
-                </ng-container>
-                <ng-template #performing_organisations><p>N/A</p></ng-template>
-              </div>
+        <div id="research_performing_organisations">
+          <div class="uk-text-secondary">Research Performing Organisations</div>
+          <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3'][0]['Question3-1']; else performing_organisations">
+            <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3']" class="uk-margin-medium-top">
+              <div [innerHTML]="element['Question3-1']"></div>
+            </div>
+          </ng-container>
+          <ng-template #performing_organisations><p>N/A</p></ng-template>
+        </div>
 
-              <div id="research_support_organisations">
-                <div class="uk-text-secondary">Research Support Organisations</div>
-                <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4']?.length > 0; else support_organisations">
-                  <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4']" class="uk-margin-medium-top">
-                    <div [innerHTML]="element['Question4-1']"></div>
-                  </div>
-                </ng-container>
-                <ng-template #support_organisations><p>N/A</p></ng-template>
-              </div>
+        <div id="research_support_organisations">
+          <div class="uk-text-secondary">Research Support Organisations</div>
+          <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4'][0]['Question4-1']; else support_organisations">
+            <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4']" class="uk-margin-medium-top">
+              <div [innerHTML]="element['Question4-1']"></div>
+            </div>
+          </ng-container>
+          <ng-template #support_organisations><p>N/A</p></ng-template>
+        </div>
 
-              <div id="other_organisations">
-                <div class="uk-text-secondary">Other Organisations</div>
-                <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30']?.length > 0; else other_organisations">
-                  <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30']" class="uk-margin-medium-top">
-                    <div [innerHTML]="element['Question30-1']"></div>
-                  </div>
-                </ng-container>
-                <ng-template #other_organisations><p>N/A</p></ng-template>
-              </div>
-        
+        <div id="other_organisations">
+          <div class="uk-text-secondary">Other Organisations</div>
+          <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30'][0]['Question30-1']; else other_organisations">
+            <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30']" class="uk-margin-medium-top">
+              <div [innerHTML]="element['Question30-1']"></div>
+            </div>
+          </ng-container>
+          <ng-template #other_organisations><p>N/A</p></ng-template>
+        </div>
+
       </div>
     </div>
 
-    
-    
-    <pre *ngFor="let element of surveyAnswers">{{element | json}}</pre>
-    
+<!--    <pre *ngFor="let element of surveyAnswers">{{element | json}}</pre>-->
 
   </div>
 </div>

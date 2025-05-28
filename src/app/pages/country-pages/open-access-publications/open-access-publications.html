@@ -5,17 +5,23 @@
       <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
            class="flag-image" width="42" height="42" alt="rounded flag image">
       <div class="uk-margin-small-left">
-        <h3 class="uk-margin-remove-bottom">Open Access Publications</h3>
+        <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>
       </div>
     </div>
-    <p>Open Access (OA) represents a transformative approach within the scholarly communication landscape, aiming to make research outputs freely accessible to all, without subscription or price barriers. The graphics below provides a high-level overview of key indicators tracking the progress of OA publishing and policies in selected country.</p>
+
     <div class="uk-flex uk-flex-between uk-flex-middle">
-      <h4>General Overview of Open Access for 2023</h4>
+      <h4>Open Access Publications</h4>
+    </div>
+
+    <p>Open Access (OA) represents a transformative approach within the scholarly communication landscape, aiming to make research outputs freely accessible to all, without subscription or price barriers. The graphics below provides a high-level overview of key indicators tracking the progress of OA publishing and policies in selected country.</p>
+
+    <div class="uk-flex uk-flex-between uk-flex-middle">
+      <h5>General Overview of Open Access for 2023</h5>
     </div>
 
     <div class="uk-grid-small" data-uk-grid>
 
-      <div class="uk-width-3-5">
+      <div class="uk-width-3-5 uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body external-sources visualisation-card">
           <div class="uk-child-width-1-2 uk-grid-small uk-flex uk-flex-center" data-uk-grid>
 
@@ -48,9 +54,7 @@
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <p>Percentage of <span class="uk-text-bold">RFO's Policy on OA Publication</span></p>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">
-                    {{ rfoPubsPercentage[1] }}%
-                  </span>
+                  <span class="uk-text-bold">{{ rfoPubsPercentage[1] }}%</span>
                 </div>
                 <div *ngIf="rfoPubsPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
@@ -74,9 +78,7 @@
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <p>Percentage of <span class="uk-text-bold">RPO's Policy on OA Publication</span></p>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">
-                    {{ rpoPubsPercentage[1] }}%
-                  </span>
+                  <span class="uk-text-bold">{{ rpoPubsPercentage[1] }}%</span>
                 </div>
                 <div *ngIf="rpoPubsPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
@@ -96,13 +98,11 @@
             </div>
 
             <!-- Card 4 -->
-            <div *ngIf="financialInvestment[1] !== null && financialInvestment[1] !== undefined" class="uk-animation-scale-up">
+            <div *ngIf="financialInvestment[1] !== null" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <p>Total amount of <span class="uk-text-bold">financial investments</span> in OA publications</p>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">
-                    {{ financialInvestment[1]  + ' mil Euro' }}
-                  </span>
+                  <span class="uk-text-bold">{{ financialInvestment[1]  + ' mil Euro' }}</span>
                 </div>
                 <div *ngIf="financialInvestmentPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
@@ -130,75 +130,73 @@
       </div>
 
       <!-- Right Card (2/5) -->
-      <div class="uk-width-2-5">
+      <div class="uk-width-2-5 uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body noads visualisation-card">
-          <div>
-            <h5 class="uk-flex uk-flex-between">
+          <div class="uk-margin-top">
+            <h5 class="uk-flex uk-flex-between uk-margin-remove">
               National Policy on Open Access
-              <span *ngIf="nationalPolicyResponse === 'Yes'" class="material-symbols-outlined" style="color: green;" >check</span>
-              <span *ngIf="nationalPolicyResponse === 'No'" class="material-symbols-outlined" style="color: red;">close</span>
+              <span class="material-symbols-outlined" [ngClass]="nationalPolicyResponse === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
+                {{ nationalPolicyResponse === 'Yes' ? 'check' : 'close' }}
+              </span>
             </h5>
-            <p *ngIf="policyMandatory === 'Yes'" class="uk-text-secondary">Mandatory policy</p>
-            <read-more-text [maxHeight]="65" [text]="nationalPolicyClarification"></read-more-text>
+            <p *ngIf="policyMandatory === 'Yes'" class="uk-text-primary uk-text-bolder uk-margin-remove">Mandatory policy</p>
+            <read-more-text *ngIf="nationalPolicyClarification !== null" [maxHeight]="68" [text]="nationalPolicyClarification"></read-more-text>
           </div>
-          <div>
+          <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between">
               Financial Strategy on Open Access
-              <span *ngIf="financialStrategyResponse === 'Yes'" class="material-symbols-outlined" style="color: green;">check</span>
-              <span *ngIf="financialStrategyResponse === 'No'" class="material-symbols-outlined" style="color: red;">close</span>
+              <span class="material-symbols-outlined" [ngClass]="financialStrategyResponse === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
+                {{ financialStrategyResponse === 'Yes' ? 'check' : 'close' }}
+              </span>
             </h5>
-              <read-more-text [maxHeight]="65" [text]="financialStrategyClarification"></read-more-text>
+            <read-more-text *ngIf="financialStrategyResponse" [maxHeight]="65" [text]="financialStrategyClarification"></read-more-text>
           </div>
-          <div>
+          <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between">
               Monitoring on Open Access
-              <span *ngIf="monitoringResponse === 'Yes'" class="material-symbols-outlined" style="color: green;">check</span>
-              <span *ngIf="monitoringResponse === 'No'" class="material-symbols-outlined" style="color: red;">close</span>
+              <span class="material-symbols-outlined" [ngClass]="monitoringResponse === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
+                {{ monitoringResponse === 'Yes' ? 'check' : 'close' }}
+              </span>
             </h5>
-            <read-more-text [maxHeight]="65" [text]="monitoringClarification"></read-more-text>
+            <read-more-text *ngIf="monitoringResponse" [maxHeight]="65" [text]="monitoringClarification"></read-more-text>
           </div>
         </div>
       </div>
 
     </div>
 
-    <div class="uk-margin-medium-top">
+    <div *ngIf="countrySurveyAnswer" class="uk-margin-medium-top uk-animation-fade">
       <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-        <h5>Open Access Landscape in {{countryName}}</h5>
+        <h5>Open Access Landscape in {{ countryName }}</h5>
         <div id="open_access_publishing">
           <div class="uk-text-secondary">Open Access Publishing</div>
           <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question7']; else open_access">
             <div [innerHTML]="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question7']" class="uk-margin-medium-top"></div>
           </ng-container>
           <ng-template #open_access><p>N/A</p></ng-template>
-          </div>
-      </div>
-    </div>
-
-    <div class="uk-section uk-section-small uk-margin-top">
-      <div class="uk-container">
-
-        <div class="uk-card uk-card-default visualisation-card uk-card-body">
-
-          <div class="uk-grid">
-            <div class="uk-width-1-1">
-              <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend" [series]="stackedColumnSeries"
-                                  [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
-                                  [dataLabels]="false" [height]="700" [title]="'Trend of Access to Publications in ' + countryName"
-                                  [caption]="'<p class=\'uk-text-justify\'>The graph provides a view of the publications evolution and its access type from 2015 to 2024 in selected country. Each bar in the graph represents the total number of publications for a given year, segmented by access type categories (categories based on <a href=&quot;https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml&quot; target=\'_blank\'>https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml</a>).</p>'
-                              + '<p><strong>Data Source:</strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
-              </app-stacked-column>
-            </div>
-
-          </div>
         </div>
-
       </div>
     </div>
 
+  </div>
+</div>
 
-<!--    <pre *ngFor="let element of surveyAnswers">{{element | json}}</pre>-->
 
+<div class="uk-section uk-section-small uk-margin-top">
+  <div class="uk-container">
+
+    <div class="uk-card uk-card-default visualisation-card uk-card-body uk-animation-fade">
+      <div class="uk-grid">
+        <div class="uk-width-1-1">
+          <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend" [series]="stackedColumnSeries"
+                              [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
+                              [dataLabels]="false" [height]="700" [title]="'Trend of Access to Publications in ' + countryName"
+                              [caption]="'<p class=\'uk-text-justify\'>The graph provides a view of the publications evolution and its access type from 2015 to 2024 in the selected country. Each bar in the graph represents the total number of publications for a given year, segmented by access type categories (categories based on <a href=&quot;https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml&quot; target=\'_blank\'>https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml</a>).</p>'
+                              + '<p><strong>Data Source:</strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
+          </app-stacked-column>
+        </div>
+      </div>
+    </div>
 
   </div>
 </div>
