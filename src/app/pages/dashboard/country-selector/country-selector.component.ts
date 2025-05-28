@@ -6,7 +6,7 @@ import { ColorPallet } from "../../eosc-readiness-dashboard/eosc-readiness-2022/
 import { countries } from "../../../domain/countries";
 import { flagIcon, mapIcon } from "../../../../variables/icons";
 import { DomSanitizer } from "@angular/platform-browser";
-import { LowerCasePipe, NgForOf, NgIf } from "@angular/common";
+import { LowerCasePipe, NgForOf, NgIf, NgOptimizedImage } from "@angular/common";
 import { ChartsModule } from "../../../shared/charts/charts.module";
 
 @Component({
@@ -19,7 +19,8 @@ import { ChartsModule } from "../../../shared/charts/charts.module";
     ChartsModule,
     NgIf,
     NgForOf,
-    RouterLink
+    RouterLink,
+    NgOptimizedImage
   ],
   providers: [StakeholdersService]
 })
