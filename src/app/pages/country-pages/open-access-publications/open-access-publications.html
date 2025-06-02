@@ -200,3 +200,39 @@
 
   </div>
 </div>
+
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent5>
+  <div class="uk-container">
+    <h5></h5>
+    <div class="uk-container">
+
+      <div class="uk-card uk-card-default visualisation-card uk-card-body">
+        <app-stacked-column [categories]="stackedColumn2Categories" [series]="stackedColumn2Series"
+                            [title]="'Distribution of Open Access Types by Different Scholarly Publication Outputs in ' + countryName"
+                            [yAxis]="yAxisTitle2" [pointFormat]="tooltipPointFormat" [plotFormat]="dataLabels_format"
+                            [stackLabels]="false" [stacking]="stacking" [height]="550"
+                            [caption]="'<p class=\'uk-text-justify\'>The graph displays the distribution of OA types across different scholarly publication categories, revealing distinct preferences and practices in the dissemination of research outputs. This visualization provides insight into the diverse adoption rates and strategies for OA across various academic outputs. Understanding these differences is crucial for identifying specific barriers and opportunities within each publication category, thereby guide stakeholders in tailoring interventions that encourage broader adoption of OA. This targeted approach can significantly contribute to enhancing the accessibility of knowledge, fostering a more open and collaborative scientific community.</p>'
+                            + '<p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on ' + lastUpdateDate + ')</p>'">
+        </app-stacked-column>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top" #exportContent8>
+  <div class="uk-container">
+
+    <div class="uk-card uk-card-default visualisation-card uk-card-body">
+      <app-multi-chart [series]="bar" [categories]="barCategories" stacking="normal"
+                       [titles]="barChartTitles" [height]="500"
+                       [duplicateXAxis]="true" [yAxisLabels]="true" [dataLabelFormat]="'{(abs value)}'"
+                       [tooltip]="'<b>{series.name},</b> {point.category}<br/>{(abs point.y)}'"
+                       [caption]="'<p class=\'uk-text-justify\'>This garaph illustrates the distribution of OA types within various scientific disciplines including Medical and Health Sciences, Engineering and Technology, Agricultural Sciences, Natural Science, Social Sciences, and Humanities.</p>'
+                       + '<strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on '+ lastUpdateDate +')'">
+      </app-multi-chart>
+    </div>
+
+  </div>
+</div>

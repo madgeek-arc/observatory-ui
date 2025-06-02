@@ -124,7 +124,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     this.getPublicationPercentage();
     this.getTrends();
     this.getDistributionOAPublication();
-    this.getDistributionOAByScienceFields();
+    // this.getDistributionOAByScienceFields();
 
     this.getTreeGraphData('Question56');
 

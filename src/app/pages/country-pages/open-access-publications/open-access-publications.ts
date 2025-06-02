@@ -3,8 +3,12 @@ import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
-import { OAvsTotalPubsPerCountry, trendOfOAPublicationsCountry } from "../coutry-pages.queries";
-import { LegendOptions, SeriesOptionsType } from "highcharts";
+import {
+  distributionOfOAByFieldOfScience, distributionOfOAByScholarlyOutputs,
+  OAvsTotalPubsPerCountry,
+  trendOfOAPublicationsCountry
+} from "../coutry-pages.queries";
+import { LegendOptions, OptionsStackingValue, SeriesBarOptions, SeriesOptionsType } from "highcharts";
 import * as Highcharts from "highcharts";
 import { ChartsModule } from "../../../shared/charts/charts.module";
 import { ExploreService } from "../../explore/explore.service";
@@ -66,6 +70,31 @@ export class OpenAccessPublicationsPage implements OnInit {
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
+  stackedColumn2Series:Highcharts.SeriesColumnOptions[] = [];
+  stackedColumn2Categories = [];
+  yAxisTitle2 = 'Percentage of Publications';
+  stacking: OptionsStackingValue = 'percent';
+  dataLabels_format = '{point.percentage:.0f}%';
+
+  bar: SeriesOptionsType[] = [
+    {
+      type: 'bar',
+      name: 'Open',
+      data: []
+    },
+    {
+      type: 'bar',
+      name: 'Closed',
+      data: []
+    }
+  ];
+  barCategories: string[] = [];
+  barChartTitles = {
+    title: 'Distribution of Publications Access by Fields of Science in ',
+    xAxis: '',
+    yAxis: '',
+  }
+
   constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private exploreService: ExploreService) {}
 
   ngOnInit() {
@@ -81,6 +110,8 @@ export class OpenAccessPublicationsPage implements OnInit {
         if (this.countryCode) {
           this.getPublicationPercentage();
           this.getTrends();
+          this.getDistributionsOA();
+          this.getDistributionOAScholarlyOutputs();
         }
       }
     });
@@ -88,6 +119,7 @@ export class OpenAccessPublicationsPage implements OnInit {
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
         this.countryName = name;
+        this.barChartTitles.title += name;
       }
     });
 
@@ -129,6 +161,40 @@ export class OpenAccessPublicationsPage implements OnInit {
           this.stackedColumnSeries.push(tmpSeries);
         });
         this.stackedColumnCategories = value.xAxis_categories;
+      }
+    });
+  }
+
+  /** Get Distribution of Open Access Types by Fields of Science --------------------------------------------------> **/
+  getDistributionsOA() {
+    this.queryData.getOSOStatsChartData(distributionOfOAByFieldOfScience(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        value.series.forEach((series, index) => {
+          (this.bar[index] as SeriesBarOptions).data = series.data;
+        });
+        for (let i = 0; i < (this.bar[this.bar.length - 1] as SeriesBarOptions).data.length; i++) {
+          (this.bar[this.bar.length - 1] as SeriesBarOptions).data[i] = -(this.bar[this.bar.length - 1] as SeriesBarOptions).data[i];
+        }
+        this.barCategories = value.xAxis_categories;
+
+      }
+    });
+  }
+
+  /** Get Distribution of Open Access Types by Different Scholarly Publication Outputs ----------------------------> **/
+  getDistributionOAScholarlyOutputs() {
+    this.queryData.getOSOStatsChartData(distributionOfOAByScholarlyOutputs(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        value.series.forEach((series, index) => {
+          const tmpSeries: SeriesOptionsType = {
+            type: 'column',
+            name: value.dataSeriesNames[index],
+            data: series.data,
+          }
+
+          this.stackedColumn2Series.push(tmpSeries);
+        });
+        this.stackedColumn2Categories = value.xAxis_categories;
       }
     });
   }
