@@ -4,6 +4,9 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
 import { DestroyRef, inject, OnInit } from "@angular/core";
 import { DataShareService } from "../services/data-share.service";
+import { init } from '@sentry/angular-ivy';
+import { CatalogueUiReusableComponentsModule } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
+
 
 @Component({
   selector: 'app-data-management',
@@ -12,20 +15,33 @@ import { DataShareService } from "../services/data-share.service";
     CommonModule,
     LowerCasePipe,
     NgOptimizedImage,
-    NgForOf,
-    JsonPipe,
+    CatalogueUiReusableComponentsModule
   ],
   templateUrl: './data-management.component.html',
 })
 export class DataManagementComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-  colorChange = 33;
-  rpoDataManagement = [];
-  rfoDataManagement = [];
+   protected readonly Math = Math;
 
-   countryCode?: string;
+  countryCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [];
+ 
+  rfoDataManagementPercentage: (number | null)[] = [null, null];
+  rfoDataManagementPercentageDiff: number | null = null;
+  rpoDataManagementPercentage: (number | null)[] = [null, null];
+  rpoDataManagementPercentageDiff: number | null = null;
+  financialInvestmentDM: (string | null)[] = [null, null];
+  financialInvestmentDMPercentageDiff: number | null = null;
+   nationalPolicyResponse: string | null = null;
+  financialStrategyResponse: string | null = null;
+  nationalPolicyClarification: string | null = null;
+  financialStrategyClarification: string | null = null;
+  monitoringResponse: string | null = null;
+  monitoringClarification: string | null = null;
+  policyMandatory: string | null = null;
+  
+
 
   constructor(private dataShareService: DataShareService) {}
 
@@ -45,11 +61,44 @@ export class DataManagementComponent implements OnInit {
     this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answers) => {
         this.surveyAnswers = answers;
-        this.rpoDataManagement[0] = this.surveyAnswers[0]?.['Policies']['Question12']['Question12-0'];
-
-        this.rfoDataManagement[0] = this.surveyAnswers[0]?.['Policies']['Question13']['Question13-0'];
-        this.rfoDataManagement[1] = this.surveyAnswers[1]?.['Policies']['Question13']['Question13-0'];
+        this.initCardValues();
+        
       }
     });
+
+    // this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    // next: (answer) => {
+    //     this.countrySurveyAnswer = answer;
+    //   }
+    // });
+       
+
+  }
+
+  initCardValues() {
+    this.rfoDataManagementPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question13']?.['Question13-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);
+    this.rfoDataManagementPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question13']?.['Question13-0'], this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0']);
+    this.rfoDataManagementPercentageDiff = this.dataShareService.calculateDiff(this.rfoDataManagementPercentage[0], this.rfoDataManagementPercentage[1]);
+
+    this.rpoDataManagementPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question12']?.['Question12-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']);
+    this.rpoDataManagementPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question12']?.['Question12-0'], this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0']);
+    this.rpoDataManagementPercentageDiff = this.dataShareService.calculateDiff(this.rpoDataManagementPercentage[0], this.rpoDataManagementPercentage[1]);
+
+    this.financialInvestmentDM[1] = this.surveyAnswers[1]?.['Practices']?.['Question60']?.['Question60-0'];
+    this.financialInvestmentDM[0] = this.surveyAnswers[0]?.['Practices']?.['Question60']?.['Question60-0'];
+    this.financialInvestmentDMPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.financialInvestmentDM[0], this.financialInvestmentDM[1]);
+
+
+    this.nationalPolicyResponse = this.surveyAnswers[1]?.['Policies']?.['Question10']?.['Question10-0'] || null;
+    this.nationalPolicyClarification = this.surveyAnswers[1]?.['Policies']?.['Question10']?.['Question10-3'] || null;
+
+    this.financialStrategyResponse = this.surveyAnswers[1]?.['Policies']?.['Question11']?.['Question11-0'] || null;
+    this.financialStrategyClarification = this.surveyAnswers[1]?.['Policies']?.['Question11']?.['Question11-1'] || null;
+
+    this.monitoringResponse = this.surveyAnswers[1]?.['Practices']?.['Question58']?.['Question58-0'] || null;
+    this.monitoringClarification = this.surveyAnswers[1]?.['Practices']?.['Question58']?.['Question58-1'] || null;
+
+    this.policyMandatory = this.surveyAnswers[1]?.['Policies']?.['Question5']?.['Question6-5-0']?.['Question5-1'] || null;
+
   }
 }

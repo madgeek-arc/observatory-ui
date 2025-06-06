@@ -25,22 +25,23 @@
           <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
 
             <!-- Card 1 -->
-            <div>
+            <div *ngIf="rfoFairDataPercentage[1] !== null" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Percentage of <span class="uk-text-bold">Open Data in {{countryName}}</span>(OA vs Closed)</p>
+                <p>Percentage of <span class="uk-text-bold">RFO's Policy on FAIR Data</span></p>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">71%</span>
+                  <span class="uk-text-bold">{{ rfoFairDataPercentage[1] }}%</span>
                 </div>
-                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                <div *ngIf="rfoFairDataPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined"
-                          [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    <span class="material-symbols-outlined" [ngClass]="rfoFairDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ rfoFairDataPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span>{{ colorChange }}%</span>&nbsp; vs last year
+                    <span [ngClass]="rfoFairDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ Math.abs(rfoFairDataPercentageDiff) }}%
+                    </span>&nbsp; vs last year
                   </div>
                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                    <img [ngSrc]="'../assets/images/explore/' + (rfoFairDataPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
                   </div>
                 </div>
@@ -50,20 +51,22 @@
             <!-- Card 2 -->
             <div>
               <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Percentage of <span class="uk-text-bold">RFO's Policy on Open Data</span></p>
+                <p>Percentage of <span class="uk-text-bold">RPO's Policy on FAIR Data</span></p>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">71%</span>
+                  <span class="uk-text-bold">
+                    {{ rpoFairDataPercentage[0] !== null ? rpoFairDataPercentage[0] + '%': 'No answer provided'}}
+                  </span>
                 </div>
                 <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined"
-                          [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                          [ngClass]="rpoFairDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ rpoFairDataPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span>{{ colorChange }}%</span>&nbsp; vs last year
+                    <span>{{ rpoFairDataPercentageDiff }}%</span>&nbsp; vs last year
                   </div>
                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                    <img [ngSrc]="'../assets/images/explore/' + (rpoFairDataPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
                   </div>
                 </div>
@@ -71,24 +74,25 @@
             </div>
 
             <!-- Card 3 -->
-            <div>
+            <div *ngIf="financialInvestmentInFairData[1] !== null" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Total amount of<span class="uk-text-bold"> financial investments</span>in Open Data</p>
+                <p>Total amount of <span class="uk-text-bold">financial investments</span> in FAIR Data</p>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">2.4 mil Euro</span>
+                  <span class="uk-text-bold">{{ financialInvestmentInFairData[1]  + ' mil Euro' }}</span>
                 </div>
-                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                <div *ngIf="financialInvestmentInFairDataPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined"
-                          [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    <span class="material-symbols-outlined" [ngClass]="financialInvestmentInFairDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ financialInvestmentInFairDataPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span>{{ colorChange }}%</span>&nbsp; vs last year
+                    <span [ngClass]="financialInvestmentInFairDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ Math.abs(financialInvestmentInFairDataPercentageDiff) }}%
+                    </span>&nbsp; vs last year
                   </div>
-                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                  <div>
+                    <img [ngSrc]="'../assets/images/explore/' + (financialInvestmentInFairDataPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
-                   </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
 import { Component, inject, DestroyRef } from "@angular/core";
 import { CatalogueUiReusableComponentsModule } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
-
+import { ContentCollapseComponent } from "src/app/content-collapse/content-collapse.component";
 
 
 class TableRow {
@@ -28,7 +28,8 @@ class TableRow {
     LowerCasePipe,
     NgOptimizedImage,
     CommonModule,
-    CatalogueUiReusableComponentsModule
+    CatalogueUiReusableComponentsModule,
+    ContentCollapseComponent
   ]
 })
 

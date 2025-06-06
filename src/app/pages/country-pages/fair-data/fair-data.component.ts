@@ -19,12 +19,18 @@ import { DataShareService } from "../services/data-share.service";
 })
 export class FairDataComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-
-  colorChange = 13;
+  protected readonly Math = Math;
 
   countryCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [];
+
+  rfoFairDataPercentage: (number | null)[] = [null, null];
+  rfoFairDataPercentageDiff: number | null = null;
+  rpoFairDataPercentage: (number | null)[] = [null,null];
+  rpoFairDataPercentageDiff: number | null = null;
+  financialInvestmentInFairData: (string | null)[] = [null, null];
+  financialInvestmentInFairDataPercentageDiff: number | null = null;
 
   constructor(private dataShareService: DataShareService) {}
 
@@ -44,8 +50,23 @@ export class FairDataComponent implements OnInit {
     this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answers) => {
         this.surveyAnswers = answers;
+        this.initCardValues();
       }
     });
+  }
+
+  initCardValues() {
+     this.rfoFairDataPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question17']?.['Question17-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);
+     this.rfoFairDataPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question17']?.['Question17-0'], this.surveyAnswers[0]?.['General']['Question3']?.['Question3-0']);
+     this.rfoFairDataPercentageDiff = this.dataShareService.calculateDiff(this.rfoFairDataPercentage[0], this.rfoFairDataPercentage[1]);
+
+     this.rpoFairDataPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question16']?.['Question16-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']);
+     this.rpoFairDataPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question16']?.['Question16-0'], this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0']);
+     this.rpoFairDataPercentageDiff = this.dataShareService.calculateDiff(this.rpoFairDataPercentage[0], this.rpoFairDataPercentage[1]);
+
+     this.financialInvestmentInFairData[1] = this.surveyAnswers[1]?.['Practices']?.['Question64']?.['Question64-0'];
+     this.financialInvestmentInFairData[0] = this.surveyAnswers[0]?.['Practices']?.['Question64']?.['Question64-0'];
+     this.financialInvestmentInFairDataPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.financialInvestmentInFairData[0], this.financialInvestmentInFairData[1]);
   }
 
 }

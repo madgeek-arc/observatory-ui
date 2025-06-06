@@ -1,0 +1,17 @@
+<div
+  #contentWrapper
+  [class.collapsed]="isCollapsed"
+  [style.max-height.px]="isCollapsed ? maxHeight : null"
+  class="content-container"
+>
+  <ng-content></ng-content>
+</div>
+
+<div
+  *ngIf="showToggleButton"
+  (click)="toggle()"
+  class="read-more-btn uk-text-primary uk-margin-small-top"
+  style="cursor: pointer;"
+>
+  {{ isCollapsed ? 'Read more' : 'Read less' }}
+</div>
