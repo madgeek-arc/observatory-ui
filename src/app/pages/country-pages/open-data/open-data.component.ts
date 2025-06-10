@@ -29,10 +29,6 @@ export class OpenDataComponent implements OnInit {
 
   protected readonly Math = Math;
 
-  colorChange = 13;
-  financialInvestment = [];
-  rfoOpenData = [];
-  rpoOpenData = [];
 
   countryCode?: string;
   countryName?: string;

@@ -4,6 +4,9 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
 import { DestroyRef, inject, OnInit } from "@angular/core";
 import { DataShareService } from "../services/data-share.service";
+import { ContentCollapseComponent } from "src/app/content-collapse/content-collapse.component";
+import { CatalogueUiReusableComponentsModule } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
+import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 
 @Component({
   selector: 'app-fair-data',
@@ -13,6 +16,8 @@ import { DataShareService } from "../services/data-share.service";
     NgOptimizedImage,
     NgForOf,
     JsonPipe,
+    CatalogueUiReusableComponentsModule,
+    ContentCollapseComponent
   ],
   standalone: true,
   templateUrl: './fair-data.component.html',
@@ -31,8 +36,15 @@ export class FairDataComponent implements OnInit {
   rpoFairDataPercentageDiff: number | null = null;
   financialInvestmentInFairData: (string | null)[] = [null, null];
   financialInvestmentInFairDataPercentageDiff: number | null = null;
+  hasNationalPolicyFD: string | null = null;
+  nationalPolicyClarificationFD: string | null = null;
+  hasFinancialStrategyFD: string | null = null;
+  financialStrategyClarificationFD: string | null = null;
+  hasMonitoringFD: string | null = null;
+  monitoringClarificationFD: string | null = null;
+  policyMandatoryFD: string | null = null;
 
-  constructor(private dataShareService: DataShareService) {}
+  constructor(private dataShareService: DataShareService,  private queryData: EoscReadinessDataService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -67,6 +79,18 @@ export class FairDataComponent implements OnInit {
      this.financialInvestmentInFairData[1] = this.surveyAnswers[1]?.['Practices']?.['Question64']?.['Question64-0'];
      this.financialInvestmentInFairData[0] = this.surveyAnswers[0]?.['Practices']?.['Question64']?.['Question64-0'];
      this.financialInvestmentInFairDataPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.financialInvestmentInFairData[0], this.financialInvestmentInFairData[1]);
+
+     this.hasFinancialStrategyFD = this.surveyAnswers[1]?.['Policies']?.['Question15']?.['Question15-0'];
+     this.financialStrategyClarificationFD = this.surveyAnswers[1]?.['Policies']?.['Question15']?.['Question15-1'];
+
+     this.hasNationalPolicyFD = this.surveyAnswers[1]?.['Policies']?.['Question14']?.['Question14-0'];
+     this.nationalPolicyClarificationFD = this.surveyAnswers[1]?.['Policies']?.['Question14']?.['Question14-3'];
+
+     this.hasMonitoringFD = this.surveyAnswers[1]?.['Practices']?.['Question62']?.['Question62-0'];
+     this.monitoringClarificationFD = this.surveyAnswers[1]?.['Practices']?.['Question62']?.['Question62-1'];
+
+     this.policyMandatoryFD = this.surveyAnswers[1]?.['Policies']?.['Question14']?.['Question14-1-0']?.['Question14-1'];
+
   }
 
 }
