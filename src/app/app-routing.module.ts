@@ -8,6 +8,8 @@ import {
 import { AuthGuard } from "../survey-tool/app/services/auth-guard.service";
 import { countryPagesRoutes } from "./pages/country-pages/country-pages.routing";
 import { CountrySelectorComponent } from "./pages/dashboard/country-selector/country-selector.component";
+import { ArchiveModule } from "./pages/archive/archive.module";
+import { ArchiveGuardService } from "./pages/services/archiveGuard.service";
 
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: "enabled",
@@ -36,11 +38,13 @@ const routes: Routes = [
   },
   {
     path: 'country_selector',
-    component: CountrySelectorComponent
+    component: CountrySelectorComponent,
+    canActivate: [ArchiveGuardService]
   },
   {
     path: 'landing/country/:code',
-    component: CountryLandingPageComponent
+    component: CountryLandingPageComponent,
+    canActivate: [ArchiveGuardService]
   },
   {
     path: 'country-pages',
@@ -48,7 +52,8 @@ const routes: Routes = [
   },
   {
     path: 'country/:code',
-    children: countryPagesRoutes
+    children: countryPagesRoutes,
+    canActivate: [ArchiveGuardService]
   },
   {
     path: 'explore',
