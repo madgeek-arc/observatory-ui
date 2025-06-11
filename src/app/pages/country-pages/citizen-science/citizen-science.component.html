@@ -13,136 +13,122 @@
       <h4>General Overview of Citizen Science in Europe for 2023</h4>
     </div>
 
-    <div class="uk-card uk-card-default uk-card-body uk-margin visualisation-card">
+    <div class="uk-grid-small" uk-grid>
 
-      <div class="uk-child-width-1-3 uk-grid-match uk-grid-row-medium uk-flex-center" data-uk-grid>
-        <div>
-          <div class="uk-card card-simple uk-card-small uk-card-body">
-            <div>
-              <p>Number of new Citizen Science project in EU Countries</p>
-            </div>
-            <div class="number big uk-margin-medium-top">
-              <span class="uk-text-bold">711 projects</span>
-            </div>
-            <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-              <div class="uk-flex uk-flex-middle">
-                <span class="material-symbols-outlined" [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                  {{ colorChange >= 0 ? 'arrow_upward' : ' arrow_downward' }}
-                </span>
-                <span class="">{{ colorChange }}%</span>&nbsp; vs last year
-              </div>
-              <div>
-                <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                  alt="trend image" height="50" width="99">
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="uk-width-3-5">
+        <div class="uk-card uk-card-default uk-card-body external-sources visualisation-card">
+          <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
 
-        <!-- Card 2-->
-
-        <div>
-          <div class="uk-card card-simple uk-card-small uk-card-body">
-            <div>
-              <p>Percentage of <span class="uk-text-bold">EU Countries with Policy on Citizen Science</span></p>
-            </div>
-            <div class="number big uk-margin-medium-top">
-              <span class="uk-text-bold">71%</span>
-            </div>
-            <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-              <div class="uk-flex uk-flex-middle">
-                <span class="material-symbols-outlined" [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                  {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                </span>
-                <span class="">{{ colorChange }}%</span>&nbsp; vs last year
-              </div>
-              <div>
-                <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                  alt="trend image" height="50" width="99">
+            <!--Card 1-->
+             <div *ngIf="citizenScienceProjects[1] !== null" class="uk-animation-scale-up">
+              <div class="uk-card card-simple uk-card-small uk-card-body">
+                <p>Number of new Citizen Science projects in {{countryName}}</p>
+                <div class="number big uk-margin-medium-top">
+                  <span class="uk-text-bold">{{ citizenScienceProjects[1] }}%</span>
+                </div>
+                <div *ngIf="citizenSciencePercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                  <div class="uk-flex uk-flex-middle">
+                    <span class="material-symbols-outlined" [ngClass]="citizenSciencePercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ citizenSciencePercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                    <span [ngClass]="citizenSciencePercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                      {{ Math.abs(citizenSciencePercentageDiff) }}%
+                    </span>&nbsp; vs last year
+                  </div>
+                  <div>
+                    <img [ngSrc]="'../assets/images/explore/' + (citizenSciencePercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                         alt="trend image" height="50" width="99">
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Card 3-->
+          
 
-        <div>
-          <div class="uk-card card-simple uk-card-small uk-card-body">
-            <div>
-              <p>Total amount of <span class="uk-text-bold">financial investment</span> in Citizen Science</p>
-            </div>
-            <div class="number big uk-margin-medium-top">
-              <span class="uk-text-bold">2,420 mil Euro</span>
-            </div>
-            <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-              <div class="uk-flex uk-flex-middle">
-                <span class="material-symbols-outlined" [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                  {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                </span>
-                <span class="">{{ colorChange }}%</span>&nbsp; vs last year
-              </div>
-              <div>
-                <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                  alt="trend image" height="50" width="99">
+            <!--Card 2-->
+            <div *ngIf="financialInvestmentInCS[1] !== null && financialInvestmentInCS[1] !== undefined" class="uk-animation-scale-up">
+              <div class="uk-card card-simple uk-card-small uk-card-body">
+                <p>Total amount of <span class="uk-text-bold">financial investments</span> in Citizen Science</p>
+                <div class="number big uk-margin-medium-top">
+                  <span class="uk-text-bold">
+                    {{ financialInvestmentInCS[1]  + ' mil Euro' }}
+                  </span>
+                </div>
+                <div *ngIf="financialInvestmentInCsPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                  <div class="uk-flex uk-flex-middle">
+                    <span class="material-symbols-outlined" [ngClass]="financialInvestmentInCsPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ financialInvestmentInCsPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                    <span [ngClass]="financialInvestmentInCsPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ Math.abs(financialInvestmentInCsPercentageDiff) }}%
+                    </span>&nbsp; vs last year
+                  </div>
+                  <div>
+                    <img [ngSrc]="'../assets/images/explore/' + (financialInvestmentInCsPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                         alt="trend image" height="50" width="99">
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-        <!-- Card 4-->
-
-        <div>
-          <div class="uk-card card-simple uk-card-small uk-card-body">
-            <div>
-              <p>Percentage of <span class="uk-text-bold">EU Countries with a Financial Strategy on Citizen Science</span></p>
-            </div>
-            <div class="number big uk-margin-medium-top">
-              <span class="uk-text-bold">71%</span>
-            </div>
-            <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-              <div class="uk-flex uk-flex-middle">
-                <span class="material-symbols-outlined"
-                      [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">{{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}</span>
-                <span class="">{{ colorChange }}%</span>&nbsp; vs last year
-              </div>
-              <div>
-                <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                  alt="trend image" height="50" width="99">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 5-->
-
-        <div>
-          <div class="uk-card card-simple uk-card-small uk-card-body">
-            <div>
-              <p>Percentage amount of EU Countries with Citizen Science Monitoring Initiatives</p>
-            </div>
-            <div class="number big uk-margin-medium-top">
-              <span class="uk-text-bold">71%</span>
-            </div>
-            <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-              <div class="uk-flex uk-flex-middle">
-                <span class="material-symbols-outlined"
-                      [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">{{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}</span>
-                <span class="">{{ colorChange }}%</span>&nbsp; vs last year
-              </div>
-              <div>
-                <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                  alt="trend image" height="50" width="99">
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
 
+      <!-- Right Card (2/5) -->
+      <div class="uk-width-2-5 uk-animation-fade">
+        <div class="uk-card uk-card-default uk-card-body noads visualisation-card">
+          <div class="uk-margin-top">
+            <h5 class="uk-flex uk-flex-between uk-margin-remove">
+              National Policy on Citizen Science
+              <span class="material-symbols-outlined" [ngClass]="hasNationalPolicyCS === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
+                {{ hasNationalPolicyCS === 'Yes' ? 'check' : 'close' }}
+              </span>
+            </h5>
+            <p *ngIf="policyMandatoryCS === 'Yes'" class="uk-text-primary uk-text-bolder uk-margin-remove-top">Mandatory policy</p>
+            <read-more-text *ngIf="nationalPolicyClarificationCS !== null" [maxHeight]="68" [text]="nationalPolicyClarificationCS"></read-more-text>
+          </div>
+          <div class="uk-margin-top">
+            <h5 class="uk-flex uk-flex-between">
+              Financial Strategy on Citizen Science
+              <span class="material-symbols-outlined" [ngClass]="hasFinancialStrategyCS === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
+                {{ hasFinancialStrategyCS === 'Yes' ? 'check' : 'close' }}
+              </span>
+            </h5>
+            <read-more-text *ngIf="financialStrategyClarificationCS" [maxHeight]="65" [text]="financialStrategyClarificationCS"></read-more-text>
+          </div>
+          <div class="uk-margin-top">
+            <h5 class="uk-flex uk-flex-between">
+              Monitoring on Citizen Science
+              <span class="material-symbols-outlined" [ngClass]="hasMonitoringCS === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
+                {{ hasMonitoringCS === 'Yes' ? 'check' : 'close' }}
+              </span>
+            </h5>
+            <read-more-text *ngIf="monitoringClarificationCS" [maxHeight]="65" [text]="monitoringClarificationCS"></read-more-text>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="uk-flex uk-margin-top uk-flex-center">
-      <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Cotributions to EOSC and Open Science; OpenAIRE Graph.
-    </div>
+     <div>	
+      <div class="uk-margin-top uk-flex uk-flex-center">
+       <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science OpenAIRE Graph.
+      </div>
+
+      <div *ngIf="countrySurveyAnswer" class="uk-margin-medium-top uk-animation-fade">
+       <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+        <h5>Learn more about FAIR Data Landscape in {{ countryName }}</h5>
+         <content-collapse [maxHeight]="300">
+          <div id="national_data_service">
+            <div class="uk-text-secondary">National Data Service</div>
+              <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else data_service">
+               <div
+               [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']">
+              </div>
+              </ng-container>
+            <ng-template #data_service><p>N/A</p></ng-template>
+          </div>
+        </content-collapse>
+       </div>
+     </div>
   </div>
 </div>
 

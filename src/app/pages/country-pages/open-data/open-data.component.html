@@ -17,26 +17,27 @@
     <div class="uk-grid-small" uk-grid>
 
       <div class="uk-width-3-5">
-        <div class="uk-card uk-card-default uk-card-body">
+        <div class="uk-card uk-card-default uk-card-body external-sources visualisation-card">
           <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
 
             <!-- Card 1 -->
-            <div>
+            <div *ngIf="OpenDataPercentage[1] !== null" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Percentage of <span class="uk-text-bold">Open Data in {{countryName}}</span>(OA vs Closed)</p>
+                <p>Percentage of <span class="uk-text-bold">Open Data in {{countryName}}</span> (OA vs Closed)</p>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">71%</span>
+                  <span class="uk-text-bold">{{ OpenDataPercentage[1] }}%</span>
                 </div>
-                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                <div *ngIf="OpenDataPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined"
-                          [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    <span class="material-symbols-outlined" [ngClass]="OpenDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ OpenDataPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span>{{ colorChange }}%</span>&nbsp; vs last year
+                    <span [ngClass]="OpenDataPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                      {{ Math.abs(OpenDataPercentageDiff) }}%
+                    </span>&nbsp; vs last year
                   </div>
                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                    <img [ngSrc]="'../assets/images/explore/' + (OpenDataPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
                   </div>
                 </div>
@@ -44,24 +45,23 @@
             </div>
 
             <!-- Card 2 -->
-            <div>
+            <div *ngIf="rfoOpenDataPercentage[1] !== null" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <p>Percentage of <span class="uk-text-bold">RFO's Policy on Open Data</span></p>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">
-                    {{ rfoOpenData[0] !== null ? rfoOpenData[0] + '%': 'No answer provided'}}
-                  </span>
+                  <span class="uk-text-bold">{{ rfoOpenDataPercentage[1] }}%</span>
                 </div>
-                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                <div *ngIf="rfoOpenDataPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined"
-                          [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    <span class="material-symbols-outlined" [ngClass]="rfoOpenDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ rfoOpenDataPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span>{{ colorChange }}%</span>&nbsp; vs last year
+                    <span [ngClass]="rfoOpenDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ Math.abs(rfoOpenDataPercentageDiff) }}%
+                    </span>&nbsp; vs last year
                   </div>
                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                    <img [ngSrc]="'../assets/images/explore/' + (rfoOpenDataPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
                   </div>
                 </div>
@@ -69,24 +69,25 @@
             </div>
 
             <!-- Card 3 -->
-            <div>
+            <div *ngIf="ODfinancialInvestment[1] !== null && ODfinancialInvestment[1] !== undefined" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Total amount of<span class="uk-text-bold"> financial investments </span>in Open Data</p>
+                <p>Total amount of <span class="uk-text-bold">financial investments</span> in Open Data</p>
                 <div class="number big uk-margin-medium-top">
                   <span class="uk-text-bold">
-                    {{ financialInvestment[0] !== null ? financialInvestment[0] + ' mil Euro': 'No answer provided'}}
+                    {{ ODfinancialInvestment[1]  + ' mil Euro' }}
                   </span>
                 </div>
-                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                <div *ngIf="ODfinancialInvestmentPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined"
-                          [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    <span class="material-symbols-outlined" [ngClass]="ODfinancialInvestmentPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ ODfinancialInvestmentPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span>{{ colorChange }}%</span>&nbsp; vs last year
+                    <span [ngClass]="ODfinancialInvestmentPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ Math.abs(ODfinancialInvestmentPercentageDiff) }}%
+                    </span>&nbsp; vs last year
                   </div>
                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                    <img [ngSrc]="'../assets/images/explore/' + (ODfinancialInvestmentPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
                   </div>
                 </div>
@@ -94,24 +95,23 @@
             </div>
 
             <!-- Card 4 -->
-            <div>
+            <div *ngIf="rpoOpenDataPercentage[1] !== null" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Percentage of <span class="uk-text-bold">RPO's Policy on Open Data</span></p>
+                <p>Percentage of <span class="uk-text-bold">RPO's Policy on OA Publication</span></p>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">
-                    {{ rpoOpenData[0] !== null ? rpoOpenData[0] + '%': 'No answer provided'}}
-                  </span>
+                  <span class="uk-text-bold">{{ rpoOpenDataPercentage[1] }}%</span>
                 </div>
-                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                <div *ngIf="rpoOpenDataPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined"
-                          [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    <span class="material-symbols-outlined" [ngClass]="rpoOpenDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ rpoOpenDataPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span>{{ colorChange }}%</span>&nbsp; vs last year
+                    <span [ngClass]="rpoOpenDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ Math.abs(rpoOpenDataPercentageDiff) }}%
+                    </span>&nbsp; vs last year
                   </div>
                   <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (colorChange >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                    <img [ngSrc]="'../assets/images/explore/' + (rpoOpenDataPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                          alt="trend image" height="50" width="99">
                   </div>
                 </div>
@@ -122,28 +122,63 @@
       </div>
 
       <!-- Right Card (2/5) -->
-      <div class="uk-width-2-5">
-        <div class="uk-card uk-card-default uk-card-body">
-          <div>
-            <h5>National Policy on Open Data</h5>
-             <p>Until 2020, we had the Czech National Strategy for Open Access to Scientific Information for 2017-2020 (inclusing publications and data) + Action Plan for its implementation.....</p>
+      <div class="uk-width-2-5 uk-animation-fade">
+        <div class="uk-card uk-card-default uk-card-body noads visualisation-card">
+          <div class="uk-margin-top">
+            <h5 class="uk-flex uk-flex-between uk-margin-remove">
+              National Policy on Open Data
+              <span class="material-symbols-outlined" [ngClass]="hasNationalPolicyOD === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
+                {{ hasNationalPolicyOD === 'Yes' ? 'check' : 'close' }}
+              </span>
+            </h5>
+            <p *ngIf="policyMandatoryOD === 'Yes'" class="uk-text-primary uk-text-bolder uk-margin-remove-top">Mandatory policy</p>
+            <read-more-text *ngIf="nationalPolicyClarificationOD !== null" [maxHeight]="68" [text]="nationalPolicyClarificationOD"></read-more-text>
           </div>
-          <div>
-            <h5>Financial Strategy on Open Data</h5>
-              <p>In 2020, the Czech Government approved the National RDI Policy of the Czech Republic 2021+ as an overaching national-level strategic document for advancing all components of RDI. This document helps fulfill certain criteria of the basic conditions to be able to draw funding from EU funds in the 2021-2017 programming period.....</p>
+          <div class="uk-margin-top">
+            <h5 class="uk-flex uk-flex-between">
+              Financial Strategy on Open Data
+              <span class="material-symbols-outlined" [ngClass]="hasFinancialStrategyOD === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
+                {{ hasFinancialStrategyOD === 'Yes' ? 'check' : 'close' }}
+              </span>
+            </h5>
+            <read-more-text *ngIf="financialStrategyClarificationOD" [maxHeight]="65" [text]="financialStrategyClarificationOD"></read-more-text>
           </div>
-          <div>
-            <h5>Monitoring on Open Data</h5>
-            <p>At least partially, the Czech R&D Information System (IS VaVal - https://www.isvavai.cz/) via - Information Register of R&D results (RIV) monitors whether the result is in OA.....</p>
+          <div class="uk-margin-top">
+            <h5 class="uk-flex uk-flex-between">
+              Monitoring on Open Data
+              <span class="material-symbols-outlined" [ngClass]="hasMonitoringOD === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
+                {{ hasMonitoringOD === 'Yes' ? 'check' : 'close' }}
+              </span>
+            </h5>
+            <read-more-text *ngIf="monitoringClarificationOD" [maxHeight]="65" [text]="monitoringClarificationOD"></read-more-text>
           </div>
         </div>
       </div>
     </div>
-     <div class="uk-margin-top uk-flex uk-flex-center">
-      <div>
-       <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science OpenAIRE Graph.
+     <div>	
+      <div class="uk-margin-top uk-flex uk-flex-center">
+       <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science OpenAIRE Graph.
       </div>
-      {{financialInvestment}}
-   </div>
+      
+    
+      <div *ngIf="countrySurveyAnswer" class="uk-margin-medium-top uk-animation-fade">
+       <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+        <h5>Learn more about Open Data Landscape in {{ countryName }}</h5>
+         <content-collapse [maxHeight]="300">
+          <div id="national_data_service">
+            <div class="uk-text-secondary">National Data Service</div>
+              <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else data_service">
+               <div
+               [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']">
+              </div>
+              </ng-container>
+            <ng-template #data_service><p>N/A</p></ng-template>
+          </div>
+        </content-collapse>
+       </div>
+     </div>
+
+
   </div>
 </div>
+

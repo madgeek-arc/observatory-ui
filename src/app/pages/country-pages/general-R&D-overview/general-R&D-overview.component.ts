@@ -4,6 +4,9 @@ import { DataShareService } from "../services/data-share.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { OAvsTotalDataPerCountry, OAvsTotalPubsPerCountry } from "../coutry-pages.queries";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
+import { CatalogueUiReusableComponentsModule } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
+import { ContentCollapseComponent } from "src/app/content-collapse/content-collapse.component";
+
 
 @Component({
   selector: 'app-general-R&D-overview',
@@ -11,7 +14,9 @@ import { EoscReadinessDataService } from "../../services/eosc-readiness-data.ser
   templateUrl: './general-R&D-overview.component.html',
   imports: [
     CommonModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    // CatalogueUiReusableComponentsModule,
+     ContentCollapseComponent
   ]
 })
 

@@ -157,46 +157,47 @@
     <div *ngIf="countrySurveyAnswer" class="uk-margin-medium-top uk-animation-fade">
       <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
         <h5>Open Science Key Actors in {{ countryName }}</h5>
-        <div id="research_funding_organisations">
-          <div class="uk-text-secondary">Research Funding Organisations</div>
-          <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2'][0]['Question2-1']; else funding_organisations">
-            <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']" class="uk-margin-medium-top">
-              <div [innerHTML]="element['Question2-1']"></div>
-            </div>
-          </ng-container>
-          <ng-template #funding_organisations><p>N/A</p></ng-template>
-        </div>
 
-        <div id="research_performing_organisations">
-          <div class="uk-text-secondary">Research Performing Organisations</div>
-          <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3'][0]['Question3-1']; else performing_organisations">
-            <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3']" class="uk-margin-medium-top">
-              <div [innerHTML]="element['Question3-1']"></div>
-            </div>
-          </ng-container>
-          <ng-template #performing_organisations><p>N/A</p></ng-template>
-        </div>
+        <content-collapse [maxHeight]="300">
+          <div id="research_funding_organisations">
+            <div class="uk-text-secondary">Research Funding Organisations</div>
+            <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2'][0]['Question2-1']; else funding_organisations">
+              <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']" class="uk-margin-medium-top">
+                <div [innerHTML]="element['Question2-1']"></div>
+              </div>
+            </ng-container>
+            <ng-template #funding_organisations><p>N/A</p></ng-template>
+          </div>
+          <div id="research_performing_organisations">
+            <div class="uk-text-secondary">Research Performing Organisations</div>
+            <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3'][0]['Question3-1']; else performing_organisations">
+              <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3']" class="uk-margin-medium-top">
+                <div [innerHTML]="element['Question3-1']"></div>
+              </div>
+            </ng-container>
+            <ng-template #performing_organisations><p>N/A</p></ng-template>
+          </div>
 
-        <div id="research_support_organisations">
-          <div class="uk-text-secondary">Research Support Organisations</div>
-          <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4'][0]['Question4-1']; else support_organisations">
-            <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4']" class="uk-margin-medium-top">
-              <div [innerHTML]="element['Question4-1']"></div>
-            </div>
-          </ng-container>
-          <ng-template #support_organisations><p>N/A</p></ng-template>
-        </div>
+          <div id="research_support_organisations">
+            <div class="uk-text-secondary">Research Support Organisations</div>
+            <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4'][0]['Question4-1']; else support_organisations">
+              <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4']" class="uk-margin-medium-top">
+                <div [innerHTML]="element['Question4-1']"></div>
+              </div>
+            </ng-container>
+            <ng-template #support_organisations><p>N/A</p></ng-template>
+          </div>
 
-        <div id="other_organisations">
-          <div class="uk-text-secondary">Other Organisations</div>
-          <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30'][0]['Question30-1']; else other_organisations">
-            <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30']" class="uk-margin-medium-top">
-              <div [innerHTML]="element['Question30-1']"></div>
-            </div>
-          </ng-container>
-          <ng-template #other_organisations><p>N/A</p></ng-template>
-        </div>
-
+          <div id="other_organisations">
+            <div class="uk-text-secondary">Other Organisations</div>
+            <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30'][0]['Question30-1']; else other_organisations">
+              <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30']" class="uk-margin-medium-top">
+                <div [innerHTML]="element['Question30-1']"></div>
+              </div>
+            </ng-container>
+            <ng-template #other_organisations><p>N/A</p></ng-template>
+          </div>
+        </content-collapse>
       </div>
     </div>
 
