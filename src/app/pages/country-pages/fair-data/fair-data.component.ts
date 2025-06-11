@@ -1,23 +1,18 @@
-import { CommonModule, JsonPipe, LowerCasePipe, NgForOf, NgOptimizedImage } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
-import { DestroyRef, inject, OnInit } from "@angular/core";
 import { DataShareService } from "../services/data-share.service";
-import { ContentCollapseComponent } from "src/app/content-collapse/content-collapse.component";
-import { CatalogueUiReusableComponentsModule } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
+import {
+  CatalogueUiReusableComponentsModule
+} from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 
 @Component({
   selector: 'app-fair-data',
   imports: [
     CommonModule,
-    LowerCasePipe,
     NgOptimizedImage,
-    NgForOf,
-    JsonPipe,
     CatalogueUiReusableComponentsModule,
-    ContentCollapseComponent
   ],
   standalone: true,
   templateUrl: './fair-data.component.html',

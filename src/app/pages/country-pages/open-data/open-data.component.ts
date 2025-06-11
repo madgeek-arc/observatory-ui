@@ -1,15 +1,12 @@
-import { CommonModule, JsonPipe, LowerCasePipe, NgForOf, NgOptimizedImage } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, LowerCasePipe, NgOptimizedImage } from '@angular/common';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
-import { DestroyRef, inject, OnInit } from "@angular/core";
 import { DataShareService } from "../services/data-share.service";
-import { ExploreService } from '../../explore/explore.service';
-import { init } from '@sentry/angular-ivy';
-import { CatalogueUiReusableComponentsModule } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
+import {
+  CatalogueUiReusableComponentsModule
+} from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
-import { OAvsTotalDataPerCountry, OAvsTotalPubsPerCountry } from "../coutry-pages.queries";
-import { ContentCollapseComponent } from "src/app/content-collapse/content-collapse.component";
+import { OAvsTotalDataPerCountry } from "../coutry-pages.queries";
 
 @Component({
   selector: 'app-open-data',
@@ -18,11 +15,10 @@ import { ContentCollapseComponent } from "src/app/content-collapse/content-colla
     LowerCasePipe,
     NgOptimizedImage,
     CatalogueUiReusableComponentsModule,
-    ContentCollapseComponent
    ],
    standalone: true,
   templateUrl: './open-data.component.html',
-  
+
 })
 export class OpenDataComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
@@ -54,12 +50,13 @@ export class OpenDataComponent implements OnInit {
 
 
 
-  constructor(private dataShareService: DataShareService, private exploreService: ExploreService, private queryData: EoscReadinessDataService) {}
+  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (code) => {
         this.countryCode = code;
+        this.getOpenDataPercentage();
       }
     });
 
@@ -81,7 +78,7 @@ export class OpenDataComponent implements OnInit {
         this.countrySurveyAnswer = answer;
       }
     });
-    
+
   }
 
   initCardValues() {
@@ -98,6 +95,7 @@ export class OpenDataComponent implements OnInit {
     this.rpoOpenDataPercentageDiff = this.dataShareService.calculateDiff(this.rpoOpenDataPercentage[0], this.rpoOpenDataPercentage[1]);
 
     this.hasNationalPolicyOD = this.surveyAnswers[1]?.['Policies']?.['Question18']?.['Question18-0'] || null;
+    this.policyMandatoryOD = this.surveyAnswers[1]?.['Policies']?.['Question18']?.['Question18-1-0']?.['Question18-1'] || null;
     this.nationalPolicyClarificationOD = this.surveyAnswers[1]?.['Policies']?.['Question18']?.['Question18-3'] || null;
 
     this.hasFinancialStrategyOD = this.surveyAnswers[1]?.['Policies']?.['Question19']?.['Question19-0'] || null;
@@ -106,19 +104,16 @@ export class OpenDataComponent implements OnInit {
     this.hasMonitoringOD = this.surveyAnswers[1]?.['Practices']?.['Question66']?.['Question66-0'] || null;
     this.monitoringClarificationOD = this.surveyAnswers[1]?.['Practices']?.['Question66']?.['Question66-1'] || null;
 
-    this.policyMandatoryOD = this.surveyAnswers[1]?.['Policies']?.['Question18']?.['Question18-1-0']?.['Question18-1'] || null;
-
-    this.getOpenDataPercentage();
   }
 
   getOpenDataPercentage() {
-        this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-          next: value => {
-            this.OpenDataPercentage[0] = this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]);
-            this.OpenDataPercentage[1] = this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]);
-            this.OpenDataPercentageDiff = this.dataShareService.calculateDiff(this.OpenDataPercentage[0], this.OpenDataPercentage[1]);
-          }
-        });
+    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        this.OpenDataPercentage[0] = this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]);
+        this.OpenDataPercentage[1] = this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]);
+        this.OpenDataPercentageDiff = this.dataShareService.calculateDiff(this.OpenDataPercentage[0], this.OpenDataPercentage[1]);
       }
+    });
+  }
 
 }

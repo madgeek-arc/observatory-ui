@@ -4,8 +4,9 @@ import { DataShareService } from "../services/data-share.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { OAvsTotalDataPerCountry, OAvsTotalPubsPerCountry } from "../coutry-pages.queries";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
-import { CatalogueUiReusableComponentsModule } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
-import { ContentCollapseComponent } from "src/app/content-collapse/content-collapse.component";
+import {
+  CatalogueUiReusableComponentsModule
+} from "../../../../survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
 
 
 @Component({
@@ -15,8 +16,7 @@ import { ContentCollapseComponent } from "src/app/content-collapse/content-colla
   imports: [
     CommonModule,
     NgOptimizedImage,
-    // CatalogueUiReusableComponentsModule,
-     ContentCollapseComponent
+    CatalogueUiReusableComponentsModule
   ]
 })
 
@@ -26,9 +26,12 @@ export class GeneralRDOverviewComponent implements OnInit {
 
   openSoftware: (string | null)[] = [null, null];
   openSoftwarePercentageDiff: number | null = null;
+  rfos: (string | null)[] = [null, null];
+  rfosPercentageDiff: number | null = null;
+  rpos: (string | null)[] = [null, null];
+  rposPercentageDiff: number | null = null;
   totalInvestment: (string | null)[] = [null, null];
   investmentPercentageDiff: (number | null) = null;
-  investment: (number | null) = null;
   OAPubsPercentage: (number | null)[] = [null, null];
   OAPubsPercentageDiff: number | null = null;
   OpenDataPercentage: (number | null)[] = [null, null];
@@ -36,7 +39,7 @@ export class GeneralRDOverviewComponent implements OnInit {
 
   countryCode?: string;
   countryName?: string;
-  surveyAnswers: Object[] = [];
+  surveyAnswers: Object[] = [null, null];
   countrySurveyAnswer?: Object;
 
   constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService) {}
@@ -59,13 +62,7 @@ export class GeneralRDOverviewComponent implements OnInit {
     this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answers) => {
         this.surveyAnswers = answers;
-        this.openSoftware[0] = this.surveyAnswers[0]?.['Practices']?.['Question73']?.['Question73-0'] || null;
-        this.openSoftware[1] = this.surveyAnswers[1]?.['Practices']?.['Question73']?.['Question73-0'] || null;
-        this.openSoftwarePercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.openSoftware[0], this.openSoftware[1]);
-
-        this.totalInvestment[0] = this.surveyAnswers[0]?.['General']?.['Question5']?.['Question5-0'] || null;
-        this.totalInvestment[1] = this.surveyAnswers[1]?.['General']?.['Question5']?.['Question5-0'] || null;
-        this.investmentPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.totalInvestment[0], this.totalInvestment[1]);
+        this.initData();
       }
     });
 
@@ -96,6 +93,31 @@ export class GeneralRDOverviewComponent implements OnInit {
         this.OpenDataPercentageDiff = this.dataShareService.calculateDiff(this.OpenDataPercentage[0], this.OpenDataPercentage[1]);
       }
     });
+  }
+
+  /** Gets and initializes data from surveys for open software usage and total investment,
+   * calculates percentage differences between consecutive years
+   */
+  initData() {
+    if (this.surveyAnswers[1] === null)
+      return;
+
+    this.openSoftware[0] = this.surveyAnswers[0]?.['Practices']?.['Question73']?.['Question73-0'] || null;
+    this.openSoftware[1] = this.surveyAnswers[1]?.['Practices']?.['Question73']?.['Question73-0'] || null;
+    this.openSoftwarePercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.openSoftware[0], this.openSoftware[1]);
+
+    this.totalInvestment[0] = this.surveyAnswers[0]?.['General']?.['Question5']?.['Question5-0'] || null;
+    this.totalInvestment[1] = this.surveyAnswers[1]?.['General']?.['Question5']?.['Question5-0'] || null;
+    this.investmentPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.totalInvestment[0], this.totalInvestment[1]);
+
+    this.rfos[0] = this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0'] || null;
+    this.rfos[1] = this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0'] || null;
+    this.rfosPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.rfos[0], this.rfos[1]);
+
+    this.rpos[0] = this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0'] || null;
+    this.rpos[1] = this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0'] || null;
+    this.rposPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.rpos[0], this.rpos[1]);
+
   }
 
 }

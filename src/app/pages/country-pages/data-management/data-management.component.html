@@ -4,24 +4,26 @@
     <div class="uk-flex uk-flex-middle uk-margin-bottom">
       <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
            class="flag-image" width="42" height="42" alt="rounded flag image">
-      
       <div class="uk-margin-small-left">
-        <h3 class="uk-margin-remove-bottom">Data Management in {{countryName}} by Area</h3>
+        <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>
       </div>
     </div>
-    <p>Text about data management ...</p>
-    <div>
 
+    <div class="uk-flex uk-flex-between uk-flex-middle">
+      <h4>Data Management</h4>
     </div>
+
+    <p>Text about data management ...</p>
+
     <div class="uk-flex uk-flex-between uk-flex-middle">
       <h4>General Overview of Data Management in {{countryName}} for 2023</h4>
     </div>
 
-    <div class="uk-grid-small" uk-grid>
+    <div class="uk-grid-small" data-uk-grid>
 
       <div class="uk-width-3-5">
         <div class="uk-card uk-card-default uk-card-body">
-          <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
+          <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>
 
             <!-- Card 1 -->
             <div *ngIf="rfoDataManagementPercentage[1] !== null" class="uk-animation-scale-up">
@@ -100,7 +102,7 @@
       </div>
 
       <!-- Right Card (2/5) -->
-       <div class="uk-width-2-5 uk-animation-fade">
+      <div class="uk-width-2-5 uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body noads visualisation-card">
           <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between uk-margin-remove">
@@ -119,7 +121,7 @@
                 {{ financialStrategyResponse === 'Yes' ? 'check' : 'close' }}
               </span>
             </h5>
-            <read-more-text *ngIf="financialStrategyClarification" [maxHeight]="65" [text]="financialStrategyClarification"></read-more-text>
+            <read-more-text *ngIf="financialStrategyClarification" [maxHeight]="68" [text]="financialStrategyClarification"></read-more-text>
           </div>
           <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between">
@@ -128,14 +130,15 @@
                 {{ monitoringResponse === 'Yes' ? 'check' : 'close' }}
               </span>
             </h5>
-            <read-more-text *ngIf="monitoringClarification" [maxHeight]="65" [text]="monitoringClarification"></read-more-text>
+            <read-more-text *ngIf="monitoringClarification" [maxHeight]="68" [text]="monitoringClarification"></read-more-text>
           </div>
         </div>
       </div>
-     <div class="uk-margin-top uk-flex uk-flex-center">
-      <div>
-       <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science OpenAIRE Graph.
+      <div class="uk-margin-top uk-flex uk-flex-center">
+        <div>
+          <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science OpenAIRE Graph.
+        </div>
       </div>
-   </div>
+    </div>
   </div>
 </div>

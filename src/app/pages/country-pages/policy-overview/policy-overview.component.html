@@ -45,7 +45,7 @@
       <div *ngIf="countrySurveyAnswer" class="uk-width-3-5 uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body noads visualisation-card">
           <div class="uk-width-3-4" id="policies">
-            <content-collapse [maxHeight]="300">
+            <read-more [maxHeight]="300">
             <div id="policies_overview">
               <div class="uk-text-secondary">Overview</div>
               <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']; else policies_overview">
@@ -80,9 +80,9 @@
               </ng-container>
               <ng-template #institutional_policies><p>N/A</p></ng-template>
             </div>
-            </content-collapse>
+            </read-more>
           </div>
-        
+
         </div>
       </div>
 

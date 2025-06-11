@@ -1,11 +1,10 @@
-import { CommonModule, JsonPipe, LowerCasePipe, NgForOf, NgOptimizedImage } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, LowerCasePipe, NgOptimizedImage } from '@angular/common';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
-import { DestroyRef, inject, OnInit } from "@angular/core";
 import { DataShareService } from "../services/data-share.service";
-import { init } from '@sentry/angular-ivy';
-import { CatalogueUiReusableComponentsModule } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
+import {
+  CatalogueUiReusableComponentsModule
+} from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
 
 
 @Component({
@@ -13,7 +12,6 @@ import { CatalogueUiReusableComponentsModule } from "src/survey-tool/catalogue-u
   standalone: true,
   imports: [
     CommonModule,
-    LowerCasePipe,
     NgOptimizedImage,
     CatalogueUiReusableComponentsModule
   ],
@@ -26,21 +24,21 @@ export class DataManagementComponent implements OnInit {
   countryCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [];
- 
+
   rfoDataManagementPercentage: (number | null)[] = [null, null];
   rfoDataManagementPercentageDiff: number | null = null;
   rpoDataManagementPercentage: (number | null)[] = [null, null];
   rpoDataManagementPercentageDiff: number | null = null;
   financialInvestmentDM: (string | null)[] = [null, null];
   financialInvestmentDMPercentageDiff: number | null = null;
-   nationalPolicyResponse: string | null = null;
+  nationalPolicyResponse: string | null = null;
   financialStrategyResponse: string | null = null;
   nationalPolicyClarification: string | null = null;
   financialStrategyClarification: string | null = null;
   monitoringResponse: string | null = null;
   monitoringClarification: string | null = null;
   policyMandatory: string | null = null;
-  
+
 
 
   constructor(private dataShareService: DataShareService) {}
@@ -61,8 +59,11 @@ export class DataManagementComponent implements OnInit {
     this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answers) => {
         this.surveyAnswers = answers;
+        if (this.surveyAnswers[1] === null)
+          return;
+
         this.initCardValues();
-        
+
       }
     });
 
@@ -71,7 +72,7 @@ export class DataManagementComponent implements OnInit {
     //     this.countrySurveyAnswer = answer;
     //   }
     // });
-       
+
 
   }
 
@@ -90,6 +91,7 @@ export class DataManagementComponent implements OnInit {
 
 
     this.nationalPolicyResponse = this.surveyAnswers[1]?.['Policies']?.['Question10']?.['Question10-0'] || null;
+    this.policyMandatory = this.surveyAnswers[1]?.['Policies']?.['Question5']?.['Question6-5-0']?.['Question5-1'] || null;
     this.nationalPolicyClarification = this.surveyAnswers[1]?.['Policies']?.['Question10']?.['Question10-3'] || null;
 
     this.financialStrategyResponse = this.surveyAnswers[1]?.['Policies']?.['Question11']?.['Question11-0'] || null;
@@ -98,7 +100,6 @@ export class DataManagementComponent implements OnInit {
     this.monitoringResponse = this.surveyAnswers[1]?.['Practices']?.['Question58']?.['Question58-0'] || null;
     this.monitoringClarification = this.surveyAnswers[1]?.['Practices']?.['Question58']?.['Question58-1'] || null;
 
-    this.policyMandatory = this.surveyAnswers[1]?.['Policies']?.['Question5']?.['Question6-5-0']?.['Question5-1'] || null;
-
   }
+
 }

@@ -1,23 +1,28 @@
 <div class="uk-section uk-section-small">
   <div class="uk-container">
-    <h3>Open Science by Area</h3>
+
     <div class="uk-flex uk-flex-middle uk-margin-bottom">
       <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
            class="flag-image" width="42" height="42" alt="rounded flag image">
       <div class="uk-margin-small-left">
-        <h4 class="uk-margin-remove-bottom">Citizen Science</h4>
+        <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>
       </div>
     </div>
-    <p>Citizen Science involves public participation and collaboration in scientific research to increase the accessibility, transparency, and democratization of knowledge creation. The aim is to foster innovative discoveries by combining the efforts of scientists with contributions from citizens. This page provides an overview of Citizen Science in Europe, featuring key data from the Survey on National Contributions to EOSC and Open Science. The data highlights progress and engagement in Citizen Science, supporting broader Open Science goals.</p>
+
     <div class="uk-flex uk-flex-between uk-flex-middle">
-      <h4>General Overview of Citizen Science in Europe for 2023</h4>
+      <h4>Citizen Science</h4>
     </div>
 
-    <div class="uk-grid-small" uk-grid>
+    <p>Citizen Science involves public participation and collaboration in scientific research to increase the accessibility, transparency, and democratization of knowledge creation. The aim is to foster innovative discoveries by combining the efforts of scientists with contributions from citizens. This page provides an overview of Citizen Science in Europe, featuring key data from the Survey on National Contributions to EOSC and Open Science. The data highlights progress and engagement in Citizen Science, supporting broader Open Science goals.</p>
+    <div class="uk-flex uk-flex-between uk-flex-middle">
+      <h4>General Overview of Citizen Science in {{ countryName }} for 2023</h4>
+    </div>
+
+    <div class="uk-grid-small" data-uk-grid>
 
       <div class="uk-width-3-5">
         <div class="uk-card uk-card-default uk-card-body external-sources visualisation-card">
-          <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
+          <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>
 
             <!--Card 1-->
              <div *ngIf="citizenScienceProjects[1] !== null" class="uk-animation-scale-up">
@@ -43,7 +48,7 @@
               </div>
             </div>
 
-          
+
 
             <!--Card 2-->
             <div *ngIf="financialInvestmentInCS[1] !== null && financialInvestmentInCS[1] !== undefined" class="uk-animation-scale-up">
@@ -94,7 +99,7 @@
                 {{ hasFinancialStrategyCS === 'Yes' ? 'check' : 'close' }}
               </span>
             </h5>
-            <read-more-text *ngIf="financialStrategyClarificationCS" [maxHeight]="65" [text]="financialStrategyClarificationCS"></read-more-text>
+            <read-more-text *ngIf="financialStrategyClarificationCS" [maxHeight]="68" [text]="financialStrategyClarificationCS"></read-more-text>
           </div>
           <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between">
@@ -103,12 +108,13 @@
                 {{ hasMonitoringCS === 'Yes' ? 'check' : 'close' }}
               </span>
             </h5>
-            <read-more-text *ngIf="monitoringClarificationCS" [maxHeight]="65" [text]="monitoringClarificationCS"></read-more-text>
+            <read-more-text *ngIf="monitoringClarificationCS" [maxHeight]="68" [text]="monitoringClarificationCS"></read-more-text>
           </div>
         </div>
       </div>
+
     </div>
-     <div>	
+    <div>
       <div class="uk-margin-top uk-flex uk-flex-center">
        <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science OpenAIRE Graph.
       </div>
@@ -116,7 +122,7 @@
       <div *ngIf="countrySurveyAnswer" class="uk-margin-medium-top uk-animation-fade">
        <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
         <h5>Learn more about FAIR Data Landscape in {{ countryName }}</h5>
-         <content-collapse [maxHeight]="300">
+         <read-more [maxHeight]="300">
           <div id="national_data_service">
             <div class="uk-text-secondary">National Data Service</div>
               <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else data_service">
@@ -126,9 +132,10 @@
               </ng-container>
             <ng-template #data_service><p>N/A</p></ng-template>
           </div>
-        </content-collapse>
+        </read-more>
        </div>
      </div>
+    </div>
   </div>
-</div>
 
+</div>

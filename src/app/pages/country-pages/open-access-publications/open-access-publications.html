@@ -149,7 +149,7 @@
                 {{ financialStrategyResponse === 'Yes' ? 'check' : 'close' }}
               </span>
             </h5>
-            <read-more-text *ngIf="financialStrategyResponse" [maxHeight]="65" [text]="financialStrategyClarification"></read-more-text>
+            <read-more-text *ngIf="financialStrategyResponse" [maxHeight]="68" [text]="financialStrategyClarification"></read-more-text>
           </div>
           <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between">
@@ -158,7 +158,7 @@
                 {{ monitoringResponse === 'Yes' ? 'check' : 'close' }}
               </span>
             </h5>
-            <read-more-text *ngIf="monitoringResponse" [maxHeight]="65" [text]="monitoringClarification"></read-more-text>
+            <read-more-text *ngIf="monitoringResponse" [maxHeight]="68" [text]="monitoringClarification"></read-more-text>
           </div>
         </div>
       </div>
@@ -167,16 +167,19 @@
 
     <div *ngIf="countrySurveyAnswer" class="uk-margin-medium-top uk-animation-fade">
       <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-        <h5>Open Access Landscape in {{ countryName }}</h5>
-        <div id="open_access_publishing">
-          <div class="uk-text-secondary">Open Access Publishing</div>
-          <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question7']; else open_access">
-            <div [innerHTML]="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question7']" class="uk-margin-medium-top"></div>
-          </ng-container>
-          <ng-template #open_access><p>N/A</p></ng-template>
-        </div>
+        <read-more [maxHeight]="300">
+          <h5>Open Access Landscape in {{ countryName }}</h5>
+          <div id="open_access_publishing">
+            <div class="uk-text-secondary">Open Access Publishing</div>
+            <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question7']; else open_access">
+              <div [innerHTML]="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question7']" class="uk-margin-medium-top"></div>
+            </ng-container>
+            <ng-template #open_access><p>N/A</p></ng-template>
+          </div>
+        </read-more>
       </div>
     </div>
+
 
   </div>
 </div>

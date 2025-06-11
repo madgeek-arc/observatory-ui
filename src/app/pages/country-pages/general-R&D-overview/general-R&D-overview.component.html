@@ -127,28 +127,51 @@
       <div class="uk-width-2-5 uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body external-sources visualisation-card">
           <h5>R&D Information's</h5>
-          <p>Data for 2022 coming soon</p>
+<!--          <p>Data for 2022 coming soon</p>-->
 
-<!--          <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>-->
+          <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>
 
-            <!-- Card 1-6 -->
-<!--            <ng-container *ngFor="let value of [ '1.18%', '1.18%', '12K', '12K', '6', '60' ]">-->
-<!--              <div>-->
-<!--                <div class="uk-card card-simple uk-card-small uk-card-body">-->
-<!--                  <h5>{{ value }}</h5>-->
-<!--                  <p>of GDP for 2022 R&D expenditure</p>-->
-<!--                  <div class="uk-flex uk-flex-middle">-->
-<!--                    <span class="material-symbols-outlined"-->
-<!--                          [ngClass]="colorChange >= 0 ? 'up-arrow-color' : 'down-arrow-color'">-->
-<!--                      {{ colorChange >= 0 ? 'arrow_upward' : 'arrow_downward' }}-->
-<!--                    </span>-->
-<!--                    <span>{{ colorChange }}%</span>&nbsp; from last year-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </ng-container>-->
+            <div *ngIf="rfos[1]">
+              <div class="uk-card card-simple uk-card-small uk-card-body">
+                <p>Number of research funding organisations</p>
+                <div class="number big uk-margin uk-flex uk-flex-center">
+                  <span class="uk-text-bold">{{ rfos[1] }}</span>
+                </div>
 
-<!--          </div>-->
+                <div *ngIf="rfosPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                  <div class="uk-flex uk-flex-middle">
+                    <span class="material-symbols-outlined" [ngClass]="rfosPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ rfosPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                    <span [ngClass]="rfosPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                          {{ Math.abs(rfosPercentageDiff) }}%
+                    </span>&nbsp; vs last year
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="rpos[1]">
+              <div class="uk-card card-simple uk-card-small uk-card-body">
+                <p>Number of research performing organisations</p>
+                <div class="number big uk-margin uk-flex uk-flex-center">
+                  <span class="uk-text-bold">{{ rpos[1] }}</span>
+                </div>
+
+                <div *ngIf="rposPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                  <div class="uk-flex uk-flex-middle">
+                    <span class="material-symbols-outlined" [ngClass]="rposPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ rposPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                    <span [ngClass]="rposPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                          {{ Math.abs(rposPercentageDiff) }}%
+                    </span>&nbsp; vs last year
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
 
@@ -158,7 +181,7 @@
       <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
         <h5>Open Science Key Actors in {{ countryName }}</h5>
 
-        <content-collapse [maxHeight]="300">
+        <read-more [maxHeight]="300">
           <div id="research_funding_organisations">
             <div class="uk-text-secondary">Research Funding Organisations</div>
             <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2'][0]['Question2-1']; else funding_organisations">
@@ -197,7 +220,7 @@
             </ng-container>
             <ng-template #other_organisations><p>N/A</p></ng-template>
           </div>
-        </content-collapse>
+        </read-more>
       </div>
     </div>
 
