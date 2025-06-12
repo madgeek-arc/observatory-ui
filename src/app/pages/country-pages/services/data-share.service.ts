@@ -32,6 +32,12 @@ export class DataShareService {
     return (next - previous);
   }
 
+  /**
+   * Calculates the percentage of a value relative to a total
+   * @param value - The numeric value to calculate percentage for (as string)
+   * @param total - The total value to calculate percentage against (as string)
+   * @returns Rounded percentage value or null if inputs are invalid or total is zero
+   */
   calculatePercentage(value: string, total: string): number | null {
 
     if ((!this.exploreService.isNumeric(value) && !this.exploreService.isNumeric(total)) || +total === 0) {
@@ -41,6 +47,12 @@ export class DataShareService {
     return Math.round((+value / +total + Number.EPSILON) * 100);
   }
 
+  /**
+   * Calculates the percentage difference between two values relative to their average
+   * @param previous - The first value to compare (as string)
+   * @param next - The second value to compare (as string)
+   * @returns Rounded percentage difference or null if inputs are invalid or average is zero
+   */
   calculateDiffAsPercentage(previous: string | null, next: string | null): number | null {
 
     if (!this.exploreService.isNumeric(previous) || !this.exploreService.isNumeric(next)) {
