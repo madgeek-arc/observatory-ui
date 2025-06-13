@@ -1,0 +1,22 @@
+@nav-default-item-color: @html-color-theme;
+@nav-default-item-hover-color: @primary-color;
+@nav-default-item-active-color: @primary-color;
+
+.hook-nav-default() {
+  li.uk-active a::before {
+    content: "";
+    position: absolute;
+    //top: 18px;
+    left: -25px;
+    width: 15px;
+    border-top: 1px solid #F79217;
+  }
+}
+//
+//
+//.uk-nav-default > li > a {
+//  color: #3d4e69;
+//  transition: .1s ease-in-out;
+//  transition-property: all;
+//  transition-property: color,background-color,border-color,box-shadow,opacity,filter;
+//}
