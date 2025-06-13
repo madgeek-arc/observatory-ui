@@ -57,7 +57,6 @@ export class FairDataComponent implements OnInit {
     this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answers) => {
         this.surveyAnswers = answers;
-        console.log(this.surveyAnswers);
         if (this.surveyAnswers[1] === null)
           return;
 

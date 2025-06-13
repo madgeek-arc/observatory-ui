@@ -17,7 +17,7 @@ import { SurveyPublicAnswer } from "./services/coutry-pages.service";
     NgOptimizedImage
   ],
   templateUrl: './country-pages.component.html',
-  styleUrls: ['../../../assets/css/explore-sidebar.scss', '../../../assets/css/explore-dashboard.scss']
+  styleUrls: ['../../../assets/css/explore-sidebar.less', '../../../assets/css/explore-dashboard.less']
 })
 
 
