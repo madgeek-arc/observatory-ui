@@ -40,6 +40,9 @@ import {
   ContributionsHomeExtentionComponent
 } from "./pages/dashboard/contribution-dashboard-extension/home/contributions-home-extention.component";
 import { ChartsModule } from "./shared/charts/charts.module";
+import { OpenRepositoriesComponent } from './pages/country-pages/open-repositories/open-repositories.component';
+import { OpenScienceTrainingComponent } from './pages/country-pages/open-science-training/open-science-training.component';
+import { OpenSoftwaresComponent } from './pages/country-pages/open-softwares/open-softwares.component';
 
 
 
@@ -57,6 +60,9 @@ import { ChartsModule } from "./shared/charts/charts.module";
     CategoryIndicatorsWrapperComponent,
     CategoryIndicatorsRowComponent,
     ContributionsHomeExtentionComponent,
+    OpenRepositoriesComponent,
+    OpenScienceTrainingComponent,
+    OpenSoftwaresComponent,
   ],
   imports: [
     BrowserModule,
