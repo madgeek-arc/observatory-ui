@@ -20,8 +20,8 @@
 
     <div class="uk-grid-small" uk-grid>
 
-      <div class="uk-width-3-5">
-        <div class="uk-card uk-card-default uk-card-body external-sources visualisation-card">
+      <div class="uk-width-expand" *ngIf="hasAnyLeftCardData()">
+        <div class="uk-card uk-card-default uk-card-body visualisation-card">
           <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
 
             <!-- Card 1 -->
@@ -49,7 +49,7 @@
             </div>
 
             <!-- Card 2 -->
-            <div>
+            <div *ngIf="rpoFairDataPercentage[0] !== null">
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <p>Percentage of <span class="uk-text-bold">RPO's Policy on FAIR Data</span></p>
                 <div class="number big uk-margin-medium-top">
@@ -102,22 +102,42 @@
 
       <!-- Right Card (2/5) -->
       <div class="uk-width-2-5 uk-animation-fade">
-        <div class="uk-card uk-card-default uk-card-body noads visualisation-card">
+        <div class="uk-card uk-card-default uk-card-body visualisation-card">
           <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between uk-margin-remove">
               National Policy on FAIR Data
-              <span class="material-symbols-outlined" [ngClass]="hasNationalPolicyFD === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
-                {{ hasNationalPolicyFD === 'Yes' ? 'check' : 'close' }}
+              <span
+               class="material-symbols-outlined"
+                [ngClass]="{
+                  'up-arrow-color': hasNationalPolicyFD === 'Yes',
+                  'down-arrow-color': hasNationalPolicyFD === 'No',
+                  'unanswered-color': hasNationalPolicyFD === null || hasNationalPolicyFD === undefined
+                }">
+                {{
+                  hasNationalPolicyFD === 'Yes' ? 'check' :
+                  hasNationalPolicyFD === 'No' ? 'close' :
+                  'question_mark'
+                }}
               </span>
             </h5>
             <p *ngIf="policyMandatoryFD === 'Yes'" class="uk-text-primary uk-text-bolder uk-margin-remove-top">Mandatory policy</p>
-            <read-more-text *ngIf="nationalPolicyClarificationFD !== null" [maxHeight]="68" [text]="nationalPolicyClarificationFD"></read-more-text>
+            <read-more-text *ngIf="nationalPolicyClarificationFD === 'Yes'" [maxHeight]="68" [text]="nationalPolicyClarificationFD"></read-more-text>
           </div>
           <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between">
               Financial Strategy on FAIR Data
-              <span class="material-symbols-outlined" [ngClass]="hasFinancialStrategyFD === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
-                {{ hasFinancialStrategyFD === 'Yes' ? 'check' : 'close' }}
+              <span
+               class="material-symbols-outlined"
+                [ngClass]="{
+                  'up-arrow-color': hasFinancialStrategyFD === 'Yes',
+                  'down-arrow-color': hasFinancialStrategyFD === 'No',
+                  'unanswered-color': hasFinancialStrategyFD === null || hasFinancialStrategyFD === undefined
+                }">
+                {{
+                  hasFinancialStrategyFD === 'Yes' ? 'check' :
+                  hasFinancialStrategyFD === 'No' ? 'close' :
+                  'question_mark'
+                }}
               </span>
             </h5>
             <read-more-text *ngIf="financialStrategyClarificationFD" [maxHeight]="65" [text]="financialStrategyClarificationFD"></read-more-text>
@@ -125,14 +145,24 @@
           <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between">
               Monitoring on FAIR Data
-              <span class="material-symbols-outlined" [ngClass]="hasMonitoringFD === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
-                {{ hasMonitoringFD === 'Yes' ? 'check' : 'close' }}
+              <span
+               class="material-symbols-outlined"
+                [ngClass]="{
+                  'up-arrow-color': hasMonitoringFD === 'Yes',
+                  'down-arrow-color': hasMonitoringFD === 'No',
+                  'unanswered-color': hasMonitoringFD === null || hasMonitoringFD === undefined
+                }">
+                {{
+                  hasMonitoringFD === 'Yes' ? 'check' :
+                  hasMonitoringFD === 'No' ? 'close' :
+                  'question_mark'
+                }}
               </span>
             </h5>
             <read-more-text *ngIf="monitoringClarificationFD" [maxHeight]="65" [text]="monitoringClarificationFD"></read-more-text>
           </div>
         </div>
-      </div>>
+      </div>
     </div>
      <div class="uk-margin-top uk-flex uk-flex-center">
       <div>

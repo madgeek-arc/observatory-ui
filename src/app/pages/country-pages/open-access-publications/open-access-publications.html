@@ -21,8 +21,8 @@
 
     <div class="uk-grid-small" data-uk-grid>
 
-      <div class="uk-width-3-5 uk-animation-fade">
-        <div class="uk-card uk-card-default uk-card-body external-sources visualisation-card">
+      <div class="uk-width-expand  uk-animation-fade" *ngIf="hasAnyLeftCardData()">
+        <div *ngIf="hasAnyLeftCardData()" class="uk-card uk-card-default uk-card-body visualisation-card">
           <div class="uk-child-width-1-2 uk-grid-small uk-flex uk-flex-center" data-uk-grid>
 
             <!-- Card 1 -->
@@ -131,12 +131,22 @@
 
       <!-- Right Card (2/5) -->
       <div class="uk-width-2-5 uk-animation-fade">
-        <div class="uk-card uk-card-default uk-card-body noads visualisation-card">
+        <div class="uk-card uk-card-default uk-card-body visualisation-card">
           <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between uk-margin-remove">
               National Policy on Open Access
-              <span class="material-symbols-outlined" [ngClass]="nationalPolicyResponse === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
-                {{ nationalPolicyResponse === 'Yes' ? 'check' : 'close' }}
+              <span
+               class="material-symbols-outlined"
+                [ngClass]="{
+                  'up-arrow-color': nationalPolicyResponse === 'Yes',
+                  'down-arrow-color': nationalPolicyResponse === 'No',
+                  'unanswered-color': nationalPolicyResponse === null || nationalPolicyResponse === undefined
+                }">
+                {{
+                  nationalPolicyResponse === 'Yes' ? 'check' :
+                  nationalPolicyResponse === 'No' ? 'close' :
+                  'question_mark'
+                }}
               </span>
             </h5>
             <p *ngIf="policyMandatory === 'Yes'" class="uk-text-primary uk-text-bolder uk-margin-remove-top">Mandatory policy</p>
@@ -145,8 +155,18 @@
           <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between">
               Financial Strategy on Open Access
-              <span class="material-symbols-outlined" [ngClass]="financialStrategyResponse === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
-                {{ financialStrategyResponse === 'Yes' ? 'check' : 'close' }}
+              <span
+               class="material-symbols-outlined"
+                [ngClass]="{
+                  'up-arrow-color': financialStrategyResponse === 'Yes',
+                  'down-arrow-color': financialStrategyResponse === 'No',
+                  'unanswered-color': financialStrategyResponse === null || financialStrategyResponse === undefined
+                }">
+                {{
+                  financialStrategyResponse === 'Yes' ? 'check' :
+                  financialStrategyResponse === 'No' ? 'close' :
+                  'question_mark'
+                }}
               </span>
             </h5>
             <read-more-text *ngIf="financialStrategyResponse" [maxHeight]="65" [text]="financialStrategyClarification"></read-more-text>
@@ -154,8 +174,18 @@
           <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between">
               Monitoring on Open Access
-              <span class="material-symbols-outlined" [ngClass]="monitoringResponse === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
-                {{ monitoringResponse === 'Yes' ? 'check' : 'close' }}
+              <span
+               class="material-symbols-outlined"
+                [ngClass]="{
+                  'up-arrow-color': monitoringResponse === 'Yes',
+                  'down-arrow-color': monitoringResponse === 'No',
+                  'unanswered-color': monitoringResponse === null || monitoringResponse === undefined
+                }">
+                {{
+                  monitoringResponse === 'Yes' ? 'check' :
+                  monitoringResponse === 'No' ? 'close' :
+                  'question_mark'
+                }}
               </span>
             </h5>
             <read-more-text *ngIf="monitoringResponse" [maxHeight]="65" [text]="monitoringClarification"></read-more-text>
@@ -165,7 +195,7 @@
 
     </div>
 
-    <div *ngIf="countrySurveyAnswer" class="uk-margin-medium-top uk-animation-fade">
+    <div *ngIf="hasSurveyPublicationData()" class="uk-margin-medium-top uk-animation-fade">
       <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
         <h5>Open Access Landscape in {{ countryName }}</h5>
         <div id="open_access_publishing">
@@ -185,7 +215,7 @@
 <div class="uk-section uk-section-small uk-margin-top">
   <div class="uk-container">
 
-    <div class="uk-card uk-card-default visualisation-card uk-card-body uk-animation-fade">
+    <div class="uk-card uk-card-default external-sources visualisation-card uk-card-body uk-animation-fade">
       <div class="uk-grid">
         <div class="uk-width-1-1">
           <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend" [series]="stackedColumnSeries"
@@ -207,7 +237,7 @@
     <h5></h5>
     <div class="uk-container">
 
-      <div class="uk-card uk-card-default visualisation-card uk-card-body">
+      <div class="uk-card uk-card-default external-sources visualisation-card uk-card-body">
         <app-stacked-column [categories]="stackedColumn2Categories" [series]="stackedColumn2Series"
                             [title]="'Distribution of Open Access Types by Different Scholarly Publication Outputs in ' + countryName"
                             [yAxis]="yAxisTitle2" [pointFormat]="tooltipPointFormat" [plotFormat]="dataLabels_format"
@@ -224,7 +254,7 @@
 <div class="uk-section uk-section-small uk-margin-top" #exportContent8>
   <div class="uk-container">
 
-    <div class="uk-card uk-card-default visualisation-card uk-card-body">
+    <div class="uk-card uk-card-default external-sources visualisation-card uk-card-body">
       <app-multi-chart [series]="bar" [categories]="barCategories" stacking="normal"
                        [titles]="barChartTitles" [height]="500"
                        [duplicateXAxis]="true" [yAxisLabels]="true" [dataLabelFormat]="'{(abs value)}'"

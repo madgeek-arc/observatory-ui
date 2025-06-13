@@ -13,6 +13,7 @@ import * as Highcharts from "highcharts";
 import { ChartsModule } from "../../../shared/charts/charts.module";
 import { ExploreService } from "../../explore/explore.service";
 import { CatalogueUiReusableComponentsModule } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
+import { DataCheckService } from "../services/data-check.service";
 
 
 @Component({
@@ -95,7 +96,7 @@ export class OpenAccessPublicationsPage implements OnInit {
     yAxis: '',
   }
 
-  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private exploreService: ExploreService) {}
+  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private exploreService: ExploreService, private dataCheckService: DataCheckService) {}
 
   ngOnInit() {
 
@@ -197,6 +198,26 @@ export class OpenAccessPublicationsPage implements OnInit {
         this.stackedColumn2Categories = value.xAxis_categories;
       }
     });
+  }
+
+ /** Check if at least one data value is available for displaying the left card.
+  * Uses the generic method of DataCheckService to check for null & undefined values.
+ */
+  hasAnyLeftCardData() {
+    return this.dataCheckService.hasAnyValue([
+      this.rfoPubsPercentage[1],
+      this.rpoPubsPercentage[1],
+      this.financialInvestment[1]
+    ]);
+  }
+
+  hasSurveyPublicationData(): boolean {
+    const surveyData = this.countrySurveyAnswer?.['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK'];
+    if (!surveyData) {
+      return false;
+    }
+    const questions = ['Question7'];
+    return this.dataCheckService.hasSurveyData(surveyData, questions);
   }
 
   initCardValues() {

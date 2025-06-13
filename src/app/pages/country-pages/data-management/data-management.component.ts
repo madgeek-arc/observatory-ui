@@ -6,6 +6,7 @@ import { DestroyRef, inject, OnInit } from "@angular/core";
 import { DataShareService } from "../services/data-share.service";
 import { init } from '@sentry/angular-ivy';
 import { CatalogueUiReusableComponentsModule } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
+import { DataCheckService } from '../services/data-check.service';
 
 
 @Component({
@@ -43,7 +44,7 @@ export class DataManagementComponent implements OnInit {
   
 
 
-  constructor(private dataShareService: DataShareService) {}
+  constructor(private dataShareService: DataShareService, private dataCheckService: DataCheckService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -71,9 +72,18 @@ export class DataManagementComponent implements OnInit {
     //     this.countrySurveyAnswer = answer;
     //   }
     // });
-       
 
   }
+
+  hasAnyLeftCardData() {
+    return this.dataCheckService.hasAnyValue([
+      this.rfoDataManagementPercentage[1],
+      this.rpoDataManagementPercentage[0],
+      this.financialInvestmentDM[1],
+    ])
+  }
+
+
 
   initCardValues() {
     this.rfoDataManagementPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question13']?.['Question13-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);

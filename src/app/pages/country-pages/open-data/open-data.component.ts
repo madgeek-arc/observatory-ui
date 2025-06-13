@@ -10,6 +10,7 @@ import { CatalogueUiReusableComponentsModule } from 'src/survey-tool/catalogue-u
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { OAvsTotalDataPerCountry, OAvsTotalPubsPerCountry } from "../coutry-pages.queries";
 import { ContentCollapseComponent } from "src/app/content-collapse/content-collapse.component";
+import { DataCheckService } from '../services/data-check.service';
 
 @Component({
   selector: 'app-open-data',
@@ -54,7 +55,7 @@ export class OpenDataComponent implements OnInit {
 
 
 
-  constructor(private dataShareService: DataShareService, private exploreService: ExploreService, private queryData: EoscReadinessDataService) {}
+  constructor(private dataShareService: DataShareService, private exploreService: ExploreService, private queryData: EoscReadinessDataService, private dataCheckService: DataCheckService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -109,6 +110,7 @@ export class OpenDataComponent implements OnInit {
     this.policyMandatoryOD = this.surveyAnswers[1]?.['Policies']?.['Question18']?.['Question18-1-0']?.['Question18-1'] || null;
 
     this.getOpenDataPercentage();
+    console.log(this.hasFinancialStrategyOD);
   }
 
   getOpenDataPercentage() {
@@ -120,5 +122,26 @@ export class OpenDataComponent implements OnInit {
           }
         });
       }
+
+/** Check if at least one data value is available for displaying the left card.
+  * Uses the generic method of DataCheckService to check for null & undefined values.
+ */
+hasAnyLeftCardData(){
+  return this.dataCheckService.hasAnyValue([
+    this.OpenDataPercentage[1],
+    this.rfoOpenDataPercentage[1],
+    this.ODfinancialInvestment[1],
+    this.rpoOpenDataPercentage[1]
+  ]);
+}
+
+hasSurveyOpenData(): boolean {
+  const surveyData = this?.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
+  if (!surveyData) {
+    return false;
+  }
+  const questions = ['Question15'];
+  return this.dataCheckService.hasSurveyData(surveyData, questions);
+}
 
 }

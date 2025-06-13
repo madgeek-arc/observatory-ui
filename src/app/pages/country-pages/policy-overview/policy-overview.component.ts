@@ -5,7 +5,7 @@ import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
 import { Component, inject, DestroyRef } from "@angular/core";
 import { CatalogueUiReusableComponentsModule } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
 import { ContentCollapseComponent } from "src/app/content-collapse/content-collapse.component";
-
+import { DataCheckService } from "../services/data-check.service";
 
 class TableRow {
   OSArea: string;
@@ -43,7 +43,7 @@ export class PolicyOverviewComponent {
   surveyAnswer: Object[] = [];
   countrySurveyAnswer?: Object;
 
-  constructor(private dataShareService: DataShareService) {}
+  constructor(private dataShareService: DataShareService, private dataCheckService: DataCheckService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -74,9 +74,11 @@ export class PolicyOverviewComponent {
         this.table.push(new TableRow('Skills/Training', this.surveyAnswers[1]?.['Policies']?.['Question42']?.['Question42-0'], this.surveyAnswers[1]?.['Policies']?.['Question43']?.['Question43-0']));
         this.table.push(new TableRow('Assessment', this.surveyAnswers[1]?.['Policies']?.['Question46']?.['Question46-0'], this.surveyAnswers[1]?.['Policies']?.['Question47']?.['Question47-0']));
         this.table.push(new TableRow('Engagement', this.surveyAnswers[1]?.['Policies']?.['Question50']?.['Question50-0'], this.surveyAnswers[1]?.['Policies']?.['Question51']?.['Question51-0']));
+        console.log(this.table);
       }
     });
     
+
     this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answer) => {
         this.countrySurveyAnswer = answer;
@@ -84,6 +86,18 @@ export class PolicyOverviewComponent {
       }
     });
   }
+
+  hasSurveyPolicyData(): boolean {
+    const surveyData = this.countrySurveyAnswer?.['OPEN SCIENCE POLICY'];
+    if (!surveyData) {
+      return false;
+    }
+
+    const questions = ['Question10', 'Question11', 'Question12', 'Question13'];
+    return this.dataCheckService.hasSurveyData(surveyData, questions);
+  }
+
+  
 }
 
 

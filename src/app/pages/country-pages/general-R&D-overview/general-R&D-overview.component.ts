@@ -6,6 +6,7 @@ import { OAvsTotalDataPerCountry, OAvsTotalPubsPerCountry } from "../coutry-page
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { CatalogueUiReusableComponentsModule } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
 import { ContentCollapseComponent } from "src/app/content-collapse/content-collapse.component";
+import { DataCheckService } from "../services/data-check.service";
 
 
 @Component({
@@ -39,7 +40,7 @@ export class GeneralRDOverviewComponent implements OnInit {
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
 
-  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService) {}
+  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private dataCheckService: DataCheckService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -96,6 +97,24 @@ export class GeneralRDOverviewComponent implements OnInit {
         this.OpenDataPercentageDiff = this.dataShareService.calculateDiff(this.OpenDataPercentage[0], this.OpenDataPercentage[1]);
       }
     });
+  }
+
+  hasAnyLeftCardData(){
+    return this.dataCheckService.hasAnyValue([
+      this.OAPubsPercentage[1],
+      this.OpenDataPercentage[1],
+      this.totalInvestment[1],
+      this.openSoftware[1]
+    ]);
+  }
+
+  hasSurveyGeneralData(): boolean {
+    const surveyData = this.countrySurveyAnswer?.['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK'];
+    if (!surveyData) {
+      return false;
+    }
+    const questions = ['Question2', 'Question3', 'Question4', 'Question30'];
+    return this.dataCheckService.hasSurveyData(surveyData, questions)
   }
 
 }

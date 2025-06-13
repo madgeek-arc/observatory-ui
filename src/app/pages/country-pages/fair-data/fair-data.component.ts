@@ -7,6 +7,7 @@ import { DataShareService } from "../services/data-share.service";
 import { ContentCollapseComponent } from "src/app/content-collapse/content-collapse.component";
 import { CatalogueUiReusableComponentsModule } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
+import { DataCheckService } from '../services/data-check.service';
 
 @Component({
   selector: 'app-fair-data',
@@ -44,7 +45,7 @@ export class FairDataComponent implements OnInit {
   monitoringClarificationFD: string | null = null;
   policyMandatoryFD: string | null = null;
 
-  constructor(private dataShareService: DataShareService,  private queryData: EoscReadinessDataService) {}
+  constructor(private dataShareService: DataShareService,  private queryData: EoscReadinessDataService, private dataCheckService: DataCheckService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -65,6 +66,14 @@ export class FairDataComponent implements OnInit {
         this.initCardValues();
       }
     });
+  }
+
+  hasAnyLeftCardData() {
+    return this.dataCheckService.hasAnyValue([
+      this.rfoFairDataPercentage[1],
+      this.rpoFairDataPercentage[0],
+      this.financialInvestmentInFairData[1]
+    ]);
   }
 
   initCardValues() {
