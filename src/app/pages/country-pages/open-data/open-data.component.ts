@@ -15,6 +15,7 @@ import * as Highcharts from "highcharts";
 import { LegendOptions, OptionsStackingValue, SeriesOptionsType } from "highcharts";
 import { ChartsModule } from "../../../shared/charts/charts.module";
 import { ExploreService } from "../../explore/explore.service";
+import { DataCheckService } from '../services/data-check.service';
 
 @Component({
   selector: 'app-open-data',
@@ -80,7 +81,8 @@ export class OpenDataComponent implements OnInit {
 
   lastUpdateDate?: string;
 
-  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private exploreService: ExploreService) {}
+  constructor(private dataShareService: DataShareService, private exploreService: ExploreService,
+              private queryData: EoscReadinessDataService, private dataCheckService: DataCheckService) {}
 
   ngOnInit() {
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -121,9 +123,6 @@ export class OpenDataComponent implements OnInit {
     this.rfoOpenDataPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question21']?.['Question21-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);
     this.rfoOpenDataPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question21']?.['Question21-0'], this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0']);
     this.rfoOpenDataPercentageDiff = this.dataShareService.calculateDiff(this.rfoOpenDataPercentage[0], this.rfoOpenDataPercentage[1]);
-    console.log(this.rfoOpenDataPercentage);
-    console.log(this.surveyAnswers[1]?.['Policies']?.['Question21']?.['Question21-0']);
-    console.log(this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);
 
     this.ODfinancialInvestment[1] = this.surveyAnswers[1]?.['Practices']?.['Question68']?.['Question68-0'];
     this.ODfinancialInvestment[0] = this.surveyAnswers[0]?.['Practices']?.['Question68']?.['Question68-0'];
@@ -190,5 +189,26 @@ export class OpenDataComponent implements OnInit {
       }
     });
   }
+
+/** Check if at least one data value is available for displaying the left card.
+  * Uses the generic method of DataCheckService to check for null & undefined values.
+ */
+hasAnyLeftCardData(){
+  return this.dataCheckService.hasAnyValue([
+    this.OpenDataPercentage[1],
+    this.rfoOpenDataPercentage[1],
+    this.ODfinancialInvestment[1],
+    this.rpoOpenDataPercentage[1]
+  ]);
+}
+
+hasSurveyOpenData(): boolean {
+  const surveyData = this?.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
+  if (!surveyData) {
+    return false;
+  }
+  const questions = ['Question15'];
+  return this.dataCheckService.hasSurveyData(surveyData, questions);
+}
 
 }

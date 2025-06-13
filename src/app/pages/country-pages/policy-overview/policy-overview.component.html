@@ -28,8 +28,8 @@
             <tbody>
             <tr *ngFor="let row of table">
               <td class="uk-text-left uk-text-bold">{{ row.OSArea }}</td>
-              <td [ngClass]="row.nationalPolicy === 'Yes' ? 'valueTrue' : 'valueFalse'"></td>
-              <td [ngClass]="row.financialStrategy === 'Yes' ? 'valueTrue' : 'valueFalse'"></td>
+              <td [ngClass]="{'valueTrue': row.nationalPolicy === 'Yes', 'valueFalse': row.nationalPolicy === 'No', 'valueNotAvailable': row.nationalPolicy === undefined}"></td>
+              <td [ngClass]="{'valueTrue': row.financialStrategy === 'Yes', 'valueFalse': row.financialStrategy === 'No', 'valueNotAvailable': row.financialStrategy === undefined}"></td>
             </tr>
 
             </tbody>
@@ -42,8 +42,8 @@
       </div>
 
       <!-- right card -->
-      <div *ngIf="countrySurveyAnswer" class="uk-width-3-5 uk-animation-fade">
-        <div class="uk-card uk-card-default uk-card-body noads visualisation-card">
+      <div *ngIf="hasSurveyPolicyData()" class="uk-width-3-5 uk-animation-fade">
+        <div class="uk-card uk-card-default uk-card-body visualisation-card">
           <div class="uk-width-3-4" id="policies">
             <read-more [maxHeight]="300">
             <div id="policies_overview">

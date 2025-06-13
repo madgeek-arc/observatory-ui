@@ -9,18 +9,21 @@ import { ExploreService } from "../../explore/explore.service";
 export class DataShareService {
   countryCode: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   countryName: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-  surveyAnswers: BehaviorSubject<Object[]> = new BehaviorSubject<Object[]>([]);
+  surveyAnswers: BehaviorSubject<Object[]> = new BehaviorSubject<Object[]>([null, null]);
   countrySurveyAnswer: BehaviorSubject<Object | null> = new BehaviorSubject<Object | null>(null);
 
   constructor(private exploreService: ExploreService) {}
 
-
+  /**
+   * Updates a specific item in the surveyAnswers array at the given index
+   * @param index - The position in the array where the item should be updated
+   * @param item - The new item to be placed at the specified index
+   */
   setItemAt(index: number, item: Object) {
     const current = [...this.surveyAnswers.getValue()];
     current[index] = item;
     this.surveyAnswers.next(current);
   }
-
 
 
   calculateDiff(previous: number | null, next: number | null): number | null {

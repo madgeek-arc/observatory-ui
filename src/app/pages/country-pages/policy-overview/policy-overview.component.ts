@@ -1,11 +1,11 @@
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { DataShareService } from "../services/data-share.service";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Component, DestroyRef, inject } from "@angular/core";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { DataShareService } from "../services/data-share.service";
 import {
   CatalogueUiReusableComponentsModule
 } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
-
+import { DataCheckService } from "../services/data-check.service";
 
 class TableRow {
   OSArea: string;
@@ -41,7 +41,7 @@ export class PolicyOverviewComponent {
   surveyAnswer: Object[] = [];
   countrySurveyAnswer?: Object;
 
-  constructor(private dataShareService: DataShareService) {}
+  constructor(private dataShareService: DataShareService, private dataCheckService: DataCheckService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -74,7 +74,6 @@ export class PolicyOverviewComponent {
     });
   }
 
-
   /**
    * Populates the table array with policy data from survey answers.
    * Creates TableRow objects for different Open Science areas containing:
@@ -97,6 +96,16 @@ export class PolicyOverviewComponent {
     this.table.push(new TableRow('Skills/Training', this.surveyAnswers[1]?.['Policies']?.['Question42']?.['Question42-0'], this.surveyAnswers[1]?.['Policies']?.['Question43']?.['Question43-0']));
     this.table.push(new TableRow('Assessment', this.surveyAnswers[1]?.['Policies']?.['Question46']?.['Question46-0'], this.surveyAnswers[1]?.['Policies']?.['Question47']?.['Question47-0']));
     this.table.push(new TableRow('Engagement', this.surveyAnswers[1]?.['Policies']?.['Question50']?.['Question50-0'], this.surveyAnswers[1]?.['Policies']?.['Question51']?.['Question51-0']));
+  }
+
+  hasSurveyPolicyData(): boolean {
+    const surveyData = this.countrySurveyAnswer?.['OPEN SCIENCE POLICY'];
+    if (!surveyData) {
+      return false;
+    }
+
+    const questions = ['Question10', 'Question11', 'Question12', 'Question13'];
+    return this.dataCheckService.hasSurveyData(surveyData, questions);
   }
 
 }

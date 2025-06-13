@@ -7,6 +7,7 @@ import { EoscReadinessDataService } from "../../services/eosc-readiness-data.ser
 import {
   CatalogueUiReusableComponentsModule
 } from "../../../../survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
+import { DataCheckService } from "../services/data-check.service";
 
 
 @Component({
@@ -42,7 +43,7 @@ export class GeneralRDOverviewComponent implements OnInit {
   surveyAnswers: Object[] = [null, null];
   countrySurveyAnswer?: Object;
 
-  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService) {}
+  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private dataCheckService: DataCheckService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -117,7 +118,24 @@ export class GeneralRDOverviewComponent implements OnInit {
     this.rpos[0] = this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0'] || null;
     this.rpos[1] = this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0'] || null;
     this.rposPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.rpos[0], this.rpos[1]);
+  }
 
+  hasAnyLeftCardData(){
+    return this.dataCheckService.hasAnyValue([
+      this.OAPubsPercentage[1],
+      this.OpenDataPercentage[1],
+      this.totalInvestment[1],
+      this.openSoftware[1]
+    ]);
+  }
+
+  hasSurveyGeneralData(): boolean {
+    const surveyData = this.countrySurveyAnswer?.['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK'];
+    if (!surveyData) {
+      return false;
+    }
+    const questions = ['Question2', 'Question3', 'Question4', 'Question30'];
+    return this.dataCheckService.hasSurveyData(surveyData, questions)
   }
 
 }

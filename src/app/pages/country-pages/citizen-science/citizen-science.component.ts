@@ -5,6 +5,7 @@ import { DataShareService } from "../services/data-share.service";
 import {
   CatalogueUiReusableComponentsModule
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
+import { DataCheckService } from "../services/data-check.service";
 
 
 @Component({
@@ -38,7 +39,7 @@ export class CitizenScienceComponent implements OnInit {
   monitoringClarificationCS: string | null = null;
   policyMandatoryCS: string | null = null;
 
-  constructor(private dataShareService: DataShareService) {}
+  constructor(private dataShareService: DataShareService , private dataCheckService: DataCheckService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -89,6 +90,22 @@ export class CitizenScienceComponent implements OnInit {
     this.hasMonitoringCS = this.surveyAnswers[1]?.['Practices']?.['Question98']?.['Question98-0'] || null;
     this.monitoringClarificationCS = this.surveyAnswers[1]?.['Practices']?.['Question98']?.['Question98-1'] || null;
 
+  }
+
+  hasAnyLeftCardData() {
+    return this.dataCheckService.hasAnyValue([
+      this.financialInvestmentInCS[1],
+      this.citizenScienceProjects[1]
+    ]);
+  }
+
+  hasSurveyCitizenScienceData(): boolean {
+    const surveyData = this.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
+    if (!surveyData) {
+      return false;
+    }
+    const questions = ['Question15'];
+    return this.dataCheckService.hasSurveyData(surveyData, questions);
   }
 
 }

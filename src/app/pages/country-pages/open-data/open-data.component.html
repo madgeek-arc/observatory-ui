@@ -25,9 +25,8 @@
     </div>
 
     <div class="uk-grid-small" data-uk-grid>
-
-      <div class="uk-width-3-5">
-        <div class="uk-card uk-card-default uk-card-body external-sources visualisation-card">
+      <div class="uk-width-expand" *ngIf="hasAnyLeftCardData()" >
+        <div class="uk-card uk-card-default uk-card-body visualisation-card">
           <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>
 
             <!-- Card 1 -->
@@ -131,12 +130,22 @@
 
       <!-- Right Card (2/5) -->
       <div class="uk-width-2-5 uk-animation-fade">
-        <div class="uk-card uk-card-default uk-card-body noads visualisation-card">
+        <div class="uk-card uk-card-default uk-card-body visualisation-card">
           <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between uk-margin-remove">
               National Policy on Open Data
-              <span class="material-symbols-outlined" [ngClass]="hasNationalPolicyOD === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
-                {{ hasNationalPolicyOD === 'Yes' ? 'check' : 'close' }}
+              <span
+               class="material-symbols-outlined"
+                [ngClass]="{
+                  'up-arrow-color': hasNationalPolicyOD === 'Yes',
+                  'down-arrow-color': hasNationalPolicyOD === 'No',
+                  'unanswered-color': hasNationalPolicyOD === null || hasNationalPolicyOD === undefined
+                }">
+                {{
+                  hasNationalPolicyOD === 'Yes' ? 'check' :
+                  hasNationalPolicyOD === 'No' ? 'close' :
+                  'question_mark'
+                }}
               </span>
             </h5>
             <p *ngIf="policyMandatoryOD === 'Yes'" class="uk-text-primary uk-text-bolder uk-margin-remove-top">Mandatory policy</p>
@@ -147,8 +156,18 @@
           <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between">
               Financial Strategy on Open Data
-              <span class="material-symbols-outlined" [ngClass]="hasFinancialStrategyOD === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
-                {{ hasFinancialStrategyOD === 'Yes' ? 'check' : 'close' }}
+              <span
+               class="material-symbols-outlined"
+                [ngClass]="{
+                  'up-arrow-color': hasFinancialStrategyOD === 'Yes',
+                  'down-arrow-color': hasFinancialStrategyOD === 'No',
+                  'unanswered-color': (hasFinancialStrategyOD === null || hasFinancialStrategyOD === undefined)
+                }">
+                {{
+                  hasFinancialStrategyOD === 'Yes' ? 'check' :
+                  hasFinancialStrategyOD === 'No' ? 'close' :
+                  'question_mark'
+                }}
               </span>
             </h5>
             <read-more-text *ngIf="financialStrategyClarificationOD" [maxHeight]="68"
@@ -159,8 +178,12 @@
             <h5 class="uk-flex uk-flex-between">
               Monitoring on Open Data
               <span class="material-symbols-outlined"
-                    [ngClass]="hasMonitoringOD === 'Yes' ? 'up-arrow-color' : 'down-arrow-color'">
-                {{ hasMonitoringOD === 'Yes' ? 'check' : 'close' }}
+                [ngClass]="{
+                  'up-arrow-color': hasMonitoringOD === 'Yes',
+                  'down-arrow-color': hasMonitoringOD === 'No',
+                  'unanswered-color': hasMonitoringOD === null || hasMonitoringOD === undefined
+                }">
+                {{ hasMonitoringOD === 'Yes' ? 'check' : hasMonitoringOD === 'No' ? 'close' : 'question_mark' }}
               </span>
             </h5>
             <read-more-text *ngIf="monitoringClarificationOD" [maxHeight]="68"
@@ -176,7 +199,7 @@
         OpenAIRE Graph.
       </div>
 
-      <div *ngIf="countrySurveyAnswer" class="uk-margin-medium-top uk-animation-fade">
+      <div *ngIf="hasSurveyOpenData()" class="uk-margin-medium-top uk-animation-fade">
         <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
           <h5>Learn more about Open Data Landscape in {{ countryName }}</h5>
           <read-more [maxHeight]="300">
@@ -216,7 +239,7 @@
   </div>
 </div>
 
-<div class="uk-section uk-section-small uk-margin-top" #exportContent5>
+<div class="uk-section uk-section-small uk-margin-top">
   <div class="uk-container">
 
     <div class="uk-card uk-card-default visualisation-card uk-card-body">
@@ -225,7 +248,7 @@
                           yAxis="Percentage of Open Data" [plotFormat]="dataLabels_format"
                           [title]="'Distribution of Open Data Types by Different Document Type in ' + countryName"
                           [height]="600" [pointFormat]="tooltipPointFormat" [stackLabels]="false" [stacking]="stacking"
-                          [caption]="'<p class=\'uk-text-justify\'>The  graph illustrates how Open Data is implemented across various types of documents. It segments the Open Data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each colored according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance  accessibility and foster a more transparent, reproducible and inclusive science.</p>' +
+                          [caption]="'<p class=\'uk-text-justify\'>The graph illustrates how Open Data is implemented across various types of documents. It segments the Open Data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each colored, according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance accessibility and foster a more transparent, reproducible, and inclusive science.</p>' +
                           '<p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on ' + lastUpdateDate + ').</p>'">
       </app-stacked-column>
 
