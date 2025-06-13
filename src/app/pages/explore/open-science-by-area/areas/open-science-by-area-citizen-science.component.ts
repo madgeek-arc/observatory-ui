@@ -14,7 +14,7 @@ import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/ch
 @Component({
   selector: 'app-open-science-by-area-citizen-science',
   templateUrl: './open-science-by-area-citizen-science.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.scss']
+  styleUrls: ['../../../../../assets/css/explore-dashboard.less']
 })
 
 export class OpenScienceByAreaCitizenScienceComponent implements OnInit {

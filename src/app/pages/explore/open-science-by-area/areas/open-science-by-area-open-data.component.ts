@@ -23,7 +23,7 @@ import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/ch
 @Component({
   selector: 'app-open-science-by-area-open-data',
   templateUrl: './open-science-by-area-open-data.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.scss']
+  styleUrls: ['../../../../../assets/css/explore-dashboard.less']
 })
 
 export class OpenScienceByAreaOpenDataComponent implements OnInit {

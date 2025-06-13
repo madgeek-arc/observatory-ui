@@ -29,7 +29,7 @@ import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/ch
 @Component({
   selector: 'app-open-science-by-area-publications',
   templateUrl: './open-science-by-area-publications.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.scss']
+  styleUrls: ['../../../../../assets/css/explore-dashboard.less']
 })
 
 export class OpenScienceByAreaPublicationsComponent implements OnInit {
