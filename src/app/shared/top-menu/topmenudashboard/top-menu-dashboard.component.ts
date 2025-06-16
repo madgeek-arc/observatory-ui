@@ -244,4 +244,12 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
     UIkit.modal('#consent-modal').hide();
     this.logout();
   }
+
+  navigate(url: string, dropbarId: string) {
+    this.router.navigate([url]).then(
+      () => {
+        UIkit.dropdown('#'+dropbarId).hide(false);
+      }
+    );
+  }
 }

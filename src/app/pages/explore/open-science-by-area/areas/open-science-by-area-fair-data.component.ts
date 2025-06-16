@@ -11,11 +11,12 @@ import { DataHandlerService } from "../../../services/data-handler.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
 import { colors } from "../../../../domain/chart-color-palette";
+import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 
 @Component({
   selector: 'app-open-science-by-area-fair-data',
   templateUrl: './open-science-by-area-fair-data.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.scss']
+  styleUrls: ['../../../../../assets/css/explore-dashboard.less']
 })
 
 export class OpenScienceByAreaFairDataComponent implements OnInit {
@@ -56,9 +57,9 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
   stackedColumnCategories = ['2021', '2022'];
   xAxisTitle = 'Year';
   yAxisTitle = 'Percentage of Policies on FAIR Data';
-  tooltipPointFormat = '{series.name}: {point.y}%';
+  tooltipPointFormat = '<span style="color:{series.color}">{series.name}</span> : <b>{point.y}</b>';
   labelFormat = '{value}%';
-  plotFormat = '{y}%';
+  plotFormat = '{point.percentage:.0f}%';
 
   countriesWithPolicy: number[] = [];
   countriesWithStrategy: number[] = [];
@@ -205,31 +206,14 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       this.queryData.getQuestion(year, 'Question17'),  // research funding organisations with policy on FAIR data
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value =>  {
-        this.createStackedColumnSeries([value[0], value[2]], this.stackedColumnSeries1);
-        this.createStackedColumnSeries([value[1], value[3]], this.stackedColumnSeries2);
+        this.exploreService.createStackedColumnSeries([value[0], value[2]], this.stackedColumnSeries1);
+        this.exploreService.createStackedColumnSeries([value[1], value[3]], this.stackedColumnSeries2);
         if (this.years.length === index+1) {
           this.stackedColumnSeries1 = [...this.stackedColumnSeries1];
           this.stackedColumnSeries2 = [...this.stackedColumnSeries2];
         }
       }
     });
-  }
-
-  createStackedColumnSeries(data: RawData[], series: Highcharts.SeriesColumnOptions[]) {
-    let orgCount = 0;
-    let orgCountWithPolicy = 0;
-    data[0].datasets[0].series.result.forEach((result) => {
-      if (this.exploreService.isNumeric(result.row[1]))
-        orgCount += +result.row[1];
-    });
-
-    data[1].datasets[0].series.result.forEach((result) => {
-      if (this.exploreService.isNumeric(result.row[1]))
-        orgCountWithPolicy += +result.row[1];
-    });
-
-    series[0].data.push(Math.round(((orgCountWithPolicy/orgCount) + Number.EPSILON) * 100));
-    series[1].data.push(Math.round((((orgCount-orgCountWithPolicy)/orgCount) + Number.EPSILON) * 100));
   }
   /** <---------------------------------------------------------------------------------------- Stacked column chart **/
 
@@ -286,4 +270,6 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
     this.countryName = this.exploreService.findCountryName(country.code).name
   }
 
+  protected readonly policesMapCaptions = policesMapCaptions;
+  protected readonly monitoringMapCaptions = monitoringMapCaptions;
 }

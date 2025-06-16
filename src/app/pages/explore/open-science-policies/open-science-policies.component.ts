@@ -4,7 +4,7 @@ import { LegendOptions, SeriesBubbleOptions, SeriesOptionsType } from "highchart
 import { zip } from "rxjs/internal/observable/zip";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
-import { RawData, Row } from "../../../domain/raw-data";
+import { RawData, Row, Data } from "../../../domain/raw-data";
 import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { DataHandlerService } from "../../services/data-handler.service";
 import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
@@ -12,6 +12,8 @@ import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
+import { openScienceAreas, policesMapCaptions } from "../../../domain/chart-captions";
+import { OAAndTotalPublicationsPerCountry } from "../OSO-stats-queries/explore-queries";
 
 
 @Component({
@@ -22,13 +24,16 @@ import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 
 export class OpenSciencePoliciesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+
+  protected readonly policesMapCaptions = policesMapCaptions;
+
   exportActive = false;
 
   years = ['2022', '2023'];
   year = '2023';
   lastUpdateDate?: string;
 
-  columnChartCategories=  ['Open Access Publications', 'Data Management', 'Fair Data', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data stewardship', 'Long-term data preservation', 'Skills / Training', 'Incentives / Rewards for OS', 'Citizen Science'];
+  columnChartCategories= openScienceAreas;
 
   columnChartSeries: SeriesOptionsType[] = [];
   columnChartTitles = {
@@ -65,12 +70,22 @@ export class OpenSciencePoliciesComponent implements OnInit {
   researchersPerCountryPerYear = new Map<string, RawData>();
   totalResearchersPerYear = new Map<string, string>();
 
-  bubbleWithCategories = [] as SeriesBubbleOptions[];
+  bubbleChart = [] as SeriesBubbleOptions[];
+  bubbleChartTooltip = {
+    useHTML: true,
+    headerFormat: '<table>',
+    pointFormat: '<tr><th colspan="2"><h4>{point.country}</h4></th></tr>' +
+      '<tr><th>Publications per Researcher FTE:</th><td>{point.x}</td></tr>' +
+      '<tr><th>Financial investment per researcher FTE:</th><td>{point.y}</td></tr>' +
+      '<tr><th>OA Publications:</th><td>{point.z}%</td></tr>',
+    footerFormat: '</table>',
+    followPointer: true
+  }
 
   tableData: string[][] = [];
 
   openScienceAreas = this.columnChartCategories;
-  mapTitles = ['National Policy on open access publications', 'National Policy on Data Management', 'National Policy on FAIR Data', 'National Policy on Open Data', 'National Policy on Open Sources Software', 'National Policy on offering services through EOSC', 'National Policy on Connecting Repositories to EOSC', 'National Policy on Data Stewardship', 'National Policy on Long-term Data Preservation', 'National Policy on Skills/Training in Open Science', 'National Policy on incentives/rewards for Open Science', 'National Policy on Citizen Science'];
+  mapTitles = ['National Policy on Open Access Publications', 'National Policy on Data Management', 'National Policy on FAIR Data', 'National Policy on Open Data', 'National Policy on Open Sources Software', 'National Policy on offering services through EOSC', 'National Policy on Connecting Repositories to EOSC', 'National Policy on Data Stewardship', 'National Policy on Long-term Data Preservation', 'National Policy on Skills/Training in Open Science', 'National Policy on Incentives/Rewards for Open Science', 'National Policy on Citizen Science'];
 
   policiesRawData: RawData[] = [];
   policiesMapData: CategorizedAreaData = new CategorizedAreaData();
@@ -103,7 +118,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
   /** Bar charts ---------------------------------------------------------------------------------------------------> **/
   getColumnChartData(year: string, index: number) {
     zip(
-      this.queryData.getQuestion(year, 'Question6'),   // national policy on open access publications
+      this.queryData.getQuestion(year, 'Question6'),   // national policy on Open Access publications
       this.queryData.getQuestion(year, 'Question10'),  // national policy on data management
       this.queryData.getQuestion(year, 'Question14'),  // national policy on FAIR data
       this.queryData.getQuestion(year, 'Question18'),  // national policy on Open data
@@ -242,7 +257,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
     switch (index) {
       case 0:
         if (!this.questionsDataArray[index])
-          this.getNationalPolicies('Question6', index); // National Policy on open access publications
+          this.getNationalPolicies('Question6', index); // National Policy on Open Access publications
         break;
       case 1:
         if (!this.questionsDataArray[index])
@@ -294,55 +309,48 @@ export class OpenSciencePoliciesComponent implements OnInit {
   /** Bubble chart ------------------------------------------------------------------------------------------------> **/
   getBubbleChartData() {
     zip(
-      this.queryData.getQuestion(this.year, 'Question6'),   // national policy on open access publications
-      this.queryData.getQuestion(this.year, 'Question6.1'), // national policy is mandatory
-      this.queryData.getQuestion(this.year, 'Question56'),  // financial investments in open access publications
-      this.queryData.getQuestion(this.year, 'Question57'),  // number of publications published in open access
+      this.queryData.getQuestion(this.year, 'Question1'),   // Number of Researchers in FTE per country
+      this.queryData.getQuestion(this.year, 'Question5'),   // Financial investments in EOSC and Open Science per country
+      this.queryData.getQuestion(this.year, 'Question56'),  // Financial investments in Open Access publications
+      // this.queryData.getQuestion(this.year, 'Question57'), // number of publications published in Open Access
+      this.queryData.getOSOStats(OAAndTotalPublicationsPerCountry()), // number of publications published in Open Access
+
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        // console.log(value);
+        console.log(value);
         // console.log(this.createBubbleChartSeries(value));
-        this.bubbleWithCategories = this.createBubbleChartSeries(value);
+        this.bubbleChart = this.createBubbleChartSeries(value[3], value[0], value[1], value[2]);
       },
       error: err => {console.error(err)}
     });
   }
 
-  createBubbleChartSeries(data: RawData[]) {
-    const tmpArr = this.mergeArrays(data[0].datasets[0].series.result, data[1].datasets[0].series.result, data[2].datasets[0].series.result, data[3].datasets[0].series.result);
+  createBubbleChartSeries(data: Data, ...rawData: RawData[]) {
+    const tmpArr = this.mergeArrays(data, rawData[0].datasets[0].series.result, rawData[1].datasets[0].series.result, rawData[2].datasets[0].series.result);
     // console.log(tmpArr);
-    let series = [
-      {
-        name: 'Policy is mandatory',
-        // color: '#32cd32',
-        data: []
-      }, {
-        name: 'Policy is not mandatory',
-        // color: '#ff8c00',
-        data: []
-      }, {
-        name: 'No policy',
-        // color: '#808080',
-        data: []
-      }
-    ] as SeriesBubbleOptions[];
+    let series = [{
+      data: [],
+      colorByPoint: true
+    }] as unknown as SeriesBubbleOptions[];
 
     tmpArr.forEach(el => {
 
-      if (!this.isNumeric(el[3]) || !this.isNumeric(el[4]))
+      if (!this.exploreService.isNumeric(el[1]) || !this.exploreService.isNumeric(el[2])
+        || !this.exploreService.isNumeric(el[3]) || !this.exploreService.isNumeric(el[4])
+        || !this.exploreService.isNumeric(el[5]))
         return;
 
-      //TODO: Z is statically set to 10 until corresponding query is provided
-      let item = {x: +el[4], y: this.rangeSelector(+el[3]), z: 10, name: el[0], country: this.findCountryName(el[0]).name};
+      let item = {
+        x: Math.round(((+el[3] * 1000000 / +el[1]) + Number.EPSILON) * 100) / 100,
+        // x: (+el[3] * 1000000) / +el[1],
+        y: Math.round((((+el[2] * 1000000) / +el[1]) + Number.EPSILON) * 100) / 100,
+        //TODO: Z is statically set to 10 until corresponding query is provided
+        z: Math.round(((+el[4] / +el[5]) + Number.EPSILON) * 100), // calculate OA Pubs of total Pubs percentage
+        name: el[0],
+        country: this.findCountryName(el[0]).name
+      };
 
-      if (el[1] === 'No')
-        series[2].data.push(item);
-      else if (el[1] === 'Yes') {
-        if(el[2] === 'Yes')
-          series[0].data.push(item);
-        else if (el[2] === 'No')
-          series[1].data.push(item);
-      }
+      series[0].data.push(item);
 
     });
     return series;
@@ -399,7 +407,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
   }
 
   /** Other stuff -------------------------------------------------------------------------------------------------> **/
-  mergeArrays = (...arrays: Row[][]): string[][] => {
+  mergeArrays = (data: Data, ...arrays: Row[][]): string[][] => {
     const map = new Map<string, string[]>();
 
     // Helper function to add rows to the map
@@ -417,6 +425,14 @@ export class OpenSciencePoliciesComponent implements OnInit {
       });
     });
 
+    data.data.forEach(series => { // Add OA and total publications to each country
+      series.forEach(row => {
+        const entry = map.get(row[1])!;
+        if (entry)
+          entry.push(row[0]); // Fill respective column
+      });
+    });
+
     // Convert the map to an array of string arrays
     return Array.from(map.values());
   };
@@ -425,35 +441,6 @@ export class OpenSciencePoliciesComponent implements OnInit {
     return countriesNumbers.find(
       elem => elem.id === code
     );
-  }
-
-  isNumeric(value: string | null): boolean {
-    // Check if the value is empty
-    if (value === null)
-      return false;
-
-    if (value.trim() === '') {
-      return false;
-    }
-
-    // Attempt to parse the value as a float
-    const number = parseFloat(value);
-
-    // Check if parsing resulted in NaN or the value has extraneous characters
-    return !isNaN(number) && isFinite(number) && String(number) === value;
-  }
-
-  rangeSelector(value: number) {
-    if (value < 1)
-      return 0;
-    else if (value < 5)
-      return 1;
-    else if (value < 10)
-      return 2;
-    else if (value < 20)
-      return 3;
-    else
-      return 4;
   }
 
 }

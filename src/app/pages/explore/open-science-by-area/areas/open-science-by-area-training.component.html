@@ -45,7 +45,7 @@
       <div *ngIf="countriesWithPolicy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p><strong>EU Countries with Policy on Connecting repositories to EOSC</strong></p>
+            <p>EU Countries with Policy on skills/training for OS.</p>
           </div>
           <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
@@ -76,7 +76,7 @@
       <div *ngIf="totalInvestments.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p><strong>Financial investments</strong> in connecting repositories to EOSC</p>
+            <p>Financial investments in skills/training for OS</p>
           </div>
           <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
@@ -107,7 +107,7 @@
       <div *ngIf="countriesWithStrategy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p><strong>EU Countries with Financial Strategy on connecting repositories to EOSC</strong></p>
+            <p>EU Countries with Financial Strategy on skills/training in OS</p>
           </div>
           <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithStrategy[1] }}%</span>
@@ -138,7 +138,7 @@
       <div *ngIf="countriesWithMonitoring.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>EU Countries with <strong>Monitoring Initiatives</strong> on connecting repositories to EOSC</p>
+            <p>EU Countries with Monitoring Initiatives on skills/training in OS</p>
           </div>
           <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithMonitoring[1] }}%</span>
@@ -181,7 +181,7 @@
 
     <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-      <ul class="uk-subnav uk-subnav-pill uk-flex-right" uk-switcher="{connect:'#maps', animation: 'fade'}">
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#maps', animation: 'fade'}">
         <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Policies</a></li>
         <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
       </ul>
@@ -194,9 +194,7 @@
                 [mapData]="questionsDataArray[0]" [height]="700"
                 [title]="'National Policy on Skills/Training in Open Science'" [backgroundColor]="'#ffffff'"
                 [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on <br>skills/training for<br>Open Science'"
-                [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national policies on OA publications across European countries. OA policies are essential for promoting the free sharing of scientific knowledge and ensuring research outputs are widely accessible.</p>' +
-                '<p class=\'uk-text-justify\'>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>'+
-                '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
+                [caption]="policesMapCaptions[9] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
                 (mapClick)="showComment(0, $event)">
               </app-highcharts-category-map>
             </div>
@@ -222,8 +220,7 @@
                 [mapData]="questionsDataArray[1]" [height]="700"
                 [title]="'National Monitoring on Skills/Training in Open Science'" [backgroundColor]="'#ffffff'"
                 [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring <br>on skills/training for<br>Open Science'"
-                [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national monitoring on OA publications across European countries.OA monitoring is essential for tracking progress, evaluating policy implementation, and ensuring that research outputs are freely accessible.</p>' +
-                '<p class=\'uk-text-justify\'>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>' +
+                [caption]="monitoringMapCaptions[9] +
                 '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
                 (mapClick)="showComment(1, $event)">
               </app-highcharts-category-map>
@@ -256,7 +253,7 @@
 
     <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-      <ul class="uk-subnav uk-subnav-pill uk-flex-right" uk-switcher="{connect:'#investments', animation: 'fade'}">
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#investments', animation: 'fade'}">
         <li><a class="uk-margin-remove-bottom">Overview</a></li>
         <li><a class="uk-margin-remove-bottom">Details</a></li>
       </ul>

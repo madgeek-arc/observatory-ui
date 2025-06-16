@@ -1,9 +1,13 @@
 import { Component, Input, OnChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
+import Exporting from 'highcharts/modules/exporting';
+import ExportData from 'highcharts/modules/export-data';
 import { SeriesOptionsType } from "highcharts";
 import sankey from 'highcharts/modules/sankey';
 
 sankey(Highcharts);
+Exporting(Highcharts);
+ExportData(Highcharts);
 
 @Component({
   selector: 'app-sankey-chart',

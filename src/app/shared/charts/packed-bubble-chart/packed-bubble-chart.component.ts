@@ -1,10 +1,14 @@
 import { Component, Input, SimpleChanges } from "@angular/core";
 import * as Highcharts from 'highcharts';
+import Exporting from 'highcharts/modules/exporting';
+import ExportData from 'highcharts/modules/export-data';
 import { PointOptionsType } from "highcharts";
 import { SeriesOptionsType } from "highcharts/highmaps";
 // import PackedBubble from 'highcharts/modules/packed-bubble';
 
 // PackedBubble(Highcharts);
+Exporting(Highcharts);
+ExportData(Highcharts);
 
 @Component({
   selector: "app-packed-bubble-chart",

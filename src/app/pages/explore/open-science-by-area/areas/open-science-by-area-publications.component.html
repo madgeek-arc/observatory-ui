@@ -22,7 +22,7 @@
     </div>
 
 <!--    <h5>Open Access Publications</h5>-->
-    <p class="uk-text-lead uk-text-justify">Open Access (OA) represents a transformative approach within the scholarly communication landscape, aiming to make research outputs freely accessible to all, without subscription or price barriers. The graphics below provides a high-level overview of key indicators tracking the progress of OA publishing and policies in Europe. Understanding these indicators provides critical insights into how well Europe is adopting and integrating OA and Open Science principles. By evaluating the extent of OA publications, the impact of policy, financial investments, and monitoring efforts, stakeholders can identify strengths and areas for improvement in the European landscape and thus contribute towards more accessible knowledge.</p>
+    <p class="uk-text-lead uk-text-justify">Open Access (OA) represents a transformative approach within the scholarly communication landscape, aiming to make research outputs freely accessible to all, without subscription or price barriers. The graphics below provides a high-level overview of key indicators tracking the progress of OA publishing and policies in Europe. Understanding these indicators provides critical insights into how well Europe is adopting and integrating OA and Open Science principles. By evaluating the extent of OA Publications, the impact of policy, financial investments, and monitoring efforts, stakeholders can identify strengths and areas for improvement in the European landscape and thus contribute towards more accessible knowledge.</p>
 
   </div>
 </div>
@@ -36,7 +36,7 @@
       <div *ngIf="OAPublications.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p><strong>OA Publication in Europe</strong> (OA vs Closed)</p>
+            <p>OA Publication in Europe (OA vs Closed)</p>
           </div>
           <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ OAPublications[1] }}%</span>
@@ -67,7 +67,7 @@
       <div *ngIf="countriesWithPolicy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p><strong>EU Countries with Policy on OA Publication</strong></p>
+            <p>EU Countries with Policy on OA Publication</p>
           </div>
           <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
@@ -98,7 +98,7 @@
       <div *ngIf="totalInvestments.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p><strong>Financial investments</strong> in OA Publication</p>
+            <p>Financial investments in OA Publication</p>
           </div>
           <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
@@ -129,7 +129,7 @@
       <div *ngIf="countriesWithPolicyImmediate.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p><strong>EU countries with Policy on Immediate OA Publications</strong></p>
+            <p>EU countries with Policy on Immediate OA Publications</p>
           </div>
           <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithPolicyImmediate[1] }}%</span>
@@ -160,7 +160,7 @@
       <div *ngIf="countriesWithStrategy.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p><strong>EU Countries with Financial Strategy on OA Publication</strong></p>
+            <p>EU Countries with Financial Strategy on OA Publication</p>
           </div>
           <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithStrategy[1] }}%</span>
@@ -191,7 +191,7 @@
       <div *ngIf="countriesWithMonitoring.length === 2">
         <div class="uk-card card-simple uk-card-small uk-card-body">
           <div>
-            <p>EU Countries with National OA Publication <strong>Monitoring Initiatives</strong></p>
+            <p>EU Countries with National OA Publication Monitoring Initiatives</p>
           </div>
           <div class="number big uk-margin-medium-top">
             <span class="uk-text-bold">{{ countriesWithMonitoring[1] }}%</span>
@@ -233,7 +233,7 @@
 
     <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-      <ul class="uk-subnav uk-subnav-pill uk-flex-right" uk-switcher="{connect:'#maps', animation: 'fade'}">
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#maps', animation: 'fade'}">
         <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Policies</a></li>
         <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
       </ul>
@@ -244,11 +244,9 @@
             <div class="uk-width-2-3">
               <app-highcharts-category-map
                 [mapData]="questionsDataArray[0]" [height]="700"
-                [title]="'National policy on open access publications'" [backgroundColor]="'#ffffff'"
-                [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on open<br> access publications'"
-                [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national policies on OA publications across European countries. OA policies are essential for promoting the free sharing of scientific knowledge and ensuring research outputs are widely accessible.</p>' +
-                '<p class=\'uk-text-justify\'>The map uses color-coding to indicate whether countries have mandatory OA policies, non-mandatory OA policies, no OA policies, or if data on their policy status is unavailable.</p>' +
-                '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
+                [title]="'National policy on Open Access publications'" [backgroundColor]="'#ffffff'"
+                [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on Open<br> Access Publications'"
+                [caption]="policesMapCaptions[0] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
                 (mapClick)="showComment(0, $event)">
               </app-highcharts-category-map>
             </div>
@@ -272,11 +270,9 @@
             <div class="uk-width-2-3">
               <app-highcharts-category-map
                 [mapData]="questionsDataArray[1]" [height]="700"
-                [title]="'National monitoring on open access publications'" [backgroundColor]="'#ffffff'"
-                [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>open access <br>publications'"
-                [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national monitoring on OA publications across European countries.OA monitoring is essential for tracking progress, evaluating policy implementation, and ensuring that research outputs are freely accessible.</p>' +
-                '<p class=\'uk-text-justify\'>The map uses color-coding to indicate whether countries have established mandatory OA monitoring, non-mandatory OA monitoring, no monitoring practices, or if data on their monitoring status is unavailable.</p>' +
-                '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
+                [title]="'National monitoring on Open Access publications'" [backgroundColor]="'#ffffff'"
+                [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>Open Access <br>publications'"
+                [caption]=" monitoringMapCaptions[0] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
                 (mapClick)="showComment(1, $event)">
               </app-highcharts-category-map>
             </div>
@@ -307,7 +303,7 @@
 
     <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-      <ul class="uk-subnav uk-subnav-pill uk-flex-right" uk-switcher="{connect:'#investments', animation: 'fade'}">
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#investments', animation: 'fade'}">
         <li><a class="uk-margin-remove-bottom">Overview</a></li>
         <li><a class="uk-margin-remove-bottom">Details</a></li>
       </ul>
@@ -349,7 +345,7 @@
         <div class="uk-width-1-1">
           <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend" [series]="stackedColumnSeries"
                               [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
-                              [dataLabels]="false" [height]="700" [title]="'Trend of Open Access Publications'"
+                              [dataLabels]="false" [height]="700" [title]="'Trend of Access to Publications'"
                               [caption]="'<p class=\'uk-text-justify\'>The graph provides a view of the evolution of publication and its access type from 2015 to 2024. Each bar in the graph represents the total number of publications for a given year, segmented by access type categories (categories based on <a href=&quot;https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml&quot; target=\'_blank\'>https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml</a>).</p>'
                               + '<p><strong>Data Source:</strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
           </app-stacked-column>
@@ -372,7 +368,7 @@
                             [yAxis]="yAxisTitle2" [pointFormat]="tooltipPointFormat" [plotFormat]="dataLabels_format"
                             [stackLabels]="false" [stacking]="stacking" [height]="550"
                             [caption]="'<p class=\'uk-text-justify\'>The graph displays the distribution of OA types across different scholarly publication categories, revealing distinct preferences and practices in the dissemination of research outputs. This visualization provides insight into the diverse adoption rates and strategies for OA across various academic outputs. Understanding these differences is crucial for identifying specific barriers and opportunities within each publication category, thereby guide stakeholders in tailoring interventions that encourage broader adoption of OA. This targeted approach can significantly contribute to enhancing the accessibility of knowledge, fostering a more open and collaborative scientific community.</p>'
-                            + '<p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on' + lastUpdateDate + ')</p>'">
+                            + '<p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on ' + lastUpdateDate + ')</p>'">
         </app-stacked-column>
       </div>
     </div>

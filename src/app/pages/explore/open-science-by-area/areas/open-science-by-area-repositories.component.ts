@@ -9,11 +9,12 @@ import { DataHandlerService } from "../../../services/data-handler.service";
 import { zip } from "rxjs/internal/observable/zip";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
+import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 
 @Component({
   selector: 'app-open-science-by-area-repositories',
   templateUrl: './open-science-by-area-repositories.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.scss']
+  styleUrls: ['../../../../../assets/css/explore-dashboard.less']
 })
 
 export class OpenScienceByAreaRepositoriesComponent implements OnInit {
@@ -228,4 +229,6 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
     this.countryName = this.exploreService.findCountryName(country.code).name
   }
 
+  protected readonly policesMapCaptions = policesMapCaptions;
+  protected readonly monitoringMapCaptions = monitoringMapCaptions;
 }

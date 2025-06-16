@@ -4,8 +4,10 @@ import { OptionsStackingValue } from "highcharts";
 import { colors } from "../../../domain/chart-color-palette";
 import { renderLogo } from "../highcharts-functions";
 import ExportingModule from 'highcharts/modules/exporting';
+import ExportData from 'highcharts/modules/export-data';
 
 ExportingModule(Highcharts); // Call this before using exporting
+ExportData(Highcharts);
 
 @Component({
   selector: 'app-stacked-column',

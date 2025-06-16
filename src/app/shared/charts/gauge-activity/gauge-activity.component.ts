@@ -1,12 +1,15 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {PaneBackgroundOptions, SeriesOptionsType} from 'highcharts';
 import * as Highcharts from 'highcharts';
+import Exporting from 'highcharts/modules/exporting';
+import ExportData from 'highcharts/modules/export-data';
 import HighchartsMore from 'highcharts/highcharts-more';
 import SolidGauge from 'highcharts/modules/solid-gauge';
 
 HighchartsMore(Highcharts);
 SolidGauge(Highcharts);
-
+Exporting(Highcharts);
+ExportData(Highcharts);
 
 export class ActivityGauge {
   name: string;

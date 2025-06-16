@@ -1,8 +1,13 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, Input, OnChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
+import Exporting from 'highcharts/modules/exporting';
+import ExportData from 'highcharts/modules/export-data';
 import { PointOptionsObject, SeriesBubbleOptions } from "highcharts";
 import { renderLogo } from "../highcharts-functions";
 import { colors } from "../../../domain/chart-color-palette";
+
+Exporting(Highcharts);
+ExportData(Highcharts);
 
 @Component({
   selector: 'app-bubble-chart',
@@ -15,7 +20,9 @@ export class BubbleChartComponent implements OnChanges {
   @Input() title: string = null;
   @Input() subTitle: string = null;
   @Input() xAxisTitle: string = '';
+  @Input() xAxisLabelFormat?: string;
   @Input() yAxisTitle: string = '';
+  @Input() yAxisLabelFormat?: string;
   @Input() toolTip = {};
   @Input() enablePlotLines: boolean = false;
   @Input() enableLegend: boolean = false;
@@ -54,38 +61,13 @@ export class BubbleChartComponent implements OnChanges {
       enabled: false
     },
 
-    accessibility: {
-      point: {
-        valueDescriptionFormat: '{index}. {point.name}, fat: {point.x}g, ' +
-          'sugar: {point.y}g, obesity: {point.z}%.'
-      }
-    },
-
     xAxis: {
       gridLineWidth: 1,
       title: {
         text: this.xAxisTitle
       },
-      // labels: {
-      //   format: '{value} M'
-      // },
-      plotLines: [{
-        color: 'black',
-        dashStyle: 'Dot',
-        width: 2,
-        value: 65,
-        label: {
-          rotation: 0,
-          y: 15,
-          style: {
-            fontStyle: 'italic'
-          },
-          text: 'Averege Investments in EOSC and OS'
-        },
-        zIndex: 3
-      }],
       accessibility: {
-        rangeDescription: 'Avarage investment in EOSC and OS'
+        rangeDescription: 'Average investment in EOSC and OS'
       }
     },
 
@@ -95,25 +77,7 @@ export class BubbleChartComponent implements OnChanges {
       title: {
         text: this.yAxisTitle
       },
-      labels: {
-        format: '{value} M'
-      },
       maxPadding: 0.2,
-      plotLines: [{
-        color: 'black',
-        dashStyle: 'Dot',
-        width: 2,
-        value: 50,
-        label: {
-          align: 'right',
-          style: {
-            fontStyle: 'italic'
-          },
-          text: 'Average Investments in OA',
-          x: -10
-        },
-        zIndex: 3
-      }],
       accessibility: {
         rangeDescription: 'Total Investments in OA'
       }
@@ -128,9 +92,9 @@ export class BubbleChartComponent implements OnChanges {
           format: '{point.name}'
         },
         events: {
-          click: (event) => {
-            console.log(event.point.name);
-          }
+          // click: (event) => {
+            // console.log(event.point.name);
+          // }
         }
       }
     },
@@ -149,7 +113,16 @@ export class BubbleChartComponent implements OnChanges {
   xAverage = 0;
   yAverage = 0;
 
-  ngOnChanges(changes: SimpleChanges) {
+  constructor() {
+    Highcharts.setOptions({
+      lang: {
+        decimalPoint: ',',
+        thousandsSep: ' '
+      }
+    });
+  }
+
+  ngOnChanges() {
     if (this.enablePlotLines)
       this.calculateAverage();
     this.updateChart();
@@ -200,7 +173,7 @@ export class BubbleChartComponent implements OnChanges {
             text: this.xAxisTitle
           },
           labels: {
-            format: this.enablePlotLines ? '{value} M' : undefined
+            format: this.xAxisLabelFormat
           },
           plotLines: this.enablePlotLines ? [{
             color: 'black',
@@ -213,7 +186,7 @@ export class BubbleChartComponent implements OnChanges {
               style: {
                 fontStyle: 'italic'
               },
-              text: 'Averege Investments in EOSC and OS'
+              text: 'Average Investments in EOSC and OS'
             },
             zIndex: 3
           }] : []
@@ -223,6 +196,9 @@ export class BubbleChartComponent implements OnChanges {
           categories: this.categories.length > 0 ? this.categories : undefined,
           title: {
             text: this.yAxisTitle
+          },
+          labels: {
+            format: this.yAxisLabelFormat
           },
           plotLines: this.enablePlotLines ? [{
             color: 'black',

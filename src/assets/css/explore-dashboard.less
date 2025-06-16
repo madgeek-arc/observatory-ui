@@ -1,0 +1,49 @@
+.down-arrow-color {
+  color: #f04438;
+}
+
+.percentage-down-color {
+  color: #b32318;
+}
+
+.up-arrow-color {
+  color: #12b76a;
+}
+
+.percentage-up-color {
+  color: #027948;
+}
+
+.visualisation-card {
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.15) !important;
+  background: #fff !important;
+  border-radius: 6px !important;
+  opacity: 1 !important;
+}
+
+.visualisation-card::before {
+  content: " ";
+  display: block;
+  width: 70px;
+  height: 8px;
+  position: absolute;
+  top: 0;
+  left: 30px;
+  background-color: var(--eosc-observatory-secondary-color);
+}
+
+.eosc-sb.visualisation-card::before {
+  background-color: var(--eosc-observatory-secondary-color);
+}
+
+.noads.visualisation-card::before {
+  background-color: var(--eosc-observatory-secondary-color);
+}
+
+.openaire-graph.visualisation-card::before {
+  background-color: var(--eosc-observatory-primary-color);
+}
+
+.external-sources.visualisation-card::before {
+  background-color: var(--eosc-observatory-secondary-color);
+}

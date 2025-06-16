@@ -23,12 +23,13 @@ import { StakeholdersService } from "../../../../../survey-tool/app/services/sta
 import { DataHandlerService } from "../../../services/data-handler.service";
 import { CountryTableData } from "../../../../domain/country-table-data";
 import { ExploreService } from "../../explore.service";
+import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 
 
 @Component({
   selector: 'app-open-science-by-area-publications',
   templateUrl: './open-science-by-area-publications.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.scss']
+  styleUrls: ['../../../../../assets/css/explore-dashboard.less']
 })
 
 export class OpenScienceByAreaPublicationsComponent implements OnInit {
@@ -110,7 +111,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   }
 
   barChart2Titles = {
-    title: 'Distribution of Open Access Types by Fields of Science',
+    title: 'Distribution of Publications Access by Fields of Science',
     xAxis: '',
     yAxis: '',
   }
@@ -211,7 +212,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     });
   }
 
-  /** Get Distribution of Open Access Types by Fields of Science ----------------------------------------------------------------------------------> **/
+  /** Get Distribution of Open Access Types by Fields of Science --------------------------------------------------> **/
   getDistributionsOA() {
     this.queryData.getOSOStatsChartData(distributionOfOA()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
@@ -415,4 +416,6 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     this.countryName = this.exploreService.findCountryName(country.code).name
   }
 
+  protected readonly policesMapCaptions = policesMapCaptions;
+  protected readonly monitoringMapCaptions = monitoringMapCaptions;
 }

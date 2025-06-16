@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
+import Exporting from 'highcharts/modules/exporting';
+import ExportData from 'highcharts/modules/export-data';
 import { SeriesOptionsType } from "highcharts";
 import HighchartsStock from 'highcharts/modules/stock';
 import More from 'highcharts/highcharts-more';
@@ -8,6 +10,8 @@ import Streamgraph from 'highcharts/modules/streamgraph';
 More(Highcharts);
 Streamgraph(Highcharts);
 HighchartsStock(Highcharts);
+Exporting(Highcharts);
+ExportData(Highcharts);
 
 export class StreamData {
   name: string | null = null;
