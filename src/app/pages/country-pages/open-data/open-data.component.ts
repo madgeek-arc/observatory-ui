@@ -75,7 +75,6 @@ export class OpenDataComponent implements OnInit {
 
   stackedColumn2Categories: string[] = [];
   stackedColumn2Series: Highcharts.SeriesColumnOptions[] = [];
-  yAxisTitle2 = 'Percentage of Open Data';
   stacking: OptionsStackingValue = 'percent';
   dataLabels_format = '{point.percentage:.0f}%';
 

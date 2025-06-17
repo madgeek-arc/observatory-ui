@@ -6,6 +6,9 @@ import {
   CatalogueUiReusableComponentsModule
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
 import { DataCheckService } from '../services/data-check.service';
+import * as Highcharts from "highcharts/highcharts.src";
+import { ExploreService } from "../../explore/explore.service";
+import { ChartsModule } from "../../../shared/charts/charts.module";
 
 @Component({
   selector: 'app-fair-data',
@@ -13,6 +16,7 @@ import { DataCheckService } from '../services/data-check.service';
     CommonModule,
     NgOptimizedImage,
     CatalogueUiReusableComponentsModule,
+    ChartsModule,
   ],
   standalone: true,
   templateUrl: './fair-data.component.html',
@@ -39,7 +43,41 @@ export class FairDataComponent implements OnInit {
   monitoringClarificationFD: string | null = null;
   policyMandatoryFD: string | null = null;
 
-  constructor(private dataShareService: DataShareService, private dataCheckService: DataCheckService) {}
+  stackedColumnSeries1 = [
+    {
+      type: 'column',
+      name: 'Research Performing Organisations with Policy',
+      data: [],
+      // color: colors[0]
+    }, {
+      type: 'column',
+      name: 'Research Performing Organisations without Policy',
+      data: [],
+      // color: colors[7]
+    }
+  ] as Highcharts.SeriesColumnOptions[];
+  stackedColumnSeries2 = [
+    {
+      type: 'column',
+      name: 'Research Funding Organisations with Policy',
+      data: [],
+      // color: colors[1]
+    }, {
+      type: 'column',
+      name: 'Research Funding Organisations without Policy',
+      data: [],
+      // color: colors[8]
+    }
+  ] as Highcharts.SeriesColumnOptions[];
+  stackedColumnCategories = ['2021', '2022'];
+  xAxisTitle = 'Year';
+  yAxisTitle = 'Percentage of Policies on FAIR Data';
+  tooltipPointFormat = '<span style="color:{series.color}">{series.name}</span> : <b>{point.y}</b>';
+  labelFormat = '{value}%';
+  plotFormat = '{point.percentage:.0f}%';
+
+  constructor(private dataShareService: DataShareService, private dataCheckService: DataCheckService,
+              private exploreService: ExploreService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -61,6 +99,7 @@ export class FairDataComponent implements OnInit {
           return;
 
         this.initCardValues();
+        this.createStackedColumns();
       }
     });
   }
@@ -95,6 +134,47 @@ export class FairDataComponent implements OnInit {
 
     this.hasMonitoringFD = this.surveyAnswers[1]?.['Practices']?.['Question62']?.['Question62-0'];
     this.monitoringClarificationFD = this.surveyAnswers[1]?.['Practices']?.['Question62']?.['Question62-1'];
+
+  }
+
+  createStackedColumns() {
+
+    const rpo: string[] = [  // research performing organisations
+      this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0'],
+      this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']
+    ];
+    const rpoWithPolicy: string[] = [ // research performing organisations with policy on FAIR data
+      this.surveyAnswers[0]?.['Policies']?.['Question16']?.['Question16-0'],
+      this.surveyAnswers[1]?.['Policies']?.['Question16']?.['Question16-0']
+    ];
+
+    if (this.exploreService.isNumeric(rpoWithPolicy[0]) && this.exploreService.isNumeric(rpoWithPolicy[1])) {
+      this.stackedColumnSeries1[0].data.push(+rpoWithPolicy[0], +rpoWithPolicy[1]);
+
+      if (this.exploreService.isNumeric(rpo[0]) && this.exploreService.isNumeric(rpo[1])) {
+        this.stackedColumnSeries1[1].data.push(+rpo[0] - +rpoWithPolicy[0], +rpo[1] - +rpoWithPolicy[1]);
+      }
+    }
+
+
+    const rfo: string[] = [  // research funding organisations
+      this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0'],
+      this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']
+    ];
+    const rfoWithPolicy: string[] = [ // research funding organisations with policy on FAIR data
+      this.surveyAnswers[0]?.['Policies']?.['Question17']?.['Question17-0'],
+      this.surveyAnswers[1]?.['Policies']?.['Question17']?.['Question17-0']
+    ];
+
+    if (this.exploreService.isNumeric(rfoWithPolicy[0]) && this.exploreService.isNumeric(rfoWithPolicy[1])) {
+      this.stackedColumnSeries2[0].data.push(+rfoWithPolicy[0], +rfoWithPolicy[1]);
+
+      if (this.exploreService.isNumeric(rfo[0]) && this.exploreService.isNumeric(rfo[1])) {
+        this.stackedColumnSeries2[1].data.push(+rfo[0] - +rpoWithPolicy[0], +rfo[1] - +rpoWithPolicy[1]);
+      }
+    }
+    this.stackedColumnSeries1 = [...this.stackedColumnSeries1];
+    this.stackedColumnSeries2 = [...this.stackedColumnSeries2];
 
   }
 
