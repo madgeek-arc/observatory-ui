@@ -13,20 +13,23 @@
       <h4>Data Management</h4>
     </div>
 
-    <p>Text about data management ...</p>
+    <p>Data management refers to the process of collecting, organizing, storing, and maintaining data throughout its lifecycle. It involves ensuring that data is accessible, secure, and usable, facilitating effective decision-making and research outcomes.
+       A key component of modern data management is the adherence to the FAIR principles, which emphasize making data Findable, Accessible, Interoperable, and Reusable. These principles aim to improve the transparency, accessibility, and value of data for
+        researchers, enabling better collaboration and discovery while ensuring compliance with ethical and legal standards.</p>
 
     <div class="uk-flex uk-flex-between uk-flex-middle">
       <h4>General Overview of Data Management in {{countryName}} for 2023</h4>
     </div>
 
     <div class="uk-grid-small" data-uk-grid>
-
+      {{hasAnyLeftCardData()}}
+      {{rfoDataManagementPercentage[1] !== null && rfoDataManagementPercentage[1] !== undefined}}
       <div class="uk-width-expand" *ngIf="hasAnyLeftCardData()">
         <div class="uk-card uk-card-default uk-card-body visualisation-card">
           <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>
 
             <!-- Card 1 -->
-            <div *ngIf="rfoDataManagementPercentage[1] !== null" class="uk-animation-scale-up">
+            <div *ngIf="rfoDataManagementPercentage[1] !== null && rfoDataManagementPercentage[1] !== undefined" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <p>Percentage of <span class="uk-text-bold">RFO's Policy on Data Management</span></p>
                 <div class="number big uk-margin-medium-top">
@@ -48,14 +51,13 @@
                 </div>
               </div>
             </div>
-
             <!-- Card 2 -->
-            <div *ngIf="rpoDataManagementPercentage[0] !== null">
+            <div *ngIf="rpoDataManagementPercentage[1] !== null && rpoDataManagementPercentage[1] !== undefined" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <p>Percentage of <span class="uk-text-bold">RPO's Policy on Data Management</span></p>
                 <div class="number big uk-margin-medium-top">
                   <span class="uk-text-bold">
-                    {{ rpoDataManagementPercentage[0] !== null ? rpoDataManagementPercentage[0] + '%': 'No answer provided'}}
+                    {{ rpoDataManagementPercentage[1] !== null ? rpoDataManagementPercentage[1] + '%': 'No answer provided'}}
                   </span>
                 </div>
                 <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
@@ -75,7 +77,7 @@
             </div>
 
             <!-- Card 3 -->
-            <div *ngIf="financialInvestmentDM[1] !== null" class="uk-animation-scale-up">
+            <div *ngIf="financialInvestmentDM[1] !== null && financialInvestmentDM[1] !== undefined" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <p>Total amount of <span class="uk-text-bold">financial investments</span> in OA publications</p>
                 <div class="number big uk-margin-medium-top">
@@ -169,11 +171,26 @@
           <span class="uk-text-bold">Data source:</span>&nbsp;
           Survey on National Contributions to EOSC and Open Science OpenAIRE Graph.
         </div>
-      </div>
+       </div>
+        <div *ngIf="hasSurveyDataManagementData()" class="uk-margin-medium-top uk-animation-fade">
+          <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+            <h5>Learn More about National Data Source</h5>
+            <read-more [maxHeight]="300">
+            <div id="literature_repositories">
+                <div class="uk-text-secondary">Literature repositories</div>
+                <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else literature_repositories">
+                  <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']" class="uk-margin-medium-top"></div>
+                </ng-container>
+                <ng-template #literature_repositories><p>N/A</p></ng-template>
+            </div> 
+              </read-more>
+          </div>
+        </div>
     </div>
   </div>
 </div>
 
+<<<<<<< Updated upstream
 
 <div class="uk-section uk-section-xsmall">
   <div class="uk-container">
@@ -205,3 +222,5 @@
 
   </div>
 </div>
+=======
+>>>>>>> Stashed changes

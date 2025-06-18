@@ -174,9 +174,35 @@
        <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science OpenAIRE Graph.
       </div>
    </div>
+
+     <div class="uk-margin-medium-top uk-animation-fade">
+      <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+        <h5>Learn more about FAIR Data Landscape in Czech Republic</h5>
+        <read-more [maxHeight]="300">
+           <div id="national_data_service">
+            <div class="uk-text-secondary">National Data Service</div>
+            <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']; else data_service">
+              <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']" class="uk-margin-medium-top"></div>
+            </ng-container>
+            <ng-template #data_service><p>N/A</p></ng-template>
+          </div>
+
+          <div id="literature_repositories">
+            <div class="uk-text-secondary">
+              <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else literature_repositories">
+                <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']" class="uk-margin-medium-top"></div>
+              </ng-container>
+               <ng-template #literature_repositories><p>N/A</p></ng-template>
+            </div>
+          </div>
+        </read-more>
+      </div>
+    </div> 
+
   </div>
 </div>
 
+<<<<<<< Updated upstream
 
 <div class="uk-section uk-section-xsmall">
   <div class="uk-container">
@@ -208,3 +234,7 @@
 
   </div>
 </div>
+=======
+<pre>{{countrySurveyAnswer | json}}</pre>
+
+>>>>>>> Stashed changes

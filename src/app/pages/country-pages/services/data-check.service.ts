@@ -9,6 +9,7 @@ export class DataCheckService {
 
   /**checks if there is at least one value that is not null or undefined */
   hasAnyValue(values: any[]): boolean {
+    
     return values.some(value => value !=null);
   }
 

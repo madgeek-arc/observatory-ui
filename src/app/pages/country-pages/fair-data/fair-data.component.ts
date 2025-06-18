@@ -27,7 +27,8 @@ export class FairDataComponent implements OnInit {
 
   countryCode?: string;
   countryName?: string;
-  surveyAnswers: Object[] = [null, null];
+  surveyAnswers: Object[] = [];
+  countrySurveyAnswer?: Object;
 
   rfoFairDataPercentage: (number | null)[] = [null, null];
   rfoFairDataPercentageDiff: number | null = null;
@@ -102,6 +103,12 @@ export class FairDataComponent implements OnInit {
         this.createStackedColumns();
       }
     });
+
+    this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+     next: (answer) => {
+         this.countrySurveyAnswer = answer;
+       }
+     });
   }
 
   hasAnyLeftCardData() {
@@ -111,6 +118,7 @@ export class FairDataComponent implements OnInit {
       this.financialInvestmentInFairData[1]
     ]);
   }
+  
 
   initCardValues() {
     this.rfoFairDataPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question17']?.['Question17-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);
@@ -136,6 +144,7 @@ export class FairDataComponent implements OnInit {
     this.monitoringClarificationFD = this.surveyAnswers[1]?.['Practices']?.['Question62']?.['Question62-1'];
 
   }
+  
 
   createStackedColumns() {
 

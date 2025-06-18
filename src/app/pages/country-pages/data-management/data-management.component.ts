@@ -29,6 +29,7 @@ export class DataManagementComponent implements OnInit {
   countryCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [];
+  countrySurveyAnswer?: Object;
 
   rfoDataManagementPercentage: (number | null)[] = [null, null];
   rfoDataManagementPercentageDiff: number | null = null;
@@ -105,21 +106,28 @@ export class DataManagementComponent implements OnInit {
       }
     });
 
-    // this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-    // next: (answer) => {
-    //     this.countrySurveyAnswer = answer;
-    //   }
-    // });
+     this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+     next: (answer) => {
+         this.countrySurveyAnswer = answer;
+       }
+     });
   }
 
   hasAnyLeftCardData() {
     return this.dataCheckService.hasAnyValue([
       this.rfoDataManagementPercentage[1],
-      this.rpoDataManagementPercentage[0],
+      this.rpoDataManagementPercentage[1],
       this.financialInvestmentDM[1],
     ])
   }
 
+<<<<<<< Updated upstream
+=======
+  
+
+
+
+>>>>>>> Stashed changes
   initCardValues() {
     this.rfoDataManagementPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question13']?.['Question13-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);
     this.rfoDataManagementPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question13']?.['Question13-0'], this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0']);
@@ -146,6 +154,7 @@ export class DataManagementComponent implements OnInit {
 
   }
 
+<<<<<<< Updated upstream
   createStackedColumns() {
 
     const rpo: string[] = [  // research performing organisations
@@ -188,6 +197,15 @@ export class DataManagementComponent implements OnInit {
     this.stackedColumnSeries1 = [...this.stackedColumnSeries1];
     this.stackedColumnSeries2 = [...this.stackedColumnSeries2];
 
+=======
+  hasSurveyDataManagementData(): boolean {
+    const surveyData = this.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
+    if (!surveyData) {
+      return false;
+    }
+    const questions = ['Question15'];
+    return this.dataCheckService.hasSurveyData(surveyData, questions);
+>>>>>>> Stashed changes
   }
 
 }
