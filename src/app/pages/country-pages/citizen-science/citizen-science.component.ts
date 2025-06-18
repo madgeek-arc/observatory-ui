@@ -5,7 +5,6 @@ import { DataShareService } from "../services/data-share.service";
 import {
   CatalogueUiReusableComponentsModule
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
-import { DataCheckService } from "../services/data-check.service";
 
 
 @Component({
@@ -39,7 +38,7 @@ export class CitizenScienceComponent implements OnInit {
   monitoringClarificationCS: string | null = null;
   policyMandatoryCS: string | null = null;
 
-  constructor(private dataShareService: DataShareService , private dataCheckService: DataCheckService) {}
+  constructor(private dataShareService: DataShareService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -93,7 +92,7 @@ export class CitizenScienceComponent implements OnInit {
   }
 
   hasAnyLeftCardData() {
-    return this.dataCheckService.hasAnyValue([
+    return this.dataShareService.hasAnyValue([
       this.financialInvestmentInCS[1],
       this.citizenScienceProjects[1]
     ]);
@@ -105,7 +104,7 @@ export class CitizenScienceComponent implements OnInit {
       return false;
     }
     const questions = ['Question15'];
-    return this.dataCheckService.hasSurveyData(surveyData, questions);
+    return this.dataShareService.hasSurveyData(surveyData, questions);
   }
 
 }

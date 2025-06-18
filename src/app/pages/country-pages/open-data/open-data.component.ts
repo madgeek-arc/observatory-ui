@@ -15,7 +15,6 @@ import * as Highcharts from "highcharts";
 import { LegendOptions, OptionsStackingValue, SeriesOptionsType } from "highcharts";
 import { ChartsModule } from "../../../shared/charts/charts.module";
 import { ExploreService } from "../../explore/explore.service";
-import { DataCheckService } from '../services/data-check.service';
 
 @Component({
   selector: 'app-open-data',
@@ -81,7 +80,7 @@ export class OpenDataComponent implements OnInit {
   lastUpdateDate?: string;
 
   constructor(private dataShareService: DataShareService, private exploreService: ExploreService,
-              private queryData: EoscReadinessDataService, private dataCheckService: DataCheckService) {}
+              private queryData: EoscReadinessDataService) {}
 
   ngOnInit() {
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -189,25 +188,25 @@ export class OpenDataComponent implements OnInit {
     });
   }
 
-/** Check if at least one data value is available for displaying the left card.
-  * Uses the generic method of DataCheckService to check for null & undefined values.
- */
-hasAnyLeftCardData(){
-  return this.dataCheckService.hasAnyValue([
-    this.OpenDataPercentage[1],
-    this.rfoOpenDataPercentage[1],
-    this.ODfinancialInvestment[1],
-    this.rpoOpenDataPercentage[1]
-  ]);
-}
-
-hasSurveyOpenData(): boolean {
-  const surveyData = this?.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
-  if (!surveyData) {
-    return false;
+  /** Check if at least one data value is available for displaying the left card.
+   * Uses the generic method of DataCheckService to check for null & undefined values.
+   */
+  hasAnyLeftCardData() {
+    return this.dataShareService.hasAnyValue([
+      this.OpenDataPercentage[1],
+      this.rfoOpenDataPercentage[1],
+      this.ODfinancialInvestment[1],
+      this.rpoOpenDataPercentage[1]
+    ]);
   }
-  const questions = ['Question15'];
-  return this.dataCheckService.hasSurveyData(surveyData, questions);
-}
+
+  hasSurveyOpenData(): boolean {
+    const surveyData = this?.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
+    if (!surveyData) {
+      return false;
+    }
+    const questions = ['Question15'];
+    return this.dataShareService.hasSurveyData(surveyData, questions);
+  }
 
 }

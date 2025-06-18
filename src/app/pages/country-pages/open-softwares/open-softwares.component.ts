@@ -1,7 +1,5 @@
-import { Component } from '@angular/core';
-import { DataCheckService } from '../services/data-check.service';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
 import {
@@ -19,6 +17,7 @@ import {
     CatalogueUiReusableComponentsModule,
   ],
 })
+
 export class OpenSoftwaresComponent implements OnInit{
   private destroyRef = inject(DestroyRef);
     protected readonly Math = Math;
@@ -43,35 +42,35 @@ export class OpenSoftwaresComponent implements OnInit{
     monitoringClarification: string | null = null;
 
 
-    constructor(private dataShareService: DataShareService, private dataCheckService: DataCheckService) {}
+    constructor(private dataShareService: DataShareService) {}
 
     ngOnInit() {
-    this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (answers) => {
-        this.surveyAnswers = answers;
-        this.initCardValues();
-      }
-    });
+      this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (answers) => {
+          this.surveyAnswers = answers;
+          this.initCardValues();
+        }
+      });
 
-    this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (name) => {
-        this.countryName = name;
-      }
-    });
+      this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (name) => {
+          this.countryName = name;
+        }
+      });
 
-    this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-    next: (code) => {
-      this.countryCode = code;
+      this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (code) => {
+          this.countryCode = code;
+        }
+      });
+
+
+      this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (answer) => {
+          this.countrySurveyAnswer = answer;
+        }
+      });
     }
-  });
-    
-
-    this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (answer) => {
-        this.countrySurveyAnswer = answer;
-      }
-    });
-  }
 
   initCardValues() {
     this.rfoSoftwarePercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question25']?.['Question25-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);
@@ -96,24 +95,19 @@ export class OpenSoftwaresComponent implements OnInit{
     this.hasMonitoring = this.surveyAnswers[1]?.['Practices']?.['Question70']?.['Question70-0'];
     this.monitoringClarification = this.surveyAnswers[1]?.['Practices']?.['Question70']?.['Question70-1'];
 
-    console.log('Previous:', this.rfoSoftwarePercentage[0]);
-    console.log('Next:', this.rfoSoftwarePercentage[1]);
-    console.log('Diff:', this.dataShareService.calculateDiff(this.rfoSoftwarePercentage[0], this.rfoSoftwarePercentage[1]));
-
-
   }
 
   hasAnyLeftCardData() {
-    return this.dataCheckService.hasAnyValue([
+    return this.dataShareService.hasAnyValue([
       this.rfoSoftwarePercentage[1],
       this.softwareFinancialInvestment[1],
       this.rpoSoftwarePercentage[1],
-    ])
+    ]);
   }
 
   hasSurveySoftwareData(): boolean {
     const surveyData = this?.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE']?.[';Question19']?.['Question19-1'];
-    return  !!(surveyData && surveyData.trim() !== '');
+    return !!(surveyData && surveyData.trim() !== '');
   }
 
 }

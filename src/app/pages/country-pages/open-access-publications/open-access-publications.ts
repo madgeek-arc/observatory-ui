@@ -4,16 +4,18 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import {
-  distributionOfOAByFieldOfScience, distributionOfOAByScholarlyOutputs,
+  distributionOfOAByFieldOfScience,
+  distributionOfOAByScholarlyOutputs,
   OAvsTotalPubsPerCountry,
   trendOfOAPublicationsCountry
 } from "../coutry-pages.queries";
-import { LegendOptions, OptionsStackingValue, SeriesBarOptions, SeriesOptionsType } from "highcharts";
 import * as Highcharts from "highcharts";
+import { LegendOptions, OptionsStackingValue, SeriesBarOptions, SeriesOptionsType } from "highcharts";
 import { ChartsModule } from "../../../shared/charts/charts.module";
 import { ExploreService } from "../../explore/explore.service";
-import { CatalogueUiReusableComponentsModule } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
-import { DataCheckService } from "../services/data-check.service";
+import {
+  CatalogueUiReusableComponentsModule
+} from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
 
 
 @Component({
@@ -96,7 +98,8 @@ export class OpenAccessPublicationsPage implements OnInit {
     yAxis: '',
   }
 
-  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private exploreService: ExploreService, private dataCheckService: DataCheckService) {}
+  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService,
+              private exploreService: ExploreService) {}
 
   ngOnInit() {
 
@@ -204,7 +207,7 @@ export class OpenAccessPublicationsPage implements OnInit {
    * Uses the generic method of DataCheckService to check for null & undefined values.
    */
   hasAnyLeftCardData() {
-    return this.dataCheckService.hasAnyValue([
+    return this.dataShareService.hasAnyValue([
       this.rfoPubsPercentage[1],
       this.rpoPubsPercentage[1],
       this.financialInvestment[1]
@@ -217,7 +220,7 @@ export class OpenAccessPublicationsPage implements OnInit {
       return false;
     }
     const questions = ['Question7'];
-    return this.dataCheckService.hasSurveyData(surveyData, questions);
+    return this.dataShareService.hasSurveyData(surveyData, questions);
   }
 
   initCardValues() {

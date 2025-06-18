@@ -7,7 +7,6 @@ import { EoscReadinessDataService } from "../../services/eosc-readiness-data.ser
 import {
   CatalogueUiReusableComponentsModule
 } from "../../../../survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
-import { DataCheckService } from "../services/data-check.service";
 
 
 @Component({
@@ -43,7 +42,7 @@ export class GeneralRDOverviewComponent implements OnInit {
   surveyAnswers: Object[] = [null, null];
   countrySurveyAnswer?: Object;
 
-  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private dataCheckService: DataCheckService) {}
+  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -121,7 +120,7 @@ export class GeneralRDOverviewComponent implements OnInit {
   }
 
   hasAnyLeftCardData(){
-    return this.dataCheckService.hasAnyValue([
+    return this.dataShareService.hasAnyValue([
       this.OAPubsPercentage[1],
       this.OpenDataPercentage[1],
       this.totalInvestment[1],
@@ -135,7 +134,7 @@ export class GeneralRDOverviewComponent implements OnInit {
       return false;
     }
     const questions = ['Question2', 'Question3', 'Question4', 'Question30'];
-    return this.dataCheckService.hasSurveyData(surveyData, questions)
+    return this.dataShareService.hasSurveyData(surveyData, questions)
   }
 
 }

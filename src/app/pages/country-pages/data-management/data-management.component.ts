@@ -5,7 +5,6 @@ import { DataShareService } from "../services/data-share.service";
 import {
   CatalogueUiReusableComponentsModule
 } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
-import { DataCheckService } from '../services/data-check.service';
 import * as Highcharts from "highcharts/highcharts.src";
 import { ExploreService } from "../../explore/explore.service";
 import { ChartsModule } from "../../../shared/charts/charts.module";
@@ -78,8 +77,7 @@ export class DataManagementComponent implements OnInit {
   labelFormat = '{value}%';
   plotFormat = '{point.percentage:.0f}%';
 
-  constructor(private dataShareService: DataShareService, private dataCheckService: DataCheckService,
-              private exploreService: ExploreService) {}
+  constructor(private dataShareService: DataShareService, private exploreService: ExploreService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -113,21 +111,6 @@ export class DataManagementComponent implements OnInit {
      });
   }
 
-  hasAnyLeftCardData() {
-    return this.dataCheckService.hasAnyValue([
-      this.rfoDataManagementPercentage[1],
-      this.rpoDataManagementPercentage[1],
-      this.financialInvestmentDM[1],
-    ])
-  }
-
-<<<<<<< Updated upstream
-=======
-  
-
-
-
->>>>>>> Stashed changes
   initCardValues() {
     this.rfoDataManagementPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question13']?.['Question13-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);
     this.rfoDataManagementPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question13']?.['Question13-0'], this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0']);
@@ -154,7 +137,6 @@ export class DataManagementComponent implements OnInit {
 
   }
 
-<<<<<<< Updated upstream
   createStackedColumns() {
 
     const rpo: string[] = [  // research performing organisations
@@ -191,21 +173,26 @@ export class DataManagementComponent implements OnInit {
         this.stackedColumnSeries2[1].data.push(+rfo[0] - +rpoWithPolicy[0], +rfo[1] - +rpoWithPolicy[1])
       }
     }
-    console.log(this.stackedColumnSeries1);
-    console.log(this.stackedColumnSeries2);
 
     this.stackedColumnSeries1 = [...this.stackedColumnSeries1];
     this.stackedColumnSeries2 = [...this.stackedColumnSeries2];
+  }
 
-=======
+  hasAnyLeftCardData() {
+    return this.dataShareService.hasAnyValue([
+      this.rfoDataManagementPercentage[1],
+      this.rpoDataManagementPercentage[1],
+      this.financialInvestmentDM[1],
+    ]);
+  }
+
   hasSurveyDataManagementData(): boolean {
     const surveyData = this.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
     if (!surveyData) {
       return false;
     }
     const questions = ['Question15'];
-    return this.dataCheckService.hasSurveyData(surveyData, questions);
->>>>>>> Stashed changes
+    return this.dataShareService.hasSurveyData(surveyData, questions);
   }
 
 }

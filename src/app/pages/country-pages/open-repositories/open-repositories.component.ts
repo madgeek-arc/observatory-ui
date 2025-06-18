@@ -1,5 +1,3 @@
-import { ExploreService } from "../../explore/explore.service";
-import { DataCheckService } from '../services/data-check.service';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
@@ -7,47 +5,46 @@ import { DataShareService } from "../services/data-share.service";
 import {
   CatalogueUiReusableComponentsModule
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
-import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
-
-
 
 
 @Component({
   selector: 'app-open-repositories',
-    imports: [
-        CommonModule,
-        NgOptimizedImage,
-        CatalogueUiReusableComponentsModule,
-    ], 
-    standalone: true,
-    templateUrl: './open-repositories.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    NgOptimizedImage,
+    CatalogueUiReusableComponentsModule,
+  ],
+  templateUrl: './open-repositories.component.html',
 })
+
 export class OpenRepositoriesComponent implements OnInit {
-    private destroyRef = inject(DestroyRef);
+  private destroyRef = inject(DestroyRef);
   protected readonly Math = Math;
-    countryCode?: string;
-    countryName?: string;
-    surveyAnswers: Object[] = [];
-    countrySurveyAnswer?: Object;
+
+  countryCode?: string;
+  countryName?: string;
+  surveyAnswers: Object[] = [];
+  countrySurveyAnswer?: Object;
 
 
-    rfoOpenRepositoriesPercentage: (number | null)[] = [null, null];
-    rfoOpenRepositoriesPercentageDiff: number | null = null;
-    rpoOpenRepositoriesPercentage: (number | null)[] = [null, null];
-    rpoOpenRepositoriesPercentageDiff: number | null = null;
-    hasNationalPolicyOR: string | null = null;
-    nationalPolicyClarificationOR: string | null = null;
-    hasFinancialStrategyOR: string | null = null;
-    financialStrategyClarificationOR: string | null = null;
-    hasMonitoringOR: string | null = null;
-    monitoringClarificationOR: string | null = null;
-    policyMandatoryOR: string | null = null;
-    OpenRepositoriesPercentage: (number | null)[] = [null, null];
-    OpenRepositoriesPercentageDiff: number | null = null;
-    repositoriesfinancialInvestment: (string | null)[] = [null, null];
-    repositoriesfinancialInvestmentPercentageDiff: number | null = null;
+  rfoOpenRepositoriesPercentage: (number | null)[] = [null, null];
+  rfoOpenRepositoriesPercentageDiff: number | null = null;
+  rpoOpenRepositoriesPercentage: (number | null)[] = [null, null];
+  rpoOpenRepositoriesPercentageDiff: number | null = null;
+  hasNationalPolicyOR: string | null = null;
+  nationalPolicyClarificationOR: string | null = null;
+  hasFinancialStrategyOR: string | null = null;
+  financialStrategyClarificationOR: string | null = null;
+  hasMonitoringOR: string | null = null;
+  monitoringClarificationOR: string | null = null;
+  policyMandatoryOR: string | null = null;
+  OpenRepositoriesPercentage: (number | null)[] = [null, null];
+  OpenRepositoriesPercentageDiff: number | null = null;
+  repositoriesfinancialInvestment: (string | null)[] = [null, null];
+  repositoriesfinancialInvestmentPercentageDiff: number | null = null;
 
-  constructor(private dataShareService: DataShareService, private exploreService: ExploreService, private dataCheckService: DataCheckService) {}
+  constructor(private dataShareService: DataShareService) {}
 
   ngOnInit(): void {
     this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -64,11 +61,11 @@ export class OpenRepositoriesComponent implements OnInit {
     });
 
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-    next: (code) => {
-      this.countryCode = code;
-    }
-  });
-    
+      next: (code) => {
+        this.countryCode = code;
+      }
+    });
+
 
     this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answer) => {
@@ -104,31 +101,32 @@ export class OpenRepositoriesComponent implements OnInit {
  }
 
   hasAnyLeftCardData() {
-    return this.dataCheckService.hasAnyValue([
+    return this.dataShareService.hasAnyValue([
       this.rfoOpenRepositoriesPercentage[1],
       this.repositoriesfinancialInvestment[1],
       this.rpoOpenRepositoriesPercentage[1],
-    ])
+    ]);
   }
 
   hasSurveyRepositoriesData(): boolean {
-     const surveyData = this?.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
-  if (!surveyData) {
-    return false;
+    const surveyData = this?.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
+    if (!surveyData) {
+      return false;
+    }
+
+    const questions = [
+      'Question14',
+      'Question15',
+      'Question16',
+      'Question17',
+      'Question18',
+      'Question19',
+      'Question20',
+      'Question21',
+      'Question22',
+      'Question23'
+    ];
+    return this.dataShareService.hasSurveyData(surveyData, questions);
   }
 
-  const questions = [
-    'Question14',
-    'Question15',
-    'Question16',
-    'Question17',
-    'Question18',
-    'Question19',
-    'Question20',
-    'Question21',
-    'Question22',
-    'Question23'
-  ];
-  return this.dataCheckService.hasSurveyData(surveyData, questions);
-  }
 }

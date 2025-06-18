@@ -42,9 +42,6 @@ import {
 import { ChartsModule } from "./shared/charts/charts.module";
 
 
-
-
-
 @NgModule({
   declarations: [
     AppComponent,

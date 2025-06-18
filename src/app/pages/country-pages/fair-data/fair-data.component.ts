@@ -5,7 +5,6 @@ import { DataShareService } from "../services/data-share.service";
 import {
   CatalogueUiReusableComponentsModule
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
-import { DataCheckService } from '../services/data-check.service';
 import * as Highcharts from "highcharts/highcharts.src";
 import { ExploreService } from "../../explore/explore.service";
 import { ChartsModule } from "../../../shared/charts/charts.module";
@@ -77,8 +76,7 @@ export class FairDataComponent implements OnInit {
   labelFormat = '{value}%';
   plotFormat = '{point.percentage:.0f}%';
 
-  constructor(private dataShareService: DataShareService, private dataCheckService: DataCheckService,
-              private exploreService: ExploreService) {}
+  constructor(private dataShareService: DataShareService, private exploreService: ExploreService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -112,13 +110,13 @@ export class FairDataComponent implements OnInit {
   }
 
   hasAnyLeftCardData() {
-    return this.dataCheckService.hasAnyValue([
+    return this.dataShareService.hasAnyValue([
       this.rfoFairDataPercentage[1],
       this.rpoFairDataPercentage[0],
       this.financialInvestmentInFairData[1]
     ]);
   }
-  
+
 
   initCardValues() {
     this.rfoFairDataPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question17']?.['Question17-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);
@@ -144,7 +142,7 @@ export class FairDataComponent implements OnInit {
     this.monitoringClarificationFD = this.surveyAnswers[1]?.['Practices']?.['Question62']?.['Question62-1'];
 
   }
-  
+
 
   createStackedColumns() {
 

@@ -5,7 +5,6 @@ import { DataShareService } from "../services/data-share.service";
 import {
   CatalogueUiReusableComponentsModule
 } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
-import { DataCheckService } from "../services/data-check.service";
 
 class TableRow {
   OSArea: string;
@@ -41,7 +40,7 @@ export class PolicyOverviewComponent {
   surveyAnswer: Object[] = [];
   countrySurveyAnswer?: Object;
 
-  constructor(private dataShareService: DataShareService, private dataCheckService: DataCheckService) {}
+  constructor(private dataShareService: DataShareService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -105,7 +104,7 @@ export class PolicyOverviewComponent {
     }
 
     const questions = ['Question10', 'Question11', 'Question12', 'Question13'];
-    return this.dataCheckService.hasSurveyData(surveyData, questions);
+    return this.dataShareService.hasSurveyData(surveyData, questions);
   }
 
 }
