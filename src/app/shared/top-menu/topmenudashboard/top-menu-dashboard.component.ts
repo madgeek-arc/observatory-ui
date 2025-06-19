@@ -252,4 +252,11 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
       }
     );
   }
+
+  closeOffCanvas() {
+    const offCanvas = UIkit.offcanvas(document.getElementById('offcanvas-menu'));
+    if (offCanvas) {
+      offCanvas.hide();
+    }
+  }
 }
