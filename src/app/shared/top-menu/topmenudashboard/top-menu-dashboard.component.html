@@ -270,10 +270,10 @@
   </div>
   <!-- Mobile Menu -->
   <div class="mobile-menu tm-header uk-hidden@m tm-header-transparent">
-    <div class="uk-navbar-container" uk-navbar>
+    <nav class="uk-navbar-container" uk-navbar>
       <div class="uk-navbar-left">
         <!-- Hamburger button -->
-        <a class="uk-navbar-toggle" uk-toggle="target: #offcanvas-menu" href="#">
+        <a class="uk-navbar-toggle" uk-toggle="target: #tm-mobile" href="#">
           <span uk-navbar-toggle-icon></span>
         </a>
       </div>
@@ -285,99 +285,107 @@
       </div>
 
       <div class="uk-navbar-right">
-        <a class="uk-icon-button" aria-label="Login">
-          <span class="material-symbols-outlined">account_circle</span>
-        </a>
+        <div>
+          <ul class="uk-navbar-nav">
+            <li>
+              <a class="" aria-label="Login">
+                <span class="material-symbols-outlined">person</span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </nav>
 
-    <button class="uk-button uk-button-default" type="button" uk-toggle="target: #offcanvas-nav">Default Nav</button>
+<!--    <button class="uk-button uk-button-default" type="button" uk-toggle="target: #offcanvas-nav">Default Nav</button>-->
 
 
-    <div id="offcanvas-nav" uk-offcanvas="overlay: true">
-      <div class="uk-offcanvas-bar uk-width-expand">
-        <button class="uk-offcanvas-close" type="button" uk-close></button>
+<!--    <div id="offcanvas-nav" uk-offcanvas="overlay: true">-->
+<!--      <div class="uk-offcanvas-bar uk-width-expand">-->
+<!--        <button class="uk-offcanvas-close" type="button" uk-close></button>-->
 
-      <nav uk-dropnav="mode: click">
-       <ul class="uk-subnav">
-        <li>
-              <a href>About <span uk-drop-parent-icon></span></a>
-              <div class="uk-dropdown">
-                  <ul class="uk-nav uk-dropdown-nav">
-                      <li><a [routerLink]="['/about/eosc-observatory']" (click)="closeOffCanvas()">About EOSC Observatory</a></li>
-                      <li><a [routerLink]="['/about/eosc-track']" (click)="closeOffCanvas()">About EOSC Track</a></li>
-                      <li><a [routerLink]="['/about/news']" (click)="closeOffCanvas()">News</a></li>
-                  </ul>
-              </div>
-        </li>
-        <li><a [routerLink]="['/explore']" (click)="closeOffCanvas()">Explore</a></li>
-        </ul>
-      </nav>
-      </div>
-    </div>
+<!--      <nav uk-dropnav="mode: click">-->
+<!--       <ul class="uk-subnav">-->
+<!--        <li>-->
+<!--              <a href>About <span uk-drop-parent-icon></span></a>-->
+<!--              <div class="uk-dropdown">-->
+<!--                  <ul class="uk-nav uk-dropdown-nav">-->
+<!--                      <li><a [routerLink]="['/about/eosc-observatory']" (click)="closeOffCanvas()">About EOSC Observatory</a></li>-->
+<!--                      <li><a [routerLink]="['/about/eosc-track']" (click)="closeOffCanvas()">About EOSC Track</a></li>-->
+<!--                      <li><a [routerLink]="['/about/news']" (click)="closeOffCanvas()">News</a></li>-->
+<!--                  </ul>-->
+<!--              </div>-->
+<!--        </li>-->
+<!--        <li><a [routerLink]="['/explore']" (click)="closeOffCanvas()">Explore</a></li>-->
+<!--        </ul>-->
+<!--      </nav>-->
+<!--      </div>-->
+<!--    </div>-->
 
     <!-- Offcanvas Menu -->
-    <div id="offcanvas-menu" uk-offcanvas="mode: push; overlay: true">
-      <div class="uk-offcanvas-bar uk-flex uk-flex-column uk-height-1-1" style="width: 100%;">
+    <div id="tm-mobile" class="uk-offcanvas uk-offcanvas-overlay" uk-offcanvas="mode: none; overlay: true">
+      <div class="uk-offcanvas-bar uk-padding-remove uk-offcanvas-none" style="width: 100%;">
 
         <!-- Offcanvas navbar -->
-        <nav class="uk-navbar-container uk-background-default uk-padding-remove uk-margin-remove" uk-navbar>
-          <div class="uk-navbar-left">
-            <!-- X close button -->
+        <nav class="uk-navbar-container uk-background-default uk-sticky uk-sticky-fixed" uk-navbar>
 
-           
-            <button class="uk-navbar-toggle uk-icon uk-close" uk-close>
-              <span class="uk-display-inline-block">close</span>
-              <span class="visually-hidden">close menu</span>
+          <div class="uk-navbar-left">
+            <button class="uk-navbar-toggle uk-icon uk-close" (click)="closeOffCanvas('tm-mobile')">
+              <span class="uk-display-inline-block">
+                <span class="material-icons" style="font-size: 30px;">close</span>
+              </span>
             </button>
           </div>
 
           <div class="uk-navbar-center">
             <a class="logo" [routerLink]="['home']">
+<!--              <a class="uk-logo uk-navbar-item uk-flex uk-flex-middle small" [routerLink]="['home']">-->
               <img src="../../../../assets/logo/svg/EOSC%20OPEN%20SCIENCE%20OBSERVATORY%20LOGO.svg" width="100px">
             </a>
           </div>
 
-          <div class="uk-navbar-right"></div>
+<!--          <div class="uk-navbar-right"></div>-->
         </nav>
 
+        <div class="uk-sticky-placeholder" style="height: 65px; width: 390px; margin: 0px;"></div>
+
         <!-- Menu items -->
-        <ul class="uk-nav uk-nav-default uk-nav-parent-icon uk-margin-top" style="text-align: left" uk-nav>
-          <li class="uk-parent">
-            <a href="#">About</a>
-            <ul class="uk-nav-sub">
-              <li><a [routerLink]="['/about/eosc-observatory']" (click)="closeOffCanvas()">About EOSC Observatory</a></li>
-              <li><a [routerLink]="['/about/eosc-track']" (click)="closeOffCanvas()">About EOSC Track</a></li>
-              <li><a [routerLink]="['/about/news']" (click)="closeOffCanvas()">News</a></li>
-            </ul>
-          </li>
+        <ul class="uk-nav uk-nav-primary uk-list uk-list-large uk-margin-large-top" uk-nav>
+<!--          <li class="uk-parent">-->
+<!--            <a href="#">About</a>-->
+<!--            <ul class="uk-nav-sub">-->
+<!--              <li><a [routerLink]="['/about/eosc-observatory']" (click)="closeOffCanvas()">About EOSC Observatory</a></li>-->
+<!--              <li><a [routerLink]="['/about/eosc-track']" (click)="closeOffCanvas()">About EOSC Track</a></li>-->
+<!--              <li><a [routerLink]="['/about/news']" (click)="closeOffCanvas()">News</a></li>-->
+<!--            </ul>-->
+<!--          </li>-->
 
-          <li class="uk-nav-divider"></li>
+<!--          <li class="uk-nav-divider"></li>-->
 
-          <li><a [routerLink]="['/explore']" (click)="closeOffCanvas()">Explore</a></li>
-          <li><a [routerLink]="['/resources']" (click)="closeOffCanvas()">Resources</a></li>
-          <li><a [routerLink]="['/contact']" (click)="closeOffCanvas()">Contact</a></li>
+          <li><a [routerLink]="['/explore']" (click)="closeOffCanvas('tm-mobile')">Explore</a></li>
+<!--          <li><a [routerLink]="['/resources']" (click)="closeOffCanvas()">Resources</a></li>-->
+          <li><a [routerLink]="['/contact']" (click)="closeOffCanvas('tm-mobile')">Contact</a></li>
         </ul>
 
       </div>
     </div>
   </div>
 
-
+</div>
 
   <!-- Consent modal -->
-  <div id="consent-modal" uk-modal="esc-close: false; bg-close: false ">
-    <div class="uk-modal-dialog uk-modal-body">
-      <!--    <h2 class="uk-modal-title">Headline</h2>-->
-      <p>Click the link below and read it carefully. By pressing I agree you acknowledge that you have read and agree to
-        the following terms.</p>
-      <hr>
-      <a *ngIf="acceptedPrivacyPolicy" target="_blank"
-        href="../../../../assets/pdf/{{acceptedPrivacyPolicy.privacyPolicy.filename}}">EOSC Observatory Privacy
-        Policy</a>
-      <p class="uk-text-right">
-        <button class="uk-button uk-button-secondary" type="button" (click)="closeModal()">Close</button>
-        <button class="uk-button uk-button-primary" type="button" (click)="updateConsent()">I agree</button>
-      </p>
-    </div>
+<div id="consent-modal" uk-modal="esc-close: false; bg-close: false ">
+  <div class="uk-modal-dialog uk-modal-body">
+    <!--    <h2 class="uk-modal-title">Headline</h2>-->
+    <p>Click the link below and read it carefully. By pressing I agree you acknowledge that you have read and agree to
+      the following terms.</p>
+    <hr>
+    <a *ngIf="acceptedPrivacyPolicy" target="_blank"
+      href="../../../../assets/pdf/{{acceptedPrivacyPolicy.privacyPolicy.filename}}">EOSC Observatory Privacy
+      Policy</a>
+    <p class="uk-text-right">
+      <button class="uk-button uk-button-secondary" type="button" (click)="closeModal()">Close</button>
+      <button class="uk-button uk-button-primary" type="button" (click)="updateConsent()">I agree</button>
+    </p>
   </div>
+</div>

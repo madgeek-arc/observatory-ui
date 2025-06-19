@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from "@angular/core";
+import {Component, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from "@angular/core";
 import {Router} from "@angular/router";
 import {Administrator, Coordinator, Stakeholder, UserInfo} from "../../../../survey-tool/app/domain/userInfo";
 import {UserService} from "../../../../survey-tool/app/services/user.service";
@@ -15,7 +15,7 @@ import UIkit from 'uikit';
 @Component({
   selector: 'app-top-menu-dashboard',
   templateUrl: 'top-menu-dashboard.component.html',
-  styleUrls: ['../top-menu.component.css'],
+  styleUrls: ['../top-menu.component.css', './top-menu-dashboard.component.less'],
   providers: [PrivacyPolicyService]
 })
 
@@ -31,6 +31,8 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
   showArchive: boolean = false;
   // groupIds: string[] = [];
   unreadMessages: UnreadMessages = new UnreadMessages();
+
+  @ViewChild('canvas') canvas: ElementRef;
 
   constructor(private userService: UserService, private privacyPolicy: PrivacyPolicyService,
               private authentication: AuthenticationService, private router: Router,
@@ -253,10 +255,15 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
     );
   }
 
-  closeOffCanvas() {
-    const offCanvas = UIkit.offcanvas(document.getElementById('offcanvas-menu'));
+  closeOffCanvas(canvasId: string) {
+    const offCanvas = UIkit.offcanvas(document.getElementById(canvasId));
     if (offCanvas) {
       offCanvas.hide();
     }
   }
+
+  closeCanvas(element = this.canvas.nativeElement) {
+    UIkit.offcanvas(element).hide();
+  }
+
 }
