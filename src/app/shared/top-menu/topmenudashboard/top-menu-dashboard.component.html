@@ -288,7 +288,7 @@
         <div>
           <ul class="uk-navbar-nav">
             <li>
-              <a class="" aria-label="Login">
+              <a class="" aria-label="Login" href=" #offcanvas-account" uk-toggle>
                 <span class="material-symbols-outlined">person</span>
               </a>
             </li>
@@ -350,27 +350,125 @@
         <div class="uk-sticky-placeholder" style="height: 65px; width: 390px; margin: 0px;"></div>
 
         <!-- Menu items -->
-        <ul class="uk-nav uk-nav-primary uk-list uk-list-large uk-margin-large-top" uk-nav>
-<!--          <li class="uk-parent">-->
-<!--            <a href="#">About</a>-->
-<!--            <ul class="uk-nav-sub">-->
-<!--              <li><a [routerLink]="['/about/eosc-observatory']" (click)="closeOffCanvas()">About EOSC Observatory</a></li>-->
-<!--              <li><a [routerLink]="['/about/eosc-track']" (click)="closeOffCanvas()">About EOSC Track</a></li>-->
-<!--              <li><a [routerLink]="['/about/news']" (click)="closeOffCanvas()">News</a></li>-->
-<!--            </ul>-->
-<!--          </li>-->
-
-<!--          <li class="uk-nav-divider"></li>-->
-
+        <ul class="uk-nav uk-nav-default uk-nav-parent-icon" uk-nav>
+          <li class="uk-parent">
+            <a href="#">About</a>
+            <ul class="uk-nav-sub">
+              <li><a [routerLink]="['/about/eosc-observatory']" (click)="closeOffCanvas('tm-mobile')">About EOSC Observatory</a></li>
+              <li><a [routerLink]="['/about/eosc-track']" (click)="closeOffCanvas('tm-mobile')">About EOSC Track</a></li>
+              <li><a [routerLink]="['/about/news']" (click)="closeOffCanvas('tm-mobile')">News</a></li>
+            </ul>
+          </li>
+    
           <li><a [routerLink]="['/explore']" (click)="closeOffCanvas('tm-mobile')">Explore</a></li>
-<!--          <li><a [routerLink]="['/resources']" (click)="closeOffCanvas()">Resources</a></li>-->
+          <li><a [routerLink]="['/resources']" (click)="closeOffCanvas('tm-mobile')">Resources</a></li>
           <li><a [routerLink]="['/contact']" (click)="closeOffCanvas('tm-mobile')">Contact</a></li>
         </ul>
 
       </div>
     </div>
-  </div>
+    <!-- Offcanvas for user login -->
+     <div id="offcanvas-account" uk-offcanvas="overlay: true; flip: true">
+      <div class="uk-offcanvas-bar uk-width-expand">
 
+        <button class="uk-offcanvas-close" type="button" uk-close></button>
+
+        <div *ngIf="userInfo">
+          <h4 class="uk-text-bold uk-margin-small-bottom">{{userInfo.user.fullname}}</h4>
+          <div class="uk-text-meta uk-margin-small-bottom">{{userInfo.user.email}}</div>
+          <hr>
+
+          <!--Stakeholders-->
+          <div *ngIf="userInfo.stakeholders?.length > 0">
+            <h5 class="uk-text-uppercase uk-text-bold">Stakeholders</h5>
+            <ul class="uk-nav uk-nav-default">
+              <li *ngFor="let stakeholder of userInfo.stakeholders">
+                <a (click)="setGroup(stakeholder)">
+                  {{ stakeholder.name}}
+                  <svg *ngIf="showUnread(stakeholder.id)" height="20" width="20" style="margin-left: 8px;">
+                    <circle  cx="10" cy="10" r="7" stroke-width="1" fill="#E53935" stroke="E53935"></circle>
+                    <text  x="10" y="14" text-anchor="middle" font-size="10px" fill="#FFFFFF">
+                      {{ showUnread(stakeholder.id) }}
+                    </text>
+                  </svg>
+                </a>
+              </li>
+            </ul>
+            <hr>
+          </div>
+          <!--Coordinators-->
+          <div *ngIf="userInfo.coordinators?.length > 0">
+            <h5 class="uk-text-uppercase uk-text-bold">Coordinators</h5>
+            <ul class="uk-nav uk-nav-default">
+              <li *ngFor="let coordinator of userInfo.coordinators">
+                <a (click)="setCoordinator(coordinator)">
+                  {{ coordinator.name}}
+                  <svg *ngIf="showUnread(coordinator.id)" height="20" width="20" style="margin-left: 8px;">
+                    <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1">
+                      <text class="notification" x="7.2" y="13" text-anchor="middle">
+                        {{ showUnread(coordinator.id) }}
+                      </text>
+                    </circle>
+                  </svg>
+                </a>
+              </li>
+            </ul>
+            <hr>
+          </div>
+          <!--Administrators-->
+          <div *ngIf="userInfo.administrators?.length > 0">
+            <h5 class="uk-text-uppercase uk-text-bold">Administrators</h5>
+            <ul class="uk-nav uk-nav-default">
+              <li *ngFor="let admin of userInfo.administrators">
+                <a (click)="setAdministrator(admin)">
+                  {{ admin.name}}
+                  <svg *ngIf="showUnread(admin.id)" height="20" width="20" style="margin-left: 8px;">
+                    <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1"></circle>
+                    <text class="notification" x="7.2" y="13" text-anchor="middle">
+                      {{ showUnread(admin.id) }}
+                    </text>
+                  </svg>
+                </a>
+              </li>
+            </ul>
+            <hr>
+          </div>
+          <!--Archive Links-->
+          <div *ngIf="showArchive">
+            <h5 class="uk-text-uppercase uk-text-bold">Other Dashboards</h5>
+            <ul class="uk-nav uk-nav-default">
+              <li>
+                <a [routerLink]="['/country_selector']" (click)="closeOffCanvas('offcanvas-account')">
+                  National Contributions by country
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/archive']" (click)="closeOffCanvas('offcanvas-account')">
+                  Archive 2021
+                </a>
+              </li>
+            </ul>
+            <hr>
+          </div>
+          <!-- My Profile-->
+           <ul class="uk-nav uk-nav-default">
+            <li>
+              <a [routerLink]="['/profile']" (click)="closeOffCanvas('offcanvas-account')">
+                <span class="material-icons uk-margin-right">account_circle</span>My Profile
+              </a>
+            </li>
+            <li>
+              <a id="logout" (click)="logout()">
+                <span class="material-icons uk-margin-right">logout</span>Log out
+              </a>
+            </li>
+           </ul>
+        </div>
+        <div *ngIf="!userInfo">
+          <button class="uk-button uk-button-primary uk-width-1-1" (click)="logInButton()">Login</button>
+      </div>
+     </div>
+  </div>
 </div>
 
   <!-- Consent modal -->
