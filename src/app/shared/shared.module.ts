@@ -6,6 +6,7 @@ import { FooterComponent } from "./footer/footer.component";
 import { FullFooterComponent } from "./footer/full-footer.component";
 import { ChartsModule } from "./charts/charts.module";
 import { PipeModule } from "./pipes/pipe.module";
+import { ToggleComponent } from './toggle/toggle.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { PipeModule } from "./pipes/pipe.module";
   declarations: [
     TopMenuDashboardComponent,
     FooterComponent,
-    FullFooterComponent
+    FullFooterComponent,
+    ToggleComponent
   ]
 })
 

@@ -205,6 +205,7 @@ export class InvestmentsInEoscComponent implements OnInit {
 
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
   exportToPDF(contents: HTMLElement[], filename?: string) {
+    console.log('Contents to export:', contents);
     this.exportActive = true
     this.pdfService.export(contents, filename).then(() => {
       this.exportActive = false;
