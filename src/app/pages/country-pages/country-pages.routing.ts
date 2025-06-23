@@ -8,7 +8,7 @@ import { DataManagementComponent } from "./data-management/data-management.compo
 import { FairDataComponent } from "./fair-data/fair-data.component";
 import { OpenRepositoriesComponent } from "./open-repositories/open-repositories.component";
 import { OpenScienceTrainingComponent } from "./open-science-training/open-science-training.component";
-import { OpenSoftwaresComponent } from "./open-softwares/open-softwares.component";
+import { OpenSoftwareComponent } from "./open-software/open-software.component";
 
 
 export const countryPagesRoutes: Route[] = [
@@ -58,8 +58,8 @@ export const countryPagesRoutes: Route[] = [
         component: OpenScienceTrainingComponent
       },
       {
-        path: 'open-softwares',
-        component: OpenSoftwaresComponent
+        path: 'open-software',
+        component: OpenSoftwareComponent
       }
     ]
   }

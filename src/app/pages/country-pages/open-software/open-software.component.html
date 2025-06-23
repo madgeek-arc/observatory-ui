@@ -197,19 +197,27 @@
       </div>
     </div>
     <div class="uk-margin-top uk-flex uk-flex-center">
-        <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science
-        OpenAIRE Graph.
+      <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science OpenAIRE Graph.
     </div>
-   <div *ngIf="hasSurveySoftwareData()" class="uk-margin-medium-top uk-animation-fade">
-    <div class="uk-margin-medium-top uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+
+  </div>
+</div>
+
+
+<div *ngIf="hasSurveySoftwareData()" class="uk-section uk-section-small">
+  <div class="uk-container">
+
+    <div class="uk-margin-medium-top uk-animation-fade">
+      <div class="uk-margin-medium-top uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
         <div id="software_repositories">
-                <div class="uk-text-secondary">Software repositories</div>
-                <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']?.['Question19-1']; else software_repositories">
-                <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']['Question19-1']" class="uk-margin-medium-top"></div>
-                </ng-container>
-                <ng-template #software_repositories><p>N/A</p></ng-template>
+          <div class="uk-text-secondary">Software repositories</div>
+          <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']?.['Question19-1']; else software_repositories">
+            <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']['Question19-1']" class="uk-margin-medium-top"></div>
+          </ng-container>
+          <ng-template #software_repositories><p>N/A</p></ng-template>
         </div>
+      </div>
     </div>
-   </div>
+
   </div>
 </div>

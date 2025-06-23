@@ -7,9 +7,8 @@ import {
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
 
 @Component({
-  selector: 'app-open-softwares',
-  templateUrl: './open-softwares.component.html',
-  styleUrls: ['./open-softwares.component.less'],
+  selector: 'app-open-software',
+  templateUrl: './open-software.component.html',
   standalone: true,
   imports: [
     CommonModule,
@@ -18,7 +17,7 @@ import {
   ],
 })
 
-export class OpenSoftwaresComponent implements OnInit{
+export class OpenSoftwareComponent implements OnInit{
   private destroyRef = inject(DestroyRef);
     protected readonly Math = Math;
     countryCode?: string;

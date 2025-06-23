@@ -209,7 +209,7 @@
     </div>
   </div>
 
-  <div *ngIf="hasSurveyOpenData()"  class="uk-section uk-section-small uk-margin-top">
+  <div *ngIf="hasSurveyOpenData()" class="uk-section uk-section-small uk-margin-top">
     <div class="uk-container">
 
       <div class="uk-animation-fade">
@@ -224,6 +224,13 @@
                   <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']"></div>
                 </ng-container>
                 <ng-template #data_service><p>N/A</p></ng-template>
+              </div>
+              <div id="">
+                <div class="uk-text-secondary">Data repositories</div>
+                <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']; else data_repositories">
+                  <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']"></div>
+                </ng-container>
+                <ng-template #data_repositories><p>N/A</p></ng-template>
               </div>
             </read-more>
           </div>

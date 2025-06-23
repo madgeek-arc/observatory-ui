@@ -181,10 +181,10 @@
   </div>
 </div>
 
-<div class="uk-section uk-section-small uk-margin-top">
+<div *ngIf=" hasSurveyGeneralData()" class="uk-section uk-section-small uk-margin-top">
   <div class="uk-container">
 
-    <div *ngIf=" hasSurveyGeneralData()" class="uk-margin-medium-top uk-animation-fade">
+    <div class="uk-margin-medium-top uk-animation-fade">
       <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
         <h5>Open Science Key Actors in {{ countryName }}</h5>
 

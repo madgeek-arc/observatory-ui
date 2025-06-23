@@ -196,7 +196,7 @@
   </div>
 </div>
 
-<div class="uk-section uk-section-small uk-margin-top">
+<div *ngIf="hasCountrySurveyAnswerData()" class="uk-section uk-section-small uk-margin-top">
   <div class="uk-container">
 
      <div class="uk-animation-fade">
@@ -207,19 +207,17 @@
           <read-more [maxHeight]="300">
             <div id="national_data_service">
               <div class="uk-text-secondary">National Data Service</div>
-              <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']; else data_service">
-                <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']" class="uk-margin-medium-top"></div>
+              <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else data_service">
+                <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']"></div>
               </ng-container>
               <ng-template #data_service><p>N/A</p></ng-template>
             </div>
-
-            <div id="literature_repositories">
-              <div class="">
-                <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else literature_repositories">
-                  <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']" class="uk-margin-medium-top"></div>
-                </ng-container>
-                <ng-template #literature_repositories><p>N/A</p></ng-template>
-              </div>
+            <div id="">
+              <div class="uk-text-secondary">Data repositories</div>
+              <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']; else data_repositories">
+                <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']"></div>
+              </ng-container>
+              <ng-template #data_repositories><p>N/A</p></ng-template>
             </div>
           </read-more>
         </div>
@@ -229,7 +227,7 @@
   </div>
 </div>
 
-<div class="uk-section uk-section-xsmall">
+<div class="uk-section uk-section-small">
   <div class="uk-container">
 
     <div class="uk-child-width-1-2" data-uk-grid>

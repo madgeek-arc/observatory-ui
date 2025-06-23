@@ -99,12 +99,7 @@ export class CitizenScienceComponent implements OnInit {
   }
 
   hasSurveyCitizenScienceData(): boolean {
-    const surveyData = this.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
-    if (!surveyData) {
-      return false;
-    }
-    const questions = ['Question15'];
-    return this.dataShareService.hasSurveyData(surveyData, questions);
+    return this.surveyAnswers[1]?.['Practices']?.['Question95']?.['Question95-0'] === 'Yes' || this.surveyAnswers[1]?.['Practices']?.['Question95']?.['Question95-3'];
   }
 
 }

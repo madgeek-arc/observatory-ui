@@ -9,7 +9,6 @@ import {
 @Component({
   selector: 'app-open-science-training',
   templateUrl: './open-science-training.component.html',
-  styleUrls: ['./open-science-training.component.less'],
   standalone: true,
   imports: [
     CommonModule,

@@ -117,6 +117,16 @@ export class FairDataComponent implements OnInit {
     ]);
   }
 
+  hasCountrySurveyAnswerData() {
+    const surveyData = this.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
+    if (!surveyData) {
+      return false;
+    }
+    const questions = ['Question15', 'Question18'];
+    return this.dataShareService.hasSurveyData(surveyData, questions);
+
+  }
+
 
   initCardValues() {
     this.rfoFairDataPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question17']?.['Question17-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);

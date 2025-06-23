@@ -102,7 +102,7 @@
       </div>
 
       <!-- Right Card (2/5) -->
-       <div class="uk-width-2-5 uk-animation-fade">
+      <div class="uk-width-2-5 uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body visualisation-card">
           <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between uk-margin-remove">
@@ -169,27 +169,36 @@
           <span class="uk-text-bold">Data source:</span>&nbsp;
           Survey on National Contributions to EOSC and Open Science OpenAIRE Graph.
         </div>
-       </div>
-        <div *ngIf="hasSurveyDataManagementData()" class="uk-margin-medium-top uk-animation-fade">
-          <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-            <h5>Learn More about National Data Source</h5>
-            <read-more [maxHeight]="300">
-            <div id="literature_repositories">
-                <div class="uk-text-secondary">Literature repositories</div>
-                <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else literature_repositories">
-                  <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']" class="uk-margin-medium-top"></div>
-                </ng-container>
-                <ng-template #literature_repositories><p>N/A</p></ng-template>
-            </div>
-              </read-more>
-          </div>
-        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
 
-<div class="uk-section uk-section-xsmall">
+<div *ngIf="hasSurveyDataManagementData()" class="uk-section uk-section-small">
+  <div class="uk-container">
+
+    <div class="uk-margin-medium-top uk-animation-fade">
+      <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+        <h5>Learn More about National Data Service</h5>
+        <read-more [maxHeight]="300">
+          <div id="">
+            <div class="uk-text-secondary">National Data Service</div>
+            <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else data_service">
+              <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']" class="uk-margin-medium-top"></div>
+            </ng-container>
+            <ng-template #data_service><p>N/A</p></ng-template>
+          </div>
+        </read-more>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="uk-section uk-section-small">
   <div class="uk-container">
 
     <div class="uk-child-width-1-2" data-uk-grid>

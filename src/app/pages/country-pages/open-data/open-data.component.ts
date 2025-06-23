@@ -205,7 +205,7 @@ export class OpenDataComponent implements OnInit {
     if (!surveyData) {
       return false;
     }
-    const questions = ['Question15'];
+    const questions = ['Question15', 'Question18'];
     return this.dataShareService.hasSurveyData(surveyData, questions);
   }
 

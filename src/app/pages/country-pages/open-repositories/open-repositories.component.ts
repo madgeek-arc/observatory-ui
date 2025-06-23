@@ -115,16 +115,11 @@ export class OpenRepositoriesComponent implements OnInit {
     }
 
     const questions = [
-      'Question14',
-      'Question15',
       'Question16',
       'Question17',
       'Question18',
       'Question19',
       'Question20',
-      'Question21',
-      'Question22',
-      'Question23'
     ];
     return this.dataShareService.hasSurveyData(surveyData, questions);
   }
