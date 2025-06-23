@@ -6,7 +6,7 @@
 
       <div  class="menu_section" style="min-height: 30vh">
 
-        <div class="uk-flex uk-flex-center uk-margin-small-bottom">
+        <div class="uk-flex uk-flex-center uk-margin-small-bottom uk-margin-top">
           <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 50px; padding: 6px 12px">
             <a class="uk-text-uppercase" routerLink="/country_selector"
                style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
@@ -15,7 +15,7 @@
           </div>
         </div>
 
-        <div class="uk-flex uk-flex-middle uk-margin-left">
+        <div class="uk-flex uk-flex-middle uk-margin-left uk-margin-medium-top uk-margin-medium-bottom">
           <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
                class="flag-image" width="30" height="30" alt="rounded flag image">
           <div class="uk-margin-small-left">
@@ -60,7 +60,7 @@
               <span class="uk-width-expand uk-text-truncate">Data Management</span>
             </a>
           </li>
-          
+
           <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
             <a [routerLink]="'open-citizen-science'" class="uk-flex uk-flex-middle">
               <span class="uk-width-expand uk-text-truncate">Citizen Science</span>
@@ -87,6 +87,31 @@
 
         </ul>
 
+      </div>
+
+      <div class="sources-legend uk-text-small uk-margin-medium-top uk-margin-large-bottom card-explore">
+        <h6>Data Source Legend</h6>
+        <div class="left-line eosc-sb uk-margin-medium-bottom">Survey on National Contributions to EOSC and Open Science</div>
+        <div class="left-line openaire-graph uk-margin-medium-bottom">OpenAIRE Graph</div>
+        <div class="left-line noads uk-margin-medium-bottom">NOADs Country Narratives</div>
+        <div class="left-line external-sources uk-margin-medium-bottom">External Data Sources (e.g. Eurostat, EOSC Portal, CoARA)</div>
+
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <div class="legend-dash eosc-sb"></div>-->
+<!--          <div>Survey on National Contributions to EOSC and Open Science</div>-->
+<!--        </div>-->
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <div class="legend-dash openaire-graph"></div>-->
+<!--          <div>OpenAIRE Graph</div>-->
+<!--        </div>-->
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <div class="legend-dash noads"></div>-->
+<!--          <div>NOADs Country Narratives</div>-->
+<!--        </div>-->
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <div class="legend-dash external-sources"></div>-->
+<!--          <div>External Data Sources (e.g. Eurostat, EOSC Portal, CoARA)</div>-->
+<!--        </div>-->
       </div>
 
     </div>

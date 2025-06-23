@@ -5,12 +5,18 @@
       <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
            class="flag-image" width="42" height="42" alt="rounded flag image">
       <div class="uk-margin-small-left">
-        <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>
+        <h4 class="uk-margin-remove-bottom">{{ countryName }}</h4>
       </div>
     </div>
 
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-padding-remove-top">
+  <div class="uk-container">
+
     <div class="uk-flex uk-flex-between uk-flex-middle">
-      <h4>Policy Overview</h4>
+      <h5>Policy Overview</h5>
     </div>
 
     <div class="uk-grid-small" data-uk-grid>
@@ -34,17 +40,19 @@
 
             </tbody>
           </table>
-        </div>
-        <div class="uk-flex uk-margin-top">
-          <span class="uk-text-bold" style="white-space: nowrap;">Data source:</span>&nbsp;
-          Survey on National Contributions to EOSC and Open Science; OpenAIRE Graph.
+          <div class="uk-flex uk-margin-top">
+            <span class="uk-text-bold" style="white-space: nowrap;">Data source:</span>&nbsp;
+            Survey on National Contributions to EOSC and Open Science.
+          </div>
         </div>
       </div>
 
       <!-- right card -->
       <div *ngIf="hasSurveyPolicyData()" class="uk-width-3-5 uk-animation-fade">
-        <div class="uk-card uk-card-default uk-card-body visualisation-card">
-          <div class="uk-width-3-4" id="policies">
+        <div class="uk-card uk-card-default uk-card-body visualisation-card noads">
+          <h6 class="uk-margin-bottom">Policy Landscape in {{ countryName }}</h6>
+          <div class="uk-text-meta">This information has been compiled by the National Open Access Desks</div>
+          <div class="uk-margin-medium-top" id="policies">
             <read-more [maxHeight]="300">
             <div id="policies_overview">
               <div class="uk-text-secondary">Overview</div>

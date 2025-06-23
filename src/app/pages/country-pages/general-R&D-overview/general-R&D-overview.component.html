@@ -3,26 +3,29 @@
 
     <div class="uk-flex uk-flex-middle uk-margin-bottom">
       <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-           class="flag-image" width="42" height="42" alt="rounded flag image">
-      <div class="uk-margin-small-left">
-        <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>
-      </div>
+           class="flag-image uk-margin-small-right" width="42" height="42" alt="rounded flag image">
+      <h4 class="uk-margin-remove">{{ countryName }} - Open Science for 2022</h4>
+    </div>
+  </div>
+</div>
+
+<div class="uk-section uk-padding-remove">
+  <div class="uk-container">
+
+    <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-top">
+      <h5>General Overview of R&D and Open Science</h5>
     </div>
 
-    <div class="uk-flex uk-flex-between uk-flex-middle">
-      <h4>General Overview of Research & Development and Open Science for 2022</h4>
-    </div>
-
-    <div class="uk-grid-small" data-uk-grid>
+    <div class="uk-grid-small uk-grid-match" data-uk-grid>
 
       <div class="uk-width-expand uk-animation-fade" *ngIf="hasAnyLeftCardData()">
         <div class="uk-card uk-card-default uk-card-body visualisation-card">
-          <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>
+          <div class="uk-child-width-1-2 uk-grid-small uk-grid-match" data-uk-grid>
 
             <!-- Card 1 -->
             <div *ngIf="OAPubsPercentage[1] !== null" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Percentage of <span class="uk-text-bold">OA Publication in {{ countryName }}</span> (OA vs Closed)</p>
+                <p>OA Publication in {{ countryName }} (OA vs Closed)</p>
                 <div class="number big uk-margin-medium-top">
                   <span class="uk-text-bold">{{ OAPubsPercentage[1] }}%</span>
                 </div>
@@ -33,7 +36,7 @@
                     </span>
                     <span [ngClass]="OAPubsPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
                       {{ Math.abs(OAPubsPercentageDiff) }}%
-                    </span>&nbsp; vs last year
+                    </span>&nbsp; from last year
                   </div>
                   <div>
                     <img [ngSrc]="'../assets/images/explore/' + (OAPubsPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
@@ -46,7 +49,7 @@
             <!-- Card 2 -->
             <div *ngIf="OpenDataPercentage[1] !== null" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Percentage of <span class="uk-text-bold">Open Data in {{countryName}}</span> (OA vs Closed)</p>
+                <p>Open Data in {{countryName}} (OA vs Closed)</p>
                 <div class="number big uk-margin-medium-top">
                   <span class="uk-text-bold">{{ OpenDataPercentage[1] }}%</span>
                 </div>
@@ -57,7 +60,7 @@
                     </span>
                     <span [ngClass]="OpenDataPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
                       {{ Math.abs(OpenDataPercentageDiff) }}%
-                    </span>&nbsp; vs last year
+                    </span>&nbsp; from last year
                   </div>
                   <div>
                     <img [ngSrc]="'../assets/images/explore/' + (OpenDataPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
@@ -81,7 +84,7 @@
                     </span>
                     <span [ngClass]="investmentPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
                       {{ Math.abs(investmentPercentageDiff) }}%
-                    </span>&nbsp; vs last year
+                    </span>&nbsp; from last year
                   </div>
                   <div>
                     <img [ngSrc]="'../assets/images/explore/' + (investmentPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
@@ -105,7 +108,7 @@
                     </span>
                     <span [ngClass]="openSoftwarePercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
                       {{ Math.abs(openSoftwarePercentageDiff) }}%
-                    </span>&nbsp; vs last year
+                    </span>&nbsp; from last year
                   </div>
                   <div>
                     <img [ngSrc]="'../assets/images/explore/' + (openSoftwarePercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
@@ -116,21 +119,25 @@
             </div>
 
           </div>
+          <div class="uk-margin-top">
+            <span class="uk-text-bold">Data source:</span>&nbsp;
+            Survey on National Contributions to EOSC and Open Science OpenAIRE Graph.
+          </div>
         </div>
       </div>
 
       <!-- Right Card (2/5) -->
       <div class="uk-width-2-5 uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body external-sources visualisation-card">
-          <h5>R&D Information's</h5>
+          <h5>R&D Information</h5>
 <!--          <p>Data for 2022 coming soon</p>-->
 
-          <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>
+          <div class="uk-child-width-1-2 uk-grid-small uk-grid-match" data-uk-grid>
 
             <div *ngIf="rfos[1]">
-              <div class="uk-card card-simple uk-card-small uk-card-body">
+              <div class="">
                 <p>Number of research funding organisations</p>
-                <div class="number big uk-margin uk-flex uk-flex-center">
+                <div class="number big uk-margin">
                   <span class="uk-text-bold">{{ rfos[1] }}</span>
                 </div>
 
@@ -141,16 +148,16 @@
                     </span>
                     <span [ngClass]="rfosPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
                           {{ Math.abs(rfosPercentageDiff) }}%
-                    </span>&nbsp; vs last year
+                    </span>&nbsp; from last year
                   </div>
                 </div>
               </div>
             </div>
 
             <div *ngIf="rpos[1]">
-              <div class="uk-card card-simple uk-card-small uk-card-body">
+              <div class="">
                 <p>Number of research performing organisations</p>
-                <div class="number big uk-margin uk-flex uk-flex-center">
+                <div class="number big uk-margin">
                   <span class="uk-text-bold">{{ rpos[1] }}</span>
                 </div>
 
@@ -161,7 +168,7 @@
                     </span>
                     <span [ngClass]="rposPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
                           {{ Math.abs(rposPercentageDiff) }}%
-                    </span>&nbsp; vs last year
+                    </span>&nbsp; from last year
                   </div>
                 </div>
               </div>
@@ -171,12 +178,11 @@
         </div>
       </div>
     </div>
-    <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
-      <div>
-        <span class="uk-text-bold">Data source:</span>&nbsp;
-        Survey on National Contributions to EOSC and Open Science OpenAIRE Graph.
-      </div>
-    </div>
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-margin-top">
+  <div class="uk-container">
 
     <div *ngIf=" hasSurveyGeneralData()" class="uk-margin-medium-top uk-animation-fade">
       <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
