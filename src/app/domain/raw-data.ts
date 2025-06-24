@@ -43,7 +43,7 @@ export class Row {
 }
 
 export class Data {
-  data: [][] = [];
+  data: string[][] = [];
 }
 
 export class ChartData {

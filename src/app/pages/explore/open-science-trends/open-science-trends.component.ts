@@ -180,7 +180,7 @@ export class OpenScienceTrendsComponent implements OnInit {
     });
   }
 
-  /** Get trends of Publications ----------------------------------------------------------------------------------> **/
+  /** Get trends of Open Data -------------------------------------------------------------------------------------> **/
   getTrendsOpenData() {
     this.queryData.getOSOStatsChartData(trendOfOpenData()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {

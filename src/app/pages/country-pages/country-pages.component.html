@@ -1,0 +1,124 @@
+<div id="explore_sidebar_main_content" class="explore_sidebar_main_swipe explore_sidebar_main_active">
+
+  <aside id="explore_sidebar_main">
+
+    <div id="explore_sidebar_content">
+
+      <div  class="menu_section" style="min-height: 30vh">
+
+        <div class="uk-flex uk-flex-center uk-margin-small-bottom uk-margin-top">
+          <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 50px; padding: 6px 12px">
+            <a class="uk-text-uppercase" routerLink="/country_selector"
+               style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+              Back to country selection
+            </a>
+          </div>
+        </div>
+
+        <div class="uk-flex uk-flex-middle uk-margin-left uk-margin-medium-top uk-margin-medium-bottom">
+          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+               class="flag-image" width="30" height="30" alt="rounded flag image">
+          <div class="uk-margin-small-left">
+            <h5 class="uk-margin-remove-bottom uk-text-muted">{{ countryName }}</h5>
+          </div>
+        </div>
+
+        <ul class="uk-list uk-nav uk-nav-default uk-nav-parent-icon">
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'general'" class="uk-flex uk-flex-middle">
+              <span class="uk-width-expand uk-text-truncate">General R&D Overview</span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'policy'" class="uk-flex uk-flex-middle">
+              <span class="uk-width-expand uk-text-truncate">Policy overview</span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'publications'" class="uk-flex uk-flex-middle">
+              <span class="uk-width-expand uk-text-truncate">Open Access Publications</span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'open-access-data'" class="uk-flex uk-flex-middle">
+              <span class="uk-width-expand uk-text-truncate">Open Data</span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'open-fair-data'" class="uk-flex uk-flex-middle">
+              <span class="uk-width-expand uk-text-truncate">FAIR Data</span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'open-data-management'" class="uk-flex uk-flex-middle">
+              <span class="uk-width-expand uk-text-truncate">Data Management</span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'open-citizen-science'" class="uk-flex uk-flex-middle">
+              <span class="uk-width-expand uk-text-truncate">Citizen Science</span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'open-repositories'" class="uk-flex uk-flex-middle">
+              <span class="uk-width-expand uk-text-truncate">Repositories</span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'open-science-training'" class="uk-flex uk-flex-middle">
+              <span class="uk-width-expand uk-text-truncate">Open Science Training</span>
+            </a>
+          </li>
+
+          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">
+            <a [routerLink]="'open-software'" class="uk-flex uk-flex-middle">
+              <span class="uk-width-expand uk-text-truncate">Open Softwares</span>
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+
+      <div class="sources-legend uk-text-small uk-margin-medium-top uk-margin-large-bottom card-explore">
+        <h6>Data Source Legend</h6>
+        <div class="left-line eosc-sb uk-margin-medium-bottom">Survey on National Contributions to EOSC and Open Science</div>
+        <div class="left-line openaire-graph uk-margin-medium-bottom">OpenAIRE Graph</div>
+        <div class="left-line noads uk-margin-medium-bottom">NOADs Country Narratives</div>
+        <div class="left-line external-sources uk-margin-medium-bottom">External Data Sources (e.g. Eurostat, EOSC Portal, CoARA)</div>
+
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <div class="legend-dash eosc-sb"></div>-->
+<!--          <div>Survey on National Contributions to EOSC and Open Science</div>-->
+<!--        </div>-->
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <div class="legend-dash openaire-graph"></div>-->
+<!--          <div>OpenAIRE Graph</div>-->
+<!--        </div>-->
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <div class="legend-dash noads"></div>-->
+<!--          <div>NOADs Country Narratives</div>-->
+<!--        </div>-->
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <div class="legend-dash external-sources"></div>-->
+<!--          <div>External Data Sources (e.g. Eurostat, EOSC Portal, CoARA)</div>-->
+<!--        </div>-->
+      </div>
+
+    </div>
+
+  </aside>
+
+  <div id="page_content" class="dashboard">
+    <router-outlet></router-outlet>
+  </div>
+</div>
