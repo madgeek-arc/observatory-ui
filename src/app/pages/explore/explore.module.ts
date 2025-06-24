@@ -9,10 +9,8 @@ import { EoscReadinessDataService } from "../services/eosc-readiness-data.servic
 import { ExploreComponent } from "./explore.component";
 import { ExploreRouting } from "./explore.routing";
 import { CustomSearchComponent } from "./custom-search/custom-search.component";
-import { NationalMonitoringComponent } from "./national-monitoring/national-monitoring.component";
 import { OpenScienceByCountryComponent } from "./open-science-by-country/open-science-by-country.component";
 import { OpenScienceImpactComponent } from "./open-science-impact/open-science-impact.component";
-import { OpenSciencePoliciesComponent } from "./open-science-policies/open-science-policies.component";
 import { OpenScienceResourceRegistryComponent } from "./open-science-resource-registry/open-science-resource-registry.component";
 import { OpenScienceTrendsComponent } from "./open-science-trends/open-science-trends.component";
 import { OpenScienceUseCasesComponent } from "./open-science-use-cases/open-science-use-cases.component";
@@ -24,10 +22,8 @@ import { ChartsModule } from "../../shared/charts/charts.module";
   declarations: [
     ExploreComponent,
     CustomSearchComponent,
-    NationalMonitoringComponent,
     OpenScienceByCountryComponent,
     OpenScienceImpactComponent,
-    OpenSciencePoliciesComponent,
     OpenScienceResourceRegistryComponent,
     OpenScienceTrendsComponent,
     OpenScienceUseCasesComponent

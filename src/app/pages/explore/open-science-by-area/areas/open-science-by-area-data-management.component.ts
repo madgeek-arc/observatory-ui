@@ -12,11 +12,16 @@ import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts"
 import { ExploreService } from "../../explore.service";
 import { colors } from "../../../../domain/chart-color-palette";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
+import { SidebarMobileToggleComponent } from "src/app/shared/toggle/sidebar-mobile-toggle.component";
+import { CommonModule } from "@angular/common";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
 
 @Component({
   selector: 'app-open-science-by-area-data-management',
   templateUrl: './open-science-by-area-data-management.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less']
+  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+  standalone: true,
+  imports: [ SidebarMobileToggleComponent, CommonModule, ChartsModule]
 })
 
 export class OpenScienceByAreaDataManagementComponent {

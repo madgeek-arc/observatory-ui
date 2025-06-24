@@ -24,12 +24,17 @@ import { DataHandlerService } from "../../../services/data-handler.service";
 import { CountryTableData } from "../../../../domain/country-table-data";
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { SidebarMobileToggleComponent } from "src/app/shared/toggle/sidebar-mobile-toggle.component";
+import { CommonModule } from "@angular/common";
 
 
 @Component({
   selector: 'app-open-science-by-area-publications',
   templateUrl: './open-science-by-area-publications.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less']
+  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+  standalone: true,
+  imports: [ SidebarMobileToggleComponent, CommonModule, ChartsModule ],
 })
 
 export class OpenScienceByAreaPublicationsComponent implements OnInit {

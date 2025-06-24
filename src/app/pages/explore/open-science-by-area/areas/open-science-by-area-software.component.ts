@@ -10,10 +10,15 @@ import { DataHandlerService } from "../../../services/data-handler.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
+import { SidebarMobileToggleComponent } from "src/app/shared/toggle/sidebar-mobile-toggle.component";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-open-science-by-area-software',
   templateUrl: './open-science-by-area-software.component.html',
+  standalone: true,
+  imports: [ SidebarMobileToggleComponent, CommonModule, ChartsModule],
 })
 
 export class OpenScienceByAreaSoftwareComponent implements OnInit {

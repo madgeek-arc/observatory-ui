@@ -12,11 +12,16 @@ import { StakeholdersService } from "../../../../survey-tool/app/services/stakeh
 import { ExploreService } from "../explore.service";
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 import { monitoringMapCaptions, openScienceAreas } from "../../../domain/chart-captions";
+import { SidebarMobileToggleComponent } from "src/app/shared/toggle/sidebar-mobile-toggle.component";
+import { CommonModule } from "@angular/common";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
 
 @Component({
   selector: 'app-national-monitoring',
   templateUrl: './national-monitoring.component.html',
   styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
+  standalone: true,
+  imports: [ SidebarMobileToggleComponent, CommonModule, ChartsModule],
 })
 
 export class NationalMonitoringComponent implements OnInit {

@@ -10,11 +10,16 @@ import { DataHandlerService } from "../../../services/data-handler.service";
 import { ExploreService } from "../../explore.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
+import { CommonModule } from "@angular/common";
+import { SidebarMobileToggleComponent } from "src/app/shared/toggle/sidebar-mobile-toggle.component";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
 
 @Component({
   selector: 'app-open-science-by-area-citizen-science',
   templateUrl: './open-science-by-area-citizen-science.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less']
+  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+  standalone: true,
+  imports: [CommonModule, SidebarMobileToggleComponent, ChartsModule],
 })
 
 export class OpenScienceByAreaCitizenScienceComponent implements OnInit {

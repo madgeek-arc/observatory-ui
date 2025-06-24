@@ -14,12 +14,17 @@ import { StakeholdersService } from "../../../../survey-tool/app/services/stakeh
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 import { openScienceAreas, policesMapCaptions } from "../../../domain/chart-captions";
 import { OAAndTotalPublicationsPerCountry } from "../OSO-stats-queries/explore-queries";
+import { SidebarMobileToggleComponent } from "src/app/shared/toggle/sidebar-mobile-toggle.component";
+import { CommonModule } from "@angular/common";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
 
 
 @Component({
   selector: 'app-open-science-policies',
   templateUrl: './open-science-policies.component.html',
   styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
+  standalone: true,
+  imports: [ SidebarMobileToggleComponent, CommonModule, ChartsModule ],
 })
 
 export class OpenSciencePoliciesComponent implements OnInit {
