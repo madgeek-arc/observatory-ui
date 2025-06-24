@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ToggleComponent } from './toggle.component';
+import { ToggleComponent } from './sidebar-mobile-toggle.component';
 
 describe('ToggleComponent', () => {
   let component: ToggleComponent;
