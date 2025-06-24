@@ -9,7 +9,6 @@ import { EoscReadinessDataService } from "../services/eosc-readiness-data.servic
 import { ExploreComponent } from "./explore.component";
 import { ExploreRouting } from "./explore.routing";
 import { CustomSearchComponent } from "./custom-search/custom-search.component";
-import { InvestmentsInEoscComponent } from "./investments-in-eosc/investments-in-eosc.component";
 import { NationalMonitoringComponent } from "./national-monitoring/national-monitoring.component";
 import { OpenScienceByCountryComponent } from "./open-science-by-country/open-science-by-country.component";
 import { OpenScienceImpactComponent } from "./open-science-impact/open-science-impact.component";
@@ -25,7 +24,6 @@ import { ChartsModule } from "../../shared/charts/charts.module";
   declarations: [
     ExploreComponent,
     CustomSearchComponent,
-    InvestmentsInEoscComponent,
     NationalMonitoringComponent,
     OpenScienceByCountryComponent,
     OpenScienceImpactComponent,

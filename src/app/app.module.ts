@@ -1,5 +1,5 @@
 import {APP_INITIALIZER, ErrorHandler, NgModule} from "@angular/core";
-import {Router} from "@angular/router";
+import {Router, RouterModule} from "@angular/router";
 import * as Sentry from "@sentry/angular-ivy";
 import {BrowserModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
@@ -11,7 +11,7 @@ import {NgxMatomoRouterModule} from '@ngx-matomo/router';
 import {UserService} from "../survey-tool/app/services/user.service";
 import {SurveyToolModule} from "../survey-tool/app/survey-tool.module";
 import {HttpInterceptorService} from "./pages/services/http-interceptor.service";
-import {SharedModule} from "./shared/shared.module";
+
 import {MessagingSystemModule} from "src/messaging-system-ui/app/messaging-system.module";
 import {CountrySelectorComponent} from "./pages/dashboard/country-selector/country-selector.component";
 import {ReusableComponentsModule} from "../survey-tool/app/shared/reusablecomponents/reusable-components.module";
@@ -37,6 +37,8 @@ import {
   ContributionsHomeExtentionComponent
 } from "./pages/dashboard/contribution-dashboard-extension/home/contributions-home-extention.component";
 import { ChartsModule } from "./shared/charts/charts.module";
+import { SharedModule } from './shared/shared.module';
+
 
 @NgModule({
   declarations: [
@@ -56,13 +58,14 @@ import { ChartsModule } from "./shared/charts/charts.module";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SharedModule,
     ChartsModule,
+    RouterModule,
     SurveyToolModule,
     MessagingSystemModule,
     NgxMatomoTrackerModule.forRoot({trackerUrl: environment.matomoTrackerUrl, siteId: environment.matomoSiteId}),
     NgxMatomoRouterModule,
     ReusableComponentsModule,
+    SharedModule
   ],
   providers: [
     {

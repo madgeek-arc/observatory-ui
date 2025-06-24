@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { OpenScienceByAreaComponent } from "./open-science-by-area.component";
 import { ReusableComponentsModule } from "../../../../survey-tool/app/shared/reusablecomponents/reusable-components.module";
 import { OpenScienceByAreaRouting } from "./open-science-by-area.routing";
 import { HighchartsChartModule } from "highcharts-angular";
@@ -20,7 +19,6 @@ import { ChartsModule } from "../../../shared/charts/charts.module";
 
 @NgModule({
   declarations: [
-    OpenScienceByAreaComponent,
     OpenScienceByAreaPublicationsComponent,
     OpenScienceByAreaOpenDataComponent,
     OpenScienceByAreaFairDataComponent,

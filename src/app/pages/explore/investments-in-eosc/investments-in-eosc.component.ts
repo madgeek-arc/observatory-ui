@@ -8,12 +8,17 @@ import { ExploreService } from "../explore.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions, SeriesBubbleOptions } from "highcharts";
 import { OAPubsPerCountry } from "../OSO-stats-queries/explore-queries";
 import * as Highcharts from 'highcharts';
+import { SidebarMobileToggleComponent } from "src/app/shared/toggle/toggle.component";
+import { CommonModule } from "@angular/common";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
 
 type MergedElement = { x: string; y: string; z: string; name: string; country: string };
 
 @Component({
   selector: 'app-investments-in-eosc',
   templateUrl: './investments-in-eosc.component.html',
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule],
+  standalone: true,
 })
 
 export class InvestmentsInEoscComponent implements OnInit {

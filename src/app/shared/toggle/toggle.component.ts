@@ -1,6 +1,9 @@
 import { Component, Input } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'sidebar-mobile-toggle',
   template: `
     <a *ngIf="activeSidebarItem" href="#sidebar_offcanvas" class="sidebar_mobile_toggle uk-link-reset uk-width-3-5 uk-flex uk-flex-middle" uk-toggle>
@@ -19,3 +22,4 @@ export class SidebarMobileToggleComponent {
   @Input() activeSidebarSubItem: string;
 }
 
+ 
