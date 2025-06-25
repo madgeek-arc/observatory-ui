@@ -15,6 +15,7 @@ import * as Highcharts from "highcharts";
 import { LegendOptions, OptionsStackingValue, SeriesOptionsType } from "highcharts";
 import { ChartsModule } from "../../../shared/charts/charts.module";
 import { ExploreService } from "../../explore/explore.service";
+import { SidebarMobileToggleComponent } from 'src/app/shared/toggle/sidebar-mobile-toggle.component';
 
 @Component({
   selector: 'app-open-data',
@@ -23,6 +24,7 @@ import { ExploreService } from "../../explore/explore.service";
     NgOptimizedImage,
     CatalogueUiReusableComponentsModule,
     ChartsModule,
+    SidebarMobileToggleComponent
   ],
    standalone: true,
   templateUrl: './open-data.component.html',

@@ -1,33 +1,41 @@
-<div class="uk-section uk-section-small">
-  <div class="uk-container">
+<div id="page_content">
+  <div id="page_content_header" class="uk-blur-background" style="margin-top: 0"></div>
+  <div id="page_content_actions" class="uk-blur-background" uk-sticky>
+    <sidebar-mobile-toggle [activeSidebarItem]="'Open Softwares'" class="uk-hidden@m"></sidebar-mobile-toggle>
+  </div>
+  <div id="page_content_inner" class="">
+    <div class="uk-section uk-section-small">
+      <div class="uk-container">
 
-    <div class="uk-flex uk-flex-middle uk-margin-bottom">
-      <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-           class="flag-image" width="42" height="42" alt="rounded flag image">
-      <div class="uk-margin-small-left">
-        <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>
-      </div>
-    </div>
+        <div class="uk-flex uk-flex-middle uk-margin-bottom">
+          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+            class="flag-image" width="42" height="42" alt="rounded flag image">
+          <div class="uk-margin-small-left">
+            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>
+          </div>
+        </div>
 
-    <div class="uk-flex uk-flex-between uk-flex-middle">
-      <h4>Open Software</h4>
-    </div>
+        <div class="uk-flex uk-flex-between uk-flex-middle">
+          <h4>Open Software</h4>
+        </div>
 
-    <p>Open software is a vital component of Open Science, enabling key stakeholders to access, modify, and share tools that drive innovation and collaboration in research.
-         It fosters transparency, reproducibility, and interoperability across scientific disciplines.
-          This page provides an overview of open software initiatives in Europe, including data on policies, financial investments, and strategies from the Survey on National Contributions to EOSC and Open Science</p>
+        <p>Open software is a vital component of Open Science, enabling key stakeholders to access, modify, and share
+          tools that drive innovation and collaboration in research.
+          It fosters transparency, reproducibility, and interoperability across scientific disciplines.
+          This page provides an overview of open software initiatives in Europe, including data on policies, financial
+          investments, and strategies from the Survey on National Contributions to EOSC and Open Science</p>
 
-    <div class="uk-flex uk-flex-between uk-flex-middle">
-      <h4>General Overview of Open Software in {{ countryName }} for 2023</h4>
-    </div>
+        <div class="uk-flex uk-flex-between uk-flex-middle">
+          <h4>General Overview of Open Software in {{ countryName }} for 2023</h4>
+        </div>
 
-    <div class="uk-grid-small" data-uk-grid>
-      <div class="uk-width-expand" *ngIf="hasAnyLeftCardData()">
-        <div class="uk-card uk-card-default uk-card-body visualisation-card">
-          <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>
+        <div class="uk-grid-small" data-uk-grid>
+          <div class="uk-width-expand" *ngIf="hasAnyLeftCardData()">
+            <div class="uk-card uk-card-default uk-card-body visualisation-card">
+              <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>
 
-            <!-- Card 1 -->
-            <!-- <div *ngIf="OpenTrainingPercentage[1] !== null" class="uk-animation-scale-up">
+                <!-- Card 1 -->
+                <!-- <div *ngIf="OpenTrainingPercentage[1] !== null" class="uk-animation-scale-up">
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <p>Percentage of <span class="uk-text-bold">Open Repositories in {{ countryName }}</span></p>
                 <div class="number big uk-margin-medium-top">
@@ -50,174 +58,191 @@
               </div>
             </div> -->
 
-            <!-- Card 2 -->
-            <div *ngIf="rfoSoftwarePercentage[1] !== null" class="uk-animation-scale-up">
-              <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Percentage of <span class="uk-text-bold">RFO's Policy on Repositories</span></p>
-                <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">{{ rfoSoftwarePercentage[1] }}%</span>
-                </div>
-                <div *ngIf="rfoSoftwarePercentageDiff !== null" class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
-                  <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined" [ngClass]="rfoSoftwarePercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ rfoSoftwarePercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                    </span>
-                    <span [ngClass]="rfoSoftwarePercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                      {{ Math.abs(rfoSoftwarePercentageDiff) }}%
-                    </span>&nbsp; vs last year
+                <!-- Card 2 -->
+                <div *ngIf="rfoSoftwarePercentage[1] !== null" class="uk-animation-scale-up">
+                  <div class="uk-card card-simple uk-card-small uk-card-body">
+                    <p>Percentage of <span class="uk-text-bold">RFO's Policy on Repositories</span></p>
+                    <div class="number big uk-margin-medium-top">
+                      <span class="uk-text-bold">{{ rfoSoftwarePercentage[1] }}%</span>
+                    </div>
+                    <div *ngIf="rfoSoftwarePercentageDiff !== null"
+                      class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
+                      <div class="uk-flex uk-flex-middle">
+                        <span class="material-symbols-outlined"
+                          [ngClass]="rfoSoftwarePercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                          {{ rfoSoftwarePercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                        </span>
+                        <span
+                          [ngClass]="rfoSoftwarePercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                          {{ Math.abs(rfoSoftwarePercentageDiff) }}%
+                        </span>&nbsp; vs last year
+                      </div>
+                      <div>
+                        <img
+                          [src]="'../assets/images/explore/' + (rfoSoftwarePercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                          alt="trend image" height="50" width="99">
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <img [src]="'../assets/images/explore/' + (rfoSoftwarePercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                      alt="trend image" height="50" width="99">
+                </div>
+
+                <!-- Card 3 -->
+                <div *ngIf="softwareFinancialInvestment[1] !== null" class="uk-animation-scale-up">
+                  <div class="uk-card card-simple uk-card-small uk-card-body">
+                    <p>Total <span class="uk-text-bold">financial investment in repositories</span></p>
+                    <div class="number big uk-margin-medium-top">
+                      <span class="uk-text-bold">{{ softwareFinancialInvestment[1] + ' mil Euro' }}</span>
+                    </div>
+                    <div *ngIf="softwareFinancialInvestmentPercentageDiff !== null"
+                      class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
+                      <div class="uk-flex uk-flex-middle">
+                        <span class="material-symbols-outlined"
+                          [ngClass]="softwareFinancialInvestmentPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                          {{ softwareFinancialInvestmentPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                        </span>
+                        <span
+                          [ngClass]="softwareFinancialInvestmentPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                          {{ Math.abs(softwareFinancialInvestmentPercentageDiff) }}%
+                        </span>&nbsp; vs last year
+                      </div>
+                      <div>
+                        <img
+                          [src]="'../assets/images/explore/' + (softwareFinancialInvestmentPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                          alt="trend image" height="50" width="99">
+                      </div>
+                    </div>
                   </div>
                 </div>
+
+                <!-- Card 4 -->
+                <div *ngIf="rpoSoftwarePercentage[1] !== null" class="uk-animation-scale-up">
+                  <div class="uk-card card-simple uk-card-small uk-card-body">
+                    <p>Percentage of <span class="uk-text-bold">RPO's Policy in Repositories</span></p>
+                    <div class="number big uk-margin-medium-top">
+                      <span class="uk-text-bold">{{ rpoSoftwarePercentage[1] }}%</span>
+                    </div>
+                    <div *ngIf="rpoSoftwarePercentage !== null"
+                      class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
+                      <div class="uk-flex uk-flex-middle">
+                        <span class="material-symbols-outlined"
+                          [ngClass]="rpoSoftwarePercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                          {{ rpoSoftwarePercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                        </span>
+                        <span
+                          [ngClass]="rpoSoftwarePercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                          {{ Math.abs(rpoSoftwarePercentageDiff) }}%
+                        </span>&nbsp; vs last year
+                      </div>
+                      <div>
+                        <img
+                          [src]="'../assets/images/explore/' + (rpoSoftwarePercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                          alt="trend image" height="50" width="99">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
-
-            <!-- Card 3 -->
-            <div *ngIf="softwareFinancialInvestment[1] !== null" class="uk-animation-scale-up">
-              <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Total <span class="uk-text-bold">financial investment in repositories</span></p>
-                <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">{{ softwareFinancialInvestment[1] + ' mil Euro' }}</span>
-                </div>
-                <div *ngIf="softwareFinancialInvestmentPercentageDiff !== null" class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
-                  <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined" [ngClass]="softwareFinancialInvestmentPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ softwareFinancialInvestmentPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                    </span>
-                    <span [ngClass]="softwareFinancialInvestmentPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                      {{ Math.abs(softwareFinancialInvestmentPercentageDiff) }}%
-                    </span>&nbsp; vs last year
-                  </div>
-                  <div>
-                    <img [src]="'../assets/images/explore/' + (softwareFinancialInvestmentPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                      alt="trend image" height="50" width="99">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div *ngIf="rpoSoftwarePercentage[1] !== null" class="uk-animation-scale-up">
-              <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Percentage of <span class="uk-text-bold">RPO's Policy in Repositories</span></p>
-                <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">{{ rpoSoftwarePercentage[1] }}%</span>
-                </div>
-                <div *ngIf="rpoSoftwarePercentage !== null" class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
-                  <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined" [ngClass]="rpoSoftwarePercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ rpoSoftwarePercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                    </span>
-                    <span [ngClass]="rpoSoftwarePercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                      {{ Math.abs(rpoSoftwarePercentageDiff) }}%
-                    </span>&nbsp; vs last year
-                  </div>
-                  <div>
-                    <img [src]="'../assets/images/explore/' + (rpoSoftwarePercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                      alt="trend image" height="50" width="99">
-                  </div>
-                </div>
-              </div>
-            </div>
-
           </div>
-        </div>
-      </div>
 
-      <!-- Right Card-->
-      <div class="uk-width-2-5 uk-animation-fade">
-        <div class="uk-card uk-card-default uk-card-body visualisation-card">
-          <div class="uk-margin-top">
-            <h5 class="uk-flex uk-flex-between uk-margin-remove">
-              National Repository Policy
-              <span
-                class="material-symbols-outlined"
-                [ngClass]="{
+          <!-- Right Card-->
+          <div class="uk-width-2-5 uk-animation-fade">
+            <div class="uk-card uk-card-default uk-card-body visualisation-card">
+              <div class="uk-margin-top">
+                <h5 class="uk-flex uk-flex-between uk-margin-remove">
+                  National Repository Policy
+                  <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': hasNationalPolicy === 'Yes',
                   'down-arrow-color': hasNationalPolicy === 'No',
                   'unanswered-color': hasNationalPolicy === null
                 }">
-                {{
-                  hasNationalPolicy === 'Yes' ? 'check' :
-                  hasNationalPolicy === 'No' ? 'close' :
-                  'question_mark'
-                }}
-              </span>
-            </h5>
-            <p *ngIf="policyMandatory === 'Yes'" class="uk-text-primary uk-text-bolder uk-margin-remove-top">Mandatory policy</p>
-            <read-more-text *ngIf="nationalPolicyClarification" [maxHeight]="68"
-                            [text]="nationalPolicyClarification">
-            </read-more-text>
-          </div>
+                    {{
+                    hasNationalPolicy === 'Yes' ? 'check' :
+                    hasNationalPolicy === 'No' ? 'close' :
+                    'question_mark'
+                    }}
+                  </span>
+                </h5>
+                <p *ngIf="policyMandatory === 'Yes'" class="uk-text-primary uk-text-bolder uk-margin-remove-top">
+                  Mandatory policy</p>
+                <read-more-text *ngIf="nationalPolicyClarification" [maxHeight]="68"
+                  [text]="nationalPolicyClarification">
+                </read-more-text>
+              </div>
 
-          <div class="uk-margin-top">
-            <h5 class="uk-flex uk-flex-between">
-              Financial Strategy for Repositories
-              <span class="material-symbols-outlined"
-                [ngClass]="{
+              <div class="uk-margin-top">
+                <h5 class="uk-flex uk-flex-between">
+                  Financial Strategy for Repositories
+                  <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': hasFinancialStrategy === 'Yes',
                   'down-arrow-color': hasFinancialStrategy === 'No',
                   'unanswered-color': hasFinancialStrategy === null
                 }">
-                {{
-                  hasFinancialStrategy === 'Yes' ? 'check' :
-                  hasFinancialStrategy === 'No' ? 'close' :
-                  'question_mark'
-                }}
-              </span>
-            </h5>
-            <read-more-text *ngIf="financialStrategyClarification" [maxHeight]="68"
-                            [text]="financialStrategyClarification">
-            </read-more-text>
-          </div>
+                    {{
+                    hasFinancialStrategy === 'Yes' ? 'check' :
+                    hasFinancialStrategy === 'No' ? 'close' :
+                    'question_mark'
+                    }}
+                  </span>
+                </h5>
+                <read-more-text *ngIf="financialStrategyClarification" [maxHeight]="68"
+                  [text]="financialStrategyClarification">
+                </read-more-text>
+              </div>
 
-          <div class="uk-margin-top">
-            <h5 class="uk-flex uk-flex-between">
-              Monitoring of Repositories
-              <span class="material-symbols-outlined"
-                [ngClass]="{
+              <div class="uk-margin-top">
+                <h5 class="uk-flex uk-flex-between">
+                  Monitoring of Repositories
+                  <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': hasMonitoring === 'Yes',
                   'down-arrow-color': hasMonitoring === 'No',
                   'unanswered-color': hasMonitoring === null
                 }">
-                {{
-                  hasMonitoring === 'Yes' ? 'check' :
-                  hasMonitoring === 'No' ? 'close' :
-                  'question_mark'
-                }}
-              </span>
-            </h5>
-            <read-more-text *ngIf="monitoringClarification" [maxHeight]="68"
-                            [text]="monitoringClarification">
-            </read-more-text>
+                    {{
+                    hasMonitoring === 'Yes' ? 'check' :
+                    hasMonitoring === 'No' ? 'close' :
+                    'question_mark'
+                    }}
+                  </span>
+                </h5>
+                <read-more-text *ngIf="monitoringClarification" [maxHeight]="68" [text]="monitoringClarification">
+                </read-more-text>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="uk-margin-top uk-flex uk-flex-center">
-      <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science OpenAIRE Graph.
-    </div>
-
-  </div>
-</div>
-
-
-<div *ngIf="hasSurveySoftwareData()" class="uk-section uk-section-small">
-  <div class="uk-container">
-
-    <div class="uk-margin-medium-top uk-animation-fade">
-      <div class="uk-margin-medium-top uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-        <div id="software_repositories">
-          <div class="uk-text-secondary">Software repositories</div>
-          <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']?.['Question19-1']; else software_repositories">
-            <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']['Question19-1']" class="uk-margin-medium-top"></div>
-          </ng-container>
-          <ng-template #software_repositories><p>N/A</p></ng-template>
+        <div class="uk-margin-top uk-flex uk-flex-center">
+          <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open
+          Science OpenAIRE Graph.
         </div>
+
       </div>
     </div>
 
+
+    <div *ngIf="hasSurveySoftwareData()" class="uk-section uk-section-small">
+      <div class="uk-container">
+
+        <div class="uk-margin-medium-top uk-animation-fade">
+          <div class="uk-margin-medium-top uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+            <div id="software_repositories">
+              <div class="uk-text-secondary">Software repositories</div>
+              <ng-container
+                *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']?.['Question19-1']; else software_repositories">
+                <div
+                  [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']['Question19-1']"
+                  class="uk-margin-medium-top"></div>
+              </ng-container>
+              <ng-template #software_repositories>
+                <p>N/A</p>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
+  <div id="page_content_footer"></div>
 </div>

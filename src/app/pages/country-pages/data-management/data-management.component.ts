@@ -8,6 +8,7 @@ import {
 import * as Highcharts from "highcharts/highcharts.src";
 import { ExploreService } from "../../explore/explore.service";
 import { ChartsModule } from "../../../shared/charts/charts.module";
+import { SidebarMobileToggleComponent } from 'src/app/shared/toggle/sidebar-mobile-toggle.component';
 
 
 @Component({
@@ -17,7 +18,8 @@ import { ChartsModule } from "../../../shared/charts/charts.module";
     CommonModule,
     NgOptimizedImage,
     CatalogueUiReusableComponentsModule,
-    ChartsModule
+    ChartsModule,
+    SidebarMobileToggleComponent
   ],
   templateUrl: './data-management.component.html',
 })

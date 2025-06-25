@@ -1,4 +1,10 @@
-<div class="uk-section uk-section-small">
+<div id="page_content">  
+<div id="page_content_header" class="uk-blur-background" style="margin-top: 0"></div>
+<div id="page_content_actions" class="uk-blur-background" uk-sticky>
+  <sidebar-mobile-toggle [activeSidebarItem]="'General R&D Overview'" class="uk-hidden@m"></sidebar-mobile-toggle>
+</div>
+<div id="page_content_inner" class="">
+  <div class="uk-section uk-section-small">
   <div class="uk-container">
 
     <div class="uk-flex uk-flex-middle uk-margin-bottom">
@@ -234,4 +240,7 @@
 <!--    <pre *ngFor="let element of surveyAnswers">{{element | json}}</pre>-->
 
   </div>
+</div>
+</div>
+<div id="page_content_footer"></div>
 </div>

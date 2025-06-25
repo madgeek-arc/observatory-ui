@@ -8,6 +8,7 @@ import {
 import * as Highcharts from "highcharts/highcharts.src";
 import { ExploreService } from "../../explore/explore.service";
 import { ChartsModule } from "../../../shared/charts/charts.module";
+import { SidebarMobileToggleComponent } from 'src/app/shared/toggle/sidebar-mobile-toggle.component';
 
 @Component({
   selector: 'app-fair-data',
@@ -16,6 +17,7 @@ import { ChartsModule } from "../../../shared/charts/charts.module";
     NgOptimizedImage,
     CatalogueUiReusableComponentsModule,
     ChartsModule,
+    SidebarMobileToggleComponent
   ],
   standalone: true,
   templateUrl: './fair-data.component.html',
