@@ -19,7 +19,7 @@ export interface SidebarItem {
 
 export class SideBarService {
 
-  public static HEADER_HEIGHT = '65px';
+  public static HEADER_HEIGHT = '80px';
   private deviceBreakpoint: number;
 
   /**
@@ -165,13 +165,11 @@ export class SideBarService {
       if (event instanceof ActivationStart) {
         this.setReplaceHeader(false);
         let data = event.snapshot.data;
-        console.log(data);
         if (data['hasSidebar'] !== undefined &&
           data['hasSidebar'] === false) {
           this.setHasSidebar(false);
         } else {
           this.setHasSidebar(true);
-          console.log(this.hasSidebarSubject.value);
         }
         if (data['hasHeader'] !== undefined &&
           data['hasHeader'] === false) {
