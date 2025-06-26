@@ -13,9 +13,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, QueryParamsHandling, Router, RouterLink } from "@angular/router";
-// import { properties } from "../../../../../environments/environment";
-// import { LayoutService } from "./layout.service";
-import { BehaviorSubject, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { SideBarService } from "./side-bar-service";
 import { SidebarContentComponent } from "./side-bar-content.component";
@@ -108,7 +106,7 @@ export class SideBarComponent implements OnInit, AfterViewInit, OnDestroy, OnCha
   @Input() activeItem: string = '';
   @Input() activeSubItem: string = '';
   @Input() backItem: MenuItem = null;
-  @Input() queryParamsHandling;
+  @Input() queryParamsHandling: QueryParamsHandling;
   @Input() logoURL: string;
   @ViewChild("nav") nav: ElementRef;
   @ViewChild("sidebar_offcanvas") sidebar_offcanvas: ElementRef;

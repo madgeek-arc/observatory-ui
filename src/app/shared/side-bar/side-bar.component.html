@@ -1,5 +1,6 @@
-<!--  Todo: Give proper id when css are ported over  -->
-<div id="" uk-sticky="end: .sidebar_main_swipe;" [attr.offset]="offset" class="uk-visible@m">
+<!--  Todo: Give proper id when css are ported over, remove explore prefix from explore_sidebar_main_swipe  -->
+<!--<div id="explore_sidebar_main" uk-sticky="end: .explore_sidebar_main_swipe;" [attr.offset]="offset" class="uk-visible@m">-->
+<div [attr.offset]="offset" class="uk-visible@m">
   <div sidebar-content>
     <ng-container *ngTemplateOutlet="menu; context: {mobile: false}"></ng-container>
   </div>
