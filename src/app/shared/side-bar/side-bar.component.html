@@ -1,6 +1,7 @@
 <!--  Todo: Give proper id when css are ported over, remove explore prefix from explore_sidebar_main_swipe  -->
 <!--<div id="explore_sidebar_main" uk-sticky="end: .explore_sidebar_main_swipe;" [attr.offset]="offset" class="uk-visible@m">-->
-<div [attr.offset]="offset" class="uk-visible@m">
+<!--<div class="uk-visible@m">-->
+<div id="sidebar_main" [attr.offset]="offset" class="uk-visible@m">
   <div sidebar-content>
     <ng-container *ngTemplateOutlet="menu; context: {mobile: false}"></ng-container>
   </div>
@@ -35,7 +36,7 @@
   <div *ngIf="logoURL" id="sidebar_logo" class="uk-margin-top">
     <img [src]="logoURL" alt="Logo">
   </div>
-  <div *ngIf="items.length > 0" class="menu_section uk-margin-large-top" [class.mobile]="mobile" style="min-height: 30vh">
+  <div *ngIf="items.length > 0" class="menu_section uk-margin-top" [class.mobile]="mobile" style="min-height: 30vh">
     <ul #nav class="uk-list uk-nav" [class.uk-list-large]="mobile" [class.uk-nav-default]="!mobile"
         [class.uk-nav-primary]="mobile" uk-nav="duration: 400">
       <ng-template ngFor [ngForOf]="items" let-item>

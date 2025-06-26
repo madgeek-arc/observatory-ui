@@ -1,3 +1,16 @@
+@breakpoint-small:                             640px;  // Phone landscape
+@breakpoint-medium:                            960px;  // Tablet Landscape
+@breakpoint-large:                             1200px; // Desktop
+@breakpoint-xlarge:                            1600px; // Large Screens
+
+@breakpoint-xsmall-max:                        (@breakpoint-small - 1);
+@breakpoint-small-max:                         (@breakpoint-medium - 1);
+@breakpoint-medium-max:                        (@breakpoint-large - 1);
+@breakpoint-large-max:                         (@breakpoint-xlarge - 1);
+
+@dashboard-pages: #page_content, openaire-user  > user > div, openaire-error  > div;
+@dashboard-elements: #page_content .message, bottom > div;
+
 /* ========================================================================
    Sidebar main
  ========================================================================== */
@@ -168,6 +181,23 @@
   min-height: calc(100vh - var(--header-height));
   position: relative;
   z-index: 70;
+}
+
+.explore_sidebar_main_swipe {
+  @media (max-width: @breakpoint-small-max) {
+    #explore_sidebar_main, #explore_sidebar_main #explore_sidebar_content, #explore_sidebar_toggle {
+      display: none !important;
+    }
+
+    @{dashboard-pages}, @{dashboard-elements} {
+      //padding-left: 0 !important;
+      margin-left: 0 !important;
+    }
+
+    #page_content .message {
+      padding-right: 0;
+    }
+  }
 }
 
 /* ========================================================================

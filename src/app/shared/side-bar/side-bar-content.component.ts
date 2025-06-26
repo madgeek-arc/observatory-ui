@@ -6,7 +6,7 @@ import { SideBarService } from "./side-bar-service";
   standalone: true,
   template: `
     <div id="sidebar_toggle" (click)="toggleOpen()"></div>
-    <div id="explore_sidebar_content" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+    <div id="sidebar_content" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
       <ng-content></ng-content>
     </div>
   `
