@@ -10,7 +10,7 @@ import { zip } from "rxjs/internal/observable/zip";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
-import { SidebarMobileToggleComponent } from "src/app/shared/toggle/sidebar-mobile-toggle.component";
+import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { CommonModule } from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 

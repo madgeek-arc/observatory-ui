@@ -7,11 +7,22 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { zip } from "rxjs";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
+import {
+  SidebarMobileToggleComponent
+} from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { CommonModule } from "@angular/common";
+import { ChartsModule } from "../../../shared/charts/charts.module";
 
 
 @Component({
   selector: 'app-open-science-trends',
+  standalone: true,
   templateUrl: './open-science-trends.component.html',
+  imports: [
+    CommonModule,
+    SidebarMobileToggleComponent,
+    ChartsModule
+  ]
 })
 
 export class OpenScienceTrendsComponent implements OnInit {

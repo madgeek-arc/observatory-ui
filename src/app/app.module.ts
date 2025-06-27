@@ -40,6 +40,9 @@ import {
 } from "./pages/dashboard/contribution-dashboard-extension/home/contributions-home-extention.component";
 import { ChartsModule } from "./shared/charts/charts.module";
 import { SharedModule } from './shared/shared.module';
+import {
+  ContributionsDashboardComponent
+} from "../survey-tool/app/pages/contributions-dashboard/contributions-dashboard.component";
 
 
 @NgModule({
@@ -66,7 +69,8 @@ import { SharedModule } from './shared/shared.module';
     NgxMatomoTrackerModule.forRoot({trackerUrl: environment.matomoTrackerUrl, siteId: environment.matomoSiteId}),
     NgxMatomoRouterModule,
     ReusableComponentsModule,
-    SharedModule
+    SharedModule,
+    ContributionsDashboardComponent
   ],
   providers: [
     {

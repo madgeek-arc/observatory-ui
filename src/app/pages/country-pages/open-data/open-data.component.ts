@@ -15,7 +15,7 @@ import * as Highcharts from "highcharts";
 import { LegendOptions, OptionsStackingValue, SeriesOptionsType } from "highcharts";
 import { ChartsModule } from "../../../shared/charts/charts.module";
 import { ExploreService } from "../../explore/explore.service";
-import { SidebarMobileToggleComponent } from 'src/app/shared/toggle/sidebar-mobile-toggle.component';
+import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 
 @Component({
   selector: 'app-open-data',

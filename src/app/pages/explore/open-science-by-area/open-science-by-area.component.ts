@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SidebarMobileToggleComponent } from "src/app/shared/toggle/sidebar-mobile-toggle.component";
+import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { RouterModule } from "@angular/router";
 
 

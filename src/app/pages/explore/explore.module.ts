@@ -10,11 +10,9 @@ import { CustomSearchComponent } from "./custom-search/custom-search.component";
 import { OpenScienceByCountryComponent } from "./open-science-by-country/open-science-by-country.component";
 import { OpenScienceImpactComponent } from "./open-science-impact/open-science-impact.component";
 import { OpenScienceResourceRegistryComponent } from "./open-science-resource-registry/open-science-resource-registry.component";
-import { OpenScienceTrendsComponent } from "./open-science-trends/open-science-trends.component";
 import { OpenScienceUseCasesComponent } from "./open-science-use-cases/open-science-use-cases.component";
 import { ExploreService } from "./explore.service";
 import { ChartsModule } from "../../shared/charts/charts.module";
-import {SidebarMobileToggleComponent} from "../../shared/toggle/sidebar-mobile-toggle.component";
 
 @NgModule({
   declarations: [
@@ -22,17 +20,15 @@ import {SidebarMobileToggleComponent} from "../../shared/toggle/sidebar-mobile-t
     OpenScienceByCountryComponent,
     OpenScienceImpactComponent,
     OpenScienceResourceRegistryComponent,
-    OpenScienceTrendsComponent,
     OpenScienceUseCasesComponent
   ],
-    imports: [
-        CommonModule,
-        ReusableComponentsModule,
-        ExploreRouting,
-        ChartsModule,
-        NgOptimizedImage,
-        SidebarMobileToggleComponent,
-    ],
+  imports: [
+    CommonModule,
+    ReusableComponentsModule,
+    ExploreRouting,
+    ChartsModule,
+    NgOptimizedImage,
+  ],
   providers: [
     DataService,
     EoscReadinessDataService,

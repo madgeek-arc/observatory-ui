@@ -25,7 +25,7 @@ import { CountryTableData } from "../../../../domain/country-table-data";
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
-import { SidebarMobileToggleComponent } from "src/app/shared/toggle/sidebar-mobile-toggle.component";
+import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { CommonModule } from "@angular/common";
 
 

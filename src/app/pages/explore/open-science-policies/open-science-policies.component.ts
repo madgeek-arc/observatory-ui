@@ -14,7 +14,7 @@ import { StakeholdersService } from "../../../../survey-tool/app/services/stakeh
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 import { openScienceAreas, policesMapCaptions } from "../../../domain/chart-captions";
 import { OAAndTotalPublicationsPerCountry } from "../OSO-stats-queries/explore-queries";
-import { SidebarMobileToggleComponent } from "src/app/shared/toggle/sidebar-mobile-toggle.component";
+import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { CommonModule } from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 
@@ -322,8 +322,6 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        console.log(value);
-        // console.log(this.createBubbleChartSeries(value));
         this.bubbleChart = this.createBubbleChartSeries(value[3], value[0], value[1], value[2]);
       },
       error: err => {console.error(err)}
@@ -347,9 +345,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
       let item = {
         x: Math.round(((+el[3] * 1000000 / +el[1]) + Number.EPSILON) * 100) / 100,
-        // x: (+el[3] * 1000000) / +el[1],
         y: Math.round((((+el[2] * 1000000) / +el[1]) + Number.EPSILON) * 100) / 100,
-        //TODO: Z is statically set to 10 until corresponding query is provided
         z: Math.round(((+el[4] / +el[5]) + Number.EPSILON) * 100), // calculate OA Pubs of total Pubs percentage
         name: el[0],
         country: this.findCountryName(el[0]).name

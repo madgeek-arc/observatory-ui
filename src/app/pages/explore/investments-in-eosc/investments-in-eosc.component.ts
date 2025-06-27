@@ -8,7 +8,7 @@ import { ExploreService } from "../explore.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions, SeriesBubbleOptions } from "highcharts";
 import { OAPubsPerCountry } from "../OSO-stats-queries/explore-queries";
 import * as Highcharts from 'highcharts';
-import { SidebarMobileToggleComponent } from "src/app/shared/toggle/sidebar-mobile-toggle.component";
+import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { CommonModule } from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 
@@ -152,7 +152,6 @@ export class InvestmentsInEoscComponent implements OnInit {
         country: this.exploreService.findCountryName(el.name).name
       };
       series[0].data.push(item);
-      console.log(series);
     });
 
     // console.log(series);
