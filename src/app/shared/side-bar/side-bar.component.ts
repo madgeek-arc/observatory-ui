@@ -2,12 +2,12 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ElementRef,
+  ElementRef, EventEmitter,
   Inject,
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
+  OnInit, Output,
   PLATFORM_ID,
   SimpleChanges,
   ViewChild
@@ -108,6 +108,7 @@ export class SideBarComponent implements OnInit, AfterViewInit, OnDestroy, OnCha
   @Input() backItem: MenuItem = null;
   @Input() queryParamsHandling: QueryParamsHandling;
   @Input() logoURL: string;
+  @Output() hoverChange = new EventEmitter<boolean>();
   @ViewChild("nav") nav: ElementRef;
   @ViewChild("sidebar_offcanvas") sidebar_offcanvas: ElementRef;
   public offset: number;
@@ -245,6 +246,14 @@ export class SideBarComponent implements OnInit, AfterViewInit, OnDestroy, OnCha
     if(this.sidebar_offcanvas) {
       UIkit.offcanvas(this.sidebar_offcanvas.nativeElement).hide();
     }
+  }
+
+  onMouseEnter() {
+    this.hoverChange.emit(true);
+  }
+
+  onMouseLeave() {
+    this.hoverChange.emit(false);
   }
 }
 

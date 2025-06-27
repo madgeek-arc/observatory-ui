@@ -14,6 +14,7 @@ import { OpenScienceTrendsComponent } from "./open-science-trends/open-science-t
 import { OpenScienceUseCasesComponent } from "./open-science-use-cases/open-science-use-cases.component";
 import { ExploreService } from "./explore.service";
 import { ChartsModule } from "../../shared/charts/charts.module";
+import {SidebarMobileToggleComponent} from "../../shared/toggle/sidebar-mobile-toggle.component";
 
 @NgModule({
   declarations: [
@@ -24,13 +25,14 @@ import { ChartsModule } from "../../shared/charts/charts.module";
     OpenScienceTrendsComponent,
     OpenScienceUseCasesComponent
   ],
-  imports: [
-    CommonModule,
-    ReusableComponentsModule,
-    ExploreRouting,
-    ChartsModule,
-    NgOptimizedImage,
-  ],
+    imports: [
+        CommonModule,
+        ReusableComponentsModule,
+        ExploreRouting,
+        ChartsModule,
+        NgOptimizedImage,
+        SidebarMobileToggleComponent,
+    ],
   providers: [
     DataService,
     EoscReadinessDataService,

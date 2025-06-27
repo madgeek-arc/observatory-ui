@@ -1,7 +1,9 @@
 <!--  Todo: Give proper id when css are ported over, remove explore prefix from explore_sidebar_main_swipe  -->
 <!--<div id="explore_sidebar_main" uk-sticky="end: .explore_sidebar_main_swipe;" [attr.offset]="offset" class="uk-visible@m">-->
 <!--<div class="uk-visible@m">-->
-<div id="sidebar_main" [attr.offset]="offset" class="uk-visible@m">
+<div id="sidebar_main" [attr.offset]="offset" class="uk-visible@m" offset="65" style="position: fixed; top: var(--header-height) !important; z-index: 980; height: 100%;">
+<!--  <div id="sidebar_main" [attr.offset]="offset" uk-sticky="end: .sidebar_main_swipe;" class="uk-visible@m uk-sticky uk-sticky-fixed" offset="65" style="position: sticky; top: 65px;">-->
+<!--<div id="sidebar_main" [attr.offset]="offset" class="uk-visible@m uk-sticky uk-sticky-fixed" uk-sticky>-->
   <div sidebar-content>
     <ng-container *ngTemplateOutlet="menu; context: {mobile: false}"></ng-container>
   </div>

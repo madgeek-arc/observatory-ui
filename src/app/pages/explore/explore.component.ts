@@ -19,6 +19,11 @@ export class ExploreComponent implements OnInit {
   hideSubNavigation: boolean = true;
   activeSection: string = null;
 
+  open = true;
+  hasSidebar = true;
+  hasAdminMenu = false;
+  hover = false;
+
   ngOnInit() {
     // Open Science by Area with all subitems
     this.menuItems.push(new MenuItem('0','Open Science by Area', '/explore/open-science-by-area', '/explore/open-science-by-area', null));
@@ -55,5 +60,9 @@ export class ExploreComponent implements OnInit {
   linkIsActive(event: boolean) {
     // console.log(' active: '+event);
     this.hideSubNavigation = !event;
+  }
+
+  onHoverChange(state: boolean) {
+    this.hover = state;
   }
 }

@@ -1,163 +1,175 @@
-<div id="sidebar_main_content" class="sidebar_main_swipe sidebar_main_active">
+<!--<div id="sidebar_main_content" class="sidebar_main_swipe sidebar_main_active">-->
 
-<!--  Todo: move id inside dashboard sidebar when css are ported over-->
-  <dashboard-sidebar [items]="menuItems"></dashboard-sidebar>
+<!--&lt;!&ndash;  Todo: move id inside dashboard sidebar when css are ported over&ndash;&gt;-->
+<!--  <dashboard-sidebar [items]="menuItems"></dashboard-sidebar>-->
 
-<!--  <aside id="explore_sidebar_main" class="uk-visible@m">-->
+<!--&lt;!&ndash;  <aside id="explore_sidebar_main" class="uk-visible@m">&ndash;&gt;-->
 
 
-<!--    <div id="explore_sidebar_content">-->
+<!--&lt;!&ndash;    <div id="explore_sidebar_content">&ndash;&gt;-->
 
-<!--      <div  class="menu_section" style="min-height: 30vh">-->
+<!--&lt;!&ndash;      <div  class="menu_section" style="min-height: 30vh">&ndash;&gt;-->
 
-<!--        <ul class="uk-list uk-nav uk-nav-default uk-nav-parent-icon">-->
+<!--&lt;!&ndash;        <ul class="uk-list uk-nav uk-nav-default uk-nav-parent-icon">&ndash;&gt;-->
 
-<!--          <li [routerLinkActive]="'uk-active current_section'" (isActiveChange)="linkIsActive($event)"-->
-<!--              class="no-icon uk-parent uk-margin-top">-->
-<!--              <a [routerLink]="'open-science-by-area'" class="uk-flex uk-flex-middle" (click)="toggleAreaSubNav()">-->
-<!--                <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science by Area</span>-->
-<!--              </a>-->
+<!--&lt;!&ndash;          <li [routerLinkActive]="'uk-active current_section'" (isActiveChange)="linkIsActive($event)"&ndash;&gt;-->
+<!--&lt;!&ndash;              class="no-icon uk-parent uk-margin-top">&ndash;&gt;-->
+<!--&lt;!&ndash;              <a [routerLink]="'open-science-by-area'" class="uk-flex uk-flex-middle" (click)="toggleAreaSubNav()">&ndash;&gt;-->
+<!--&lt;!&ndash;                <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science by Area</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              </a>&ndash;&gt;-->
 
-<!--            <ul [hidden]="hideSubNavigation" class="uk-animation-fade">-->
+<!--&lt;!&ndash;            <ul [hidden]="hideSubNavigation" class="uk-animation-fade">&ndash;&gt;-->
 
-<!--              <li [routerLinkActive]="'uk-active current_section'">-->
-<!--                <a [routerLink]="'open-science-by-area/publications'">-->
-<!--                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Publications</span>-->
-<!--                </a>-->
-<!--              </li>-->
-<!--              <li [routerLinkActive]="'uk-active current_section'">-->
-<!--                <a [routerLink]="'open-science-by-area/open-data'">-->
-<!--                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Data</span>-->
-<!--                </a>-->
-<!--              </li>-->
-<!--              <li [routerLinkActive]="'uk-active current_section'">-->
-<!--                <a [routerLink]="'open-science-by-area/fair-data'">-->
-<!--                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">FAIR Data</span>-->
-<!--                </a>-->
-<!--              </li>-->
-<!--              <li [routerLinkActive]="'uk-active current_section'">-->
-<!--                <a [routerLink]="'open-science-by-area/data-management'">-->
-<!--                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Data Management</span>-->
-<!--                </a>-->
-<!--              </li>-->
-<!--              <li [routerLinkActive]="'uk-active current_section'">-->
-<!--                <a [routerLink]="'open-science-by-area/citizen-science'">-->
-<!--                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Citizen Science</span>-->
-<!--                </a>-->
-<!--              </li>-->
-<!--              <li [routerLinkActive]="'uk-active current_section'">-->
-<!--                <a [routerLink]="'open-science-by-area/repositories'">-->
-<!--                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Repositories</span>-->
-<!--                </a>-->
-<!--              </li>-->
-<!--              <li [routerLinkActive]="'uk-active current_section'">-->
-<!--                <a [routerLink]="'open-science-by-area/training'">-->
-<!--                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Training</span>-->
-<!--                </a>-->
-<!--              </li>-->
-<!--              <li [routerLinkActive]="'uk-active current_section'">-->
-<!--                <a [routerLink]="'open-science-by-area/software'">-->
-<!--                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Software</span>-->
-<!--                </a>-->
-<!--              </li>-->
+<!--&lt;!&ndash;              <li [routerLinkActive]="'uk-active current_section'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <a [routerLink]="'open-science-by-area/publications'">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Publications</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                </a>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
+<!--&lt;!&ndash;              <li [routerLinkActive]="'uk-active current_section'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <a [routerLink]="'open-science-by-area/open-data'">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Data</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                </a>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
+<!--&lt;!&ndash;              <li [routerLinkActive]="'uk-active current_section'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <a [routerLink]="'open-science-by-area/fair-data'">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">FAIR Data</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                </a>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
+<!--&lt;!&ndash;              <li [routerLinkActive]="'uk-active current_section'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <a [routerLink]="'open-science-by-area/data-management'">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Data Management</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                </a>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
+<!--&lt;!&ndash;              <li [routerLinkActive]="'uk-active current_section'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <a [routerLink]="'open-science-by-area/citizen-science'">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Citizen Science</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                </a>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
+<!--&lt;!&ndash;              <li [routerLinkActive]="'uk-active current_section'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <a [routerLink]="'open-science-by-area/repositories'">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Repositories</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                </a>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
+<!--&lt;!&ndash;              <li [routerLinkActive]="'uk-active current_section'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <a [routerLink]="'open-science-by-area/training'">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Training</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                </a>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
+<!--&lt;!&ndash;              <li [routerLinkActive]="'uk-active current_section'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <a [routerLink]="'open-science-by-area/software'">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Software</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                </a>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
 
-<!--              <hr class="uk-divider-icon uk-margin-remove">-->
+<!--&lt;!&ndash;              <hr class="uk-divider-icon uk-margin-remove">&ndash;&gt;-->
 
-<!--              <li [routerLinkActive]="'uk-active current_section'" >-->
-<!--                <a [routerLink]="'open-science-by-area/licensing'" class="custom-disabled-link" data-uk-tooltip="Coming soon..">-->
-<!--                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Licencing</span>-->
-<!--                </a>-->
-<!--              </li>-->
-<!--              <li [routerLinkActive]="'uk-active current_section'" >-->
-<!--                <a [routerLink]="'open-science-by-area/persistentIdentifiers'" class="custom-disabled-link" data-uk-tooltip="Coming soon..">-->
-<!--                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Persistent Identifiers</span>-->
-<!--                </a>-->
-<!--              </li>-->
+<!--&lt;!&ndash;              <li [routerLinkActive]="'uk-active current_section'" >&ndash;&gt;-->
+<!--&lt;!&ndash;                <a [routerLink]="'open-science-by-area/licensing'" class="custom-disabled-link" data-uk-tooltip="Coming soon..">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Licencing</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                </a>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
+<!--&lt;!&ndash;              <li [routerLinkActive]="'uk-active current_section'" >&ndash;&gt;-->
+<!--&lt;!&ndash;                <a [routerLink]="'open-science-by-area/persistentIdentifiers'" class="custom-disabled-link" data-uk-tooltip="Coming soon..">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <span class="uk-width-expand uk-text-truncate uk-margin-small-left">Persistent Identifiers</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                </a>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
 
-<!--            </ul>-->
-<!--          </li>-->
+<!--&lt;!&ndash;            </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;          </li>&ndash;&gt;-->
 
-<!--          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">-->
-<!--            <a [routerLink]="'open-science-trends'" class="uk-flex uk-flex-middle">-->
-<!--              <span [class.uk-text-bolder]="activeSection === 'open-science-trends'"-->
-<!--                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Trends-->
-<!--              </span>-->
-<!--            </a>-->
-<!--          </li>-->
+<!--&lt;!&ndash;          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a [routerLink]="'open-science-trends'" class="uk-flex uk-flex-middle">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span [class.uk-text-bolder]="activeSection === 'open-science-trends'"&ndash;&gt;-->
+<!--&lt;!&ndash;                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Trends&ndash;&gt;-->
+<!--&lt;!&ndash;              </span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </a>&ndash;&gt;-->
+<!--&lt;!&ndash;          </li>&ndash;&gt;-->
 
-<!--          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">-->
-<!--            <a [routerLink]="'investments-in-eosc'" class="uk-flex uk-flex-middle">-->
-<!--              <span [class.uk-text-bolder]="activeSection === 'investments-in-eosc'"-->
-<!--                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Investments in EOSC-->
-<!--              </span>-->
-<!--            </a>-->
-<!--          </li>-->
+<!--&lt;!&ndash;          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a [routerLink]="'investments-in-eosc'" class="uk-flex uk-flex-middle">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span [class.uk-text-bolder]="activeSection === 'investments-in-eosc'"&ndash;&gt;-->
+<!--&lt;!&ndash;                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Investments in EOSC&ndash;&gt;-->
+<!--&lt;!&ndash;              </span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </a>&ndash;&gt;-->
+<!--&lt;!&ndash;          </li>&ndash;&gt;-->
 
-<!--          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">-->
-<!--            <a [routerLink]="'national-monitoring'" class="uk-flex uk-flex-middle">-->
-<!--              <span [class.uk-text-bolder]="activeSection === 'national-monitoring'"-->
-<!--                    class="uk-width-expand uk-text-truncate uk-margin-small-left">National Monitoring-->
-<!--              </span>-->
-<!--            </a>-->
-<!--          </li>-->
+<!--&lt;!&ndash;          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a [routerLink]="'national-monitoring'" class="uk-flex uk-flex-middle">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span [class.uk-text-bolder]="activeSection === 'national-monitoring'"&ndash;&gt;-->
+<!--&lt;!&ndash;                    class="uk-width-expand uk-text-truncate uk-margin-small-left">National Monitoring&ndash;&gt;-->
+<!--&lt;!&ndash;              </span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </a>&ndash;&gt;-->
+<!--&lt;!&ndash;          </li>&ndash;&gt;-->
 
-<!--          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">-->
-<!--            <a [routerLink]="'open-science-policies'" class="uk-flex uk-flex-middle">-->
-<!--              <span [class.uk-text-bolder]="activeSection === 'open-science-policies'"-->
-<!--                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Policies-->
-<!--              </span>-->
-<!--            </a>-->
-<!--          </li>-->
+<!--&lt;!&ndash;          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a [routerLink]="'open-science-policies'" class="uk-flex uk-flex-middle">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span [class.uk-text-bolder]="activeSection === 'open-science-policies'"&ndash;&gt;-->
+<!--&lt;!&ndash;                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Policies&ndash;&gt;-->
+<!--&lt;!&ndash;              </span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </a>&ndash;&gt;-->
+<!--&lt;!&ndash;          </li>&ndash;&gt;-->
 
-<!--          <hr class="uk-divider-icon uk-margin-remove">-->
+<!--&lt;!&ndash;          <hr class="uk-divider-icon uk-margin-remove">&ndash;&gt;-->
 
-<!--          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">-->
-<!--            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">-->
-<!--              <span [class.uk-text-bolder]="activeSection === 'open-science-use-cases'"-->
-<!--                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Use Cases-->
-<!--              </span>-->
-<!--            </a>-->
-<!--          </li>-->
+<!--&lt;!&ndash;          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span [class.uk-text-bolder]="activeSection === 'open-science-use-cases'"&ndash;&gt;-->
+<!--&lt;!&ndash;                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Use Cases&ndash;&gt;-->
+<!--&lt;!&ndash;              </span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </a>&ndash;&gt;-->
+<!--&lt;!&ndash;          </li>&ndash;&gt;-->
 
-<!--          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">-->
-<!--            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">-->
-<!--              <span [class.uk-text-bolder]="activeSection === 'open-science-by-area'"-->
-<!--                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science by Country-->
-<!--              </span>-->
-<!--            </a>-->
-<!--          </li>-->
+<!--&lt;!&ndash;          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span [class.uk-text-bolder]="activeSection === 'open-science-by-area'"&ndash;&gt;-->
+<!--&lt;!&ndash;                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science by Country&ndash;&gt;-->
+<!--&lt;!&ndash;              </span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </a>&ndash;&gt;-->
+<!--&lt;!&ndash;          </li>&ndash;&gt;-->
 
-<!--          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">-->
-<!--            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">-->
-<!--              <span [class.uk-text-bolder]="activeSection === 'open-science-resource-registry'"-->
-<!--                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Resource Registry-->
-<!--              </span>-->
-<!--            </a>-->
-<!--          </li>-->
+<!--&lt;!&ndash;          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span [class.uk-text-bolder]="activeSection === 'open-science-resource-registry'"&ndash;&gt;-->
+<!--&lt;!&ndash;                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Resource Registry&ndash;&gt;-->
+<!--&lt;!&ndash;              </span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </a>&ndash;&gt;-->
+<!--&lt;!&ndash;          </li>&ndash;&gt;-->
 
-<!--          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">-->
-<!--            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">-->
-<!--              <span [class.uk-text-bolder]="activeSection === 'open-science-impact'"-->
-<!--                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Impact-->
-<!--              </span>-->
-<!--            </a>-->
-<!--          </li>-->
+<!--&lt;!&ndash;          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span [class.uk-text-bolder]="activeSection === 'open-science-impact'"&ndash;&gt;-->
+<!--&lt;!&ndash;                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Open Science Impact&ndash;&gt;-->
+<!--&lt;!&ndash;              </span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </a>&ndash;&gt;-->
+<!--&lt;!&ndash;          </li>&ndash;&gt;-->
 
-<!--          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">-->
-<!--            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">-->
-<!--              <span [class.uk-text-bolder]="activeSection === 'custom-search'"-->
-<!--                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Custom Search-->
-<!--              </span>-->
-<!--            </a>-->
-<!--          </li>-->
+<!--&lt;!&ndash;          <li [routerLinkActive]="'uk-active current_section'" class="no-icon uk-parent uk-margin-small-top">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a class="uk-flex uk-flex-middle custom-disabled-link" uk-tooltip="Coming soon..">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span [class.uk-text-bolder]="activeSection === 'custom-search'"&ndash;&gt;-->
+<!--&lt;!&ndash;                    class="uk-width-expand uk-text-truncate uk-margin-small-left">Custom Search&ndash;&gt;-->
+<!--&lt;!&ndash;              </span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </a>&ndash;&gt;-->
+<!--&lt;!&ndash;          </li>&ndash;&gt;-->
 
-<!--        </ul>-->
-<!--      </div>-->
-<!--    </div>-->
+<!--&lt;!&ndash;        </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
 
-<!--  </aside>-->
+<!--&lt;!&ndash;  </aside>&ndash;&gt;-->
 
-  <div class="dashboard">
+<!--  <div class="dashboard">-->
+<!--    <router-outlet></router-outlet>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div id="sidebar" class="sidebar_main_swipe uk-flex uk-background-default"
+     [class.sidebar_main_active]="open && (hasSidebar || hasAdminMenu)"
+     [class.sidebar_mini]="!open &&  (hasSidebar || hasAdminMenu)"
+     [class.sidebar_hover]="hover">
+  <!--  <side-menu *ngIf="hasSidebar"></side-menu>-->
+<!--  <dashboard-sidebar *ngIf="hasSidebar" [items]="menuItems" (hoverChange)="onHoverChange($event)"></dashboard-sidebar>-->
+  <dashboard-sidebar [items]="menuItems" ></dashboard-sidebar>
+  <main class="uk-width-1-1">
     <router-outlet></router-outlet>
-  </div>
+  </main>
 </div>
