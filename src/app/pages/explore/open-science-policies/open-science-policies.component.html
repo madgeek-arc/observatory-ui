@@ -75,10 +75,11 @@
   <div class="uk-container">
 
     <div class="uk-card uk-card-default visualisation-card uk-card-body">
-
+    
       <div class="uk-grid uk-flex">
-        <div class="uk-width-1-4 uk-flex-last">
-          <ul class="uk-flex-inline uk-flex-left uk-tab uk-tab-right uk-margin-remove" data-uk-switcher="connect: #map-charts; animation: 'fade'">
+        <div class="uk-width-1-1 uk-width-1-4@m">
+          <ul class="uk-flex-inline uk-flex-left uk-tab uk-tab-right uk-margin-remove uk-visible@m"
+            data-uk-switcher="connect: #map-charts; animation: 'fade'">
             <li>
               <a class="uk-margin-remove-bottom"><span>Overview</span></a>
             </li>
@@ -86,23 +87,27 @@
               <a class="uk-margin-remove-bottom" (click)="getChart(i)"><span>{{ pill }}</span></a>
             </li>
           </ul>
+          <!-- Dropdown for mobile only-->
+          <select class="uk-select uk-hidden@m uk-margin-small-top" (change)="onSelectChange($event)">
+            <option value="0">Overview</option>
+            <option *ngFor="let pill of openScienceAreas; let i=index" [value]="i+1">{{ pill }}</option>
+          </select>
         </div>
-        <div class="uk-width-3-4">
+        <div class="uk-width-1-1 uk-width-3-4@m">
           <ul id="map-charts" class="uk-switcher uk-margin">
             <li class="" style="animation-duration: 200ms;" *ngIf="policiesMapData.series.length">
               <div>
-                <app-highcharts-category-map
-                  [mapData]="policiesMapData" [title]="'National Policies'" [backgroundColor]="'#ffffff'" [height]="700"
+                <app-highcharts-category-map [mapData]="policiesMapData" [title]="'National Policies'"
+                  [backgroundColor]="'#ffffff'" [height]="700"
                   [caption]="'<p class=\'uk-text-justify\'>This map visualizes the presence or absence of national policies across various Open Science areas in European countries. A country is labelled as having a \'national policy\' if it has implemented at least one policy in areas such as Open Access Publications, Data Management, FAIR Data, Open Data, and others. By hovering over a country, you can view a detailed breakdown of the specific policies in place within that country. You can also filter the map by selecting different Open Science areas on the right side, allowing you to explore which aspects of Open Science are being monitored in each country.</p>' +
-                    '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'">
+                        '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'">
                 </app-highcharts-category-map>
               </div>
             </li>
             <li *ngFor="let pill of openScienceAreas; let i = index">
               <div>
-                <app-highcharts-category-map
-                  [mapData]="questionsDataArray[i]" [title]="mapTitles[i]" [toolTipData]="toolTipData[i]"
-                  [backgroundColor]="'#ffffff'" [height]="700"
+                <app-highcharts-category-map [mapData]="questionsDataArray[i]" [title]="mapTitles[i]"
+                  [toolTipData]="toolTipData[i]" [backgroundColor]="'#ffffff'" [height]="700"
                   [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
                   [caption]="policesMapCaptions[i] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
                 </app-highcharts-category-map>
@@ -111,7 +116,7 @@
           </ul>
         </div>
       </div>
-
+    
     </div>
 
   </div>

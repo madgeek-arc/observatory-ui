@@ -248,4 +248,12 @@ export class NationalMonitoringComponent implements OnInit {
     });
   }
 
+  /** Method for mobile select */
+  onSelectChange(event: any) {
+    const selectedIndex = event.target.value;
+    const tabs = document.querySelectorAll('.uk-tab li a');
+    if (tabs[selectedIndex]) {
+      (tabs[selectedIndex] as HTMLElement).click();
+   }
+  }
 }

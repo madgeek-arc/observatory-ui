@@ -57,8 +57,8 @@
       <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
         <div class="uk-grid uk-flex">
-          <div class="uk-width-1-4 uk-flex-last">
-            <ul class="uk-flex-inline uk-flex-left uk-tab uk-tab-right uk-margin-remove" data-uk-switcher="connect: #map-charts; animation: 'fade'">
+          <div class="uk-width-1-1 uk-width-1-4@m">
+            <ul class="uk-flex-inline uk-flex-left uk-tab uk-tab-right uk-margin-remove uk-visible@m" data-uk-switcher="connect: #map-charts; animation: 'fade'">
               <li>
                 <a class="uk-margin-remove-bottom"><span>Overview</span></a>
               </li>
@@ -66,8 +66,13 @@
                 <a class="uk-margin-remove-bottom" (click)="getChart(i)"><span>{{ pill }}</span></a>
               </li>
             </ul>
+            <!--Dropdown for mobile only-->
+            <select class="uk-select uk-hidden@m uk-margin-small-top" (change)="onSelectChange($event)">
+              <option value="0">Overview</option>
+              <option *ngFor="let pill of openScienceAreas; let i=index" [value]="i+1">{{ pill }}</option>
+            </select>
           </div>
-          <div class="uk-width-3-4">
+          <div class="uk-width-1-1 uk-width-3-4@m">
             <ul id="map-charts" class="uk-switcher uk-margin">
               <li class="" style="animation-duration: 200ms;" *ngIf="monitoringMapData.series.length">
                 <div>
