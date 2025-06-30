@@ -494,9 +494,10 @@
         <div class="uk-sticky-placeholder" style="height: 65px; width: 390px; margin: 0px;"></div>
 
         <!-- Menu items -->
-        <ul class="uk-nav uk-nav-default uk-nav-parent-icon" uk-nav>
-          <li class="uk-parent">
-            <a href="#">About</a>
+<!--        <ul class="uk-nav uk-nav-default uk-nav-parent-icon" uk-nav>-->
+          <ul class="uk-nav uk-nav-primary uk-list uk-list-large" uk-nav>
+          <li class="uk-parent" [routerLinkActive]="'uk-active'">
+            <a href="#">About<span class="uk-nav-parent-icon"></span></a>
             <ul class="uk-nav-sub">
               <li><a [routerLink]="['/about/eosc-observatory']" (click)="closeOffCanvas('tm-mobile')">About EOSC Observatory</a></li>
               <li><a [routerLink]="['/about/eosc-track']" (click)="closeOffCanvas('tm-mobile')">About EOSC Track</a></li>
@@ -504,9 +505,9 @@
             </ul>
           </li>
 
-          <li><a [routerLink]="['/explore']" (click)="closeOffCanvas('tm-mobile')">Explore</a></li>
-          <li class="uk-parent">
-            <a href="#">Resources</a>
+          <li [routerLinkActive]="'uk-active'"><a [routerLink]="['/explore']" (click)="closeOffCanvas('tm-mobile')">Explore</a></li>
+          <li class="uk-parent" [routerLinkActive]="'uk-active'">
+            <a href="#">Resources<span class="uk-nav-parent-icon"></span></a>
             <ul class="uk-nav-sub">
               <li><a [routerLink]="['/resources/data-workflow-and-methodology']" (click)="closeOffCanvas('tm-mobile')">Data Workflow & Methodology</a></li>
               <li><a [routerLink]="['/resources/publications-and-deliverables']" (click)="closeOffCanvas('tm-mobile')">Publications & Deliverables</a></li>
@@ -514,7 +515,7 @@
               <li><a [routerLink]="['/resources/support-and-faq']" (click)="closeOffCanvas('tm-mobile')">Support & FAQ</a></li>
             </ul>
           </li>
-          <li><a [routerLink]="['/contact']" (click)="closeOffCanvas('tm-mobile')">Contact</a></li>
+          <li [routerLinkActive]="'uk-active'"><a [routerLink]="['/contact']" (click)="closeOffCanvas('tm-mobile')">Contact</a></li>
         </ul>
 
       </div>
