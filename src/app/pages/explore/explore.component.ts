@@ -1,7 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { MenuItem, DashboardSideMenuComponent } from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from "@angular/router";
-import { DashboardSideMenuService } from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
+import {
+  DashboardSideMenuComponent,
+  MenuItem
+} from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
+import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
+import {
+  DashboardSideMenuService
+} from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
 
 @Component({
   selector: 'app-explore',
@@ -17,16 +22,21 @@ export class ExploreComponent implements OnInit {
 
   menuItems: MenuItem[] = [];
 
-  hideSubNavigation: boolean = true;
-  activeSection: string = null;
-
   hasSidebar = true;
   hasAdminMenu = false;
 
   constructor(private layoutService: DashboardSideMenuService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    // Open Science by Area with all subitems
+
+    this.intMenuItems();
+
+    this.layoutService.setOpen(true);
+
+  }
+
+  intMenuItems() {
+
     // Open Science by Area with all subitems
     this.menuItems.push(new MenuItem('0','Open Science by Area', null, '/explore/open-science-by-area', '/explore/open-science-by-area', {}));
     this.menuItems[0].items.push(new MenuItem('0-0', 'Publications', null, '/explore/open-science-by-area/publications', null, {}));
@@ -53,33 +63,7 @@ export class ExploreComponent implements OnInit {
     this.menuItems.push(new MenuItem('8', 'Open Science Impact', null, '', '', {}, null, 'custom-disabled-link'));
     this.menuItems.push(new MenuItem('9', 'Custom Search', null, '', '', {}, null, 'custom-disabled-link'));
 
-
-    this.layoutService.setOpen(true);
-
-    this.router.events.subscribe({
-      next: event => {
-        console.log(event instanceof NavigationEnd);
-        console.log(event);
-      }
-    });
-
-    this.route.params.subscribe({
-      next: params => {console.log(params);}
-    });
   }
-
-  toggleAreaSubNav() {
-    this.hideSubNavigation = !this.hideSubNavigation;
-  }
-
-  linkIsActive(event: boolean) {
-    // console.log(' active: '+event);
-    this.hideSubNavigation = !event;
-  }
-
-  // onHoverChange(state: boolean) {
-  //   this.hover = state;
-  // }
 
   public get open() {
     return this.layoutService.open;
