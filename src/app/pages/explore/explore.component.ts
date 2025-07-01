@@ -53,6 +53,7 @@ export class ExploreComponent implements OnInit {
     this.menuItems[0].items.push(new MenuItem('0-7', 'Open Software', null, '/explore/open-science-by-area/software', null, {name: 'Open Software'}));
     this.menuItems[0].items.push(new MenuItem('0-8', 'Licencing', null, '/explore/open-science-by-area/licensing', null, {name: 'Licencing'}, null, 'custom-disabled-link'));
     this.menuItems[0].items.push(new MenuItem('0-9', 'Persistent Identifiers', null, '/explore/open-science-by-area/persistentIdentifiers', null, {name: 'Persistent Identifiers'}, null, 'custom-disabled-link'));
+    this.menuSections.push()
 
     // Main menu items
     this.menuItems.push(new MenuItem('1', 'Open Science Trends', null, '/explore/open-science-trends', null, {name: 'OS Trends'}));
@@ -61,6 +62,9 @@ export class ExploreComponent implements OnInit {
     this.menuItems.push(new MenuItem('4', 'Open Science Policies', null, '/explore/open-science-policies', null, {name: 'OS Policies'}));
 
     // Coming soon items (disabled)
+    this.menuSections.push({items: this.menuItems});
+
+    this.menuItems = [];
     this.menuItems.push(new MenuItem('5', 'Open Science Use Cases', null, '', '', {name: 'OS Use Cases'}, null, 'custom-disabled-link'));
     this.menuItems.push(new MenuItem('6', 'Open Science by Country', null, '', '', {name: 'OS by Country'}, null, 'custom-disabled-link'));
     this.menuItems.push(new MenuItem('7', 'Open Science Resource Registry', null, '', '', {name: 'OS Resource Registry'}, null, 'custom-disabled-link'));
