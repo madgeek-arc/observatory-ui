@@ -350,14 +350,14 @@
                 <app-multi-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
                                  [titles]="barChartTitles" [reversedStacks]="false"
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
-                                 [customTooltip]="true" [yAxisLabels]="false" style="height: 100%"
+                                 [customTooltip]="true" [yAxisLabels]="false" [height]="smallScreen ? 600 : 400"
                                  [caption]="policesMapCaptions[2] + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
                 </app-multi-chart>
               </div>
             </li>
             <li>
               <div class="">
-                <app-tree-graph [data]="treeGraph" style="height: 100%" [height]="700"
+                <app-tree-graph [data]="treeGraph" [height]="700"
                                 [title]="'Financial Investments in Open Data in 2022'"
                                 [caption]="monitoringMapCaptions[2] +'<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
                 </app-tree-graph>
@@ -375,7 +375,7 @@
         <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
           <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend" [series]="stackedColumnSeries"
-                              [title]="'Trend of Open Data'" [height]="600"
+                              [title]="'Trend of Open Data'" [height]="700"
                               [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
                               [dataLabels]="false"
                               [caption]="'<p class=\'uk-text-justify\'>The graph provides a comprehensive view of how data accessibility has evolved from 2015 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of Open Data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
@@ -394,9 +394,9 @@
 
           <app-stacked-column [categories]="stackedColumn2Categories" [series]="stackedColumn2Series"
                               [yAxis]="yAxisTitle2"
-                              [title]="'Distribution of Open Data Types by Different Document Type'" [height]="600"
+                              [title]="'Distribution of Open Data Types by Different Document Type'"
                               [pointFormat]="tooltipPointFormat" [stackLabels]="false" [stacking]="stacking"
-                              [plotFormat]="dataLabels_format"
+                              [plotFormat]="dataLabels_format" [height]="smallScreen ? 800 : 500"
                               [caption]="'<p class=\'uk-text-justify\'>The  graph illustrates how Open Data is implemented across various types of documents. It segments the Open Data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each colored according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance  accessibility and foster a more transparent, reproducible and inclusive science.</p>' +
                           '<p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on ' + lastUpdateDate + ').</p>'">
           </app-stacked-column>

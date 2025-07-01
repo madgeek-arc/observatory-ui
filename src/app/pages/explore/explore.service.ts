@@ -25,6 +25,10 @@ export class ExploreService {
     this.getLastUpdateDate();
   }
 
+  get isMobileOrSmallScreen(): boolean {
+    return window.innerWidth < 960;
+  }
+
   getLastUpdateDate() {
     return this.eoscReadiness.getLastUpdateDate().subscribe({
       next: data => {

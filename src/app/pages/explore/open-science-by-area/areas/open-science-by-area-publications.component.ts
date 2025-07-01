@@ -1,6 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { RawData } from "../../../../domain/raw-data";
 import {
   distributionOfOA,
@@ -26,7 +27,6 @@ import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import { CommonModule } from "@angular/common";
 
 
 @Component({
@@ -34,7 +34,7 @@ import { CommonModule } from "@angular/common";
   templateUrl: './open-science-by-area-publications.component.html',
   styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
   standalone: true,
-  imports: [ SidebarMobileToggleComponent, CommonModule, ChartsModule ],
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage],
 })
 
 export class OpenScienceByAreaPublicationsComponent implements OnInit {
@@ -43,6 +43,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   exportActive = false;
   lastUpdateDate?: string;
+  smallScreen = false;
 
   years = ['2022', '2023'];
 
@@ -50,15 +51,15 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
   yAxisTitle = 'Number of Publications';
   legend: LegendOptions = {
-    align: 'right',
-    verticalAlign: 'top',
-    x: 0,
-    y: 35,
-    floating: true,
+    // align: 'right',
+    // verticalAlign: 'top',
+    // x: 0,
+    // y: 35,
+    // floating: true,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
     borderWidth: 1,
-    shadow: false
+    // shadow: false
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
@@ -82,6 +83,9 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   legendOptions: LegendOptions = {
     align: 'center',
     verticalAlign: 'top',
+    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
+    borderColor: '#CCC',
+    borderWidth: 1,
   };
 
   countriesArray: string[] = [];
@@ -134,6 +138,8 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     this.getTreeGraphData('Question56');
 
     this.getDistributionsOA();
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
 
     // Maps
     this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({

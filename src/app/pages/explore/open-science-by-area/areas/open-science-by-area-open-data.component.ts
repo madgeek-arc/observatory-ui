@@ -36,6 +36,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;
+  smallScreen = false;
   lastUpdateDate?: string;
 
   years = ['2022', '2023'];
@@ -44,15 +45,15 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
   yAxisTitle = 'Number of Data Sets';
   legend: LegendOptions = {
-    align: 'right',
-    x: -30,
-    verticalAlign: 'top',
-    y: 30,
-    floating: true,
+    // align: 'right',
+    // x: -30,
+    // verticalAlign: 'top',
+    // y: 30,
+    // floating: true,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
     borderWidth: 1,
-    shadow: false,
+    // shadow: false,
     reversed: false,
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
@@ -132,6 +133,8 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
     this.getTreeGraphData();
     this.getTrend();
     this.getDistributionByDocumentType();
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
 
     // Maps
     this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({

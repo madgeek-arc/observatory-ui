@@ -31,6 +31,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;
+  smallScreen = false;
   lastUpdateDate?: string;
 
   years = ['2022', '2023'];
@@ -112,6 +113,8 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
     });
 
     this.getTreeGraphData();
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
 
     // Maps
     this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
