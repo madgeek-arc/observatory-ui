@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
 import {
   DashboardSideMenuComponent,
-  MenuItem
+  MenuItem, MenuSections
 } from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
-import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
 import {
   DashboardSideMenuService
 } from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
@@ -23,6 +23,7 @@ import { exploreIcons } from "./explore.icons";
 export class ExploreComponent implements OnInit {
 
   menuItems: MenuItem[] = [];
+  menuSections: MenuSections[] = [];
 
   hasSidebar = true;
   hasAdminMenu = false;
@@ -66,6 +67,7 @@ export class ExploreComponent implements OnInit {
     this.menuItems.push(new MenuItem('8', 'Open Science Impact', null, '', '', {name: 'OS Impact'}, null, 'custom-disabled-link'));
     this.menuItems.push(new MenuItem('9', 'Custom Search', null, '', '', {name: 'Custom Search'}, null, 'custom-disabled-link'));
 
+    this.menuSections.push({items: this.menuItems});
   }
 
   public get open() {
