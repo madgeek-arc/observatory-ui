@@ -9,7 +9,7 @@ import { LegendOptions, PointOptionsObject, SeriesBarOptions, SeriesBubbleOption
 import { OAPubsPerCountry } from "../OSO-stats-queries/explore-queries";
 import * as Highcharts from 'highcharts';
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import { CommonModule } from "@angular/common";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 
 type MergedElement = { x: string; y: string; z: string; name: string; country: string };
@@ -17,7 +17,7 @@ type MergedElement = { x: string; y: string; z: string; name: string; country: s
 @Component({
   selector: 'app-investments-in-eosc',
   templateUrl: './investments-in-eosc.component.html',
-  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule],
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage],
   standalone: true,
 })
 

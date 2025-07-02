@@ -11,7 +11,7 @@ import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts"
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import { CommonModule } from "@angular/common";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import * as Highcharts from "highcharts";
 
@@ -19,7 +19,7 @@ import * as Highcharts from "highcharts";
   selector: 'app-open-science-by-area-training',
   templateUrl: './open-science-by-area-training.component.html',
   standalone: true,
-  imports: [ SidebarMobileToggleComponent, CommonModule, ChartsModule],
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage],
 })
 
 export class OpenScienceByAreaTrainingComponent implements OnInit {

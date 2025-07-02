@@ -30,6 +30,7 @@ export class OpenScienceTrendsComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   exportActive = false;
   lastUpdateDate?: string;
+  smallScreen = false;
 
   years = ['2022', '2023'];
 
@@ -49,15 +50,16 @@ export class OpenScienceTrendsComponent implements OnInit {
     yAxis: 'Percentage of countries with Financial Strategy',
   }
   legendOptions: LegendOptions = {
-    layout: 'vertical',
-    align: 'right',
-    verticalAlign: 'bottom',
-    x: -40,
-    y: -180,
-    floating: true,
+    // layout: 'vertical',
+    // align: 'right',
+    // verticalAlign: 'bottom',
+    // x: -40,
+    // y: -180,
+    // floating: true,
     borderWidth: 1,
+    borderColor: '#CCC',
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-    shadow: true
+    // shadow: true
   };
 
 
@@ -65,15 +67,15 @@ export class OpenScienceTrendsComponent implements OnInit {
   stackedColumnSeries = [] as Highcharts.SeriesColumnOptions[];
   yAxisTitle = 'Number of Publications';
   legend: LegendOptions = {
-    align: 'right',
-    x: -30,
-    verticalAlign: 'top',
-    y: 30,
-    floating: true,
+    // align: 'right',
+    // x: -30,
+    // verticalAlign: 'top',
+    // y: 30,
+    // floating: true,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
     borderWidth: 1,
-    shadow: false,
+    // shadow: false,
     reversed: false
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
@@ -87,6 +89,8 @@ export class OpenScienceTrendsComponent implements OnInit {
               private exploreService: ExploreService) {}
 
   ngOnInit() {
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
+
     this.years.forEach((year) => {
       this.getColumnChartData(year);
       this.getFinancialColumnChartData(year);

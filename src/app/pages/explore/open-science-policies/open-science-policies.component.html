@@ -65,7 +65,8 @@
             <div class="uk-width-1-1">
               <app-multi-chart chartType=bar [series]="columnChartSeries" [categories]="columnChartCategories"
                                [titles]="columnChartTitles" [legendOptions]="legendOptions" valueSuffix="%"
-                               [height]="smallScreen ? 1000 : 800" [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
+                               [height]="smallScreen ? 1000 : 800"
+                               [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
                                [caption]="'<p class=\'uk-text-justify\'>This bar chart illustrates the percentage of countries with established national policies across various Open Science areas for the years 2021 and 2022. Each bar represents a different area of Open Science, such as Open Access Publications, FAIR Data, and Citizen Science, showing the progression or changes in policy adoption from one year to the next. The comparison highlights the evolving landscape of Open Science initiatives at a national level, indicating which aspects of Open Science are gaining attention.</p>'
                            + '<b>Data source:</b> Survey on National Contributions to EOSC and Open Science 2023 and 2022 - showing data for 2021 and 2022'">
               </app-multi-chart>
@@ -126,20 +127,21 @@
               <ul id="map-charts" class="uk-switcher uk-margin">
                 <li class="" style="animation-duration: 200ms;" *ngIf="policiesMapData.series.length">
                   <div>
-                    <app-highcharts-category-map [mapData]="policiesMapData" [title]="'National Policies'"
-                                                 [backgroundColor]="'#ffffff'" [height]="700"
-                                                 [caption]="'<p class=\'uk-text-justify\'>This map visualizes the presence or absence of national policies across various Open Science areas in European countries. A country is labelled as having a \'national policy\' if it has implemented at least one policy in areas such as Open Access Publications, Data Management, FAIR Data, Open Data, and others. By hovering over a country, you can view a detailed breakdown of the specific policies in place within that country. You can also filter the map by selecting different Open Science areas on the right side, allowing you to explore which aspects of Open Science are being monitored in each country.</p>' +
-                        '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'">
+                    <app-highcharts-category-map
+                      [mapData]="policiesMapData" [title]="'National Policies'" [backgroundColor]="'#ffffff'"
+                      [height]="700" [smallScreen]="smallScreen"
+                      [caption]="'<p class=\'uk-text-justify\'>This map visualizes the presence or absence of national policies across various Open Science areas in European countries. A country is labelled as having a \'national policy\' if it has implemented at least one policy in areas such as Open Access Publications, Data Management, FAIR Data, Open Data, and others. By hovering over a country, you can view a detailed breakdown of the specific policies in place within that country. You can also filter the map by selecting different Open Science areas on the right side, allowing you to explore which aspects of Open Science are being monitored in each country.</p>' +
+                      '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'">
                     </app-highcharts-category-map>
                   </div>
                 </li>
                 <li *ngFor="let pill of openScienceAreas; let i = index">
                   <div>
-                    <app-highcharts-category-map [mapData]="questionsDataArray[i]" [title]="mapTitles[i]"
-                                                 [toolTipData]="toolTipData[i]" [backgroundColor]="'#ffffff'"
-                                                 [height]="700"
-                                                 [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
-                                                 [caption]="policesMapCaptions[i] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
+                    <app-highcharts-category-map
+                      [mapData]="questionsDataArray[i]" [title]="mapTitles[i]" [toolTipData]="toolTipData[i]"
+                      [backgroundColor]="'#ffffff'" [height]="700" [smallScreen]="smallScreen"
+                      [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
+                      [caption]="policesMapCaptions[i] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'">
                     </app-highcharts-category-map>
                   </div>
                 </li>

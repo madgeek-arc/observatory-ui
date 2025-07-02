@@ -76,8 +76,7 @@
                       last year
                     </div>
                     <div>
-                      <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50"
-                           width="99">
+                      <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
                     </div>
                   </ng-container>
                   <ng-template #policyDown>
@@ -88,8 +87,7 @@
                       last year
                     </div>
                     <div>
-                      <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50"
-                           width="99">
+                      <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
                     </div>
                   </ng-template>
                 </div>
@@ -109,8 +107,7 @@
                     <span>base line</span>
                   </div>
                   <div>
-                    <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50"
-                         width="99">
+                    <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
                   </div>
                 </div>
               </div>
@@ -122,7 +119,7 @@
               <app-pie-chart *ngIf="variablePie[0]?.data.length" chartId="variablePie" type="variablepie" title=""
                              [series]="variablePie" [tooltip]="pieTooltip"
                              [title]="'Investments in EOSC and Open Science'"
-                             [height]="smallScreen ? 800 : 500"
+                             [height]="smallScreen ? 600 : 500"
                              [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments made in different areas of Open Science. Each segment of the graph represents a specific area , that were made by countries of the EOSC association.</p>' +
                          '<p class=\'uk-text-justify\'>This data highlights how funds are allocated across these various sectors, indicating the focus areas for enhancing Open Science infrastructure and initiatives. </p>' +
                          '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
@@ -196,8 +193,8 @@
               <li>
                 <app-multi-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
-                                 [titles]="barChartTitles" [height]="smallScreen ? 600 : 400"
-                                 [customTooltip]="true" [yAxisLabels]="false" style="height: 100%"
+                                 [titles]="barChartTitles" [height]="smallScreen ? 620 : 400"
+                                 [customTooltip]="true" [yAxisLabels]="false"
                                  [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments made by various European countries in the EOSC and Open Science. The investments are categorized in ranges to show the distribution and scale of funding.</p>'
                                  + '<p class=\'uk-text-justify\'>This data highlights the commitment and support from different countries towards advancing open science initiatives and building the EOSC infrastructure.</p>'
                                  + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
