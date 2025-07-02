@@ -63,7 +63,7 @@
       <div class="uk-container">
         <h5>General Overview of Repositories in Europe for 2022</h5>
 
-        <div class="uk-child-width-1-3@m uk-child-width-1-3@l uk-child-width-1-1@s uk-grid-match uk-grid-row-medium uk-flex-center" uk-grid>
+        <div class="uk-child-width-1-3@m uk-child-width-1-3@l uk-child-width-1-1@s uk-grid-match uk-grid-row-medium uk-flex-center" data-uk-grid>
 
           <div *ngIf="repositories.length === 2">
             <div class="uk-card card-simple uk-card-small uk-card-body">
@@ -264,12 +264,12 @@
             <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
           </ul>
 
-          <ul id="maps" class="uk-switcher uk-child-width-1-1 uk-grid-match" uk-grid>
+          <ul id="maps" class="uk-switcher uk-child-width-1-1 uk-grid-match" data-uk-grid>
             <li>
-              <div uk-grid>
+              <div data-uk-grid>
                 <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
                   <app-highcharts-category-map
-                    [mapData]="questionsDataArray[0]" [height]="700"
+                    [mapData]="questionsDataArray[0]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National Policy on Connecting Repositories to EOSC'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on <br>connecting repositories <br>to EOSC'"
                     [caption]=" policesMapCaptions[6] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
@@ -294,10 +294,10 @@
               </div>
             </li>
             <li>
-              <div uk-grid>
+              <div data-uk-grid>
                 <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
                   <app-highcharts-category-map
-                    [mapData]="questionsDataArray[1]" [height]="700"
+                    [mapData]="questionsDataArray[1]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National Monitoring on Connecting Repositories to EOSC'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>connecting repositories <br>to EOSC '"
                     [caption]="monitoringMapCaptions[6] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
@@ -345,7 +345,7 @@
                 <app-multi-chart [series]="bar[0]" [categories]="['Number of countries per Investment Category']"
                                  [titles]="barChartTitles" [reversedStacks]="false"
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
-                                 [customTooltip]="true" [yAxisLabels]="false" style="height: 100%"
+                                 [customTooltip]="true" [yAxisLabels]="false" [height]="smallScreen ? 500 : 400"
                                  [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in connecting repositories to EOSC made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
                                  '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.</p>'">
                 </app-multi-chart>
@@ -353,7 +353,7 @@
             </li>
             <li>
               <div class="">
-                <app-tree-graph [data]="treeGraph[0]" style="height: 100%" [height]="700"
+                <app-tree-graph [data]="treeGraph[0]" [height]="700"
                                 [title]="'Financial Investments in Connecting Repositories to EOSC in 2022'"
                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in connecting repositories to EOSC made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
                             '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.</p>'">
@@ -378,12 +378,12 @@
             <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
           </ul>
 
-          <ul id="maps2" class="uk-switcher uk-child-width-1-1 uk-grid-match" uk-grid>
+          <ul id="maps2" class="uk-switcher uk-child-width-1-1 uk-grid-match" data-uk-grid>
             <li>
-              <div uk-grid>
-                <div class="uk-width-2-3">
+              <div data-uk-grid>
+                <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
                   <app-highcharts-category-map
-                    [mapData]="questionsDataArray[2]" [height]="700"
+                    [mapData]="questionsDataArray[2]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National Policy on Long-term Data Preservation'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<strong>'+participatingCountries[2] + ' out of '+ total[2] + '</strong><br> countries have a <br>national policy on <br>Long-term <br>Data Preservation'"
                     [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national policies on OA publications across European countries. OA policies are essential for promoting the free sharing of scientific knowledge and ensuring research outputs are widely accessible.</p>' +
@@ -392,7 +392,7 @@
                     (mapClick)="showComment(2, $event)">
                   </app-highcharts-category-map>
                 </div>
-                <div class="uk-width-1-3">
+                <div class="uk-width-1-3@m uk-width-1-3@l uk-width-1-1@s">
                   <div>
                     <h6>Start Exploring</h6>
                     <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
@@ -410,10 +410,10 @@
               </div>
             </li>
             <li>
-              <div uk-grid>
-                <div class="uk-width-2-3">
+              <div data-uk-grid>
+                <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
                   <app-highcharts-category-map
-                    [mapData]="questionsDataArray[3]" [height]="700"
+                    [mapData]="questionsDataArray[3]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National Monitoring on Long-term Data Preservation'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<strong>'+participatingCountries[3] + ' out of '+ total[3] + '</strong><br> countries have a <br>national monitoring <br>on Long-term <br>Data Preservation'"
                     [caption]="'<p class=\'uk-text-justify\'>This map illustrates the status of national monitoring on OA publications across European countries.OA monitoring is essential for tracking progress, evaluating policy implementation, and ensuring that research outputs are freely accessible.</p>' +
@@ -422,14 +422,13 @@
                     (mapClick)="showComment(3, $event)">
                   </app-highcharts-category-map>
                 </div>
-                <div class="uk-width-1-3">
+                <div class="uk-width-1-3@m uk-width-1-3@l uk-width-1-1@s">
                   <div>
                     <h6>Start Exploring</h6>
                     <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
                     <!--                <h6>Click on country for additional information</h6>-->
                     <div class="uk-flex uk-flex-middle uk-margin-medium-top">
-                      <img *ngIf="countryCode" src="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
-                           width="30">
+                      <img *ngIf="countryCode" src="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png" width="30" alt="{{countryCode}} flag icon">
                       <span *ngIf="countryName" class="uk-margin-small-left">{{ countryName }}</span>
                     </div>
                     <p *ngIf="comment; else noComment" [innerHTML]="comment"
@@ -463,7 +462,7 @@
                 <app-multi-chart [series]="bar[1]" [categories]="['Number of countries per Investment Category']"
                                  [titles]="barChartTitles2"
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
-                                 [customTooltip]="true" [yAxisLabels]="false" style="height: 100%"
+                                 [customTooltip]="true" [yAxisLabels]="false" [height]="smallScreen ? 500 : 400"
                                  [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Long-term Data Preservation made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
                                  '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.</p>'">
                 </app-multi-chart>
@@ -471,11 +470,10 @@
             </li>
             <li>
               <div class="">
-                <app-tree-graph [data]="treeGraph[1]" style="height: 100%" [height]="700"
+                <app-tree-graph [data]="treeGraph[1]" [height]="700"
                                 [title]="'Financial Investments in Long-term Data Preservation in 2022'"
                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Long-term Data Preservation made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
                             '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.</p>'">
-
                 </app-tree-graph>
               </div>
             </li>

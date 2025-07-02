@@ -33,6 +33,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   @Input() backgroundColor?: string = undefined;
   @Input() caption?: string = undefined;
   @Input() height?: number = 400;
+  @Input() smallScreen = false;
 
   @Output() mapClick = new EventEmitter<any>();
 
@@ -130,7 +131,8 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       },
       mapView: {
         center: [15, 50],
-        zoom: 3.6
+        // zoom: 3.6
+        zoom: this.smallScreen ? 2.5 : 3.6
       },
 
       title: {

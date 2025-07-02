@@ -305,7 +305,7 @@
               <div uk-grid>
                 <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
                   <app-highcharts-category-map
-                    [mapData]="questionsDataArray[0]" [height]="700"
+                    [mapData]="questionsDataArray[0]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National policy on Open Access publications'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on Open<br> Access Publications'"
                     [caption]="policesMapCaptions[0] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
@@ -333,7 +333,7 @@
               <div data-uk-grid>
                 <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
                   <app-highcharts-category-map
-                    [mapData]="questionsDataArray[1]" [height]="700"
+                    [mapData]="questionsDataArray[1]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National monitoring on Open Access publications'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>Open Access <br>publications'"
                     [caption]=" monitoringMapCaptions[0] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"

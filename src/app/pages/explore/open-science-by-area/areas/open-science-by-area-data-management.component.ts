@@ -29,6 +29,7 @@ export class OpenScienceByAreaDataManagementComponent {
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;
+  smallScreen = false;
   lastUpdateDate?: string;
 
   years = ['2022', '2023'];
@@ -79,6 +80,9 @@ export class OpenScienceByAreaDataManagementComponent {
   legendOptions: LegendOptions = {
     align: 'center',
     verticalAlign: 'top',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#CCC',
+    borderWidth: 1,
   };
 
   countriesArray: string[] = [];
@@ -103,6 +107,8 @@ export class OpenScienceByAreaDataManagementComponent {
               private exploreService: ExploreService) {}
 
   ngOnInit() {
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
 
     this.years.forEach((year, index) => {
       this.getCountriesWithPolicy(year, index);

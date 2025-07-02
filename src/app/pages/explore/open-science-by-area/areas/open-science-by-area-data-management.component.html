@@ -273,7 +273,7 @@
               <div data-uk-grid>
                 <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
                   <app-highcharts-category-map
-                    [mapData]="questionsDataArray[0]" [height]="700"
+                    [mapData]="questionsDataArray[0]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National Policy on Data Management'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on <br>Data Management'"
                     [caption]="policesMapCaptions[1] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 — showing data for 2022.'"
@@ -301,7 +301,7 @@
               <div data-uk-grid>
                 <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
                   <app-highcharts-category-map
-                    [mapData]="questionsDataArray[1]" [height]="700"
+                    [mapData]="questionsDataArray[1]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National Monitoring on Data Management'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>Data Management'"
                     [caption]="monitoringMapCaptions[1] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 — showing data for 2022.'"
@@ -350,7 +350,7 @@
                                  [titles]="barChartTitles"
                                  [stacking]="'normal'" [reversedStacks]="false" [pointWidth]="75"
                                  [legendOptions]="legendOptions"
-                                 [customTooltip]="true" [yAxisLabels]="false" style="height: 100%"
+                                 [customTooltip]="true" [yAxisLabels]="false" [height]="smallScreen ? 500 : 400"
                                  [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Data Management made by European countries. The investments are categorised in ranges to show the distribution and scale of funding.</p>' +
                                '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 — showing data for 2022.</p>'">
                 </app-multi-chart>
@@ -358,7 +358,7 @@
             </li>
             <li>
               <div class="">
-                <app-tree-graph [data]="treeGraph" style="height: 100%" [height]="700"
+                <app-tree-graph [data]="treeGraph" [height]="700"
                                 [title]="'Financial Investments in Data Management in 2022'"
                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Data Management made by European countries. The investments are categorised in ranges to show the distribution and scale of funding.</p>' +
                           '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 — showing data for 2022.</p>'">

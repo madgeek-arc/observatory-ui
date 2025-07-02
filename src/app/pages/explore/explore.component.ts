@@ -53,7 +53,6 @@ export class ExploreComponent implements OnInit {
     this.menuItems[0].items.push(new MenuItem('0-7', 'Open Software', null, '/explore/open-science-by-area/software', null, {name: 'Open Software'}));
     this.menuItems[0].items.push(new MenuItem('0-8', 'Licencing', null, '/explore/open-science-by-area/licensing', null, {name: 'Licencing'}, null, 'custom-disabled-link'));
     this.menuItems[0].items.push(new MenuItem('0-9', 'Persistent Identifiers', null, '/explore/open-science-by-area/persistentIdentifiers', null, {name: 'Persistent Identifiers'}, null, 'custom-disabled-link'));
-    this.menuSections.push()
 
     // Main menu items
     this.menuItems.push(new MenuItem('1', 'Open Science Trends', null, '/explore/open-science-trends', null, {name: 'OS Trends'}));
