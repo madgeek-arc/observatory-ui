@@ -320,7 +320,7 @@
                 <app-multi-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
                                  [titles]="barChartTitles" [reversedStacks]="false"
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
-                                 [customTooltip]="true" [yAxisLabels]="false" style="height: 100%"
+                                 [customTooltip]="true" [yAxisLabels]="false" [height]="smallScreen ? 600 : 400"
                                  [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in skills/training in Open Science made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
                                  '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.</p>'">
                 </app-multi-chart>
