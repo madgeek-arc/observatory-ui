@@ -8,7 +8,7 @@ COPY package.json ./
 RUN npm install
 COPY . .
 ARG configuration=prod
-RUN npm run build:$configuration
+RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build:$configuration
 
 ARG sentry_token=''
 ARG sentry_endpoint=''
