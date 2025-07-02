@@ -122,7 +122,8 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
           load: function() {
 
             if (that.customLabelText) {
-              createInfoBox(that.chart.renderer, that.customLabelText, this.plotWidth);
+              // createInfoBox(that.chart.renderer, that.customLabelText, this.plotWidth);
+              createInfoBox(that.chart.renderer, that.customLabelText, this.chartWidth, this.chartHeight, this.plotWidth, this.plotHeight, this.plotTop);
             }
 
             renderLogo(this.renderer, this.chartWidth, this.chartHeight);

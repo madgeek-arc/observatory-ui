@@ -266,7 +266,7 @@
                   <app-highcharts-category-map
                     [mapData]="questionsDataArray[0]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National Policy on Citizen Science'" [backgroundColor]="'#ffffff'"
-                    [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on <br> Citizen Science'"
+                    [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong> countries have a <br>national policy on Citizen Science</span>'"
                     [caption]="policesMapCaptions[11] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
                     (mapClick)="showComment(0, $event)">
                   </app-highcharts-category-map>
@@ -294,7 +294,7 @@
                   <app-highcharts-category-map
                     [mapData]="questionsDataArray[1]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National Monitoring on Citizen Science'" [backgroundColor]="'#ffffff'"
-                    [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>Citizen Science'"
+                    [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong> countries have a <br>national monitoring on Citizen Science</span>'"
                     [caption]="monitoringMapCaptions[11] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
                     (mapClick)="showComment(1, $event)">
                   </app-highcharts-category-map>

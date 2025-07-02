@@ -276,7 +276,7 @@
                   <app-highcharts-category-map
                     [mapData]="questionsDataArray[0]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National policy on Open Data'" [backgroundColor]="'#ffffff'"
-                    [customLabelText]="'<strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong><br> countries have a <br>national policy on <br>Open data'"
+                    [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong> countries have a <br>national policy on Open data</span>'"
                     [caption]="policesMapCaptions[3] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
                     (mapClick)="showComment(0, $event)">
                   </app-highcharts-category-map>
@@ -304,7 +304,7 @@
                   <app-highcharts-category-map
                     [mapData]="questionsDataArray[1]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National monitoring on Open Data'" [backgroundColor]="'#ffffff'"
-                    [customLabelText]="'<strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong><br> countries have a <br>national monitoring on <br>Open data'"
+                    [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong> countries have a <br>national monitoring on Open data</span>'"
                     [caption]="monitoringMapCaptions[3] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
                     (mapClick)="showComment(1, $event)">
                   </app-highcharts-category-map>
