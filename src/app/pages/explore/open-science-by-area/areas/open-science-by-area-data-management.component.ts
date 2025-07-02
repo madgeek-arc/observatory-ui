@@ -13,7 +13,7 @@ import { ExploreService } from "../../explore.service";
 import { colors } from "../../../../domain/chart-color-palette";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import { CommonModule } from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 
 @Component({
@@ -21,7 +21,7 @@ import { ChartsModule } from "src/app/shared/charts/charts.module";
   templateUrl: './open-science-by-area-data-management.component.html',
   styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
   standalone: true,
-  imports: [ SidebarMobileToggleComponent, CommonModule, ChartsModule]
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage]
 })
 
 export class OpenScienceByAreaDataManagementComponent {

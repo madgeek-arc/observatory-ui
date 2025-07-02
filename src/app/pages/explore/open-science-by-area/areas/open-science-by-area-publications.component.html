@@ -79,7 +79,7 @@
                 <ng-container *ngIf="OAPublications[1] >= OAPublications[0]; else pubsDown">
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
-                    <span class="percentage-up-color">{{ Math.abs(OAPublications[0] - OAPublications[1]) }}%</span>&nbsp;
+                    <span class="percentage-up-color">+{{ Math.abs(OAPublications[0] - OAPublications[1]) }}%</span>&nbsp;
                     from last year
                   </div>
                   <div>
@@ -90,7 +90,7 @@
                 <ng-template #pubsDown>
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                    <span class="percentage-down-color">{{ Math.abs(OAPublications[0] - OAPublications[1]) }}%</span>&nbsp;
+                    <span class="percentage-down-color">-{{ Math.abs(OAPublications[0] - OAPublications[1]) }}%</span>&nbsp;
                     from last year
                   </div>
                   <div>
@@ -115,7 +115,7 @@
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
                     <span class="percentage-up-color">
-                      {{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%
+                      +{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}%
                     </span>&nbsp; from last year
                   </div>
                   <div>
@@ -125,7 +125,7 @@
                 <ng-template #policyDown>
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                    <span class="percentage-down-color">{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}
+                    <span class="percentage-down-color">-{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}
                       %</span>&nbsp; from last year
                   </div>
                   <div>
@@ -149,7 +149,7 @@
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
                     <span class="percentage-up-color">
-                      {{ calculatePercentageChange(totalInvestments) }}%
+                      +{{ calculatePercentageChange(totalInvestments) }}%
                     </span>&nbsp;from last year
                   </div>
                   <div>
@@ -159,7 +159,7 @@
                 <ng-template #policyDown>
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                    <span class="percentage-down-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp;
+                    <span class="percentage-down-color">-{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp;
                     from last year
                   </div>
                   <div>
@@ -184,7 +184,7 @@
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
                     <span
-                      class="percentage-up-color">{{ Math.abs(countriesWithPolicyImmediate[0] - countriesWithPolicyImmediate[1]) }}
+                      class="percentage-up-color">+{{ Math.abs(countriesWithPolicyImmediate[0] - countriesWithPolicyImmediate[1]) }}
                       %</span>&nbsp; from last year
                   </div>
                   <div>
@@ -195,7 +195,7 @@
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
                     <span class="percentage-down-color">
-                      {{ Math.abs(countriesWithPolicyImmediate[0] - countriesWithPolicyImmediate[1]) }}%
+                      -{{ Math.abs(countriesWithPolicyImmediate[0] - countriesWithPolicyImmediate[1]) }}%
                     </span>&nbsp; from last year
                   </div>
                   <div>
@@ -219,7 +219,7 @@
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
                     <span
-                      class="percentage-up-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}
+                      class="percentage-up-color">+{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}
                       %</span>&nbsp; from last year
                   </div>
                   <div>
@@ -231,7 +231,7 @@
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
                     <span
-                      class="percentage-down-color">{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}
+                      class="percentage-down-color">-{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}
                       %</span>&nbsp; from last year
                   </div>
                   <div>
@@ -256,7 +256,7 @@
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
                     <span
-                      class="percentage-up-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}
+                      class="percentage-up-color">+{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}
                       %</span>&nbsp; from last year
                   </div>
                   <div>
@@ -268,7 +268,7 @@
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
                     <span
-                      class="percentage-down-color">{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}
+                      class="percentage-down-color">-{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}
                       %</span>&nbsp; from last year
                   </div>
                   <div>

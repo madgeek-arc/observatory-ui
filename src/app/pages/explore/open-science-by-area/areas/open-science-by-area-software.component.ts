@@ -12,14 +12,14 @@ import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
-import { CommonModule } from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import * as Highcharts from "highcharts";
 
 @Component({
   selector: 'app-open-science-by-area-software',
   templateUrl: './open-science-by-area-software.component.html',
   standalone: true,
-  imports: [ SidebarMobileToggleComponent, CommonModule, ChartsModule],
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage],
 })
 
 export class OpenScienceByAreaSoftwareComponent implements OnInit {

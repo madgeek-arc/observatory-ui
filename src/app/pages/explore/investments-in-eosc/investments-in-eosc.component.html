@@ -71,7 +71,7 @@
                   <ng-container *ngIf="totalInvestments[1] >= totalInvestments[0]; else policyDown">
                     <div class="uk-flex uk-flex-middle">
                       <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
-                      <span class="percentage-up-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp;
+                      <span class="percentage-up-color">+{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp;
                       vs
                       last year
                     </div>
@@ -82,7 +82,7 @@
                   <ng-template #policyDown>
                     <div class="uk-flex uk-flex-middle">
                       <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                      <span class="percentage-down-color">{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp;
+                      <span class="percentage-down-color">-{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp;
                       vs
                       last year
                     </div>
