@@ -30,6 +30,8 @@ export class NationalMonitoringComponent implements OnInit {
 
   exportActive = false;
 
+  smallScreen = false;
+
   year = '2023';
   years = ['2022', '2023'];
 
@@ -44,15 +46,15 @@ export class NationalMonitoringComponent implements OnInit {
     yAxis: 'Percentage of countries with National Monitoring',
   }
   legendOptions: LegendOptions = {
-    layout: 'vertical',
-    align: 'right',
-    verticalAlign: 'bottom',
-    x: -40,
-    y: -180,
-    floating: true,
+    // layout: 'vertical',
+    // align: 'right',
+    // verticalAlign: 'bottom',
+    // x: -40,
+    // y: -180,
+    // floating: true,
     borderWidth: 1,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-    shadow: true
+    // shadow: true
   };
 
   openScienceAreas = this.columnChartCategories;
@@ -76,6 +78,8 @@ export class NationalMonitoringComponent implements OnInit {
     this.years.forEach((year, index) => {
       this.getMonitoringData(year, index);
     });
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
   }
 
   /** Get maps data ----------------------------------------------------------------------------------> **/

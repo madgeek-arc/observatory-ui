@@ -38,6 +38,8 @@ export class OpenSciencePoliciesComponent implements OnInit {
   year = '2023';
   lastUpdateDate?: string;
 
+  smallScreen = false;
+
   columnChartCategories= openScienceAreas;
 
   columnChartSeries: SeriesOptionsType[] = [];
@@ -61,15 +63,15 @@ export class OpenSciencePoliciesComponent implements OnInit {
     yAxis: 'Percentage of Researchers Covered',
   }
   legendOptions: LegendOptions = {
-    layout: 'vertical',
-    align: 'right',
-    verticalAlign: 'bottom',
-    x: -40,
-    y: -180,
-    floating: true,
+    // layout: 'vertical',
+    // align: 'right',
+    // verticalAlign: 'bottom',
+    // x: -40,
+    // y: -180,
+    // floating: true,
     borderWidth: 1,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-    shadow: true
+    // shadow: true
   };
   policiesPerCountryPerYear = new Map<string, RawData[]>();
   researchersPerCountryPerYear = new Map<string, RawData>();
@@ -118,6 +120,8 @@ export class OpenSciencePoliciesComponent implements OnInit {
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => this.lastUpdateDate = value
     });
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
   }
 
   /** Bar charts ---------------------------------------------------------------------------------------------------> **/

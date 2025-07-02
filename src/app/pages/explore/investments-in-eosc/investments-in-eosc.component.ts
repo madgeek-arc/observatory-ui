@@ -26,6 +26,8 @@ export class InvestmentsInEoscComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   exportActive = false;
 
+  smallScreen = false;
+
   years = ['2022', '2023'];
   year = '2023';
 
@@ -34,6 +36,9 @@ export class InvestmentsInEoscComponent implements OnInit {
   legendOptions: LegendOptions = {
     align: 'center',
     verticalAlign: 'top',
+    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
+    borderColor: '#CCC',
+    borderWidth: 1,
   };
 
   variablePie = [];
@@ -93,6 +98,8 @@ export class InvestmentsInEoscComponent implements OnInit {
     this.years.forEach((year, index) => {
       this.getTotalInvestments(year, index);
     });
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
   }
 
   /** Get total investments ---------------------------------------------------------------------------------------> **/
