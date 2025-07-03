@@ -205,7 +205,7 @@ export class DemoChartsComponent implements OnInit {
     }
   ] as Highcharts.SeriesColumnOptions[];
   yAxisTitle1 = 'Number of Data Sets'
-  legend = {
+  legend: Highcharts.LegendOptions = {
     align: 'right',
     x: -30,
     verticalAlign: 'top',

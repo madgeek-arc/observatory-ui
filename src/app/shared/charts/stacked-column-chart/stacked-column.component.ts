@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
-import { OptionsStackingValue } from "highcharts";
+import { LegendOptions, OptionsStackingValue } from "highcharts";
 import { colors } from "../../../domain/chart-color-palette";
 import { renderLogo } from "../highcharts-functions";
 import ExportingModule from 'highcharts/modules/exporting';
@@ -28,7 +28,7 @@ export class StackedColumnComponent implements OnChanges {
   @Input() dataLabels: boolean = true;
   @Input() pointFormat: string = null;
   @Input() plotFormat: string = null;
-  @Input() legend = null;
+  @Input() legend: LegendOptions = null;
   @Input() stacking: OptionsStackingValue = 'normal';
   @Input() caption?: string;
   @Input() height?: number = 400;
@@ -56,6 +56,14 @@ export class StackedColumnComponent implements OnChanges {
     xAxis: {
       // Updated categories to include specific document types and their totals
       categories: this.categories,
+      labels: {
+        style: {
+          // width: 80,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap'
+        }
+      },
       title: {
         text: this.xAxis
       }

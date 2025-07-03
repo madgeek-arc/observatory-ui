@@ -12,11 +12,16 @@ import { StakeholdersService } from "../../../../survey-tool/app/services/stakeh
 import { ExploreService } from "../explore.service";
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 import { monitoringMapCaptions, openScienceAreas } from "../../../domain/chart-captions";
+import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { CommonModule } from "@angular/common";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
 
 @Component({
   selector: 'app-national-monitoring',
   templateUrl: './national-monitoring.component.html',
   styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
+  standalone: true,
+  imports: [ SidebarMobileToggleComponent, CommonModule, ChartsModule],
 })
 
 export class NationalMonitoringComponent implements OnInit {
@@ -24,6 +29,8 @@ export class NationalMonitoringComponent implements OnInit {
   protected readonly monitoringMapCaptions = monitoringMapCaptions;
 
   exportActive = false;
+
+  smallScreen = false;
 
   year = '2023';
   years = ['2022', '2023'];
@@ -39,15 +46,15 @@ export class NationalMonitoringComponent implements OnInit {
     yAxis: 'Percentage of countries with National Monitoring',
   }
   legendOptions: LegendOptions = {
-    layout: 'vertical',
-    align: 'right',
-    verticalAlign: 'bottom',
-    x: -40,
-    y: -180,
-    floating: true,
+    // layout: 'vertical',
+    // align: 'right',
+    // verticalAlign: 'bottom',
+    // x: -40,
+    // y: -180,
+    // floating: true,
     borderWidth: 1,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-    shadow: true
+    // shadow: true
   };
 
   openScienceAreas = this.columnChartCategories;
@@ -71,6 +78,8 @@ export class NationalMonitoringComponent implements OnInit {
     this.years.forEach((year, index) => {
       this.getMonitoringData(year, index);
     });
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
   }
 
   /** Get maps data ----------------------------------------------------------------------------------> **/
@@ -243,4 +252,12 @@ export class NationalMonitoringComponent implements OnInit {
     });
   }
 
+  /** Method for mobile select */
+  onSelectChange(event: any) {
+    const selectedIndex = event.target.value;
+    const tabs = document.querySelectorAll('.uk-tab li a');
+    if (tabs[selectedIndex]) {
+      (tabs[selectedIndex] as HTMLElement).click();
+   }
+  }
 }

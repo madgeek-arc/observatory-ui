@@ -10,23 +10,31 @@ import { CountryTableData } from "../../../../domain/country-table-data";
 import { DataHandlerService } from "../../../services/data-handler.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
-import { colors } from "../../../../domain/chart-color-palette";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
+import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
 
 @Component({
   selector: 'app-open-science-by-area-fair-data',
   templateUrl: './open-science-by-area-fair-data.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less']
+  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+  standalone: true,
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage],
 })
 
 export class OpenScienceByAreaFairDataComponent implements OnInit {
   protected readonly Math = Math;
 
+  protected readonly policesMapCaptions = policesMapCaptions;
+  protected readonly monitoringMapCaptions = monitoringMapCaptions;
+
   private destroyRef = inject(DestroyRef);
   exportActive = false;
+  smallScreen = false;
   lastUpdateDate?: string;
 
-  years = ['2022', '2023']
+  years = ['2022', '2023'];
 
   stackedColumnSeries1 = [
     {
@@ -88,7 +96,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
     title: 'Financial Investments in FAIR Data in 2022',
     xAxis: '',
     yAxis: '',
-  }
+  };
 
   constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService,
               private pdfService: PdfExportService, private dataHandlerService: DataHandlerService,
@@ -105,6 +113,8 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
     });
 
     this.getTreeGraphData();
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
 
     // Maps
     this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -270,6 +280,4 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
     this.countryName = this.exploreService.findCountryName(country.code).name
   }
 
-  protected readonly policesMapCaptions = policesMapCaptions;
-  protected readonly monitoringMapCaptions = monitoringMapCaptions;
 }

@@ -10,7 +10,7 @@ const headerOptions = {
     .set('Accept', 'application/json'),
 };
 
-@Injectable ()
+@Injectable ({providedIn: 'root'})
 export class EoscReadinessDataService {
 
   private statsAPIURL = environment.STATS_API_ENDPOINT + 'raw?json=';

@@ -18,12 +18,17 @@ import { StakeholdersService } from "../../../../../survey-tool/app/services/sta
 import { DataHandlerService } from "../../../services/data-handler.service";
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
+import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
 
 
 @Component({
   selector: 'app-open-science-by-area-open-data',
   templateUrl: './open-science-by-area-open-data.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less']
+  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+  standalone: true,
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage]
 })
 
 export class OpenScienceByAreaOpenDataComponent implements OnInit {
@@ -31,6 +36,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;
+  smallScreen = false;
   lastUpdateDate?: string;
 
   years = ['2022', '2023'];
@@ -39,15 +45,15 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
   yAxisTitle = 'Number of Data Sets';
   legend: LegendOptions = {
-    align: 'right',
-    x: -30,
-    verticalAlign: 'top',
-    y: 30,
-    floating: true,
+    // align: 'right',
+    // x: -30,
+    // verticalAlign: 'top',
+    // y: 30,
+    // floating: true,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
     borderWidth: 1,
-    shadow: false,
+    // shadow: false,
     reversed: false,
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
@@ -127,6 +133,8 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
     this.getTreeGraphData();
     this.getTrend();
     this.getDistributionByDocumentType();
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
 
     // Maps
     this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({

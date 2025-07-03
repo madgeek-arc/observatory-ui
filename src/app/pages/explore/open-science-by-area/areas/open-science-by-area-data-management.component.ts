@@ -12,11 +12,16 @@ import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts"
 import { ExploreService } from "../../explore.service";
 import { colors } from "../../../../domain/chart-color-palette";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
+import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
 
 @Component({
   selector: 'app-open-science-by-area-data-management',
   templateUrl: './open-science-by-area-data-management.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less']
+  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+  standalone: true,
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage]
 })
 
 export class OpenScienceByAreaDataManagementComponent {
@@ -24,6 +29,7 @@ export class OpenScienceByAreaDataManagementComponent {
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;
+  smallScreen = false;
   lastUpdateDate?: string;
 
   years = ['2022', '2023'];
@@ -74,6 +80,9 @@ export class OpenScienceByAreaDataManagementComponent {
   legendOptions: LegendOptions = {
     align: 'center',
     verticalAlign: 'top',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#CCC',
+    borderWidth: 1,
   };
 
   countriesArray: string[] = [];
@@ -98,6 +107,8 @@ export class OpenScienceByAreaDataManagementComponent {
               private exploreService: ExploreService) {}
 
   ngOnInit() {
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
 
     this.years.forEach((year, index) => {
       this.getCountriesWithPolicy(year, index);

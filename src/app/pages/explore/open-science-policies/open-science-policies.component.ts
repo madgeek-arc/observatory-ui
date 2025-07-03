@@ -14,12 +14,17 @@ import { StakeholdersService } from "../../../../survey-tool/app/services/stakeh
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 import { openScienceAreas, policesMapCaptions } from "../../../domain/chart-captions";
 import { OAAndTotalPublicationsPerCountry } from "../OSO-stats-queries/explore-queries";
+import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { CommonModule } from "@angular/common";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
 
 
 @Component({
   selector: 'app-open-science-policies',
   templateUrl: './open-science-policies.component.html',
   styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
+  standalone: true,
+  imports: [ SidebarMobileToggleComponent, CommonModule, ChartsModule ],
 })
 
 export class OpenSciencePoliciesComponent implements OnInit {
@@ -32,6 +37,8 @@ export class OpenSciencePoliciesComponent implements OnInit {
   years = ['2022', '2023'];
   year = '2023';
   lastUpdateDate?: string;
+
+  smallScreen = false;
 
   columnChartCategories= openScienceAreas;
 
@@ -56,15 +63,15 @@ export class OpenSciencePoliciesComponent implements OnInit {
     yAxis: 'Percentage of Researchers Covered',
   }
   legendOptions: LegendOptions = {
-    layout: 'vertical',
-    align: 'right',
-    verticalAlign: 'bottom',
-    x: -40,
-    y: -180,
-    floating: true,
+    // layout: 'vertical',
+    // align: 'right',
+    // verticalAlign: 'bottom',
+    // x: -40,
+    // y: -180,
+    // floating: true,
     borderWidth: 1,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-    shadow: true
+    // shadow: true
   };
   policiesPerCountryPerYear = new Map<string, RawData[]>();
   researchersPerCountryPerYear = new Map<string, RawData>();
@@ -113,6 +120,8 @@ export class OpenSciencePoliciesComponent implements OnInit {
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => this.lastUpdateDate = value
     });
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
   }
 
   /** Bar charts ---------------------------------------------------------------------------------------------------> **/
@@ -317,8 +326,6 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        console.log(value);
-        // console.log(this.createBubbleChartSeries(value));
         this.bubbleChart = this.createBubbleChartSeries(value[3], value[0], value[1], value[2]);
       },
       error: err => {console.error(err)}
@@ -342,9 +349,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
       let item = {
         x: Math.round(((+el[3] * 1000000 / +el[1]) + Number.EPSILON) * 100) / 100,
-        // x: (+el[3] * 1000000) / +el[1],
         y: Math.round((((+el[2] * 1000000) / +el[1]) + Number.EPSILON) * 100) / 100,
-        //TODO: Z is statically set to 10 until corresponding query is provided
         z: Math.round(((+el[4] / +el[5]) + Number.EPSILON) * 100), // calculate OA Pubs of total Pubs percentage
         name: el[0],
         country: this.findCountryName(el[0]).name
@@ -441,6 +446,15 @@ export class OpenSciencePoliciesComponent implements OnInit {
     return countriesNumbers.find(
       elem => elem.id === code
     );
+  }
+
+  /** Method for mobile select switch */
+  onSelectChange(event: any) {
+    const selectedIndex = event.target.value;
+    const tabs = document.querySelectorAll('.uk-tab li a');
+    if (tabs[selectedIndex]) {
+      (tabs[selectedIndex] as HTMLElement).click();
+    }
   }
 
 }

@@ -1,0 +1,109 @@
+<div id="page_content">
+<div id="page_content_header" class="uk-blur-background" style="margin-top: 0"></div>
+<div id="page_content_actions" class="uk-blur-background" uk-sticky>
+  <sidebar-mobile-toggle [activeSidebarItemStatic]="'Policy Overview'" class="uk-hidden@m"></sidebar-mobile-toggle>
+</div>
+<div id="page_content_inner" class="">
+  <div class="uk-section uk-section-small">
+  <div class="uk-container">
+
+    <div class="uk-flex uk-flex-middle uk-margin-bottom">
+      <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+           class="flag-image" width="42" height="42" alt="rounded flag image">
+      <div class="uk-margin-small-left">
+        <h4 class="uk-margin-remove-bottom">{{ countryName }}</h4>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="uk-section uk-section-small uk-padding-remove-top">
+  <div class="uk-container">
+
+    <div class="uk-flex uk-flex-between uk-flex-middle">
+      <h5>Policy Overview</h5>
+    </div>
+
+    <div class="uk-grid-small" data-uk-grid>
+      <!-- left card -->
+      <div *ngIf="table.length" class="uk-width-2-5 uk-animation-fade">
+        <div class="uk-card uk-card-default uk-card-body visualisation-card">
+          <table class="uk-table uk-table-divider uk-table-small uk-table-middle">
+            <thead>
+            <tr>
+              <th></th>
+              <th class="uk-text-center">NATIONAL POLICY</th>
+              <th class="uk-text-center">FINANCIAL STRATEGY</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let row of table">
+              <td class="uk-text-left uk-text-bold">{{ row.OSArea }}</td>
+              <td [ngClass]="{'valueTrue': row.nationalPolicy === 'Yes', 'valueFalse': row.nationalPolicy === 'No', 'valueNotAvailable': row.nationalPolicy === undefined}"></td>
+              <td [ngClass]="{'valueTrue': row.financialStrategy === 'Yes', 'valueFalse': row.financialStrategy === 'No', 'valueNotAvailable': row.financialStrategy === undefined}"></td>
+            </tr>
+
+            </tbody>
+          </table>
+          <div class="uk-flex uk-margin-top">
+            <span class="uk-text-bold" style="white-space: nowrap;">Data source:</span>&nbsp;
+            Survey on National Contributions to EOSC and Open Science.
+          </div>
+        </div>
+      </div>
+
+      <!-- right card -->
+      <div *ngIf="hasSurveyPolicyData()" class="uk-width-3-5 uk-animation-fade">
+        <div class="uk-card uk-card-default uk-card-body visualisation-card noads">
+          <h6 class="uk-margin-bottom">Policy Landscape in {{ countryName }}</h6>
+          <div class="uk-text-meta">This information has been compiled by the National Open Access Desks</div>
+          <div class="uk-margin-medium-top" id="policies">
+            <read-more [maxHeight]="300">
+            <div id="policies_overview">
+              <div class="uk-text-secondary">Overview</div>
+              <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']; else policies_overview">
+                <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']" class="uk-margin-medium-top"></div>
+              </ng-container>
+              <ng-template #policies_overview><p>N/A</p></ng-template>
+            </div>
+            <div id="national_policy_and_legislation">
+              <div class="uk-text-secondary">National Policy and Legislation</div>
+              <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']?.length; else legislation">
+                <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']" class="uk-margin-medium-top">
+                  <div [innerHTML]="element['Question11-1']"></div>
+                </div>
+              </ng-container>
+              <ng-template #legislation><p>N/A</p></ng-template>
+            </div>
+            <div id="funder_policies">
+              <div class="uk-text-secondary">Funder Policies</div>
+              <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']?.length; else funder_policies">
+                <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']" class="uk-margin-medium-top">
+                  <div [innerHTML]="element['Question12-1']"></div>
+                </div>
+              </ng-container>
+              <ng-template #funder_policies><p>N/A</p></ng-template>
+            </div>
+            <div id="institutional_policies">
+              <div class="uk-text-secondary">Institutional policies</div>
+              <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']?.length; else institutional_policies">
+                <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']" class="uk-margin-medium-top">
+                  <div [innerHTML]="element['Question13-1']"></div>
+                </div>
+              </ng-container>
+              <ng-template #institutional_policies><p>N/A</p></ng-template>
+            </div>
+            </read-more>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+</div>
+<div id="page_content_footer"></div>
+</div>

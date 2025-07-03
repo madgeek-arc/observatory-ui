@@ -1,6 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { RawData } from "../../../../domain/raw-data";
 import {
   distributionOfOA,
@@ -24,12 +25,16 @@ import { DataHandlerService } from "../../../services/data-handler.service";
 import { CountryTableData } from "../../../../domain/country-table-data";
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 
 
 @Component({
   selector: 'app-open-science-by-area-publications',
   templateUrl: './open-science-by-area-publications.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less']
+  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+  standalone: true,
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage],
 })
 
 export class OpenScienceByAreaPublicationsComponent implements OnInit {
@@ -38,22 +43,23 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   exportActive = false;
   lastUpdateDate?: string;
+  smallScreen = false;
 
   years = ['2022', '2023'];
 
   stackedColumnCategories: string[] = [];
-  stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [] ;
+  stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
   yAxisTitle = 'Number of Publications';
   legend: LegendOptions = {
-    align: 'right',
-    verticalAlign: 'top',
-    x: 0,
-    y: 35,
-    floating: true,
+    // align: 'right',
+    // verticalAlign: 'top',
+    // x: 0,
+    // y: 35,
+    // floating: true,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
     borderWidth: 1,
-    shadow: false
+    // shadow: false
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
@@ -77,6 +83,9 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   legendOptions: LegendOptions = {
     align: 'center',
     verticalAlign: 'top',
+    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
+    borderColor: '#CCC',
+    borderWidth: 1,
   };
 
   countriesArray: string[] = [];
@@ -124,11 +133,13 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     this.getPublicationPercentage();
     this.getTrends();
     this.getDistributionOAPublication();
-    this.getDistributionOAByScienceFields();
+    // this.getDistributionOAByScienceFields();
 
     this.getTreeGraphData('Question56');
 
     this.getDistributionsOA();
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
 
     // Maps
     this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -186,7 +197,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
         this.total[index] = res[0].datasets[0].series.result.length; // Total countries with validated response
 
         for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
-          this.tmpQuestionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data.map(code => ({ code }));
+          this.tmpQuestionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data.map((code: any) => ({ code }));
         }
         this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[1]);
         this.questionsDataArray[index] = this.exploreService.createMapDataFromCategorization(this.tmpQuestionsDataArray[index], this.countriesArray, mapCount);
@@ -306,7 +317,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     });
   }
 
-  /** Get OA VS closed, restricted and embargoed Publications ---------------------------------------------------  > **/
+  /** Get OA VS closed, restricted and embargoed Publications -----------------------------------------------------> **/
   getPublicationPercentage() {
     this.queryData.getOSOStats(OAPublicationVSClosed()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
@@ -316,7 +327,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     });
   }
 
-  /** Get national monitoring on Publications -------------------------------------------------------------------  > **/
+  /** Get national monitoring on Publications ---------------------------------------------------------------------> **/
   getNationalMonitoring(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question54').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {

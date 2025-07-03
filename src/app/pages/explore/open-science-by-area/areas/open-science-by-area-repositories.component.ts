@@ -10,11 +10,16 @@ import { zip } from "rxjs/internal/observable/zip";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
+import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
 
 @Component({
   selector: 'app-open-science-by-area-repositories',
   templateUrl: './open-science-by-area-repositories.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less']
+  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+  standalone: true,
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage],
 })
 
 export class OpenScienceByAreaRepositoriesComponent implements OnInit {
@@ -22,6 +27,7 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;
+  smallScreen = false;
 
   years = ['2022', '2023'];
 
@@ -66,6 +72,8 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
               private exploreService: ExploreService) {}
 
   ngOnInit() {
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
+
     this.years.forEach((year, index) => {
       this.getCountriesWithPolicy(year, index);
       this.getTotalInvestments(year, index);
