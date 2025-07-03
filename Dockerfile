@@ -9,7 +9,7 @@ COPY package-lock.json ./
 RUN npm ci
 COPY . .
 ARG configuration=prod
-RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build:$configuration
+RUN npm run build:$configuration
 
 ARG sentry_token=''
 ARG sentry_endpoint=''

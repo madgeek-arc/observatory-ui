@@ -66,9 +66,9 @@ export function createInfoBox(renderer: Highcharts.SVGRenderer, customLabelText:
   // After the label is rendered, calculate its dimensions and reposition
   const bBox = infoBox.getBBox();
 
-  console.log('chartHeight', chartHeight);
-  console.log('plotHeight', plotHeight);
-  console.log('plotTop', plotTop);
+  // console.log('chartHeight', chartHeight);
+  // console.log('plotHeight', plotHeight);
+  // console.log('plotTop', plotTop);
 
   // const x = chartWidth - bBox.width - padding;
   // const y = chartHeight - bBox.height - padding;
@@ -77,8 +77,8 @@ export function createInfoBox(renderer: Highcharts.SVGRenderer, customLabelText:
   // let y = padding + 45;
   const y = plotTop - bBox.height + 10;
 
-  console.log('x', x);
-  console.log('y', y);
+  // console.log('x', x);
+  // console.log('y', y);
 
   // const screenWidth: number = window.innerWidth;
   // if(screenWidth<960) {
