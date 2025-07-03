@@ -8,7 +8,7 @@ import { mapSubtitles } from "../../../../domain/mapSubtitles";
 import { latlong } from "../../../../domain/countries-lat-lon";
 import { zip } from "rxjs/internal/observable/zip";
 import { CategorizedAreaData, Series } from "../../../../domain/categorizedAreaData";
-import UIkit from "uikit";
+import * as UIkit from 'uikit';
 
 @Component({
   selector: 'app-policies',

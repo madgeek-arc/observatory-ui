@@ -8,7 +8,7 @@ import { EoscReadiness2022MapSubtitles } from "../../../eosc-readiness2022-map-s
 import { RawData } from "../../../../../../domain/raw-data";
 import { zip } from "rxjs/internal/observable/zip";
 import { isNumeric } from "rxjs/internal-compatibility";
-import UIkit from "uikit";
+import * as UIkit from 'uikit';
 
 @Component({
   selector: 'app-RPOs-subcategories',

@@ -10,7 +10,7 @@ import { isNumeric } from "rxjs/internal-compatibility";
 import { zip } from "rxjs/internal/observable/zip";
 import { ColorAxisOptions, LegendOptions } from "highcharts";
 import * as Highcharts from "highcharts";
-import UIkit from "uikit";
+import * as UIkit from 'uikit';
 
 @Component({
   selector: 'app-general-2022',

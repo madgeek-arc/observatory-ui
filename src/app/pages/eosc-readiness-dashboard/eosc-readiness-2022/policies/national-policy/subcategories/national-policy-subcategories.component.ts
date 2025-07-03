@@ -8,7 +8,7 @@ import { StakeholdersService } from "../../../../../../../survey-tool/app/servic
 import { DataHandlerService } from "../../../../../services/data-handler.service";
 import { CountryTableData } from "../../../../../../domain/country-table-data";
 import { CategorizedAreaData, Series } from "../../../../../../domain/categorizedAreaData";
-import UIkit from "uikit";
+import * as UIkit from 'uikit';
 
 @Component({
   selector: 'app-national-policy-subcategories',

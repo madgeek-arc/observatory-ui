@@ -7,7 +7,7 @@ import { StakeholdersService } from "../../../../../survey-tool/app/services/sta
 import { CountryTableData } from "../../../../domain/country-table-data";
 import { mapSubtitles } from "../../../../domain/mapSubtitles";
 import { CategorizedAreaData, Series } from "../../../../domain/categorizedAreaData";
-import UIkit from "uikit";
+import * as UIkit from 'uikit';
 
 @Component({
   selector: 'app-policies',

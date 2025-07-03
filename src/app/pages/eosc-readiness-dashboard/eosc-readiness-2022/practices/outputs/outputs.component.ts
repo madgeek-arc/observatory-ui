@@ -10,7 +10,7 @@ import { ActivityGauge } from "../../../../../shared/charts/gauge-activity/gauge
 import { countries } from "../../../../../domain/countries";
 import { zip } from "rxjs/internal/observable/zip";
 import { isNumeric } from "rxjs/internal-compatibility";
-import UIkit from "uikit";
+import * as UIkit from 'uikit';
 
 @Component({
   selector: 'app-national-policy',

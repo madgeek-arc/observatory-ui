@@ -8,7 +8,7 @@ import { CountryTableData } from "../../../../domain/country-table-data";
 import { FundingForEOSCSums } from "../../../../domain/funding-for-eosc";
 import { CategorizedAreaData, Series } from "../../../../domain/categorizedAreaData";
 import { zip } from "rxjs/internal/observable/zip";
-import UIkit from "uikit";
+import * as UIkit from 'uikit';
 
 @Component({
   selector: 'app-investments',

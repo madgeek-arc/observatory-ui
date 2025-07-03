@@ -10,7 +10,7 @@ import { zip } from "rxjs/internal/observable/zip";
 import { countries } from "../../../../../domain/countries";
 import { CategorizedAreaData, Series } from "../../../../../domain/categorizedAreaData";
 import { ActivityGauge } from "../../../../../shared/charts/gauge-activity/gauge-activity.component";
-import UIkit from "uikit";
+import * as UIkit from 'uikit';
 
 @Component({
   selector: 'app-national-policy',

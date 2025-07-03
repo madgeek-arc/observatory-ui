@@ -7,7 +7,7 @@ import { EoscReadinessDataService } from "../../../../../services/eosc-readiness
 import { StakeholdersService } from "../../../../../../../survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../../../services/data-handler.service";
 import { CategorizedAreaData, Series } from "../../../../../../domain/categorizedAreaData";
-import UIkit from "uikit";
+import * as UIkit from 'uikit';
 
 @Component({
   selector: 'app-national-monitoring-subcategories',

@@ -10,7 +10,7 @@ import { DataHandlerService } from "../../../../../services/data-handler.service
 import { RawData } from "../../../../../../domain/raw-data";
 import { zip } from "rxjs/internal/observable/zip";
 import { isNumeric } from "rxjs/internal-compatibility";
-import UIkit from "uikit";
+import * as UIkit from 'uikit';
 
 registerLocaleData(localeEL); // Register Greek locale
 

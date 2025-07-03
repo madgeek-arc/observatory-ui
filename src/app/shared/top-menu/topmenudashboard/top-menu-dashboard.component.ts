@@ -10,7 +10,7 @@ import {UnreadMessages} from "../../../../messaging-system-ui/app/domain/messagi
 import {MessagingWebsocketService} from "../../../../messaging-system-ui/services/messaging-websocket.service";
 import {Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
-import UIkit from 'uikit';
+import * as UIkit from 'uikit';
 
 @Component({
   selector: 'app-top-menu-dashboard',
