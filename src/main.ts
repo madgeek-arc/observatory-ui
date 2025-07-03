@@ -1,6 +1,6 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import * as Sentry from "@sentry/angular-ivy";
+import * as Sentry from "@sentry/angular";
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
@@ -10,9 +10,9 @@ if (environment.enableSentry) {
     dsn: environment.sentry.dsn,
     environment: environment.sentry.environment,
     integrations: [
-      new Sentry.BrowserTracing({routingInstrumentation: Sentry.routingInstrumentation,}),
-      new Sentry.Integrations.Breadcrumbs({console: true,}),
-      new Sentry.Replay(),
+      Sentry.browserTracingIntegration(),
+      Sentry.breadcrumbsIntegration(),
+      Sentry.replayIntegration()
     ],
     // Performance Monitoring
     tracesSampleRate: environment.sentry.tracesSampleRate, // Capture 100% of the transactions
@@ -21,7 +21,7 @@ if (environment.enableSentry) {
     replaysOnErrorSampleRate: environment.sentry.replaysOnErrorSampleRate, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
   });
 } else {
-  console.log("Sentry is disabled in development mode");
+  console.log("Sentry is disabled in development mode.");
 }
 
 

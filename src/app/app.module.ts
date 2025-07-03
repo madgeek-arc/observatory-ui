@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, ErrorHandler, NgModule } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
-import * as Sentry from "@sentry/angular-ivy";
+import * as Sentry from "@sentry/angular";
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { environment } from "../environments/environment";
