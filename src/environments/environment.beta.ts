@@ -21,7 +21,7 @@ export const environment = {
   enableSentry: true,
   sentry: {
     dsn: 'https://f3877c1b0e3334d3869db0c5113dc30e@sentry.vereniki.athenarc.gr/5',
-    environment: 'dl123',
+    environment: 'beta',
     tracesSampleRate: 1.0,
     replaysSessionSampleRate: 0.2,
     replaysOnErrorSampleRate: 1.0
