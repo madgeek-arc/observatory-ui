@@ -1,160 +1,176 @@
-<div class="uk-section uk-section-small">
-  <div class="uk-container uk-container-expand">
-
-    <h4>Open Science by Area</h4>
-    <p>To delve deeper into any of the Open Science areas listed above, simply click on the respective section. Each click will lead you to a more detailed page with specific information, resources, and data relevant to that area of Open Science.</p>
-
+<div id="page_content">
+  <div id="page_content_header" class="uk-blur-background" style="margin-top: 0"></div>
+  <div id="page_content_actions" class="uk-section-primary uk-preserve-color" uk-sticky>
+    <div class="uk-container uk-container-large">
+      <sidebar-mobile-toggle class="uk-hidden@m uk-margin-top uk-display-block uk-margin-bottom"></sidebar-mobile-toggle>
+    </div>
   </div>
-</div>
+  <div id="page_content_inner" class="">
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
+      <div class="uk-container uk-container-expand">
 
-<div class="uk-section uk-section-small">
-  <div class="uk-container uk-container-expand">
+        <h4>Open Science by Area</h4>
+        <p>To delve deeper into any of the Open Science areas listed above, simply click on the respective section. Each
+          click will lead you to a more detailed page with specific information, resources, and data relevant to that
+          area of Open Science.</p>
 
-    <div class="uk-child-width-1-3 uk-grid-match uk-grid-row-medium" uk-grid>
-
-      <div>
-        <a [routerLink]="['./publications']" class="text-black uk-link-reset">
-          <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
-            <span>
-              <img src="assets/images/explore/OPen%20Access%20Publicaion.svg" style="width: 41px; height: 33px">
-            </span>
-<!--            <span class="material-symbols-outlined filled uk-text-primary">content_copy</span>-->
-            <div class="uk-margin-left">
-              <h5>Open Access Publication</h5>
-              <p>Explore the adoption and scope of Open Access publications across Europe.</p>
-            </div>
-          </div>
-        </a>
       </div>
-      <div>
-        <a [routerLink]="['./open-data']" class="text-black uk-link-reset">
-          <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
-            <span>
-              <img src="assets/images/explore/Open%20Data.svg" style="width: 41px; height: 33px">
-            </span>
-<!--            <span class="material-symbols-outlined filled uk-text-primary">dataset</span>-->
-            <div class="uk-margin-left">
-              <h5>Open Data</h5>
-              <p>Review how Open Data are used and implemented across different countries.</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div>
-        <a [routerLink]="['./fair-data']" class="text-black uk-link-reset">
-          <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
-            <span>
-              <img src="assets/images/explore/FAIR%20Data.svg" style="width: 41px; height: 33px">
-            </span>
-<!--            <span class="material-symbols-outlined filled uk-text-primary">search</span>-->
-            <div class="uk-margin-left">
-              <h5>FAIR Data</h5>
-              <p>Track the adoption of FAIR Data principles throughout Europe.</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div>
-        <a [routerLink]="['./data-management']" class="text-black uk-link-reset">
-          <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
-            <span>
-              <img src="assets/images/explore/Data%20Management.svg" style="width: 41px; height: 33px">
-            </span>
-<!--            <span class="material-symbols-outlined filled uk-text-primary">folder_managed</span>-->
-            <div class="uk-margin-left">
-              <h5>Data Management</h5>
-              <p>Discover Data Management practices and their uptake across European countries.</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div>
-        <a [routerLink]="['./citizen-science']" class="text-black uk-link-reset">
-          <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
-            <span>
-              <img src="assets/images/explore/Citizen%20Science.svg" style="width: 41px; height: 33px">
-            </span>
-<!--            <span class="material-symbols-outlined filled uk-text-primary">group</span>-->
-            <div class="uk-margin-left">
-              <h5>Citizen Science</h5>
-              <p>Analyze the engagement and impact of Citizen Science across Europe.</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div>
-        <a [routerLink]="['./repositories']" class="text-black uk-link-reset">
-          <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
-            <span>
-              <img src="assets/images/explore/Repositories.svg" style="width: 41px; height: 33px">
-            </span>
-<!--            <span class="material-symbols-outlined filled uk-text-primary">database</span>-->
-            <div class="uk-margin-left">
-              <h5>Repositories</h5>
-              <p>Examine the spread and use of Open Science repositories throughout European nations.</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div>
-        <a [routerLink]="['./training']" class="text-black uk-link-reset">
-          <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
-            <span>
-              <img src="assets/images/explore/Open%20Science%20Training.svg" style="width: 41px; height: 33px">
-            </span>
-<!--            <span class="material-symbols-outlined filled uk-text-primary">model_training</span>-->
-            <div class="uk-margin-left">
-              <h5>Open Science Training</h5>
-              <p>Investigate how Open Science training is being integrated across Europe.</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div>
-        <a [routerLink]="['./software']" class="text-black uk-link-reset">
-          <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
-            <span>
-              <img src="assets/images/explore/Open%20Software.svg" style="width: 41px; height: 33px">
-            </span>
-<!--            <span class="material-symbols-outlined filled uk-text-primary">terminal</span>-->
-            <div class="uk-margin-left">
-              <h5>Open Software</h5>
-              <p>Explore the adoption of Open Software in Europe</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div>
-        <a class="text-black custom-disabled-link uk-link-reset" uk-tooltip="Coming soon..">
-          <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
-            <span>
-              <img src="assets/images/explore/Licensing.svg" style="width: 41px; height: 33px">
-            </span>
-<!--            <span class="material-symbols-outlined filled uk-text-primary">license</span>-->
-            <div class="uk-margin-left">
-              <h5>Licensing</h5>
-              <p>Assess the impact different license on accessibility of research outputs.</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div>
-        <a class="text-black custom-disabled-link uk-link-reset" uk-tooltip="Coming soon..">
-          <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
-            <span>
-              <img src="assets/images/explore/Persistent%20Identifiers.svg" style="width: 41px; height: 33px">
-            </span>
-<!--            <span class="material-symbols-outlined filled uk-text-primary">fingerprint</span>-->
-            <div class="uk-margin-left">
-              <h5>Persistent Identifiers</h5>
-              <p>Coming soon...</p>
-            </div>
-          </div>
-        </a>
-      </div>
-
     </div>
 
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
+      <div class="uk-container uk-container-expand">
+
+        <div class="uk-child-width-1-3@m uk-child-width-1-3@l uk-child-width-1-1@s uk-grid-match uk-grid-row-medium"
+             uk-grid>
+
+          <div>
+            <a [routerLink]="['./publications']" class="text-black uk-link-reset">
+              <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
+              <span>
+                <img src="assets/images/explore/OPen%20Access%20Publicaion.svg" style="width: 41px; height: 33px">
+              </span>
+                <!--            <span class="material-symbols-outlined filled uk-text-primary">content_copy</span>-->
+                <div class="uk-margin-left">
+                  <h5>Open Access Publication</h5>
+                  <p>Explore the adoption and scope of Open Access publications across Europe.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div>
+            <a [routerLink]="['./open-data']" class="text-black uk-link-reset">
+              <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
+              <span>
+                <img src="assets/images/explore/Open%20Data.svg" style="width: 41px; height: 33px">
+              </span>
+                <!--            <span class="material-symbols-outlined filled uk-text-primary">dataset</span>-->
+                <div class="uk-margin-left">
+                  <h5>Open Data</h5>
+                  <p>Review how Open Data are used and implemented across different countries.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div>
+            <a [routerLink]="['./fair-data']" class="text-black uk-link-reset">
+              <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
+              <span>
+                <img src="assets/images/explore/FAIR%20Data.svg" style="width: 41px; height: 33px">
+              </span>
+                <!--            <span class="material-symbols-outlined filled uk-text-primary">search</span>-->
+                <div class="uk-margin-left">
+                  <h5>FAIR Data</h5>
+                  <p>Track the adoption of FAIR Data principles throughout Europe.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div>
+            <a [routerLink]="['./data-management']" class="text-black uk-link-reset">
+              <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
+              <span>
+                <img src="assets/images/explore/Data%20Management.svg" style="width: 41px; height: 33px">
+              </span>
+                <!--            <span class="material-symbols-outlined filled uk-text-primary">folder_managed</span>-->
+                <div class="uk-margin-left">
+                  <h5>Data Management</h5>
+                  <p>Discover Data Management practices and their uptake across European countries.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div>
+            <a [routerLink]="['./citizen-science']" class="text-black uk-link-reset">
+              <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
+              <span>
+                <img src="assets/images/explore/Citizen%20Science.svg" style="width: 41px; height: 33px">
+              </span>
+                <!--            <span class="material-symbols-outlined filled uk-text-primary">group</span>-->
+                <div class="uk-margin-left">
+                  <h5>Citizen Science</h5>
+                  <p>Analyze the engagement and impact of Citizen Science across Europe.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div>
+            <a [routerLink]="['./repositories']" class="text-black uk-link-reset">
+              <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
+              <span>
+                <img src="assets/images/explore/Repositories.svg" style="width: 41px; height: 33px">
+              </span>
+                <!--            <span class="material-symbols-outlined filled uk-text-primary">database</span>-->
+                <div class="uk-margin-left">
+                  <h5>Repositories</h5>
+                  <p>Examine the spread and use of Open Science repositories throughout European nations.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div>
+            <a [routerLink]="['./training']" class="text-black uk-link-reset">
+              <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
+              <span>
+                <img src="assets/images/explore/Open%20Science%20Training.svg" style="width: 41px; height: 33px">
+              </span>
+                <!--            <span class="material-symbols-outlined filled uk-text-primary">model_training</span>-->
+                <div class="uk-margin-left">
+                  <h5>Open Science Training</h5>
+                  <p>Investigate how Open Science training is being integrated across Europe.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div>
+            <a [routerLink]="['./software']" class="text-black uk-link-reset">
+              <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
+              <span>
+                <img src="assets/images/explore/Open%20Software.svg" style="width: 41px; height: 33px">
+              </span>
+                <!--            <span class="material-symbols-outlined filled uk-text-primary">terminal</span>-->
+                <div class="uk-margin-left">
+                  <h5>Open Software</h5>
+                  <p>Explore the adoption of Open Software in Europe</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div>
+            <a class="text-black custom-disabled-link uk-link-reset" uk-tooltip="Coming soon..">
+              <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
+              <span>
+                <img src="assets/images/explore/Licensing.svg" style="width: 41px; height: 33px">
+              </span>
+                <!--            <span class="material-symbols-outlined filled uk-text-primary">license</span>-->
+                <div class="uk-margin-left">
+                  <h5>Licensing</h5>
+                  <p>Assess the impact different license on accessibility of research outputs.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div>
+            <a class="text-black custom-disabled-link uk-link-reset" uk-tooltip="Coming soon..">
+              <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
+              <span>
+                <img src="assets/images/explore/Persistent%20Identifiers.svg" style="width: 41px; height: 33px">
+              </span>
+                <!--            <span class="material-symbols-outlined filled uk-text-primary">fingerprint</span>-->
+                <div class="uk-margin-left">
+                  <h5>Persistent Identifiers</h5>
+                  <p>Coming soon...</p>
+                </div>
+              </div>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
   </div>
+  <div id="page_content_footer"></div>
 </div>
+
+
 

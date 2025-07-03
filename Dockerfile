@@ -4,11 +4,12 @@ FROM node:16 AS build
 WORKDIR /usr/src/app
 
 COPY package.json ./
+COPY package-lock.json ./
 
-RUN npm install
+RUN npm ci
 COPY . .
 ARG configuration=prod
-RUN npm run build:$configuration
+RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build:$configuration
 
 ARG sentry_token=''
 ARG sentry_endpoint=''

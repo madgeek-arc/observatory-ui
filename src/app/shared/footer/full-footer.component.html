@@ -1,11 +1,12 @@
 <div class="uk-section uk-section-default">
   <div class="uk-container uk-container-small">
 
-    <div class="uk-grid uk-child-width-1-3">
+    <div class="uk-grid uk-child-width-1-3@m uk-child-width-1-3@l uk-child-width-1-1@s">
 
-      <div>
+      <div class="uk-margin-bottom">
         <div>
-          <h6>Explore</h6>
+          <!--fixme I would like to remove the padding from header and list items here-->
+          <h6 style="padding: 5px 30px;">Explore</h6>
           <ul class="uk-nav uk-nav-default">
             <li><a [routerLink]="['/explore/open-science-by-area']">Open Science by Area</a></li>
             <li><a [routerLink]="['/explore/open-science-by-country']">Open Science by Country</a></li>
@@ -17,9 +18,10 @@
         </div>
       </div>
 
-      <div>
+      <div class="uk-margin-bottom">
         <div>
-          <h6>About</h6>
+          <!--fixme I would like to remove the padding from header and list items here-->
+          <h6 style="padding: 5px 30px;">About</h6>
           <ul class="uk-nav uk-nav-default">
             <li><a [routerLink]="['/about/eosc-observatory']">About EOSC Open Science Observatory</a></li>
             <li><a [routerLink]="['/about/eosc-track']">About EOSC Track</a></li>
@@ -30,7 +32,8 @@
 
       <div>
         <div>
-          <h6>Resources</h6>
+          <!--fixme I would like to remove the padding from header and list items here-->
+          <h6 style="padding: 5px 30px;">Resources</h6>
           <ul class="uk-nav uk-nav-default">
             <li><a [routerLink]="['/resources/data-workflow-and-methodology']">Data Workflow and Methodology</a></li>
             <li><a [routerLink]="['/resources/publications-and-deliverables']">Publications</a></li>

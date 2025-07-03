@@ -17,12 +17,12 @@ import { PipeModule } from "./pipes/pipe.module";
   exports: [
     TopMenuDashboardComponent,
     FooterComponent,
-    FullFooterComponent
+    FullFooterComponent,
   ],
   declarations: [
     TopMenuDashboardComponent,
     FooterComponent,
-    FullFooterComponent
+    FullFooterComponent,
   ]
 })
 

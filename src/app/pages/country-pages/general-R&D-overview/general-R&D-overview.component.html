@@ -1,0 +1,246 @@
+<div id="page_content">
+<div id="page_content_header" class="uk-blur-background" style="margin-top: 0"></div>
+<div id="page_content_actions" class="uk-blur-background" uk-sticky>
+  <sidebar-mobile-toggle [activeSidebarItemStatic]="'General R&D Overview'" class="uk-hidden@m"></sidebar-mobile-toggle>
+</div>
+<div id="page_content_inner" class="">
+  <div class="uk-section uk-section-small">
+  <div class="uk-container">
+
+    <div class="uk-flex uk-flex-middle uk-margin-bottom">
+      <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+           class="flag-image uk-margin-small-right" width="42" height="42" alt="rounded flag image">
+      <h4 class="uk-margin-remove">{{ countryName }} - Open Science for 2022</h4>
+    </div>
+  </div>
+</div>
+
+<div class="uk-section uk-padding-remove">
+  <div class="uk-container">
+
+    <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-top">
+      <h5>General Overview of R&D and Open Science</h5>
+    </div>
+
+    <div class="uk-grid-small uk-grid-match" data-uk-grid>
+
+      <div class="uk-width-expand uk-animation-fade" *ngIf="hasAnyLeftCardData()">
+        <div class="uk-card uk-card-default uk-card-body visualisation-card">
+          <div class="uk-child-width-1-2 uk-grid-small uk-grid-match" data-uk-grid>
+
+            <!-- Card 1 -->
+            <div *ngIf="OAPubsPercentage[1] !== null" class="uk-animation-scale-up">
+              <div class="uk-card card-simple uk-card-small uk-card-body">
+                <p>OA Publication in {{ countryName }} (OA vs Closed)</p>
+                <div class="number big uk-margin-medium-top">
+                  <span class="uk-text-bold">{{ OAPubsPercentage[1] }}%</span>
+                </div>
+                <div *ngIf="OAPubsPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                  <div class="uk-flex uk-flex-middle">
+                    <span class="material-symbols-outlined" [ngClass]="OAPubsPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ OAPubsPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                    <span [ngClass]="OAPubsPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                      {{ Math.abs(OAPubsPercentageDiff) }}%
+                    </span>&nbsp; from last year
+                  </div>
+                  <div>
+                    <img [ngSrc]="'../assets/images/explore/' + (OAPubsPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                         alt="trend image" height="50" width="99">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div *ngIf="OpenDataPercentage[1] !== null" class="uk-animation-scale-up">
+              <div class="uk-card card-simple uk-card-small uk-card-body">
+                <p>Open Data in {{countryName}} (OA vs Closed)</p>
+                <div class="number big uk-margin-medium-top">
+                  <span class="uk-text-bold">{{ OpenDataPercentage[1] }}%</span>
+                </div>
+                <div *ngIf="OpenDataPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                  <div class="uk-flex uk-flex-middle">
+                    <span class="material-symbols-outlined" [ngClass]="OpenDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ OpenDataPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                    <span [ngClass]="OpenDataPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                      {{ Math.abs(OpenDataPercentageDiff) }}%
+                    </span>&nbsp; from last year
+                  </div>
+                  <div>
+                    <img [ngSrc]="'../assets/images/explore/' + (OpenDataPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                         alt="trend image" height="50" width="99">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div *ngIf="totalInvestment[1] !== null">
+              <div class="uk-card card-simple uk-card-small uk-card-body">
+                <p>Total investment in EOSC and Open Science</p>
+                <div class="number big uk-margin-medium-top">
+                  <span class="uk-text-bold">{{ totalInvestment[1] + ' mil Euro' }}</span>
+                </div>
+                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                  <div class="uk-flex uk-flex-middle">
+                    <span class="material-symbols-outlined" [ngClass]="investmentPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ investmentPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                    <span [ngClass]="investmentPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                      {{ Math.abs(investmentPercentageDiff) }}%
+                    </span>&nbsp; from last year
+                  </div>
+                  <div>
+                    <img [ngSrc]="'../assets/images/explore/' + (investmentPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                         alt="trend image" height="50" width="99">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div *ngIf="openSoftware[1] !== null">
+              <div class="uk-card card-simple uk-card-small uk-card-body">
+                <p>Number of Open Software sets published in {{ countryName }}</p>
+                <div class="number big uk-margin-medium-top">
+                  <span class="uk-text-bold">{{ openSoftware[1] + ' sets'}}</span>
+                </div>
+                <div *ngIf="openSoftwarePercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                  <div class="uk-flex uk-flex-middle">
+                    <span class="material-symbols-outlined" [ngClass]="openSoftwarePercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ openSoftwarePercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                    <span [ngClass]="openSoftwarePercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                      {{ Math.abs(openSoftwarePercentageDiff) }}%
+                    </span>&nbsp; from last year
+                  </div>
+                  <div>
+                    <img [ngSrc]="'../assets/images/explore/' + (openSoftwarePercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                         alt="trend image" height="50" width="99">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="uk-margin-top">
+            <span class="uk-text-bold">Data source:</span>&nbsp;
+            Survey on National Contributions to EOSC and Open Science OpenAIRE Graph.
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Card (2/5) -->
+      <div class="uk-width-2-5 uk-animation-fade">
+        <div class="uk-card uk-card-default uk-card-body external-sources visualisation-card">
+          <h5>R&D Information</h5>
+<!--          <p>Data for 2022 coming soon</p>-->
+
+          <div class="uk-child-width-1-2 uk-grid-small uk-grid-match" data-uk-grid>
+
+            <div *ngIf="rfos[1]">
+              <div class="">
+                <p>Number of research funding organisations</p>
+                <div class="number big uk-margin">
+                  <span class="uk-text-bold">{{ rfos[1] }}</span>
+                </div>
+
+                <div *ngIf="rfosPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                  <div class="uk-flex uk-flex-middle">
+                    <span class="material-symbols-outlined" [ngClass]="rfosPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ rfosPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                    <span [ngClass]="rfosPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                          {{ Math.abs(rfosPercentageDiff) }}%
+                    </span>&nbsp; from last year
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="rpos[1]">
+              <div class="">
+                <p>Number of research performing organisations</p>
+                <div class="number big uk-margin">
+                  <span class="uk-text-bold">{{ rpos[1] }}</span>
+                </div>
+
+                <div *ngIf="rposPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                  <div class="uk-flex uk-flex-middle">
+                    <span class="material-symbols-outlined" [ngClass]="rposPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ rposPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                    <span [ngClass]="rposPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                          {{ Math.abs(rposPercentageDiff) }}%
+                    </span>&nbsp; from last year
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf=" hasSurveyGeneralData()" class="uk-section uk-section-small uk-margin-top">
+  <div class="uk-container">
+
+    <div class="uk-margin-medium-top uk-animation-fade">
+      <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
+        <h5>Open Science Key Actors in {{ countryName }}</h5>
+
+        <read-more [maxHeight]="300">
+          <div id="research_funding_organisations">
+            <div class="uk-text-secondary">Research Funding Organisations</div>
+            <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2'][0]['Question2-1']; else funding_organisations">
+              <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']" class="uk-margin-medium-top">
+                <div [innerHTML]="element['Question2-1']"></div>
+              </div>
+            </ng-container>
+            <ng-template #funding_organisations><p>N/A</p></ng-template>
+          </div>
+          <div id="research_performing_organisations">
+            <div class="uk-text-secondary">Research Performing Organisations</div>
+            <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3'][0]['Question3-1']; else performing_organisations">
+              <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3']" class="uk-margin-medium-top">
+                <div [innerHTML]="element['Question3-1']"></div>
+              </div>
+            </ng-container>
+            <ng-template #performing_organisations><p>N/A</p></ng-template>
+          </div>
+
+          <div id="research_support_organisations">
+            <div class="uk-text-secondary">Research Support Organisations</div>
+            <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4'][0]['Question4-1']; else support_organisations">
+              <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4']" class="uk-margin-medium-top">
+                <div [innerHTML]="element['Question4-1']"></div>
+              </div>
+            </ng-container>
+            <ng-template #support_organisations><p>N/A</p></ng-template>
+          </div>
+
+          <div id="other_organisations">
+            <div class="uk-text-secondary">Other Organisations</div>
+            <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30'][0]['Question30-1']; else other_organisations">
+              <div *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30']" class="uk-margin-medium-top">
+                <div [innerHTML]="element['Question30-1']"></div>
+              </div>
+            </ng-container>
+            <ng-template #other_organisations><p>N/A</p></ng-template>
+          </div>
+        </read-more>
+      </div>
+    </div>
+
+<!--    <pre *ngFor="let element of surveyAnswers">{{element | json}}</pre>-->
+
+  </div>
+</div>
+</div>
+<div id="page_content_footer"></div>
+</div>

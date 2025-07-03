@@ -7,7 +7,7 @@ import { isNumeric } from "rxjs/internal-compatibility";
 import { SeriesMapbubbleDataOptions } from "highcharts";
 import { SeriesMapDataOptions } from "highcharts/highmaps";
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class DataHandlerService {
 
   public convertRawDataToTableData(rawData: RawData) {

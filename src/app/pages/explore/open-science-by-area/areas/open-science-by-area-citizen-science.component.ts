@@ -10,11 +10,17 @@ import { DataHandlerService } from "../../../services/data-handler.service";
 import { ExploreService } from "../../explore.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
+import * as Highcharts from "highcharts";
 
 @Component({
   selector: 'app-open-science-by-area-citizen-science',
   templateUrl: './open-science-by-area-citizen-science.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less']
+  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+  standalone: true,
+  imports: [CommonModule, SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage],
 })
 
 export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
@@ -22,6 +28,7 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;
+  smallScreen = false;
 
   years = ['2022', '2023'];
 
@@ -36,6 +43,9 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
   legendOptions: LegendOptions = {
     align: 'center',
     verticalAlign: 'top',
+    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
+    borderColor: '#CCC',
+    borderWidth: 1,
   };
 
   countriesArray: string[] = [];
@@ -69,6 +79,8 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
     });
 
     this.getTreeGraphData();
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
 
     // Maps
     this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({

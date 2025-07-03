@@ -8,9 +8,12 @@
 
   <ng-container *ngIf="isEOSCReadinessDashboardRoute() ; else home">
     <app-top-menu-dashboard></app-top-menu-dashboard>
-    <div style="margin-top: 80px"></div>
+<!--    <div style="margin-top: 80px"></div>-->
     <router-outlet></router-outlet>
-    <div style="margin-left: 290px">
+    <div style="margin-left: 280px" class="uk-visible@m">
+      <app-full-footer></app-full-footer>
+    </div>
+    <div class="uk-hidden@m">
       <app-full-footer></app-full-footer>
     </div>
   </ng-container>
@@ -18,7 +21,7 @@
   <ng-template #home>
     <app-top-menu-dashboard></app-top-menu-dashboard>
     <!--  <div style="margin-top: 90px"></div>-->
-    <div style="margin-top: 80px"></div>
+<!--    <div style="margin-top: 80px"></div>-->
     <router-outlet></router-outlet>
     <app-full-footer></app-full-footer>
   </ng-template>

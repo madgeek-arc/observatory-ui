@@ -1,10 +1,10 @@
-<div class="uk-section uk-section-secondary uk-section-small">
-  <div class="uk-container uk-container-expand">
-    <ul class="uk-breadcrumb uk-margin-small-bottom">
+<div class="uk-section uk-section-primary uk-preserve-color">
+  <div class="uk-container">
+   <!--<ul class="uk-breadcrumb uk-margin-small-bottom">
       <li><a routerLink="/home">Home</a></li>
       <li><span>By Country</span></li>
     </ul>
-    <h3 class="uk-margin-remove">Dashboards by country</h3>
+    <h3 class="uk-margin-remove">Open Science Country Pages</h3>
   </div>
 </div>
 
@@ -12,25 +12,69 @@
   <div class="uk-container uk-container-expand">
     <div class="uk-grid uk-child-width-1-2">
       <div class="uk-flex uk-flex-middle">
-        <p class="big-text">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-          labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-          clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-          sadipscing elitr.</p>
+        <p class="big-text">The Open Science Country Pages offer a detailed and comprehensive view of Open Science
+          progress and initiatives across various European countries. The Open Science Country Pages map the diverse
+          national Research and Development (R&D) landscapes in Europe to provide a 360o view on the Open Science
+          maturity of more than 35 countries. The Country Pages compile information about Open Science policies, key
+          actors, initiatives, digital infrastructure and repositories as well as on training and skills employed to
+          realise them. By selecting a country from the interactive map, you can access specific information on national
+          policies, practices, and impacts related to Open Science</p>
       </div>
       <div class="uk-flex uk-flex-center">
-        <img src="../assets/images/Image%20338.png">
+        <img src="../assets/images/Image%20338.png" alt="Image of world map">
+      </div>
+    </div> -->
+    <h4>Open Science Country Pages</h4>
+    <p class="uk-text-lead">
+       The Open Science Country Pages offer a detailed and comprehensive view of Open Science progress and initiatives across various European countries.
+        The Open Science Country Pages map the diverse national Research and Development (R&D) landscapes in Europe to provide a 360o view on the Open Science
+        maturity of more than 35 countries. The Country Pages compile information about Open Science policies, key actors, initiatives, digital infrastructure
+        and repositories as well as on training and skills employed to realise them. By selecting a country from the interactive map, you can access specific
+        information on national policies, practices, and impacts related to Open Science
+    </p>
+    <div class="">
+      <div>
+        <h4>How are the data collected</h4>
+        <p>The data presented in the EOSC Open Science Observatory country pages are aggregated from multiple credible
+          sources to provide a comprehensive and accurate overview of the Open Science situation in each country.
+          <span class="uk-text-bold">
+            Each data source is clearly indicated both by its corresponding text and a color-coded line at the top of each tile.
+          </span> The four main data sources include:</p>
+      </div>
+      <div class="uk-grid uk-grid-match uk-child-width-1-4 uk-margin-large-top">
+        <div>
+          <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card uk-flex uk-flex-middle uk-flex-center">
+            <div class="uk-card-title">Survey on National Contributions to EOSC and Open Science</div>
+          </div>
+        </div>
+        <div>
+          <div class="uk-card uk-card-default uk-card-body openaire-graph visualisation-card uk-flex uk-flex-middle uk-flex-center">
+            <div class="uk-card-title">OpenAIRE Graph</div>
+          </div>
+        </div>
+        <div>
+          <div class="uk-card uk-card-default uk-card-body noads visualisation-card uk-flex uk-flex-middle uk-flex-center">
+            <div class="uk-card-title">NOADs Country Narratives</div>
+          </div>
+        </div>
+        <div>
+          <div class="uk-card uk-card-default uk-card-body external-sources visualisation-card uk-flex uk-flex-middle uk-flex-center">
+            <div class="uk-card-title ">External Data Sources (e.g. Eurostat, EOSC Portal, CoARA)</div>
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
 </div>
 
-<div class="uk-section uk-section-default">
-  <div class="uk-container uk-container-expand">
+<div class="uk-section uk-section-small uk-section-primary uk-preserve-color">
+  <div class="uk-container">
     <div class="uk-card uk-card-large card-simple uk-card-body">
       <div class="uk-flex uk-flex-between">
         <div><h4>Select a country</h4></div>
         <div>
-          <ul uk-tab uk-switcher="connect: #selection_mode" class="country-selection-mode">
+          <ul data-uk-tab data-uk-switcher="connect: #selection_mode" class="country-selection-mode">
             <li class="uk-active"><a href="#"><span [innerHTML]="mapIconVar" class="uk-icon"></span></a></li>
             <li class="uk-active"><a href="#"><span [innerHTML]="flagIconVar" class="uk-icon"></span></a></li>
           </ul>
@@ -38,19 +82,19 @@
       </div>
       <ul id="selection_mode" class="uk-switcher">
         <li aria-hidden="false" class="uk-active" style="animation-duration: 200ms;">
-          <div *ngIf="questionsDataArray?.series.length > 0" class="uk-width-1-1 uk-margin-top" style="height: 700px">
+          <div *ngIf="questionsDataArray?.series.length > 0" class="uk-width-1-1 uk-margin-top" >
             <app-highcharts-category-map [mapData]="questionsDataArray" [subtitle]="''" [title]="''"
                                          (mapClick)="goToLanding($event['code'])">
             </app-highcharts-category-map>
           </div>
         </li>
         <li aria-hidden="true" class="" style="animation-duration: 200ms;">
-          <div *ngIf="countriesArray.length > 0" class="uk-width-1-1 uk-margin-top" style="height: 700px">
+          <div *ngIf="countriesArray.length > 0" class="uk-width-1-1 uk-margin-top" >
             <div class="uk-grid uk-child-width-1-4 select-country">
               <div *ngFor="let country of countriesArray" class="uk-margin-bottom">
                 <a class="uk-flex uk-flex-middle" (click)="goToLanding(country)">
-                  <img src="../../survey-tool/assets/images/flags/{{country | lowercase}}-flag.svg" class="flag-image-selector" width="30" height="20">
-                  <div class="uk-margin-small-left">{{findCountryByCode(country)}}</div>
+                  <img ngSrc="../../survey-tool/assets/images/flags/{{country | lowercase}}-flag.svg" class="flag-image-selector" width="30" height="20" alt="Flag of {{country}}">
+                  <div class="uk-margin-small-left">{{ findCountryByCode(country) }}</div>
                 </a>
               </div>
             </div>

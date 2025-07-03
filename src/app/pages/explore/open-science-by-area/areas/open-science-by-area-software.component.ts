@@ -10,10 +10,16 @@ import { DataHandlerService } from "../../../services/data-handler.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
+import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import * as Highcharts from "highcharts";
 
 @Component({
   selector: 'app-open-science-by-area-software',
   templateUrl: './open-science-by-area-software.component.html',
+  standalone: true,
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage],
 })
 
 export class OpenScienceByAreaSoftwareComponent implements OnInit {
@@ -21,6 +27,8 @@ export class OpenScienceByAreaSoftwareComponent implements OnInit {
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;
+
+  smallScreen = false;
 
   years = ['2022', '2023'];
 
@@ -35,6 +43,9 @@ export class OpenScienceByAreaSoftwareComponent implements OnInit {
   legendOptions: LegendOptions = {
     align: 'center',
     verticalAlign: 'top',
+    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
+    borderColor: '#CCC',
+    borderWidth: 1,
   };
 
   countriesArray: string[] = [];
@@ -78,6 +89,8 @@ export class OpenScienceByAreaSoftwareComponent implements OnInit {
       },
       error: err => {console.error(err)}
     });
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
   }
 
   /** Get maps data ----------------------------------------------------------------------------------> **/

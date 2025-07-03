@@ -14,7 +14,7 @@ import { DataHandlerService } from "../services/data-handler.service";
 import * as Highcharts from "highcharts";
 import { colors } from "../../domain/chart-color-palette";
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class ExploreService {
 
   _lastUpdateDate: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
@@ -23,6 +23,10 @@ export class ExploreService {
 
   constructor(private eoscReadiness: EoscReadinessDataService, private dataHandlerService: DataHandlerService) {
     this.getLastUpdateDate();
+  }
+
+  get isMobileOrSmallScreen(): boolean {
+    return window.innerWidth < 960;
   }
 
   getLastUpdateDate() {
@@ -378,7 +382,7 @@ export class ExploreService {
   }
 
   trimNodes(data: any[]): any[] {
-    const parentIds = new Set(data.map(item => item.parent).filter(p => p));
+    // const parentIds = new Set(data.map(item => item.parent).filter(p => p));
     const leafIds = new Set(data.filter(d => d.y != null).map(d => d.parent));
     return data.filter(item =>
       item.parent === "" ||         // keep root
@@ -422,18 +426,14 @@ export class ExploreService {
   // Utilities
   isNumeric(value: string | null): boolean {
     // Check if the value is empty
-    if (value === null)
+    if (value === undefined || value === null || value.trim() === '')
       return false;
-
-    if (value.trim() === '') {
-      return false;
-    }
 
     // Attempt to parse the value as a float
     const number = parseFloat(value);
 
     // Check if parsing resulted in NaN or the value has extraneous characters
-    return !isNaN(number) && isFinite(number) && String(number) === value;
+    return !Number.isNaN(number) && Number.isFinite(number) && String(number) === value;
   }
 
   calculateSum(rawData: RawData): string {

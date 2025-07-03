@@ -8,18 +8,25 @@ import { ExploreService } from "../explore.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions, SeriesBubbleOptions } from "highcharts";
 import { OAPubsPerCountry } from "../OSO-stats-queries/explore-queries";
 import * as Highcharts from 'highcharts';
+import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
 
 type MergedElement = { x: string; y: string; z: string; name: string; country: string };
 
 @Component({
   selector: 'app-investments-in-eosc',
   templateUrl: './investments-in-eosc.component.html',
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage],
+  standalone: true,
 })
 
 export class InvestmentsInEoscComponent implements OnInit {
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;
+
+  smallScreen = false;
 
   years = ['2022', '2023'];
   year = '2023';
@@ -29,6 +36,9 @@ export class InvestmentsInEoscComponent implements OnInit {
   legendOptions: LegendOptions = {
     align: 'center',
     verticalAlign: 'top',
+    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
+    borderColor: '#CCC',
+    borderWidth: 1,
   };
 
   variablePie = [];
@@ -88,6 +98,8 @@ export class InvestmentsInEoscComponent implements OnInit {
     this.years.forEach((year, index) => {
       this.getTotalInvestments(year, index);
     });
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
   }
 
   /** Get total investments ---------------------------------------------------------------------------------------> **/
@@ -147,7 +159,6 @@ export class InvestmentsInEoscComponent implements OnInit {
         country: this.exploreService.findCountryName(el.name).name
       };
       series[0].data.push(item);
-      console.log(series);
     });
 
     // console.log(series);
@@ -205,6 +216,7 @@ export class InvestmentsInEoscComponent implements OnInit {
 
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
   exportToPDF(contents: HTMLElement[], filename?: string) {
+    console.log('Contents to export:', contents);
     this.exportActive = true
     this.pdfService.export(contents, filename).then(() => {
       this.exportActive = false;

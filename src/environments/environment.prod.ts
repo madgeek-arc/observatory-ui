@@ -7,6 +7,7 @@ export const environment = {
   MESSAGING_ENDPOINT: '/api',
   projectName: 'Observatory',
   STATS_API_ENDPOINT: '/api/statistics/',
+  OS_EUROPE_API_ENDPOINT: 'https://oseurope.openaire.eu/api/',
   profileName: 'eosc-obs',
   OSO_STATS_API_ENDPOINT: 'https://services.openaire.eu/stats-tool/',
   osoStatsProfileName: 'observatory',

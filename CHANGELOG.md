@@ -1,25 +1,25 @@
-# [3.1.0](https://github.com/madgeek-arc/observatory-ui/compare/3.1.0...3.0.0) (2025-06-19)
-
-
-*  fix!: change orderField url param to sort ([1bd93e0](https://github.com/madgeek-arc/observatory-ui/commit/1bd93e0a4640ea128ba07967579dbbdb66dfb6a8))
+# [3.2.0](https://github.com/madgeek-arc/observatory-ui/compare/3.1.0...3.2.0) (2025-07-03)
 
 
 ### Bug Fixes
 
-* add 'files' to location ([bb6bbb4](https://github.com/madgeek-arc/observatory-ui/commit/bb6bbb467543521c0fcf7a9b2e7017166e239183))
-* move info box slightly to the left for categorized map charts, map title changes ([53cff65](https://github.com/madgeek-arc/observatory-ui/commit/53cff656adda901c10e368ad915115c67ac6e2bb))
-* open science by area sub navigation list properly displays when navigating to an area section explore side menu ([3b9aa5f](https://github.com/madgeek-arc/observatory-ui/commit/3b9aa5f77ed679303aba231ba7f425bad836a120))
-* Various changes from recommendations ([e5dc474](https://github.com/madgeek-arc/observatory-ui/commit/e5dc4742d53e0dc6f9f8dfef6a5240fc92ba6b8e))
+* display correct colors at cards, hide empty cards answers ([85adc0d](https://github.com/madgeek-arc/observatory-ui/commit/85adc0d96fd6c2d89c24b50dd140bd34f5a44354))
+* inject DashboardSideMenuService to app.component in order to initialize it early ([07a32bb](https://github.com/madgeek-arc/observatory-ui/commit/07a32bb3e4249745ad7da08b6cf598a394dbea15))
 
 
 ### Features
 
-* color changes for maps and column charts ([07276db](https://github.com/madgeek-arc/observatory-ui/commit/07276db54e7b8772496e55796c65124064dfff6f))
-* new chart type at open science by Area -> publications ([3e29904](https://github.com/madgeek-arc/observatory-ui/commit/3e299048ca4653f1727775878c679f38b65ef32f))
-* show sankey demo chart to OS by area at publications section ([79037bc](https://github.com/madgeek-arc/observatory-ui/commit/79037bcef2c1278d908470f55b26855e42eb4a59))
-* support for xAxis duplication at bar chart ([77797d7](https://github.com/madgeek-arc/observatory-ui/commit/77797d721510e9f7570d299348b838f00e5e9168))
-
-
-### BREAKING CHANGES
-
-* incopatible url parameters
+* add divs displaying data for Repositories, Open Science Training, Data Management and FAIR Data ([5a1e5e9](https://github.com/madgeek-arc/observatory-ui/commit/5a1e5e986eff919ea3381689064aad2eefc1cc80))
+* add funcionality to side cards and implement read more feature ([5712d89](https://github.com/madgeek-arc/observatory-ui/commit/5712d890761182ae8050ff9741ec71c88e0f4236))
+* Add functionality to Citizen Science component including 'read more' feature ([af530f1](https://github.com/madgeek-arc/observatory-ui/commit/af530f121e7f7db391da7bd30a2b1124dda0bdb7))
+* add new pages (Repositories, Open Science Training, Open Softwares) and update navigation menu structure ([5995eba](https://github.com/madgeek-arc/observatory-ui/commit/5995eba36e57190f9c63450d6f61cbf7bcb9cd36))
+* add SidebarMobileToggleComponent and prepare sidebar components for mobile ([703ec05](https://github.com/madgeek-arc/observatory-ui/commit/703ec0510253d88369034c98f89ca84aede301b1))
+* added mobile-only visibility to sidebar-mobile-toggle component ([cff0136](https://github.com/madgeek-arc/observatory-ui/commit/cff0136e2f0c27c39d1b1f84254aca353fb38144))
+* charts in fair data and data management ([c4dfbbd](https://github.com/madgeek-arc/observatory-ui/commit/c4dfbbdf83ee81984efee8d83ab956f40627ff13))
+* Corrected the funding info in the footer for the mobile view ([6adc0a4](https://github.com/madgeek-arc/observatory-ui/commit/6adc0a45455567c684f4fc1ef1014656f07be6fc))
+* **country-pages:** add page layout structure and sidebar toggle to all components ([095ee59](https://github.com/madgeek-arc/observatory-ui/commit/095ee59b24f596547f352567fd9b0768cc3d0e0d))
+* display survey data at OA Publication,Policies, General sections ([a6a0ed0](https://github.com/madgeek-arc/observatory-ui/commit/a6a0ed01c706f874a13bc4d51c5b969387e9e81c))
+* explore side bar first implementation ([c055af3](https://github.com/madgeek-arc/observatory-ui/commit/c055af3b86c8c8126694c6fdf721859af887248a))
+* guard for country pages routes ([82bb6e4](https://github.com/madgeek-arc/observatory-ui/commit/82bb6e491ad35b4215b21864cff2502ac5853923))
+* svg icons for explore side bar ([60642b7](https://github.com/madgeek-arc/observatory-ui/commit/60642b7d83a0ba6d8a1449e8dbbe20efbbd434a2))
+* theme update wip ([abd925b](https://github.com/madgeek-arc/observatory-ui/commit/abd925b6d2b093fd3b9769ebb02d2c55febf931a))

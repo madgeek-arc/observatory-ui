@@ -1,16 +1,27 @@
 import { Component, OnInit } from "@angular/core";
 import { CategorizedAreaData, Series } from "../../../domain/categorizedAreaData";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { ColorPallet } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { countries } from "../../../domain/countries";
 import { flagIcon, mapIcon } from "../../../../variables/icons";
 import { DomSanitizer } from "@angular/platform-browser";
+import { LowerCasePipe, NgForOf, NgIf, NgOptimizedImage } from "@angular/common";
+import { ChartsModule } from "../../../shared/charts/charts.module";
 
 @Component({
   selector: 'country-selector',
   templateUrl: 'country-selector.component.html',
+  standalone: true,
   styleUrls: ['./country-selector.component.css'],
+  imports: [
+    LowerCasePipe,
+    ChartsModule,
+    NgIf,
+    NgForOf,
+    RouterLink,
+    NgOptimizedImage
+  ],
   providers: [StakeholdersService]
 })
 
@@ -42,7 +53,7 @@ export class CountrySelectorComponent implements OnInit {
 
   goToLanding(code) {
     // console.log(event);
-    this.router.navigate([`/landing/country/${code}`]);
+    this.router.navigate([`/country/${code}`]);
   }
 
   findCountryByCode(countryCode: string) {
