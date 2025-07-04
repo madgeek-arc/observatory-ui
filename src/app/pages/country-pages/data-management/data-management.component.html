@@ -66,11 +66,12 @@
                 </div>
                 <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
                   <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined"
-                          [ngClass]="rpoDataManagementPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                    <span class="material-symbols-outlined" [ngClass]="rpoDataManagementPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
                       {{ rpoDataManagementPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                     </span>
-                    <span>{{ rpoDataManagementPercentageDiff }}%</span>&nbsp; vs last year
+                    <span [ngClass]="rfoDataManagementPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                      {{ rpoDataManagementPercentageDiff }}%
+                    </span>&nbsp; vs last year
                   </div>
                   <div>
                     <img [ngSrc]="'../assets/images/explore/' + (rpoDataManagementPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
