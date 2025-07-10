@@ -11,13 +11,14 @@ import * as Highcharts from 'highcharts';
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 
 type MergedElement = { x: string; y: string; z: string; name: string; country: string };
 
 @Component({
   selector: 'app-investments-in-eosc',
   templateUrl: './investments-in-eosc.component.html',
-  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage],
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent],
   standalone: true,
 })
 
