@@ -9,6 +9,7 @@ import * as Highcharts from "highcharts/highcharts.src";
 import { ExploreService } from "../../explore/explore.service";
 import { ChartsModule } from "../../../shared/charts/charts.module";
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
   selector: 'app-fair-data',
@@ -17,7 +18,8 @@ import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared
     NgOptimizedImage,
     CatalogueUiReusableComponentsModule,
     ChartsModule,
-    SidebarMobileToggleComponent
+    SidebarMobileToggleComponent,
+    PageContentComponent
   ],
   standalone: true,
   templateUrl: './fair-data.component.html',

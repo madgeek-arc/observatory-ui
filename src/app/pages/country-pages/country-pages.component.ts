@@ -23,7 +23,7 @@ import {
   ],
   templateUrl: './country-pages.component.html',
   styleUrls: ['../../../assets/css/explore-sidebar.less', '../../../assets/css/explore-dashboard.less']
-  // styles: ['.backAction { background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px}']
+  // styles: ['.backAction { background-color: #fff; border-radius: 50 px; border: 1 px solid #008691; padding: 4 px 10 px}']
 })
 
 
@@ -100,6 +100,7 @@ export class CountryPagesComponent implements OnInit {
     this.menuItems.push(new MenuItem('6', 'Citizen Science', null, '/country/' + this.countryCode + '/citizen-science', null, {}));
     this.menuItems.push(new MenuItem('7', 'Repositories', null, '/country/' + this.countryCode + '/repositories', null, {}));
     this.menuItems.push(new MenuItem('8', 'Open Science Training', null, '/country/' + this.countryCode + '/science-training', null, {}));
+    this.menuItems.push(new MenuItem('9', 'Open Software', null, '/country/' + this.countryCode + '/open-software', null, {}));
 
     this.menuSections.push({items: this.menuItems});
   }

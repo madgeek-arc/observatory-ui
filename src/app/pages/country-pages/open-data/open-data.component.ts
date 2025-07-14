@@ -16,6 +16,7 @@ import { LegendOptions, OptionsStackingValue, SeriesOptionsType } from "highchar
 import { ChartsModule } from "../../../shared/charts/charts.module";
 import { ExploreService } from "../../explore/explore.service";
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
   selector: 'app-open-data',
@@ -24,7 +25,8 @@ import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared
     NgOptimizedImage,
     CatalogueUiReusableComponentsModule,
     ChartsModule,
-    SidebarMobileToggleComponent
+    SidebarMobileToggleComponent,
+    PageContentComponent
   ],
    standalone: true,
   templateUrl: './open-data.component.html',

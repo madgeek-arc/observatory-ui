@@ -1,10 +1,9 @@
-<div id="page_content">
-<div id="page_content_header" class="uk-blur-background" style="margin-top: 0"></div>
-<div id="page_content_actions" class="uk-blur-background" uk-sticky>
-  <sidebar-mobile-toggle [activeSidebarItemStatic]="'Data Management'" class="uk-hidden@m"></sidebar-mobile-toggle>
-</div>
-<div id="page_content_inner" class="">
-  <div class="uk-section uk-section-small">
+<div page-content [fullWidth]="true">
+  <div actions class="uk-section-primary uk-preserve-color">
+    <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
+  </div>
+  <div inner>
+    <div class="uk-section uk-section-small">
   <div class="uk-container">
 
     <div class="uk-flex uk-flex-middle uk-margin-bottom">
@@ -182,59 +181,56 @@
   </div>
 </div>
 
+    <div *ngIf="hasSurveyDataManagementData()" class="uk-section uk-section-small">
+    <div class="uk-container">
 
-<div *ngIf="hasSurveyDataManagementData()" class="uk-section uk-section-small">
-  <div class="uk-container">
+      <div class="uk-margin-medium-top uk-animation-fade">
+        <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+          <h5>Learn More about National Data Service</h5>
+          <read-more [maxHeight]="300">
+            <div id="">
+              <div class="uk-text-secondary">National Data Service</div>
+              <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else data_service">
+                <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']" class="uk-margin-medium-top"></div>
+              </ng-container>
+              <ng-template #data_service><p>N/A</p></ng-template>
+            </div>
+          </read-more>
+        </div>
+      </div>
 
-    <div class="uk-margin-medium-top uk-animation-fade">
-      <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-        <h5>Learn More about National Data Service</h5>
-        <read-more [maxHeight]="300">
-          <div id="">
-            <div class="uk-text-secondary">National Data Service</div>
-            <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else data_service">
-              <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']" class="uk-margin-medium-top"></div>
-            </ng-container>
-            <ng-template #data_service><p>N/A</p></ng-template>
+    </div>
+  </div>
+
+    <div class="uk-section uk-section-small">
+    <div class="uk-container">
+
+      <div class="uk-child-width-1-2" data-uk-grid>
+        <div *ngIf="stackedColumnSeries1[0].data.length">
+          <div class="uk-card uk-card-default visualisation-card uk-card-body">
+            <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries1" [yAxis]="yAxisTitle"
+                                [title]="'Trend of Policies on Data Management among Research Performing Organisations in '+ countryName"
+                                [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
+                                [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [height]="700"
+                                [caption]="'<p class=\'uk-text-justify\'>The presented graph shows the adoption of Data Management policies among Research Performing Organisations (RPOs). It highlights the percentage of RPOs that have implemented policies mentioning Data Management, compared to those without such policies.</p>' +
+                                '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science</p>'">
+            </app-stacked-column>
           </div>
-        </read-more>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
-<div class="uk-section uk-section-small">
-  <div class="uk-container">
-
-    <div class="uk-child-width-1-2" data-uk-grid>
-      <div *ngIf="stackedColumnSeries1[0].data.length">
-        <div class="uk-card uk-card-default visualisation-card uk-card-body">
-          <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries1" [yAxis]="yAxisTitle"
-                              [title]="'Trend of Policies on Data Management among Research Performing Organisations in '+ countryName"
-                              [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
-                              [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [height]="700"
-                              [caption]="'<p class=\'uk-text-justify\'>The presented graph shows the adoption of Data Management policies among Research Performing Organisations (RPOs). It highlights the percentage of RPOs that have implemented policies mentioning Data Management, compared to those without such policies.</p>' +
-                              '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science</p>'">
-          </app-stacked-column>
+        </div>
+        <div *ngIf="stackedColumnSeries2[0].data.length">
+          <div class="uk-card uk-card-default visualisation-card uk-card-body">
+            <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries2" [yAxis]="yAxisTitle"
+                                [title]="'Trend of Policies on Data Management among Research Funding Organisations in '+ countryName"
+                                [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
+                                [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [height]="700"
+                                [caption]="'<p class=\'uk-text-justify\'>The presented graph shows Research Funding Organisations (RFOs) and their commitment to Data Management policies. It illustrates the percentage of RFOs that have implemented policies on Data Management, alongside those that have not.</p>' +
+                                '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science</p>'">
+            </app-stacked-column>
+          </div>
         </div>
       </div>
-      <div *ngIf="stackedColumnSeries2[0].data.length">
-        <div class="uk-card uk-card-default visualisation-card uk-card-body">
-          <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries2" [yAxis]="yAxisTitle"
-                              [title]="'Trend of Policies on Data Management among Research Funding Organisations in '+ countryName"
-                              [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
-                              [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [height]="700"
-                              [caption]="'<p class=\'uk-text-justify\'>The presented graph shows Research Funding Organisations (RFOs) and their commitment to Data Management policies. It illustrates the percentage of RFOs that have implemented policies on Data Management, alongside those that have not.</p>' +
-                              '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science</p>'">
-          </app-stacked-column>
-        </div>
-      </div>
-    </div>
 
+    </div>
   </div>
-</div>
-</div>
-<div id="page_content_footer"></div>
+  </div>
 </div>

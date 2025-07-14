@@ -17,6 +17,7 @@ import {
   CatalogueUiReusableComponentsModule
 } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 
 
 @Component({
@@ -26,7 +27,8 @@ import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared
     NgOptimizedImage,
     ChartsModule,
     CatalogueUiReusableComponentsModule,
-    SidebarMobileToggleComponent
+    SidebarMobileToggleComponent,
+    PageContentComponent
   ],
   standalone: true,
   templateUrl: './open-access-publications.html',
