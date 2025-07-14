@@ -14,13 +14,14 @@ import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import * as Highcharts from "highcharts";
+import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
   selector: 'app-open-science-by-area-citizen-science',
   templateUrl: './open-science-by-area-citizen-science.component.html',
   styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
   standalone: true,
-  imports: [CommonModule, SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage],
+  imports: [CommonModule, SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent],
 })
 
 export class OpenScienceByAreaCitizenScienceComponent implements OnInit {

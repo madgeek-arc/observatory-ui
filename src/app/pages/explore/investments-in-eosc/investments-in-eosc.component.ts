@@ -48,7 +48,7 @@ export class InvestmentsInEoscComponent implements OnInit {
     headerFormat: '',
     pointFormat: '<span style="color:{point.color}">\u25CF</span> <b> ' +
       '{point.name}</b><br/>' +
-      'Investment in millions of Euroso: <b>{point.y}</b><br/>'
+      'Investment in millions of Euro: <b>{point.y}</b><br/>'
   }
 
   bubbleWithPlotLines = [] as SeriesBubbleOptions[];

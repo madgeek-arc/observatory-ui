@@ -1,13 +1,12 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
+import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { LowerCasePipe, NgOptimizedImage } from "@angular/common";
 import { countries } from "../../domain/countries";
 import { DataShareService } from "./services/data-share.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SurveyPublicAnswer } from "./services/coutry-pages.service";
 import {
-  DashboardSideMenuComponent, MenuItem,
-  MenuSection
+  DashboardSideMenuComponent, MenuItem, MenuSection
 } from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
 import {
   DashboardSideMenuService
@@ -18,8 +17,6 @@ import {
   standalone: true,
   imports: [
     RouterOutlet,
-    RouterLinkActive,
-    RouterLink,
     LowerCasePipe,
     NgOptimizedImage,
     DashboardSideMenuComponent
