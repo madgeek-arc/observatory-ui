@@ -1,11 +1,8 @@
-<div id="page_content">
-  <div id="page_content_header" class="uk-blur-background" style="margin-top: 0"></div>
-  <div id="page_content_actions" class="uk-section-primary uk-preserve-color" uk-sticky>
-    <div class="uk-container uk-container-large">
-      <sidebar-mobile-toggle class="uk-hidden@m uk-margin-top uk-display-block uk-margin-bottom"></sidebar-mobile-toggle>
-    </div>
+<div page-content [fullWidth]="true">
+  <div actions class="uk-section-primary uk-preserve-color">
+    <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
-  <div id="page_content_inner" class="">
+  <div inner>
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
       <div class="uk-container">
 
@@ -16,7 +13,7 @@
                style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">Export report</span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" uk-spinner="ratio: 0.7"></span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
               <ng-template #elseBlock>
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
               </ng-template>
@@ -31,7 +28,7 @@
                style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">Export report</span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" uk-spinner="ratio: 0.7"></span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
               <ng-template #elseBlock>
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
               </ng-template>
@@ -72,8 +69,7 @@
                     <div class="uk-flex uk-flex-middle">
                       <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
                       <span class="percentage-up-color">+{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp;
-                      vs
-                      last year
+                      vs last year
                     </div>
                     <div>
                       <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
@@ -83,8 +79,7 @@
                     <div class="uk-flex uk-flex-middle">
                       <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
                       <span class="percentage-down-color">-{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp;
-                      vs
-                      last year
+                      vs last year
                     </div>
                     <div>
                       <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
@@ -122,60 +117,13 @@
                              [height]="smallScreen ? 600 : 500"
                              [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments made in different areas of Open Science. Each segment of the graph represents a specific area , that were made by countries of the EOSC association.</p>' +
                          '<p class=\'uk-text-justify\'>This data highlights how funds are allocated across these various sectors, indicating the focus areas for enhancing Open Science infrastructure and initiatives. </p>' +
-                         '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
+                         '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 — showing data for 2022</p>'">
               </app-pie-chart>
             </div>
           </div>
-          <!--      <div class="">-->
-          <!--        <app-pie-chart *ngIf="variablePie[0]?.data.length" chartId="variablePie" type="variablepie" title=""-->
-          <!--                       [series]="variablePie" [tooltip]="pieTooltip">-->
-          <!--        </app-pie-chart>-->
-          <!--      </div>-->
-          <!--      <div class="">-->
-          <!--        <h6>Understanding the data</h6>-->
-          <!--        <p>The graph illustrates the financial investments made in different areas of Open Science. Each segment of the graph represents a specific area , that were made by countries of the EOSC association.</p>-->
-          <!--        <p>This data highlights how funds are allocated across these various sectors, indicating the focus areas for enhancing Open Science infrastructure and initiatives. </p>-->
-          <!--        <p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science.</p>-->
-          <!--      </div>-->
         </div>
       </div>
     </div>
-
-    <!--<div class="uk-section uk-section-small">-->
-    <!--  <div class="uk-container uk-container-expand">-->
-    <!--    <table class="uk-table uk-table-divider">-->
-    <!--      <thead>-->
-    <!--      <tr>-->
-    <!--        <th>Country</th>-->
-    <!--        <th>Citizen Science</th>-->
-    <!--        <th>Software</th>-->
-    <!--        <th>Open Data</th>-->
-    <!--        <th>FAIR Data</th>-->
-    <!--        <th>Data Management</th>-->
-    <!--        <th>Services in EOSC</th>-->
-    <!--        <th>Repositories</th>-->
-    <!--        <th>Data stewardship</th>-->
-    <!--        <th>Data preservation</th>-->
-    <!--        <th>Open Access</th>-->
-    <!--        <th>Skills/training</th>-->
-    <!--        <th>Incentives/Rewards</th>-->
-    <!--        <th>Other</th>-->
-    <!--        <th>Total</th>-->
-    <!--      </tr>-->
-    <!--      </thead>-->
-    <!--      <tbody>-->
-    <!--      <tr *ngFor="let row of countryArray">-->
-    <!--        <td *ngFor="let rowEl of row; let i=index">-->
-    <!--          <span *ngIf="i !== row.length-2; else calcOther">{{ (rowEl === 'null' || rowEl === '') ? '&#45;&#45;' : rowEl }}</span>-->
-    <!--          <ng-template #calcOther>-->
-    <!--            {{ (row[row.length-1] === 'null' || row[row.length-1] === '') ? '&#45;&#45;' : (+row[row.length-1] - (+row[row.length-2])).toFixed(2) }}-->
-    <!--          </ng-template>-->
-    <!--        </td>-->
-    <!--      </tr>-->
-    <!--      </tbody>-->
-    <!--    </table>-->
-    <!--  </div>-->
-    <!--</div>-->
 
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent2>
       <div class="uk-container">
@@ -183,8 +131,7 @@
         <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
           <div class="uk-grid">
-            <ul class="uk-subnav uk-subnav-pill uk-flex-right uk-width-1-1"
-                uk-switcher="{connect:'#investments', animation: 'fade'}">
+            <ul class="uk-subnav uk-subnav-pill uk-flex-right uk-width-1-1" data-uk-switcher="{connect:'#investments', animation: 'fade'}">
               <li><a class="uk-margin-remove-bottom">Overview</a></li>
               <li><a class="uk-margin-remove-bottom">Details</a></li>
             </ul>
@@ -195,18 +142,18 @@
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
                                  [titles]="barChartTitles" [height]="smallScreen ? 620 : 400"
                                  [customTooltip]="true" [yAxisLabels]="false"
-                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments made by various European countries in the EOSC and Open Science. The investments are categorized in ranges to show the distribution and scale of funding.</p>'
+                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments made by various European countries in the EOSC and Open Science. The investments are categorised in ranges to show the distribution and scale of funding.</p>'
                                  + '<p class=\'uk-text-justify\'>This data highlights the commitment and support from different countries towards advancing open science initiatives and building the EOSC infrastructure.</p>'
-                                 + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
+                                 + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 — showing data for 2022</p>'">
                 </app-multi-chart>
               </li>
               <li>
                 <app-tree-graph [data]="treeGraph"
                                 [title]="'Overview of investments in EOSC and Open Science in European Countries'"
                                 [height]="smallScreen ? 1000 : 700"
-                                [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments made by various European countries in the EOSC and Open Science. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
+                                [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments made by various European countries in the EOSC and Open Science. The investments are categorised in ranges to show the distribution and scale of funding.</p>' +
                              '<p class=\'uk-text-justify\'>This data highlights the commitment and support from different countries towards advancing open science initiatives and building the EOSC infrastructure.</p>' +
-                             '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'"
+                             '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 — showing data for 2022</p>'"
                                 style="height: 100%"></app-tree-graph>
               </li>
             </ul>
@@ -231,10 +178,10 @@
                                 [title]="'Total Investments in EOSC and Open Science with Open Access Publication Investments Across Nations'"
                                 xAxisTitle="Total Investments in EOSC and OS" yAxisTitle="Total Investmets in OA"
                                 [height]="smallScreen ? 1200 : 700"
-                                [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the relationship between total investments in the EOSC and OS and total investments in Open Access (OA) across various countries. Each bubble represents a country, with the size of the bubble indicating the number of OA publication. The x-axis shows total investments in EOSC and OS, while the y-axis shows total investments in OA. The dotted lines represent the average investments across European countries.</p>' +
-                              '<p class=\'uk-text-justify\'>This data helps to visualize how different countries allocate their funds between broader EOSC/OS initiatives and specific Open Access projects, highlighting trends and outliers. Countries positioned above the horizontal dotted line invest more in OA than the average, while those to the right of the vertical dotted line invest more in EOSC and OS than the average.</p>' +
-                              '<p class=\'uk-text-justify\'>This graph utilizes a base-10 logarithmic scale to transform investment data, converting exponential differences into a linear view. This approach compresses large values and amplifies smaller ones, enabling a clearer comparison of funding levels in EOSC/OS and Open Access across countries, regardless of scale.</p>' +
-                              '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
+                                [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the relationship between total investments in the EOSC and OS and total investments in Open Access (OA) across various countries. Each bubble represents a country, with the size of the bubble indicating the number of OA publications. The x-axis shows total investments in EOSC and OS, while the y-axis shows total investments in OA. The dotted lines represent the average investments across European countries.</p>' +
+                              '<p class=\'uk-text-justify\'>This data helps to visualise how different countries allocate their funds between broader EOSC/OS initiatives and specific Open Access projects, highlighting trends and outliers. Countries positioned above the horizontal dotted line invest more in OA than the average, while those to the right of the vertical dotted line invest more in EOSC and OS than the average.</p>' +
+                              '<p class=\'uk-text-justify\'>This graph utilises a base-10 logarithmic scale to transform investment data, converting exponential differences into a linear view. This approach compresses large values and amplifies smaller ones, enabling a clearer comparison of funding levels in EOSC/OS and Open Access across countries, regardless of scale.</p>' +
+                              '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 — showing data for 2022</p>'">
               </app-bubble-chart>
             </div>
 
@@ -244,6 +191,6 @@
 
       </div>
     </div>
+
   </div>
-  <div id="page_content_footer"></div>
 </div>

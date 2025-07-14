@@ -12,6 +12,7 @@ import {
 } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { CommonModule } from "@angular/common";
 import { ChartsModule } from "../../../shared/charts/charts.module";
+import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 
 
 @Component({
@@ -21,7 +22,8 @@ import { ChartsModule } from "../../../shared/charts/charts.module";
   imports: [
     CommonModule,
     SidebarMobileToggleComponent,
-    ChartsModule
+    ChartsModule,
+    PageContentComponent
   ]
 })
 

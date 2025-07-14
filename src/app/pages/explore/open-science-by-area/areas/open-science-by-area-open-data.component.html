@@ -1,18 +1,10 @@
-<div id="page_content">
-  <div id="page_content_header" class="uk-blur-background" style="margin-top: 0"></div>
-  <div id="page_content_actions" class="uk-section-primary uk-preserve-color" uk-sticky>
-    <div class="uk-container uk-container-large">
-      <sidebar-mobile-toggle class="uk-hidden@m uk-margin-top uk-display-block uk-margin-bottom"></sidebar-mobile-toggle>
-    </div>
+<div page-content [fullWidth]="true">
+  <div actions class="uk-section-primary uk-preserve-color">
+    <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
-  <div id="page_content_inner" class="">
+  <div inner>
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
       <div class="uk-container">
-
-        <!--    <ul class="uk-breadcrumb">-->
-        <!--      <li><a [routerLink]="['/explore/open-science-by-area']">Open Science by Area</a></li>-->
-        <!--      <li><span aria-current="page">Open Data</span></li>-->
-        <!--    </ul>-->
 
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
           <h4>Open Science by Area / Open Data</h4>
@@ -23,7 +15,7 @@
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" uk-spinner="ratio: 0.7"></span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
               <ng-template #elseBlock>
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
               </ng-template>
@@ -40,7 +32,7 @@
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" uk-spinner="ratio: 0.7"></span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
               <ng-template #elseBlock>
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
               </ng-template>
@@ -68,7 +60,7 @@
       <div class="uk-container">
         <h5>General Overview of Open Data in Europe for 2022</h5>
 
-        <div class="uk-child-width-1-3@m uk-child-width-1-3@l uk-child-width-1-1@s uk-grid-match uk-grid-row-medium uk-flex-center" uk-grid>
+        <div class="uk-child-width-1-3@m uk-child-width-1-3@l uk-child-width-1-1@s uk-grid-match uk-grid-row-medium uk-flex-center" data-uk-grid>
 
           <div *ngIf="openData.length === 2">
             <div class="uk-card card-simple uk-card-small uk-card-body">
@@ -264,14 +256,14 @@
 
         <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-          <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#maps', animation: 'fade'}">
-            <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Policies</a></li>
-            <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
+          <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="{connect:'#maps', animation: 'fade'}">
+            <li><a class="uk-margin-remove-bottom" (click)="countryName = countryCode = comment = undefined">Policies</a></li>
+            <li><a class="uk-margin-remove-bottom" (click)="countryName = countryCode = comment = undefined">Monitoring</a></li>
           </ul>
 
-          <ul id="maps" class="uk-switcher uk-child-width-1-1 uk-grid-match" uk-grid>
+          <ul id="maps" class="uk-switcher uk-child-width-1-1 uk-grid-match" data-uk-grid>
             <li>
-              <div uk-grid>
+              <div data-uk-grid>
                 <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
                   <app-highcharts-category-map
                     [mapData]="questionsDataArray[0]" [height]="700" [smallScreen]="smallScreen"
@@ -287,8 +279,8 @@
                     <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
                     <!--                <h6>Click on country for additional information</h6>-->
                     <div class="uk-flex uk-flex-middle uk-margin-medium-top">
-                      <img *ngIf="countryCode" src="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
-                           width="30">
+                      <img *ngIf="countryCode" ngSrc="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
+                           width="30" height="30" alt="Rounded flag of the selected country">
                       <span *ngIf="countryName" class="uk-margin-small-left">{{ countryName }}</span>
                     </div>
                     <p *ngIf="comment; else noComment" [innerHTML]="comment"
@@ -299,7 +291,7 @@
               </div>
             </li>
             <li>
-              <div uk-grid>
+              <div data-uk-grid>
                 <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
                   <app-highcharts-category-map
                     [mapData]="questionsDataArray[1]" [height]="700" [smallScreen]="smallScreen"
@@ -315,8 +307,8 @@
                     <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
                     <!--                <h6>Click on country for additional information</h6>-->
                     <div class="uk-flex uk-flex-middle uk-margin-medium-top">
-                      <img *ngIf="countryCode" src="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
-                           width="30">
+                      <img *ngIf="countryCode" ngSrc="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
+                           width="30" height="30" alt="Rounded flag of the selected country">
                       <span *ngIf="countryName" class="uk-margin-small-left">{{ countryName }}</span>
                     </div>
                     <p *ngIf="comment; else noComment" [innerHTML]="comment"
@@ -333,13 +325,12 @@
       </div>
     </div>
 
-
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent3>
       <div class="uk-container">
 
         <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-          <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#investments', animation: 'fade'}">
+          <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="{connect:'#investments', animation: 'fade'}">
             <li><a class="uk-margin-remove-bottom">Overview</a></li>
             <li><a class="uk-margin-remove-bottom">Details</a></li>
           </ul>
@@ -378,7 +369,7 @@
                               [title]="'Trend of Open Data'" [height]="700"
                               [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
                               [dataLabels]="false"
-                              [caption]="'<p class=\'uk-text-justify\'>The graph provides a comprehensive view of how data accessibility has evolved from 2015 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of Open Data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
+                              [caption]="'<p class=\'uk-text-justify\'>The graph provides a comprehensive view of how data accessibility evolved from 2015 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of Open Data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
                               '<p><strong>Data Source: </strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
           </app-stacked-column>
 
@@ -397,7 +388,7 @@
                               [title]="'Distribution of Open Data Types by Different Document Type'"
                               [pointFormat]="tooltipPointFormat" [stackLabels]="false" [stacking]="stacking"
                               [plotFormat]="dataLabels_format" [height]="smallScreen ? 800 : 500"
-                              [caption]="'<p class=\'uk-text-justify\'>The  graph illustrates how Open Data is implemented across various types of documents. It segments the Open Data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each colored according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance  accessibility and foster a more transparent, reproducible and inclusive science.</p>' +
+                              [caption]="'<p class=\'uk-text-justify\'>The  graph illustrates how Open Data is implemented across various types of documents. It segments the Open Data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each coloured, according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance  accessibility and foster a more transparent, reproducible, and inclusive science.</p>' +
                           '<p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on ' + lastUpdateDate + ').</p>'">
           </app-stacked-column>
 
@@ -406,5 +397,4 @@
       </div>
     </div>
   </div>
-  <div id="page_content_footer"></div>
 </div>

@@ -6,6 +6,7 @@ import {
   CatalogueUiReusableComponentsModule
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 
 
 @Component({
@@ -16,7 +17,8 @@ import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared
     CommonModule,
     NgOptimizedImage,
     CatalogueUiReusableComponentsModule,
-    SidebarMobileToggleComponent
+    SidebarMobileToggleComponent,
+    PageContentComponent
   ]
 })
 export class CitizenScienceComponent implements OnInit {
