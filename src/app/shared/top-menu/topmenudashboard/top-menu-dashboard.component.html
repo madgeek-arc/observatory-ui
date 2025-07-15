@@ -309,8 +309,8 @@
                           <a (click)="setGroup(stakeholder)">
                             {{ stakeholder.name }}
                             <svg *ngIf="showUnread(stakeholder.id)" height="20" width="20" style="margin-left: 8px;">
-                              <circle cx="10" cy="10" r="7" stroke-width="1" fill="#E53935" stroke="E53935"></circle>
-                              <text x="10" y="14" text-anchor="middle" font-size="10px" fill="#FFFFFF">
+                              <circle class="notification" cx="10" cy="10" r="7" stroke-width="1" fill="#E53935" stroke="E53935"></circle>
+                              <text class="notification" x="10" y="14" text-anchor="middle" font-size="10px" fill="#FFFFFF">
                                 {{ showUnread(stakeholder.id) }}
                               </text>
                             </svg>
@@ -424,13 +424,19 @@
         <div class="uk-sticky-placeholder" style="height: 65px; width: 390px; margin: 0;"></div>
 
         <!-- Menu items -->
-          <ul class="uk-nav uk-nav-primary uk-list uk-list-large" data-uk-nav>
+        <ul class="uk-nav uk-nav-primary uk-list uk-list-large" data-uk-nav #mobileNav>
           <li class="uk-parent" [routerLinkActive]="'uk-active'">
             <a href="#">About<span class="uk-nav-parent-icon"></span></a>
             <ul class="uk-nav-sub">
-              <li><a [routerLink]="['/about/eosc-observatory']" (click)="closeOffCanvas('tm-mobile')">About EOSC Observatory</a></li>
-              <li><a [routerLink]="['/about/eosc-track']" (click)="closeOffCanvas('tm-mobile')">About EOSC Track</a></li>
-              <li><a [routerLink]="['/about/news']" (click)="closeOffCanvas('tm-mobile')">News</a></li>
+              <li [routerLinkActive]="'uk-active'">
+                <a [routerLink]="['/about/eosc-observatory']"  (click)="closeOffCanvas('tm-mobile')">About EOSC Observatory</a>
+              </li>
+              <li [routerLinkActive]="'uk-active'">
+                <a [routerLink]="['/about/eosc-track']" (click)="closeOffCanvas('tm-mobile')">About EOSC Track</a>
+              </li>
+              <li [routerLinkActive]="'uk-active'">
+                <a [routerLink]="['/about/news']" (click)="closeOffCanvas('tm-mobile')">News</a>
+              </li>
             </ul>
           </li>
 
@@ -438,10 +444,18 @@
           <li class="uk-parent" [routerLinkActive]="'uk-active'">
             <a href="#">Resources<span class="uk-nav-parent-icon"></span></a>
             <ul class="uk-nav-sub">
-              <li><a [routerLink]="['/resources/data-workflow-and-methodology']" (click)="closeOffCanvas('tm-mobile')">Data Workflow & Methodology</a></li>
-              <li><a [routerLink]="['/resources/publications-and-deliverables']" (click)="closeOffCanvas('tm-mobile')">Publications & Deliverables</a></li>
-              <li><a [routerLink]="['/resources/data-download']" (click)="closeOffCanvas('tm-mobile')">Data Download</a></li>
-              <li><a [routerLink]="['/resources/support-and-faq']" (click)="closeOffCanvas('tm-mobile')">Support & FAQ</a></li>
+              <li [routerLinkActive]="'uk-active'">
+                <a [routerLink]="['/resources/data-workflow-and-methodology']" (click)="closeOffCanvas('tm-mobile')">Data Workflow & Methodology</a>
+              </li>
+              <li [routerLinkActive]="'uk-active'">
+                <a [routerLink]="['/resources/publications-and-deliverables']" (click)="closeOffCanvas('tm-mobile')">Publications & Deliverables</a>
+              </li>
+              <li [routerLinkActive]="'uk-active'">
+                <a [routerLink]="['/resources/data-download']" (click)="closeOffCanvas('tm-mobile')">Data Download</a>
+              </li>
+              <li [routerLinkActive]="'uk-active'">
+                <a [routerLink]="['/resources/support-and-faq']" (click)="closeOffCanvas('tm-mobile')">Support & FAQ</a>
+              </li>
             </ul>
           </li>
           <li [routerLinkActive]="'uk-active'"><a [routerLink]="['/contact']" (click)="closeOffCanvas('tm-mobile')">Contact</a></li>

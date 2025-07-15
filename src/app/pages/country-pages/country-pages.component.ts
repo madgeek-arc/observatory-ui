@@ -23,7 +23,6 @@ import {
   ],
   templateUrl: './country-pages.component.html',
   styleUrls: ['../../../assets/css/explore-sidebar.less', '../../../assets/css/explore-dashboard.less']
-  // styles: ['.backAction { background-color: #fff; border-radius: 50 px; border: 1 px solid #008691; padding: 4 px 10 px}']
 })
 
 
@@ -42,7 +41,7 @@ export class CountryPagesComponent implements OnInit {
   hasAdminMenu = false;
   menuSections: MenuSection[] = [];
   menuItems: MenuItem[] = [];
-  back: MenuItem = new MenuItem('back', 'Back to country selection', null, '/country-pages', '', {}, null, 'uk-text-uppercase backAction' );
+  back: MenuItem = new MenuItem('back', 'Back to country selection', null, '/country-pages', '', null, null, 'uk-text-uppercase back_button uk-margin' );
 
   constructor(private route: ActivatedRoute, private dataService: DataShareService,
               private surveyAnswer: SurveyPublicAnswer, private layoutService: DashboardSideMenuService) {}
