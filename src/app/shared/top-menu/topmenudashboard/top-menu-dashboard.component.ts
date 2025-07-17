@@ -1,7 +1,7 @@
 import {
   AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild
 } from "@angular/core";
-import { NavigationEnd, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { Administrator, Coordinator, Stakeholder, UserInfo } from "../../../../survey-tool/app/domain/userInfo";
 import { UserService } from "../../../../survey-tool/app/services/user.service";
 import { MessagingSystemService } from "src/messaging-system-ui/services/messaging-system.service";
