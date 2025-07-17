@@ -121,6 +121,7 @@ export class TreeGraphComponent implements OnChanges {
           events: {
             load: function () {
               renderLogo(this.renderer, this.chartWidth, this.chartHeight);
+              this.container.style.touchAction = 'pan-y'; // Allow vertical scrolling on touch devices
             }
           }
         },
