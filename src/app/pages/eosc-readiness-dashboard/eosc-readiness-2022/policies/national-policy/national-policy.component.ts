@@ -231,6 +231,7 @@ export class NationalPolicyComponent implements OnInit {
         this.mapPointData = this.dataHandlerService.convertRawDataToTableData(res[2]);
         this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[3]);
         this.createMapDataFromCategorizationWithDots(1,0);
+        console.log(this.questionsDataArray);
 
       },
       error => {console.error(error)},
