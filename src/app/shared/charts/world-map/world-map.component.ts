@@ -1,5 +1,4 @@
-// world-map.component.ts
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts/highmaps';
 import HC_map from 'highcharts/modules/map';
 import worldMapData from '@highcharts/map-collection/custom/world-highres3.topo.json';
@@ -17,57 +16,80 @@ HC_map(Highcharts);
   ],
   template: `<highcharts-chart *ngIf="ready" [Highcharts]="Highcharts" [constructorType]="'mapChart'" [options]="chartOptions" style="width: 100%; display: block;"></highcharts-chart>`
 })
-export class WorldMapComponent implements OnInit {
+export class WorldMapComponent implements OnInit, AfterViewInit {
   Highcharts: typeof Highcharts = Highcharts;
+  colorPallet = ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#A9A9A9'];
 
   chartOptions: Highcharts.Options = {}
   ready = false;
-  ngOnInit() {
-    setTimeout(() => {
 
-      this.createMap();
-      this.ready = true;
-    }, 0)
+  ngOnInit() {
+    this.createMap();
   }
 
+  ngAfterViewInit() {}
+
   createMap() {
+    this.ready = false;
+
     this.chartOptions = {
       chart: {
-        map: worldMapData,
-        type: 'map',
-        height: 600,
-
+        map: worldMapData
       },
-
       mapView: {
         center: [15, 50],
-        // zoom: 3.6
-        zoom: 3.6
-        // center: [4550, 8200],               // Europe center
-        // zoom: -1.2                 // zoom in
+        zoom: 3.4
       },
-      mapNavigation: {enabled: true},
-      title: {text: 'Europe (TopoJSON)'},
+      title: {
+        text: undefined
+      },
+      colorAxis: {
+        dataClasses: [
+          {from: 0, to: 1, color: this.colorPallet[0], name: 'Category A'},
+          {from: 1, to: 2, color: this.colorPallet[3], name: 'Category B'},
+          {from: 2, color: this.colorPallet[4], name: 'Category C'}
+        ]
+      },
+      exporting: {
+        enabled: false
+      },
       plotOptions: {
         map: {
           joinBy: ['iso-a2', 'code'],
-          tooltip: {
-            headerFormat: '',
-            pointFormat: '{point.name}'
-          }
-        },
+          dataLabels: {
+            enabled: false
+          },
+        }
       },
-      series: [{
-        type: 'map',
-        name: 'Countries',
-        mapData: worldMapData,
-        // joinBy: ['iso-a2', 'code'],
-        data: [
-          {code: 'FR', value: 1},
-          {code: 'DE', value: 2},
-          {code: 'ES', value: 3}
-        ] as unknown as Highcharts.SeriesMapDataOptions[]
-      }]
+      series: [
+        {
+          type: 'map',
+          name: 'Countries',
+          data: [
+            {code: 'IT', value: 0}, // Category A
+            {code: 'FR', value: 1}, // Category B
+            {code: 'DE', value: 2}, // Category C
+          ] as unknown as Highcharts.SeriesMapDataOptions[],
+        },
+        {
+          type: 'mappoint',
+          name: 'Cities',
+          color: Highcharts.getOptions().colors?.[1],
+          data: [
+            {
+              name: 'Paris',
+              lat: 48.8566,
+              lon: 2.3522
+            },
+          ],
+          marker: {
+            symbol: 'circle',
+            radius: 6
+          },
+        }
+      ]
     };
+
+    this.ready = true;
   }
 }
