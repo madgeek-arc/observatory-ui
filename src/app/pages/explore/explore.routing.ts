@@ -7,11 +7,11 @@ import {InvestmentsInEoscComponent} from "./investments-in-eosc/investments-in-e
 import {NationalMonitoringComponent} from "./national-monitoring/national-monitoring.component";
 import {OpenScienceUseCasesComponent} from "./open-science-use-cases/open-science-use-cases.component";
 import {OpenSciencePoliciesComponent} from "./open-science-policies/open-science-policies.component";
-import {
-  OpenScienceResourceRegistryComponent
-} from "./open-science-resource-registry/open-science-resource-registry.component";
+
 import {OpenScienceImpactComponent} from "./open-science-impact/open-science-impact.component";
 import {CustomSearchComponent} from "./custom-search/custom-search.component";
+import { SearchComponent } from './resources-registry/Search/search/search.component';
+import { DocumentLandingComponent } from './resources-registry/Document-landing/document-landing/document-landing.component';
 
 const exploreRoutes: Routes = [
   {
@@ -51,9 +51,22 @@ const exploreRoutes: Routes = [
         path: 'open-science-policies',
         component: OpenSciencePoliciesComponent
       },
+      // {
+      //   path: 'resources-registry',
+      //   component: SearchComponent,
+      // },
       {
-        path: 'open-science-resource-registry',
-        component: OpenScienceResourceRegistryComponent
+       path: 'resource-registry',
+        children: [
+          {
+            path: 'search',
+            component: SearchComponent
+          },
+          {
+            path: 'document-landing/:documentId',
+            component: DocumentLandingComponent
+          }
+        ]
       },
       {
         path: 'open-science-impact',

@@ -9,18 +9,21 @@ import { ExploreRouting } from "./explore.routing";
 import { CustomSearchComponent } from "./custom-search/custom-search.component";
 import { OpenScienceByCountryComponent } from "./open-science-by-country/open-science-by-country.component";
 import { OpenScienceImpactComponent } from "./open-science-impact/open-science-impact.component";
-import { OpenScienceResourceRegistryComponent } from "./open-science-resource-registry/open-science-resource-registry.component";
+
 import { OpenScienceUseCasesComponent } from "./open-science-use-cases/open-science-use-cases.component";
 import { ExploreService } from "./explore.service";
 import { ChartsModule } from "../../shared/charts/charts.module";
+
+
 
 @NgModule({
   declarations: [
     CustomSearchComponent,
     OpenScienceByCountryComponent,
     OpenScienceImpactComponent,
-    OpenScienceResourceRegistryComponent,
-    OpenScienceUseCasesComponent
+    OpenScienceUseCasesComponent,
+    
+    
   ],
   imports: [
     CommonModule,
