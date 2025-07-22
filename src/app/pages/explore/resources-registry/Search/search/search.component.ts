@@ -11,18 +11,19 @@ import { fromEvent, Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged, map, takeUntil } from "rxjs/operators";
 import { Facet } from 'src/survey-tool/catalogue-ui/domain/facet';
 import { Paging } from 'src/survey-tool/catalogue-ui/domain/paging';
-import { offset } from 'highcharts';
-import { add } from 'lodash';
 import  { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { PageContentComponent } from 'src/survey-tool/app/shared/page-content/page-content.component';
+import { SidebarMobileToggleComponent } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
+
 
 @Component({
   selector: 'app-search',
   standalone: true,
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.less'],
-  imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, NgOptimizedImage],
+  imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, NgOptimizedImage, PageContentComponent, SidebarMobileToggleComponent],
   animations: [
     trigger('fadeAnimation', [
       state('visible', style({

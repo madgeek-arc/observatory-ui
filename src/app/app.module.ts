@@ -43,6 +43,7 @@ import { SharedModule } from './shared/shared.module';
 import {
   ContributionsDashboardComponent
 } from "../survey-tool/app/pages/contributions-dashboard/contributions-dashboard.component";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import {
     NgxMatomoRouterModule,
     ReusableComponentsModule,
     SharedModule,
-    ContributionsDashboardComponent
+    ContributionsDashboardComponent,
+    BrowserAnimationsModule,
   ],
   providers: [
     {

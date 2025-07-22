@@ -1,189 +1,202 @@
-<div class="uk-container uk-container-large uk-margin-top">
-  <h4>European Open Science Resources Registry</h4>
-  <div [@fadeAnimation]="showContent ? 'visible' : 'hidden'" class="content-wrapper">
-    <div class="uk-grid-match" uk-grid>
-      <div class="uk-width-2-3">
-        <div>
-          <p>In the European Open Science Resources Registry, you can find a curated collection of key
-            resources
-            supporting Open Science across Europe, including national policies, strategies, best practices,
-            templates, and impact stories. Users can easily filter resources by country, date, topic, and
-            document type, making it simple to locate relevant information. Policies and strategies are
-            vital to
-            creating a collaborative, transparent, and accessible research environment, and the registry
-            goes
-            beyond simply listing these documents.
-            You’ll find detailed information on each policy, including the option to read full texts where
-            available, helping you understand their scope, implementation, and impact in depth.</p>
-          <p>You can easily filter resources by country, date, topic, and document type, making it simple to
-            locate exactly what you need.
-            If you have valuable documents to share, you can also contribute to the registry by uploading
-            resources with relevant metadata, building a more comprehensive and collaborative resource for
-            the
-            entire Open Science community.</p>
-        </div>
-      </div>
+<div page-content [fullWidth]="true">
+  <div actions class="uk-section-primary uk-preserve-color">
+    <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
+  </div>
+  <div inner>
+    <div class="uk-section uk-section-small uk-section-primary uk-preserve-color">
+      <div class="uk-container  uk-margin-top">
+        <h4>European Open Science Resources Registry</h4>
+        <div [@fadeAnimation]="showContent ? 'visible' : 'hidden'" class="content-wrapper">
+          <div class="uk-grid-match" uk-grid>
+            <div class="uk-width-2-3">
+              <div>
+                <p>In the European Open Science Resources Registry, you can find a curated collection of key
+                  resources
+                  supporting Open Science across Europe, including national policies, strategies, best practices,
+                  templates, and impact stories. Users can easily filter resources by country, date, topic, and
+                  document type, making it simple to locate relevant information. Policies and strategies are
+                  vital to
+                  creating a collaborative, transparent, and accessible research environment, and the registry
+                  goes
+                  beyond simply listing these documents.
+                  You’ll find detailed information on each policy, including the option to read full texts where
+                  available, helping you understand their scope, implementation, and impact in depth.</p>
+                <p>You can easily filter resources by country, date, topic, and document type, making it simple to
+                  locate exactly what you need.
+                  If you have valuable documents to share, you can also contribute to the registry by uploading
+                  resources with relevant metadata, building a more comprehensive and collaborative resource for
+                  the
+                  entire Open Science community.</p>
+              </div>
+            </div>
 
-      <div class="uk-width-1-3">
-        <div class="uk-card uk-card-default uk-card-body uk-margin-bottom" style="background-color: #DAEEF3;">
-          <h5 class="uk-card-title uk-text-center uk-text-bold">Anything missing?</h5>
-          <p class="uk-margin-left">You can easily filter resources by country, date, topic, and document
-            type,
-            making it simple to locate exactly what you need.
-            If you have valuable documents to share, you can also contribute to the registry by uploading
-            resources with relevant metadata, building a more comprehensive and collaborative resource for
-            the
-            entire Open Science community.
-          </p>
+            <div class="uk-width-1-3">
+              <div class="uk-card uk-card-default uk-card-body uk-margin-bottom" style="background-color: #DAEEF3;">
+                <h5 class="uk-card-title uk-text-center uk-text-bold">Anything missing?</h5>
+                <p class="uk-margin-left">You can easily filter resources by country, date, topic, and document
+                  type,
+                  making it simple to locate exactly what you need.
+                  If you have valuable documents to share, you can also contribute to the registry by uploading
+                  resources with relevant metadata, building a more comprehensive and collaborative resource for
+                  the
+                  entire Open Science community.
+                </p>
+                <div class="uk-flex uk-flex-center">
+                  <button class="uk-button-primary uk-text-bold" style="border-radius: 30px; padding: 0 15px">Submit
+                    resources</button>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="uk-flex uk-flex-center">
-            <button class="uk-button-primary uk-text-bold" style="border-radius: 30px; padding: 0 15px">Submit resources</button>
+            <button *ngIf="showContent" class="uk-button uk-button-default uk-margin-bottom"
+              (click)="toggleContent()">Hide</button>
+          </div>
+
+        </div>
+
+        <div class="uk-flex uk-flex-center">
+          <button *ngIf="!showContent" class="uk-button uk-button-default uk-margin-bottom"
+            (click)="toggleContent()">Show</button>
+        </div>
+
+        <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-bottom">
+          <div class="uk-flex uk-flex-left uk-flex-middle">
+            <div style="width: 200px; margin-right: 10px;">
+              <ng-select [items]="languageFacets?.values" bindLabel="value" bindValue="value" placeholder="Language"
+                [multiple]="true" [(ngModel)]="selectedLanguages" (change)="onLanguageChange()"
+                (remove)="onFilterRemove('language', selectedLanguages)" [clearable]="false">
+                <ng-template ng-option-tmp let-item="item">
+                  {{item.value}} ({{item.count}})
+                </ng-template>
+              </ng-select>
+            </div>
+            <div style="width: 200px; margin-right: 10px;">
+              <ng-select [items]="countryFacets?.values" bindLabel="value" bindValue="value" placeholder="Country"
+                [multiple]="true" [(ngModel)]="selectedCountry" (change)="onCountryChange()"
+                (remove)="onFilterRemove('country', selectedCountry)" [clearable]="false">
+                <ng-template ng-option-tmp let-item="item">
+                  {{item.value}} ({{item.count}})
+                </ng-template>
+              </ng-select>
+            </div>
+            <div style="width: 200px; margin-right: 10px;">
+              <ng-select [items]="tagFacets?.values" bindLabel="value" bindValue="value" placeholder="Tags"
+                [multiple]="true" [(ngModel)]="selectedTag" (change)="onTagChange()"
+                (remove)="onFilterRemove('tags', selectedTag)" [clearable]="false">
+                <ng-template ng-option-tmp let-item="item">
+                  {{item.value}} ({{item.count}})
+                </ng-template>
+              </ng-select>
+            </div>
+
+            <button *ngIf="selectedCountry" class="uk-button uk-button-primary uk-margin-small-left"
+              (click)="applyLanguageFilter()">
+              Apply
+            </button>
+
+            <span *ngIf="showClearFilter()" class="material-symbols-outlined uk-margin-small-left"
+              style="cursor: pointer;" (click)="clearFilters()">
+              delete
+            </span>
+
+          </div>
+          <div class="uk-inline">
+            <span class="uk-form-icon" data-uk-icon="icon: search"></span>
+            <input type="text" #searchInput class="uk-input menuSearch" placeholder="Search..."
+              [(ngModel)]="searchQuery" style="border-radius: 20px;">
           </div>
         </div>
-      </div>
-    </div>
-    <div class="uk-flex uk-flex-center">
-      <button *ngIf="showContent" class="uk-button uk-button-default uk-margin-bottom"
-        (click)="toggleContent()">Hide</button>
-    </div>
-
-  </div>
-
-  <div class="uk-flex uk-flex-center">
-    <button *ngIf="!showContent" class="uk-button uk-button-default uk-margin-bottom"
-      (click)="toggleContent()">Show</button>
-  </div>
-
-  <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-bottom">
-    <div class="uk-flex uk-flex-left uk-flex-middle">
-      <div style="width: 200px; margin-right: 10px;">
-        <ng-select [items]="languageFacets?.values" bindLabel="value" bindValue="value" placeholder="Language"
-          [multiple]="true" [(ngModel)]="selectedLanguages" (change)="onLanguageChange()"
-          (remove)="onFilterRemove('language', selectedLanguages)" [clearable]="false">
-          <ng-template ng-option-tmp let-item="item">
-            {{item.value}} ({{item.count}})
-          </ng-template>
-        </ng-select>
-      </div>
-      <div style="width: 200px; margin-right: 10px;">
-        <ng-select [items]="countryFacets?.values" bindLabel="value" bindValue="value" placeholder="Country"
-          [multiple]="true" [(ngModel)]="selectedCountry" (change)="onCountryChange()"
-          (remove)="onFilterRemove('country', selectedCountry)" [clearable]="false">
-          <ng-template ng-option-tmp let-item="item">
-            {{item.value}} ({{item.count}})
-          </ng-template>
-        </ng-select>
-      </div>
-      <div style="width: 200px; margin-right: 10px;">
-        <ng-select [items]="tagFacets?.values" bindLabel="value" bindValue="value" placeholder="Tags" [multiple]="true"
-          [(ngModel)]="selectedTag" (change)="onTagChange()" (remove)="onFilterRemove('tags', selectedTag)" [clearable]="false">
-          <ng-template ng-option-tmp let-item="item">
-            {{item.value}} ({{item.count}})
-          </ng-template>
-        </ng-select>
-      </div>
-  
-      <button *ngIf="selectedCountry" class="uk-button uk-button-primary uk-margin-small-left"
-        (click)="applyLanguageFilter()">
-        Apply
-      </button>
-  
-      <span *ngIf="showClearFilter()" class="material-symbols-outlined uk-margin-small-left" style="cursor: pointer;"
-        (click)="clearFilters()">
-        delete
-      </span>
-  
-    </div>
-    <div class="uk-inline">
-      <span class="uk-form-icon" data-uk-icon="icon: search"></span>
-      <input type="text" #searchInput class="uk-input menuSearch" placeholder="Search..." [(ngModel)]="searchQuery"
-        style="border-radius: 20px;">
-    </div>
-  </div>
 
 
 
-  <div *ngIf="documents.results.length > 0">
-    <div *ngFor="let doc of documents.results" class="uk-card uk-card-default uk-card-body uk-margin-bottom">
-      <div class="uk-flex uk-flex-middle uk-flex-between uk-margin-small-bottom">
-        <div class="uk-flex uk-flex-middle">
-          <img *ngIf="doc.docInfo?.country && doc.docInfo.country !== 'EU'"
-            ngSrc="../../survey-tool/assets/images/flags/{{doc.docInfo?.country | lowercase}}-flag-round.png"
-            class="flag-image uk-margin-small-right" width="30" height="20" alt="{{doc.docInfo?.country}} flag">
-          <strong>
-            <a [routerLink]="['../document-landing', doc.id]">
-              {{ doc.docInfo?.title }}
-            </a>
-          </strong>
-          <span style="margin-left: 20px;"></span>
+        <div *ngIf="documents.results.length > 0">
+          <div *ngFor="let doc of documents.results" class="uk-card uk-card-default uk-card-body uk-margin-bottom">
+            <div class="uk-flex uk-flex-middle uk-flex-between uk-margin-small-bottom">
+              <div class="uk-flex uk-flex-middle">
+                <img *ngIf="doc.docInfo?.country && doc.docInfo.country !== 'EU'"
+                  ngSrc="../../survey-tool/assets/images/flags/{{doc.docInfo?.country | lowercase}}-flag-round.png"
+                  class="flag-image uk-margin-small-right" width="30" height="20" alt="{{doc.docInfo?.country}} flag">
+                <strong>
+                  <a [routerLink]="['../document-landing', doc.id]">
+                    {{ doc.docInfo?.title }}
+                  </a>
+                </strong>
+                <span style="margin-left: 20px;"></span>
 
-          <a *ngIf="doc.url" [href]="doc.url" target="_blank">
-            <span class="material-symbols-outlined" style="font-size: 20px; vertical-align: middle;">
-              open_in_new
-            </span>
-          </a>
-        </div>
-        <div class="uk-flex uk-flex-middle">
-          <span *ngFor="let tag of doc.docInfo?.tags"
-            class="uk-label uk-margin-small-right uk-label-primary uk-text-bold">
-            {{tag}}
-        </span>
-        </div>
-  
-      </div>
-      <p>
-        <span *ngIf="doc.metadata?.creationDate && doc.metadata?.modificationDate">
-          Start: {{ doc.metadata.creationDate | date:'mediumDate' }} - End: {{ doc.metadata.modificationDate |
-          date:'mediumDate' }}
-        </span>
-      </p>
-      <p [ngClass]="{'uk-text-bold': doc.docInfo.shortDescription.generated}">{{ doc.docInfo?.shortDescription?.text }}
-      </p>
-    </div>
-    
-    <!--Pagination Section-->
-    <div *ngIf="documents.total > 0" class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">
-      <div class="uk-width-1-1">
-        <div class="uk-flex uk-flex-between uk-flex-middle">
-          <!--Info text-->
-          <p class="big-text uk-margin-remove">
-            <span class="uk-text-bold">{{documents.total}}</span> Documents, Page
-            <span class="uk-text-bold">{{this.currentPage}}</span> of {{this.totalPages}}
-          </p>
-          <!--Pagination Controls-->
-          <ul class="uk-pagination" *ngIf="totalPages > 1">
-            <li *ngIf="currentPage > 2 && totalPages > 5">
-              <a (click)="goToPage(0)" class="uk-pagination-link">
-                <span uk-pagination-previous></span>
-                <span uk-pagination-previous></span>
-              </a>
-            </li>
+                <a *ngIf="doc.url" [href]="doc.url" target="_blank">
+                  <span class="material-symbols-outlined" style="font-size: 20px; vertical-align: middle;">
+                    open_in_new
+                  </span>
+                </a>
+              </div>
+              <div class="uk-flex uk-flex-middle">
+                <span *ngFor="let tag of doc.docInfo?.tags"
+                  class="uk-label uk-margin-small-right uk-label-primary uk-text-bold">
+                  {{tag}}
+                </span>
+              </div>
 
-            <!--Previous Page-->
-            <li *ngIf="currentPage > 1">
-              <a (click)="previousPage()" class="uk-pagination-link">
-                <span uk-pagination-previous></span>
-              </a>
-            </li>
+            </div>
+            <p>
+              <span *ngIf="doc.metadata?.creationDate && doc.metadata?.modificationDate">
+                Start: {{ doc.metadata.creationDate | date:'mediumDate' }} - End: {{ doc.metadata.modificationDate |
+                date:'mediumDate' }}
+              </span>
+            </p>
+            <p [ngClass]="{'uk-text-bold': doc.docInfo.shortDescription.generated}">{{
+              doc.docInfo?.shortDescription?.text
+              }}
+            </p>
+          </div>
 
-            <!--Page Numbers-->
-            <li *ngFor="let i of pages" [ngClass]="i == currentPage ? 'uk-active uk-animation-fade' : ''">
-              <a (click)="goToPage(i - 1)" class="uk=pagination-link">{{i}}</a>
-            </li>
+          <!--Pagination Section-->
+          <div *ngIf="documents.total > 0" class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">
+            <div class="uk-width-1-1">
+              <div class="uk-flex uk-flex-between uk-flex-middle">
+                <!--Info text-->
+                <p class="big-text uk-margin-remove">
+                  <span class="uk-text-bold">{{documents.total}}</span> Documents, Page
+                  <span class="uk-text-bold">{{this.currentPage}}</span> of {{this.totalPages}}
+                </p>
+                <!--Pagination Controls-->
+                <ul class="uk-pagination" *ngIf="totalPages > 1">
+                  <li *ngIf="currentPage > 2 && totalPages > 5">
+                    <a (click)="goToPage(0)" class="uk-pagination-link">
+                      <span uk-pagination-previous></span>
+                      <span uk-pagination-previous></span>
+                    </a>
+                  </li>
 
-            <!--Next Page-->
-            <li *ngIf="currentPage < totalPages">
-              <a (click)="nextPage()" class="uk=pagination-link">
-                <span uk-pagination-next></span>
-              </a>
-            </li>
-            <!--Last Page-->
-            <li *ngIf="currentPage < totalPages - 1 && totalPages > 5">
-              <a (click)="goToPage(totalPages - 1)" class="uk-pagination-link">
-                <span uk-pagination-next></span>
-                <span uk-pagination-next></span>
-              </a>
-            </li>
-          </ul>
+                  <!--Previous Page-->
+                  <li *ngIf="currentPage > 1">
+                    <a (click)="previousPage()" class="uk-pagination-link">
+                      <span uk-pagination-previous></span>
+                    </a>
+                  </li>
+
+                  <!--Page Numbers-->
+                  <li *ngFor="let i of pages" [ngClass]="i == currentPage ? 'uk-active uk-animation-fade' : ''">
+                    <a (click)="goToPage(i - 1)" class="uk=pagination-link">{{i}}</a>
+                  </li>
+
+                  <!--Next Page-->
+                  <li *ngIf="currentPage < totalPages">
+                    <a (click)="nextPage()" class="uk=pagination-link">
+                      <span uk-pagination-next></span>
+                    </a>
+                  </li>
+                  <!--Last Page-->
+                  <li *ngIf="currentPage < totalPages - 1 && totalPages > 5">
+                    <a (click)="goToPage(totalPages - 1)" class="uk-pagination-link">
+                      <span uk-pagination-next></span>
+                      <span uk-pagination-next></span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
