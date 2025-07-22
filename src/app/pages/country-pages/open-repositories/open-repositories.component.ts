@@ -6,6 +6,7 @@ import {
   CatalogueUiReusableComponentsModule
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 
 
 @Component({
@@ -15,7 +16,8 @@ import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared
     CommonModule,
     NgOptimizedImage,
     CatalogueUiReusableComponentsModule,
-    SidebarMobileToggleComponent
+    SidebarMobileToggleComponent,
+    PageContentComponent
   ],
   templateUrl: './open-repositories.component.html',
 })
@@ -43,8 +45,8 @@ export class OpenRepositoriesComponent implements OnInit {
   policyMandatoryOR: string | null = null;
   OpenRepositoriesPercentage: (number | null)[] = [null, null];
   OpenRepositoriesPercentageDiff: number | null = null;
-  repositoriesfinancialInvestment: (string | null)[] = [null, null];
-  repositoriesfinancialInvestmentPercentageDiff: number | null = null;
+  financialInvestment: (string | null)[] = [null, null];
+  financialInvestmentPercentageDiff: number | null = null;
 
   constructor(private dataShareService: DataShareService) {}
 
@@ -81,9 +83,11 @@ export class OpenRepositoriesComponent implements OnInit {
   this.rfoOpenRepositoriesPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question33']?.['Question33-0'], this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0']);
   this.rfoOpenRepositoriesPercentageDiff = this.dataShareService.calculateDiff(this.rfoOpenRepositoriesPercentage[0], this.rfoOpenRepositoriesPercentage[1]);
 
-  this.repositoriesfinancialInvestment[1] = this.surveyAnswers[1]?.['Practices']?.['Question80']?.['Question80-0'];
-  this.repositoriesfinancialInvestment[0] = this.surveyAnswers[0]?.['Practices']?.['Question80']?.['Question80-0'];
-  this.repositoriesfinancialInvestmentPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.repositoriesfinancialInvestment[0], this.repositoriesfinancialInvestment[1]);
+  this.financialInvestment[1] = this.surveyAnswers[1]?.['Practices']?.['Question80']?.['Question80-0']?.trim() || null;
+  this.financialInvestment[0] = this.surveyAnswers[0]?.['Practices']?.['Question80']?.['Question80-0']?.trim() || null;
+  this.financialInvestment = this.financialInvestment.map(value => value === "" ? null : value);
+  console.log(this.financialInvestment);
+  this.financialInvestmentPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.financialInvestment[0], this.financialInvestment[1]);
 
   this.rpoOpenRepositoriesPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question32']?.['Question32-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']);
   this.rpoOpenRepositoriesPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question32']?.['Question32-0'], this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0']);
@@ -99,13 +103,12 @@ export class OpenRepositoriesComponent implements OnInit {
   this.hasMonitoringOR = this.surveyAnswers[1]?.['Practices']?.['Question78']?.['Question78-0'] || null;
   this.monitoringClarificationOR = this.surveyAnswers[1]?.['Practices']?.['Question78']?.['Question78-1'] || null;
 
-  console.log(this.rfoOpenRepositoriesPercentage[1]);
  }
 
   hasAnyLeftCardData() {
     return this.dataShareService.hasAnyValue([
       this.rfoOpenRepositoriesPercentage[1],
-      this.repositoriesfinancialInvestment[1],
+      this.financialInvestment[1],
       this.rpoOpenRepositoriesPercentage[1],
     ]);
   }

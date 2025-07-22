@@ -1,11 +1,8 @@
-<div id="page_content">
-  <div id="page_content_header" class="uk-blur-background" style="margin-top: 0"></div>
-  <div id="page_content_actions" class="uk-section-primary uk-preserve-color" uk-sticky>
-    <div class="uk-container uk-container-large">
-      <sidebar-mobile-toggle class="uk-hidden@m uk-margin-top uk-display-block uk-margin-bottom"></sidebar-mobile-toggle>
-    </div>
+<div page-content [fullWidth]="true">
+  <div actions class="uk-section-primary uk-preserve-color">
+    <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
-  <div id="page_content_inner" class="">
+  <div inner>
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
       <div class="uk-container">
 
@@ -255,8 +252,8 @@
         <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
           <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="{connect:'#maps', animation: 'fade'}">
-            <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Policies</a></li>
-            <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
+            <li><a class="uk-margin-remove-bottom" (click)="countryName = countryCode = comment = undefined">Policies</a></li>
+            <li><a class="uk-margin-remove-bottom" (click)="countryName = countryCode = comment = undefined">Monitoring</a></li>
           </ul>
 
           <ul id="maps" class="uk-switcher uk-child-width-1-1 uk-grid-match" uk-grid>
@@ -277,8 +274,8 @@
                     <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
                     <!--                <h6>Click on country for additional information</h6>-->
                     <div class="uk-flex uk-flex-middle uk-margin-medium-top">
-                      <img *ngIf="countryCode" src="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
-                           width="30" alt="Rounded country flag">
+                      <img *ngIf="countryCode" ngSrc="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
+                           width="30" height="30" alt="Rounded flag of the selected country">
                       <span *ngIf="countryName" class="uk-margin-small-left">{{ countryName }}</span>
                     </div>
                     <p *ngIf="comment; else noComment" [innerHTML]="comment"
@@ -305,8 +302,8 @@
                     <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
                     <!--                <h6>Click on country for additional information</h6>-->
                     <div class="uk-flex uk-flex-middle uk-margin-medium-top">
-                      <img *ngIf="countryCode" src="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
-                           width="30">
+                      <img *ngIf="countryCode" ngSrc="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
+                           width="30" height="30" alt="Rounded flag of the selected country">
                       <span *ngIf="countryName" class="uk-margin-small-left">{{ countryName }}</span>
                     </div>
                     <p *ngIf="comment; else noComment" [innerHTML]="comment"
@@ -322,7 +319,6 @@
 
       </div>
     </div>
-
 
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent3>
       <div class="uk-container">
@@ -363,6 +359,5 @@
     </div>
 
   </div>
-  <div id="page_content_footer"></div>
 </div>
 

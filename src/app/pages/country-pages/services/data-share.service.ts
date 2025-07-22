@@ -67,7 +67,7 @@ export class DataShareService {
       return null;
     }
 
-    return Math.round(((+previous - +next) / average + Number.EPSILON) * 100);
+    return Math.round(((+next - +previous) / average + Number.EPSILON) * 100);
   }
 
 

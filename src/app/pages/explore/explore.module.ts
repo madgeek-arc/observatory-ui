@@ -13,6 +13,10 @@ import { OpenScienceImpactComponent } from "./open-science-impact/open-science-i
 import { OpenScienceUseCasesComponent } from "./open-science-use-cases/open-science-use-cases.component";
 import { ExploreService } from "./explore.service";
 import { ChartsModule } from "../../shared/charts/charts.module";
+import { PageContentComponent } from "../../../survey-tool/app/shared/page-content/page-content.component";
+import {
+  SidebarMobileToggleComponent
+} from "../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 
 
 
@@ -31,6 +35,8 @@ import { ChartsModule } from "../../shared/charts/charts.module";
     ExploreRouting,
     ChartsModule,
     NgOptimizedImage,
+    PageContentComponent,
+    SidebarMobileToggleComponent,
   ],
   providers: [
     DataService,

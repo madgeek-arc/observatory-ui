@@ -1,10 +1,8 @@
-<div id="page_content">
-  <div id="page_content_header" class="uk-blur-background" style="margin-top: 0"></div>
-  <div id="page_content_actions" class="uk-blur-background" uk-sticky>
-    <sidebar-mobile-toggle [activeSidebarItemStatic]="'Repositories'" class="uk-hidden@m"></sidebar-mobile-toggle>
+<div page-content [fullWidth]="true">
+  <div actions class="uk-section-primary uk-preserve-color">
+    <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
-  <div id="page_content_inner" class="">
-
+  <div inner>
 
     <div class="uk-section uk-section-small">
       <div class="uk-container">
@@ -91,27 +89,27 @@
                 </div>
 
                 <!-- Card 3 -->
-                <div *ngIf="repositoriesfinancialInvestment[1] !== null" class="uk-animation-scale-up">
+                <div *ngIf="financialInvestment[1] !== null" class="uk-animation-scale-up">
                   <div class="uk-card card-simple uk-card-small uk-card-body">
                     <p>Total <span class="uk-text-bold">financial investment in repositories</span></p>
                     <div class="number big uk-margin-medium-top">
-                      <span class="uk-text-bold">{{ repositoriesfinancialInvestment[1] + ' mil Euro' }}</span>
+                      <span class="uk-text-bold">{{ financialInvestment[1] + ' mil Euro' }}</span>
                     </div>
-                    <div *ngIf="repositoriesfinancialInvestmentPercentageDiff !== null"
+                    <div *ngIf="financialInvestmentPercentageDiff !== null"
                       class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
                       <div class="uk-flex uk-flex-middle">
                         <span class="material-symbols-outlined"
-                          [ngClass]="repositoriesfinancialInvestmentPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                          {{ repositoriesfinancialInvestmentPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                          [ngClass]="financialInvestmentPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                          {{ financialInvestmentPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                         </span>
                         <span
-                          [ngClass]="repositoriesfinancialInvestmentPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                          {{ Math.abs(repositoriesfinancialInvestmentPercentageDiff) }}%
+                          [ngClass]="financialInvestmentPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                          {{ Math.abs(financialInvestmentPercentageDiff) }}%
                         </span>&nbsp; vs last year
                       </div>
                       <div>
                         <img
-                          [ngSrc]="'../assets/images/explore/' + (repositoriesfinancialInvestmentPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                          [ngSrc]="'../assets/images/explore/' + (financialInvestmentPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                           alt="trend image" height="50" width="99">
                       </div>
                     </div>
@@ -300,5 +298,4 @@
       </div>
     </div>
   </div>
-  <div id="page_content_footer"></div>
 </div>

@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import {
   DashboardSideMenuComponent,
-  MenuItem, MenuSections
+  MenuItem, MenuSection
 } from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
 import {
   DashboardSideMenuService
@@ -23,7 +23,7 @@ import { exploreIcons } from "./explore.icons";
 export class ExploreComponent implements OnInit {
 
   menuItems: MenuItem[] = [];
-  menuSections: MenuSections[] = [];
+  menuSections: MenuSection[] = [];
 
   hasSidebar = true;
   hasAdminMenu = false;

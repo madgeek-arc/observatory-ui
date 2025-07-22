@@ -17,6 +17,7 @@ import { OAAndTotalPublicationsPerCountry } from "../OSO-stats-queries/explore-q
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { CommonModule } from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 
 
 @Component({
@@ -24,7 +25,7 @@ import { ChartsModule } from "src/app/shared/charts/charts.module";
   templateUrl: './open-science-policies.component.html',
   styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
   standalone: true,
-  imports: [ SidebarMobileToggleComponent, CommonModule, ChartsModule ],
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, PageContentComponent],
 })
 
 export class OpenSciencePoliciesComponent implements OnInit {

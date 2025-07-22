@@ -8,6 +8,7 @@ import {
 import {
   SidebarMobileToggleComponent
 } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
   selector: 'app-open-science-training',
@@ -17,7 +18,8 @@ import {
     CommonModule,
     NgOptimizedImage,
     CatalogueUiReusableComponentsModule,
-    SidebarMobileToggleComponent
+    SidebarMobileToggleComponent,
+    PageContentComponent
   ],
 })
 export class OpenScienceTrainingComponent  implements OnInit {

@@ -14,12 +14,13 @@ import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/sha
 import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import * as Highcharts from "highcharts";
+import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
   selector: 'app-open-science-by-area-training',
   templateUrl: './open-science-by-area-training.component.html',
   standalone: true,
-  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage],
+  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent],
 })
 
 export class OpenScienceByAreaTrainingComponent implements OnInit {
