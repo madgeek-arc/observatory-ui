@@ -87,6 +87,7 @@ export class SearchComponent implements OnInit {
       }
 
       this.selectedLanguages = params['language'] ? params['language'].split(',') : [];
+      this.searchQuery = params['keyword'] || '';
 
       if (params['from']) {
         this.from = +params['from'];
@@ -108,6 +109,7 @@ export class SearchComponent implements OnInit {
       debounceTime(300),
       distinctUntilChanged()
     ).subscribe((text: string) => {
+      this.searchQuery = text;
       this.updateURLParameters('from', '0');
       this.updateURLParameters('keyword', text);
       this.navigateUsingURLParameters();
