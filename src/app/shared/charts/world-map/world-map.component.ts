@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import * as Highcharts from 'highcharts/highmaps';
+import { SeriesOptionsType } from 'highcharts/highmaps';
 import worldMapData from '@highcharts/map-collection/custom/world-highres3.topo.json';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { NgIf } from "@angular/common";
@@ -11,6 +12,12 @@ HC_map(Highcharts);
 Exporting(Highcharts);
 HC_ExportingOffline(Highcharts);
 
+type MapData = Highcharts.SeriesMapDataOptions & { code: string };
+
+export type CustomSeriesMapOptions = Omit<Highcharts.SeriesMapOptions, 'data'> & {
+  data: MapData[];
+};
+
 @Component({
   selector: 'app-world-map',
   standalone: true,
@@ -20,22 +27,25 @@ HC_ExportingOffline(Highcharts);
   ],
   template: `<highcharts-chart *ngIf="ready" [Highcharts]="Highcharts" [constructorType]="'mapChart'" [options]="chartOptions" style="width: 100%; display: block;"></highcharts-chart>`
 })
-export class WorldMapComponent implements OnInit, AfterViewInit {
+
+export class WorldMapComponent implements OnChanges {
+
+  @Input() series: SeriesOptionsType[] = [];
 
   @Output() chartReady = new EventEmitter<Highcharts.Chart>();
 
 
   Highcharts: typeof Highcharts = Highcharts;
-  chartOptions: Highcharts.Options = {}
+  chartOptions: Highcharts.Options = {};
 
   colorPallet = ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#A9A9A9'];
   ready = false;
 
-  ngOnInit() {
-    this.createMap();
+  ngOnChanges() {
+    if (this.series.length) {
+      this.createMap();
+    }
   }
-
-  ngAfterViewInit() {}
 
   createMap() {
     const that = this;
@@ -66,11 +76,11 @@ export class WorldMapComponent implements OnInit, AfterViewInit {
           {from: 0, to: 1, color: this.colorPallet[0], name: 'Category A'},
           {from: 1, to: 2, color: this.colorPallet[3], name: 'Category B'},
           {from: 2, color: this.colorPallet[4], name: 'Category C'}
-        ]
+        ],
+        showInLegend: false,
       },
       exporting: {
         enabled: true,
-
       },
       plotOptions: {
         map: {
@@ -78,35 +88,46 @@ export class WorldMapComponent implements OnInit, AfterViewInit {
           dataLabels: {
             enabled: false
           },
-        }
-      },
-      series: [
-        {
-          type: 'map',
-          name: 'Countries',
-          data: [
-            {code: 'IT', value: 0}, // Category A
-            {code: 'FR', value: 1}, // Category B
-            {code: 'DE', value: 2}, // Category C
-          ] as unknown as Highcharts.SeriesMapDataOptions[],
+          // allAreas: true,
+          // nullColor: '#f7f7f7'
         },
-        {
-          type: 'mappoint',
-          name: 'Cities',
-          color: Highcharts.getOptions().colors?.[1],
-          data: [
-            {
-              name: 'Paris',
-              lat: 48.8566,
-              lon: 2.3522
-            },
-          ],
-          marker: {
-            symbol: 'circle',
-            radius: 6
-          },
-        }
-      ]
+        // mappoint: {
+        //   showInLegend: true, // Ensure mappoint series show in legend
+        // }
+      },
+      series: this.series as SeriesOptionsType[],
+      // series: [
+      //   {
+      //     type: 'map',
+      //     name: 'Countries',
+      //     data: [
+      //       {code: 'IT', value: 0}, // Category A
+      //       {code: 'FR', value: 1}, // Category B
+      //       {code: 'DE', value: 2}, // Category C
+      //     ],
+      //   } as CustomSeriesMapOptions,
+      //   {
+      //     type: 'mappoint',
+      //     name: 'Cities',
+      //
+      //     color: Highcharts.getOptions().colors?.[1],
+      //     data: [
+      //       {
+      //         name: 'Paris',
+      //         lat: 48.8566,
+      //         lon: 2.3522
+      //       },
+      //     ],
+      //     dataLabels: {
+      //       enabled: false,
+      //     },
+      //     showInLegend: true,
+      //     marker: {
+      //       symbol: 'circle',
+      //       radius: 6
+      //     },
+      //   } as Highcharts.SeriesMappointOptions,
+      // ],
     };
 
     this.ready = true;
