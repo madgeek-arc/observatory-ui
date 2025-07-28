@@ -16,6 +16,8 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { PageContentComponent } from 'src/survey-tool/app/shared/page-content/page-content.component';
 import { SidebarMobileToggleComponent } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
+import * as UIkit from 'uikit';
+
 
 
 @Component({
@@ -46,11 +48,13 @@ import { SidebarMobileToggleComponent } from 'src/survey-tool/app/shared/dashboa
 
 export class SearchComponent implements OnInit {
   @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
-  urlParameters: URLParameter[] = [];
+  urlParameters: URLParameter[] = []; // Array to hold URL parameters
   destroyRef = inject(DestroyRef);
-  showContent = true;
+  showContent = true;  // Control visibility of content
+  // Data properties
   documentData: Document = null;
-  documents: Paging<Document> = new Paging<Document>();
+  documents: Paging<Document> = new Paging<Document>(); // Initialize with empty Paging object
+  // Search properties
   from = 0;
   pageSize = 5;
   hasMoreResults = true;
@@ -61,19 +65,27 @@ export class SearchComponent implements OnInit {
   selectedLanguages: string[] = [];
   selectedCountry: string[] = [];
   selectedTag: string[] = [];
+  @ViewChild('languageDropdown') languageDropdownRef!: ElementRef;
+  @ViewChild('countryDropdown') countryDropdownRef!: ElementRef;
+  @ViewChild('tagsDropdown') tagsDropdownRef!: ElementRef;
+  
+  // Variables to hold applied filters
+  appliedLanguages: string[] = [];
+  appliedCountries: string[] = [];
+  appliedTags: string[] = [];
 
-  // Pagination properties
+  // Pagination State
   pages: number[] = [];
   currentPage: number = 1;
   totalPages: number = 0;
   offset: number = 2;
 
-
+ // Constructor & Initialization
   
   constructor(private resourceService: ResourceRegistryService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-
+   // Subscribe to route parameters to get initial data
     this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       console.log('Reading url params');
       this.urlParameters = [];
@@ -85,10 +97,18 @@ export class SearchComponent implements OnInit {
           this.urlParameters.push(urlParameter);
         }
       }
-
+     // Parse selected languages, country, and tags from query parameters
       this.selectedLanguages = params['language'] ? params['language'].split(',') : [];
+      this.selectedCountry = params['country'] ? params['country'].split(',') : [];
+      this.selectedTag = params['tags'] ? params['tags'].split(',') : [];
       this.searchQuery = params['keyword'] || '';
 
+      // Initialize applied filters from URL parameters
+      this.appliedLanguages = [...this.selectedLanguages];
+      this.appliedCountries = [...this.selectedCountry];
+      this.appliedTags = [...this.selectedTag];
+
+     // Pagination offset from URL
       if (params['from']) {
         this.from = +params['from'];
       } else {
@@ -103,7 +123,7 @@ export class SearchComponent implements OnInit {
       this.loadDocuments();
       
     });
-
+   // Initialize search input event listener for real-time search
     fromEvent(this.searchInput.nativeElement, 'input').pipe(
       map((event: any) => event.target.value),
       debounceTime(300),
@@ -116,6 +136,7 @@ export class SearchComponent implements OnInit {
     });
   }
 
+  // Load documents based on current parameters
   loadDocuments() {
     this.resourceService.getDocument(this.from, this.pageSize, this.urlParameters)
     .pipe(takeUntilDestroyed(this.destroyRef))
@@ -201,11 +222,6 @@ for (let i = 0; i < addToStartCounter; i++) {
   }
 
 
-  toggleContent() {
-    this.showContent = !this.showContent;
-  }
-
-
   // loadMore() {
   //    this.updateURLParameters('quantity', (this.pageSize +this.pageSize).toString());
   //     this.navigateUsingURLParameters();
@@ -276,10 +292,20 @@ for (let i = 0; i < addToStartCounter; i++) {
     this.selectedLanguages = [];
     this.selectedCountry = [];
     this.selectedTag = [];
+    this.removeKeywordFilter();
   }
 
-  applyLanguageFilter() {
-    this.navigateUsingURLParameters();
+  applyFilter() {
+
+    this.updateURLParametersArray('language', this.selectedLanguages);
+    this.updateURLParametersArray('country', this.selectedCountry);
+    this.updateURLParametersArray('tags', this.selectedTag);
+    this.updateURLParameters('from', '0');
+
+     UIkit.dropdown(this.languageDropdownRef.nativeElement).hide();
+     UIkit.dropdown(this.countryDropdownRef.nativeElement).hide();
+     UIkit.dropdown(this.tagsDropdownRef.nativeElement).hide();
+     this.navigateUsingURLParameters();
   }
 
   onFilterRemove(key: string, currentValue: string[]){
@@ -288,10 +314,61 @@ for (let i = 0; i < addToStartCounter; i++) {
   }
 
   showClearFilter(): boolean {
-    return (
-     (this.selectedLanguages && this.selectedLanguages.length > 0 ) ||
-     (this.selectedCountry && this.selectedCountry.length > 0 ) ||
-     (this.selectedTag &&  this.selectedTag.length > 0 )
-    )
+    // return (
+    //  (this.selectedLanguages && this.selectedLanguages.length > 0 ) ||
+    //  (this.selectedCountry && this.selectedCountry.length > 0 ) ||
+    //  (this.selectedTag &&  this.selectedTag.length > 0 )
+    // )
+     return (
+      (this.appliedLanguages && this.appliedLanguages.length > 0) ||
+      (this.appliedCountries && this.appliedCountries.length > 0) ||
+      (this.appliedTags && this.appliedTags.length > 0) ||
+      (this.searchQuery && this.searchQuery.trim() !== '')
+    );
   }
+
+  removeLanguageFilter(language: string) {
+    this.selectedLanguages = this.selectedLanguages.filter(lang => lang !== language);
+    this.appliedLanguages = this.appliedLanguages.filter(lang => lang !== language);
+    this.updateURLParametersArray('language', this.selectedLanguages);
+    this.navigateUsingURLParameters();
+  }
+
+  removeCountryFilter(country: string) {
+    this.selectedCountry = this.selectedCountry.filter(c => c !== country);
+    this.appliedCountries = this.appliedCountries.filter(c => c !== country);
+    this.updateURLParametersArray('country', this.selectedCountry);
+    this.navigateUsingURLParameters();
+  }
+  
+  removeTagFilter(tag: string) {
+    this.selectedTag = this.selectedTag.filter(t => t !== tag);
+    this.appliedTags = this.appliedTags.filter(t => t !== tag);
+    this.updateURLParametersArray('tags', this.selectedTag);
+    this.navigateUsingURLParameters();
+  }
+
+  removeKeywordFilter() {
+    this.searchQuery = '';
+    this.updateURLParameters('keyword', '');
+    this.navigateUsingURLParameters();
+  }
+
+  //Ηelper methods
+
+  getAppliedLanguages(): string[] {
+    const languageParam = this.urlParameters.find(param => param.key === 'language');
+    return languageParam ? languageParam.values : [];
+  }
+
+  getAppliedCountries(): string[] {
+    const countryParam = this.urlParameters.find(param => param.key === 'country');
+    return countryParam ? countryParam.values : [];
+  }
+
+  getAppliedTags(): string[] {
+    const tagParam = this.urlParameters.find(param => param.key === 'tags');
+    return tagParam ? tagParam.values : [];
+  }
+  
 }

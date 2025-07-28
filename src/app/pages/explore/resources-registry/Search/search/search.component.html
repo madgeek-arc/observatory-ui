@@ -48,55 +48,73 @@
               </div>
             </div>
           </div>
-          <div class="uk-flex uk-flex-center">
-            <button *ngIf="showContent" class="uk-button uk-button-default uk-margin-bottom"
-              (click)="toggleContent()">Hide</button>
-          </div>
-
-        </div>
-
-        <div class="uk-flex uk-flex-center">
-          <button *ngIf="!showContent" class="uk-button uk-button-default uk-margin-bottom"
-            (click)="toggleContent()">Show</button>
         </div>
 
         <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-bottom">
           <div class="uk-flex uk-flex-left uk-flex-middle">
-            <div style="width: 200px; margin-right: 10px;">
-              <ng-select [items]="languageFacets?.values" bindLabel="value" bindValue="value" placeholder="Language"
-                [multiple]="true" [(ngModel)]="selectedLanguages" (change)="onLanguageChange()"
-                (remove)="onFilterRemove('language', selectedLanguages)" [clearable]="false">
-                <ng-template ng-option-tmp let-item="item">
-                  {{item.value}} ({{item.count}})
-                </ng-template>
-              </ng-select>
-            </div>
-            <div style="width: 200px; margin-right: 10px;">
-              <ng-select [items]="countryFacets?.values" bindLabel="value" bindValue="value" placeholder="Country"
-                [multiple]="true" [(ngModel)]="selectedCountry" (change)="onCountryChange()"
-                (remove)="onFilterRemove('country', selectedCountry)" [clearable]="false">
-                <ng-template ng-option-tmp let-item="item">
-                  {{item.value}} ({{item.count}})
-                </ng-template>
-              </ng-select>
-            </div>
-            <div style="width: 200px; margin-right: 10px;">
-              <ng-select [items]="tagFacets?.values" bindLabel="value" bindValue="value" placeholder="Tags"
-                [multiple]="true" [(ngModel)]="selectedTag" (change)="onTagChange()"
-                (remove)="onFilterRemove('tags', selectedTag)" [clearable]="false">
-                <ng-template ng-option-tmp let-item="item">
-                  {{item.value}} ({{item.count}})
-                </ng-template>
-              </ng-select>
+            
+            <div class="uk-inline uk-margin-small-right" style="position: relative;">
+              <button class="uk-button uk-button-default" type="button">Language</button>
+              <div #languageDropdown uk-dropdown="mode: click; pos: bottom-left; animation: false;  auto-update: true;">
+                <div>
+                  <div style="overflow: visible;">
+                    <ng-select [items]="languageFacets?.values" bindLabel="value" bindValue="value" [isOpen]="true"
+                      placeholder="Language" [closeOnSelect]="false" class="open" [multiple]="true" [appendTo]="''"
+                      [dropdownPosition]="'bottom'" [(ngModel)]="selectedLanguages" (change)="onLanguageChange()"
+                      (remove)="onFilterRemove('language', selectedLanguages)" [clearable]="false">
+                      <ng-template ng-option-tmp let-item="item">
+                        {{item.value}} ({{item.count}})
+                      </ng-template>
+                    </ng-select>
+                    <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
+                      (click)="applyFilter()">Apply</button>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <button *ngIf="selectedCountry" class="uk-button uk-button-primary uk-margin-small-left"
-              (click)="applyLanguageFilter()">
-              Apply
-            </button>
+            <div class="uk-inline uk-margin-small-right" style="position: relative;">
+              <button class="uk-button uk-button-default" type="button">Country</button>
+              <div #countryDropdown uk-dropdown="mode: click; pos: bottom-left; animation: false; auto-update: true;">
+                <div>
+                  <div style="overflow: visible;">
+                    <ng-select [items]="countryFacets?.values" bindLabel="value" bindValue="value" placeholder="Country"
+                      [isOpen]="true" class="open" [multiple]="true" [closeOnSelect]="false"
+                      [dropdownPosition]="'bottom'" [(ngModel)]="selectedCountry" (change)="onCountryChange()"
+                      (remove)="onFilterRemove('country', selectedCountry)" [clearable]="false">
+                      <ng-template ng-option-tmp let-item="item">
+                        {{ item.value }} ({{ item.count }})
+                      </ng-template>
+                    </ng-select>
+                    <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
+                      (click)="applyFilter()">Apply</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="uk-inline" style="position: relative;">
+              <button class="uk-button uk-button-default" type="button">Tags</button>
+              <div #tagsDropdown uk-dropdown="mode: click; pos: bottom-left; animation: false; auto-update: true;">
+                <div>
+                  <div style="overflow: visible;">
+                    <ng-select [items]="tagFacets?.values" bindLabel="value" bindValue="value" placeholder="Tags"
+                      [multiple]="true" class="open" [isOpen]="true" [closeOnSelect]="false"
+                      [dropdownPosition]="'bottom'" [(ngModel)]="selectedTag" (change)="onTagChange()"
+                      (remove)="onFilterRemove('tags', selectedTag)" [clearable]="false">
+                      <ng-template ng-option-tmp let-item="item">
+                        {{item.value}} ({{item.count}})
+                      </ng-template>
+                    </ng-select>
+                    <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
+                      (click)="applyFilter()">Apply</button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <span *ngIf="showClearFilter()" class="material-symbols-outlined uk-margin-small-left"
-              style="cursor: pointer;" (click)="clearFilters()">
+              style="cursor: pointer;" (click)="clearFilters()" uk-tooltip="Clear All">
               delete
             </span>
 
@@ -105,6 +123,35 @@
             <span class="uk-form-icon" data-uk-icon="icon: search"></span>
             <input type="text" #searchInput class="uk-input menuSearch" placeholder="Search..."
               [(ngModel)]="searchQuery" style="border-radius: 20px;">
+          </div>
+        </div>
+
+        <!-- Badges Container-->
+        <div class="badge-container uk-margin-bottom uk-flex">
+          <div>
+            <span *ngFor="let language of appliedLanguages" class="filter-badge">
+             <strong>Language: &nbsp;</strong>{{language}}
+              <button class="remove-btn" type="button" (click)="removeLanguageFilter(language)">x</button>
+            </span>
+  
+        
+            <span *ngFor="let country of appliedCountries" class="filter-badge">
+              <strong>Country: &nbsp;</strong> {{country}}
+              <button class="remove-btn" type="button" (click)="removeCountryFilter(country)">x</button>
+            </span>
+          
+          
+            <span *ngFor="let tag of appliedTags" class="filter-badge">
+              <strong>Tag: &nbsp;</strong> {{tag}}
+              <button class="remove-btn" type="button" (click)="removeTagFilter(tag)">×</button>
+            </span>
+          
+         
+            <span *ngIf="searchQuery" class="filter-badge">
+              <strong>Keyword: &nbsp;</strong> {{searchQuery}}
+              <button class="remove-btn" type="button" (click)="removeKeywordFilter()">x</button>
+            </span>
+          
           </div>
         </div>
 

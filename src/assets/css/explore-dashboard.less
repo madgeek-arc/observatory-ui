@@ -51,3 +51,47 @@
 .external-sources.visualisation-card::before {
   background-color: var(--eosc-observatory-external-sources-color);
 }
+
+.open .ng-dropdown-panel {
+  position: inherit !important;
+}
+
+.badge-container {
+  min-height: 40px;
+  padding: 8px 0;
+}
+
+.filter-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: #e5e5e5;
+  color: #333;
+  padding: 4px 8px;
+  border-radius: 15px;
+  font-size: 12px;
+  margin: 2px 4px 2px 0;
+  font-weight: 500;
+  border: 1px solid #d1d1d1;
+}
+
+.filter-badge .remove-btn {
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  border: none;
+  background-color: #999;
+  color: white;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.filter-badge .remove-btn:hover {
+  background-color: #666;
+}
