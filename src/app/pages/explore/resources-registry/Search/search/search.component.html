@@ -161,6 +161,7 @@
           <div *ngFor="let doc of documents.results" class="uk-card uk-card-default uk-card-body uk-margin-bottom">
             <div class="uk-flex uk-flex-middle uk-flex-between uk-margin-small-bottom">
               <div class="uk-flex uk-flex-middle">
+                <!-- {{doc.docInfo | json}} -->
                 <img *ngIf="doc.docInfo?.country && doc.docInfo.country !== 'EU'"
                   ngSrc="../../survey-tool/assets/images/flags/{{doc.docInfo?.country | lowercase}}-flag-round.png"
                   class="flag-image uk-margin-small-right" width="30" height="20" alt="{{doc.docInfo?.country}} flag">
@@ -186,12 +187,17 @@
 
             </div>
             <p>
-              <span *ngIf="doc.metadata?.creationDate && doc.metadata?.modificationDate">
-                Start: {{ doc.metadata.creationDate | date:'mediumDate' }} - End: {{ doc.metadata.modificationDate |
+              <span *ngIf="doc.docInfo?.publicationDate">
+                Publication Date: {{ doc.docInfo.publicationDate | date:'mediumDate' }}
+              </span>
+            </p>
+            <p>
+              <span *ngIf="doc.docInfo?.startDate || doc.docInfo?.endDate">
+                Start: {{ doc.docInfo?.startDate | date:'mediumDate' }} - End: {{ doc.docInfo?.endDate |
                 date:'mediumDate' }}
               </span>
             </p>
-            <p [ngClass]="{'uk-text-bold': doc.docInfo.shortDescription.generated}">{{
+            <p [ngClass]="{'uk-text-bold': doc.docInfo.shortDescription?.generated}">{{
               doc.docInfo?.shortDescription?.text
               }}
             </p>

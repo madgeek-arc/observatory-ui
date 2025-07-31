@@ -7,6 +7,7 @@ export interface Document {
     url: string;
     metadata: Metadata;
     references: reference[];
+    status: string;
 }
 
 export interface Content {
