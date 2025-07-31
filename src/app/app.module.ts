@@ -43,6 +43,7 @@ import { SharedModule } from './shared/shared.module';
 import {
   ContributionsDashboardComponent
 } from "../survey-tool/app/pages/contributions-dashboard/contributions-dashboard.component";
+// import { ReportPieChartComponent } from './shared/charts/report-pie-chart/report-pie-chart.component';
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import {
     CategoryIndicatorsWrapperComponent,
     CategoryIndicatorsRowComponent,
     ContributionsHomeExtentionComponent,
+    // ReportPieChartComponent,
   ],
   imports: [
     BrowserModule,
