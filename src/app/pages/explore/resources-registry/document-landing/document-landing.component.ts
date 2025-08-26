@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ResourceRegistryService } from '../../resource-registry.service';
+import { ResourceRegistryService } from '../resource-registry.service';
 import { Document } from 'src/app/domain/document';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DestroyRef, inject } from '@angular/core';
@@ -11,9 +11,8 @@ import { SidebarMobileToggleComponent } from 'src/survey-tool/app/shared/dashboa
 @Component({
   selector: 'app-document-landing',
   standalone: true,
-  imports: [LowerCasePipe, NgOptimizedImage, CommonModule, PageContentComponent, SidebarMobileToggleComponent],
+  imports: [NgOptimizedImage, CommonModule, PageContentComponent, SidebarMobileToggleComponent],
   templateUrl: './document-landing.component.html',
-  styleUrls: ['./document-landing.component.less']
 })
 
 export class DocumentLandingComponent implements OnInit {
@@ -26,13 +25,11 @@ export class DocumentLandingComponent implements OnInit {
 
     ngOnInit() {
       this.documentId = this.route.snapshot.paramMap.get('documentId');
-      console.log( this.route.snapshot.paramMap)
-      console.log(this.documentId)
       if (this.documentId) {
         this.documentService.getDocumentById(this.documentId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: (data) => {
             this.documentData = data;
-            
+
           },
           error: (err) => {
             this.error = 'Error fetching document.';

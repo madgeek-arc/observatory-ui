@@ -6,44 +6,41 @@
     <div class="uk-section uk-section-small uk-section-primary uk-preserve-color">
       <div class="uk-container  uk-margin-top">
         <h4>European Open Science Resources Registry</h4>
-        <div [@fadeAnimation]="showContent ? 'visible' : 'hidden'" class="content-wrapper">
+        <div class="">
           <div class="uk-grid-match" uk-grid>
             <div class="uk-width-2-3">
               <div>
-                <p>In the European Open Science Resources Registry, you can find a curated collection of key
-                  resources
+                <p>
+                  In the European Open Science Resources Registry, you can find a curated collection of key resources
                   supporting Open Science across Europe, including national policies, strategies, best practices,
                   templates, and impact stories. Users can easily filter resources by country, date, topic, and
-                  document type, making it simple to locate relevant information. Policies and strategies are
-                  vital to
-                  creating a collaborative, transparent, and accessible research environment, and the registry
-                  goes
+                  document type, making it simple to locate relevant information. Policies and strategies are vital to
+                  creating a collaborative, transparent, and accessible research environment, and the registry goes
                   beyond simply listing these documents.
                   You’ll find detailed information on each policy, including the option to read full texts where
-                  available, helping you understand their scope, implementation, and impact in depth.</p>
-                <p>You can easily filter resources by country, date, topic, and document type, making it simple to
+                  available, helping you understand their scope, implementation, and impact in depth.
+                </p>
+                <p>
+                  You can easily filter resources by country, date, topic, and document type, making it simple to
                   locate exactly what you need.
                   If you have valuable documents to share, you can also contribute to the registry by uploading
                   resources with relevant metadata, building a more comprehensive and collaborative resource for
-                  the
-                  entire Open Science community.</p>
+                  the entire Open Science community.
+                </p>
               </div>
             </div>
 
             <div class="uk-width-1-3">
               <div class="uk-card uk-card-default uk-card-body uk-margin-bottom" style="background-color: #DAEEF3;">
                 <h5 class="uk-card-title uk-text-center uk-text-bold">Anything missing?</h5>
-                <p class="uk-margin-left">You can easily filter resources by country, date, topic, and document
-                  type,
+                <p class="uk-margin-left">You can easily filter resources by country, date, topic, and document type,
                   making it simple to locate exactly what you need.
                   If you have valuable documents to share, you can also contribute to the registry by uploading
-                  resources with relevant metadata, building a more comprehensive and collaborative resource for
-                  the
+                  resources with relevant metadata, building a more comprehensive and collaborative resource for the
                   entire Open Science community.
                 </p>
                 <div class="uk-flex uk-flex-center">
-                  <button class="uk-button-primary uk-text-bold" style="border-radius: 30px; padding: 0 15px">Submit
-                    resources</button>
+                  <button class="uk-button-primary uk-text-bold" style="border-radius: 30px; padding: 0 15px">Submit resources</button>
                 </div>
               </div>
             </div>
@@ -52,22 +49,22 @@
 
         <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-bottom">
           <div class="uk-flex uk-flex-left uk-flex-middle">
-            
-            <div class="uk-inline uk-margin-small-right" style="position: relative;">
+
+            <div class="uk-inline uk-margin-small-right">
               <button class="uk-button uk-button-default" type="button">Language</button>
-              <div #languageDropdown uk-dropdown="mode: click; pos: bottom-left; animation: false;  auto-update: true;">
+              <div id="languageDropdown" uk-dropdown="mode: click; pos: bottom-left; animation: false;  auto-update: true;">
                 <div>
                   <div style="overflow: visible;">
                     <ng-select [items]="languageFacets?.values" bindLabel="value" bindValue="value" [isOpen]="true"
                       placeholder="Language" [closeOnSelect]="false" class="open" [multiple]="true" [appendTo]="''"
-                      [dropdownPosition]="'bottom'" [(ngModel)]="selectedLanguages" (change)="onLanguageChange()"
+                      [dropdownPosition]="'bottom'" [(ngModel)]="selectedLanguages" (change)="onFilterChange('language', selectedLanguages)"
                       (remove)="onFilterRemove('language', selectedLanguages)" [clearable]="false">
                       <ng-template ng-option-tmp let-item="item">
                         {{item.value}} ({{item.count}})
                       </ng-template>
                     </ng-select>
                     <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
-                      (click)="applyFilter()">Apply</button>
+                      (click)="applyFilter('languageDropdown')">Apply</button>
                   </div>
                 </div>
               </div>
@@ -75,19 +72,19 @@
 
             <div class="uk-inline uk-margin-small-right" style="position: relative;">
               <button class="uk-button uk-button-default" type="button">Country</button>
-              <div #countryDropdown uk-dropdown="mode: click; pos: bottom-left; animation: false; auto-update: true;">
+              <div id="countryDropdown" uk-dropdown="mode: click; pos: bottom-left; animation: false; auto-update: true;">
                 <div>
                   <div style="overflow: visible;">
                     <ng-select [items]="countryFacets?.values" bindLabel="value" bindValue="value" placeholder="Country"
                       [isOpen]="true" class="open" [multiple]="true" [closeOnSelect]="false"
-                      [dropdownPosition]="'bottom'" [(ngModel)]="selectedCountry" (change)="onCountryChange()"
+                      [dropdownPosition]="'bottom'" [(ngModel)]="selectedCountry" (change)="onFilterChange('country', selectedCountry)"
                       (remove)="onFilterRemove('country', selectedCountry)" [clearable]="false">
                       <ng-template ng-option-tmp let-item="item">
                         {{ item.value }} ({{ item.count }})
                       </ng-template>
                     </ng-select>
                     <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
-                      (click)="applyFilter()">Apply</button>
+                      (click)="applyFilter('countryDropdown')">Apply</button>
                   </div>
                 </div>
               </div>
@@ -95,19 +92,19 @@
 
             <div class="uk-inline" style="position: relative;">
               <button class="uk-button uk-button-default" type="button">Tags</button>
-              <div #tagsDropdown uk-dropdown="mode: click; pos: bottom-left; animation: false; auto-update: true;">
+              <div id="tagsDropdown" uk-dropdown="mode: click; pos: bottom-left; animation: false; auto-update: true;">
                 <div>
                   <div style="overflow: visible;">
                     <ng-select [items]="tagFacets?.values" bindLabel="value" bindValue="value" placeholder="Tags"
                       [multiple]="true" class="open" [isOpen]="true" [closeOnSelect]="false"
-                      [dropdownPosition]="'bottom'" [(ngModel)]="selectedTag" (change)="onTagChange()"
+                      [dropdownPosition]="'bottom'" [(ngModel)]="selectedTag" (change)="onFilterChange('tags', selectedTag)"
                       (remove)="onFilterRemove('tags', selectedTag)" [clearable]="false">
                       <ng-template ng-option-tmp let-item="item">
                         {{item.value}} ({{item.count}})
                       </ng-template>
                     </ng-select>
                     <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
-                      (click)="applyFilter()">Apply</button>
+                      (click)="applyFilter('tagsDropdown')">Apply</button>
                   </div>
                 </div>
               </div>
@@ -129,35 +126,36 @@
         <!-- Badges Container-->
         <div class="badge-container uk-margin-bottom uk-flex">
           <div>
+
             <span *ngFor="let language of appliedLanguages" class="filter-badge">
              <strong>Language: &nbsp;</strong>{{language}}
               <button class="remove-btn" type="button" (click)="removeLanguageFilter(language)">x</button>
             </span>
-  
-        
+
+
             <span *ngFor="let country of appliedCountries" class="filter-badge">
               <strong>Country: &nbsp;</strong> {{country}}
               <button class="remove-btn" type="button" (click)="removeCountryFilter(country)">x</button>
             </span>
-          
-          
+
+
             <span *ngFor="let tag of appliedTags" class="filter-badge">
               <strong>Tag: &nbsp;</strong> {{tag}}
               <button class="remove-btn" type="button" (click)="removeTagFilter(tag)">×</button>
             </span>
-          
-         
+
+
             <span *ngIf="searchQuery" class="filter-badge">
               <strong>Keyword: &nbsp;</strong> {{searchQuery}}
               <button class="remove-btn" type="button" (click)="removeKeywordFilter()">x</button>
             </span>
-          
+
           </div>
         </div>
 
 
 
-        <div *ngIf="documents.results.length > 0">
+        <div *ngIf="documents.results.length > 0; else noResults">
           <div *ngFor="let doc of documents.results" class="uk-card uk-card-default uk-card-body uk-margin-bottom">
             <div class="uk-flex uk-flex-middle uk-flex-between uk-margin-small-bottom">
               <div class="uk-flex uk-flex-middle">
@@ -179,8 +177,7 @@
                 </a>
               </div>
               <div class="uk-flex uk-flex-middle">
-                <span *ngFor="let tag of doc.docInfo?.tags"
-                  class="uk-label uk-margin-small-right uk-label-primary uk-text-bold">
+                <span *ngFor="let tag of doc.docInfo?.tags" class="uk-label uk-margin-small-right uk-label-primary uk-text-bold">
                   {{tag}}
                 </span>
               </div>
@@ -193,13 +190,11 @@
             </p>
             <p>
               <span *ngIf="doc.docInfo?.startDate || doc.docInfo?.endDate">
-                Start: {{ doc.docInfo?.startDate | date:'mediumDate' }} - End: {{ doc.docInfo?.endDate |
-                date:'mediumDate' }}
+                Start: {{ doc.docInfo?.startDate | date:'mediumDate' }} - End: {{ doc.docInfo?.endDate | date:'mediumDate' }}
               </span>
             </p>
-            <p [ngClass]="{'uk-text-bold': doc.docInfo.shortDescription?.generated}">{{
-              doc.docInfo?.shortDescription?.text
-              }}
+            <p [ngClass]="{'uk-text-bold': doc.docInfo?.shortDescription?.generated}">
+              {{ doc.docInfo?.shortDescription?.text }}
             </p>
           </div>
 
@@ -230,7 +225,7 @@
 
                   <!--Page Numbers-->
                   <li *ngFor="let i of pages" [ngClass]="i == currentPage ? 'uk-active uk-animation-fade' : ''">
-                    <a (click)="goToPage(i - 1)" class="uk=pagination-link">{{i}}</a>
+                    <a (click)="goToPage(i - 1)" class="uk=pagination-link">{{ i }}</a>
                   </li>
 
                   <!--Next Page-->
@@ -251,6 +246,11 @@
             </div>
           </div>
         </div>
+
+        <ng-template #noResults>
+          <p>No results found for these search parameters.</p>
+        </ng-template>
+
       </div>
     </div>
   </div>
