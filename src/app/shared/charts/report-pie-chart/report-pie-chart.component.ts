@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, SimpleChanges, OnChanges, Output} from '@angular/core';
 import * as Highcharts from 'highcharts';
 import Exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
@@ -13,17 +13,40 @@ ExportData(Highcharts);
   templateUrl: './report-pie-chart.component.html',
   styleUrls: ['./report-pie-chart.component.less']
 })
-export class ReportPieChartComponent implements OnInit {
+export class ReportPieChartComponent implements OnInit, OnChanges {
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options = {};
 
+  @Input() series: SeriesPieOptions[] = [];
+
+  @Output() chartReady = new EventEmitter<Highcharts.Chart>();
+
+  ngOnChanges(changes: SimpleChanges): void {
+  if (changes['series'] && this.series) {
+    this.updateChartOptions(); // Αν αλλάξουν τα series, ενημέρωσε το γράφημα
+    console.log('Series updated:', this.series);
+  }
+}
+
+
   ngOnInit(): void {
-    this.chartOptions = {
+    this.updateChartOptions(); // Αρχική ενημέρωση κατά την εκκίνηση του component
+  }
+
+  updateChartOptions() {
+    const that = this;
+     this.chartOptions = {
       chart: {
-        type: 'pie'
+        type: 'pie',
+       events: {
+                 load(this: Highcharts.Chart) {
+                   // `this` is already typed as the Chart instance
+                   that.chartReady.emit(this);
+                 }
+               }
       },
       title: {
-        text: 'My first HighChart'
+        text: 'Monitoring'
       },
       tooltip: {
         pointFormat: '{series.name}: <b>{point.y}</b> ({point.percentage:.0f}%)'
@@ -50,22 +73,9 @@ export class ReportPieChartComponent implements OnInit {
         align: 'center',
         verticalAlign: 'bottom'
       },
-      series:  <SeriesPieOptions[]> [{
-        name: 'Monitoring',
-        type: 'pie',
-        data: [
-          {
-            name: 'Has monitoring',
-            y: 12,
-            color: '#137CBD'
-          },
-          {
-            name: 'Does not have monitoring',
-            y: 88,
-            color: '#EC7A1C'
-          }
-        ]
-      }] 
+      // Χρήση των δεδομένων από το @Input ή κενό array
+      series: this.series.length > 0 ? this.series : []
     };
   }
-}
+  }
+
