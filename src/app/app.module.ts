@@ -44,6 +44,10 @@ import {
   ContributionsDashboardComponent
 } from "../survey-tool/app/pages/contributions-dashboard/contributions-dashboard.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {PageContentComponent} from "../survey-tool/app/shared/page-content/page-content.component";
+import {
+    SidebarMobileToggleComponent
+} from "../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 
 
 @NgModule({
@@ -60,20 +64,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CategoryIndicatorsRowComponent,
     ContributionsHomeExtentionComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ChartsModule,
-    RouterModule,
-    SurveyToolModule,
-    MessagingSystemModule,
-    NgxMatomoTrackerModule.forRoot({trackerUrl: environment.matomoTrackerUrl, siteId: environment.matomoSiteId}),
-    NgxMatomoRouterModule,
-    ReusableComponentsModule,
-    SharedModule,
-    ContributionsDashboardComponent,
-    BrowserAnimationsModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ChartsModule,
+        RouterModule,
+        SurveyToolModule,
+        MessagingSystemModule,
+        NgxMatomoTrackerModule.forRoot({trackerUrl: environment.matomoTrackerUrl, siteId: environment.matomoSiteId}),
+        NgxMatomoRouterModule,
+        ReusableComponentsModule,
+        SharedModule,
+        ContributionsDashboardComponent,
+        BrowserAnimationsModule,
+        PageContentComponent,
+        SidebarMobileToggleComponent,
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
