@@ -33,7 +33,6 @@
               "src/survey-tool/catalogue-ui/assets"
             ],
             "styles": [
-              "src/survey-tool/styles/styles.scss",
               "src/styles/styles.less"
             ],
             "stylePreprocessorOptions": {
