@@ -13,8 +13,9 @@ import { isNumeric } from "rxjs/internal-compatibility";
 import * as UIkit from 'uikit';
 
 @Component({
-  selector: 'app-national-policy',
-  templateUrl: 'financial-investments.component.html'
+    selector: 'app-national-policy',
+    templateUrl: 'financial-investments.component.html',
+    standalone: false
 })
 
 export class FinancialInvestmentsComponent implements OnInit {

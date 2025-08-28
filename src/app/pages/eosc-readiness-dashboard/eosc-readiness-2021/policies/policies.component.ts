@@ -11,8 +11,9 @@ import { CategorizedAreaData, Series } from "../../../../domain/categorizedAreaD
 import * as UIkit from 'uikit';
 
 @Component({
-  selector: 'app-policies',
-  templateUrl: './policies.component.html'
+    selector: 'app-policies',
+    templateUrl: './policies.component.html',
+    standalone: false
 })
 
 export class PoliciesComponent implements OnInit{

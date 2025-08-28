@@ -7,8 +7,9 @@ import { environment } from "../../../../environments/environment";
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 
 @Component({
-  selector: 'app-ncte-funding',
-  templateUrl: './ncte-funding.component.html'
+    selector: 'app-ncte-funding',
+    templateUrl: './ncte-funding.component.html',
+    standalone: false
 })
 
 export class NCTEFundingComponent implements OnInit {

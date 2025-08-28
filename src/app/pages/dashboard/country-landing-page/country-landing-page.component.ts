@@ -7,10 +7,11 @@ import { countries } from "../../../domain/countries";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
 @Component({
-  selector: 'country-landing-page',
-  templateUrl: 'country-landing-page.component.html',
-  styleUrls: ['./country-landing-page.component.css'],
-  providers: [SurveyService]
+    selector: 'country-landing-page',
+    templateUrl: 'country-landing-page.component.html',
+    styleUrls: ['./country-landing-page.component.css'],
+    providers: [SurveyService],
+    standalone: false
 })
 
 export class CountryLandingPageComponent implements OnInit {

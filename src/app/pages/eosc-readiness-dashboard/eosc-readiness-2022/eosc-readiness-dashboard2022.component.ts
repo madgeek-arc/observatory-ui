@@ -8,9 +8,10 @@ import { AuthenticationService } from "../../../../survey-tool/app/services/auth
 declare var UIkit;
 
 @Component({
-  selector: 'app-national-contributions-to-eosc-dashboard',
-  templateUrl: './eosc-readiness-dashboard2022.component.html',
-  styleUrls: ['../eosc-readiness-dashboard.component.css'],
+    selector: 'app-national-contributions-to-eosc-dashboard',
+    templateUrl: './eosc-readiness-dashboard2022.component.html',
+    styleUrls: ['../eosc-readiness-dashboard.component.css'],
+    standalone: false
 })
 
 export class EoscReadinessDashboard2022Component implements OnInit, AfterViewInit {

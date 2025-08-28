@@ -10,8 +10,9 @@ import { CategorizedAreaData, Series } from "../../../../domain/categorizedAreaD
 import * as UIkit from 'uikit';
 
 @Component({
-  selector: 'app-policies',
-  templateUrl: './practices.component.html'
+    selector: 'app-policies',
+    templateUrl: './practices.component.html',
+    standalone: false
 })
 
 export class PracticesComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, ErrorHandler, NgModule } from "@angular/core";
+import { ErrorHandler, NgModule, inject, provideAppInitializer } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import * as Sentry from "@sentry/angular";
 import { BrowserModule } from '@angular/platform-browser';
@@ -97,12 +97,21 @@ import {
       provide: Sentry.TraceService,
       deps: [Router],
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => () => {},
-      deps: [Sentry.TraceService],
-      multi: true,
-    },
+    provideAppInitializer(() => {
+      const initializerFn = (() => {
+        const trace = inject(Sentry.TraceService);
+        return () => {
+          // use `trace` here, e.g. trace.start() or whatever Sentry requires
+        };
+      })();
+
+      return initializerFn();
+    }),
+    // provideAppInitializer(() => inject(TraceService)),
+    // provideAppInitializer(() => {
+    //     const initializerFn = (() => () => {})(inject(Sentry.TraceService));
+    //     return initializerFn();
+    //   }),
   ],
   bootstrap: [AppComponent]
 })

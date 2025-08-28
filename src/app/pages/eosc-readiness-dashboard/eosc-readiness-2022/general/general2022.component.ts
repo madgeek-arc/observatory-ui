@@ -13,9 +13,10 @@ import * as Highcharts from "highcharts";
 import * as UIkit from 'uikit';
 
 @Component({
-  selector: 'app-general-2022',
-  templateUrl: 'general2022.component.html',
-  styleUrls: ['../../eosc-readiness-dashboard.component.css'],
+    selector: 'app-general-2022',
+    templateUrl: 'general2022.component.html',
+    styleUrls: ['../../eosc-readiness-dashboard.component.css'],
+    standalone: false
 })
 
 export class General2022Component implements OnInit {

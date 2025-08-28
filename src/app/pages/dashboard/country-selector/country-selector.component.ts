@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { CategorizedAreaData, Series } from "../../../domain/categorizedAreaData";
-import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { ColorPallet } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { countries } from "../../../domain/countries";
@@ -12,16 +12,15 @@ import { ChartsModule } from "../../../shared/charts/charts.module";
 @Component({
   selector: 'country-selector',
   templateUrl: 'country-selector.component.html',
-  standalone: true,
   styleUrls: ['./country-selector.component.css'],
   imports: [
     LowerCasePipe,
     ChartsModule,
     NgIf,
     NgForOf,
-    RouterLink,
     NgOptimizedImage
   ],
+  standalone: true,
   providers: [StakeholdersService]
 })
 
@@ -33,7 +32,7 @@ export class CountrySelectorComponent implements OnInit {
   mapIconVar = this.sanitizer.bypassSecurityTrustHtml(mapIcon.replace(/&nbsp;/g, ''));
   flagIconVar = this.sanitizer.bypassSecurityTrustHtml(flagIcon.replace(/&nbsp;/g, ''));
 
-  constructor(private router: Router, private route: ActivatedRoute, private stakeholdersService: StakeholdersService, private sanitizer: DomSanitizer) {}
+  constructor(private router: Router, private stakeholdersService: StakeholdersService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.stakeholdersService.getEOSCSBCountries().subscribe(

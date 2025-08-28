@@ -11,13 +11,12 @@ import { IconsService } from "../../../survey-tool/app/utils/icons/icons.service
 import { exploreIcons } from "./explore.icons";
 
 @Component({
-  selector: 'app-explore',
-  standalone: true,
-  imports: [
-    DashboardSideMenuComponent,
-    RouterOutlet,
-  ],
-  templateUrl: './explore.component.html'
+    selector: 'app-explore',
+    imports: [
+        DashboardSideMenuComponent,
+        RouterOutlet,
+    ],
+    templateUrl: './explore.component.html'
 })
 
 export class ExploreComponent implements OnInit {

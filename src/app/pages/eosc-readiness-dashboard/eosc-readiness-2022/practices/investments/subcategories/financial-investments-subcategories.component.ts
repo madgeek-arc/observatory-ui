@@ -11,8 +11,9 @@ import { isNumeric } from "rxjs/internal-compatibility";
 import * as UIkit from 'uikit';
 
 @Component({
-  selector: 'app-financial-investments-subcategories',
-  templateUrl: 'financial-investments-subcategories.component.html'
+    selector: 'app-financial-investments-subcategories',
+    templateUrl: 'financial-investments-subcategories.component.html',
+    standalone: false
 })
 
 export class FinancialInvestmentsSubcategoriesComponent implements OnInit{

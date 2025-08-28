@@ -16,15 +16,14 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
 
 
 @Component({
-  selector: 'app-open-science-trends',
-  standalone: true,
-  templateUrl: './open-science-trends.component.html',
-  imports: [
-    CommonModule,
-    SidebarMobileToggleComponent,
-    ChartsModule,
-    PageContentComponent
-  ]
+    selector: 'app-open-science-trends',
+    templateUrl: './open-science-trends.component.html',
+    imports: [
+        CommonModule,
+        SidebarMobileToggleComponent,
+        ChartsModule,
+        PageContentComponent
+    ]
 })
 
 export class OpenScienceTrendsComponent implements OnInit {

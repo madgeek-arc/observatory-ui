@@ -1,8 +1,9 @@
 import {Component, Input} from "@angular/core";
 
 @Component({
-  selector: 'cumulative-data-table',
-  templateUrl: 'cumulative-data-table.component.html'
+    selector: 'cumulative-data-table',
+    templateUrl: 'cumulative-data-table.component.html',
+    standalone: false
 })
 
 export class CumulativeDataTablesComponent {

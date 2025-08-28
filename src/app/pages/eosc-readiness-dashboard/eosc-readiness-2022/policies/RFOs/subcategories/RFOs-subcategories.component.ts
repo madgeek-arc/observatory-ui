@@ -11,8 +11,9 @@ import { isNumeric } from "rxjs/internal-compatibility";
 import * as UIkit from 'uikit';
 
 @Component({
-  selector: 'app-RFOs-subcategories',
-  templateUrl: 'RFOs-subcategories.component.html'
+    selector: 'app-RFOs-subcategories',
+    templateUrl: 'RFOs-subcategories.component.html',
+    standalone: false
 })
 
 export class RFOsSubcategoriesComponent implements OnInit{

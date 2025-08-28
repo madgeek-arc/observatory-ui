@@ -11,8 +11,9 @@ import { CategorizedAreaData, Series } from "../../../../../../domain/categorize
 import * as UIkit from 'uikit';
 
 @Component({
-  selector: 'app-national-policy-subcategories',
-  templateUrl: 'national-policy-subcategories.component.html'
+    selector: 'app-national-policy-subcategories',
+    templateUrl: 'national-policy-subcategories.component.html',
+    standalone: false
 })
 
 export class NationalPolicySubcategoriesComponent implements OnInit{

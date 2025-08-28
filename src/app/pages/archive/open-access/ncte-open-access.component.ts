@@ -7,8 +7,9 @@ import { environment } from "../../../../environments/environment";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 
 @Component({
-  selector: 'app-ncte-open-access',
-  templateUrl: './ncte-open-access.component.html'
+    selector: 'app-ncte-open-access',
+    templateUrl: './ncte-open-access.component.html',
+    standalone: false
 })
 
 export class NCTEOpenAccessComponent implements OnInit {

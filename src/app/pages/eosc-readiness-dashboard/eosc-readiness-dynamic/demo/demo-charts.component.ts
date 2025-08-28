@@ -15,8 +15,9 @@ import { PointOptionsObject, SeriesBubbleOptions, SeriesOptionsType } from "high
 import * as Highcharts from "highcharts";
 
 @Component({
-  selector: "demo-charts",
-  templateUrl: "./demo-charts.component.html",
+    selector: "demo-charts",
+    templateUrl: "./demo-charts.component.html",
+    standalone: false
 })
 
 export class DemoChartsComponent implements OnInit {

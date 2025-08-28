@@ -12,8 +12,9 @@ Exporting(Highcharts);
 ExportData(Highcharts);
 
 @Component({
-  selector: 'app-pie-chart',
-  template: '<div *ngIf="chartId" [id]="chartId"></div>',
+    selector: 'app-pie-chart',
+    template: '<div *ngIf="chartId" [id]="chartId"></div>',
+    standalone: false
 })
 export class PieChartComponent implements OnChanges {
 

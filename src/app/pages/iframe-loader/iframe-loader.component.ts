@@ -5,12 +5,11 @@ import { SafeUrlPipe } from "../../../survey-tool/catalogue-ui/shared/pipes/safe
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
 @Component({
-  selector: 'app-iframe-loader',
-  standalone: true,
-  templateUrl: './iframe-loader.component.html',
-  imports: [
-    NgIf
-  ]
+    selector: 'app-iframe-loader',
+    templateUrl: './iframe-loader.component.html',
+    imports: [
+        NgIf
+    ]
 })
 
 export class IframeLoaderComponent implements OnInit {

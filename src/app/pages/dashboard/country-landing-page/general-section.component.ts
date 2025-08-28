@@ -1,9 +1,10 @@
 import {Component, Input} from "@angular/core";
 
 @Component({
-  selector: 'country-landing-page-general',
-  templateUrl: 'general-section.component.html',
-  styleUrls: ['./country-landing-page.component.css'],
+    selector: 'country-landing-page-general',
+    templateUrl: 'general-section.component.html',
+    styleUrls: ['./country-landing-page.component.css'],
+    standalone: false
 })
 
 export class CountryLandingPageGeneralComponent {

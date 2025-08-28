@@ -19,18 +19,16 @@ import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
-  selector: 'app-open-data',
-  imports: [
-    CommonModule,
-    NgOptimizedImage,
-    CatalogueUiReusableComponentsModule,
-    ChartsModule,
-    SidebarMobileToggleComponent,
-    PageContentComponent
-  ],
-   standalone: true,
-  templateUrl: './open-data.component.html',
-
+    selector: 'app-open-data',
+    imports: [
+        CommonModule,
+        NgOptimizedImage,
+        CatalogueUiReusableComponentsModule,
+        ChartsModule,
+        SidebarMobileToggleComponent,
+        PageContentComponent
+    ],
+    templateUrl: './open-data.component.html'
 })
 export class OpenDataComponent implements OnInit {
   private destroyRef = inject(DestroyRef);

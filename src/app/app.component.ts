@@ -4,8 +4,9 @@ import {AuthenticationService} from "../survey-tool/app/services/authentication.
 import { DashboardSideMenuService } from "../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html'
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    standalone: false
 })
 export class AppComponent {
   title = 'observatory-ui';

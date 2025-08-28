@@ -13,8 +13,9 @@ import { ActivityGauge } from "../../../../../shared/charts/gauge-activity/gauge
 import * as UIkit from 'uikit';
 
 @Component({
-  selector: 'app-national-policy',
-  templateUrl: 'national-policy.component.html'
+    selector: 'app-national-policy',
+    templateUrl: 'national-policy.component.html',
+    standalone: false
 })
 
 export class NationalPolicyComponent implements OnInit {

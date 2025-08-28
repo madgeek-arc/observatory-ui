@@ -17,8 +17,9 @@ ExportData(Highcharts);
 
 
 @Component({
-  selector: 'app-tree-graph',
-  template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
+    selector: 'app-tree-graph',
+    template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
+    standalone: false
 })
 
 

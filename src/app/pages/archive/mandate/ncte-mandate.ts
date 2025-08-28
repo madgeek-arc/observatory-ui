@@ -8,8 +8,9 @@ import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 
 
 @Component({
-  selector: 'app-mandate',
-  templateUrl: 'ncte-mandate.html'
+    selector: 'app-mandate',
+    templateUrl: 'ncte-mandate.html',
+    standalone: false
 })
 
 export class NCTEMandate {

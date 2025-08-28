@@ -21,17 +21,16 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
 
 
 @Component({
-  selector: 'app-open-access-publications',
-  imports: [
-    CommonModule,
-    NgOptimizedImage,
-    ChartsModule,
-    CatalogueUiReusableComponentsModule,
-    SidebarMobileToggleComponent,
-    PageContentComponent
-  ],
-  standalone: true,
-  templateUrl: './open-access-publications.html',
+    selector: 'app-open-access-publications',
+    imports: [
+        CommonModule,
+        NgOptimizedImage,
+        ChartsModule,
+        CatalogueUiReusableComponentsModule,
+        SidebarMobileToggleComponent,
+        PageContentComponent
+    ],
+    templateUrl: './open-access-publications.html'
 })
 
 export class OpenAccessPublicationsPage implements OnInit {
