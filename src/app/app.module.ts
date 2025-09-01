@@ -44,9 +44,9 @@ import {
   ContributionsDashboardComponent
 } from "../survey-tool/app/pages/contributions-dashboard/contributions-dashboard.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {PageContentComponent} from "../survey-tool/app/shared/page-content/page-content.component";
+import { PageContentComponent } from "../survey-tool/app/shared/page-content/page-content.component";
 import {
-    SidebarMobileToggleComponent
+  SidebarMobileToggleComponent
 } from "../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 
 
@@ -63,6 +63,7 @@ import {
     CategoryIndicatorsWrapperComponent,
     CategoryIndicatorsRowComponent,
     ContributionsHomeExtentionComponent,
+    // ReportPieChartComponent,
   ],
     imports: [
         BrowserModule,

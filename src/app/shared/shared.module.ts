@@ -11,7 +11,7 @@ import { PipeModule } from "./pipes/pipe.module";
   imports: [
     CommonModule,
     RouterModule,
-    ChartsModule,
+    // ChartsModule,
     PipeModule
   ],
   exports: [
