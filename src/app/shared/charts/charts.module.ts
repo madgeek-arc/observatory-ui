@@ -20,7 +20,7 @@ import { FixedTooltipMapComponent } from "./fixed-tooltip-map/fixed-tooltip-map.
 import { BarOrColumnChartComponent } from "./bar-chart/bar-or-column-chart.component";
 import { StackedColumnComponent } from "./stacked-column-chart/stacked-column.component";
 import { TreemapComponent } from "./treemap/treemap.component";
-import { SankeyChartComponent } from "./sankey-chart/sankey-chart.component";
+
 
 @NgModule({
   imports: [
@@ -47,8 +47,7 @@ import { SankeyChartComponent } from "./sankey-chart/sankey-chart.component";
     FixedTooltipMapComponent,
     BarOrColumnChartComponent,
     StackedColumnComponent,
-    TreemapComponent,
-    SankeyChartComponent,
+    TreemapComponent
   ],
   exports: [
     HighchartsTilemapComponent,
@@ -70,7 +69,7 @@ import { SankeyChartComponent } from "./sankey-chart/sankey-chart.component";
     BarOrColumnChartComponent,
     StackedColumnComponent,
     TreemapComponent,
-    SankeyChartComponent,
+    // SankeyChartComponent,
   ]
 })
 
