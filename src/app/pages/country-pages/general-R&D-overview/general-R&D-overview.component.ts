@@ -12,16 +12,15 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
 
 
 @Component({
-  selector: 'app-general-R&D-overview',
-  standalone: true,
-  templateUrl: './general-R&D-overview.component.html',
-  imports: [
-    CommonModule,
-    NgOptimizedImage,
-    CatalogueUiReusableComponentsModule,
-    SidebarMobileToggleComponent,
-    PageContentComponent
-  ]
+    selector: 'app-general-R&D-overview',
+    templateUrl: './general-R&D-overview.component.html',
+    imports: [
+        CommonModule,
+        NgOptimizedImage,
+        CatalogueUiReusableComponentsModule,
+        SidebarMobileToggleComponent,
+        PageContentComponent
+    ]
 })
 
 export class GeneralRDOverviewComponent implements OnInit {

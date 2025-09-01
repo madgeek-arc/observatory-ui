@@ -12,8 +12,9 @@ import { CategorizedAreaData, Series } from "../../../../../domain/categorizedAr
 import * as UIkit from 'uikit';
 
 @Component({
-  selector: 'app-national-policy',
-  templateUrl: 'financial-strategy.component.html'
+    selector: 'app-national-policy',
+    templateUrl: 'financial-strategy.component.html',
+    standalone: false
 })
 
 export class FinancialStrategyComponent implements OnInit {

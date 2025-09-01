@@ -17,11 +17,10 @@ import { ChartsModule } from "src/app/shared/charts/charts.module";
 import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
-  selector: 'app-open-science-by-area-fair-data',
-  templateUrl: './open-science-by-area-fair-data.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-  standalone: true,
-  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent],
+    selector: 'app-open-science-by-area-fair-data',
+    templateUrl: './open-science-by-area-fair-data.component.html',
+    styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+    imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent]
 })
 
 export class OpenScienceByAreaFairDataComponent implements OnInit {

@@ -1081,9 +1081,10 @@ const data = [
 ]
 
 @Component({
-  selector: 'app-fixed-tooltip-map',
-  styleUrls: ['fixed-tooltip-map.component.scss'],
-  template: '<highcharts-chart id="container" [Highcharts]="Highcharts" [constructorType]="chartConstructor" [options]="chartOptions" style="width: 100%; height: 400px; display: block;"></highcharts-chart>'
+    selector: 'app-fixed-tooltip-map',
+    styleUrls: ['fixed-tooltip-map.component.scss'],
+    template: '<highcharts-chart id="container" [Highcharts]="Highcharts" [constructorType]="chartConstructor" [options]="chartOptions" style="width: 100%; height: 400px; display: block;"></highcharts-chart>',
+    standalone: false
 })
 
 export class FixedTooltipMapComponent implements OnChanges, OnInit {

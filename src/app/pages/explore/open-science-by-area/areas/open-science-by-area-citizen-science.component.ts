@@ -17,11 +17,10 @@ import * as Highcharts from "highcharts";
 import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
-  selector: 'app-open-science-by-area-citizen-science',
-  templateUrl: './open-science-by-area-citizen-science.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-  standalone: true,
-  imports: [CommonModule, SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent],
+    selector: 'app-open-science-by-area-citizen-science',
+    templateUrl: './open-science-by-area-citizen-science.component.html',
+    styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+    imports: [CommonModule, SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent]
 })
 
 export class OpenScienceByAreaCitizenScienceComponent implements OnInit {

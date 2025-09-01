@@ -20,8 +20,7 @@ import { FixedTooltipMapComponent } from "./fixed-tooltip-map/fixed-tooltip-map.
 import { BarOrColumnChartComponent } from "./bar-chart/bar-or-column-chart.component";
 import { StackedColumnComponent } from "./stacked-column-chart/stacked-column.component";
 import { TreemapComponent } from "./treemap/treemap.component";
-import { ReportPieChartComponent } from "./report-pie-chart/report-pie-chart.component";
-// import { SankeyChartComponent } from "./sankey-chart/sankey-chart.component";
+
 
 @NgModule({
   imports: [
@@ -48,9 +47,7 @@ import { ReportPieChartComponent } from "./report-pie-chart/report-pie-chart.com
     FixedTooltipMapComponent,
     BarOrColumnChartComponent,
     StackedColumnComponent,
-    TreemapComponent,
-    // SankeyChartComponent,
-    ReportPieChartComponent
+    TreemapComponent
   ],
   exports: [
     HighchartsTilemapComponent,
@@ -73,7 +70,6 @@ import { ReportPieChartComponent } from "./report-pie-chart/report-pie-chart.com
     StackedColumnComponent,
     TreemapComponent,
     // SankeyChartComponent,
-    ReportPieChartComponent
   ]
 })
 

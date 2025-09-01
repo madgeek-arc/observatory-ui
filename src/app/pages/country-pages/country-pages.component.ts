@@ -13,16 +13,15 @@ import {
 } from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
 
 @Component({
-  selector: 'app-country-pages',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    LowerCasePipe,
-    NgOptimizedImage,
-    DashboardSideMenuComponent
-  ],
-  templateUrl: './country-pages.component.html',
-  styleUrls: ['../../../assets/css/explore-sidebar.less', '../../../assets/css/explore-dashboard.less']
+    selector: 'app-country-pages',
+    imports: [
+        RouterOutlet,
+        LowerCasePipe,
+        NgOptimizedImage,
+        DashboardSideMenuComponent
+    ],
+    templateUrl: './country-pages.component.html',
+    styleUrls: ['../../../assets/css/explore-sidebar.less', '../../../assets/css/explore-dashboard.less']
 })
 
 

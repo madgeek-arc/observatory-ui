@@ -10,8 +10,9 @@ import { CategorizedAreaData, Series } from "../../../../../../domain/categorize
 import * as UIkit from 'uikit';
 
 @Component({
-  selector: 'app-use-case-subcategories',
-  templateUrl: 'use-cases-subcategories.component.html'
+    selector: 'app-use-case-subcategories',
+    templateUrl: 'use-cases-subcategories.component.html',
+    standalone: false
 })
 
 export class UseCasesSubcategoriesComponent implements OnInit {

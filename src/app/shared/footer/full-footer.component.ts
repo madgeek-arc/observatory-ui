@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 
 @Component({
-  selector: 'app-full-footer',
-  templateUrl: './full-footer.component.html',
-  styleUrls: ['./footer.component.css']
+    selector: 'app-full-footer',
+    templateUrl: './full-footer.component.html',
+    styleUrls: ['./footer.component.css'],
+    standalone: false
 })
 export class FullFooterComponent {
 

@@ -19,10 +19,9 @@ import * as UIkit from 'uikit';
 
 
 @Component({
-  selector: 'app-resource-registry-search',
-  standalone: true,
-  templateUrl: './search.component.html',
-  imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, NgOptimizedImage, PageContentComponent, SidebarMobileToggleComponent],
+    selector: 'app-resource-registry-search',
+    templateUrl: './search.component.html',
+    imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, NgOptimizedImage, PageContentComponent, SidebarMobileToggleComponent]
 })
 
 export class SearchComponent implements OnInit {

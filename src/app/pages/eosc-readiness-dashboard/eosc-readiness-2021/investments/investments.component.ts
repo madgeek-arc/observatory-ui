@@ -11,8 +11,9 @@ import { zip } from "rxjs/internal/observable/zip";
 import * as UIkit from 'uikit';
 
 @Component({
-  selector: 'app-investments',
-  templateUrl: 'investments.component.html'
+    selector: 'app-investments',
+    templateUrl: 'investments.component.html',
+    standalone: false
 })
 
 export class InvestmentsComponent implements OnInit {

@@ -13,17 +13,16 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
 
 
 @Component({
-  selector: 'app-data-management',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgOptimizedImage,
-    CatalogueUiReusableComponentsModule,
-    ChartsModule,
-    SidebarMobileToggleComponent,
-    PageContentComponent
-  ],
-  templateUrl: './data-management.component.html',
+    selector: 'app-data-management',
+    imports: [
+        CommonModule,
+        NgOptimizedImage,
+        CatalogueUiReusableComponentsModule,
+        ChartsModule,
+        SidebarMobileToggleComponent,
+        PageContentComponent
+    ],
+    templateUrl: './data-management.component.html'
 })
 export class DataManagementComponent implements OnInit {
   private destroyRef = inject(DestroyRef);

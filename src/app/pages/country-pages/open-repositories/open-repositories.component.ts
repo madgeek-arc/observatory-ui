@@ -10,16 +10,15 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
 
 
 @Component({
-  selector: 'app-open-repositories',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgOptimizedImage,
-    CatalogueUiReusableComponentsModule,
-    SidebarMobileToggleComponent,
-    PageContentComponent
-  ],
-  templateUrl: './open-repositories.component.html',
+    selector: 'app-open-repositories',
+    imports: [
+        CommonModule,
+        NgOptimizedImage,
+        CatalogueUiReusableComponentsModule,
+        SidebarMobileToggleComponent,
+        PageContentComponent
+    ],
+    templateUrl: './open-repositories.component.html'
 })
 
 export class OpenRepositoriesComponent implements OnInit {

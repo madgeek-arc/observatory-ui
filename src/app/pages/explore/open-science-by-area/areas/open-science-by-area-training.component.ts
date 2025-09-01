@@ -17,10 +17,9 @@ import * as Highcharts from "highcharts";
 import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
-  selector: 'app-open-science-by-area-training',
-  templateUrl: './open-science-by-area-training.component.html',
-  standalone: true,
-  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent],
+    selector: 'app-open-science-by-area-training',
+    templateUrl: './open-science-by-area-training.component.html',
+    imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent]
 })
 
 export class OpenScienceByAreaTrainingComponent implements OnInit {

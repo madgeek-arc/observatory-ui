@@ -3,8 +3,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import * as UIkit from 'uikit';
 
 @Component({
-  selector: 'app-practices-2022',
-  templateUrl: 'practices2022.component.html'
+    selector: 'app-practices-2022',
+    templateUrl: 'practices2022.component.html',
+    standalone: false
 })
 
 export class Practices2022Component implements OnInit {

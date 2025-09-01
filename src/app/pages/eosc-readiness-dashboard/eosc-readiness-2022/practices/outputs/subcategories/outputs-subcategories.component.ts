@@ -15,8 +15,9 @@ import * as UIkit from 'uikit';
 registerLocaleData(localeEL); // Register Greek locale
 
 @Component({
-  selector: 'app-outputs-subcategories',
-  templateUrl: 'outputs-subcategories.component.html'
+    selector: 'app-outputs-subcategories',
+    templateUrl: 'outputs-subcategories.component.html',
+    standalone: false
 })
 
 export class OutputsSubcategoriesComponent implements OnInit {

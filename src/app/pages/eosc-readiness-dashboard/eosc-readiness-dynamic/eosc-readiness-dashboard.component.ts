@@ -5,9 +5,10 @@ import { UserInfo } from "../../../../survey-tool/app/domain/userInfo";
 declare var UIkit;
 
 @Component({
-  selector: 'app-national-contributions-to-eosc-dashboard',
-  templateUrl: './eosc-readiness-dashboard.component.html',
-  styleUrls: ['../eosc-readiness-dashboard.component.css'],
+    selector: 'app-national-contributions-to-eosc-dashboard',
+    templateUrl: './eosc-readiness-dashboard.component.html',
+    styleUrls: ['../eosc-readiness-dashboard.component.css'],
+    standalone: false
 })
 
 export class EoscReadinessDashboardComponent implements OnInit, AfterViewInit {

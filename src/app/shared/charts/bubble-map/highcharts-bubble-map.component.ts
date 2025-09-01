@@ -11,9 +11,10 @@ const worldMap = require('@highcharts/map-collection/custom/world-highres3.topo.
 
 
 @Component({
-  selector: 'app-highcharts-bubble-map',
-  templateUrl: 'highcharts-bubble-map.component.html',
-  styleUrls: ['highcharts-bubble-map.component.scss']
+    selector: 'app-highcharts-bubble-map',
+    templateUrl: 'highcharts-bubble-map.component.html',
+    styleUrls: ['highcharts-bubble-map.component.scss'],
+    standalone: false
 })
 
 export class HighchartsBubbleMapComponent implements OnChanges {

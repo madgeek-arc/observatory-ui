@@ -31,11 +31,10 @@ import { PageContentComponent } from "../../../../../survey-tool/app/shared/page
 
 
 @Component({
-  selector: 'app-open-science-by-area-publications',
-  templateUrl: './open-science-by-area-publications.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-  standalone: true,
-  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent],
+    selector: 'app-open-science-by-area-publications',
+    templateUrl: './open-science-by-area-publications.component.html',
+    styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+    imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent]
 })
 
 export class OpenScienceByAreaPublicationsComponent implements OnInit {

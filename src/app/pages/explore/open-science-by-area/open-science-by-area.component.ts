@@ -5,10 +5,9 @@ import { RouterModule } from "@angular/router";
 
 
 @Component({
-  standalone: true,
-  selector: 'app-open-science-by-area',
-  templateUrl: './open-science-by-area.component.html',
-  imports: [SidebarMobileToggleComponent, CommonModule, RouterModule],
+    selector: 'app-open-science-by-area',
+    templateUrl: './open-science-by-area.component.html',
+    imports: [SidebarMobileToggleComponent, CommonModule, RouterModule]
 })
 
 export class OpenScienceByAreaComponent implements OnInit {

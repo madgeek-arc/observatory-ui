@@ -3,8 +3,9 @@ import { CountryTableData } from "../../domain/country-table-data";
 
 
 @Component({
-  selector: 'app-countries-table',
-  templateUrl: './countries-table.component.html',
+    selector: 'app-countries-table',
+    templateUrl: './countries-table.component.html',
+    standalone: false
 })
 
 export class CountriesTableComponent implements OnChanges {

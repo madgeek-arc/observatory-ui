@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse} from "@angular/common/http";
-import {Observable, throwError} from "rxjs";
-import {catchError} from "rxjs/operators";
-import {Router} from "@angular/router";
-import {UserService} from "../../../survey-tool/app/services/user.service";
+import { Injectable } from "@angular/core";
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { Observable, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
+import { Router } from "@angular/router";
+import { UserService } from "../../../survey-tool/app/services/user.service";
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {

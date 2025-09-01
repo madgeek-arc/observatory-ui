@@ -9,8 +9,9 @@ Exporting(Highcharts);
 ExportData(Highcharts);
 
 @Component({
-  selector: 'app-treemap',
-  template: `<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>`
+    selector: 'app-treemap',
+    template: `<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>`,
+    standalone: false
 })
 
 export class TreemapComponent implements OnChanges {

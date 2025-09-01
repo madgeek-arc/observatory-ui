@@ -9,10 +9,9 @@ import { PageContentComponent } from 'src/survey-tool/app/shared/page-content/pa
 import { SidebarMobileToggleComponent } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
 
 @Component({
-  selector: 'app-document-landing',
-  standalone: true,
-  imports: [NgOptimizedImage, CommonModule, PageContentComponent, SidebarMobileToggleComponent],
-  templateUrl: './document-landing.component.html',
+    selector: 'app-document-landing',
+    imports: [NgOptimizedImage, CommonModule, PageContentComponent, SidebarMobileToggleComponent],
+    templateUrl: './document-landing.component.html'
 })
 
 export class DocumentLandingComponent implements OnInit {

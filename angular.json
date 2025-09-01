@@ -114,10 +114,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "observatory-ui:build:production"
+              "buildTarget": "observatory-ui:build:production"
             },
             "development": {
-              "browserTarget": "observatory-ui:build:development"
+              "buildTarget": "observatory-ui:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -125,7 +125,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "observatory-ui:build"
+            "buildTarget": "observatory-ui:build"
           }
         },
         "test": {

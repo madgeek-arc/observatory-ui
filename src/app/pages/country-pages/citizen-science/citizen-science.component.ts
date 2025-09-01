@@ -10,16 +10,15 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
 
 
 @Component({
-  selector: 'app-citizen-science',
-  standalone: true,
-  templateUrl: './citizen-science.component.html',
-  imports: [
-    CommonModule,
-    NgOptimizedImage,
-    CatalogueUiReusableComponentsModule,
-    SidebarMobileToggleComponent,
-    PageContentComponent
-  ]
+    selector: 'app-citizen-science',
+    templateUrl: './citizen-science.component.html',
+    imports: [
+        CommonModule,
+        NgOptimizedImage,
+        CatalogueUiReusableComponentsModule,
+        SidebarMobileToggleComponent,
+        PageContentComponent
+    ]
 })
 export class CitizenScienceComponent implements OnInit {
   private destroyRef = inject(DestroyRef);

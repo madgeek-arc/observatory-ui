@@ -1,9 +1,10 @@
 import {Component, Input} from "@angular/core";
 
 @Component({
-  selector: 'policies-category-indicators',
-  templateUrl: 'policies-category-indicators.component.html',
-  styleUrls: ['../country-landing-page.component.css'],
+    selector: 'policies-category-indicators',
+    templateUrl: 'policies-category-indicators.component.html',
+    styleUrls: ['../country-landing-page.component.css'],
+    standalone: false
 })
 
 export class PoliciesCategoryIndicatorsComponent {

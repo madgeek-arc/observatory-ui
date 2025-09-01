@@ -1,8 +1,9 @@
-import { Component, Input, OnInit, EventEmitter, SimpleChanges, OnChanges, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import * as Highcharts from 'highcharts';
+import { SeriesPieOptions } from 'highcharts';
 import Exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
-import { SeriesPieOptions } from 'highcharts';
+import { HighchartsChartModule } from "highcharts-angular";
 
 
 Exporting(Highcharts);
@@ -10,9 +11,13 @@ ExportData(Highcharts);
 
 @Component({
   selector: 'app-report-pie-chart',
-  templateUrl: './report-pie-chart.component.html',
-  styleUrls: ['./report-pie-chart.component.less']
+  standalone: true,
+  imports: [
+    HighchartsChartModule
+  ],
+  template: `<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" style="width: 100%; height: 400px; display: block;"></highcharts-chart>`
 })
+
 export class ReportPieChartComponent implements OnInit, OnChanges {
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options = {};
@@ -22,11 +27,11 @@ export class ReportPieChartComponent implements OnInit, OnChanges {
   @Output() chartReady = new EventEmitter<Highcharts.Chart>();
 
   ngOnChanges(changes: SimpleChanges): void {
-  if (changes['series'] && this.series) {
-    this.updateChartOptions(); // Αν αλλάξουν τα series, ενημέρωσε το γράφημα
-    console.log('Series updated:', this.series);
+    if (changes['series'] && this.series) {
+      this.updateChartOptions(); // Αν αλλάξουν τα series, ενημέρωσε το γράφημα
+      console.log('Series updated:', this.series);
+    }
   }
-}
 
 
   ngOnInit(): void {
@@ -35,15 +40,15 @@ export class ReportPieChartComponent implements OnInit, OnChanges {
 
   updateChartOptions() {
     const that = this;
-     this.chartOptions = {
+    this.chartOptions = {
       chart: {
         type: 'pie',
-       events: {
-                 load(this: Highcharts.Chart) {
-                   // `this` is already typed as the Chart instance
-                   that.chartReady.emit(this);
-                 }
-               }
+        events: {
+          load(this: Highcharts.Chart) {
+            // `this` is already typed as the Chart instance
+            that.chartReady.emit(this);
+          }
+        }
       },
       title: {
         text: 'Monitoring'
@@ -77,5 +82,5 @@ export class ReportPieChartComponent implements OnInit, OnChanges {
       series: this.series.length > 0 ? this.series : []
     };
   }
-  }
+}
 

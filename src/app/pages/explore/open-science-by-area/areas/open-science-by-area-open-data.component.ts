@@ -25,11 +25,10 @@ import { PageContentComponent } from "../../../../../survey-tool/app/shared/page
 
 
 @Component({
-  selector: 'app-open-science-by-area-open-data',
-  templateUrl: './open-science-by-area-open-data.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-  standalone: true,
-  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent]
+    selector: 'app-open-science-by-area-open-data',
+    templateUrl: './open-science-by-area-open-data.component.html',
+    styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+    imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent]
 })
 
 export class OpenScienceByAreaOpenDataComponent implements OnInit {

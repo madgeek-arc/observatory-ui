@@ -16,8 +16,9 @@ import { CategorizedAreaData, Series } from "../../../domain/categorizedAreaData
 // declare var UIkit;
 
 @Component({
-  selector: 'app-open-science-impact',
-  templateUrl: './open-science-impact.component.html',
+    selector: 'app-open-science-impact',
+    templateUrl: './open-science-impact.component.html',
+    standalone: false
 })
 
 export class OpenScienceImpactComponent implements OnInit {

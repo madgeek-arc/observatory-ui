@@ -11,16 +11,15 @@ import {
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
-  selector: 'app-open-science-training',
-  templateUrl: './open-science-training.component.html',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgOptimizedImage,
-    CatalogueUiReusableComponentsModule,
-    SidebarMobileToggleComponent,
-    PageContentComponent
-  ],
+    selector: 'app-open-science-training',
+    templateUrl: './open-science-training.component.html',
+    imports: [
+        CommonModule,
+        NgOptimizedImage,
+        CatalogueUiReusableComponentsModule,
+        SidebarMobileToggleComponent,
+        PageContentComponent
+    ]
 })
 export class OpenScienceTrainingComponent  implements OnInit {
   private destroyRef = inject(DestroyRef);

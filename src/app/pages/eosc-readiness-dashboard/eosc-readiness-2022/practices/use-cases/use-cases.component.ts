@@ -12,8 +12,9 @@ import { countries } from "../../../../../domain/countries";
 import * as UIkit from 'uikit';
 
 @Component({
-  selector: 'app-national-policy',
-  templateUrl: 'use-cases.component.html'
+    selector: 'app-national-policy',
+    templateUrl: 'use-cases.component.html',
+    standalone: false
 })
 
 export class UseCasesComponent implements OnInit {

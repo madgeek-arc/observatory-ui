@@ -21,17 +21,16 @@ class TableRow {
 }
 
 @Component({
-  selector: 'app-policy-overview',
-  standalone: true,
-  templateUrl: './policy-overview.component.html',
-  styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
-  imports: [
-    NgOptimizedImage,
-    CommonModule,
-    CatalogueUiReusableComponentsModule,
-    SidebarMobileToggleComponent,
-    PageContentComponent
-  ]
+    selector: 'app-policy-overview',
+    templateUrl: './policy-overview.component.html',
+    styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
+    imports: [
+        NgOptimizedImage,
+        CommonModule,
+        CatalogueUiReusableComponentsModule,
+        SidebarMobileToggleComponent,
+        PageContentComponent
+    ]
 })
 
 export class PolicyOverviewComponent {

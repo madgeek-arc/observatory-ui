@@ -16,10 +16,9 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
 type MergedElement = { x: string; y: string; z: string; name: string; country: string };
 
 @Component({
-  selector: 'app-investments-in-eosc',
-  templateUrl: './investments-in-eosc.component.html',
-  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent],
-  standalone: true,
+    selector: 'app-investments-in-eosc',
+    templateUrl: './investments-in-eosc.component.html',
+    imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent]
 })
 
 export class InvestmentsInEoscComponent implements OnInit {

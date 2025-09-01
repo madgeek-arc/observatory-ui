@@ -21,11 +21,10 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
 
 
 @Component({
-  selector: 'app-open-science-policies',
-  templateUrl: './open-science-policies.component.html',
-  styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
-  standalone: true,
-  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, PageContentComponent],
+    selector: 'app-open-science-policies',
+    templateUrl: './open-science-policies.component.html',
+    styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
+    imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, PageContentComponent]
 })
 
 export class OpenSciencePoliciesComponent implements OnInit {

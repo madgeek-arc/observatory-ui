@@ -16,9 +16,10 @@ const worldMap = require('@highcharts/map-collection/custom/world-highres3.topo.
 let componentContext;
 
 @Component({
-  selector: 'app-highcharts-color-axis',
-  templateUrl: 'highcharts-color-axis-map.component.html',
-  styles: ['#container {display: block; width: 100%; height: 100%; }']
+    selector: 'app-highcharts-color-axis',
+    templateUrl: 'highcharts-color-axis-map.component.html',
+    styles: ['#container {display: block; width: 100%; height: 100%; }'],
+    standalone: false
 })
 
 export class HighchartsColorAxisMapComponent {

@@ -15,10 +15,11 @@ import { takeUntil } from "rxjs/operators";
 import * as UIkit from 'uikit';
 
 @Component({
-  selector: 'app-top-menu-dashboard',
-  templateUrl: 'top-menu-dashboard.component.html',
-  styleUrls: ['../top-menu.component.css', './top-menu-dashboard.component.less'],
-  providers: [PrivacyPolicyService]
+    selector: 'app-top-menu-dashboard',
+    templateUrl: 'top-menu-dashboard.component.html',
+    styleUrls: ['../top-menu.component.css', './top-menu-dashboard.component.less'],
+    providers: [PrivacyPolicyService],
+    standalone: false
 })
 
 export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
