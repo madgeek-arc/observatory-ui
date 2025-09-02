@@ -3,8 +3,8 @@
     <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
   <div inner>
-    <div class="uk-section uk-section-small uk-section-primary uk-preserve-color">
-      <div class="uk-container  uk-margin-top">
+    <div *ngIf="!isAdminPage" class="uk-section uk-section-small uk-section-primary uk-preserve-color">
+      <div class="uk-container uk-margin-top">
         <h4>European Open Science Resources Registry</h4>
         <div class="">
           <div class="uk-grid-match" uk-grid>
@@ -46,6 +46,11 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="uk-section uk-section-small" [ngClass]="isAdminPage ? 'uk-section-default' : 'uk-section-primary uk-preserve-color'">
+      <div class="uk-container uk-margin-top">
 
         <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-bottom">
           <div class="uk-flex uk-flex-left uk-flex-middle">
@@ -156,46 +161,71 @@
 
 
         <div *ngIf="documents.results.length > 0; else noResults">
-          <div *ngFor="let doc of documents.results" class="uk-card uk-card-default uk-card-body uk-margin-bottom">
-            <div class="uk-flex uk-flex-middle uk-flex-between uk-margin-small-bottom">
-              <div class="uk-flex uk-flex-middle">
-                <!-- {{doc.docInfo | json}} -->
-                <img *ngIf="doc.docInfo?.country && doc.docInfo.country !== 'EU'"
-                  ngSrc="../../survey-tool/assets/images/flags/{{doc.docInfo?.country | lowercase}}-flag-round.png"
-                  class="flag-image uk-margin-small-right" width="30" height="20" alt="{{doc.docInfo?.country}} flag">
-                <strong>
-                  <a [routerLink]="['../document-landing', doc.id]">
-                    {{ doc.docInfo?.title }}
-                  </a>
-                </strong>
-                <span style="margin-left: 20px;"></span>
+          <div *ngFor="let doc of documents.results" class="uk-card uk-card-default uk-margin-bottom">
+            <div class="uk-card-body">
+              <div *ngIf="isAdminPage" class="uk-flex uk-flex-right uk-margin-bottom">
+                <div class="" [ngClass]="{'uk-label-success': doc.status === 'APPROVED','uk-label-danger': doc.status === 'REJECTED','uk-label-warning': doc.status === 'PENDING'}">
+                  {{ doc.status }}
+                </div>
+              </div>
+              <div *ngIf="!doc.docInfo; else docInfoFound">
+                No information was found or generated for this URL <a href="{{doc.url}}" target="_blank">{{doc.url}}</a>
+              </div>
+              <ng-template #docInfoFound>
+                <div class="uk-card-title">
+                  <div class="uk-flex uk-flex-middle uk-flex-between uk-margin-small-bottom">
+                    <div class="uk-flex uk-flex-middle">
+                      <!-- {{doc.docInfo | json}} -->
+                      <img *ngIf="doc.docInfo?.country && doc.docInfo.country !== 'EU'"
+                           ngSrc="../../survey-tool/assets/images/flags/{{doc.docInfo?.country | lowercase}}-flag-round.png"
+                           class="flag-image uk-margin-small-right" width="30" height="20" alt="{{doc.docInfo?.country}} flag">
+                      <img *ngIf="doc.docInfo?.country && doc.docInfo.country === 'EU'"
+                           ngSrc="../../survey-tool/assets/images/flags/europe-flag.jpg"
+                           class="flag-image uk-margin-small-right" width="30" height="20" alt="{{doc.docInfo?.country}} flag">
+                      <strong>
+                        <a [routerLink]="['../document-landing', doc.id]">
+                          {{ doc.docInfo?.title }}
+                        </a>
+                      </strong>
+                      <span style="margin-left: 20px;"></span>
 
-                <a *ngIf="doc.url" [href]="doc.url" target="_blank">
+                      <a *ngIf="doc.url" [href]="doc.url" target="_blank">
                   <span class="material-symbols-outlined" style="font-size: 20px; vertical-align: middle;">
                     open_in_new
                   </span>
-                </a>
-              </div>
-              <div class="uk-flex uk-flex-middle">
-                <span *ngFor="let tag of doc.docInfo?.tags" class="uk-label uk-margin-small-right uk-label-primary uk-text-bold">
+                      </a>
+                    </div>
+                    <div class="uk-flex uk-flex-middle">
+                <span *ngFor="let tag of doc.docInfo?.tags" class="uk-label uk-margin-small-left uk-label-primary uk-text-bold">
                   {{tag}}
                 </span>
-              </div>
+                    </div>
 
-            </div>
-            <p>
+                  </div>
+                </div>
+
+                <p>
               <span *ngIf="doc.docInfo?.publicationDate">
                 Publication Date: {{ doc.docInfo.publicationDate | date:'mediumDate' }}
               </span>
-            </p>
-            <p>
+                </p>
+                <p>
               <span *ngIf="doc.docInfo?.startDate || doc.docInfo?.endDate">
                 Start: {{ doc.docInfo?.startDate | date:'mediumDate' }} - End: {{ doc.docInfo?.endDate | date:'mediumDate' }}
               </span>
-            </p>
-            <p [ngClass]="{'uk-text-bold': doc.docInfo?.shortDescription?.generated}">
-              {{ doc.docInfo?.shortDescription?.text }}
-            </p>
+                </p>
+                <p [ngClass]="{'uk-text-bold': doc.docInfo?.shortDescription?.generated}">
+                  {{ doc.docInfo?.shortDescription?.text }}
+                </p>
+              </ng-template>
+            </div>
+            <div class="uk-card-footer">
+              <div class="uk-flex uk-flex-right">
+                <a href="#" class="uk-link uk-link-reset uk-margin-medium-right uk-flex uk-flex-middle uk-disabled uk-text-small" title="Coming soon.."><span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">edit</span>Edit</a>
+<!--                <hr class="uk-divider-vertical">-->
+                <a href="#" class="uk-link uk-link-reset uk-flex uk-flex-middle uk-disabled uk-text-small" title="Coming soon.." style="padding-left: 40px; border-left: 1px solid #ccc;"><span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">check_circle</span>Approve</a>
+              </div>
+            </div>
           </div>
 
           <!--Pagination Section-->

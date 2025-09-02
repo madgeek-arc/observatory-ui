@@ -3,11 +3,15 @@ export interface Document {
     text: string;
     sentences: string[];
     sentencesEn: string[];
+    paragraphs: string[];
+    paragraphsEn: string[];
     id: string;
     url: string;
     metadata: Metadata;
     references: reference[];
     status: string;
+    source: string;
+    curated: boolean;
 }
 
 export interface Content {
@@ -38,6 +42,7 @@ interface Description {
 interface Link{
     name: string;
     pid:string;
+    type: string;
     url: string;
     description: string;
 }

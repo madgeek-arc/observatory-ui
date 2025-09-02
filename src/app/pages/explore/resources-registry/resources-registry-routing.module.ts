@@ -1,15 +1,20 @@
 import { Routes, RouterModule } from '@angular/router';
-import { DocumentLandingComponent } from './Document-landing/document-landing/document-landing.component';
-import { SearchComponent } from './Search/search/search.component';
+import { DocumentLandingComponent } from './document-landing/document-landing.component';
+import { SearchComponent } from './search/search.component';
 import { NgModule } from '@angular/core';
 
 export const resourcesRegistryRoutes: Routes = [
   {
-    path: 'document-landing/:id',
+    path: '',
+    redirectTo: 'search',
+    pathMatch: 'full',
+  },
+  {
+    path: 'document-landing/:documentId',
     component: DocumentLandingComponent
   },
   {
-    path: '',
+    path: 'search',
     component: SearchComponent
   }
 ];

@@ -53,12 +53,21 @@ export class SearchComponent implements OnInit {
   totalPages: number = 0;
   offset: number = 2;
 
+  isAdminPage: boolean = false;
+
  // Constructor & Initialization
 
   constructor(private resourceService: ResourceRegistryService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-   // Subscribe to route parameters to get initial data
+
+    if(this.route.snapshot.paramMap.get('stakeholderId') && this.route.snapshot.paramMap.get('stakeholderId') === 'admin-eosc-sb') {
+      this.isAdminPage = true
+    }
+    console.log(this.isAdminPage);
+    console.log(this.route.snapshot.paramMap.get('stakeholderId'));
+
+    // Subscribe to route parameters to get initial data
     this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       // console.log('Reading url params');
       this.urlParameters = [];
@@ -228,7 +237,7 @@ export class SearchComponent implements OnInit {
     }
     // console.log('Navigating with params:', map);
 
-    this.router.navigate(['/explore/resource-registry/search'], { queryParams: map });
+    this.router.navigate(['.'], {relativeTo: this.route, queryParams: map});
   }
 
   /** Filter methods ----------------------------------------------------------------------------------------------->**/

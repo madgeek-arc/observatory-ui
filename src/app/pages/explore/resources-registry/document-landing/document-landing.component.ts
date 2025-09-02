@@ -20,9 +20,16 @@ export class DocumentLandingComponent implements OnInit {
   error: string = null;
   destroyRef = inject(DestroyRef);
 
+  isAdminPage: boolean = false;
+
   constructor(private route: ActivatedRoute, private documentService: ResourceRegistryService) {}
 
     ngOnInit() {
+
+    if(this.route.snapshot.paramMap.get('stakeholderId') && this.route.snapshot.paramMap.get('stakeholderId') === 'admin-eosc-sb') {
+        this.isAdminPage = true
+      }
+
       this.documentId = this.route.snapshot.paramMap.get('documentId');
       if (this.documentId) {
         this.documentService.getDocumentById(this.documentId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({

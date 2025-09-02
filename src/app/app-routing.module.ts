@@ -10,6 +10,9 @@ import { countryPagesRoutes } from "./pages/country-pages/country-pages.routing"
 import { CountrySelectorComponent } from "./pages/dashboard/country-selector/country-selector.component";
 import { ArchiveModule } from "./pages/archive/archive.module";
 import { ArchiveGuardService } from "./pages/services/archiveGuard.service";
+import {
+  ContributionsHomeComponent
+} from "../survey-tool/app/pages/contributions-dashboard/home/contributions-home.component";
 
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: "enabled",
@@ -70,6 +73,10 @@ const routes: Routes = [
   {
     path: 'contributions/:id',
     loadChildren: () => import('../messaging-system-ui/app/messaging-system.module').then(m => m.MessagingSystemModule),
+  },
+  {
+    path: 'contributions/:stakeholderId/resources-registry',
+    loadChildren: () => import('./pages/explore/resources-registry/resources-registry.module').then(m => m.ResourcesRegistryModule),
   },
   {
     path: 'contributions/:id/',
