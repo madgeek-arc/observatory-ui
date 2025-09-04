@@ -10,6 +10,8 @@ import { ExploreService } from "../../explore/explore.service";
 import { ChartsModule } from "../../../shared/charts/charts.module";
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
+
 
 @Component({
     selector: 'app-fair-data',
@@ -19,7 +21,8 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
         CatalogueUiReusableComponentsModule,
         ChartsModule,
         SidebarMobileToggleComponent,
-        PageContentComponent
+        PageContentComponent,
+        InfoCardComponent
     ],
     templateUrl: './fair-data.component.html'
 })

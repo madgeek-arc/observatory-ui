@@ -7,17 +7,19 @@ import {
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
 
 @Component({
     selector: 'app-open-software',
     templateUrl: './open-software.component.html',
     imports: [
-        CommonModule,
-        NgOptimizedImage,
-        CatalogueUiReusableComponentsModule,
-        SidebarMobileToggleComponent,
-        PageContentComponent
-    ]
+    CommonModule,
+    NgOptimizedImage,
+    CatalogueUiReusableComponentsModule,
+    SidebarMobileToggleComponent,
+    PageContentComponent,
+    InfoCardComponent
+]
 })
 
 export class OpenSoftwareComponent implements OnInit{
@@ -82,6 +84,7 @@ export class OpenSoftwareComponent implements OnInit{
     this.rpoSoftwarePercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question24']?.['Question24-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']);
     this.rpoSoftwarePercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question24']?.['Question24-0'], this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0']);
     this.rpoSoftwarePercentageDiff = this.dataShareService.calculateDiff(this.rpoSoftwarePercentage[0], this.rpoSoftwarePercentage[1]);
+
 
     this.softwareFinancialInvestment[1] = this.surveyAnswers[1]?.['Practices']?.['Question72']?.['Question72-0'];
     this.softwareFinancialInvestment[0] = this.surveyAnswers[0]?.['Practices']?.['Question72']?.['Question72-0'];

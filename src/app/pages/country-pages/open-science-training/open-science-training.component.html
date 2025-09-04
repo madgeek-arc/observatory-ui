@@ -59,87 +59,37 @@
               </div>
             </div> -->
 
-                <!-- Card 2 -->
-                <div *ngIf="rfoTrainingPercentage[1] !== null" class="uk-animation-scale-up">
-                  <div class="uk-card card-simple uk-card-small uk-card-body">
-                    <p>Percentage of <span class="uk-text-bold">RFO's Policy on Repositories</span></p>
-                    <div class="number big uk-margin-medium-top">
-                      <span class="uk-text-bold">{{ rfoTrainingPercentage[1] }}%</span>
-                    </div>
-                    <div *ngIf="rfoTrainingPercentageDiff !== null"
-                      class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
-                      <div class="uk-flex uk-flex-middle">
-                        <span class="material-symbols-outlined"
-                          [ngClass]="rfoTrainingPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                          {{ rfoTrainingPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                        </span>
-                        <span
-                          [ngClass]="rfoTrainingPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                          {{ Math.abs(rfoTrainingPercentageDiff) }}%
-                        </span>&nbsp; vs last year
-                      </div>
-                      <div>
-                        <img
-                          [ngSrc]="'../assets/images/explore/' + (rfoTrainingPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                          alt="trend image" height="50" width="99">
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                <!-- Card 3 -->
-                <div *ngIf="trainingFinancialInvestment[1] !== null" class="uk-animation-scale-up">
-                  <div class="uk-card card-simple uk-card-small uk-card-body">
-                    <p>Total <span class="uk-text-bold">financial investment in repositories</span></p>
-                    <div class="number big uk-margin-medium-top">
-                      <span class="uk-text-bold">{{ trainingFinancialInvestment[1] + ' mil Euro' }}</span>
-                    </div>
-                    <div *ngIf="trainingFinancialInvestmentPercentageDiff !== null"
-                      class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
-                      <div class="uk-flex uk-flex-middle">
-                        <span class="material-symbols-outlined"
-                          [ngClass]="trainingFinancialInvestmentPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                          {{ trainingFinancialInvestmentPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                        </span>
-                        <span
-                          [ngClass]="trainingFinancialInvestmentPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                          {{ Math.abs(trainingFinancialInvestmentPercentageDiff) }}%
-                        </span>&nbsp; vs last year
-                      </div>
-                      <div>
-                        <img [ngSrc]="'../assets/images/explore/' + (trainingFinancialInvestmentPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                          alt="trend image" height="50" width="99">
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <!--Card 2-->
 
-                <!-- Card 4 -->
-                <div *ngIf="rpoTrainingPercentage[1] !== null" class="uk-animation-scale-up">
-                  <div class="uk-card card-simple uk-card-small uk-card-body">
-                    <p>Percentage of <span class="uk-text-bold">RPO's Policy in Repositories</span></p>
-                    <div class="number big uk-margin-medium-top">
-                      <span class="uk-text-bold">{{ rpoTrainingPercentage[1] }}%</span>
-                    </div>
-                    <div *ngIf="rpoTrainingPercentageDiff !== null"
-                      class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
-                      <div class="uk-flex uk-flex-middle">
-                        <span class="material-symbols-outlined"
-                          [ngClass]="rpoTrainingPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                          {{ rpoTrainingPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                        </span>
-                        <span
-                          [ngClass]="rpoTrainingPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                          {{ Math.abs(rpoTrainingPercentageDiff) }}%
-                        </span>&nbsp; vs last year
-                      </div>
-                      <div>
-                        <img [ngSrc]="'../assets/images/explore/' + (rpoTrainingPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                          alt="trend image" height="50" width="99">
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <app-info-card
+                  *ngIf="rfoTrainingPercentage[1] !== null"
+                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Repositories</span>`"
+                  [value]="rfoTrainingPercentage[1]"
+                  [unit]="'%'"
+                  [diff]="rfoTrainingPercentageDiff">
+                </app-info-card>
+
+
+                <!--Card 3-->
+
+                <app-info-card
+                  *ngIf="trainingFinancialInvestment[1] !== null"
+                  [titleHtml]="`Total <span class='uk-text-bold'>financial investment in repositories</span>`"
+                  [value]="trainingFinancialInvestment[1]"
+                  [unit]="'mil Euro'"
+                  [diff]="trainingFinancialInvestmentPercentageDiff">
+                </app-info-card>
+
+                <!--Card 4-->
+
+                <app-info-card
+                  *rpoIf="rpoTrainingPercentage[1] !== null"
+                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy in Repositories</span>`"
+                  [value]="rpoTrainingPercentage[1]"
+                  [unit]="'%'"
+                  [diff]="rpoTrainingPercentageDiff">
+                </app-info-card>
 
               </div>
             </div>

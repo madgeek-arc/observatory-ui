@@ -57,86 +57,38 @@
               </div>
             </div> -->
 
-                <!-- Card 2 -->
-                <div *ngIf="rfoSoftwarePercentage[1] !== null" class="uk-animation-scale-up">
-                  <div class="uk-card card-simple uk-card-small uk-card-body">
-                    <p>Percentage of <span class="uk-text-bold">RFO's Policy on Repositories</span></p>
-                    <div class="number big uk-margin-medium-top">
-                      <span class="uk-text-bold">{{ rfoSoftwarePercentage[1] }}%</span>
-                    </div>
-                    <div *ngIf="rfoSoftwarePercentageDiff !== null"
-                      class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
-                      <div class="uk-flex uk-flex-middle">
-                        <span class="material-symbols-outlined"
-                          [ngClass]="rfoSoftwarePercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                          {{ rfoSoftwarePercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                        </span>
-                        <span
-                          [ngClass]="rfoSoftwarePercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                          {{ Math.abs(rfoSoftwarePercentageDiff) }}%
-                        </span>&nbsp; vs last year
-                      </div>
-                      <div>
-                        <img [ngSrc]="'../assets/images/explore/' + (rfoSoftwarePercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                          alt="trend image" height="50" width="99">
-                      </div>
-                    </div>
-                  </div>
-                </div>
+               
+                
+                <!--Card 2-->
+
+                <app-info-card
+                  *ngIf="rfoSoftwarePercentage[1]"
+                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Repositories</span>`"
+                  [value]="rfoSoftwarePercentage[1]"
+                  [unit]="'%'"
+                  [diff]="rfoSoftwarePercentageDiff">
+                </app-info-card>
 
                 <!-- Card 3 -->
-                <div *ngIf="softwareFinancialInvestment[1] !== null" class="uk-animation-scale-up">
-                  <div class="uk-card card-simple uk-card-small uk-card-body">
-                    <p>Total <span class="uk-text-bold">financial investment in repositories</span></p>
-                    <div class="number big uk-margin-medium-top">
-                      <span class="uk-text-bold">{{ softwareFinancialInvestment[1] + ' mil Euro' }}</span>
-                    </div>
-                    <div *ngIf="softwareFinancialInvestmentPercentageDiff !== null"
-                      class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
-                      <div class="uk-flex uk-flex-middle">
-                        <span class="material-symbols-outlined"
-                          [ngClass]="softwareFinancialInvestmentPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                          {{ softwareFinancialInvestmentPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                        </span>
-                        <span
-                          [ngClass]="softwareFinancialInvestmentPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                          {{ Math.abs(softwareFinancialInvestmentPercentageDiff) }}%
-                        </span>&nbsp; vs last year
-                      </div>
-                      <div>
-                        <img [ngSrc]="'../assets/images/explore/' + (softwareFinancialInvestmentPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                          alt="trend image" height="50" width="99">
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                <!-- Card 4 -->
-                <div *ngIf="rpoSoftwarePercentage[1] !== null" class="uk-animation-scale-up">
-                  <div class="uk-card card-simple uk-card-small uk-card-body">
-                    <p>Percentage of <span class="uk-text-bold">RPO's Policy in Repositories</span></p>
-                    <div class="number big uk-margin-medium-top">
-                      <span class="uk-text-bold">{{ rpoSoftwarePercentage[1] }}%</span>
-                    </div>
-                    <div *ngIf="rpoSoftwarePercentage !== null"
-                      class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
-                      <div class="uk-flex uk-flex-middle">
-                        <span class="material-symbols-outlined"
-                          [ngClass]="rpoSoftwarePercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                          {{ rpoSoftwarePercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                        </span>
-                        <span
-                          [ngClass]="rpoSoftwarePercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                          {{ Math.abs(rpoSoftwarePercentageDiff) }}%
-                        </span>&nbsp; vs last year
-                      </div>
-                      <div>
-                        <img [ngSrc]="'../assets/images/explore/' + (rpoSoftwarePercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                          alt="trend image" height="50" width="99">
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <app-info-card
+                *ngIf="softwareFinancialInvestment[1]"
+                [titleHtml]="'Total <span class=\'uk-text-bold\'>financial investment in repositories</span>'"
+                [value]="softwareFinancialInvestment[1]"
+                [unit]="'mil Euro'"
+                [diff]="softwareFinancialInvestmentPercentageDiff">
+                </app-info-card>
+
+            
+                <!--Card 4-->
+                <app-info-card
+                  *ngIf="rpoSoftwarePercentage[1]"
+                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Repositories</span>`"
+                  [value]="rpoSoftwarePercentage[1]"
+                  [unit]="'mil Euro'"
+                  [diff]="rpoSoftwarePercentageDiff">
+
+                </app-info-card>
 
               </div>
             </div>
@@ -215,6 +167,10 @@
 
       </div>
     </div>
+
+    <!--debug-->
+
+    <pre>{{ surveyAnswers[1] | json }}</pre>
 
     <div *ngIf="hasSurveySoftwareData()" class="uk-section uk-section-small">
       <div class="uk-container">

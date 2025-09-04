@@ -7,6 +7,7 @@ import {
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
 
 
 @Component({
@@ -16,7 +17,8 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
         NgOptimizedImage,
         CatalogueUiReusableComponentsModule,
         SidebarMobileToggleComponent,
-        PageContentComponent
+        PageContentComponent,
+        InfoCardComponent
     ],
     templateUrl: './open-repositories.component.html'
 })

@@ -35,56 +35,23 @@
             <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>
 
               <!--Card 1-->
-               <div *ngIf="citizenScienceProjects[1] !== null && citizenScienceProjects[1] !== undefined" class="uk-animation-scale-up">
-                <div class="uk-card card-simple uk-card-small uk-card-body">
-                  <p>Number of new Citizen Science projects in {{countryName}}</p>
-                  <div class="number big uk-margin-medium-top">
-                    <span class="uk-text-bold">{{ citizenScienceProjects[1] }}%</span>
-                  </div>
-                  <div *ngIf="citizenSciencePercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                    <div class="uk-flex uk-flex-middle">
-                      <span class="material-symbols-outlined" [ngClass]="citizenSciencePercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                        {{ citizenSciencePercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                      </span>
-                      <span [ngClass]="citizenSciencePercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                        {{ Math.abs(citizenSciencePercentageDiff) }}%
-                      </span>&nbsp; vs last year
-                    </div>
-                    <div>
-                      <img [ngSrc]="'../assets/images/explore/' + (citizenSciencePercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                           alt="trend image" height="50" width="99">
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-
+              <app-info-card
+                *ngIf="citizenScienceProjects[1] !== null && citizenScienceProjects[1] !== undefined"
+                [titleHtml]="`Number of new Citizen Science projects in <span class='uk-text-bold'>${countryName}</span>`"
+                [value]="citizenScienceProjects[1]"
+                [unit]="''"
+                [diff]="citizenSciencePercentageDiff">
+              </app-info-card>
+             
               <!--Card 2-->
-              <div *ngIf="financialInvestmentInCS[1] !== null && financialInvestmentInCS[1] !== undefined" class="uk-animation-scale-up">
-                <div class="uk-card card-simple uk-card-small uk-card-body">
-                  <p>Total amount of <span class="uk-text-bold">financial investments</span> in Citizen Science</p>
-                  <div class="number big uk-margin-medium-top">
-                    <span class="uk-text-bold">
-                      {{ financialInvestmentInCS[1]  + ' mil Euro' }}
-                    </span>
-                  </div>
-                  <div *ngIf="financialInvestmentInCsPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                    <div class="uk-flex uk-flex-middle">
-                      <span class="material-symbols-outlined" [ngClass]="financialInvestmentInCsPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                        {{ financialInvestmentInCsPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                      </span>
-                      <span [ngClass]="financialInvestmentInCsPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                        {{ Math.abs(financialInvestmentInCsPercentageDiff) }}%
-                      </span>&nbsp; vs last year
-                    </div>
-                    <div>
-                      <img [ngSrc]="'../assets/images/explore/' + (financialInvestmentInCsPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                           alt="trend image" height="50" width="99">
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <app-info-card
+                *ngIf="financialInvestmentInCS[1] !== null && financialInvestmentInCS[1] !== undefined"
+                [titleHtml]="`Total amount of <span class='uk-text-bold'>financial investments</span> in Citizen Science`"
+                [value]="financialInvestmentInCS[1]"
+                [unit]="'mil Euro'"
+                [diff]="financialInvestmentInCsPercentageDiff">
+              </app-info-card>
+
             </div>
           </div>
         </div>

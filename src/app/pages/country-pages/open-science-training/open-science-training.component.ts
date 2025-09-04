@@ -9,6 +9,7 @@ import {
   SidebarMobileToggleComponent
 } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
 
 @Component({
     selector: 'app-open-science-training',
@@ -18,7 +19,8 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
         NgOptimizedImage,
         CatalogueUiReusableComponentsModule,
         SidebarMobileToggleComponent,
-        PageContentComponent
+        PageContentComponent,
+        InfoCardComponent
     ]
 })
 export class OpenScienceTrainingComponent  implements OnInit {
