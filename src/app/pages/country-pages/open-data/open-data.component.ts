@@ -17,6 +17,7 @@ import { ChartsModule } from "../../../shared/charts/charts.module";
 import { ExploreService } from "../../explore/explore.service";
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
 
 @Component({
     selector: 'app-open-data',
@@ -26,7 +27,8 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
         CatalogueUiReusableComponentsModule,
         ChartsModule,
         SidebarMobileToggleComponent,
-        PageContentComponent
+        PageContentComponent,
+        InfoCardComponent
     ],
     templateUrl: './open-data.component.html'
 })
@@ -126,6 +128,7 @@ export class OpenDataComponent implements OnInit {
 
     this.ODfinancialInvestment[1] = this.surveyAnswers[1]?.['Practices']?.['Question68']?.['Question68-0'];
     this.ODfinancialInvestment[0] = this.surveyAnswers[0]?.['Practices']?.['Question68']?.['Question68-0'];
+    console.log(this.ODfinancialInvestment);
     this.ODfinancialInvestmentPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.ODfinancialInvestment[0], this.ODfinancialInvestment[1]);
 
     this.rpoOpenDataPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question20']?.['Question20-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']);
