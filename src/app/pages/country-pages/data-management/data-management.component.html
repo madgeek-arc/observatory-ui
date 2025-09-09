@@ -27,9 +27,9 @@
     </div>
 
     <div class="uk-grid-small" data-uk-grid>
-      <div class="uk-width-expand" *ngIf="hasAnyLeftCardData()">
+      <div class="uk-width-1-1 uk-width-expand@m" *ngIf="hasAnyLeftCardData()">
         <div class="uk-card uk-card-default uk-card-body visualisation-card">
-          <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>
+          <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-grid-small uk-grid" data-uk-grid>
 
             <!-- Card 1 -->
             <app-info-card
@@ -65,7 +65,7 @@
       </div>
 
       <!-- Right Card (2/5) -->
-      <div class="uk-width-2-5 uk-animation-fade">
+      <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body visualisation-card">
           <div class="uk-margin-top">
             <h5 class="uk-flex uk-flex-between uk-margin-remove">
@@ -162,7 +162,7 @@
     <div class="uk-section uk-section-small">
     <div class="uk-container">
 
-      <div class="uk-child-width-1-2" data-uk-grid>
+      <div class="uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
         <div *ngIf="stackedColumnSeries1[0].data.length">
           <div class="uk-card uk-card-default visualisation-card uk-card-body">
             <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries1" [yAxis]="yAxisTitle"

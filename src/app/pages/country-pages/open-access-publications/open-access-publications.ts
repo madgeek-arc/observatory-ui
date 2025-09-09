@@ -38,8 +38,8 @@ import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/
 
 export class OpenAccessPublicationsPage implements OnInit {
   private destroyRef = inject(DestroyRef);
-
   protected readonly Math = Math;
+  smallScreen: boolean = false;
 
   countryCode?: string;
   countryName?: string;
@@ -67,15 +67,15 @@ export class OpenAccessPublicationsPage implements OnInit {
   stackedColumnCategories: string[] = [];
   yAxisTitle = 'Number of Publications';
   legend: LegendOptions = {
-    align: 'right',
-    verticalAlign: 'top',
-    x: 0,
-    y: 35,
-    floating: true,
+    // align: 'right',
+    // verticalAlign: 'top',
+    // x: 0,
+    // y: 35,
+    // floating: true,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
     borderWidth: 1,
-    shadow: false
+    // shadow: false
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
@@ -108,7 +108,7 @@ export class OpenAccessPublicationsPage implements OnInit {
               private exploreService: ExploreService) {}
 
   ngOnInit() {
-
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
 
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => this.lastUpdateDate = value

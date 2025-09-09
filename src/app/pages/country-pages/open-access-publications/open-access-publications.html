@@ -28,9 +28,9 @@
 
         <div class="uk-grid-small uk-grid-match" data-uk-grid>
 
-          <div class="uk-width-expand uk-animation-fade" *ngIf="hasAnyLeftCardData()">
+          <div class="uk-width-1-1 uk-width-expand@m uk-animation-fade" *ngIf="hasAnyLeftCardData()">
             <div class="uk-card uk-card-default uk-card-body visualisation-card">
-              <div class="uk-child-width-1-2 uk-grid-small uk-grid-match uk-flex uk-flex-center" data-uk-grid>
+              <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-grid-small uk-grid-match uk-flex uk-flex-center" data-uk-grid>
 
                 <!-- Card 1 -->
               
@@ -77,7 +77,7 @@
           </div>
 
           <!-- Right Card (2/5) -->
-          <div class="uk-width-2-5 uk-animation-fade">
+          <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
             <div class="uk-card uk-card-default uk-card-body visualisation-card">
               <div class="uk-margin-top">
                 <h6 class="uk-flex uk-flex-between uk-margin-remove">
@@ -173,9 +173,15 @@
         <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body uk-animation-fade">
           <div class="uk-grid">
             <div class="uk-width-1-1">
-              <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend" [series]="stackedColumnSeries"
-                                  [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
-                                  [dataLabels]="false" [height]="700" [title]="'Trend of Access to Publications in ' + countryName"
+              <app-stacked-column [categories]="stackedColumnCategories"
+                                  [legend]="legend"
+                                  [series]="stackedColumnSeries"
+                                  [yAxis]="yAxisTitle"
+                                  [pointFormat]="tooltipPointFormat"
+                                  [stackLabels]="false"
+                                  [dataLabels]="false"
+                                  [height]="smallScreen ? 1000 : 750"
+                                  [title]="'Trend of Access to Publications in ' + countryName"
                                   [caption]="'<p class=\'uk-text-justify\'>The graph provides a view of the publications evolution and its access type from 2015 to 2024 in the selected country. Each bar in the graph represents the total number of publications for a given year, segmented by access type categories (categories based on <a href=&quot;https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml&quot; target=\'_blank\'>https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml</a>).</p>'
                                   + '<p><strong>Data Source:</strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
               </app-stacked-column>
@@ -192,10 +198,16 @@
         <div class="uk-container">
 
           <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body">
-            <app-stacked-column [categories]="stackedColumn2Categories" [series]="stackedColumn2Series"
+            <app-stacked-column [categories]="stackedColumn2Categories"
+                                [legend]="legend"
+                                [series]="stackedColumn2Series"
                                 [title]="'Distribution of Open Access Types by Different Scholarly Publication Outputs in ' + countryName"
-                                [yAxis]="yAxisTitle2" [pointFormat]="tooltipPointFormat" [plotFormat]="dataLabels_format"
-                                [stackLabels]="false" [stacking]="stacking" [height]="550"
+                                [yAxis]="yAxisTitle2"
+                                [pointFormat]="tooltipPointFormat"
+                                [plotFormat]="dataLabels_format"
+                                [stackLabels]="false"
+                                [stacking]="stacking"
+                                [height]="smallScreen ? 1000 : 750"
                                 [caption]="'<p class=\'uk-text-justify\'>The graph displays the distribution of OA types across different scholarly publication categories, revealing distinct preferences and practices in the dissemination of research outputs. This visualization provides insight into the diverse adoption rates and strategies for OA across various academic outputs. Understanding these differences is crucial for identifying specific barriers and opportunities within each publication category, thereby guiding stakeholders in tailoring interventions that encourage broader adoption of OA. This targeted approach can significantly contribute to enhancing the accessibility of knowledge, fostering a more open and collaborative scientific community.</p>'
                                 + '<p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on ' + lastUpdateDate + ')</p>'">
             </app-stacked-column>
@@ -209,11 +221,17 @@
       <div class="uk-container">
 
         <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body">
-          <app-multi-chart [series]="bar" [categories]="barCategories" stacking="normal"
-                           [titles]="barChartTitles" [height]="500"
-                           [duplicateXAxis]="true" [yAxisLabels]="true" [dataLabelFormat]="'{(abs value)}'"
+          <app-multi-chart [series]="bar"
+                           [legendOptions]="legend"
+                           [categories]="barCategories"
+                           stacking="normal"
+                           [titles]="barChartTitles"
+                           [height]="smallScreen ? 750 : 550"
+                           [duplicateXAxis]="true"
+                           [yAxisLabels]="true"
+                           [dataLabelFormat]="'{(abs value)}'"
                            [tooltip]="'<b>{series.name},</b> {point.category}<br/>{(abs point.y)}'"
-                           [caption]="'<p class=\'uk-text-justify\'>This garaph illustrates the distribution of OA types within various scientific disciplines including Medical and Health Sciences, Engineering and Technology, Agricultural Sciences, Natural Science, Social Sciences, and Humanities.</p>'
+                           [caption]="'<p class=\'uk-text-justify\'>This graph illustrates the distribution of OA types within various scientific disciplines including Medical and Health Sciences, Engineering and Technology, Agricultural Sciences, Natural Science, Social Sciences, and Humanities.</p>'
                            + '<strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on '+ lastUpdateDate +')'">
           </app-multi-chart>
         </div>

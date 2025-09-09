@@ -36,6 +36,7 @@ export class OpenDataComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   protected readonly Math = Math;
+  smallScreen: boolean = false;
 
   countryCode?: string;
   countryName?: string;
@@ -60,16 +61,16 @@ export class OpenDataComponent implements OnInit {
   OpenDataPercentageDiff: number | null = null;
 
   legend: LegendOptions = {
-    align: 'right',
-    x: -30,
-    verticalAlign: 'top',
-    y: 30,
-    floating: true,
+    // align: 'right',
+    // x: -30,
+    // verticalAlign: 'top',
+    // y: 30,
+    // floating: true,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
     borderWidth: 1,
-    shadow: false,
-    reversed: false
+    // shadow: false,
+    // reversed: false
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
@@ -87,6 +88,9 @@ export class OpenDataComponent implements OnInit {
               private queryData: EoscReadinessDataService) {}
 
   ngOnInit() {
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
+
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => this.lastUpdateDate = value
     });
