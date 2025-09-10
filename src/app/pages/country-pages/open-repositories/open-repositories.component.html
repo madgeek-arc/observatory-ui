@@ -33,44 +33,32 @@
               <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-grid-small uk-grid" data-uk-grid>
 
                 <!-- Card 1 -->
-                
-                <app-info-card
-                  *ngIf="OpenRepositoriesPercentage[1] !== null"
+
+                <app-info-card *ngIf="OpenRepositoriesPercentage[1] !== null"
                   [titleHtml]="`Percentage of <span class='uk-text-bold'>Open Repositories in ${countryName}</span>`"
-                  [value]="OpenRepositoriesPercentage[1]"
-                  [unit]="'%'"
-                  [diff]="OpenRepositoriesPercentageDiff">
+                  [value]="OpenRepositoriesPercentage[1]" [unit]="'%'" [diff]="OpenRepositoriesPercentageDiff">
                 </app-info-card>
 
                 <!-- Card 2 -->
-                
-                <app-info-card
-                  *ngIf="rfoOpenRepositoriesPercentage[1] !== null"
+
+                <app-info-card *ngIf="rfoOpenRepositoriesPercentage[1] !== null"
                   [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Repositories</span>`"
-                  [value]="rfoOpenRepositoriesPercentage[1]"
-                  [unit]="'%'"
-                  [diff]="rfoOpenRepositoriesPercentageDiff">
+                  [value]="rfoOpenRepositoriesPercentage[1]" [unit]="'%'" [diff]="rfoOpenRepositoriesPercentageDiff">
                 </app-info-card>
-                
+
 
                 <!-- Card 3 -->
 
-                <app-info-card
-                  *ngIf="financialInvestment[1] !== null"
+                <app-info-card *ngIf="financialInvestment[1] !== null"
                   [titleHtml]="`Total <span class='uk-text-bold'>financial investment in repositories</span>`"
-                  [value]="financialInvestment[1]"
-                  [unit]="'mil Euro'"
-                  [diff]="financialInvestmentPercentageDiff">
+                  [value]="financialInvestment[1]" [unit]="'mil Euro'" [diff]="financialInvestmentPercentageDiff">
                 </app-info-card>
 
                 <!-- Card 4 -->
-                 
-                <app-info-card
-                  *ngIf="rpoOpenRepositoriesPercentage[1] !== null"
+
+                <app-info-card *ngIf="rpoOpenRepositoriesPercentage[1] !== null"
                   [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy in Repositories</span>`"
-                  [value]="rpoOpenRepositoriesPercentage[1]"
-                  [unit]="'%'"
-                  [diff]="rpoOpenRepositoriesPercentageDiff">
+                  [value]="rpoOpenRepositoriesPercentage[1]" [unit]="'%'" [diff]="rpoOpenRepositoriesPercentageDiff">
                 </app-info-card>
 
               </div>
@@ -143,10 +131,12 @@
             </div>
           </div>
         </div>
-        <div class="uk-margin-top uk-flex uk-flex-center">
-          <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open
-          Science
-          OpenAIRE Graph.
+        <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
+          <div>
+            <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open
+            Science
+            OpenAIRE Graph.
+          </div>
         </div>
 
       </div>

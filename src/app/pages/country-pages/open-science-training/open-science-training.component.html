@@ -62,33 +62,25 @@
 
                 <!--Card 2-->
 
-                <app-info-card
-                  *ngIf="rfoTrainingPercentage[1] !== null"
+                <app-info-card *ngIf="rfoTrainingPercentage[1] !== null"
                   [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Repositories</span>`"
-                  [value]="rfoTrainingPercentage[1]"
-                  [unit]="'%'"
-                  [diff]="rfoTrainingPercentageDiff">
+                  [value]="rfoTrainingPercentage[1]" [unit]="'%'" [diff]="rfoTrainingPercentageDiff">
                 </app-info-card>
 
 
                 <!--Card 3-->
 
-                <app-info-card
-                  *ngIf="trainingFinancialInvestment[1] !== null"
+                <app-info-card *ngIf="trainingFinancialInvestment[1] !== null"
                   [titleHtml]="`Total <span class='uk-text-bold'>financial investment in repositories</span>`"
-                  [value]="trainingFinancialInvestment[1]"
-                  [unit]="'mil Euro'"
+                  [value]="trainingFinancialInvestment[1]" [unit]="'mil Euro'"
                   [diff]="trainingFinancialInvestmentPercentageDiff">
                 </app-info-card>
 
                 <!--Card 4-->
 
-                <app-info-card
-                  *rpoIf="rpoTrainingPercentage[1] !== null"
+                <app-info-card *rpoIf="rpoTrainingPercentage[1] !== null"
                   [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy in Repositories</span>`"
-                  [value]="rpoTrainingPercentage[1]"
-                  [unit]="'%'"
-                  [diff]="rpoTrainingPercentageDiff">
+                  [value]="rpoTrainingPercentage[1]" [unit]="'%'" [diff]="rpoTrainingPercentageDiff">
                 </app-info-card>
 
               </div>
@@ -159,12 +151,13 @@
             </div>
           </div>
         </div>
-        <div class="uk-margin-top uk-flex uk-flex-center">
-          <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open
-          Science
-          OpenAIRE Graph.
+        <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
+          <div>
+            <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open
+            Science
+            OpenAIRE Graph.
+          </div>
         </div>
-
       </div>
     </div>
 

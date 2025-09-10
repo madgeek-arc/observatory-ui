@@ -29,8 +29,7 @@
         </div>
 
         <div class="uk-grid-small" data-uk-grid>
-          <div class="uk-width-1-1 uk-width-expand@m uk-animation-fade"
-            *ngIf="hasAnyLeftCardData()">
+          <div class="uk-width-1-1 uk-width-expand@m uk-animation-fade" *ngIf="hasAnyLeftCardData()">
             <div class="uk-card uk-card-default uk-card-body visualisation-card">
               <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-grid-small" data-uk-grid>
 
@@ -58,36 +57,29 @@
               </div>
             </div> -->
 
-               
-                
+
+
                 <!--Card 2-->
 
-                <app-info-card
-                  *ngIf="rfoSoftwarePercentage[1] !== null && rfoSoftwarePercentage[1] !== undefined"
+                <app-info-card *ngIf="rfoSoftwarePercentage[1] !== null && rfoSoftwarePercentage[1] !== undefined"
                   [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Repositories</span>`"
-                  [value]="rfoSoftwarePercentage[1]"
-                  [unit]="'%'"
-                  [diff]="rfoSoftwarePercentageDiff">
+                  [value]="rfoSoftwarePercentage[1]" [unit]="'%'" [diff]="rfoSoftwarePercentageDiff">
                 </app-info-card>
 
                 <!-- Card 3 -->
 
                 <app-info-card
-                *ngIf="softwareFinancialInvestment[1] !== null && softwareFinancialInvestment[1] !== undefined"
-                [titleHtml]="'Total <span class=\'uk-text-bold\'>financial investment in repositories</span>'"
-                [value]="softwareFinancialInvestment[1]"
-                [unit]="'mil Euro'"
-                [diff]="softwareFinancialInvestmentPercentageDiff">
+                  *ngIf="softwareFinancialInvestment[1] !== null && softwareFinancialInvestment[1] !== undefined"
+                  [titleHtml]="'Total <span class=\'uk-text-bold\'>financial investment in repositories</span>'"
+                  [value]="softwareFinancialInvestment[1]" [unit]="'mil Euro'"
+                  [diff]="softwareFinancialInvestmentPercentageDiff">
                 </app-info-card>
 
-            
+
                 <!--Card 4-->
-                <app-info-card
-                  *ngIf="rpoSoftwarePercentage[1] !== null && rpoSoftwarePercentage[1] !== undefined"
+                <app-info-card *ngIf="rpoSoftwarePercentage[1] !== null && rpoSoftwarePercentage[1] !== undefined"
                   [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Repositories</span>`"
-                  [value]="rpoSoftwarePercentage[1]"
-                  [unit]="'mil Euro'"
-                  [diff]="rpoSoftwarePercentageDiff">
+                  [value]="rpoSoftwarePercentage[1]" [unit]="'mil Euro'" [diff]="rpoSoftwarePercentageDiff">
 
                 </app-info-card>
 
@@ -161,14 +153,16 @@
             </div>
           </div>
         </div>
-        <div class="uk-margin-top uk-flex uk-flex-center">
-          <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open
-          Science OpenAIRE Graph.
+        <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
+          <div>
+            <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open
+            Science OpenAIRE Graph.
+          </div>
         </div>
       </div>
     </div>
 
-    
+
 
     <!-- <pre>{{ surveyAnswers[1] | json }}</pre> -->
 
