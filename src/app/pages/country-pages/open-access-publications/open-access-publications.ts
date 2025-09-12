@@ -19,6 +19,7 @@ import {
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
+import { PdfExportService } from "../../services/pdf-export.service";
 
 
 
@@ -40,6 +41,7 @@ export class OpenAccessPublicationsPage implements OnInit {
   private destroyRef = inject(DestroyRef);
   protected readonly Math = Math;
   smallScreen: boolean = false;
+  exportActive = false;
 
   countryCode?: string;
   countryName?: string;
@@ -105,7 +107,7 @@ export class OpenAccessPublicationsPage implements OnInit {
   }
 
   constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService,
-              private exploreService: ExploreService) {}
+              private exploreService: ExploreService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
     this.smallScreen = this.exploreService.isMobileOrSmallScreen;
@@ -252,6 +254,22 @@ export class OpenAccessPublicationsPage implements OnInit {
     this.monitoringClarification = this.surveyAnswers[1]?.['Practices']?.['Question54']?.['Question54-1'] || null;
 
     this.policyMandatory = this.surveyAnswers[1]?.['Policies']?.['Question6']?.['Question6-1-0']?.['Question6-1'] || null;
+  }
+
+  exportToPDF(contents: HTMLElement[], filename?: string) {
+    this.exportActive = true
+   
+    // Χρόνος για να εφαρμοστούν τα styles
+    // setTimeout(() => {
+      this.pdfService.export(contents, filename).then(() => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+      }).catch((error) => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+        console.error('Error during PDF generation:', error);
+      });
+    // }, 0);
   }
 
 }

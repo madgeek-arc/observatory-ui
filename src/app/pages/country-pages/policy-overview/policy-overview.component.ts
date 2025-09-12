@@ -7,6 +7,7 @@ import {
 } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { PdfExportService } from "../../services/pdf-export.service";
 
 class TableRow {
   OSArea: string;
@@ -35,6 +36,7 @@ class TableRow {
 
 export class PolicyOverviewComponent {
   private destroyRef = inject(DestroyRef);
+  exportActive = false;
 
   countryCode?: string;
   countryName?: string;
@@ -43,7 +45,7 @@ export class PolicyOverviewComponent {
   surveyAnswer: Object[] = [];
   countrySurveyAnswer?: Object;
 
-  constructor(private dataShareService: DataShareService) {}
+  constructor(private dataShareService: DataShareService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -108,6 +110,22 @@ export class PolicyOverviewComponent {
 
     const questions = ['Question10', 'Question11', 'Question12', 'Question13'];
     return this.dataShareService.hasSurveyData(surveyData, questions);
+  }
+
+   exportToPDF(contents: HTMLElement[], filename?: string) {
+    this.exportActive = true
+   
+    // Χρόνος για να εφαρμοστούν τα styles
+    // setTimeout(() => {
+      this.pdfService.export(contents, filename).then(() => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+      }).catch((error) => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+        console.error('Error during PDF generation:', error);
+      });
+    // }, 0);
   }
 
 }

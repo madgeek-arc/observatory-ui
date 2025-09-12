@@ -8,6 +8,7 @@ import {
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
+import { PdfExportService } from "../../services/pdf-export.service";
 
 
 @Component({
@@ -26,6 +27,7 @@ import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/
 export class OpenRepositoriesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   protected readonly Math = Math;
+  exportActive = false;
 
   countryCode?: string;
   countryName?: string;
@@ -49,7 +51,7 @@ export class OpenRepositoriesComponent implements OnInit {
   financialInvestment: (string | null)[] = [null, null];
   financialInvestmentPercentageDiff: number | null = null;
 
-  constructor(private dataShareService: DataShareService) {}
+  constructor(private dataShareService: DataShareService, private pdfService: PdfExportService) {}
 
   ngOnInit(): void {
     this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -128,6 +130,22 @@ export class OpenRepositoriesComponent implements OnInit {
       'Question20',
     ];
     return this.dataShareService.hasSurveyData(surveyData, questions);
+  }
+
+  exportToPDF(contents: HTMLElement[], filename?: string) {
+    this.exportActive = true
+   
+    // Χρόνος για να εφαρμοστούν τα styles
+    // setTimeout(() => {
+      this.pdfService.export(contents, filename).then(() => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+      }).catch((error) => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+        console.error('Error during PDF generation:', error);
+      });
+    // }, 0);
   }
 
 }

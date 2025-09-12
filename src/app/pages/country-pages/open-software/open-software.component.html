@@ -3,9 +3,44 @@
     <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
   <div inner>
-    <div class="uk-section uk-section-small">
+    <div class="uk-section uk-section-small" #exportContent>
       <div class="uk-container">
-
+        <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
+          <h4>Open Software</h4>
+          <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
+            style="cursor: pointer">
+            <div class="uk-flex uk-flex-middle uk-text-primary"
+              style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+              <span class=""
+                style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+                Export report
+              </span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
+                data-uk-spinner="ratio: 0.7"></span>
+              <ng-template #elseBlock>
+                <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+        <div class="uk-hidden@m">
+          <h4>Open Software</h4>
+          <div class="uk-flex uk-flex-right" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
+            style="cursor: pointer">
+            <div class="uk-flex uk-flex-middle uk-text-primary"
+              style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+              <span class=""
+                style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+                Export report
+              </span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
+                data-uk-spinner="ratio: 0.7"></span>
+              <ng-template #elseBlock>
+                <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
+              </ng-template>
+            </div>
+          </div>
+        </div>
         <div class="uk-flex uk-flex-middle uk-margin-bottom">
           <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
             class="flag-image" width="42" height="42" alt="rounded flag image">
@@ -77,10 +112,10 @@
 
 
                 <!--Card 4-->
+
                 <app-info-card *ngIf="rpoSoftwarePercentage[1] !== null && rpoSoftwarePercentage[1] !== undefined"
                   [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Repositories</span>`"
                   [value]="rpoSoftwarePercentage[1]" [unit]="'mil Euro'" [diff]="rpoSoftwarePercentageDiff">
-
                 </app-info-card>
 
               </div>
@@ -163,29 +198,28 @@
     </div>
 
 
-
     <!-- <pre>{{ surveyAnswers[1] | json }}</pre> -->
-
-    <div *ngIf="hasSurveySoftwareData()" class="uk-section uk-section-small">
-      <div class="uk-container">
-
-        <div class="uk-margin-medium-top uk-animation-fade">
-          <div class="uk-margin-medium-top uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-            <div id="software_repositories">
-              <div class="uk-text-secondary">Software repositories</div>
-              <ng-container
-                *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']?.['Question19-1']; else software_repositories">
-                <div
-                  [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']['Question19-1']"
-                  class="uk-margin-medium-top"></div>
-              </ng-container>
-              <ng-template #software_repositories>
-                <p>N/A</p>
-              </ng-template>
+    <div #exportContent1>
+      <div *ngIf="hasSurveySoftwareData()" class="uk-section uk-section-small">
+        <div class="uk-container">
+          <div class="uk-margin-medium-top uk-animation-fade">
+            <div
+              class="uk-margin-medium-top uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+              <div id="software_repositories">
+                <div class="uk-text-secondary">Software repositories</div>
+                <ng-container
+                  *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']?.['Question19-1']; else software_repositories">
+                  <div
+                    [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']['Question19-1']"
+                    class="uk-margin-medium-top"></div>
+                </ng-container>
+                <ng-template #software_repositories>
+                  <p>N/A</p>
+                </ng-template>
+              </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>

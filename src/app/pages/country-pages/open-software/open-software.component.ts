@@ -8,6 +8,7 @@ import {
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
+import { PdfExportService } from "../../services/pdf-export.service";
 
 @Component({
     selector: 'app-open-software',
@@ -29,6 +30,7 @@ export class OpenSoftwareComponent implements OnInit{
     countryName?: string;
     surveyAnswers: Object[] = [];
     countrySurveyAnswer?: Object;
+    exportActive = false;
 
     rfoSoftwarePercentage: (number | null)[] = [null, null];
     rfoSoftwarePercentageDiff: number | null = null;
@@ -46,7 +48,7 @@ export class OpenSoftwareComponent implements OnInit{
     monitoringClarification: string | null = null;
 
 
-    constructor(private dataShareService: DataShareService) {}
+    constructor(private dataShareService: DataShareService, private pdfService: PdfExportService) {}
 
     ngOnInit() {
       this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -113,6 +115,22 @@ export class OpenSoftwareComponent implements OnInit{
   hasSurveySoftwareData(): boolean {
     const surveyData = this?.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE']?.[';Question19']?.['Question19-1'];
     return !!(surveyData && surveyData.trim() !== '');
+  }
+
+  exportToPDF(contents: HTMLElement[], filename?: string) {
+    this.exportActive = true
+   
+    // Χρόνος για να εφαρμοστούν τα styles
+    // setTimeout(() => {
+      this.pdfService.export(contents, filename).then(() => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+      }).catch((error) => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+        console.error('Error during PDF generation:', error);
+      });
+    // }, 0);
   }
 
 }

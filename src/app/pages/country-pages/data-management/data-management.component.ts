@@ -11,6 +11,7 @@ import { ChartsModule } from "../../../shared/charts/charts.module";
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
+import { PdfExportService } from "../../services/pdf-export.service";
 
 
 @Component({
@@ -29,6 +30,7 @@ import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/
 export class DataManagementComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   protected readonly Math = Math;
+  exportActive = false;
 
   countryCode?: string;
   countryName?: string;
@@ -82,7 +84,7 @@ export class DataManagementComponent implements OnInit {
   labelFormat = '{value}%';
   plotFormat = '{point.percentage:.0f}%';
 
-  constructor(private dataShareService: DataShareService, private exploreService: ExploreService) {}
+  constructor(private dataShareService: DataShareService, private exploreService: ExploreService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -198,6 +200,22 @@ export class DataManagementComponent implements OnInit {
     }
     const questions = ['Question15'];
     return this.dataShareService.hasSurveyData(surveyData, questions);
+  }
+
+  exportToPDF(contents: HTMLElement[], filename?: string) {
+    this.exportActive = true
+   
+    // Χρόνος για να εφαρμοστούν τα styles
+    // setTimeout(() => {
+      this.pdfService.export(contents, filename).then(() => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+      }).catch((error) => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+        console.error('Error during PDF generation:', error);
+      });
+    // }, 0);
   }
 
 }

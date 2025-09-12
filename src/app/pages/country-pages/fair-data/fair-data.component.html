@@ -3,8 +3,47 @@
     <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
   <div inner>
-    <div class="uk-section uk-section-small">
+    <div class="uk-section uk-section-small" #exportContent>
       <div class="uk-container">
+        <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
+          <h4>FAIR Data</h4>
+          <div class="uk-flex uk-flex-center"
+            (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5], 'Open Data')"
+            style="cursor: pointer">
+            <div class="uk-flex uk-flex-middle uk-text-primary"
+              style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+              <span class=""
+                style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+                Export report
+              </span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
+                data-uk-spinner="ratio: 0.7"></span>
+              <ng-template #elseBlock>
+                <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+        <div class="uk-hidden@m">
+          <h4>Open Data</h4>
+          <div class="uk-flex uk-flex-right"
+            (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5], 'Open Data')"
+            style="cursor: pointer">
+            <div class="uk-flex uk-flex-middle uk-text-primary"
+              style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+              <span class=""
+                style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+                Export report
+              </span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
+                data-uk-spinner="ratio: 0.7"></span>
+              <ng-template #elseBlock>
+                <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
+              </ng-template>
+            </div>
+          </div>
+        </div>
 
         <div class="uk-flex uk-flex-middle uk-margin-bottom">
           <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
@@ -17,7 +56,7 @@
       </div>
     </div>
 
-    <div class="uk-section uk-section-small uk-padding-remove-top">
+    <div class="uk-section uk-section-small uk-padding-remove-top" #exportContent1>
       <div class="uk-container">
 
         <p class="uk-text-lead">FAIR Data principles refer to guidelines that ensure data are Findable, Accessible,
@@ -30,7 +69,7 @@
       </div>
     </div>
 
-    <div class="uk-section uk-section-small uk-padding-remove-top">
+    <div class="uk-section uk-section-small uk-padding-remove-top" #exportContent2>
       <div class="uk-container">
 
         <h5>Monitoring FAIR data and its challenges</h5>
@@ -45,7 +84,7 @@
       </div>
     </div>
 
-    <div class="uk-section uk-section-small uk-padding-remove-top">
+    <div class="uk-section uk-section-small uk-padding-remove-top" #exportContent3>
       <div class="uk-container">
 
         <div class="uk-flex uk-flex-between uk-flex-middle">
@@ -150,54 +189,52 @@
             Science, OpenAIRE Graph.
           </div>
         </div>
-
       </div>
     </div>
 
-    <div *ngIf="hasCountrySurveyAnswerData()" class="uk-section uk-section-small uk-margin-top">
-      <div class="uk-container">
-
-        <div class="uk-animation-fade">
-          <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-            <h6 class="uk-margin-bottom">Learn more about FAIR Data Landscape in {{ countryName }}</h6>
-            <div class="uk-text-meta">This information has been compiled by the National Open Access Desks</div>
-            <div class="uk-margin-medium-top">
-              <read-more [maxHeight]="300">
-                <div id="national_data_service">
-                  <div class="uk-text-secondary">National Data Service</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else data_service">
-                    <div
-                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']">
-                    </div>
-                  </ng-container>
-                  <ng-template #data_service>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-                <div id="">
-                  <div class="uk-text-secondary">Data repositories</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']; else data_repositories">
-                    <div
-                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']">
-                    </div>
-                  </ng-container>
-                  <ng-template #data_repositories>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-              </read-more>
+    <div #exportContent4>
+      <div *ngIf="hasCountrySurveyAnswerData()" class="uk-section uk-section-small uk-margin-top">
+        <div class="uk-container">
+          <div class="uk-animation-fade">
+            <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+              <h6 class="uk-margin-bottom">Learn more about FAIR Data Landscape in {{ countryName }}</h6>
+              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks</div>
+              <div class="uk-margin-medium-top">
+                <read-more [maxHeight]="300">
+                  <div id="national_data_service">
+                    <div class="uk-text-secondary">National Data Service</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else data_service">
+                      <div
+                        [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']">
+                      </div>
+                    </ng-container>
+                    <ng-template #data_service>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                  <div id="">
+                    <div class="uk-text-secondary">Data repositories</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']; else data_repositories">
+                      <div
+                        [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']">
+                      </div>
+                    </ng-container>
+                    <ng-template #data_repositories>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                </read-more>
+              </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
-    <div class="uk-section uk-section-small">
+    <div class="uk-section uk-section-small" #exportContent5>
       <div class="uk-container">
-
         <div class="uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
           <div *ngIf="stackedColumnSeries1[0].data.length">
             <div class="uk-card uk-card-default visualisation-card uk-card-body">
@@ -211,7 +248,6 @@
               </app-stacked-column>
             </div>
           </div>
-          
           <div *ngIf="stackedColumnSeries2[0].data.length">
             <div class="uk-card uk-card-default visualisation-card uk-card-body">
               <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries2"
@@ -225,7 +261,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
