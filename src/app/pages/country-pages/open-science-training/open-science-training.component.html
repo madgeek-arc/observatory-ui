@@ -113,7 +113,7 @@
 
                 <!--Card 4-->
 
-                <app-info-card *rpoIf="rpoTrainingPercentage[1] !== null"
+                <app-info-card *ngIf="rpoTrainingPercentage[1] !== null"
                   [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy in Repositories</span>`"
                   [value]="rpoTrainingPercentage[1]" [unit]="'%'" [diff]="rpoTrainingPercentageDiff">
                 </app-info-card>

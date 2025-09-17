@@ -133,7 +133,6 @@ export class OpenDataComponent implements OnInit {
 
     this.ODfinancialInvestment[1] = this.surveyAnswers[1]?.['Practices']?.['Question68']?.['Question68-0'];
     this.ODfinancialInvestment[0] = this.surveyAnswers[0]?.['Practices']?.['Question68']?.['Question68-0'];
-    console.log(this.ODfinancialInvestment);
     this.ODfinancialInvestmentPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.ODfinancialInvestment[0], this.ODfinancialInvestment[1]);
 
     this.rpoOpenDataPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question20']?.['Question20-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']);
@@ -221,7 +220,7 @@ export class OpenDataComponent implements OnInit {
 
   exportToPDF(contents: HTMLElement[], filename?: string) {
     this.exportActive = true
-   
+
     // Χρόνος για να εφαρμοστούν τα styles
     // setTimeout(() => {
       this.pdfService.export(contents, filename).then(() => {

@@ -89,7 +89,6 @@ export class OpenRepositoriesComponent implements OnInit {
   this.financialInvestment[1] = this.surveyAnswers[1]?.['Practices']?.['Question80']?.['Question80-0']?.trim() || null;
   this.financialInvestment[0] = this.surveyAnswers[0]?.['Practices']?.['Question80']?.['Question80-0']?.trim() || null;
   this.financialInvestment = this.financialInvestment.map(value => value === "" ? null : value);
-  console.log(this.financialInvestment);
   this.financialInvestmentPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.financialInvestment[0], this.financialInvestment[1]);
 
   this.rpoOpenRepositoriesPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question32']?.['Question32-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']);
@@ -134,7 +133,7 @@ export class OpenRepositoriesComponent implements OnInit {
 
   exportToPDF(contents: HTMLElement[], filename?: string) {
     this.exportActive = true
-   
+
     // Χρόνος για να εφαρμοστούν τα styles
     // setTimeout(() => {
       this.pdfService.export(contents, filename).then(() => {

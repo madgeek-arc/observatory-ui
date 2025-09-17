@@ -55,17 +55,14 @@ export class SearchComponent implements OnInit {
 
   isAdminPage: boolean = false;
 
- // Constructor & Initialization
 
   constructor(private resourceService: ResourceRegistryService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
 
-    if(this.route.snapshot.paramMap.get('stakeholderId') && this.route.snapshot.paramMap.get('stakeholderId') === 'admin-eosc-sb') {
+    if (this.route.snapshot.paramMap.get('stakeholderId') && this.route.snapshot.paramMap.get('stakeholderId') === 'admin-eosc-sb') {
       this.isAdminPage = true
     }
-    console.log(this.isAdminPage);
-    console.log(this.route.snapshot.paramMap.get('stakeholderId'));
 
     // Subscribe to route parameters to get initial data
     this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
