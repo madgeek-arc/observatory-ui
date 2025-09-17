@@ -10,6 +10,9 @@ import { ExploreService } from "../../explore/explore.service";
 import { ChartsModule } from "../../../shared/charts/charts.module";
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
+import { PdfExportService } from "../../services/pdf-export.service";
+
 
 @Component({
     selector: 'app-fair-data',
@@ -19,13 +22,15 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
         CatalogueUiReusableComponentsModule,
         ChartsModule,
         SidebarMobileToggleComponent,
-        PageContentComponent
+        PageContentComponent,
+        InfoCardComponent
     ],
     templateUrl: './fair-data.component.html'
 })
 export class FairDataComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   protected readonly Math = Math;
+  exportActive = false;
 
   countryCode?: string;
   countryName?: string;
@@ -79,7 +84,7 @@ export class FairDataComponent implements OnInit {
   labelFormat = '{value}%';
   plotFormat = '{point.percentage:.0f}%';
 
-  constructor(private dataShareService: DataShareService, private exploreService: ExploreService) {}
+  constructor(private dataShareService: DataShareService, private exploreService: ExploreService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -196,6 +201,22 @@ export class FairDataComponent implements OnInit {
     this.stackedColumnSeries1 = [...this.stackedColumnSeries1];
     this.stackedColumnSeries2 = [...this.stackedColumnSeries2];
 
+  }
+
+  exportToPDF(contents: HTMLElement[], filename?: string) {
+    this.exportActive = true
+   
+    // Χρόνος για να εφαρμοστούν τα styles
+    // setTimeout(() => {
+      this.pdfService.export(contents, filename).then(() => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+      }).catch((error) => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+        console.error('Error during PDF generation:', error);
+      });
+    // }, 0);
   }
 
 }

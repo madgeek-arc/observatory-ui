@@ -4,10 +4,10 @@
     <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
   <div inner>
-    <div *ngIf="!isAdminPage; else adminPage" class="uk-section uk-section-small uk-section-primary uk-preserve-color">
+    <div *ngIf="!isAdminPage; else adminPage" class="uk-section uk-section-small uk-section-primary uk-preserve-color" style="min-height: 95vh">
       <div *ngIf="documentData!== null" class="uk-container uk-margin-large-top">
-        <div class="uk-flex uk-flex-between uk-flex-middle">
-          <div class="uk-flex uk-flex-middle">
+        <div class="uk-flex uk-flex-between uk-flex-middle" uk-grid>
+          <div class="uk-flex uk-flex-middle uk-width-expand">
             <img *ngIf="documentData.docInfo?.country && documentData.docInfo.country !== 'EU'"
                  ngSrc="../../survey-tool/assets/images/flags/{{documentData.docInfo?.country | lowercase}}-flag-round.png"
                  class="flag-image uk-margin-small-right" width="30" height="20" alt="rounded flag image">
@@ -16,7 +16,7 @@
                  class="flag-image uk-margin-small-right" width="30" height="20" alt="{{documentData.docInfo?.country}} flag">
             <h4 class="uk-margin-remove">{{ documentData.docInfo?.title }}</h4>
           </div>
-          <span>
+          <span class="uk-margin-left">
             Last Update: {{ documentData.docInfo?.modificationDate ? documentData.docInfo?.modificationDate : '--' }}
           </span>
         </div>

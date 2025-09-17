@@ -7,6 +7,8 @@ import {
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
+import { PdfExportService } from "../../services/pdf-export.service";
 
 
 @Component({
@@ -16,7 +18,8 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
         NgOptimizedImage,
         CatalogueUiReusableComponentsModule,
         SidebarMobileToggleComponent,
-        PageContentComponent
+        PageContentComponent,
+        InfoCardComponent
     ],
     templateUrl: './open-repositories.component.html'
 })
@@ -24,6 +27,7 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
 export class OpenRepositoriesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   protected readonly Math = Math;
+  exportActive = false;
 
   countryCode?: string;
   countryName?: string;
@@ -47,7 +51,7 @@ export class OpenRepositoriesComponent implements OnInit {
   financialInvestment: (string | null)[] = [null, null];
   financialInvestmentPercentageDiff: number | null = null;
 
-  constructor(private dataShareService: DataShareService) {}
+  constructor(private dataShareService: DataShareService, private pdfService: PdfExportService) {}
 
   ngOnInit(): void {
     this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -85,7 +89,6 @@ export class OpenRepositoriesComponent implements OnInit {
   this.financialInvestment[1] = this.surveyAnswers[1]?.['Practices']?.['Question80']?.['Question80-0']?.trim() || null;
   this.financialInvestment[0] = this.surveyAnswers[0]?.['Practices']?.['Question80']?.['Question80-0']?.trim() || null;
   this.financialInvestment = this.financialInvestment.map(value => value === "" ? null : value);
-  console.log(this.financialInvestment);
   this.financialInvestmentPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.financialInvestment[0], this.financialInvestment[1]);
 
   this.rpoOpenRepositoriesPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question32']?.['Question32-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']);
@@ -126,6 +129,22 @@ export class OpenRepositoriesComponent implements OnInit {
       'Question20',
     ];
     return this.dataShareService.hasSurveyData(surveyData, questions);
+  }
+
+  exportToPDF(contents: HTMLElement[], filename?: string) {
+    this.exportActive = true
+
+    // Χρόνος για να εφαρμοστούν τα styles
+    // setTimeout(() => {
+      this.pdfService.export(contents, filename).then(() => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+      }).catch((error) => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+        console.error('Error during PDF generation:', error);
+      });
+    // }, 0);
   }
 
 }

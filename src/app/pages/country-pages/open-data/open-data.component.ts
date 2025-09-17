@@ -17,6 +17,8 @@ import { ChartsModule } from "../../../shared/charts/charts.module";
 import { ExploreService } from "../../explore/explore.service";
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
+import { PdfExportService } from "../../services/pdf-export.service";
 
 @Component({
     selector: 'app-open-data',
@@ -26,14 +28,16 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
         CatalogueUiReusableComponentsModule,
         ChartsModule,
         SidebarMobileToggleComponent,
-        PageContentComponent
+        PageContentComponent,
+        InfoCardComponent
     ],
     templateUrl: './open-data.component.html'
 })
 export class OpenDataComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-
+  exportActive = false;
   protected readonly Math = Math;
+  smallScreen: boolean = false;
 
   countryCode?: string;
   countryName?: string;
@@ -58,16 +62,16 @@ export class OpenDataComponent implements OnInit {
   OpenDataPercentageDiff: number | null = null;
 
   legend: LegendOptions = {
-    align: 'right',
-    x: -30,
-    verticalAlign: 'top',
-    y: 30,
-    floating: true,
+    // align: 'right',
+    // x: -30,
+    // verticalAlign: 'top',
+    // y: 30,
+    // floating: true,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
     borderWidth: 1,
-    shadow: false,
-    reversed: false
+    // shadow: false,
+    // reversed: false
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
@@ -82,9 +86,12 @@ export class OpenDataComponent implements OnInit {
   lastUpdateDate?: string;
 
   constructor(private dataShareService: DataShareService, private exploreService: ExploreService,
-              private queryData: EoscReadinessDataService) {}
+              private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
+
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => this.lastUpdateDate = value
     });
@@ -209,6 +216,22 @@ export class OpenDataComponent implements OnInit {
     }
     const questions = ['Question15', 'Question18'];
     return this.dataShareService.hasSurveyData(surveyData, questions);
+  }
+
+  exportToPDF(contents: HTMLElement[], filename?: string) {
+    this.exportActive = true
+
+    // Χρόνος για να εφαρμοστούν τα styles
+    // setTimeout(() => {
+      this.pdfService.export(contents, filename).then(() => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+      }).catch((error) => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+        console.error('Error during PDF generation:', error);
+      });
+    // }, 0);
   }
 
 }

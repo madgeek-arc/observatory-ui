@@ -9,6 +9,8 @@ import {
   SidebarMobileToggleComponent
 } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
+import { PdfExportService } from "../../services/pdf-export.service";
 
 @Component({
     selector: 'app-open-science-training',
@@ -18,12 +20,14 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
         NgOptimizedImage,
         CatalogueUiReusableComponentsModule,
         SidebarMobileToggleComponent,
-        PageContentComponent
+        PageContentComponent,
+        InfoCardComponent
     ]
 })
 export class OpenScienceTrainingComponent  implements OnInit {
   private destroyRef = inject(DestroyRef);
   protected readonly Math = Math;
+  exportActive = false;
 
   countryCode?: string;
   countryName?: string;
@@ -46,7 +50,7 @@ export class OpenScienceTrainingComponent  implements OnInit {
   monitoringClarification: string | null = null;
 
 
-  constructor(private dataShareService: DataShareService) {}
+  constructor(private dataShareService: DataShareService, private pdfService: PdfExportService) {}
 
     ngOnInit() {
     this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -126,6 +130,22 @@ export class OpenScienceTrainingComponent  implements OnInit {
     ];
     return this.dataShareService.hasSurveyData(surveyData, questions);
 
+  }
+
+   exportToPDF(contents: HTMLElement[], filename?: string) {
+    this.exportActive = true
+   
+    // Χρόνος για να εφαρμοστούν τα styles
+    // setTimeout(() => {
+      this.pdfService.export(contents, filename).then(() => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+      }).catch((error) => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+        console.error('Error during PDF generation:', error);
+      });
+    // }, 0);
   }
 
 }
