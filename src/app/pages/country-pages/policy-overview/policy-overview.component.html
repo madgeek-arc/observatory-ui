@@ -3,10 +3,17 @@
     <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
   <div inner>
-    <div class="uk-section uk-section-small" #exportContent>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
       <div class="uk-container">
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
-          <h4>Policy Overview</h4>
+<!--          <h4>Policy Overview</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Policy Overview for 2023</h4>
+            </div>
+          </div>
           <div class="uk-flex uk-flex-center"
             (click)="exportToPDF([exportContent, exportContent1], 'Policy Overview')"
             style="cursor: pointer">
@@ -26,7 +33,14 @@
         </div>
 
         <div class="uk-hidden@m">
-          <h4>Policy Overview</h4>
+<!--          <h4>Policy Overview</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Policy Overview for 2023</h4>
+            </div>
+          </div>
           <div class="uk-flex uk-flex-right"
             (click)="exportToPDF([exportContent, exportContent1], 'General R&D Overview')"
             style="cursor: pointer">
@@ -45,23 +59,23 @@
           </div>
         </div>
 
-        <div class="uk-flex uk-flex-middle uk-margin-bottom">
-          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-            class="flag-image" width="42" height="42" alt="rounded flag image">
-          <div class="uk-margin-small-left">
-            <h4 class="uk-margin-remove-bottom">{{ countryName }}</h4>
-          </div>
-        </div>
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
+<!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
+<!--          <div class="uk-margin-small-left">-->
+<!--            <h4 class="uk-margin-remove-bottom">{{ countryName }}</h4>-->
+<!--          </div>-->
+<!--        </div>-->
 
       </div>
     </div>
 
-    <div class="uk-section uk-section-small uk-padding-remove-top" #exportContent1>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small uk-padding-remove-top" #exportContent1>
       <div class="uk-container">
 
-        <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h5>Policy Overview</h5>
-        </div>
+<!--        <div class="uk-flex uk-flex-between uk-flex-middle">-->
+<!--          <h5>Policy Overview</h5>-->
+<!--        </div>-->
 
         <div class="uk-grid-small" data-uk-grid>
           <!-- left card -->
