@@ -4,10 +4,17 @@
   </div>
   <div inner>
 
-    <div class="uk-section uk-section-small" #exportContent>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
       <div class="uk-container">
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
-          <h4>Repositories</h4>
+<!--          <h4>Repositories</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Repositories in 2023</h4>
+            </div>
+          </div>
           <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
             style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary"
@@ -25,7 +32,14 @@
           </div>
         </div>
         <div class="uk-hidden@m">
-          <h4>Repositories</h4>
+<!--          <h4>Repositories</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Repositories in 2023</h4>
+            </div>
+          </div>
           <div class="uk-flex uk-flex-right" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
             style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary"
@@ -42,19 +56,19 @@
             </div>
           </div>
         </div>
-        <div class="uk-flex uk-flex-middle uk-margin-bottom">
-          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-            class="flag-image" width="42" height="42" alt="rounded flag image">
-          <div class="uk-margin-small-left">
-            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>
-          </div>
-        </div>
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
+<!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
+<!--          <div class="uk-margin-small-left">-->
+<!--            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h4>Repositories</h4>
-        </div>
+<!--        <div class="uk-flex uk-flex-between uk-flex-middle">-->
+<!--          <h4>Repositories</h4>-->
+<!--        </div>-->
 
-        <p>Repositories are essential for the uptake and advancement of Open Science, providing secure platforms for
+        <p class="uk-margin-medium-bottom">Repositories are essential for the uptake and advancement of Open Science, providing secure platforms for
           storing, sharing, and preserving research outputs in line with FAIR principles. They promote transparency,
           reproducibility, and collaboration while supporting long-term knowledge preservation. By connecting national
           and regional research systems, repositories play a key role in advancing Open Science and contributing to the
@@ -175,7 +189,7 @@
       </div>
     </div>
     <div #exportContent1>
-      <div *ngIf="hasSurveyRepositoriesData()" class="uk-section uk-section-small uk-margin-top">
+      <div *ngIf="hasSurveyRepositoriesData()" class="uk-section uk-section-primary uk-preserve-color uk-section-small">
         <div class="uk-container">
 
           <div class="uk-margin-medium-top uk-animation-fade">

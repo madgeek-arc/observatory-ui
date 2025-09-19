@@ -3,10 +3,17 @@
     <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
   <div inner>
-    <div class="uk-section uk-section-small" #exportContent>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
       <div class="uk-container">
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
-          <h4>Training for Open Science</h4>
+<!--          <h4>Training for Open Science</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Training for Open Science in 2023</h4>
+            </div>
+          </div>
           <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
             style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary"
@@ -24,7 +31,14 @@
           </div>
         </div>
         <div class="uk-hidden@m">
-          <h4>Training for Open Science</h4>
+<!--          <h4>Training for Open Science</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Training for Open Science in 2023</h4>
+            </div>
+          </div>
           <div class="uk-flex uk-flex-right" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
             style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary"
@@ -41,29 +55,29 @@
             </div>
           </div>
         </div>
-        <div class="uk-flex uk-flex-middle uk-margin-bottom">
-          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-            class="flag-image" width="42" height="42" alt="rounded flag image">
-          <div class="uk-margin-small-left">
-            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>
-          </div>
-        </div>
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
+<!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
+<!--          <div class="uk-margin-small-left">-->
+<!--            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h4>Training for Open Science</h4>
-        </div>
+<!--        <div class="uk-flex uk-flex-between uk-flex-middle">-->
+<!--          <h4>Training for Open Science</h4>-->
+<!--        </div>-->
 
-        <p>Training is essential for the succesful adoption of Open Science, equipping key stakeholders with the skills
+        <p class="uk-margin-medium-bottom">Training is essential for the succesful adoption of Open Science, equipping key stakeholders with the skills
           to implement open practices, share research outputs, and foster global collaboration.
           This page offers an overview of skills and training initiatives in Europe, including policies, financial
           investments, and strategies from the Survey on National Contributions to EOSC and Open Science.</p>
         <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h4>General Overview of Open Science Training in {{ countryName }} for 2023</h4>
+          <h5>General Overview of Open Science Training in {{ countryName }} for 2023</h5>
         </div>
 
-        <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h4>Repositories Overview</h4>
-        </div>
+<!--        <div class="uk-flex uk-flex-between uk-flex-middle">-->
+<!--          <h4>Repositories Overview</h4>-->
+<!--        </div>-->
 
         <div class="uk-grid-small" data-uk-grid>
           <div class="uk-width-1-1 uk-width-expand@m" *ngIf="hasAnyLeftCardData()">
@@ -98,7 +112,7 @@
                 <!--Card 2-->
 
                 <app-info-card *ngIf="rfoTrainingPercentage[1] !== null"
-                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Repositories</span>`"
+                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Open Science Training</span>`"
                   [value]="rfoTrainingPercentage[1]" [unit]="'%'" [diff]="rfoTrainingPercentageDiff">
                 </app-info-card>
 
@@ -106,7 +120,7 @@
                 <!--Card 3-->
 
                 <app-info-card *ngIf="trainingFinancialInvestment[1] !== null"
-                  [titleHtml]="`Total <span class='uk-text-bold'>financial investment in repositories</span>`"
+                  [titleHtml]="`Total <span class='uk-text-bold'>financial investment in Open Science Training</span>`"
                   [value]="trainingFinancialInvestment[1]" [unit]="'mil Euro'"
                   [diff]="trainingFinancialInvestmentPercentageDiff">
                 </app-info-card>
@@ -114,7 +128,7 @@
                 <!--Card 4-->
 
                 <app-info-card *ngIf="rpoTrainingPercentage[1] !== null"
-                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy in Repositories</span>`"
+                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Open Science Training</span>`"
                   [value]="rpoTrainingPercentage[1]" [unit]="'%'" [diff]="rpoTrainingPercentageDiff">
                 </app-info-card>
 
@@ -127,7 +141,7 @@
             <div class="uk-card uk-card-default uk-card-body visualisation-card">
               <div class="uk-margin-top">
                 <h5 class="uk-flex uk-flex-between uk-margin-remove">
-                  National Repository Policy
+                  National Open Science Training Policy
                   <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': hasNationalPolicy === 'Yes',
                   'down-arrow-color': hasNationalPolicy === 'No',
@@ -148,7 +162,7 @@
 
               <div class="uk-margin-top">
                 <h5 class="uk-flex uk-flex-between">
-                  Financial Strategy for Repositories
+                  Financial Strategy on Open Science Training
                   <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': hasFinancialStrategy === 'Yes',
                   'down-arrow-color': hasFinancialStrategy === 'No',
@@ -167,7 +181,7 @@
 
               <div class="uk-margin-top">
                 <h5 class="uk-flex uk-flex-between">
-                  Monitoring of Repositories
+                  Monitoring on Open Science Training
                   <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': hasMonitoring === 'Yes',
                   'down-arrow-color': hasMonitoring === 'No',
@@ -196,7 +210,7 @@
       </div>
     </div>
     <div #exportContent1>
-      <div *ngIf="hasSurveyTrainingData()" class="uk-section uk-section-small">
+      <div *ngIf="hasSurveyTrainingData()" class="uk-section uk-section-primary uk-preserve-color uk-section-small">
         <div class="uk-container">
           <div class="uk-margin-medium-top uk-animation-fade">
             <div

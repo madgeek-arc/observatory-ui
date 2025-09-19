@@ -3,11 +3,16 @@
     <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
   <div inner>
-    <div class="uk-section uk-section-small" #exportContent>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
       <div class="uk-container">
 
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
-          <h4>General R&D Overview</h4>
+<!--          <h4>General R&D Overview</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image uk-margin-small-right" width="42" height="42" alt="rounded flag image">
+            <h4 class="uk-margin-remove">{{ countryName }} - Open Science for 2023</h4>
+          </div>
           <div class="uk-flex uk-flex-center"
             (click)="exportToPDF([exportContent, exportContent1, exportContent2], 'General R&D Overview')"
             style="cursor: pointer">
@@ -27,7 +32,12 @@
         </div>
 
         <div class="uk-hidden@m">
-          <h4>General R&D Overview</h4>
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image uk-margin-small-right" width="42" height="42" alt="rounded flag image">
+            <h4 class="uk-margin-remove">{{ countryName }} - Open Science for 2023</h4>
+          </div>
+<!--          <h4>General R&D Overview</h4>-->
           <div class="uk-flex uk-flex-right"
             (click)="exportToPDF([exportContent, exportContent1, exportContent2], 'General R&D Overview')"
             style="cursor: pointer">
@@ -46,18 +56,18 @@
           </div>
         </div>
 
-        <div class="uk-flex uk-flex-middle uk-margin-bottom">
-          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-            class="flag-image uk-margin-small-right" width="42" height="42" alt="rounded flag image">
-          <h4 class="uk-margin-remove">{{ countryName }} - Open Science for 2023</h4>
-        </div>
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
+<!--            class="flag-image uk-margin-small-right" width="42" height="42" alt="rounded flag image">-->
+<!--          <h4 class="uk-margin-remove">{{ countryName }} - Open Science for 2023</h4>-->
+<!--        </div>-->
       </div>
     </div>
 
-    <div class="uk-section uk-section-small uk-padding-remove" #exportContent1>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent1>
       <div class="uk-container">
 
-        <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-top">
+        <div class="uk-flex uk-flex-between uk-flex-middle">
           <h5>General Overview of R&D and Open Science</h5>
         </div>
 
@@ -180,7 +190,7 @@
     </div>
 
     <div #exportContent2>
-      <div *ngIf="hasSurveyGeneralData()" class="uk-section uk-section-small uk-margin-top">
+      <div *ngIf="hasSurveyGeneralData()" class="uk-section uk-section-primary uk-preserve-color uk-section-small uk-margin-top">
         <div class="uk-container">
 
           <div class="uk-margin-medium-top uk-animation-fade">

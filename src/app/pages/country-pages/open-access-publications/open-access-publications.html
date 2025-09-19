@@ -3,11 +3,18 @@
     <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
   <div inner>
-    <div class="uk-section uk-section-small" #exportContent>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small " #exportContent>
       <div class="uk-container">
 
          <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
-          <h4>Open Access Publications</h4>
+           <div class="uk-flex uk-flex-middle uk-margin-bottom">
+             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                  class="flag-image" width="42" height="42" alt="rounded flag image">
+             <div class="uk-margin-small-left">
+               <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Access Publications for 2023</h4>
+             </div>
+           </div>
+<!--          <h4>Open Access Publications</h4>-->
           <div class="uk-flex uk-flex-center"
             (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5], 'Open Access Publications')"
             style="cursor: pointer">
@@ -27,7 +34,14 @@
         </div>
 
         <div class="uk-hidden@m">
-          <h4>Open Access Publications</h4>
+<!--          <h4>Open Access Publications</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Access Publications for 2023</h4>
+            </div>
+          </div>
           <div class="uk-flex uk-flex-right"
             (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5], 'Open Access Publications')"
             style="cursor: pointer">
@@ -46,18 +60,18 @@
           </div>
         </div>
 
-        <div class="uk-flex uk-flex-middle uk-margin-bottom">
-          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-               class="flag-image" width="42" height="42" alt="rounded flag image">
-          <div class="uk-margin-small-left">
-            <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Access Publications</h4>
-          </div>
-        </div>
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
+<!--               class="flag-image" width="42" height="42" alt="rounded flag image">-->
+<!--          <div class="uk-margin-small-left">-->
+<!--            <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Access Publications</h4>-->
+<!--          </div>-->
+<!--        </div>-->
 
       </div>
     </div>
 
-    <div class="uk-section uk-section-small uk-padding-remove-top" #exportContent1>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small  uk-padding-remove-top" #exportContent1>
       <div class="uk-container">
 
         <p class="uk-text-lead">Open Access (OA) represents a transformative approach within the scholarly communication landscape, aiming to make research outputs freely accessible to all, without subscription or price barriers. The graphics below provides a high-level overview of key indicators tracking the progress of OA publishing and policies in selected country.</p>
@@ -73,7 +87,7 @@
               <div class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center" data-uk-grid>
 
                 <!-- Card 1 -->
-              
+
                   <app-info-card *ngIf="OAPubsPercentage[1] !== null"
                      [titleHtml]="'OA Publication in ' + countryName + ' (OA vs Closed)'"
                      [value]="OAPubsPercentage[1]"
@@ -100,7 +114,7 @@
                 </app-info-card>
 
                 <!-- Card 4 -->
-              
+
                 <app-info-card *ngIf="financialInvestment[1] !== null && financialInvestment[1]"
                    [titleHtml]="'Financial Investments in OA Publications'"
                    [value]="financialInvestment[1]"
@@ -110,7 +124,7 @@
 
               </div>
               <div class="uk-margin-top">
-                <span class="uk-text-bold">Data source:</span>&nbsp; 
+                <span class="uk-text-bold">Data source:</span>&nbsp;
                 Survey on National Contributions to EOSC and Open Science; OpenAIRE Graph.
               </div>
             </div>
@@ -186,7 +200,7 @@
     </div>
 
     <div #exportContent2>
-    <div *ngIf="hasSurveyPublicationData()"  class="uk-section uk-section-small uk-margin-top">
+    <div *ngIf="hasSurveyPublicationData()"  class="uk-section uk-section-primary uk-preserve-color uk-section-small">
       <div class="uk-container">
 
         <div class=" uk-animation-fade">
@@ -209,7 +223,7 @@
     </div>
     </div>
 
-    <div class="uk-section uk-section-small uk-margin-top" #exportContent3>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent3>
       <div class="uk-container">
 
         <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body uk-animation-fade">
@@ -234,7 +248,7 @@
       </div>
     </div>
 
-    <div class="uk-section uk-section-small uk-margin-top" #exportContent4>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent4>
       <div class="uk-container">
         <h5></h5>
         <div class="uk-container">
@@ -259,7 +273,7 @@
       </div>
     </div>
 
-    <div class="uk-section uk-section-small uk-margin-top" #exportContent5>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent5>
       <div class="uk-container">
 
         <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body">

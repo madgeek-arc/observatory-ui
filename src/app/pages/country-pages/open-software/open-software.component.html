@@ -3,10 +3,17 @@
     <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
   <div inner>
-    <div class="uk-section uk-section-small" #exportContent>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
       <div class="uk-container">
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
-          <h4>Open Software</h4>
+<!--          <h4>Open Software</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Software for 2023</h4>
+            </div>
+          </div>
           <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
             style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary"
@@ -24,7 +31,14 @@
           </div>
         </div>
         <div class="uk-hidden@m">
-          <h4>Open Software</h4>
+<!--          <h4>Open Software</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Software for 2023</h4>
+            </div>
+          </div>
           <div class="uk-flex uk-flex-right" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
             style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary"
@@ -41,26 +55,26 @@
             </div>
           </div>
         </div>
-        <div class="uk-flex uk-flex-middle uk-margin-bottom">
-          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-            class="flag-image" width="42" height="42" alt="rounded flag image">
-          <div class="uk-margin-small-left">
-            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>
-          </div>
-        </div>
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
+<!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
+<!--          <div class="uk-margin-small-left">-->
+<!--            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h4>Open Software</h4>
-        </div>
+<!--        <div class="uk-flex uk-flex-between uk-flex-middle">-->
+<!--          <h4>Open Software</h4>-->
+<!--        </div>-->
 
-        <p>Open software is a vital component of Open Science, enabling key stakeholders to access, modify, and share
+        <p class="uk-margin-medium-bottom">Open software is a vital component of Open Science, enabling key stakeholders to access, modify, and share
           tools that drive innovation and collaboration in research.
           It fosters transparency, reproducibility, and interoperability across scientific disciplines.
           This page provides an overview of open software initiatives in Europe, including data on policies, financial
           investments, and strategies from the Survey on National Contributions to EOSC and Open Science</p>
 
         <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h4>General Overview of Open Software in {{ countryName }} for 2023</h4>
+          <h5>General Overview of Open Software in {{ countryName }} for 2023</h5>
         </div>
 
         <div class="uk-grid-small" data-uk-grid>
@@ -97,7 +111,7 @@
                 <!--Card 2-->
 
                 <app-info-card *ngIf="rfoSoftwarePercentage[1] !== null && rfoSoftwarePercentage[1] !== undefined"
-                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Repositories</span>`"
+                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Open Software</span>`"
                   [value]="rfoSoftwarePercentage[1]" [unit]="'%'" [diff]="rfoSoftwarePercentageDiff">
                 </app-info-card>
 
@@ -105,7 +119,7 @@
 
                 <app-info-card
                   *ngIf="softwareFinancialInvestment[1] !== null && softwareFinancialInvestment[1] !== undefined"
-                  [titleHtml]="'Total <span class=\'uk-text-bold\'>financial investment in repositories</span>'"
+                  [titleHtml]="'Total <span class=\'uk-text-bold\'>financial investment in Open Software</span>'"
                   [value]="softwareFinancialInvestment[1]" [unit]="'mil Euro'"
                   [diff]="softwareFinancialInvestmentPercentageDiff">
                 </app-info-card>
@@ -114,7 +128,7 @@
                 <!--Card 4-->
 
                 <app-info-card *ngIf="rpoSoftwarePercentage[1] !== null && rpoSoftwarePercentage[1] !== undefined"
-                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Repositories</span>`"
+                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Open Software</span>`"
                   [value]="rpoSoftwarePercentage[1]" [unit]="'mil Euro'" [diff]="rpoSoftwarePercentageDiff">
                 </app-info-card>
 
@@ -127,7 +141,7 @@
             <div class="uk-card uk-card-default uk-card-body visualisation-card">
               <div class="uk-margin-top">
                 <h5 class="uk-flex uk-flex-between uk-margin-remove">
-                  National Repository Policy
+                  National Open Software Policy
                   <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': hasNationalPolicy === 'Yes',
                   'down-arrow-color': hasNationalPolicy === 'No',
@@ -149,7 +163,7 @@
 
               <div class="uk-margin-top">
                 <h5 class="uk-flex uk-flex-between">
-                  Financial Strategy for Repositories
+                  Financial Strategy on Open Software
                   <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': hasFinancialStrategy === 'Yes',
                   'down-arrow-color': hasFinancialStrategy === 'No',
@@ -169,7 +183,7 @@
 
               <div class="uk-margin-top">
                 <h5 class="uk-flex uk-flex-between">
-                  Monitoring of Repositories
+                  Monitoring on Open Software
                   <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': hasMonitoring === 'Yes',
                   'down-arrow-color': hasMonitoring === 'No',
@@ -200,7 +214,7 @@
 
     <!-- <pre>{{ surveyAnswers[1] | json }}</pre> -->
     <div #exportContent1>
-      <div *ngIf="hasSurveySoftwareData()" class="uk-section uk-section-small">
+      <div *ngIf="hasSurveySoftwareData()" class="uk-section uk-section-primary uk-preserve-color uk-section-small">
         <div class="uk-container">
           <div class="uk-margin-medium-top uk-animation-fade">
             <div

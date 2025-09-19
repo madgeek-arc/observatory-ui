@@ -3,10 +3,17 @@
     <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
   <div inner>
-    <div class="uk-section uk-section-small" #exportContent>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
       <div class="uk-container">
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
-          <h4>Open Data</h4>
+<!--          <h4>Open Data</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data for 2023</h4>
+            </div>
+          </div>
           <div class="uk-flex uk-flex-center"
             (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3], 'Open Data')"
             style="cursor: pointer">
@@ -26,7 +33,14 @@
         </div>
 
         <div class="uk-hidden@m">
-          <h4>Open Data</h4>
+<!--          <h4>Open Data</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data for 2023</h4>
+            </div>
+          </div>
           <div class="uk-flex uk-flex-right"
             (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3], 'Open Data')"
             style="cursor: pointer">
@@ -45,18 +59,18 @@
           </div>
         </div>
 
-        <div class="uk-flex uk-flex-middle uk-margin-bottom">
-          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-            class="flag-image" width="42" height="42" alt="rounded flag image">
-          <div class="uk-margin-small-left">
-            <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data</h4>
-          </div>
-        </div>
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
+<!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
+<!--          <div class="uk-margin-small-left">-->
+<!--            <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data</h4>-->
+<!--          </div>-->
+<!--        </div>-->
 
       </div>
     </div>
 
-    <div class="uk-section uk-section-small uk-padding-remove-top" #exportContent1>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small uk-padding-remove-top" #exportContent1>
       <div class="uk-container">
 
         <p class="uk-text-lead">The European Union defines Open Data as the information collected, produced, or paid for
@@ -182,7 +196,7 @@
         </div>
       </div>
 
-      <div *ngIf="hasSurveyOpenData()" class="uk-section uk-section-small uk-margin-top">
+      <div *ngIf="hasSurveyOpenData()" class="uk-section uk-section-primary uk-preserve-color uk-section-small">
         <div class="uk-container">
 
           <div class="uk-animation-fade">
@@ -224,7 +238,7 @@
       </div>
     </div>
 
-    <div class="uk-section uk-section-small" #exportContent2>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent2>
       <div class="uk-container">
 
         <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body">
@@ -246,7 +260,7 @@
       </div>
     </div>
 
-    <div class="uk-section uk-section-small uk-margin-top" #exportContent3>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent3>
       <div class="uk-container">
 
         <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body">

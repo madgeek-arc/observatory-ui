@@ -3,10 +3,17 @@
     <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
   <div inner>
-    <div class="uk-section uk-section-small" #exportContent>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
       <div class="uk-container">
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
-          <h4>Data Management</h4>
+<!--          <h4>Data Management</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Data Management for 2023</h4>
+            </div>
+          </div>
           <div class="uk-flex uk-flex-center"
             (click)="exportToPDF([exportContent, exportContent1, exportContent2], 'Open Data')"
             style="cursor: pointer">
@@ -26,7 +33,14 @@
         </div>
 
         <div class="uk-hidden@m">
-          <h4>Data Management</h4>
+<!--          <h4>Data Management</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Data Management for 2023</h4>
+            </div>
+          </div>
           <div class="uk-flex uk-flex-right"
             (click)="exportToPDF([exportContent, exportContent1, exportContent2], 'Open Data')"
             style="cursor: pointer">
@@ -44,19 +58,19 @@
             </div>
           </div>
         </div>
-        <div class="uk-flex uk-flex-middle uk-margin-bottom">
-          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-            class="flag-image" width="42" height="42" alt="rounded flag image">
-          <div class="uk-margin-small-left">
-            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>
-          </div>
-        </div>
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
+<!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
+<!--          <div class="uk-margin-small-left">-->
+<!--            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h4>Data Management</h4>
-        </div>
+<!--        <div class="uk-flex uk-flex-between uk-flex-middle">-->
+<!--          <h4>Data Management</h4>-->
+<!--        </div>-->
 
-        <p>Data management refers to the process of collecting, organizing, storing, and maintaining data throughout its
+        <p class="uk-margin-medium-bottom">Data management refers to the process of collecting, organizing, storing, and maintaining data throughout its
           lifecycle. It involves ensuring that data is accessible, secure, and usable, facilitating effective
           decision-making and research outcomes.
           A key component of modern data management is the adherence to the FAIR principles, which emphasize making data
@@ -66,7 +80,7 @@
           standards.</p>
 
         <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h4>General Overview of Data Management in {{countryName}} for 2023</h4>
+          <h5>General Overview of Data Management in {{countryName}} for 2023</h5>
         </div>
 
         <div class="uk-grid-small" data-uk-grid>
@@ -173,7 +187,7 @@
     </div>
 
     <div #exportContent1>
-      <div *ngIf="hasSurveyDataManagementData()" class="uk-section uk-section-small">
+      <div *ngIf="hasSurveyDataManagementData()" class="uk-section uk-section-primary uk-preserve-color uk-section-small">
         <div class="uk-container">
 
           <div class="uk-margin-medium-top uk-animation-fade">
@@ -199,7 +213,7 @@
       </div>
     </div>
 
-    <div class="uk-section uk-section-small" #exportContent2>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent2>
       <div class="uk-container">
         <div class="uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
           <div *ngIf="stackedColumnSeries1[0].data.length">
