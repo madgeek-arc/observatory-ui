@@ -5,8 +5,8 @@
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.js",
     "build": "ng build",
-    "build:prod": "ng build --configuration production",
-    "build:beta": "ng build --configuration beta",
+    "build:prod": "node --max-old-space-size=6144 ./node_modules/@angular/cli/bin/ng build --configuration production",
+    "build:beta": "node --max-old-space-size=6144 ./node_modules/@angular/cli/bin/ng build --configuration beta",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
