@@ -15,7 +15,7 @@ export const environment = {
   profileName: 'eosc-obs',
   OSO_STATS_API_ENDPOINT: 'https://services.openaire.eu/stats-tool/',
   osoStatsProfileName: 'observatory',
-  matomoTrackerUrl: 'https://eosc-analytics.openaire.eu/matomo.php',
+  matomoTrackerUrl: 'https://eosc-analytics.openaire.eu',
   matomoSiteId: 2,
   RECAPTCHA_V3_KEY: '$RECAPTCHA_V3_SITE_KEY',
   enableSentry: true,
