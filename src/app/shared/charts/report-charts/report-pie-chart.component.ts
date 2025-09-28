@@ -15,7 +15,7 @@ ExportData(Highcharts);
   imports: [
     HighchartsChartModule
   ],
-  template: `<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" style="width: 100%; height: 400px; display: block;"></highcharts-chart>`
+  template: `<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" style="width: 100%; display: block;"></highcharts-chart>`
 })
 
 export class ReportPieChartComponent implements OnInit, OnChanges {
@@ -28,14 +28,13 @@ export class ReportPieChartComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['series'] && this.series) {
-      this.updateChartOptions(); // Αν αλλάξουν τα series, ενημέρωσε το γράφημα
-      console.log('Series updated:', this.series);
+      this.updateChartOptions();
     }
   }
 
 
   ngOnInit(): void {
-    this.updateChartOptions(); // Αρχική ενημέρωση κατά την εκκίνηση του component
+    this.updateChartOptions();
   }
 
   updateChartOptions() {
@@ -51,22 +50,26 @@ export class ReportPieChartComponent implements OnInit, OnChanges {
         }
       },
       title: {
-        text: 'Monitoring'
+        text: undefined
+      },
+      credits: {
+        enabled: false
       },
       tooltip: {
         pointFormat: '{series.name}: <b>{point.y}</b> ({point.percentage:.0f}%)'
       },
       plotOptions: {
         pie: {
-          innerSize: '60%',
+          innerSize: '50%',
           allowPointSelect: true,
           cursor: 'pointer',
           showInLegend: true,
           dataLabels: {
             enabled: true,
             format: '{point.y}<br>{point.percentage:.0f}%',
-            distance: -30,
+            distance: -40,
             style: {
+              fontSize: '16px',
               fontWeight: 'bold',
               color: 'white'
             }
@@ -78,7 +81,6 @@ export class ReportPieChartComponent implements OnInit, OnChanges {
         align: 'center',
         verticalAlign: 'bottom'
       },
-      // Χρήση των δεδομένων από το @Input ή κενό array
       series: this.series.length > 0 ? this.series : []
     };
   }
