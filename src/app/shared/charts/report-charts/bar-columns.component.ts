@@ -4,7 +4,7 @@ import { HighchartsChartModule } from "highcharts-angular";
 
 @Component({
   standalone: true,
-  selector: 'range-columns',
+  selector: 'bar-columns-chart',
   template: `
     <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" style="width: 100%; display: block;"></highcharts-chart>`,
   imports: [
@@ -12,10 +12,15 @@ import { HighchartsChartModule } from "highcharts-angular";
   ]
 })
 
-export class RangeColumnsComponent implements OnChanges {
+export class BarColumnsComponent implements OnChanges {
 
   @Input() series: Highcharts.SeriesColumnOptions[] = [];
   @Input() categories: string[] = ['>0 to 50 €K', '>50 to 100 €K', '>100 to 250 €K', '>250 to 500 €K', '>500 to 1000 €K', '>1000 €K'];
+  @Input() enableLegend = false;
+  @Input() titleText = undefined;
+  @Input() XAxisTitleText = undefined;
+  @Input() stacking = undefined;
+
 
   @Output() chartReady = new EventEmitter<Highcharts.Chart>();
 
@@ -39,7 +44,6 @@ export class RangeColumnsComponent implements OnChanges {
 
     this.chartOptions = {
       chart: {
-        type: 'column',
         events: {
           load(this: Highcharts.Chart) {
             // `this` is already typed as the Chart instance
@@ -48,7 +52,7 @@ export class RangeColumnsComponent implements OnChanges {
         }
       },
       title: {
-        text: undefined
+        text: this.titleText
       },
       credits: {
         enabled: false
@@ -56,7 +60,7 @@ export class RangeColumnsComponent implements OnChanges {
       xAxis: {
         categories: this.categories,
         title: {
-          text: 'per 1000 FTEs'
+          text: this.XAxisTitleText
         }
       },
       yAxis: {
@@ -65,10 +69,15 @@ export class RangeColumnsComponent implements OnChanges {
         }
       },
       legend: {
-        enabled: false
+        enabled: this.enableLegend
       },
       exporting: {
         enabled: false
+      },
+      plotOptions: {
+        series: {
+          stacking: this.stacking,
+        }
       },
       series: this.series.length > 0 ? this.series : []
 
