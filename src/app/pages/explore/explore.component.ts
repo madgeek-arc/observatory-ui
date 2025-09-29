@@ -7,7 +7,7 @@ import {
 import {
   DashboardSideMenuService
 } from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
-import { IconsService } from "../../../survey-tool/app/utils/icons/icons.service";
+import { IconsService } from "../../../survey-tool/app/shared/icons/icons.service";
 import { exploreIcons } from "./explore.icons";
 
 @Component({
