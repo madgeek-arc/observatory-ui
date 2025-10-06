@@ -38,7 +38,7 @@ export class WorldMapComponent implements OnChanges {
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options = {};
 
-  colorPallet = ['#2A9D8F', '#E9C46A', '#F4A261', '#E76F51', '#A9A9A9'];
+  colorPallet = ['#008792', '#E9C46A', '#F4A261', '#EB5C80', '#A9A9A9'];
   ready = false;
 
   ngOnChanges() {
