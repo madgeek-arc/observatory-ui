@@ -33,7 +33,7 @@ export class SearchComponent implements OnInit {
 
   // Search properties
   from = 0;
-  pageSize = 5;
+  pageSize = 10;
   searchQuery: string = null;
   languageFacets: Facet;
   countryFacets: Facet;

@@ -40,7 +40,9 @@
                   entire Open Science community.
                 </p>
                 <div class="uk-flex uk-flex-center">
-                  <button class="uk-button-primary uk-text-bold" style="border-radius: 30px; padding: 0 15px">Submit resources</button>
+                  <button class="uk-button-primary uk-text-bold" style="border-radius: 30px; padding: 0 15px">Submit
+                    resources
+                  </button>
                 </div>
               </div>
             </div>
@@ -49,7 +51,8 @@
       </div>
     </div>
 
-    <div class="uk-section uk-section-small" [ngClass]="isAdminPage ? 'uk-section-default' : 'uk-section-primary uk-preserve-color'">
+    <div class="uk-section uk-section-small"
+         [ngClass]="isAdminPage ? 'uk-section-default' : 'uk-section-primary uk-preserve-color'">
       <div class="uk-container uk-margin-top">
 
         <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-bottom">
@@ -57,19 +60,23 @@
 
             <div class="uk-inline uk-margin-small-right">
               <button class="uk-button uk-button-default" type="button">Language</button>
-              <div id="languageDropdown" uk-dropdown="mode: click; pos: bottom-left; animation: false;  auto-update: true;">
+              <div id="languageDropdown"
+                   uk-dropdown="mode: click; pos: bottom-left; animation: false;  auto-update: true;">
                 <div>
                   <div style="overflow: visible;">
                     <ng-select [items]="languageFacets?.values" bindLabel="value" bindValue="value" [isOpen]="true"
-                      placeholder="Language" [closeOnSelect]="false" class="open" [multiple]="true" [appendTo]="''"
-                      [dropdownPosition]="'bottom'" [(ngModel)]="selectedLanguages" (change)="onFilterChange('language', selectedLanguages)"
-                      (remove)="onFilterRemove('language', selectedLanguages)" [clearable]="false">
+                               placeholder="Language" [closeOnSelect]="false" class="open" [multiple]="true"
+                               [appendTo]="''"
+                               [dropdownPosition]="'bottom'" [(ngModel)]="selectedLanguages"
+                               (change)="onFilterChange('language', selectedLanguages)"
+                               (remove)="onFilterRemove('language', selectedLanguages)" [clearable]="false">
                       <ng-template ng-option-tmp let-item="item">
-                        {{item.value}} ({{item.count}})
+                        {{ item.value }} ({{ item.count }})
                       </ng-template>
                     </ng-select>
                     <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
-                      (click)="applyFilter('languageDropdown')">Apply</button>
+                            (click)="applyFilter('languageDropdown')">Apply
+                    </button>
                   </div>
                 </div>
               </div>
@@ -77,19 +84,22 @@
 
             <div class="uk-inline uk-margin-small-right" style="position: relative;">
               <button class="uk-button uk-button-default" type="button">Country</button>
-              <div id="countryDropdown" uk-dropdown="mode: click; pos: bottom-left; animation: false; auto-update: true;">
+              <div id="countryDropdown"
+                   uk-dropdown="mode: click; pos: bottom-left; animation: false; auto-update: true;">
                 <div>
                   <div style="overflow: visible;">
                     <ng-select [items]="countryFacets?.values" bindLabel="value" bindValue="value" placeholder="Country"
-                      [isOpen]="true" class="open" [multiple]="true" [closeOnSelect]="false"
-                      [dropdownPosition]="'bottom'" [(ngModel)]="selectedCountry" (change)="onFilterChange('country', selectedCountry)"
-                      (remove)="onFilterRemove('country', selectedCountry)" [clearable]="false">
+                               [isOpen]="true" class="open" [multiple]="true" [closeOnSelect]="false"
+                               [dropdownPosition]="'bottom'" [(ngModel)]="selectedCountry"
+                               (change)="onFilterChange('country', selectedCountry)"
+                               (remove)="onFilterRemove('country', selectedCountry)" [clearable]="false">
                       <ng-template ng-option-tmp let-item="item">
                         {{ item.value }} ({{ item.count }})
                       </ng-template>
                     </ng-select>
                     <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
-                      (click)="applyFilter('countryDropdown')">Apply</button>
+                            (click)="applyFilter('countryDropdown')">Apply
+                    </button>
                   </div>
                 </div>
               </div>
@@ -101,22 +111,24 @@
                 <div>
                   <div style="overflow: visible;">
                     <ng-select [items]="tagFacets?.values" bindLabel="value" bindValue="value" placeholder="Tags"
-                      [multiple]="true" class="open" [isOpen]="true" [closeOnSelect]="false"
-                      [dropdownPosition]="'bottom'" [(ngModel)]="selectedTag" (change)="onFilterChange('tags', selectedTag)"
-                      (remove)="onFilterRemove('tags', selectedTag)" [clearable]="false">
+                               [multiple]="true" class="open" [isOpen]="true" [closeOnSelect]="false"
+                               [dropdownPosition]="'bottom'" [(ngModel)]="selectedTag"
+                               (change)="onFilterChange('tags', selectedTag)"
+                               (remove)="onFilterRemove('tags', selectedTag)" [clearable]="false">
                       <ng-template ng-option-tmp let-item="item">
-                        {{item.value}} ({{item.count}})
+                        {{ item.value }} ({{ item.count }})
                       </ng-template>
                     </ng-select>
                     <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
-                      (click)="applyFilter('tagsDropdown')">Apply</button>
+                            (click)="applyFilter('tagsDropdown')">Apply
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
 
             <span *ngIf="showClearFilter()" class="material-symbols-outlined uk-margin-small-left"
-              style="cursor: pointer;" (click)="clearFilters()" uk-tooltip="Clear All">
+                  style="cursor: pointer;" (click)="clearFilters()" uk-tooltip="Clear All">
               delete
             </span>
 
@@ -124,7 +136,7 @@
           <div class="uk-inline">
             <span class="uk-form-icon" data-uk-icon="icon: search"></span>
             <input type="text" #searchInput class="uk-input menuSearch" placeholder="Search..."
-              [(ngModel)]="searchQuery" style="border-radius: 20px;">
+                   [(ngModel)]="searchQuery" style="border-radius: 20px;">
           </div>
         </div>
 
@@ -133,25 +145,25 @@
           <div>
 
             <span *ngFor="let language of appliedLanguages" class="filter-badge">
-             <strong>Language: &nbsp;</strong>{{language}}
+             <strong>Language: &nbsp;</strong>{{ language }}
               <button class="remove-btn" type="button" (click)="removeLanguageFilter(language)">x</button>
             </span>
 
 
             <span *ngFor="let country of appliedCountries" class="filter-badge">
-              <strong>Country: &nbsp;</strong> {{country}}
+              <strong>Country: &nbsp;</strong> {{ country }}
               <button class="remove-btn" type="button" (click)="removeCountryFilter(country)">x</button>
             </span>
 
 
             <span *ngFor="let tag of appliedTags" class="filter-badge">
-              <strong>Tag: &nbsp;</strong> {{tag}}
+              <strong>Tag: &nbsp;</strong> {{ tag }}
               <button class="remove-btn" type="button" (click)="removeTagFilter(tag)">×</button>
             </span>
 
 
             <span *ngIf="searchQuery" class="filter-badge">
-              <strong>Keyword: &nbsp;</strong> {{searchQuery}}
+              <strong>Keyword: &nbsp;</strong> {{ searchQuery }}
               <button class="remove-btn" type="button" (click)="removeKeywordFilter()">x</button>
             </span>
 
@@ -159,17 +171,18 @@
         </div>
 
 
-
         <div *ngIf="documents.results.length > 0; else noResults">
           <div *ngFor="let doc of documents.results" class="uk-card uk-card-default uk-margin-bottom">
             <div class="uk-card-body">
               <div *ngIf="isAdminPage" class="uk-flex uk-flex-right uk-margin-bottom">
-                <div class="" [ngClass]="{'uk-label-success': doc.status === 'APPROVED','uk-label-danger': doc.status === 'REJECTED','uk-label-warning': doc.status === 'PENDING'}">
+                <div class=""
+                     [ngClass]="{'uk-label-success': doc.status === 'APPROVED','uk-label-danger': doc.status === 'REJECTED','uk-label-warning': doc.status === 'PENDING'}">
                   {{ doc.status }}
                 </div>
               </div>
               <div *ngIf="!doc.docInfo; else docInfoFound">
-                No information was found or generated for this URL <a href="{{doc.url}}" target="_blank">{{doc.url}}</a>
+                No information was found or generated for this URL <a href="{{doc.url}}"
+                                                                      target="_blank">{{ doc.url }}</a>
               </div>
               <ng-template #docInfoFound>
                 <div class="uk-card-title">
@@ -178,10 +191,12 @@
                       <!-- {{doc.docInfo | json}} -->
                       <img *ngIf="doc.docInfo?.country && doc.docInfo.country !== 'EU'"
                            ngSrc="../../survey-tool/assets/images/flags/{{doc.docInfo?.country | lowercase}}-flag-round.png"
-                           class="flag-image uk-margin-small-right" width="30" height="20" alt="{{doc.docInfo?.country}} flag">
+                           class="flag-image uk-margin-small-right" width="30" height="20"
+                           alt="{{doc.docInfo?.country}} flag">
                       <img *ngIf="doc.docInfo?.country && doc.docInfo.country === 'EU'"
                            ngSrc="../../survey-tool/assets/images/flags/europe-flag.jpg"
-                           class="flag-image uk-margin-small-right" width="30" height="20" alt="{{doc.docInfo?.country}} flag">
+                           class="flag-image uk-margin-small-right" width="30" height="20"
+                           alt="{{doc.docInfo?.country}} flag">
                       <strong>
                         <a [routerLink]="['../document-landing', doc.id]">
                           {{ doc.docInfo?.title }}
@@ -196,34 +211,56 @@
                       </a>
                     </div>
                     <div class="uk-flex uk-flex-middle">
-                <span *ngFor="let tag of doc.docInfo?.tags" class="uk-label uk-margin-small-left uk-label-primary uk-text-bold">
-                  {{tag}}
+                <span *ngFor="let tag of doc.docInfo?.tags"
+                      class="uk-label uk-margin-small-left uk-label-primary uk-text-bold">
+                  {{ tag }}
                 </span>
                     </div>
 
                   </div>
                 </div>
 
-                <p>
-              <span *ngIf="doc.docInfo?.publicationDate">
-                Publication Date: {{ doc.docInfo.publicationDate | date:'mediumDate' }}
-              </span>
-                </p>
-                <p>
-              <span *ngIf="doc.docInfo?.startDate || doc.docInfo?.endDate">
-                Start: {{ doc.docInfo?.startDate | date:'mediumDate' }} - End: {{ doc.docInfo?.endDate | date:'mediumDate' }}
-              </span>
-                </p>
-                <p [ngClass]="{'uk-text-bold': doc.docInfo?.shortDescription?.generated}">
+                <div *ngIf="doc.docInfo?.publicationDate || doc.docInfo?.startDate || doc.docInfo?.endDate" class="uk-text-small uk-margin-small-bottom document-dates-metadata">
+                  <span *ngIf="doc.docInfo?.publicationDate">Publication Date: {{ doc.docInfo.publicationDate | date:'mediumDate' }}</span>
+                  <span *ngIf="doc.docInfo?.startDate">Start Date: {{ doc.docInfo.startDate | date:'mediumDate' }}</span>
+                  <span *ngIf="doc.docInfo?.endDate">End Date: {{ doc.docInfo.endDate | date:'mediumDate' }}</span>
+                </div>
+                <div *ngIf="doc.docInfo?.authors && doc.docInfo?.authors?.length>0" class="uk-text-small uk-margin-small-bottom">
+                  <div class="uk-margin-xsmall-bottom">
+                    <div class="uk-height-max-medium uk-overflow-auto uk-text-small uk-text-emphasis uk-flex uk-flex-wrap">
+                      <span class="uk-text-meta uk-margin-xsmall-right"> Authors: </span>
+                      <span *ngFor="let author of doc.docInfo.authors" style="margin-right: 5px;" class="uk-text-italic"> {{author.name}}; </span>
+                    </div>
+                  </div>
+                </div>
+                <p *ngIf="doc.docInfo?.shortDescription" [title]="doc.docInfo?.shortDescription?.generated ? 'This description is AI-generated' : null">
+                  <span *ngIf="doc.docInfo?.shortDescription?.generated" class="material-symbols-outlined" style="font-size: 16px">star_shine</span>
                   {{ doc.docInfo?.shortDescription?.text }}
+<!--                  <span *ngIf="doc.docInfo?.shortDescription?.generated" class="material-symbols-outlined uk-text-secondary" style="font-size: 16px">star_shine</span>-->
                 </p>
+                <div *ngIf="doc.docInfo?.organisations && doc.docInfo?.organisations?.length>0" class="uk-text-small uk-margin-small-bottom">
+                  <div class="uk-margin-xsmall-bottom">
+                    <div class="uk-height-max-medium uk-overflow-auto uk-text-small uk-text-emphasis uk-flex uk-flex-wrap">
+                      <span class="uk-text-meta uk-margin-xsmall-right"> Organisations: </span>
+                      <ng-container *ngFor="let organisation of doc.docInfo.organisations; let i = index">
+                        <span *ngIf="i!==0" class="uk-margin-xsmall-right">,</span>
+                        <span>{{organisation}}</span>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
               </ng-template>
             </div>
             <div class="uk-card-footer" *ngIf="isAdminPage">
               <div class="uk-flex uk-flex-right">
-                <a href="#" class="uk-link uk-link-reset uk-margin-medium-right uk-flex uk-flex-middle uk-disabled uk-text-small" title="Coming soon.."><span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">edit</span>Edit</a>
-<!--                <hr class="uk-divider-vertical">-->
-                <a href="#" class="uk-link uk-link-reset uk-flex uk-flex-middle uk-disabled uk-text-small" title="Coming soon.." style="padding-left: 40px; border-left: 1px solid #ccc;"><span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">check_circle</span>Approve</a>
+                <a href="#"
+                   class="uk-link uk-link-reset uk-margin-medium-right uk-flex uk-flex-middle uk-disabled uk-text-small"
+                   title="Coming soon.."><span class="material-symbols-outlined uk-margin-xsmall-right"
+                                               style="font-size: 18px">edit</span>Edit</a>
+                <!--                <hr class="uk-divider-vertical">-->
+                <a href="#" class="uk-link uk-link-reset uk-flex uk-flex-middle uk-disabled uk-text-small"
+                   title="Coming soon.." style="padding-left: 40px; border-left: 1px solid #ccc;"><span
+                  class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">check_circle</span>Approve</a>
               </div>
             </div>
           </div>
@@ -234,8 +271,8 @@
               <div class="uk-flex uk-flex-between uk-flex-middle">
                 <!--Info text-->
                 <p class="big-text uk-margin-remove">
-                  <span class="uk-text-bold">{{documents.total}}</span> Documents, Page
-                  <span class="uk-text-bold">{{this.currentPage}}</span> of {{this.totalPages}}
+                  <span class="uk-text-bold">{{ documents.total }}</span> Documents, Page
+                  <span class="uk-text-bold">{{ this.currentPage }}</span> of {{ this.totalPages }}
                 </p>
                 <!--Pagination Controls-->
                 <ul class="uk-pagination" *ngIf="totalPages > 1">
