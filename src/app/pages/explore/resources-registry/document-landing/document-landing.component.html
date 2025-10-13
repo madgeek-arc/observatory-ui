@@ -74,6 +74,14 @@
           <div class="uk-grid-divider uk-grid" uk-grid>
 
             <div class="uk-width-3-4 uk-first-column">
+              <!-- ALERT -->
+            <div *ngIf="statusMessage" class="uk-width-1-1 uk-margin-small-bottom">
+              <div [ngClass]="{'uk-alert-success': statusType==='success', 'uk-alert-danger': statusType==='danger'}"
+                  class="uk-alert uk-text-center uk-width-auto" uk-alert>
+                {{ statusMessage }}
+                <a class="uk-alert-close" uk-close (click)="statusMessage = null"></a>
+              </div>
+            </div>
 
               <div class="uk-flex uk-flex-middle uk-flex-center">
                 <div class="landing-action-bar uk-box-shadow-small uk-margin-bottom uk-text-bolder">
@@ -90,9 +98,13 @@
                           <span class="material-symbols-outlined uk-margin-small-left" style="font-size: 20px">edit</span>
                           <span>Edit</span>
                         </a>
-                        <a class="uk-flex uk-flex-middle uk-button-link">
+                        <a (click)="onUpdateStatus(documentData.id, 'APPROVED')" class="uk-flex uk-flex-middle uk-button-link">
                           <span class="material-symbols-outlined uk-margin-small-left" style="font-size: 20px">check_circle</span>
                           <span>Approve</span>
+                        </a>
+                        <a (click)="onUpdateStatus(documentData.id, 'REJECTED')" class="uk-flex uk-flex-middle uk-button-link">
+                          <span class="material-symbols-outlined uk-margin-small-left" style="font-size: 20px">cancel</span>
+                          <span>Reject</span>
                         </a>
                       </div>
                     </div>

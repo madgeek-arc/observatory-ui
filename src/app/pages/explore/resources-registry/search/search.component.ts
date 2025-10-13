@@ -55,8 +55,13 @@ export class SearchComponent implements OnInit {
 
   isAdminPage: boolean = false;
 
+  // Alert properties
+  statusMessage: string = null;
+  statusType: 'success' | 'danger' = null;
+  error: string = null;
 
-  constructor(private resourceService: ResourceRegistryService, private route: ActivatedRoute, private router: Router) {}
+
+  constructor(private resourceService: ResourceRegistryService, private route: ActivatedRoute, private router: Router, private resourceRegistryService: ResourceRegistryService) {}
 
   ngOnInit() {
 
@@ -307,5 +312,52 @@ export class SearchComponent implements OnInit {
   }
 
   /** <---------------------------------------------------------------------------------------------- Filter methods **/
+
+  // Alert methods
+   onUpdateStatus(id: string, status: 'APPROVED' | 'REJECTED') {
+  this.resourceRegistryService.updateStatus(id, status)
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: () => {
+        console.log(`Document ${id} status updated to ${status}`);
+
+        // Εμφανίζουμε πράσινο alert (success)
+        this.statusMessage = status === 'APPROVED'
+          ? 'Document approved successfully.'
+          : 'Document rejected successfully.';
+        this.statusType = 'success';
+        setTimeout(() => this.statusMessage = null, 5000);
+
+        // Κάνουμε ξανά GET μόνο για το συγκεκριμένο document
+        this.resourceRegistryService.getDocumentById(id)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe({
+            next: (data) => {
+              // Ενημερώνουμε μόνο το document που άλλαξε μέσα στη λίστα
+              const index = this.documents.results.findIndex(d => d.id === id);
+              if (index !== -1) {
+                this.documents.results[index] = data;
+              }
+            },
+            error: (err) => {
+              this.error = 'Error fetching document after status update.';
+              this.statusMessage = 'Failed to refresh document data.';
+              this.statusType = 'danger';
+              setTimeout(() => this.statusMessage = null, 5000);
+              console.error(err);
+            }
+          });
+      },
+      error: (err) => {
+        this.error = `Error updating document status to ${status}.`;
+        this.statusMessage = 'Failed to update document status.';
+        this.statusType = 'danger';
+        setTimeout(() => this.statusMessage = null, 5000);
+        console.error(err);
+      }
+    });
+}
+
+
 
 }

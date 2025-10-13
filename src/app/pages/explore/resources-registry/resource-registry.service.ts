@@ -34,5 +34,11 @@ export class ResourceRegistryService {
   getDocumentById(id: string) {
     return this.httpClient.get<Document>(`${this.base}/items/${id}?resourceType=document`);
   }
+
+  updateStatus(id: string, status: 'APPROVED' | 'REJECTED') {
+    const url = `${this.base}/documents/${id}/status`;
+    const body = { status };
+    return this.httpClient.put(url, body);
+  }
   
 }

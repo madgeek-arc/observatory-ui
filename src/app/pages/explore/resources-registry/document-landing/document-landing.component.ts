@@ -7,6 +7,7 @@ import { DestroyRef, inject } from '@angular/core';
 import { CommonModule, LowerCasePipe, NgOptimizedImage } from "@angular/common";
 import { PageContentComponent } from 'src/survey-tool/app/shared/page-content/page-content.component';
 import { SidebarMobileToggleComponent } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
+import { set } from 'lodash';
 
 @Component({
     selector: 'app-document-landing',
@@ -21,6 +22,9 @@ export class DocumentLandingComponent implements OnInit {
   destroyRef = inject(DestroyRef);
 
   isAdminPage: boolean = false;
+
+  statusMessage: string = null;
+  statusType: 'success' | 'danger' = null;
 
   constructor(private route: ActivatedRoute, private documentService: ResourceRegistryService) {}
 
@@ -44,5 +48,35 @@ export class DocumentLandingComponent implements OnInit {
         });
       }
     }
+
+    onUpdateStatus(id: string, status: 'APPROVED' | 'REJECTED') {
+      this.documentService.updateStatus(id, status).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: () => {
+          console.log(`Document ${id} status updated to ${status}`);
+
+          this.statusMessage = status === 'APPROVED' ? 'Document approved successfully.' : 'Document rejected successfully.';
+          this.statusType = 'success' ;
+          setTimeout(() => this.statusMessage = null, 5000);
+
+          this.documentService.getDocumentById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+            next: (data) => {
+              this.documentData = data;
+            },
+            error: (err) => {
+              this.error = 'Error fetching document after status update.';
+              this.statusMessage = 'Failed to refresh document data.';
+              this.statusType = 'danger';
+            }
+        });
+        },
+        error: (err) => {
+          this.error = `Error updating document status to ${status}.`;
+          this.statusMessage = 'Failed to update document status.';
+          this.statusType = 'danger';
+          setTimeout(() => this.statusMessage = null, 5000);
+          console.error(err);
+        }
+      });
+  }
 
 }

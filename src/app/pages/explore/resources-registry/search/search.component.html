@@ -54,6 +54,16 @@
     <div class="uk-section uk-section-small"
          [ngClass]="isAdminPage ? 'uk-section-default' : 'uk-section-primary uk-preserve-color'">
       <div class="uk-container uk-margin-top">
+        <!-- ALERT -->
+              <div *ngIf="statusMessage" class="uk-width-1-1 uk-margin-small-bottom">
+                <div [ngClass]="{
+                      'uk-alert uk-alert-success uk-width-medium uk-text-center': statusType === 'success',
+                      'uk-alert uk-alert-danger uk-width-medium uk-text-center': statusType === 'danger'
+                    }" uk-alert>
+                  <a class="uk-alert-close" uk-close></a>
+                  <p>{{ statusMessage }}</p>
+                </div>
+              </div>
 
         <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-bottom">
           <div class="uk-flex uk-flex-left uk-flex-middle">
@@ -258,9 +268,20 @@
                    title="Coming soon.."><span class="material-symbols-outlined uk-margin-xsmall-right"
                                                style="font-size: 18px">edit</span>Edit</a>
                 <!--                <hr class="uk-divider-vertical">-->
-                <a href="#" class="uk-link uk-link-reset uk-flex uk-flex-middle uk-disabled uk-text-small"
-                   title="Coming soon.." style="padding-left: 40px; border-left: 1px solid #ccc;"><span
-                  class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">check_circle</span>Approve</a>
+                <a (click)="onUpdateStatus(doc.id, 'APPROVED')"
+                  class="uk-link uk-link-reset uk-flex uk-flex-middle uk-text-small"
+                  style="padding-left: 40px; border-left: 1px solid #ccc; cursor: pointer;">
+                  <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">
+                    check_circle
+                  </span>Approve
+                </a>
+                <a (click)="onUpdateStatus(doc.id, 'REJECTED')"
+                    class="uk-link uk-link-reset uk-flex uk-flex-middle uk-text-small"
+                    style="padding-left: 40px; border-left: 1px solid #ccc; margin-left: 10px; cursor: pointer;">
+                    <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">
+                      cancel
+                    </span>Reject
+                </a>
               </div>
             </div>
           </div>
