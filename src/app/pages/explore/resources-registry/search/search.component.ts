@@ -60,6 +60,9 @@ export class SearchComponent implements OnInit {
   statusType: 'success' | 'danger' = null;
   error: string = null;
 
+  alertStates: { [id: string]: { message: string; type: 'success' | 'danger' } } = {};
+
+
 
   constructor(private resourceService: ResourceRegistryService, private route: ActivatedRoute, private router: Router, private resourceRegistryService: ResourceRegistryService) {}
 
@@ -321,13 +324,21 @@ export class SearchComponent implements OnInit {
       next: () => {
         console.log(`Document ${id} status updated to ${status}`);
 
+        this.alertStates[id] = {
+          message: status === 'APPROVED'
+            ? 'Document approved successfully.'
+            : 'Document rejected successfully.',
+          type: 'success'
+        };
+
         // Εμφανίζουμε πράσινο alert (success)
-        this.statusMessage = status === 'APPROVED'
-          ? 'Document approved successfully.'
-          : 'Document rejected successfully.';
-        this.statusType = 'success';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setTimeout(() => this.statusMessage = null, 5000);
+        // this.statusMessage = status === 'APPROVED'
+        //   ? 'Document approved successfully.'
+        //   : 'Document rejected successfully.';
+        // this.statusType = 'success';
+        // window.scrollTo({ top: 0, behavior: 'smooth' });
+        // setTimeout(() => this.statusMessage = null, 5000);
+        setTimeout(() => delete this.alertStates[id], 5000);
 
         // Κάνουμε ξανά GET μόνο για το συγκεκριμένο document
         this.resourceRegistryService.getDocumentById(id)
