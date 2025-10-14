@@ -326,6 +326,7 @@ export class SearchComponent implements OnInit {
           ? 'Document approved successfully.'
           : 'Document rejected successfully.';
         this.statusType = 'success';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         setTimeout(() => this.statusMessage = null, 5000);
 
         // Κάνουμε ξανά GET μόνο για το συγκεκριμένο document
@@ -352,6 +353,7 @@ export class SearchComponent implements OnInit {
         this.error = `Error updating document status to ${status}.`;
         this.statusMessage = 'Failed to update document status.';
         this.statusType = 'danger';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         setTimeout(() => this.statusMessage = null, 5000);
         console.error(err);
       }

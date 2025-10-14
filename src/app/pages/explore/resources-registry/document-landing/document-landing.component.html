@@ -77,7 +77,7 @@
               <!-- ALERT -->
             <div *ngIf="statusMessage" class="uk-width-1-1 uk-margin-small-bottom">
               <div [ngClass]="{'uk-alert-success': statusType==='success', 'uk-alert-danger': statusType==='danger'}"
-                  class="uk-alert uk-text-center uk-width-auto" uk-alert>
+                  class="uk-alert uk-width-auto" uk-alert>
                 {{ statusMessage }}
                 <a class="uk-alert-close" uk-close (click)="statusMessage = null"></a>
               </div>
