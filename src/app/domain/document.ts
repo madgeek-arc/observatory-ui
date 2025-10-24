@@ -34,12 +34,12 @@ export interface Content {
     authors: Author[];
     modificationDate: string;
 }
-interface Description {
+export interface Description {
     text: string;
     generated: boolean;
 }
 
-interface Link{
+export interface Link{
     name: string;
     pid:string;
     type: string;
@@ -47,19 +47,19 @@ interface Link{
     description: string;
 }
 
-interface Metadata {
+export interface Metadata {
     createdby:string;
     creationDate: number;
     modifiedBy:string;
     modificationDate: number;
 }
 
-interface reference {
+export interface reference {
     surveyAnswerId: string;
     fields: string[];
 }
 
-interface Author {
+export interface Author {
     name: string;
     orcid: string;
 }

@@ -283,9 +283,9 @@
             </div>
             <div class="uk-card-footer" *ngIf="isAdminPage">
               <div class="uk-flex uk-flex-right">
-                <a href="#"
-                  class="uk-link uk-link-reset uk-margin-medium-right uk-flex uk-flex-middle uk-disabled uk-text-small"
-                  title="Coming soon.."><span class="material-symbols-outlined uk-margin-xsmall-right"
+                <a [routerLink]="['../document-edit', doc.id]"
+                  class="uk-link uk-link-reset uk-margin-medium-right uk-flex uk-flex-middle uk-text-small"
+                  title="Edit Document"><span class="material-symbols-outlined uk-margin-xsmall-right"
                     style="font-size: 18px">edit</span>Edit</a>
                 <!--                <hr class="uk-divider-vertical">-->
                 <a (click)="onUpdateStatus(doc.id, 'APPROVED')"
