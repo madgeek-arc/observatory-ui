@@ -1,1 +1,42 @@
-<pre>{{ document | json}}</pre>
+ <!-- <pre>{{ document | json}}</pre>   -->
+
+
+<div id="page_content">
+    <div id="id=page_content_inner">
+         <pre>{{ document | json}}</pre>
+        <form [formGroup]="editForm" class="uk-margin-left">
+            <label class="uk-form-label" for="title">Title: </label>
+            <input id="title" type="text" formControlName="title" />
+
+            <label class="uk-form-label" for="acronym">Acronym: </label>
+            <input id="acronym" type="acronym" formControlName="acronym" />
+
+            <label class="uk-form-label" for="country">Country: </label>
+            <input id="country" type="text" formControlName="country" />
+
+            <label class="uk-form-label" for="language">Language: </label>
+            <input id="language" type="text" formControlName="language" />
+
+            <label class="uk-form-label" for="startDate">Start Date: </label>
+            <input id="startDate" type="number" formControlName="startDate">
+
+            <label class="uk-form-label" for="endDate">End Date: </label>
+            <input id="endDate" type="number" formControlName="endDate">
+
+            <div formGroupName="shortDescription">
+                <h6>Short Description</h6>
+
+                <label class="uk-form-label" for="shortDescriptionText">Text: </label>
+                <textarea class="uk-textarea" id="shortDescriptionText" formControlName="text"></textarea>
+
+                <div>
+                    <label>
+                        <input class="uk-checkbox" type="checkbox" formControlName="generated">
+                        Generated
+                    </label>
+                </div>
+            </div>
+        </form>
+        <pre>{{ editForm.value | json}}</pre>
+    </div>
+</div>

@@ -1,10 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ResourceRegistryService } from "src/app/pages/explore/resources-registry/resource-registry.service";
 import { CommonModule } from "@angular/common";
 import { Author, Document, Link } from "src/app/domain/document";
-import { Validators } from "@angular/forms";
 import { FormArray } from "@angular/forms";
 import { Description } from "src/app/domain/document";
 import { Content } from "src/app/domain/document";
@@ -27,16 +26,17 @@ export class DocumentEditComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private resourceRegistryService: ResourceRegistryService,
-        private fb: FormBuilder
     ) {}
 
     ngOnInit(): void {
+        this.createForm();
         this.documentId = this.route.snapshot.paramMap.get('id');
 
         if (this.documentId) {
             this.resourceRegistryService.getDocumentById(this.documentId).subscribe({
                 next: (doc: Document) => {
                     this.document = doc;
+                    this.editForm.patchValue(doc.docInfo)
                     console.log('Document loaded successfully:', this.document);
                 },
                 error: (error) => {
@@ -48,37 +48,47 @@ export class DocumentEditComponent implements OnInit {
     }
 }
 
-    initializeForm(docInfo: Content): void {
-        this.editForm = this.fb.group({
-            title: [docInfo.title],
-            acronym: [docInfo.acronym],
-            country: [docInfo.country],
-            language: [docInfo.language],
-            publicationDate: [docInfo.publicationDate],
-        })
-    }
-
-    createDescriptionGroup(description: Description): FormGroup {
-        return this.fb.group({
-            text: [description.text],
-            generated: [description.generated]
+    createForm(): void {
+        this.editForm = new FormGroup({
+            title: new FormControl<string | null>(null, Validators.required),
+            acronym: new FormControl<string | null>(null),
+            country: new FormControl<string | null>(null),
+            language: new FormControl<string | null>(null),
+            startDate: new FormControl<string | null>(null),
+            endDate: new FormControl<string | null>(null),
+            author: new FormArray([]),
+            shortDescription: this.createDescriptionGroup()
         });
     }
 
-    createAuthorGroup(author: Author): FormGroup {
-        return this.fb.group({
-            name: [author.name],
-            orcid: [author.orcid]
+    createDescriptionGroup(): FormGroup {
+        return new FormGroup({
+            text: new FormControl<string | null>(null),
+            generated: new FormControl<boolean | null>(null)
         });
     }
 
-    createLinkGroup(link: Link): FormGroup {
-        return this.fb.group({
-            name: [link.name],
-            pid: [link.pid],
-            type: [link.type],
-            url: [link.url],
-            description: [link.description]
+    createAuthorGroup(): FormGroup {
+        return new FormGroup({
+            name: new FormControl<string | null>(null),
+            orcid: new FormControl<string | null>(null)
         })
     }
+
+    // --------------------------
+    //GETTERS 
+    // --------------------------
+
+    get authors(): FormArray {
+        return this.editForm.get('authors') as FormArray;
+    }
+
+    addAuthor(): void {
+        this.authors.push(this.createAuthorGroup());
+    }
+
+    removeAuthor(index: number ): void {
+        this.authors.removeAt(index);
+    }
+
 }
