@@ -1,42 +1,132 @@
- <!-- <pre>{{ document | json}}</pre>   -->
-
-
 <div id="page_content">
     <div id="id=page_content_inner">
-         <pre>{{ document | json}}</pre>
-        <form [formGroup]="editForm" class="uk-margin-left">
-            <label class="uk-form-label" for="title">Title: </label>
-            <input id="title" type="text" formControlName="title" />
+        <pre>{{ document | json}}</pre> 
+        
+        <form [formGroup]="editForm" class="uk-padding">
+            
+            <div class="uk-margin">
+                <label class="uk-form-label" for="title">Title: </label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="title" type="text" formControlName="title" />
+                </div>
+            </div>
 
-            <label class="uk-form-label" for="acronym">Acronym: </label>
-            <input id="acronym" type="acronym" formControlName="acronym" />
+            <div class="uk-margin">
+                <label class="uk-form-label" for="acronym">Acronym: </label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="acronym" type="text" formControlName="acronym" />
+                </div>
+            </div>
 
-            <label class="uk-form-label" for="country">Country: </label>
-            <input id="country" type="text" formControlName="country" />
+            <div class="uk-margin">
+                <label class="uk-form-label" for="country">Country: </label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="country" type="text" formControlName="country" />
+                </div>
+            </div>
 
-            <label class="uk-form-label" for="language">Language: </label>
-            <input id="language" type="text" formControlName="language" />
+            <div class="uk-margin">
+                <label class="uk-form-label" for="language">Language: </label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="language" type="text" formControlName="language" />
+                </div>
+            </div>
 
-            <label class="uk-form-label" for="startDate">Start Date: </label>
-            <input id="startDate" type="number" formControlName="startDate">
+            <div class="uk-margin">
+                <label class="uk-form-label" for="startDate">Start Date: </label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="startDate" type="number" formControlName="startDate">
+                </div>
+            </div>
 
-            <label class="uk-form-label" for="endDate">End Date: </label>
-            <input id="endDate" type="number" formControlName="endDate">
+            <div class="uk-margin">
+                <label class="uk-form-label" for="endDate">End Date: </label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="endDate" type="date" formControlName="endDate">
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="publicationDate">Publication Date:</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="publicationDate" type="date" formControlName="publicationDate" />
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="modificationDate">Modification Date: </label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="modificationDate" type="date" formControlName="modificationDate" />
+                </div>
+            </div>
+
+            <hr>
 
             <div formGroupName="shortDescription">
                 <h6>Short Description</h6>
 
-                <label class="uk-form-label" for="shortDescriptionText">Text: </label>
-                <textarea class="uk-textarea" id="shortDescriptionText" formControlName="text"></textarea>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="shortDescriptionText">Text: </label>
+                    <div class="uk-form-controls">
+                        <textarea class="uk-textarea" id="shortDescriptionText" formControlName="text"></textarea>
+                    </div>
+                </div>
 
-                <div>
-                    <label>
-                        <input class="uk-checkbox" type="checkbox" formControlName="generated">
-                        Generated
-                    </label>
+                <div class="uk-margin">
+                    <div class="uk-form-controls">
+                        <label>
+                            <input class="uk-checkbox" type="checkbox" formControlName="generated">
+                            Generated
+                        </label>
+                    </div>
                 </div>
             </div>
-        </form>
+            
+            <hr>
+
+            <div formGroupName="abstract">
+                <h6>Abstract</h6>
+
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="abstractText">Text: </label>
+                    <div class="uk-form-controls">
+                        <textarea class="uk-textarea" id="abstractText" formControlName="text"></textarea>
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <div class="uk-form-controls">
+                        <label>
+                            <input class="uk-checkbox" type="checkbox" formControlName="generated">
+                            Generated
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div formGroupName="summary">
+                <h6>Summary</h6>
+
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="summaryText">Text: </label>
+                    <div class="uk-form-controls">
+                        <textarea class="uk-textarea" id="summaryText" formControlName="text"></textarea>
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <div class="uk-form-controls">
+                        <label>
+                            <input class="uk-checkbox" type="checkbox" formControlName="generated">
+                            Generated
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            </form>
+        
         <pre>{{ editForm.value | json}}</pre>
     </div>
 </div>
