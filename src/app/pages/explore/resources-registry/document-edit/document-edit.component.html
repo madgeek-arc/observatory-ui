@@ -1,9 +1,9 @@
 <div id="page_content">
     <div id="id=page_content_inner">
-        <pre>{{ document | json}}</pre> 
-        
+        <pre>{{ document | json}}</pre>
+
         <form [formGroup]="editForm" class="uk-padding">
-            
+
             <div class="uk-margin">
                 <label class="uk-form-label" for="title">Title: </label>
                 <div class="uk-form-controls">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <hr>
 
             <div formGroupName="abstract">
@@ -124,9 +124,204 @@
                 </div>
             </div>
 
+            <div formArrayName="originalTitles" class="uk-margin">
+                <h6>Original Titles ({{originalTitles.length}})</h6>
+                <div class="uk-grid-small uk-child-width-1-1@s" uk-grid>
+                    <div *ngFor="let title of originalTitleControls; let i = index">
+                        <div class="uk-inline uk-width-1-1">
+                            <input class="uk-input" type="text" [formControl]="title"
+                                placeholder="Enter original title">
+                            <button type="button" (click)="removeOriginalTitle(i)" [hidden]="originalTitles.length === 1"
+                                class="uk-form-icon uk-form-icon-flip uk-button-danger" uk-icon="close" uk-tooltip="Remove Title">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" (click)="addOriginalTitle()" class="uk-button uk-button-primary uk-margin">
+                    Add Original Title
+                </button>
+            </div>
 
-            </form>
-        
+            <hr>
+
+            <div formArrayName="organisations" class="uk-margin">
+                <h6>Organisations ({{organisations.length}})</h6>
+                <div class="uk-grid-small uk-child-width-1-1@s" uk-grid>
+                    <div *ngFor="let ctr of organisations.controls; let i = index">
+                        <div class="uk-inline uk-width-1-1">
+                            <input class="uk-input" type="text" [formControlName]="i"
+                                placeholder="Enter organisation name">
+                            <button type="button" (click)="removeOrganisations(i)" [hidden]="organisations.length === 1"
+                                class="uk-form-icon uk-form-icon-flip uk-button-danger" uk-icon="close"
+                                uk-tooltip="Remove Organisation">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" (click)="addOrganisation()" class="uk-button uk-button-primary uk-margin">
+                    Add Organisation
+                </button>
+            </div>
+
+            <hr>
+
+            <div formArrayName="authors" class="uk-margin">
+                <h6>Authors ({{authors.length}})</h6>
+                <div class="uk-grid-small uk-child-width-1-1@s" uk-grid>
+                    <div *ngFor="let authorGroup of authorGroups; let i = index" [formGroupName]="i"
+                        class="uk-card uk-card-default uk-card-body uk-padding-small uk-margin-small-bottom">
+                        <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-1-1 uk-text-right">
+                                    <button type="button" (click)="removeAuthor(i)" [hidden]="authors.length === 1"
+                                        class="uk-icon-button uk-button-danger" uk-icon="close"
+                                        uk-tooltip="Remove Author">
+                                    </button>
+                                </div>
+                                <div>
+                                    <label class="uk-form-label">Name:</label>
+                                    <input class="uk-input" type="text" formControlName="name" placeholder="Author Name">
+                                </div>
+                                    <div>
+                                        <label class="uk-form-label">ORCID:</label>
+                                        <input class="uk-input" type="text" formControlName="orcid" placeholder="ORCID">
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" (click)="addAuthor()" class="uk-button uk-button-primary uk-margin">
+                    Add Author
+                </button>
+            </div>
+
+            <hr>
+
+            <div formArrayName="links" class="uk-margin">
+                <h6>Links ({{links.length}})</h6>
+                <div>
+                    <div *ngFor="let linkGroup of links.controls; let i = index" [formGroupName]="i"
+                        class="uk-card uk-card-default uk-card-body uk-padding-small uk-margin-small-bottom">
+                        <div class="uk-grid-small" uk-grid>
+                            <div class="uk-width-1-1 uk-text-right">
+                                <button type="button" (click)="removeLink(i)" [hidden]="links.length === 1" class="uk-icon-button uk-button-danger"
+                                    uk-icon="close" uk-tooltip="Remove Link"></button>
+                            </div>
+                            <div>
+                                <label class="uk-form-label">Name:</label>
+                                <input class="uk-input" type="text" formControlName="name" placeholder="Name">
+                            </div>
+                            <div>
+                                <label class="uk-form-label">PID:</label>
+                                <input class="uk-input" type="text" formControlName="pid" placeholder="PID">
+                            </div>
+                            <div>
+                                <label class="uk-form-label">Type:</label>
+                                <input class="uk-input" type="text" formControlName="type" placeholder="Type">
+                            </div>
+                            <div>
+                                <label class="uk-form-label">URL:</label>
+                                <input class="uk-input" type="url" formControlName="url" placeholder="Link URL">
+                            </div>
+                            <div class="uk-width-1-1">
+                                <label class="uk-form-label">Description:</label>
+                                <textarea class="uk-textarea" formControlName="description"
+                                    placeholder="Description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" (click)="addLink()" class="uk-button uk-button-primary">
+                    Add Link
+                </button>
+            </div>
+
+            <hr>
+            <div formArrayName="otherLinks" class="uk-margin">
+                <h6>Other Links ({{otherLinks.length}})</h6>
+                <div>
+                    <div *ngFor="let otherLinkGroup of otherLinks.controls; let i = index" [formGroupName]="i"
+                        class="uk-card uk-card-default uk-card-body uk-padding-small uk-margin-small-bottom">
+                        <div class="uk-grid-small" uk-grid>
+                            <div class="uk-width-1-1 uk-text-right">
+                                <button type="button" (click)="removeOtherLink(i)"
+                                    [hidden]="otherLinks.length === 1"
+                                    class="uk-icon-button uk-button-danger" uk-icon="close"
+                                    uk-tooltip="Remove Link"></button>
+                            </div>
+                            <div>
+                                <label class="uk-form-label">Name:</label>
+                                <input class="uk-input" type="text" formControlName="name" placeholder="Name">
+                            </div>
+
+                            <div>
+                                <label class="uk-form-label">PID:</label>
+                                <input class="uk-input" type="text" formControlName="pid" placeholder="PID">
+                            </div>
+                            <div>
+                                <label class="uk-form-label">Type:</label>
+                                <input class="uk-input" type="text" formControlName="type" placeholder="Type">
+                            </div>
+                            <div>
+                                <label class="uk-form-label">URL:</label>
+                                <input class="uk-input" type="url" formControlName="url" placeholder="Link URL">
+                            </div>
+                            <div class="uk-width-1-1">
+                                <label class="uk-form-label">Description:</label>
+                                <textarea class="uk-textarea" formControlName="description"
+                                    placeholder="Description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" (click)="addOtherLink()" class="uk-button uk-button-primary">
+                    Add other link
+                </button>
+            </div>
+
+            <hr>
+
+            <div formArrayName="tags" class="uk-margin">
+                <h6>Tags ({{tags.length}})</h6>
+                <div class="uk-grid-small uk-child-width-1-1@s" uk-grid>
+                    <div *ngFor="let tag of tagControls; let i = index">
+                        <div class="uk-inline uk-width-1-1">
+                            <input class="uk-input" type="text" [formControl]="tag" placeholder="Enter tag">
+                            <button type="button" (click)="removeTag(i)"
+                                [hidden]="tags.length === 1"
+                                class="uk-form-icon uk-form-icon-flip uk-button-danger" uk-icon="close"
+                                uk-tooltip="Remove Tag">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" (click)="addTag()" class="uk-button uk-button-primary uk-margin">
+                    Add Tag
+                </button>
+            </div>
+
+            <hr>
+
+            <div formArrayName="otherTags" class="uk-margin">
+                <h6>Other tags ({{otherTags.length}})</h6>
+                <div class="uk-grid-small uk-child-width-1-1" uk-grid>
+                    <div *ngFor="let otherTag of otherTagControls; let i = index">
+                        <div class="uk-inline uk-width-1-1">
+                            <input class="uk-input" type="text" [formControl]="otherTag" placeholder="Enter other tag">
+                            <button type="button" (click)="removeOtherTag(i)"
+                                [hidden]="otherTags.length === 1"
+                                class="uk-form-icon uk-form-icon-flip uk-button-danger" uk-icon="close"
+                                uk-tooltip="Remove other tag">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" (click)="addOtherTag()" class="uk-button uk-button-primary uk-margin">
+                    Add other tag
+                </button>
+            </div>
+
+            <hr>
+        </form>
+
         <pre>{{ editForm.value | json}}</pre>
     </div>
 </div>

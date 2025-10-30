@@ -59,7 +59,7 @@ export class DocumentEditComponent implements OnInit {
             publicationDate: new FormControl<string | null>(null),
             modificationDate: new FormControl<string | null>(null),
             organisations: new FormArray([]),
-            authors: new FormArray([this.createAuthorGroup()]),
+            authors: new FormArray([]),
             links: new FormArray([]),
             otherLinks: new FormArray([]),
             tags: new FormArray([]),
@@ -68,6 +68,13 @@ export class DocumentEditComponent implements OnInit {
             abstract: this.createDescriptionGroup(),
             summary: this.createDescriptionGroup(),
         });
+        this.addOtherTag();
+        this.addTag();
+        this.addOriginalTitle();
+        this.addOrganisation();
+        this.addAuthor();
+        this.addLink();
+        this.addOtherLink()
     }
 
     createDescriptionGroup(): FormGroup {
@@ -103,6 +110,10 @@ export class DocumentEditComponent implements OnInit {
         return this.editForm.get('authors') as FormArray;
     }
 
+    get authorGroups(): FormGroup[] {
+        return this.authors.controls as FormGroup[]
+    }
+
     addAuthor(): void {
         this.authors.push(this.createAuthorGroup());
     }
@@ -114,6 +125,10 @@ export class DocumentEditComponent implements OnInit {
     //Original Titles
     get originalTitles(): FormArray {
         return this.editForm.get('originalTitles') as FormArray;
+    }
+
+    get originalTitleControls(): FormControl[] {
+        return this.originalTitles.controls as FormControl[];
     }
 
     addOriginalTitle(): void {
@@ -129,6 +144,10 @@ export class DocumentEditComponent implements OnInit {
         return this.editForm.get('organisations') as FormArray
     }
 
+    get organisationControls(): FormControl[] {
+        return (this.editForm.get('organisations') as FormArray).controls as FormControl[]
+    }
+
     addOrganisation(): void {
         this.organisations.push(new FormControl<string | null>(null));
     }
@@ -142,11 +161,15 @@ export class DocumentEditComponent implements OnInit {
         return this.editForm.get('tags') as FormArray
     }
 
+    get tagControls(): FormControl[] {
+        return this.tags.controls as FormControl[]
+    }
+
     addTag(): void {
         this.tags.push(new FormControl<string | null>(null));
     }
 
-    removeTags(index: number): void {
+    removeTag(index: number): void {
         this.tags.removeAt(index);
     }
 
@@ -155,11 +178,15 @@ export class DocumentEditComponent implements OnInit {
         return this.editForm.get('otherTags') as FormArray
     }
 
+    get otherTagControls(): FormControl[] {
+        return this.otherTags.controls as FormControl[]
+    }
+
     addOtherTag(): void {
         this.otherTags.push(new FormControl<string | null>(null));
     }
 
-    removeOtherTags(index: number): void {
+    removeOtherTag(index: number): void {
         this.otherTags.removeAt(index)
     }
 
