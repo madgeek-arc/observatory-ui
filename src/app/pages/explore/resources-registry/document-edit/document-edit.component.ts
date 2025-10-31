@@ -3,7 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ResourceRegistryService } from "src/app/pages/explore/resources-registry/resource-registry.service";
 import { CommonModule } from "@angular/common";
-import { Author, Document } from "src/app/domain/document";
+import { Author, Document, Link } from "src/app/domain/document";
 import { FormArray } from "@angular/forms";
 
 
@@ -35,7 +35,16 @@ export class DocumentEditComponent implements OnInit {
             this.resourceRegistryService.getDocumentById(this.documentId).subscribe({
                 next: (doc: Document) => {
                     this.document = doc;
-                    this.editForm.patchValue(doc.docInfo)
+                    this.editForm.patchValue(doc.docInfo);
+                    // FormGroup Arrays
+                    this.setAuthorArrayValues(doc);
+                    this.setLinkArrayValues(doc);
+                    this.setOtherLinkArrayValues(doc);
+                    // FormControl Arrays
+                    this.setOriginalTitlesArrayValues(doc);
+                    this.setOrganisationsArrayValues(doc);
+                    this.setTagsArrayValues(doc);
+                    this.setOtherTagsArrayValues(doc);
                     console.log('Document loaded successfully:', this.document);
                 },
                 error: (error) => {
@@ -84,20 +93,20 @@ export class DocumentEditComponent implements OnInit {
         });
     }
 
-    createAuthorGroup(): FormGroup {
+    createAuthorGroup(author?: Author): FormGroup {
         return new FormGroup({
-            name: new FormControl<string | null>(null),
-            orcid: new FormControl<string | null>(null)
+            name: new FormControl<string | null>(author?.name ?? null),
+            orcid: new FormControl<string | null>(author?.orcid ?? null)
         })
     }
 
-    createLinkGroup(): FormGroup {
+    createLinkGroup(link?: Link): FormGroup {
         return new FormGroup({
-            name: new FormControl<string | null>(null),
-            pid: new FormControl<string | null>(null),
-            type:  new FormControl<string | null>(null),
-            url:  new FormControl<string | null>(null),
-            description:  new FormControl<string | null>(null)
+            name: new FormControl<string | null>(link?.name ?? null),
+            pid: new FormControl<string | null>(link?.pid ?? null),
+            type:  new FormControl<string | null>(link?.type ?? null),
+            url:  new FormControl<string | null>(link?.url ?? null),
+            description:  new FormControl<string | null>(link?.description ?? null)
         })
     }
 
@@ -214,6 +223,87 @@ export class DocumentEditComponent implements OnInit {
 
     removeOtherLink(index: number): void {
         this.otherLinks.removeAt(index)
+    }
+
+    setAuthorArrayValues(doc: Document): void {
+        this.authors.clear();
+
+        if ( doc.docInfo?.authors && doc.docInfo?.authors.length > 0) {
+            doc.docInfo?.authors.forEach((author: Author) => {
+                this.authors.push(this.createAuthorGroup(author))
+            })
+        }
+        if (this.authors.length === 0) {
+            this.addAuthor();
+        }
+    }
+
+    setLinkArrayValues(doc: Document): void {
+        this.links.clear();
+
+        if (doc.docInfo?.links && doc.docInfo?.links.length > 0) {
+            doc.docInfo?.links.forEach((link: Link) => {
+                this.links.push(this.createLinkGroup(link))
+            })
+        }
+        if (this.links.length === 0) {
+            this.addLink();
+        }
+    }
+
+    setOtherLinkArrayValues(doc: Document): void {
+        this.otherLinks.clear();
+
+        if (doc.docInfo?.otherLinks && doc.docInfo?.otherLinks.length > 0) {
+            doc.docInfo?.otherLinks.forEach((otherLink: Link) => {
+                this.otherLinks.push(this.createLinkGroup(otherLink))
+            })
+        }
+        if ( this.otherLinks.length === 0) {
+            this.addLink();
+        }
+    }
+
+    private populateSimpleArray(formArray: FormArray, dataArray: string[]): void {
+        formArray.clear();
+
+        if (dataArray && dataArray.length > 0) {
+            dataArray.forEach((string: string) => {
+                formArray.push(new FormControl<string | null>(string));
+            })
+        }
+    }
+
+    setOriginalTitlesArrayValues(doc: Document): void {
+        this.populateSimpleArray(this.originalTitles, doc.docInfo?.originalTitles);
+
+        if (this.originalTitles.length === 0) {
+            this.addOriginalTitle();
+        }
+    }
+
+    setOrganisationsArrayValues(doc: Document): void {
+        this.populateSimpleArray(this.organisations, doc.docInfo?.organisations);
+
+        if (this.organisations.length === 0) {
+            this.addOrganisation();
+        }
+    }
+
+    setTagsArrayValues(doc: Document): void {
+        this.populateSimpleArray(this.tags, doc.docInfo?.tags);
+
+        if (this.tags.length === 0) {
+            this.addTag();
+        }
+    }
+
+    setOtherTagsArrayValues(doc: Document): void {
+        this.populateSimpleArray(this.otherTags, doc.docInfo?.otherTags)
+
+        if (this.otherTags.length === 0) {
+            this.addOtherTag();
+        }
     }
 
 }
