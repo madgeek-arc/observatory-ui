@@ -1,8 +1,9 @@
+<app-survey [model]="docModel"></app-survey>
+
 <div id="page_content">
     <div id="id=page_content_inner">
-        <pre>{{ document | json}}</pre>
 
-        <form [formGroup]="editForm" class="uk-padding">
+        <form [formGroup]="editForm" class="uk-padding" (ngSubmit)="onSubmit()">
 
             <div class="uk-margin">
                 <label class="uk-form-label" for="title">Title: </label>
@@ -319,9 +320,13 @@
                 </button>
             </div>
 
+            <div class="uk-flex uk-flex-center">
+                <button type="submit" class="uk-button uk-button-primary">
+                    Save Changes
+                </button>
+            </div>
             <hr>
         </form>
 
-        <pre>{{ editForm.value | json}}</pre>
     </div>
 </div>

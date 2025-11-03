@@ -1,10 +1,14 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ResourceRegistryService } from "src/app/pages/explore/resources-registry/resource-registry.service";
 import { CommonModule } from "@angular/common";
-import { Author, Document, Link } from "src/app/domain/document";
+import { Author, Document, Link, Content } from "src/app/domain/document";
 import { FormArray } from "@angular/forms";
+import { Model } from "src/survey-tool/catalogue-ui/domain/dynamic-form-model";
+import { CatalogueUiModule } from "src/survey-tool/catalogue-ui/catalogue-ui.module";
+import { WebsocketService } from "src/survey-tool/app/services/websocket.service";
+import { SurveyToolModule } from "src/survey-tool/app/survey-tool.module";
 
 
 @Component({
@@ -13,7 +17,9 @@ import { FormArray } from "@angular/forms";
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CatalogueUiModule,
+    SurveyToolModule
   ],
 })
 export class DocumentEditComponent implements OnInit {
@@ -21,13 +27,21 @@ export class DocumentEditComponent implements OnInit {
     documentId: string | null = null;
     document: Document | null = null;
     editForm!: FormGroup;
+    docModel: Model;
 
     constructor(
         private route: ActivatedRoute,
         private resourceRegistryService: ResourceRegistryService,
+        private router: Router,
+        private wsService: WebsocketService 
     ) {}
 
     ngOnInit(): void {
+        this.resourceRegistryService.getDocumentModel().subscribe({
+            next: (model: Model) => {
+                this.docModel = model
+            }
+        })
         this.createForm();
         this.documentId = this.route.snapshot.paramMap.get('id');
 
@@ -303,6 +317,23 @@ export class DocumentEditComponent implements OnInit {
 
         if (this.otherTags.length === 0) {
             this.addOtherTag();
+        }
+    }
+
+    onSubmit(): void {
+        const documentId = this.documentId;
+        const docInfo: Content = this.editForm.value;
+
+        if (documentId) {
+            this.resourceRegistryService.updateDocument(documentId, docInfo).subscribe({
+                next: (response) => {
+                    console.log('Document updated successfully:', response);
+                    alert('Document updated successfully!');
+                },
+                error: (error) => {
+                    console.error('Error updating document:', error);
+                }
+            })
         }
     }
 
