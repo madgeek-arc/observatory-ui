@@ -9,6 +9,7 @@ import { Model } from "src/survey-tool/catalogue-ui/domain/dynamic-form-model";
 import { CatalogueUiModule } from "src/survey-tool/catalogue-ui/catalogue-ui.module";
 import { WebsocketService } from "src/survey-tool/app/services/websocket.service";
 import { SurveyToolModule } from "src/survey-tool/app/survey-tool.module";
+import { MessagingSystemModule } from "src/messaging-system-ui/app/messaging-system.module";
 
 
 @Component({
@@ -19,7 +20,8 @@ import { SurveyToolModule } from "src/survey-tool/app/survey-tool.module";
     CommonModule,
     ReactiveFormsModule,
     CatalogueUiModule,
-    SurveyToolModule
+    SurveyToolModule,
+    MessagingSystemModule
   ],
 })
 export class DocumentEditComponent implements OnInit {
@@ -40,6 +42,9 @@ export class DocumentEditComponent implements OnInit {
         this.resourceRegistryService.getDocumentModel().subscribe({
             next: (model: Model) => {
                 this.docModel = model
+            },
+            error: (error) => {
+console.error('Failed to load document model:', error);
             }
         })
         this.createForm();
