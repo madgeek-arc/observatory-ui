@@ -119,18 +119,15 @@ export class OpenSoftwareComponent implements OnInit{
 
   exportToPDF(contents: HTMLElement[], filename?: string) {
     this.exportActive = true
-   
-    // Χρόνος για να εφαρμοστούν τα styles
-    // setTimeout(() => {
-      this.pdfService.export(contents, filename).then(() => {
-        // this.restoreAnimations(modifiedElements, contents);
-        this.exportActive = false;
-      }).catch((error) => {
-        // this.restoreAnimations(modifiedElements, contents);
-        this.exportActive = false;
-        console.error('Error during PDF generation:', error);
-      });
-    // }, 0);
+
+    this.pdfService.export(contents, filename).then(() => {
+      // this.restoreAnimations(modifiedElements, contents);
+      this.exportActive = false;
+    }).catch((error) => {
+      // this.restoreAnimations(modifiedElements, contents);
+      this.exportActive = false;
+      console.error('Error during PDF generation:', error);
+    });
   }
 
 }

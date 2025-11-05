@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { ExploreService } from "../../explore/explore.service";
+import { AnswerMetadata } from "./coutry-pages.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class DataShareService {
   countryName: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   surveyAnswers: BehaviorSubject<Object[]> = new BehaviorSubject<Object[]>([null, null]);
   countrySurveyAnswer: BehaviorSubject<Object | null> = new BehaviorSubject<Object | null>(null);
+  countrySurveyAnswerMetaData: BehaviorSubject<AnswerMetadata | null> = new BehaviorSubject<AnswerMetadata | null>(null);
 
   constructor(private exploreService: ExploreService) {}
 

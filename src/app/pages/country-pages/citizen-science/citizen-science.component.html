@@ -181,13 +181,13 @@
               <read-more [maxHeight]="300">
                 <div>
                   <ng-container
-                    *ngIf="surveyAnswers[1]?.['Practices']?.['Question95']?.['Question95-0'] === 'Yes'; else noUseCases">
-                    <ng-container *ngIf="surveyAnswers[1]?.['Practices']?.['Question95']?.['Question95-1-0'].length">
-                      <div *ngFor="let element of surveyAnswers[1]['Practices']['Question95']['Question95-1-0']">
-                        <p *ngIf="element['Question95-1'].trim() !== ''" [innerHTML]="element['Question95-1']"></p>
-                        <ng-container *ngIf="element?.['Question95-2-1']?.length">
+                    *ngIf="surveyAnswers[1]?.['Practices']?.['Question99']?.['Question99-0'] === 'Yes'; else noUseCases">
+                    <ng-container *ngIf="surveyAnswers[1]?.['Practices']?.['Question99']?.['Question99-1-0'].length">
+                      <div *ngFor="let element of surveyAnswers[1]['Practices']['Question99']['Question99-1-0']">
+                        <p *ngIf="element['Question99-1'].trim() !== ''" [innerHTML]="element['Question99-1']"></p>
+                        <ng-container *ngIf="element?.['Question99-2-1']?.length">
                           <ul>
-                            <li *ngFor="let subElement of element['Question95-2-1']">
+                            <li *ngFor="let subElement of element['Question99-2-1']">
                               <p *ngIf="subElement.trim() !== ''" [innerHTML]="subElement"></p>
                             </li>
                           </ul>
@@ -198,8 +198,8 @@
                   <ng-template #noUseCases>
                     <p>There are no use cases</p>
                   </ng-template>
-                  <p *ngIf="surveyAnswers[1]?.['Practices']?.['Question95']?.['Question95-3']"
-                    [innerHTML]="surveyAnswers[1]['Practices']['Question95']['Question95-3']">
+                  <p *ngIf="surveyAnswers[1]?.['Practices']?.['Question99']?.['Question99-3']"
+                    [innerHTML]="surveyAnswers[1]['Practices']['Question99']['Question99-3']">
                   </p>
                 </div>
               </read-more>

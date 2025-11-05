@@ -140,10 +140,12 @@ export class FairDataComponent implements OnInit {
     this.rfoFairDataPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question17']?.['Question17-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);
     this.rfoFairDataPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question17']?.['Question17-0'], this.surveyAnswers[0]?.['General']['Question3']?.['Question3-0']);
     this.rfoFairDataPercentageDiff = this.dataShareService.calculateDiff(this.rfoFairDataPercentage[0], this.rfoFairDataPercentage[1]);
+    console.log(this.rfoFairDataPercentage);
 
     this.rpoFairDataPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question16']?.['Question16-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']);
     this.rpoFairDataPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question16']?.['Question16-0'], this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0']);
     this.rpoFairDataPercentageDiff = this.dataShareService.calculateDiff(this.rpoFairDataPercentage[0], this.rpoFairDataPercentage[1]);
+    console.log(this.rpoFairDataPercentage);
 
     this.financialInvestmentInFairData[1] = this.surveyAnswers[1]?.['Practices']?.['Question64']?.['Question64-0'] || null;
     this.financialInvestmentInFairData[0] = this.surveyAnswers[0]?.['Practices']?.['Question64']?.['Question64-0'] || null;
@@ -205,7 +207,7 @@ export class FairDataComponent implements OnInit {
 
   exportToPDF(contents: HTMLElement[], filename?: string) {
     this.exportActive = true
-   
+
     // Χρόνος για να εφαρμοστούν τα styles
     // setTimeout(() => {
       this.pdfService.export(contents, filename).then(() => {

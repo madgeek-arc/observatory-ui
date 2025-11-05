@@ -117,8 +117,8 @@
 
                 <!-- Card 3 -->
 
-                <app-info-card
-                  *ngIf="softwareFinancialInvestment[1] !== null && softwareFinancialInvestment[1] !== undefined"
+
+                <app-info-card *ngIf="softwareFinancialInvestment[1]"
                   [titleHtml]="'Total <span class=\'uk-text-bold\'>financial investment in Open Software</span>'"
                   [value]="softwareFinancialInvestment[1]" [unit]="'mil Euro'"
                   [diff]="softwareFinancialInvestmentPercentageDiff">

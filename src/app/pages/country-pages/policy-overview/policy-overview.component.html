@@ -5,8 +5,8 @@
   <div inner>
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
       <div class="uk-container">
-        <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
-<!--          <h4>Policy Overview</h4>-->
+
+        <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m"><!-- Desktop -->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
                  class="flag-image" width="42" height="42" alt="rounded flag image">
@@ -15,16 +15,12 @@
             </div>
           </div>
           <div class="uk-flex uk-flex-center"
-            (click)="exportToPDF([exportContent, exportContent1], 'Policy Overview')"
-            style="cursor: pointer">
-            <div class="uk-flex uk-flex-middle uk-text-primary"
-              style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
-              <span class=""
-                style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+            (click)="exportToPDF([exportContent, exportContent1], 'Policy Overview')" style="cursor: pointer">
+            <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+              <span style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
-                data-uk-spinner="ratio: 0.7"></span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
               <ng-template #elseBlock>
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
               </ng-template>
@@ -32,8 +28,7 @@
           </div>
         </div>
 
-        <div class="uk-hidden@m">
-<!--          <h4>Policy Overview</h4>-->
+        <div class="uk-hidden@m"><!-- Mobile -->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
                  class="flag-image" width="42" height="42" alt="rounded flag image">
@@ -42,16 +37,13 @@
             </div>
           </div>
           <div class="uk-flex uk-flex-right"
-            (click)="exportToPDF([exportContent, exportContent1], 'General R&D Overview')"
-            style="cursor: pointer">
+            (click)="exportToPDF([exportContent, exportContent1], 'General R&D Overview')" style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary"
               style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
-              <span class=""
-                style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+              <span style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
-                data-uk-spinner="ratio: 0.7"></span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
               <ng-template #elseBlock>
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
               </ng-template>
@@ -59,23 +51,11 @@
           </div>
         </div>
 
-<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
-<!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
-<!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
-<!--          <div class="uk-margin-small-left">-->
-<!--            <h4 class="uk-margin-remove-bottom">{{ countryName }}</h4>-->
-<!--          </div>-->
-<!--        </div>-->
-
       </div>
     </div>
 
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small uk-padding-remove-top" #exportContent1>
       <div class="uk-container">
-
-<!--        <div class="uk-flex uk-flex-between uk-flex-middle">-->
-<!--          <h5>Policy Overview</h5>-->
-<!--        </div>-->
 
         <div class="uk-grid-small" data-uk-grid>
           <!-- left card -->
@@ -115,7 +95,9 @@
           <div *ngIf="hasSurveyPolicyData()" class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
             <div class="uk-card uk-card-default uk-card-body visualisation-card noads">
               <h6 class="uk-margin-bottom">Policy Landscape in {{ countryName }}</h6>
-              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks</div>
+              <div class="uk-text-meta">
+                This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}
+              </div>
               <div class="uk-margin-medium-top" id="policies">
                 <read-more [maxHeight]="300">
                   <div id="policies_overview">
