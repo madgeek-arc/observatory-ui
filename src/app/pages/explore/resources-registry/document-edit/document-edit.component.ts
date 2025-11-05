@@ -30,6 +30,7 @@ export class DocumentEditComponent implements OnInit {
     document: Document | null = null;
     editForm!: FormGroup;
     docModel: Model;
+    payload: object = null;
 
     constructor(
         private route: ActivatedRoute,
@@ -54,16 +55,18 @@ console.error('Failed to load document model:', error);
             this.resourceRegistryService.getDocumentById(this.documentId).subscribe({
                 next: (doc: Document) => {
                     this.document = doc;
-                    this.editForm.patchValue(doc.docInfo);
+                    // this.editForm.patchValue(doc.docInfo);
+                    // this.payload.docInfo = doc.docInfo;
+                    this.payload = {'answer': {docInfo: doc.docInfo}};
                     // FormGroup Arrays
-                    this.setAuthorArrayValues(doc);
-                    this.setLinkArrayValues(doc);
-                    this.setOtherLinkArrayValues(doc);
+                    // this.setAuthorArrayValues(doc);
+                    // this.setLinkArrayValues(doc);
+                    // this.setOtherLinkArrayValues(doc);
                     // FormControl Arrays
-                    this.setOriginalTitlesArrayValues(doc);
-                    this.setOrganisationsArrayValues(doc);
-                    this.setTagsArrayValues(doc);
-                    this.setOtherTagsArrayValues(doc);
+                    // this.setOriginalTitlesArrayValues(doc);
+                    // this.setOrganisationsArrayValues(doc);
+                    // this.setTagsArrayValues(doc);
+                    // this.setOtherTagsArrayValues(doc);
                     console.log('Document loaded successfully:', this.document);
                 },
                 error: (error) => {
