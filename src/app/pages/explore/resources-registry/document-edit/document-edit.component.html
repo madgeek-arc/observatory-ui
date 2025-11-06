@@ -1,8 +1,18 @@
 <div id="page_content">
-    <div id="page_content_inner">
-        <app-survey [model]="docModel"></app-survey>
-        <pre>{{payload | json}}</pre>
-    </div>
+	<div id="page_content_inner">
+		@if (docModel && payload) {
+		<app-survey [model]="docModel" [payload]="payload" (submit)="onSubmit($event)">
+			<div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right uk-margin uk-padding-xsmall" style="min-height: 40px">
+				<div>
+					<button class="uk-button uk-button-secondary uk-margin-left" (click)="child.parentSubmit()">
+						Save
+					</button>
+				</div>
+			</div>
+		</app-survey>
+		}
+		<pre>{{payload | json}}</pre>
+	</div>
 </div>
 
 <!-- <div id="page_content">
