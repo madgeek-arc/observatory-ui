@@ -26,7 +26,7 @@ export class DocumentEditComponent implements OnInit {
 	// private wsService = inject(WebsocketService);
 
   @ViewChild(SurveyComponent) child: SurveyComponent
-    
+
     documentId: string | null = null;
     document: Document | null = null;
     editForm!: FormGroup;
@@ -48,7 +48,7 @@ export class DocumentEditComponent implements OnInit {
 console.error('Failed to load document model:', error);
             }
         })
-        // this.createForm();
+
         this.documentId = this.route.snapshot.paramMap.get('id');
 
         if (this.documentId) {
@@ -78,7 +78,7 @@ console.error('Failed to load document model:', error);
     }
 }
 
- 
+
 
     onSubmit(event): void {
         const documentId = this.documentId;
