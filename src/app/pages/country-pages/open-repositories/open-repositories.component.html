@@ -192,10 +192,12 @@
       <div *ngIf="hasSurveyRepositoriesData()" class="uk-section uk-section-primary uk-preserve-color uk-section-small">
         <div class="uk-container">
 
-          <div class="uk-margin-medium-top uk-animation-fade">
-            <div
-              class=" uk-margin-medium-top uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-              <read-more [maxHeight]="300">
+          <div class="uk-animation-fade">
+            <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+              <h6 class="uk-margin-bottom">Learn more about Repositories Landscape in {{ countryName }}</h6>
+              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
+              <div class="uk-margin-medium-top">
+                <read-more [maxHeight]="300">
 
                 <div id="networks_&_aggregators">
                   <div class="uk-text-secondary">Networks & Aggregators of Scientific/Research Content</div>
@@ -258,6 +260,7 @@
                   </ng-template>
                 </div>
               </read-more>
+              </div>
             </div>
           </div>
         </div>

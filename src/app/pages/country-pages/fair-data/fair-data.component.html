@@ -41,31 +41,19 @@
               <h4 class="uk-margin-remove-bottom">{{ countryName }} - FAIR Data for 2023</h4>
             </div>
           </div>
-          <div class="uk-flex uk-flex-right"
-            (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5], 'Open Data')"
-            style="cursor: pointer">
-            <div class="uk-flex uk-flex-middle uk-text-primary"
-              style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
-              <span class=""
-                style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+          <div (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5], 'Open Data')"
+            class="uk-flex uk-flex-right" style="cursor: pointer">
+            <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+              <span style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
-                data-uk-spinner="ratio: 0.7"></span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
               <ng-template #elseBlock>
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
               </ng-template>
             </div>
           </div>
         </div>
-
-<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
-<!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
-<!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
-<!--          <div class="uk-margin-small-left">-->
-<!--            <h4 class="uk-margin-remove-bottom">{{ countryName }} - FAIR Data</h4>-->
-<!--          </div>-->
-<!--        </div>-->
 
       </div>
     </div>
@@ -212,7 +200,7 @@
           <div class="uk-animation-fade">
             <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
               <h6 class="uk-margin-bottom">Learn more about FAIR Data Landscape in {{ countryName }}</h6>
-              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks</div>
+              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
               <div class="uk-margin-medium-top">
                 <read-more [maxHeight]="300">
                   <div id="national_data_service">

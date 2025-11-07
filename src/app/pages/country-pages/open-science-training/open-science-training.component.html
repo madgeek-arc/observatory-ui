@@ -212,81 +212,84 @@
     <div #exportContent1>
       <div *ngIf="hasSurveyTrainingData()" class="uk-section uk-section-primary uk-preserve-color uk-section-small">
         <div class="uk-container">
-          <div class="uk-margin-medium-top uk-animation-fade">
-            <div
-              class=" uk-margin-medium-top uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-              <read-more [maxHeight]="300">
-                <div id="skills_overview">
-                  <div class="uk-text-secondary">Overview</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question24']; else skills_overview">
-                    <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question24']"
-                      class="uk-margin-medium-top"></div>
-                  </ng-container>
-                  <ng-template #skills_overview>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-                <div id="training_infrastructure">
-                  <div class="uk-text-secondary">Training Infrastructure</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question25']; else training_infrastructure">
-                    <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question25']"
-                      class="uk-margin-medium-top"></div>
-                  </ng-container>
-                  <ng-template #training_infrastructure>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-                <div id="competence_centers">
-                  <div class="uk-text-secondary">Open Science/Digital Competence centers</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question26']?.length > 0; else competence_centers">
-                    <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question26']"
-                      class="uk-margin-medium-top">
-                      <div [innerHTML]="element['Question26-1']"></div>
-                    </div>
-                  </ng-container>
-                  <ng-template #competence_centers>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-                <div id="open_science_professionals">
-                  <div class="uk-text-secondary">Open Science Professionals</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question27']; else open_science_professionals">
-                    <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question27']"
-                      class="uk-margin-medium-top"></div>
-                  </ng-container>
-                  <ng-template #open_science_professionals>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-                <div id="open_science_curricula">
-                  <div class="uk-text-secondary">Open Science Curricula</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question28']?.length > 0; else open_science_curricula">
-                    <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question28']"
-                      class="uk-margin-medium-top">
-                      <div [innerHTML]="element"></div>
-                    </div>
-                  </ng-container>
-                  <ng-template #open_science_curricula>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-                <div id="links">
-                  <div class="uk-text-secondary">Links to national initiatives on Digital Skills</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question29']?.['Question29-1']; else links">
-                    <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question29']['Question29-1']"
-                      class="uk-margin-medium-top"></div>
-                  </ng-container>
-                  <ng-template #links>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-              </read-more>
+          <div class="uk-animation-fade">
+            <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+              <h6 class="uk-margin-bottom">Learn more about Open Science Training in {{ countryName }}</h6>
+              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
+              <div class="uk-margin-medium-top">
+                <read-more [maxHeight]="300">
+                  <div id="skills_overview">
+                    <div class="uk-text-secondary">Overview</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question24']; else skills_overview">
+                      <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question24']"
+                        class="uk-margin-medium-top"></div>
+                    </ng-container>
+                    <ng-template #skills_overview>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                  <div id="training_infrastructure">
+                    <div class="uk-text-secondary">Training Infrastructure</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question25']; else training_infrastructure">
+                      <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question25']"
+                        class="uk-margin-medium-top"></div>
+                    </ng-container>
+                    <ng-template #training_infrastructure>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                  <div id="competence_centers">
+                    <div class="uk-text-secondary">Open Science/Digital Competence centers</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question26']?.length > 0; else competence_centers">
+                      <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question26']"
+                        class="uk-margin-medium-top">
+                        <div [innerHTML]="element['Question26-1']"></div>
+                      </div>
+                    </ng-container>
+                    <ng-template #competence_centers>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                  <div id="open_science_professionals">
+                    <div class="uk-text-secondary">Open Science Professionals</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question27']; else open_science_professionals">
+                      <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question27']"
+                        class="uk-margin-medium-top"></div>
+                    </ng-container>
+                    <ng-template #open_science_professionals>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                  <div id="open_science_curricula">
+                    <div class="uk-text-secondary">Open Science Curricula</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question28']?.length > 0; else open_science_curricula">
+                      <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question28']"
+                        class="uk-margin-medium-top">
+                        <div [innerHTML]="element"></div>
+                      </div>
+                    </ng-container>
+                    <ng-template #open_science_curricula>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                  <div id="links">
+                    <div class="uk-text-secondary">Links to national initiatives on Digital Skills</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question29']?.['Question29-1']; else links">
+                      <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question29']['Question29-1']"
+                        class="uk-margin-medium-top"></div>
+                    </ng-container>
+                    <ng-template #links>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                </read-more>
+              </div>
             </div>
           </div>
         </div>

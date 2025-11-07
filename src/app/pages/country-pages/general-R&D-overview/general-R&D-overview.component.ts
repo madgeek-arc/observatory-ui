@@ -49,6 +49,7 @@ export class GeneralRDOverviewComponent implements OnInit {
   countryName?: string;
   surveyAnswers: Object[] = [null, null];
   countrySurveyAnswer?: Object;
+  countrySurveyAnswerLastUpdate: string | null = null;
 
   constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
 
@@ -79,6 +80,13 @@ export class GeneralRDOverviewComponent implements OnInit {
         this.countrySurveyAnswer = answer;
       }
     });
+
+    this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (metadata) => {
+        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
+      }
+    });
+
   }
 
   /** Get OA VS closed, restricted and embargoed Publications -----------------------------------------------------> **/
@@ -149,7 +157,7 @@ export class GeneralRDOverviewComponent implements OnInit {
 
   exportToPDF(contents: HTMLElement[], filename?: string) {
     this.exportActive = true
-   
+
     // Χρόνος για να εφαρμοστούν τα styles
     // setTimeout(() => {
       this.pdfService.export(contents, filename).then(() => {

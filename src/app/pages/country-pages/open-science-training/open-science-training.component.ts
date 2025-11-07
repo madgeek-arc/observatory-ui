@@ -33,6 +33,7 @@ export class OpenScienceTrainingComponent  implements OnInit {
   countryName?: string;
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
+  countrySurveyAnswerLastUpdate: string | null = null;
 
   rfoTrainingPercentage: (number | null)[] = [null, null];
   rfoTrainingPercentageDiff: number | null = null;
@@ -67,10 +68,10 @@ export class OpenScienceTrainingComponent  implements OnInit {
     });
 
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-    next: (code) => {
-      this.countryCode = code;
-    }
-  });
+      next: (code) => {
+        this.countryCode = code;
+      }
+    });
 
 
     this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -78,6 +79,13 @@ export class OpenScienceTrainingComponent  implements OnInit {
         this.countrySurveyAnswer = answer;
       }
     });
+
+    this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (metadata) => {
+        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
+      }
+    });
+
   }
 
   initCardValues() {
@@ -134,7 +142,7 @@ export class OpenScienceTrainingComponent  implements OnInit {
 
    exportToPDF(contents: HTMLElement[], filename?: string) {
     this.exportActive = true
-   
+
     // Χρόνος για να εφαρμοστούν τα styles
     // setTimeout(() => {
       this.pdfService.export(contents, filename).then(() => {

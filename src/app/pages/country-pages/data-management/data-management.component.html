@@ -192,21 +192,22 @@
 
           <div class="uk-margin-medium-top uk-animation-fade">
             <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-              <h5>Learn More about National Data Service</h5>
-              <read-more [maxHeight]="300">
-                <div id="">
-                  <div class="uk-text-secondary">National Data Service</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else data_service">
-                    <div
-                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']"
-                      class="uk-margin-medium-top"></div>
-                  </ng-container>
-                  <ng-template #data_service>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-              </read-more>
+              <h6>Learn More about National Data Service in {{ countryName }}</h6>
+              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
+              <div class="uk-margin-medium-top">
+                <read-more [maxHeight]="300">
+                  <div id="">
+                    <div class="uk-text-secondary">National Data Service</div>
+                    <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else data_service">
+                      <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']"
+                        class="uk-margin-medium-top"></div>
+                    </ng-container>
+                    <ng-template #data_service>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                </read-more>
+              </div>
             </div>
           </div>
         </div>

@@ -36,6 +36,7 @@ export class DataManagementComponent implements OnInit {
   countryName?: string;
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
+  countrySurveyAnswerLastUpdate: string | null = null;
 
   rfoDataManagementPercentage: (number | null)[] = [null, null];
   rfoDataManagementPercentageDiff: number | null = null;
@@ -116,6 +117,12 @@ export class DataManagementComponent implements OnInit {
          this.countrySurveyAnswer = answer;
        }
      });
+
+    this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (metadata) => {
+        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
+      }
+    });
   }
 
   initCardValues() {
@@ -204,7 +211,7 @@ export class DataManagementComponent implements OnInit {
 
   exportToPDF(contents: HTMLElement[], filename?: string) {
     this.exportActive = true
-   
+
     // Χρόνος για να εφαρμοστούν τα styles
     // setTimeout(() => {
       this.pdfService.export(contents, filename).then(() => {

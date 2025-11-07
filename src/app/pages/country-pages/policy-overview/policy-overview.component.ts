@@ -42,8 +42,8 @@ export class PolicyOverviewComponent {
   countryName?: string;
   surveyAnswers: Object[] = [];
   table: TableRow[] = [];
-  surveyAnswer: Object[] = [];
   countrySurveyAnswer?: Object;
+  countrySurveyAnswerLastUpdate: string | null = null;
 
   constructor(private dataShareService: DataShareService, private pdfService: PdfExportService) {}
 
@@ -73,7 +73,12 @@ export class PolicyOverviewComponent {
     this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answer) => {
         this.countrySurveyAnswer = answer;
+      }
+    });
 
+    this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (metadata) => {
+        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
       }
     });
   }
@@ -113,19 +118,16 @@ export class PolicyOverviewComponent {
   }
 
    exportToPDF(contents: HTMLElement[], filename?: string) {
-    this.exportActive = true
-   
-    // Χρόνος για να εφαρμοστούν τα styles
-    // setTimeout(() => {
-      this.pdfService.export(contents, filename).then(() => {
-        // this.restoreAnimations(modifiedElements, contents);
-        this.exportActive = false;
-      }).catch((error) => {
-        // this.restoreAnimations(modifiedElements, contents);
-        this.exportActive = false;
-        console.error('Error during PDF generation:', error);
-      });
-    // }, 0);
+    this.exportActive = true;
+
+    this.pdfService.export(contents, filename).then(() => {
+      // this.restoreAnimations(modifiedElements, contents);
+      this.exportActive = false;
+    }).catch((error) => {
+      // this.restoreAnimations(modifiedElements, contents);
+      this.exportActive = false;
+      console.error('Error during PDF generation:', error);
+    });
   }
 
 }

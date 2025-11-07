@@ -195,9 +195,10 @@
 
           <div class="uk-margin-medium-top uk-animation-fade">
             <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
-              <h5>Open Science Key Actors in {{ countryName }}</h5>
-
-              <read-more [maxHeight]="300">
+              <h6 class="uk-margin-bottom">Learn more aboutOpen Science Key Actors in {{ countryName }}</h6>
+              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
+              <div class="uk-margin-medium-top">
+                <read-more [maxHeight]="300">
                 <div id="research_funding_organisations">
                   <div class="uk-text-secondary">Research Funding Organisations</div>
                   <ng-container
@@ -257,6 +258,7 @@
                   </ng-template>
                 </div>
               </read-more>
+              </div>
             </div>
           </div>
 

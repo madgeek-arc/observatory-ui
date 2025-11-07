@@ -32,6 +32,7 @@ export class CitizenScienceComponent implements OnInit {
   countryName?: string;
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
+  countrySurveyAnswerLastUpdate: string | null = null;
 
   citizenScienceProjects:  (string | null)[] = [null, null];
   citizenSciencePercentageDiff: number | null = null;
@@ -75,6 +76,12 @@ export class CitizenScienceComponent implements OnInit {
         this.countrySurveyAnswer = answer;
       }
     });
+
+    this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (metadata) => {
+        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
+      }
+    });
   }
 
   initCardValues() {
@@ -111,7 +118,7 @@ export class CitizenScienceComponent implements OnInit {
 
   exportToPDF(contents: HTMLElement[], filename?: string) {
     this.exportActive = true
-   
+
     // Χρόνος για να εφαρμοστούν τα styles
     // setTimeout(() => {
       this.pdfService.export(contents, filename).then(() => {

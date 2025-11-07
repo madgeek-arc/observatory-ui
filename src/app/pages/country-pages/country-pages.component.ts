@@ -74,6 +74,12 @@ export class CountryPagesComponent implements OnInit {
         }
       });
 
+      this.surveyAnswer.getOSAnswerMetadata(this.countryStakeholderId, this.OSModelId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (metadata) => {
+          this.dataService.countrySurveyAnswerMetaData.next(metadata);
+        }
+      });
+
     });
   }
 
