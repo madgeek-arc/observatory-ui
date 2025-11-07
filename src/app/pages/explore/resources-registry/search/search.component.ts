@@ -8,24 +8,25 @@ import { fromEvent } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { Facet } from 'src/survey-tool/catalogue-ui/domain/facet';
 import { Paging } from 'src/survey-tool/catalogue-ui/domain/paging';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { PageContentComponent } from 'src/survey-tool/app/shared/page-content/page-content.component';
 import {
   SidebarMobileToggleComponent
 } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
+import { SearchCardComponent } from "./card/search-card.component";
 import * as UIkit from 'uikit';
 
 
 @Component({
-    selector: 'app-resource-registry-search',
-    templateUrl: './search.component.html',
-    imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, NgOptimizedImage, PageContentComponent, SidebarMobileToggleComponent]
+  selector: 'app-resource-registry-search',
+  templateUrl: './search.component.html',
+  imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, PageContentComponent, SidebarMobileToggleComponent, SearchCardComponent]
 })
 
 export class SearchComponent implements OnInit {
-  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+  @ViewChild('searchInput', {static: true}) searchInput: ElementRef;
 
   urlParameters: URLParameter[] = []; // Array to hold URL parameters
   destroyRef = inject(DestroyRef);
@@ -63,7 +64,6 @@ export class SearchComponent implements OnInit {
   alertStates: { [id: string]: { message: string; type: 'success' | 'danger' } } = {};
 
 
-
   constructor(private resourceService: ResourceRegistryService, private route: ActivatedRoute, private router: Router, private resourceRegistryService: ResourceRegistryService) {}
 
   ngOnInit() {
@@ -84,7 +84,7 @@ export class SearchComponent implements OnInit {
           this.urlParameters.push(urlParameter);
         }
       }
-     // Parse selected languages, country, and tags from query parameters
+      // Parse selected languages, country, and tags from query parameters
       this.selectedLanguages = params['language'] ? params['language'].split(',') : [];
       this.selectedCountry = params['country'] ? params['country'].split(',') : [];
       this.selectedTag = params['tags'] ? params['tags'].split(',') : [];
@@ -95,7 +95,7 @@ export class SearchComponent implements OnInit {
       this.appliedCountries = [...this.selectedCountry];
       this.appliedTags = [...this.selectedTag];
 
-     // Pagination offset from URL
+      // Pagination offset from URL
       if (params['from']) {
         this.from = +params['from'];
       } else {
@@ -108,7 +108,7 @@ export class SearchComponent implements OnInit {
       this.loadDocuments();
 
     });
-   // Initialize search input event listener for real-time search
+    // Initialize search input event listener for real-time search
     fromEvent(this.searchInput.nativeElement, 'input').pipe(
       map((event: any) => event.target.value),
       debounceTime(300),
@@ -124,31 +124,31 @@ export class SearchComponent implements OnInit {
   // Load documents based on current parameters
   loadDocuments() {
     this.resourceService.getDocument(this.from, this.pageSize, this.urlParameters)
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe({
-      next: (data) => {
-        if (data.results.length > 0) {
-          this.documents = data;
-          // console.log('Documents loaded, total so far:', this.documents.results.length);
-          this.paginationInit();
-          if (data.facets && data.facets.length > 0) {
-            this.languageFacets = data.facets.find(facet => facet.field === 'language');
-            // console.log('Language facets:', this.languageFacets);
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (data) => {
+          if (data.results.length > 0) {
+            this.documents = data;
+            // console.log('Documents loaded, total so far:', this.documents.results.length);
+            this.paginationInit();
+            if (data.facets && data.facets.length > 0) {
+              this.languageFacets = data.facets.find(facet => facet.field === 'language');
+              // console.log('Language facets:', this.languageFacets);
+            }
           }
+          if (data.facets && data.facets.length > 0) {
+            this.countryFacets = data.facets.find(facet => facet.field === 'country');
+            // console.log('Country facets:', this.countryFacets);
+          }
+          if (data.facets && data.facets.length > 0) {
+            this.tagFacets = data.facets.find(facet => facet.field === 'tags');
+            // console.log('Tag facets:', this.tagFacets);
+          }
+        },
+        error: (err) => {
+          console.error('API error:', err);
         }
-        if (data.facets && data.facets.length > 0) {
-          this.countryFacets = data.facets.find(facet => facet.field === 'country');
-          // console.log('Country facets:', this.countryFacets);
-        }
-        if (data.facets && data.facets.length > 0) {
-          this.tagFacets = data.facets.find(facet => facet.field === 'tags');
-          // console.log('Tag facets:', this.tagFacets);
-        }
-      },
-      error: (err) => {
-        console.error('API error:', err);
-      }
-    });
+      });
 
   }
 
@@ -220,7 +220,7 @@ export class SearchComponent implements OnInit {
         }
       }
 
-      this.urlParameters.push({key: key, values: value });
+      this.urlParameters.push({key: key, values: value});
 
     } else if (typeof value === 'string') {
       for (const urlParameter of this.urlParameters) {
@@ -229,7 +229,7 @@ export class SearchComponent implements OnInit {
           return;
         }
       }
-      this.urlParameters.push({key: key, values: [value] });
+      this.urlParameters.push({key: key, values: [value]});
     }
 
     // console.log('Received values:', values);
@@ -269,11 +269,11 @@ export class SearchComponent implements OnInit {
   }
 
   applyFilter(dropDownId: string) {
-    UIkit.dropdown('#'+dropDownId).hide();
+    UIkit.dropdown('#' + dropDownId).hide();
     this.navigateUsingURLParameters();
   }
 
-  onFilterRemove(key: string, currentValue: string[]){
+  onFilterRemove(key: string, currentValue: string[]) {
     this.updateURLParameters(key, currentValue);
     this.navigateUsingURLParameters();
   }
@@ -317,60 +317,59 @@ export class SearchComponent implements OnInit {
   /** <---------------------------------------------------------------------------------------------- Filter methods **/
 
   // Alert methods
-   onUpdateStatus(id: string, status: 'APPROVED' | 'REJECTED') {
-  this.resourceRegistryService.updateStatus(id, status)
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe({
-      next: () => {
-        console.log(`Document ${id} status updated to ${status}`);
+  onUpdateStatus(id: string, status: 'APPROVED' | 'REJECTED') {
+    this.resourceRegistryService.updateStatus(id, status)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          console.log(`Document ${id} status updated to ${status}`);
 
-        this.alertStates[id] = {
-          message: status === 'APPROVED'
-            ? 'Document approved successfully.'
-            : 'Document rejected successfully.',
-          type: 'success'
-        };
+          this.alertStates[id] = {
+            message: status === 'APPROVED'
+              ? 'Document approved successfully.'
+              : 'Document rejected successfully.',
+            type: 'success'
+          };
 
-        // Εμφανίζουμε πράσινο alert (success)
-        // this.statusMessage = status === 'APPROVED'
-        //   ? 'Document approved successfully.'
-        //   : 'Document rejected successfully.';
-        // this.statusType = 'success';
-        // window.scrollTo({ top: 0, behavior: 'smooth' });
-        // setTimeout(() => this.statusMessage = null, 5000);
-        setTimeout(() => delete this.alertStates[id], 5000);
+          // Εμφανίζουμε πράσινο alert (success)
+          // this.statusMessage = status === 'APPROVED'
+          //   ? 'Document approved successfully.'
+          //   : 'Document rejected successfully.';
+          // this.statusType = 'success';
+          // window.scrollTo({ top: 0, behavior: 'smooth' });
+          // setTimeout(() => this.statusMessage = null, 5000);
+          setTimeout(() => delete this.alertStates[id], 5000);
 
-        // Κάνουμε ξανά GET μόνο για το συγκεκριμένο document
-        this.resourceRegistryService.getDocumentById(id)
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe({
-            next: (data) => {
-              // Ενημερώνουμε μόνο το document που άλλαξε μέσα στη λίστα
-              const index = this.documents.results.findIndex(d => d.id === id);
-              if (index !== -1) {
-                this.documents.results[index] = data;
+          // Κάνουμε ξανά GET μόνο για το συγκεκριμένο document
+          this.resourceRegistryService.getDocumentById(id)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+              next: (data) => {
+                // Ενημερώνουμε μόνο το document που άλλαξε μέσα στη λίστα
+                const index = this.documents.results.findIndex(d => d.id === id);
+                if (index !== -1) {
+                  this.documents.results[index] = data;
+                }
+              },
+              error: (err) => {
+                this.error = 'Error fetching document after status update.';
+                this.statusMessage = 'Failed to refresh document data.';
+                this.statusType = 'danger';
+                setTimeout(() => this.statusMessage = null, 5000);
+                console.error(err);
               }
-            },
-            error: (err) => {
-              this.error = 'Error fetching document after status update.';
-              this.statusMessage = 'Failed to refresh document data.';
-              this.statusType = 'danger';
-              setTimeout(() => this.statusMessage = null, 5000);
-              console.error(err);
-            }
-          });
-      },
-      error: (err) => {
-        this.error = `Error updating document status to ${status}.`;
-        this.statusMessage = 'Failed to update document status.';
-        this.statusType = 'danger';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setTimeout(() => this.statusMessage = null, 5000);
-        console.error(err);
-      }
-    });
-}
-
+            });
+        },
+        error: (err) => {
+          this.error = `Error updating document status to ${status}.`;
+          this.statusMessage = 'Failed to update document status.';
+          this.statusType = 'danger';
+          window.scrollTo({top: 0, behavior: 'smooth'});
+          setTimeout(() => this.statusMessage = null, 5000);
+          console.error(err);
+        }
+      });
+  }
 
 
 }
