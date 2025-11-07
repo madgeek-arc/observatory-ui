@@ -36,6 +36,7 @@ export class FairDataComponent implements OnInit {
   countryName?: string;
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
+  countrySurveyAnswerLastUpdate: string | null = null;
 
   rfoFairDataPercentage: (number | null)[] = [null, null];
   rfoFairDataPercentageDiff: number | null = null;
@@ -115,6 +116,13 @@ export class FairDataComponent implements OnInit {
          this.countrySurveyAnswer = answer;
        }
      });
+
+    this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (metadata) => {
+        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
+      }
+    });
+
   }
 
   hasAnyLeftCardData() {

@@ -176,33 +176,36 @@
         <div class="uk-container">
           <div class="uk-margin-medium-top uk-animation-fade">
             <div
-              class="uk-child-width-1-1 uk-child-width-1-2@m uk-card uk-card-body uk-card-default noads visualisation-card">
-              <h5>Learn more about Citizen Science in {{ countryName }}</h5>
-              <read-more [maxHeight]="300">
-                <div>
-                  <ng-container
-                    *ngIf="surveyAnswers[1]?.['Practices']?.['Question99']?.['Question99-0'] === 'Yes'; else noUseCases">
-                    <ng-container *ngIf="surveyAnswers[1]?.['Practices']?.['Question99']?.['Question99-1-0'].length">
-                      <div *ngFor="let element of surveyAnswers[1]['Practices']['Question99']['Question99-1-0']">
-                        <p *ngIf="element['Question99-1'].trim() !== ''" [innerHTML]="element['Question99-1']"></p>
-                        <ng-container *ngIf="element?.['Question99-2-1']?.length">
-                          <ul>
-                            <li *ngFor="let subElement of element['Question99-2-1']">
-                              <p *ngIf="subElement.trim() !== ''" [innerHTML]="subElement"></p>
-                            </li>
-                          </ul>
-                        </ng-container>
-                      </div>
+              class="uk-card uk-card-body uk-card-default noads visualisation-card">
+              <h6 class="uk-margin-bottom">Learn more about Citizen Science Landscape in {{ countryName }}</h6>
+              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
+              <div class="uk-margin-medium-top">
+                <read-more [maxHeight]="300">
+                  <div>
+                    <ng-container
+                      *ngIf="surveyAnswers[1]?.['Practices']?.['Question99']?.['Question99-0'] === 'Yes'; else noUseCases">
+                      <ng-container *ngIf="surveyAnswers[1]?.['Practices']?.['Question99']?.['Question99-1-0'].length">
+                        <div *ngFor="let element of surveyAnswers[1]['Practices']['Question99']['Question99-1-0']">
+                          <p *ngIf="element['Question99-1'].trim() !== ''" [innerHTML]="element['Question99-1']"></p>
+                          <ng-container *ngIf="element?.['Question99-2-1']?.length">
+                            <ul>
+                              <li *ngFor="let subElement of element['Question99-2-1']">
+                                <p *ngIf="subElement.trim() !== ''" [innerHTML]="subElement"></p>
+                              </li>
+                            </ul>
+                          </ng-container>
+                        </div>
+                      </ng-container>
                     </ng-container>
-                  </ng-container>
-                  <ng-template #noUseCases>
-                    <p>There are no use cases</p>
-                  </ng-template>
-                  <p *ngIf="surveyAnswers[1]?.['Practices']?.['Question99']?.['Question99-3']"
-                    [innerHTML]="surveyAnswers[1]['Practices']['Question99']['Question99-3']">
-                  </p>
-                </div>
-              </read-more>
+                    <ng-template #noUseCases>
+                      <p>There are no use cases</p>
+                    </ng-template>
+                    <p *ngIf="surveyAnswers[1]?.['Practices']?.['Question99']?.['Question99-3']"
+                      [innerHTML]="surveyAnswers[1]['Practices']['Question99']['Question99-3']">
+                    </p>
+                  </div>
+                </read-more>
+              </div>
             </div>
           </div>
         </div>

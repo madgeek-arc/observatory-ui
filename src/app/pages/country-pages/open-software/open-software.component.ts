@@ -5,78 +5,86 @@ import { DataShareService } from "../services/data-share.service";
 import {
   CatalogueUiReusableComponentsModule
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
-import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import {
+  SidebarMobileToggleComponent
+} from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
 import { PdfExportService } from "../../services/pdf-export.service";
 
 @Component({
-    selector: 'app-open-software',
-    templateUrl: './open-software.component.html',
-    imports: [
+  selector: 'app-open-software',
+  templateUrl: './open-software.component.html',
+  imports: [
     CommonModule,
     NgOptimizedImage,
     CatalogueUiReusableComponentsModule,
     SidebarMobileToggleComponent,
     PageContentComponent,
     InfoCardComponent
-]
+  ]
 })
 
-export class OpenSoftwareComponent implements OnInit{
+export class OpenSoftwareComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-    protected readonly Math = Math;
-    countryCode?: string;
-    countryName?: string;
-    surveyAnswers: Object[] = [];
-    countrySurveyAnswer?: Object;
-    exportActive = false;
 
-    rfoSoftwarePercentage: (number | null)[] = [null, null];
-    rfoSoftwarePercentageDiff: number | null = null;
-    rpoSoftwarePercentage: (number | null)[] = [null, null];
-    rpoSoftwarePercentageDiff: number | null = null;
-    softwareFinancialInvestment: (string | null)[] = [null, null];
-    softwareFinancialInvestmentPercentageDiff: number | null = null;
-    hasNationalPolicy: string | null = null;
-    nationalPolicyClarification: string | null = null;
-    policyMandatory: string | null = null;
-    nationalPolicyClarificationSoftware: string | null = null;
-    hasFinancialStrategy: string | null = null;
-    financialStrategyClarification: string | null = null;
-    hasMonitoring: string | null = null;
-    monitoringClarification: string | null = null;
+  exportActive = false;
 
+  countryCode?: string;
+  countryName?: string;
+  surveyAnswers: Object[] = [];
+  countrySurveyAnswer?: Object;
+  countrySurveyAnswerLastUpdate: string | null = null;
 
-    constructor(private dataShareService: DataShareService, private pdfService: PdfExportService) {}
-
-    ngOnInit() {
-      this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-        next: (answers) => {
-          this.surveyAnswers = answers;
-          this.initCardValues();
-        }
-      });
-
-      this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-        next: (name) => {
-          this.countryName = name;
-        }
-      });
-
-      this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-        next: (code) => {
-          this.countryCode = code;
-        }
-      });
+  rfoSoftwarePercentage: (number | null)[] = [null, null];
+  rfoSoftwarePercentageDiff: number | null = null;
+  rpoSoftwarePercentage: (number | null)[] = [null, null];
+  rpoSoftwarePercentageDiff: number | null = null;
+  softwareFinancialInvestment: (string | null)[] = [null, null];
+  softwareFinancialInvestmentPercentageDiff: number | null = null;
+  hasNationalPolicy: string | null = null;
+  nationalPolicyClarification: string | null = null;
+  policyMandatory: string | null = null;
+  hasFinancialStrategy: string | null = null;
+  financialStrategyClarification: string | null = null;
+  hasMonitoring: string | null = null;
+  monitoringClarification: string | null = null;
 
 
-      this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-        next: (answer) => {
-          this.countrySurveyAnswer = answer;
-        }
-      });
-    }
+  constructor(private dataShareService: DataShareService, private pdfService: PdfExportService) {}
+
+  ngOnInit() {
+    this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (answers) => {
+        this.surveyAnswers = answers;
+        this.initCardValues();
+      }
+    });
+
+    this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (name) => {
+        this.countryName = name;
+      }
+    });
+
+    this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (code) => {
+        this.countryCode = code;
+      }
+    });
+
+    this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (answer) => {
+        this.countrySurveyAnswer = answer;
+      }
+    });
+
+    this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (metadata) => {
+        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
+      }
+    });
+  }
 
   initCardValues() {
     this.rfoSoftwarePercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question25']?.['Question25-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);

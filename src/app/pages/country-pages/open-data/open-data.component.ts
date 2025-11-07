@@ -35,14 +35,15 @@ import { PdfExportService } from "../../services/pdf-export.service";
 })
 export class OpenDataComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+
   exportActive = false;
-  protected readonly Math = Math;
   smallScreen: boolean = false;
 
   countryCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
+  countrySurveyAnswerLastUpdate: string | null = null;
 
 
   rfoOpenDataPercentage: (number | null)[] = [null, null];
@@ -121,6 +122,12 @@ export class OpenDataComponent implements OnInit {
     this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answer) => {
         this.countrySurveyAnswer = answer;
+      }
+    });
+
+    this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (metadata) => {
+        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
       }
     });
 
