@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import { ResourceRegistryService } from '../resource-registry.service';
 import { Document } from 'src/app/domain/document';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -11,7 +11,7 @@ import { set } from 'lodash';
 
 @Component({
     selector: 'app-document-landing',
-    imports: [NgOptimizedImage, CommonModule, PageContentComponent, SidebarMobileToggleComponent],
+  imports: [NgOptimizedImage, CommonModule, PageContentComponent, SidebarMobileToggleComponent, RouterLink],
     templateUrl: './document-landing.component.html'
 })
 

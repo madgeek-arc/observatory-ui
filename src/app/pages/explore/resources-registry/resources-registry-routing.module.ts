@@ -2,6 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DocumentLandingComponent } from './document-landing/document-landing.component';
 import { SearchComponent } from './search/search.component';
 import { NgModule } from '@angular/core';
+import { DocumentEditComponent } from './document-edit/document-edit.component';
 
 export const resourcesRegistryRoutes: Routes = [
   {
@@ -16,6 +17,10 @@ export const resourcesRegistryRoutes: Routes = [
   {
     path: 'search',
     component: SearchComponent
+  },
+  {
+    path: 'document-edit/:id',
+    component: DocumentEditComponent
   }
 ];
 

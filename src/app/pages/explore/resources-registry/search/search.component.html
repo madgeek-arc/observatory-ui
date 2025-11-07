@@ -182,7 +182,7 @@
 
         <div *ngIf="documents.results.length > 0; else noResults">
 
-          <app-search-results [documents]="documents.results"></app-search-results>
+          <app-search-results [documents]="documents.results" [isAdminPage]="isAdminPage" (onUpdateStatus)="onUpdateStatus($event.id, $event.status)"></app-search-results>
 
           <!--Pagination Section-->
           <div *ngIf="documents.total > 0" class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">

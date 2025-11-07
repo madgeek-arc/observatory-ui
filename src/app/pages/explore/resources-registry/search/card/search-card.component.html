@@ -94,24 +94,24 @@
   </div>
   <div class="uk-card-footer" *ngIf="isAdminPage">
     <div class="uk-flex uk-flex-right">
-      <a href="#"
-         class="uk-link uk-link-reset uk-margin-medium-right uk-flex uk-flex-middle uk-disabled uk-text-small"
-         title="Coming soon.."><span class="material-symbols-outlined uk-margin-xsmall-right"
-                                     style="font-size: 18px">edit</span>Edit</a>
-      <!--                <hr class="uk-divider-vertical">-->
+      <a [routerLink]="['../document-edit', doc.id]"
+         class="uk-link uk-link-reset uk-margin-medium-right uk-flex uk-flex-middle uk-text-small"
+         title="Coming soon..">
+        <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">edit</span>Edit
+      </a>
       <a (click)="updateStatus(doc.id, 'APPROVED')"
          class="uk-link uk-link-reset uk-flex uk-flex-middle uk-text-small"
          style="padding-left: 40px; border-left: 1px solid #ccc; cursor: pointer;">
-                  <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">
-                    check_circle
-                  </span>Approve
+        <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">
+          check_circle
+        </span>Approve
       </a>
       <a (click)="updateStatus(doc.id, 'REJECTED')"
          class="uk-link uk-link-reset uk-flex uk-flex-middle uk-text-small"
          style="padding-left: 40px; border-left: 1px solid #ccc; margin-left: 10px; cursor: pointer;">
-                  <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">
-                    cancel
-                  </span>Reject
+        <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">
+          cancel
+        </span>Reject
       </a>
     </div>
   </div>

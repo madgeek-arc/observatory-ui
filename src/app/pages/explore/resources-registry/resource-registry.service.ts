@@ -2,8 +2,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Paging } from 'src/survey-tool/catalogue-ui/domain/paging';
-import { Document } from 'src/app/domain/document';
+import { Document, Content } from 'src/app/domain/document';
 import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
+import { Model } from 'src/survey-tool/catalogue-ui/domain/dynamic-form-model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +41,17 @@ export class ResourceRegistryService {
     const url = `${this.base}/documents/${id}/status`;
     const body = { status };
     return this.httpClient.put(url, body);
+  }
+
+  updateDocument(id: string, docInfo: Content) {
+   const url = `${this.base}/documents/${id}/docInfo`;
+   const body = docInfo;
+   return this.httpClient.put(url, body);
+  }
+
+  getDocumentModel() {
+    const url = `${this.base}/forms/models/m-document`;
+    return this.httpClient.get<Model>(url);
   }
   
 }
