@@ -30,7 +30,7 @@ export class SearchComponent implements OnInit {
 
   urlParameters: URLParameter[] = []; // Array to hold URL parameters
   destroyRef = inject(DestroyRef);
-  documents: Paging<Document> = new Paging<Document>(); // Initialize with empty Paging object
+  documents: Paging<Document> = new Paging<Document>(); // Initialize with an empty Paging object
 
   // Search properties
   from = 0;
@@ -123,32 +123,30 @@ export class SearchComponent implements OnInit {
 
   // Load documents based on current parameters
   loadDocuments() {
-    this.resourceService.getDocument(this.from, this.pageSize, this.urlParameters)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (data) => {
-          if (data.results.length > 0) {
-            this.documents = data;
-            // console.log('Documents loaded, total so far:', this.documents.results.length);
-            this.paginationInit();
-            if (data.facets && data.facets.length > 0) {
-              this.languageFacets = data.facets.find(facet => facet.field === 'language');
-              // console.log('Language facets:', this.languageFacets);
-            }
-          }
+    this.resourceService.getDocument(this.from, this.pageSize, this.urlParameters).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (data) => {
+        if (data.results.length > 0) {
+          this.documents = data;
+          // console.log('Documents loaded, total so far:', this.documents.results.length);
+          this.paginationInit();
           if (data.facets && data.facets.length > 0) {
-            this.countryFacets = data.facets.find(facet => facet.field === 'country');
-            // console.log('Country facets:', this.countryFacets);
+            this.languageFacets = data.facets.find(facet => facet.field === 'language');
+            // console.log('Language facets:', this.languageFacets);
           }
-          if (data.facets && data.facets.length > 0) {
-            this.tagFacets = data.facets.find(facet => facet.field === 'tags');
-            // console.log('Tag facets:', this.tagFacets);
-          }
-        },
-        error: (err) => {
-          console.error('API error:', err);
         }
-      });
+        if (data.facets && data.facets.length > 0) {
+          this.countryFacets = data.facets.find(facet => facet.field === 'country');
+          // console.log('Country facets:', this.countryFacets);
+        }
+        if (data.facets && data.facets.length > 0) {
+          this.tagFacets = data.facets.find(facet => facet.field === 'tags');
+          // console.log('Tag facets:', this.tagFacets);
+        }
+      },
+      error: (err) => {
+        console.error('API error:', err);
+      }
+    });
 
   }
 
@@ -242,7 +240,7 @@ export class SearchComponent implements OnInit {
     }
     // console.log('Navigating with params:', map);
 
-    this.router.navigate(['.'], {relativeTo: this.route, queryParams: map});
+    this.router.navigate(['.'], {relativeTo: this.route, queryParams: map}).then();
   }
 
   /** Filter methods ----------------------------------------------------------------------------------------------->**/
@@ -318,58 +316,42 @@ export class SearchComponent implements OnInit {
 
   // Alert methods
   onUpdateStatus(id: string, status: 'APPROVED' | 'REJECTED') {
-    this.resourceRegistryService.updateStatus(id, status)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: () => {
-          console.log(`Document ${id} status updated to ${status}`);
+    this.resourceRegistryService.updateStatus(id, status).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: () => {
+        console.log(`Document ${id} status updated to ${status}`);
 
-          this.alertStates[id] = {
-            message: status === 'APPROVED'
-              ? 'Document approved successfully.'
-              : 'Document rejected successfully.',
-            type: 'success'
-          };
+        this.alertStates[id] = {
+          message: status === 'APPROVED' ? 'Document approved successfully.' : 'Document rejected successfully.',
+          type: 'success'
+        };
+        setTimeout(() => delete this.alertStates[id], 5000);
 
-          // Εμφανίζουμε πράσινο alert (success)
-          // this.statusMessage = status === 'APPROVED'
-          //   ? 'Document approved successfully.'
-          //   : 'Document rejected successfully.';
-          // this.statusType = 'success';
-          // window.scrollTo({ top: 0, behavior: 'smooth' });
-          // setTimeout(() => this.statusMessage = null, 5000);
-          setTimeout(() => delete this.alertStates[id], 5000);
-
-          // Κάνουμε ξανά GET μόνο για το συγκεκριμένο document
-          this.resourceRegistryService.getDocumentById(id)
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe({
-              next: (data) => {
-                // Ενημερώνουμε μόνο το document που άλλαξε μέσα στη λίστα
-                const index = this.documents.results.findIndex(d => d.id === id);
-                if (index !== -1) {
-                  this.documents.results[index] = data;
-                }
-              },
-              error: (err) => {
-                this.error = 'Error fetching document after status update.';
-                this.statusMessage = 'Failed to refresh document data.';
-                this.statusType = 'danger';
-                setTimeout(() => this.statusMessage = null, 5000);
-                console.error(err);
-              }
-            });
-        },
-        error: (err) => {
-          this.error = `Error updating document status to ${status}.`;
-          this.statusMessage = 'Failed to update document status.';
-          this.statusType = 'danger';
-          window.scrollTo({top: 0, behavior: 'smooth'});
-          setTimeout(() => this.statusMessage = null, 5000);
-          console.error(err);
-        }
-      });
+        this.resourceRegistryService.getDocumentById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+          next: (data) => {
+            // Ενημερώνουμε μόνο το document που άλλαξε μέσα στη λίστα
+            const index = this.documents.results.findIndex(d => d.id === id);
+            if (index !== -1) {
+              this.documents.results[index] = data;
+            }
+          },
+          error: (err) => {
+            this.error = 'Error fetching document after status update.';
+            this.statusMessage = 'Failed to refresh document data.';
+            this.statusType = 'danger';
+            setTimeout(() => this.statusMessage = null, 5000);
+            console.error(err);
+          }
+        });
+      },
+      error: (err) => {
+        this.error = `Error updating document status to ${status}.`;
+        this.statusMessage = 'Failed to update document status.';
+        this.statusType = 'danger';
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        setTimeout(() => this.statusMessage = null, 5000);
+        console.error(err);
+      }
+    });
   }
-
 
 }

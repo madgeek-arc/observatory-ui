@@ -7,7 +7,6 @@
       <div class="uk-container">
 
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
-<!--          <h4>General R&D Overview</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
                  class="flag-image uk-margin-small-right" width="42" height="42" alt="rounded flag image">
@@ -55,12 +54,6 @@
             </div>
           </div>
         </div>
-
-<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
-<!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
-<!--            class="flag-image uk-margin-small-right" width="42" height="42" alt="rounded flag image">-->
-<!--          <h4 class="uk-margin-remove">{{ countryName }} - Open Science for 2023</h4>-->
-<!--        </div>-->
       </div>
     </div>
 
@@ -189,8 +182,8 @@
       </div>
     </div>
 
-    <div #exportContent2>
-      <div *ngIf="hasSurveyGeneralData()" class="uk-section uk-section-primary uk-preserve-color uk-section-small uk-margin-top">
+    <ng-container #exportContent2>
+      <div *ngIf="hasSurveyGeneralData()" class="uk-section uk-section-primary uk-preserve-color uk-section-small">
         <div class="uk-container">
 
           <div class="uk-margin-medium-top uk-animation-fade">
@@ -266,6 +259,6 @@
 
         </div>
       </div>
-    </div>
+    </ng-container>
   </div>
 </div>
