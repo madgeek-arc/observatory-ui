@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { ResourceRegistryService } from "src/app/pages/explore/resources-registry/resource-registry.service";
+import { ActivatedRoute } from "@angular/router";
 import { CommonModule } from "@angular/common";
+import { ResourceRegistryService } from "src/app/pages/explore/resources-registry/resource-registry.service";
 import { Document } from "src/app/domain/document";
 import { Model } from "src/survey-tool/catalogue-ui/domain/dynamic-form-model";
 import { CatalogueUiModule } from "src/survey-tool/catalogue-ui/catalogue-ui.module";
@@ -17,7 +16,6 @@ import { WebsocketService } from "../../../../../survey-tool/app/services/websoc
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     CatalogueUiModule,
     SurveyToolModule,
   ],
@@ -29,7 +27,7 @@ export class DocumentEditComponent implements OnInit {
   @ViewChild(SurveyComponent) child: SurveyComponent
 
   documentId: string | null = null;
-  document: Document | null = null;
+  // document: Document | null = null;
   docModel: Model;
   payload: object = null;
 
@@ -53,7 +51,7 @@ export class DocumentEditComponent implements OnInit {
     if (this.documentId) {
       this.resourceRegistryService.getDocumentById(this.documentId).subscribe({
         next: (doc: Document) => {
-          this.document = doc;
+          // this.document = doc;
           this.payload = {'answer': {docInfo: doc.docInfo}};
         },
         error: (error) => {
@@ -73,7 +71,7 @@ export class DocumentEditComponent implements OnInit {
     if (documentId) {
       this.resourceRegistryService.updateDocument(documentId, event[0].get('docInfo').value).subscribe({
         next: (response) => {
-          console.log('Document updated successfully:', response);
+          // console.log('Document updated successfully:', response);
           alert('Document updated successfully!');
         },
         error: (error) => {
