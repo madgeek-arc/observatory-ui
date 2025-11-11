@@ -1,7 +1,7 @@
 import { Component, DestroyRef, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { ResourceRegistryService } from '../resource-registry.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Document } from 'src/app/domain/document';
+import {Document, HighlightedResults} from 'src/app/domain/document';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
 import { fromEvent } from "rxjs";
@@ -22,7 +22,7 @@ import * as UIkit from 'uikit';
 @Component({
   selector: 'app-resource-registry-search',
   templateUrl: './search.component.html',
-  imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, PageContentComponent, SidebarMobileToggleComponent, SearchCardComponent]
+  imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, PageContentComponent, SidebarMobileToggleComponent]
 })
 
 export class SearchComponent implements OnInit {
@@ -30,7 +30,8 @@ export class SearchComponent implements OnInit {
 
   urlParameters: URLParameter[] = []; // Array to hold URL parameters
   destroyRef = inject(DestroyRef);
-  documents: Paging<Document> = new Paging<Document>(); // Initialize with an empty Paging object
+  // documents: Paging<Document> = new Paging<Document>(); // Initialize with an empty Paging object
+  documents: Paging<HighlightedResults<Document>> = new Paging<any>(); // Initialize with empty Paging object
 
   // Search properties
   from = 0;
@@ -126,7 +127,10 @@ export class SearchComponent implements OnInit {
     this.resourceService.getDocument(this.from, this.pageSize, this.urlParameters).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (data) => {
         if (data.results.length > 0) {
-          this.documents = data;
+          const highlightedDocuments = data.results.map(highlightedresult => {
+            return this.resourceRegistryService.applyHighlightsToContent(highlightedresult);
+          })
+          this.documents = { ...data, results: highlightedDocuments}
           // console.log('Documents loaded, total so far:', this.documents.results.length);
           this.paginationInit();
           if (data.facets && data.facets.length > 0) {
@@ -329,9 +333,9 @@ export class SearchComponent implements OnInit {
         this.resourceRegistryService.getDocumentById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: (data) => {
             // Ενημερώνουμε μόνο το document που άλλαξε μέσα στη λίστα
-            const index = this.documents.results.findIndex(d => d.id === id);
+            const index = this.documents.results.findIndex(d => d.result.id === id);
             if (index !== -1) {
-              this.documents.results[index] = data;
+              this.documents.results[index].result = data;
             }
           },
           error: (err) => {
