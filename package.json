@@ -41,7 +41,6 @@
     "jspdf": "^3.0.1",
     "lodash": "^4.17.21",
     "ng-recaptcha-2": "^15.0.3",
-    "ng2-date-picker": "^19.0.0",
     "ngx-matomo-client": "^7.1.0",
     "pdfmake": "^0.2.7",
     "pizzip": "^3.2.0",
