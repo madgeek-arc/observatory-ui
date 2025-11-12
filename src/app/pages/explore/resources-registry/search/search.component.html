@@ -222,7 +222,7 @@
                         alt="{{doc.result.docInfo?.country}} flag">
                       <strong>
                         <a [routerLink]="['../document-landing', doc.result.id]"
-                          [innerHTML] = "doc.result.docInfo?.title">
+                          [innerHTML] = "getHighlightForField(doc, 'title') ?? doc.result.docInfo?.title">
                         </a>
                       </strong>
                       <span style="margin-left: 20px;"></span>
@@ -262,11 +262,16 @@
                     </div>
                   </div>
                 </div>
+<!--                <pre>{{doc.result.docInfo?.shortDescription?.text}}</pre>-->
                 <p *ngIf="doc.result.docInfo?.shortDescription"
                   [title]="doc.result.docInfo?.shortDescription?.generated ? 'This description is AI-generated' : null">
                   <span *ngIf="doc.result.docInfo?.shortDescription?.generated" class="material-symbols-outlined"
                     style="font-size: 16px">star_shine</span>
-                    <span [innerHTML]= "doc.result.docInfo?.shortDescription?.text "></span>
+
+<!--                    <span [innerHTML]=doc.result.docInfo?.shortDescription?.text></span>-->
+                  <span [innerHTML]="getHighlightForField(doc, 'shortDescription') ?? doc.result.docInfo?.shortDescription?.text"></span>
+
+<!--                  <span [innerHTML]=doc.highlights.find(el => el['field'] === 'shortDescription')></span>-->
                   <!--                  <span *ngIf="doc.docInfo?.shortDescription?.generated" class="material-symbols-outlined uk-text-secondary" style="font-size: 16px">star_shine</span>-->
                 </p>
                 <div *ngIf="doc.result.docInfo?.organisations && doc.result.docInfo?.organisations?.length>0"
@@ -308,7 +313,6 @@
               </div>
             </div>
           </div>
->>>>>>> Stashed changes
 
           <!--Pagination Section-->
           <div *ngIf="documents.total > 0" class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">

@@ -96,7 +96,7 @@ export class PolicyOverviewComponent {
 
     this.resourceService.getDocument(0, 10, [{key: 'country', values:[this.countryCode]}]).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (data) => {
-        this.documents = data.results;
+        this.documents = data.results as Document[];
       },
       error: (error) => {
         console.error('Error fetching resources:', error);

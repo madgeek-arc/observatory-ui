@@ -66,6 +66,10 @@ export interface Author {
 
 export interface HighlightedResults<T> {
   result: T;
-  highlights: any[];
+  highlights: Highlight[];
 }
 
+export interface Highlight {
+  field: string;
+  value: string;
+}

@@ -8,7 +8,7 @@ import { fromEvent } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import { Facet } from 'src/survey-tool/catalogue-ui/domain/facet';
 import { Paging } from 'src/survey-tool/catalogue-ui/domain/paging';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { PageContentComponent } from 'src/survey-tool/app/shared/page-content/page-content.component';
@@ -22,7 +22,7 @@ import * as UIkit from 'uikit';
 @Component({
   selector: 'app-resource-registry-search',
   templateUrl: './search.component.html',
-  imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, PageContentComponent, SidebarMobileToggleComponent]
+  imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, PageContentComponent, SidebarMobileToggleComponent, NgOptimizedImage]
 })
 
 export class SearchComponent implements OnInit {
@@ -104,8 +104,6 @@ export class SearchComponent implements OnInit {
       }
 
       this.documents.results = [];
-      // console.log('Query params:', params);
-      // console.log('Parsed languages:', this.selectedLanguages);
       this.loadDocuments();
 
     });
@@ -127,10 +125,12 @@ export class SearchComponent implements OnInit {
     this.resourceService.getDocument(this.from, this.pageSize, this.urlParameters).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (data) => {
         if (data.results.length > 0) {
-          const highlightedDocuments = data.results.map(highlightedresult => {
-            return this.resourceRegistryService.applyHighlightsToContent(highlightedresult);
-          })
-          this.documents = { ...data, results: highlightedDocuments}
+          this.documents = data as Paging<HighlightedResults<Document>>;
+          this.documents.results.forEach((element, index) => {
+
+            this.documents.results[index].result.docInfo.organisations = this.resourceRegistryService.replaceWithHighlighted(element.result.docInfo.organisations, element.highlights, 'organisations');
+
+          });
           // console.log('Documents loaded, total so far:', this.documents.results.length);
           this.paginationInit();
           if (data.facets && data.facets.length > 0) {
@@ -234,7 +234,6 @@ export class SearchComponent implements OnInit {
       this.urlParameters.push({key: key, values: [value]});
     }
 
-    // console.log('Received values:', values);
   }
 
   navigateUsingURLParameters() {
@@ -242,7 +241,6 @@ export class SearchComponent implements OnInit {
     for (const urlParameter of this.urlParameters) {
       map[urlParameter.key] = urlParameter.values.join(',');
     }
-    // console.log('Navigating with params:', map);
 
     this.router.navigate(['.'], {relativeTo: this.route, queryParams: map}).then();
   }
@@ -356,6 +354,10 @@ export class SearchComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+
+  getHighlightForField(doc: any, fieldName: string): string | undefined {
+    return doc.highlights.find((el: any) => el.field === fieldName)?.value;
   }
 
 }
