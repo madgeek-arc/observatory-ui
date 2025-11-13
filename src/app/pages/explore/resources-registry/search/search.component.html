@@ -51,27 +51,15 @@
       </div>
     </div>
 
-    <div class="uk-section uk-section-small"
-      [ngClass]="isAdminPage ? 'uk-section-default' : 'uk-section-primary uk-preserve-color'">
+    <div class="uk-section uk-section-small" [ngClass]="isAdminPage ? 'uk-section-default' : 'uk-section-primary uk-preserve-color'">
       <div class="uk-container uk-margin-top">
-        <!-- ALERT -->
-        <!-- <div *ngIf="statusMessage" class="uk-width-1-1 uk-margin-small-bottom">
-          <div [ngClass]="{
-                      'uk-alert uk-alert-success uk-width-medium uk-text-center': statusType === 'success',
-                      'uk-alert uk-alert-danger uk-width-medium uk-text-center': statusType === 'danger'
-                    }" uk-alert>
-            <a class="uk-alert-close" uk-close></a>
-            <p>{{ statusMessage }}</p>
-          </div>
-        </div> -->
 
         <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-bottom">
           <div class="uk-flex uk-flex-left uk-flex-middle">
 
             <div class="uk-inline uk-margin-small-right">
               <button class="uk-button uk-button-default" type="button">Language</button>
-              <div id="languageDropdown"
-                uk-dropdown="mode: click; pos: bottom-left; animation: false;  auto-update: true;">
+              <div id="languageDropdown" uk-dropdown="mode: click; pos: bottom-left;  auto-update: true;">
                 <div>
                   <div style="overflow: visible;">
                     <ng-select [items]="languageFacets?.values" bindLabel="value" bindValue="value" [isOpen]="true"
@@ -93,8 +81,7 @@
 
             <div class="uk-inline uk-margin-small-right" style="position: relative;">
               <button class="uk-button uk-button-default" type="button">Country</button>
-              <div id="countryDropdown"
-                uk-dropdown="mode: click; pos: bottom-left; animation: false; auto-update: true;">
+              <div id="countryDropdown" uk-dropdown="mode: click; pos: bottom-left; auto-update: true;">
                 <div>
                   <div style="overflow: visible;">
                     <ng-select [items]="countryFacets?.values" bindLabel="value" bindValue="value" placeholder="Country"
@@ -116,7 +103,7 @@
 
             <div class="uk-inline" style="position: relative;">
               <button class="uk-button uk-button-default" type="button">Tags</button>
-              <div id="tagsDropdown" uk-dropdown="mode: click; pos: bottom-left; animation: false; auto-update: true;">
+              <div id="tagsDropdown" uk-dropdown="mode: click; pos: bottom-left; auto-update: true;">
                 <div>
                   <div style="overflow: visible;">
                     <ng-select [items]="tagFacets?.values" bindLabel="value" bindValue="value" placeholder="Tags"
@@ -137,8 +124,7 @@
             </div>
 
             <span *ngIf="showClearFilter()" class="material-symbols-outlined uk-margin-small-left"
-              style="cursor: pointer;" (click)="clearFilters()" uk-tooltip="Clear All">
-              delete
+              style="cursor: pointer;" (click)="clearFilters()" uk-tooltip="Clear All">delete
             </span>
 
           </div>
@@ -182,137 +168,7 @@
 
         <div *ngIf="documents.results.length > 0; else noResults">
 
-<!--          <app-search-results [documents]="documents.results" [isAdminPage]="isAdminPage" (onUpdateStatus)="onUpdateStatus($event.id, $event.status)"></app-search-results>-->
-
-          <div *ngFor="let doc of documents.results" class="uk-card uk-card-default uk-margin-bottom"
-                [attr.id]="'card-' + doc.result.id">
-
-            <div class="uk-card-body">
-              <div *ngIf="alertStates[doc.result.id]" class="uk-margin-small-bottom uk-animation-fade">
-                <div [ngClass]="{
-                            'uk-alert uk-alert-success uk-text-center': alertStates[doc.result.id].type === 'success',
-                            'uk-alert uk-alert-danger uk-text-center': alertStates[doc.result.id].type === 'danger'
-                          }" uk-alert>
-                  <a class="uk-alert-close" uk-close></a>
-                  <p>{{ alertStates[doc.result.id].message }}</p>
-                </div>
-              </div>
-              <div *ngIf="isAdminPage" class="uk-flex uk-flex-right uk-margin-bottom">
-                <div class=""
-                  [ngClass]="{'uk-label-success': doc.result.status === 'APPROVED','uk-label-danger': doc.result.status === 'REJECTED','uk-label-warning': doc.result.status === 'PENDING'}">
-                  {{ doc.result.status }}
-                </div>
-              </div>
-              <div *ngIf="!doc.result.docInfo; else docInfoFound">
-                No information was found or generated for this URL <a href="{{doc.result.url}}" target="_blank">{{ doc.result.url
-                  }}</a>
-              </div>
-              <ng-template #docInfoFound>
-                <div class="uk-card-title">
-                  <div class="uk-flex uk-flex-middle uk-flex-between uk-margin-small-bottom">
-                    <div class="uk-flex uk-flex-middle">
-                      <!-- {{doc.docInfo | json}} -->
-                      <img *ngIf="doc.result.docInfo?.country && doc.result.docInfo.country !== 'EU'"
-                        ngSrc="../../survey-tool/assets/images/flags/{{doc.result.docInfo?.country | lowercase}}-flag-round.png"
-                        class="flag-image uk-margin-small-right" width="30" height="20"
-                        alt="{{doc.result.docInfo?.country}} flag">
-                      <img *ngIf="doc.result.docInfo?.country && doc.result.docInfo.country === 'EU'"
-                        ngSrc="../../survey-tool/assets/images/flags/europe-flag.jpg"
-                        class="flag-image uk-margin-small-right" width="30" height="20"
-                        alt="{{doc.result.docInfo?.country}} flag">
-                      <strong>
-                        <a [routerLink]="['../document-landing', doc.result.id]"
-                          [innerHTML] = "getHighlightForField(doc, 'title') ?? doc.result.docInfo?.title">
-                        </a>
-                      </strong>
-                      <span style="margin-left: 20px;"></span>
-
-                      <a *ngIf="doc.result.url" [href]="doc.result.url" target="_blank">
-                        <span class="material-symbols-outlined" style="font-size: 20px; vertical-align: middle;">
-                          open_in_new
-                        </span>
-                      </a>
-                    </div>
-                    <div class="uk-flex uk-flex-middle">
-                      <span *ngFor="let tag of doc.result.docInfo?.tags"
-                        class="uk-label uk-margin-small-left uk-label-primary uk-text-bold">
-                        {{ tag }}
-                      </span>
-                    </div>
-
-                  </div>
-                </div>
-
-                <div *ngIf="doc.result.docInfo?.publicationDate || doc.result.docInfo?.startDate || doc.result.docInfo?.endDate"
-                  class="uk-text-small uk-margin-small-bottom document-dates-metadata">
-                  <span *ngIf="doc.result.docInfo?.publicationDate">Publication Date: {{ doc.result.docInfo.publicationDate |
-                    date:'mediumDate' }}</span>
-                  <span *ngIf="doc.result.docInfo?.startDate">Start Date: {{ doc.result.docInfo.startDate | date:'mediumDate'
-                    }}</span>
-                  <span *ngIf="doc.result.docInfo?.endDate">End Date: {{ doc.result.docInfo.endDate | date:'mediumDate' }}</span>
-                </div>
-                <div *ngIf="doc.result.docInfo?.authors && doc.result.docInfo?.authors?.length>0"
-                  class="uk-text-small uk-margin-small-bottom">
-                  <div class="uk-margin-xsmall-bottom">
-                    <div
-                      class="uk-height-max-medium uk-overflow-auto uk-text-small uk-text-emphasis uk-flex uk-flex-wrap">
-                      <span class="uk-text-meta uk-margin-xsmall-right"> Authors: </span>
-                      <span *ngFor="let author of doc.result.docInfo.authors" style="margin-right: 5px;"
-                        class="uk-text-italic"> {{author.name}}; </span>
-                    </div>
-                  </div>
-                </div>
-<!--                <pre>{{doc.result.docInfo?.shortDescription?.text}}</pre>-->
-                <p *ngIf="doc.result.docInfo?.shortDescription"
-                  [title]="doc.result.docInfo?.shortDescription?.generated ? 'This description is AI-generated' : null">
-                  <span *ngIf="doc.result.docInfo?.shortDescription?.generated" class="material-symbols-outlined"
-                    style="font-size: 16px">star_shine</span>
-
-<!--                    <span [innerHTML]=doc.result.docInfo?.shortDescription?.text></span>-->
-                  <span [innerHTML]="getHighlightForField(doc, 'shortDescription') ?? doc.result.docInfo?.shortDescription?.text"></span>
-
-<!--                  <span [innerHTML]=doc.highlights.find(el => el['field'] === 'shortDescription')></span>-->
-                  <!--                  <span *ngIf="doc.docInfo?.shortDescription?.generated" class="material-symbols-outlined uk-text-secondary" style="font-size: 16px">star_shine</span>-->
-                </p>
-                <div *ngIf="doc.result.docInfo?.organisations && doc.result.docInfo?.organisations?.length>0"
-                  class="uk-text-small uk-margin-small-bottom">
-                  <div class="uk-margin-xsmall-bottom">
-                    <div
-                      class="uk-height-max-medium uk-overflow-auto uk-text-small uk-text-emphasis uk-flex uk-flex-wrap">
-                      <span class="uk-text-meta uk-margin-xsmall-right"> Organisations: </span>
-                      <ng-container *ngFor="let organisation of doc.result.docInfo.organisations; let i = index">
-                        <span *ngIf="i!==0" class="uk-margin-xsmall-right">,</span>
-                        <span [innerHTML]="organisation"></span>
-                      </ng-container>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </div>
-            <div class="uk-card-footer" *ngIf="isAdminPage">
-              <div class="uk-flex uk-flex-right">
-                <a [routerLink]="['../document-edit', doc.result.id]"
-                  class="uk-link uk-link-reset uk-margin-medium-right uk-flex uk-flex-middle uk-text-small"
-                  title="Edit Document"><span class="material-symbols-outlined uk-margin-xsmall-right"
-                    style="font-size: 18px">edit</span>Edit</a>
-                <!--                <hr class="uk-divider-vertical">-->
-                <a (click)="onUpdateStatus(doc.result.id, 'APPROVED')"
-                  class="uk-link uk-link-reset uk-flex uk-flex-middle uk-text-small"
-                  style="padding-left: 40px; border-left: 1px solid #ccc; cursor: pointer;">
-                  <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">
-                    check_circle
-                  </span>Approve
-                </a>
-                <a (click)="onUpdateStatus(doc.result.id, 'REJECTED')"
-                  class="uk-link uk-link-reset uk-flex uk-flex-middle uk-text-small"
-                  style="padding-left: 40px; border-left: 1px solid #ccc; margin-left: 10px; cursor: pointer;">
-                  <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">
-                    cancel
-                  </span>Reject
-                </a>
-              </div>
-            </div>
-          </div>
+          <app-search-results [documents]="documents.results" [isAdminPage]="isAdminPage" (onUpdateStatus)="onUpdateStatus($event.id, $event.status)"></app-search-results>
 
           <!--Pagination Section-->
           <div *ngIf="documents.total > 0" class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">

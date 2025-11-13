@@ -1,28 +1,26 @@
 import { Component, DestroyRef, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
-import { ResourceRegistryService } from '../resource-registry.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import {Document, HighlightedResults} from 'src/app/domain/document';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ResourceRegistryService } from '../resource-registry.service';
+import { Document, HighlightedResults } from 'src/app/domain/document';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
 import { fromEvent } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
+import { NgSelectModule } from '@ng-select/ng-select';
+import { SearchCardComponent } from "./card/search-card.component";
+import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
 import { Facet } from 'src/survey-tool/catalogue-ui/domain/facet';
 import { Paging } from 'src/survey-tool/catalogue-ui/domain/paging';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { PageContentComponent } from 'src/survey-tool/app/shared/page-content/page-content.component';
-import {
-  SidebarMobileToggleComponent
-} from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
-import { SearchCardComponent } from "./card/search-card.component";
+import { SidebarMobileToggleComponent } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
 import * as UIkit from 'uikit';
 
 
 @Component({
   selector: 'app-resource-registry-search',
   templateUrl: './search.component.html',
-  imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, PageContentComponent, SidebarMobileToggleComponent, NgOptimizedImage]
+  imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, PageContentComponent, SidebarMobileToggleComponent, SearchCardComponent]
 })
 
 export class SearchComponent implements OnInit {
@@ -127,9 +125,9 @@ export class SearchComponent implements OnInit {
         if (data.results.length > 0) {
           this.documents = data as Paging<HighlightedResults<Document>>;
           this.documents.results.forEach((element, index) => {
-
+            if (element.result.docInfo == null)
+              return;
             this.documents.results[index].result.docInfo.organisations = this.resourceRegistryService.replaceWithHighlighted(element.result.docInfo.organisations, element.highlights, 'organisations');
-
           });
           // console.log('Documents loaded, total so far:', this.documents.results.length);
           this.paginationInit();

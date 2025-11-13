@@ -13,7 +13,7 @@ import { PdfExportService } from "../../services/pdf-export.service";
 import { SearchCardComponent } from "../../explore/resources-registry/search/card/search-card.component";
 import { ResourceRegistryService } from "../../explore/resources-registry/resource-registry.service";
 import { Paging } from "../../../../survey-tool/catalogue-ui/domain/paging";
-import { Document } from "../../../domain/document";
+import { Document, HighlightedResults } from "../../../domain/document";
 
 class TableRow {
   OSArea: string;
@@ -56,7 +56,7 @@ export class PolicyOverviewComponent {
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
 
-  documents: Document[] = [];
+  documents: HighlightedResults<Document>[] = [];
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -96,7 +96,7 @@ export class PolicyOverviewComponent {
 
     this.resourceService.getDocument(0, 10, [{key: 'country', values:[this.countryCode]}]).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (data) => {
-        this.documents = data.results as Document[];
+        this.documents = data.results as HighlightedResults<Document>[];
       },
       error: (error) => {
         console.error('Error fetching resources:', error);

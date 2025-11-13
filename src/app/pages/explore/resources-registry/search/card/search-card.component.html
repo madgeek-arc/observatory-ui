@@ -1,91 +1,102 @@
 <div *ngFor="let doc of documents" class="uk-card uk-card-default uk-margin-bottom"
-     [attr.id]="'card-' + doc.id">
+     [attr.id]="'card-' + doc.result.id">
 
   <div class="uk-card-body">
-    <div *ngIf="alertStates[doc.id]" class="uk-margin-small-bottom uk-animation-fade">
+    <div *ngIf="alertStates[doc.result.id]" class="uk-margin-small-bottom uk-animation-fade">
       <div [ngClass]="{
-            'uk-alert uk-alert-success uk-text-center': alertStates[doc.id].type === 'success',
-            'uk-alert uk-alert-danger uk-text-center': alertStates[doc.id].type === 'danger'
-          }" uk-alert>
+                            'uk-alert uk-alert-success uk-text-center': alertStates[doc.result.id].type === 'success',
+                            'uk-alert uk-alert-danger uk-text-center': alertStates[doc.result.id].type === 'danger'
+                          }" uk-alert>
         <a class="uk-alert-close" uk-close></a>
-        <p>{{ alertStates[doc.id].message }}</p>
+        <p>{{ alertStates[doc.result.id].message }}</p>
       </div>
     </div>
     <div *ngIf="isAdminPage" class="uk-flex uk-flex-right uk-margin-bottom">
       <div class=""
-           [ngClass]="{'uk-label-success': doc.status === 'APPROVED','uk-label-danger': doc.status === 'REJECTED','uk-label-warning': doc.status === 'PENDING'}">
-        {{ doc.status }}
+           [ngClass]="{'uk-label-success': doc.result.status === 'APPROVED','uk-label-danger': doc.result.status === 'REJECTED','uk-label-warning': doc.result.status === 'PENDING'}">
+        {{ doc.result.status }}
       </div>
     </div>
-    <div *ngIf="!doc.docInfo; else docInfoFound">
-      No information was found or generated for this URL <a href="{{doc.url}}" target="_blank">{{ doc.url }}</a>
+    <div *ngIf="!doc.result.docInfo; else docInfoFound">
+      No information was found or generated for this URL <a href="{{doc.result.url}}" target="_blank">{{ doc.result.url
+      }}</a>
     </div>
     <ng-template #docInfoFound>
       <div class="uk-card-title">
         <div class="uk-flex uk-flex-middle uk-flex-between uk-margin-small-bottom">
           <div class="uk-flex uk-flex-middle">
             <!-- {{doc.docInfo | json}} -->
-            <img *ngIf="doc.docInfo?.country && doc.docInfo.country !== 'EU'"
-                 ngSrc="../../survey-tool/assets/images/flags/{{doc.docInfo?.country | lowercase}}-flag-round.png"
+            <img *ngIf="doc.result.docInfo?.country && doc.result.docInfo.country !== 'EU'"
+                 ngSrc="../../survey-tool/assets/images/flags/{{doc.result.docInfo?.country | lowercase}}-flag-round.png"
                  class="flag-image uk-margin-small-right" width="30" height="20"
-                 alt="{{doc.docInfo?.country}} flag">
-            <img *ngIf="doc.docInfo?.country && doc.docInfo.country === 'EU'"
+                 alt="{{doc.result.docInfo?.country}} flag">
+            <img *ngIf="doc.result.docInfo?.country && doc.result.docInfo.country === 'EU'"
                  ngSrc="../../survey-tool/assets/images/flags/europe-flag.jpg"
                  class="flag-image uk-margin-small-right" width="30" height="20"
-                 alt="{{doc.docInfo?.country}} flag">
+                 alt="{{doc.result.docInfo?.country}} flag">
             <strong>
-              <a [routerLink]="['../document-landing', doc.id]">{{ doc.docInfo?.title }}</a>
+              <a [routerLink]="['../document-landing', doc.result.id]"
+                 [innerHTML] = "getHighlightForField(doc, 'title') ?? doc.result.docInfo?.title">
+              </a>
             </strong>
+            <span style="margin-left: 20px;"></span>
 
-            <a *ngIf="doc.url" [href]="doc.url" target="_blank" class="uk-margin-left">
-              <span class="material-symbols-outlined " style="font-size: 20px; vertical-align: middle;">
-                open_in_new
-              </span>
+            <a *ngIf="doc.result.url" [href]="doc.result.url" target="_blank">
+                        <span class="material-symbols-outlined" style="font-size: 20px; vertical-align: middle;">
+                          open_in_new
+                        </span>
             </a>
           </div>
           <div class="uk-flex uk-flex-middle">
-            <span *ngFor="let tag of doc.docInfo?.tags"
-                  class="uk-label uk-margin-small-left uk-label-primary uk-text-bold">
-              {{ tag }}
-            </span>
+                      <span *ngFor="let tag of doc.result.docInfo?.tags"
+                            class="uk-label uk-margin-small-left uk-label-primary uk-text-bold">
+                        {{ tag }}
+                      </span>
           </div>
 
         </div>
       </div>
 
-      <div *ngIf="doc.docInfo?.publicationDate || doc.docInfo?.startDate || doc.docInfo?.endDate"
+      <div *ngIf="doc.result.docInfo?.publicationDate || doc.result.docInfo?.startDate || doc.result.docInfo?.endDate"
            class="uk-text-small uk-margin-small-bottom document-dates-metadata">
-        <span
-          *ngIf="doc.docInfo?.publicationDate">Publication Date: {{ doc.docInfo.publicationDate | date:'mediumDate' }}</span>
-        <span *ngIf="doc.docInfo?.startDate">Start Date: {{ doc.docInfo.startDate | date:'mediumDate' }}</span>
-        <span *ngIf="doc.docInfo?.endDate">End Date: {{ doc.docInfo.endDate | date:'mediumDate' }}</span>
+                  <span *ngIf="doc.result.docInfo?.publicationDate">Publication Date: {{ doc.result.docInfo.publicationDate |
+                    date:'mediumDate' }}</span>
+        <span *ngIf="doc.result.docInfo?.startDate">Start Date: {{ doc.result.docInfo.startDate | date:'mediumDate'
+          }}</span>
+        <span *ngIf="doc.result.docInfo?.endDate">End Date: {{ doc.result.docInfo.endDate | date:'mediumDate' }}</span>
       </div>
-      <div *ngIf="doc.docInfo?.authors && doc.docInfo?.authors?.length>0"
+      <div *ngIf="doc.result.docInfo?.authors && doc.result.docInfo?.authors?.length>0"
            class="uk-text-small uk-margin-small-bottom">
         <div class="uk-margin-xsmall-bottom">
-          <div class="uk-height-max-medium uk-overflow-auto uk-text-small uk-text-emphasis uk-flex uk-flex-wrap">
+          <div
+            class="uk-height-max-medium uk-overflow-auto uk-text-small uk-text-emphasis uk-flex uk-flex-wrap">
             <span class="uk-text-meta uk-margin-xsmall-right"> Authors: </span>
-            <span *ngFor="let author of doc.docInfo.authors" style="margin-right: 5px;"
-                  class="uk-text-italic"> {{ author.name }}; </span>
+            <span *ngFor="let author of doc.result.docInfo.authors" style="margin-right: 5px;"
+                  class="uk-text-italic"> {{author.name}}; </span>
           </div>
         </div>
       </div>
-      <p *ngIf="doc.docInfo?.shortDescription"
-         [title]="doc.docInfo?.shortDescription?.generated ? 'This description is AI-generated' : null">
-                  <span *ngIf="doc.docInfo?.shortDescription?.generated" class="material-symbols-outlined"
+      <!--                <pre>{{doc.result.docInfo?.shortDescription?.text}}</pre>-->
+      <p *ngIf="doc.result.docInfo?.shortDescription"
+         [title]="doc.result.docInfo?.shortDescription?.generated ? 'This description is AI-generated' : null">
+                  <span *ngIf="doc.result.docInfo?.shortDescription?.generated" class="material-symbols-outlined"
                         style="font-size: 16px">star_shine</span>
-        {{ doc.docInfo?.shortDescription?.text }}
+
+        <!--                    <span [innerHTML]=doc.result.docInfo?.shortDescription?.text></span>-->
+        <span [innerHTML]="getHighlightForField(doc, 'shortDescription') ?? doc.result.docInfo?.shortDescription?.text"></span>
+
+        <!--                  <span [innerHTML]=doc.highlights.find(el => el['field'] === 'shortDescription')></span>-->
         <!--                  <span *ngIf="doc.docInfo?.shortDescription?.generated" class="material-symbols-outlined uk-text-secondary" style="font-size: 16px">star_shine</span>-->
       </p>
-      <div *ngIf="doc.docInfo?.organisations && doc.docInfo?.organisations?.length>0"
+      <div *ngIf="doc.result.docInfo?.organisations && doc.result.docInfo?.organisations?.length>0"
            class="uk-text-small uk-margin-small-bottom">
         <div class="uk-margin-xsmall-bottom">
           <div
             class="uk-height-max-medium uk-overflow-auto uk-text-small uk-text-emphasis uk-flex uk-flex-wrap">
             <span class="uk-text-meta uk-margin-xsmall-right"> Organisations: </span>
-            <ng-container *ngFor="let organisation of doc.docInfo.organisations; let i = index">
+            <ng-container *ngFor="let organisation of doc.result.docInfo.organisations; let i = index">
               <span *ngIf="i!==0" class="uk-margin-xsmall-right">,</span>
-              <span>{{ organisation }}</span>
+              <span [innerHTML]="organisation"></span>
             </ng-container>
           </div>
         </div>
@@ -94,25 +105,145 @@
   </div>
   <div class="uk-card-footer" *ngIf="isAdminPage">
     <div class="uk-flex uk-flex-right">
-      <a [routerLink]="['../document-edit', doc.id]"
+      <a [routerLink]="['../document-edit', doc.result.id]"
          class="uk-link uk-link-reset uk-margin-medium-right uk-flex uk-flex-middle uk-text-small"
-         title="Coming soon..">
-        <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">edit</span>Edit
-      </a>
-      <a (click)="updateStatus(doc.id, 'APPROVED')"
+         title="Edit Document"><span class="material-symbols-outlined uk-margin-xsmall-right"
+                                     style="font-size: 18px">edit</span>Edit</a>
+      <!--                <hr class="uk-divider-vertical">-->
+      <a (click)="updateStatus(doc.result.id, 'APPROVED')"
          class="uk-link uk-link-reset uk-flex uk-flex-middle uk-text-small"
          style="padding-left: 40px; border-left: 1px solid #ccc; cursor: pointer;">
-        <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">
-          check_circle
-        </span>Approve
+                  <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">
+                    check_circle
+                  </span>Approve
       </a>
-      <a (click)="updateStatus(doc.id, 'REJECTED')"
+      <a (click)="updateStatus(doc.result.id, 'REJECTED')"
          class="uk-link uk-link-reset uk-flex uk-flex-middle uk-text-small"
          style="padding-left: 40px; border-left: 1px solid #ccc; margin-left: 10px; cursor: pointer;">
-        <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">
-          cancel
-        </span>Reject
+                  <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">
+                    cancel
+                  </span>Reject
       </a>
     </div>
   </div>
 </div>
+
+
+<!--<div *ngFor="let doc of documents" class="uk-card uk-card-default uk-margin-bottom"-->
+<!--     [attr.id]="'card-' + doc.id">-->
+
+<!--  <div class="uk-card-body">-->
+<!--    <div *ngIf="alertStates[doc.id]" class="uk-margin-small-bottom uk-animation-fade">-->
+<!--      <div [ngClass]="{-->
+<!--            'uk-alert uk-alert-success uk-text-center': alertStates[doc.id].type === 'success',-->
+<!--            'uk-alert uk-alert-danger uk-text-center': alertStates[doc.id].type === 'danger'-->
+<!--          }" uk-alert>-->
+<!--        <a class="uk-alert-close" uk-close></a>-->
+<!--        <p>{{ alertStates[doc.id].message }}</p>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div *ngIf="isAdminPage" class="uk-flex uk-flex-right uk-margin-bottom">-->
+<!--      <div class=""-->
+<!--           [ngClass]="{'uk-label-success': doc.status === 'APPROVED','uk-label-danger': doc.status === 'REJECTED','uk-label-warning': doc.status === 'PENDING'}">-->
+<!--        {{ doc.status }}-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div *ngIf="!doc.docInfo; else docInfoFound">-->
+<!--      No information was found or generated for this URL <a href="{{doc.url}}" target="_blank">{{ doc.url }}</a>-->
+<!--    </div>-->
+<!--    <ng-template #docInfoFound>-->
+<!--      <div class="uk-card-title">-->
+<!--        <div class="uk-flex uk-flex-middle uk-flex-between uk-margin-small-bottom">-->
+<!--          <div class="uk-flex uk-flex-middle">-->
+<!--            &lt;!&ndash; {{doc.docInfo | json}} &ndash;&gt;-->
+<!--            <img *ngIf="doc.docInfo?.country && doc.docInfo.country !== 'EU'"-->
+<!--                 ngSrc="../../survey-tool/assets/images/flags/{{doc.docInfo?.country | lowercase}}-flag-round.png"-->
+<!--                 class="flag-image uk-margin-small-right" width="30" height="20"-->
+<!--                 alt="{{doc.docInfo?.country}} flag">-->
+<!--            <img *ngIf="doc.docInfo?.country && doc.docInfo.country === 'EU'"-->
+<!--                 ngSrc="../../survey-tool/assets/images/flags/europe-flag.jpg"-->
+<!--                 class="flag-image uk-margin-small-right" width="30" height="20"-->
+<!--                 alt="{{doc.docInfo?.country}} flag">-->
+<!--            <strong>-->
+<!--              <a [routerLink]="['../document-landing', doc.id]">{{ doc.docInfo?.title }}</a>-->
+<!--            </strong>-->
+
+<!--            <a *ngIf="doc.url" [href]="doc.url" target="_blank" class="uk-margin-left">-->
+<!--              <span class="material-symbols-outlined " style="font-size: 20px; vertical-align: middle;">-->
+<!--                open_in_new-->
+<!--              </span>-->
+<!--            </a>-->
+<!--          </div>-->
+<!--          <div class="uk-flex uk-flex-middle">-->
+<!--            <span *ngFor="let tag of doc.docInfo?.tags"-->
+<!--                  class="uk-label uk-margin-small-left uk-label-primary uk-text-bold">-->
+<!--              {{ tag }}-->
+<!--            </span>-->
+<!--          </div>-->
+
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div *ngIf="doc.docInfo?.publicationDate || doc.docInfo?.startDate || doc.docInfo?.endDate"-->
+<!--           class="uk-text-small uk-margin-small-bottom document-dates-metadata">-->
+<!--        <span-->
+<!--          *ngIf="doc.docInfo?.publicationDate">Publication Date: {{ doc.docInfo.publicationDate | date:'mediumDate' }}</span>-->
+<!--        <span *ngIf="doc.docInfo?.startDate">Start Date: {{ doc.docInfo.startDate | date:'mediumDate' }}</span>-->
+<!--        <span *ngIf="doc.docInfo?.endDate">End Date: {{ doc.docInfo.endDate | date:'mediumDate' }}</span>-->
+<!--      </div>-->
+<!--      <div *ngIf="doc.docInfo?.authors && doc.docInfo?.authors?.length>0"-->
+<!--           class="uk-text-small uk-margin-small-bottom">-->
+<!--        <div class="uk-margin-xsmall-bottom">-->
+<!--          <div class="uk-height-max-medium uk-overflow-auto uk-text-small uk-text-emphasis uk-flex uk-flex-wrap">-->
+<!--            <span class="uk-text-meta uk-margin-xsmall-right"> Authors: </span>-->
+<!--            <span *ngFor="let author of doc.docInfo.authors" style="margin-right: 5px;"-->
+<!--                  class="uk-text-italic"> {{ author.name }}; </span>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <p *ngIf="doc.docInfo?.shortDescription"-->
+<!--         [title]="doc.docInfo?.shortDescription?.generated ? 'This description is AI-generated' : null">-->
+<!--                  <span *ngIf="doc.docInfo?.shortDescription?.generated" class="material-symbols-outlined"-->
+<!--                        style="font-size: 16px">star_shine</span>-->
+<!--        {{ doc.docInfo?.shortDescription?.text }}-->
+<!--        &lt;!&ndash;                  <span *ngIf="doc.docInfo?.shortDescription?.generated" class="material-symbols-outlined uk-text-secondary" style="font-size: 16px">star_shine</span>&ndash;&gt;-->
+<!--      </p>-->
+<!--      <div *ngIf="doc.docInfo?.organisations && doc.docInfo?.organisations?.length>0"-->
+<!--           class="uk-text-small uk-margin-small-bottom">-->
+<!--        <div class="uk-margin-xsmall-bottom">-->
+<!--          <div-->
+<!--            class="uk-height-max-medium uk-overflow-auto uk-text-small uk-text-emphasis uk-flex uk-flex-wrap">-->
+<!--            <span class="uk-text-meta uk-margin-xsmall-right"> Organisations: </span>-->
+<!--            <ng-container *ngFor="let organisation of doc.docInfo.organisations; let i = index">-->
+<!--              <span *ngIf="i!==0" class="uk-margin-xsmall-right">,</span>-->
+<!--              <span>{{ organisation }}</span>-->
+<!--            </ng-container>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </ng-template>-->
+<!--  </div>-->
+<!--  <div class="uk-card-footer" *ngIf="isAdminPage">-->
+<!--    <div class="uk-flex uk-flex-right">-->
+<!--      <a [routerLink]="['../document-edit', doc.id]"-->
+<!--         class="uk-link uk-link-reset uk-margin-medium-right uk-flex uk-flex-middle uk-text-small"-->
+<!--         title="Coming soon..">-->
+<!--        <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">edit</span>Edit-->
+<!--      </a>-->
+<!--      <a (click)="updateStatus(doc.id, 'APPROVED')"-->
+<!--         class="uk-link uk-link-reset uk-flex uk-flex-middle uk-text-small"-->
+<!--         style="padding-left: 40px; border-left: 1px solid #ccc; cursor: pointer;">-->
+<!--        <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">-->
+<!--          check_circle-->
+<!--        </span>Approve-->
+<!--      </a>-->
+<!--      <a (click)="updateStatus(doc.id, 'REJECTED')"-->
+<!--         class="uk-link uk-link-reset uk-flex uk-flex-middle uk-text-small"-->
+<!--         style="padding-left: 40px; border-left: 1px solid #ccc; margin-left: 10px; cursor: pointer;">-->
+<!--        <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">-->
+<!--          cancel-->
+<!--        </span>Reject-->
+<!--      </a>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
