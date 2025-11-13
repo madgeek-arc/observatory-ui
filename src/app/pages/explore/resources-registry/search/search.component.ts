@@ -1,21 +1,19 @@
 import { Component, DestroyRef, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
-import { ResourceRegistryService } from '../resource-registry.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Document } from 'src/app/domain/document';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ResourceRegistryService } from '../resource-registry.service';
+import { Document, HighlightedResults } from 'src/app/domain/document';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
 import { fromEvent } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
+import { NgSelectModule } from '@ng-select/ng-select';
+import { SearchCardComponent } from "./card/search-card.component";
+import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
 import { Facet } from 'src/survey-tool/catalogue-ui/domain/facet';
 import { Paging } from 'src/survey-tool/catalogue-ui/domain/paging';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { PageContentComponent } from 'src/survey-tool/app/shared/page-content/page-content.component';
-import {
-  SidebarMobileToggleComponent
-} from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
-import { SearchCardComponent } from "./card/search-card.component";
+import { SidebarMobileToggleComponent } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
 import * as UIkit from 'uikit';
 
 
@@ -30,7 +28,8 @@ export class SearchComponent implements OnInit {
 
   urlParameters: URLParameter[] = []; // Array to hold URL parameters
   destroyRef = inject(DestroyRef);
-  documents: Paging<Document> = new Paging<Document>(); // Initialize with an empty Paging object
+  // documents: Paging<Document> = new Paging<Document>(); // Initialize with an empty Paging object
+  documents: Paging<HighlightedResults<Document>> = new Paging<any>(); // Initialize with empty Paging object
 
   // Search properties
   from = 0;
@@ -103,8 +102,6 @@ export class SearchComponent implements OnInit {
       }
 
       this.documents.results = [];
-      // console.log('Query params:', params);
-      // console.log('Parsed languages:', this.selectedLanguages);
       this.loadDocuments();
 
     });
@@ -126,7 +123,12 @@ export class SearchComponent implements OnInit {
     this.resourceService.getDocument(this.from, this.pageSize, this.urlParameters).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (data) => {
         if (data.results.length > 0) {
-          this.documents = data;
+          this.documents = data as Paging<HighlightedResults<Document>>;
+          this.documents.results.forEach((element, index) => {
+            if (element.result.docInfo == null)
+              return;
+            this.documents.results[index].result.docInfo.organisations = this.resourceRegistryService.replaceWithHighlighted(element.result.docInfo.organisations, element.highlights, 'organisations');
+          });
           // console.log('Documents loaded, total so far:', this.documents.results.length);
           this.paginationInit();
           if (data.facets && data.facets.length > 0) {
@@ -230,7 +232,6 @@ export class SearchComponent implements OnInit {
       this.urlParameters.push({key: key, values: [value]});
     }
 
-    // console.log('Received values:', values);
   }
 
   navigateUsingURLParameters() {
@@ -238,7 +239,6 @@ export class SearchComponent implements OnInit {
     for (const urlParameter of this.urlParameters) {
       map[urlParameter.key] = urlParameter.values.join(',');
     }
-    // console.log('Navigating with params:', map);
 
     this.router.navigate(['.'], {relativeTo: this.route, queryParams: map}).then();
   }
@@ -329,9 +329,9 @@ export class SearchComponent implements OnInit {
         this.resourceRegistryService.getDocumentById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: (data) => {
             // Ενημερώνουμε μόνο το document που άλλαξε μέσα στη λίστα
-            const index = this.documents.results.findIndex(d => d.id === id);
+            const index = this.documents.results.findIndex(d => d.result.id === id);
             if (index !== -1) {
-              this.documents.results[index] = data;
+              this.documents.results[index].result = data;
             }
           },
           error: (err) => {
@@ -352,6 +352,10 @@ export class SearchComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+
+  getHighlightForField(doc: any, fieldName: string): string | undefined {
+    return doc.highlights.find((el: any) => el.field === fieldName)?.value;
   }
 
 }
