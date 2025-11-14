@@ -443,8 +443,8 @@ export const chartsCfg: Chart[] = [
     data: [],
     chartSeries: [],
     pieSeries: [],
-    type: 'stackedBars',
-    stats: ['Question26'],
+    type: 'mapWithPoints',
+    stats: ['Question26', 'Question26.1'],
   },
   {
     title: 'Map of EU Countries with a Financial Strategy on Offering Services through EOSC',
