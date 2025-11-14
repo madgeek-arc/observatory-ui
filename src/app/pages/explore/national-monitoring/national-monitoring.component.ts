@@ -29,11 +29,10 @@ export class NationalMonitoringComponent implements OnInit {
   protected readonly monitoringMapCaptions = monitoringMapCaptions;
 
   exportActive = false;
-
   smallScreen = false;
 
-  year = '2023';
-  years = ['2022', '2023'];
+  years = ['2023', '2024'];
+  year = this.years[this.years.length-1];
 
   tableData: string[][] = [];
 

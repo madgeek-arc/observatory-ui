@@ -62,8 +62,8 @@
                 [titles]="columnChartTitles" [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
                 [height]="smallScreen ? 1000 : 750"
                 [legendOptions]="legendOptions" valueSuffix=" %" borderRadius="0"
-                [caption]="'<p class=\'uk-text-justify\'>This bar chart illustrates the percentage of countries with established national policies across various Open Science areas for the years 2021 and 2022. Each bar represents a different area of Open Science, such as Open Access Publications, FAIR Data, and Citizen Science, showing the progression or changes in policy adoption from one year to the next. The comparison highlights the evolving landscape of Open Science initiatives at a national level, indicating which aspects of Open Science are gaining attention.</p>'
-                           + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 and Survey on National Contribution to EOSC 2022 — showing data for 2022 and 2021 respectively.</p>'">
+                [caption]="'<p class=\'uk-text-justify\'>This bar chart illustrates the percentage of countries with established national policies across various Open Science areas for the years '+ (+years[0]-1) +' and '+ (+years[1]-1) +'. Each bar represents a different area of Open Science, such as Open Access Publications, FAIR Data, and Citizen Science, showing the progression or changes in policy adoption from one year to the next. The comparison highlights the evolving landscape of Open Science initiatives at a national level, indicating which aspects of Open Science are gaining attention.</p>'
+                           + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' and Survey on National Contribution to EOSC '+ (+years[1]-1) +'.</p>'">
               </app-multi-chart>
             </div>
 

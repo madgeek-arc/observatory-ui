@@ -39,7 +39,8 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   smallScreen = false;
   lastUpdateDate?: string;
 
-  years = ['2022', '2023'];
+  years = ['2023', '2024'];
+  year = this.years[this.years.length-1];
 
   stackedColumnCategories = [];
   stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
@@ -154,7 +155,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
 
   /** Get Trend of Open Data --------------------------------------------------------------------------------------> **/
   getTrend() {
-    this.queryData.getOSOStatsChartData(trendOfOpenData()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(trendOfOpenData(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           let tmpSeries: SeriesOptionsType = {
@@ -171,7 +172,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
 
   /** Get Distribution of Open Data Types by Different Document Type ----------------------------------------------> **/
   getDistributionByDocumentType() {
-    this.queryData.getOSOStatsChartData(distributionByDocumentType()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(distributionByDocumentType(this.years[0])).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           this.stackedColumn2Series[index].data.push(...series.data);

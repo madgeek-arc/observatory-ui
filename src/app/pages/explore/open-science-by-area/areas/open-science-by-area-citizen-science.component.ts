@@ -30,7 +30,8 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
   exportActive = false;
   smallScreen = false;
 
-  years = ['2022', '2023'];
+  years = ['2023', '2024'];
+  year = this.years[this.years.length-1];
 
   citizenProjects: number[] = [];
   countriesWithPolicy: number[] = [];

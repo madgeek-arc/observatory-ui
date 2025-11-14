@@ -45,7 +45,8 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   lastUpdateDate?: string;
   smallScreen = false;
 
-  years = ['2022', '2023'];
+  years = ['2023', '2024'];
+  year = this.years[this.years.length-1];
 
   stackedColumnCategories: string[] = [];
   stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
@@ -208,7 +209,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
 
   /** Get trends of Publications ----------------------------------------------------------------------------------> **/
   getTrends() {
-    this.queryData.getOSOStatsChartData(trendOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(trendOfOAPublications(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           const tmpSeries: SeriesOptionsType = {
@@ -225,7 +226,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
 
   /** Get Distribution of Open Access Types by Fields of Science --------------------------------------------------> **/
   getDistributionsOA() {
-    this.queryData.getOSOStatsChartData(distributionOfOA()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(distributionOfOA(this.years[0])).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           (this.bar2[index] as SeriesBarOptions).data = series.data;
@@ -294,7 +295,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
 
   /** Get Distribution of Open Access Types by Different Scholarly Publication Outputs **/
   getDistributionOAPublication() {
-    this.queryData.getOSOStatsChartData(distributionOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(distributionOfOAPublications(this.years[0])).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           const tmpSeries: SeriesOptionsType = {

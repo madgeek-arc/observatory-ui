@@ -28,8 +28,8 @@ export class InvestmentsInEoscComponent implements OnInit {
 
   smallScreen = false;
 
-  years = ['2022', '2023'];
-  year = '2023';
+  years = ['2023', '2024'];
+  year = this.years[this.years.length-1];
 
   treeGraph: PointOptionsObject[] = [];
   bar: SeriesBarOptions[] = [];

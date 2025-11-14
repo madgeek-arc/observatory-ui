@@ -34,7 +34,8 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
   smallScreen = false;
   lastUpdateDate?: string;
 
-  years = ['2022', '2023'];
+  years = ['2023', '2024'];
+  year = this.years[this.years.length-1];
 
   stackedColumnSeries1 = [
     {
@@ -62,7 +63,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       // color: colors[8]
     }
   ] as Highcharts.SeriesColumnOptions[];
-  stackedColumnCategories = ['2021', '2022'];
+  stackedColumnCategories = this.years.map(year => (+year-1).toString());
   xAxisTitle = 'Year';
   yAxisTitle = 'Percentage of Policies on FAIR Data';
   tooltipPointFormat = '<span style="color:{series.color}">{series.name}</span> : <b>{point.y}</b>';

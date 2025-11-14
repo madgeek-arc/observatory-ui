@@ -52,7 +52,7 @@
 
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent1>
       <div class="uk-container">
-        <h5>General Overview of Open Science Training in Europe for 2022</h5>
+        <h5>General Overview of Open Science Training in Europe for {{ (+year-1) }}</h5>
 
         <div class="uk-child-width-1-3@m uk-child-width-1-3@l uk-child-width-1-1@s uk-grid-match uk-grid-row-medium uk-flex-center" data-uk-grid>
 
@@ -197,7 +197,7 @@
 
         <div class="uk-margin-top">
           <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science
-          2023 - showing data for 2022.
+          {{ year }} - showing data for {{ (+year-1) }}.
         </div>
 
       </div>
@@ -221,7 +221,7 @@
                     [mapData]="questionsDataArray[0]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National Policy on Skills/Training in Open Science'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong> countries have a national <br>policy on skills/training for Open Science</span>'"
-                    [caption]="policesMapCaptions[9] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 — showing data for 2022.'"
+                    [caption]="policesMapCaptions[9] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+' — showing data for '+(+year-1)+'.'"
                     (mapClick)="showComment(0, $event)">
                   </app-highcharts-category-map>
                 </div>
@@ -249,7 +249,7 @@
                     [mapData]="questionsDataArray[1]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National Monitoring on Skills/Training in Open Science'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong> countries have a national <br>monitoring on skills/training for Open Science</span>'"
-                    [caption]="monitoringMapCaptions[9] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 — showing data for 2022.'"
+                    [caption]="monitoringMapCaptions[9] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+' — showing data for '+(+year-1)+'.'"
                     (mapClick)="showComment(1, $event)">
                   </app-highcharts-category-map>
                 </div>
@@ -295,7 +295,7 @@
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
                                  [customTooltip]="true" [yAxisLabels]="false" [height]="smallScreen ? 600 : 400"
                                  [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in skills/training in Open Science made by European countries. The investments are categorised in ranges to show the distribution and scale of funding.</p>' +
-                                 '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 — showing data for 2022.</p>'">
+                                 '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — showing data for '+(+year-1)+'.</p>'">
                 </app-multi-chart>
               </div>
             </li>
@@ -304,7 +304,7 @@
                 <app-tree-graph [data]="treeGraph" style="height: 100%" [height]="700"
                                 [title]="'Financial Investments in Skills/Training in Open Science in 2022'"
                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in skills/training in Open Science made by European countries. The investments are categorised in ranges to show the distribution and scale of funding.</p>' +
-                            '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 — showing data for 2022.</p>'">
+                            '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — showing data for '+(+year-1)+'.</p>'">
                 </app-tree-graph>
               </div>
             </li>
