@@ -7,13 +7,15 @@ import { zip } from "rxjs/internal/observable/zip";
 import { CountryTableData } from "../../../../domain/country-table-data";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
+import * as Highcharts from "highcharts";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
-import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import {
+  SidebarMobileToggleComponent
+} from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
-import {CommonModule, NgOptimizedImage} from "@angular/common";
-import * as Highcharts from "highcharts";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
@@ -191,7 +193,7 @@ export class OpenScienceByAreaSoftwareComponent implements OnInit {
 
   /** Investments as tree graph -----------------------------------------------------------------------------------> **/
   getTreeGraphData(question: string) {
-    this.queryData.getQuestion(this.years[this.years.length-1], question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+    this.queryData.getQuestion(this.year, question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
         this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);

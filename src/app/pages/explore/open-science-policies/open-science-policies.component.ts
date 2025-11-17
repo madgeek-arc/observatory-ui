@@ -322,7 +322,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
       this.queryData.getQuestion(this.year, 'Question5'),   // Financial investments in EOSC and Open Science per country
       this.queryData.getQuestion(this.year, 'Question56'),  // Financial investments in Open Access publications
       // this.queryData.getQuestion(this.year, 'Question57'), // number of publications published in Open Access
-      this.queryData.getOSOStats(OAAndTotalPublicationsPerCountry()), // number of publications published in Open Access
+      this.queryData.getOSOStats(OAAndTotalPublicationsPerCountry(this.years[this.years.length-2])), // number of publications published in Open Access
 
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {

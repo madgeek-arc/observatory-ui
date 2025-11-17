@@ -246,7 +246,7 @@ export class OpenScienceByAreaDataManagementComponent {
 
   /** Investments as tree graph -----------------------------------------------------------------------------------> **/
   getTreeGraphData() {
-    this.queryData.getQuestion(this.years[this.years.length-1], 'Question60').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+    this.queryData.getQuestion(this.year, 'Question60').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
         this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);

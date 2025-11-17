@@ -192,7 +192,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
 
   /** Get Open Data VS closed, restricted and embargoed sets ------------------------------------------------------> **/
   getOpenDataPercentage() {
-    this.queryData.getOSOStats(OpenDataVSClosed()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStats(OpenDataVSClosed(this.years[this.year.length-2])).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.openData[0] = (Math.round((+value.data[2]/+value.data[3] + Number.EPSILON) * 100));
         this.openData[1] = (Math.round((+value.data[0]/+value.data[1] + Number.EPSILON) * 100));

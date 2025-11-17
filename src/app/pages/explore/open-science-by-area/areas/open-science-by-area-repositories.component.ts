@@ -10,8 +10,10 @@ import { zip } from "rxjs/internal/observable/zip";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
-import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {
+  SidebarMobileToggleComponent
+} from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
@@ -186,7 +188,7 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
 
   /** Investments as tree graph -----------------------------------------------------------------------------------> **/
   getTreeGraphData(question: string, index: number) {
-    this.queryData.getQuestion(this.years[this.years.length-1], question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+    this.queryData.getQuestion(this.year, question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
         this.bar[index] = this.exploreService.createInvestmentsBar(res);
         this.treeGraph[index] = this.exploreService.createRanges(res);

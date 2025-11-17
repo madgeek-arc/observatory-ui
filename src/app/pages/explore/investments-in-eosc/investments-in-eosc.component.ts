@@ -127,7 +127,7 @@ export class InvestmentsInEoscComponent implements OnInit {
       this.queryData.getQuestion(this.year, 'Question5'),  // Investments in EOSC and Open Science
       this.queryData.getQuestion(this.year, 'Question56'), // Investments in Open Access publications
       // this.queryData.getQuestion(this.year, 'Question57'), // Publications
-      this.queryData.getOSOStats(OAPubsPerCountry()), // OA Publications from stat tool
+      this.queryData.getOSOStats(OAPubsPerCountry(this.years[this.years.length-2])), // OA Publications from stat tool
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
