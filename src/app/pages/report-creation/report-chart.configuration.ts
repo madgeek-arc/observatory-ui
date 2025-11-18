@@ -429,7 +429,7 @@ export const chartsCfg: Chart[] = [
     stats: ['Question70'],
   },
   {
-    title: 'Trend in EU Countries with National Investments in Open Access to Publications per 1000 FTE Researchers',
+    title: 'Trend in EU Countries with National Investments in Open Source Software per 1000 FTE Researchers',
     namedQueries: ['Question72', 'Question1'],
     data: [],
     chartSeries: [],
@@ -801,6 +801,82 @@ export const chartsCfg: Chart[] = [
     type: 'totalInvestments',
     stats: ['Question92_trend'],
   },
+  {
+    title: 'Map of EU Countries with a National Policy on Incentives/rewards for Open Science',
+    namedQueries: ['Question46','Question46.1'],
+    data: [],
+    chartSeries: [],
+    pieSeries: [],
+    type: 'mapWithPoints',
+    stats: ['Question46','Question46.1'],
+    // order: 1
+  },
+  {
+    title: 'Map of EU Countries with a Financial Strategy on Incentives/rewards for Open Science',
+    namedQueries: ['Question47'],
+    data: [],
+    chartSeries: [],
+    pieSeries: [],
+    type: 'mapWithPoints',
+    stats: ['Question47'],
+  },
+  {
+    title: 'Map of EU Countries with a National Monitoring on Incentives/rewards for Open Science',
+    namedQueries: ['Question94'],
+    data: [],
+    chartSeries: [],
+    pieSeries: [],
+    type: 'mapWithPoints',
+    stats: ['Question94'],
+  },
+  {
+    title: 'Share of EU Countries with National Investments in Incentives/rewards for Open Science per 1000 FTE Researchers',
+    namedQueries: ['Question96', 'Question1'],
+    data: [],
+    chartSeries: [],
+    pieSeries: [],
+    type: 'rangeColumns',
+    stats: ['Question96'],
+  },
+  {
+    title: 'Trend in EU Countries with a National Policy on Incentives/rewards for Open Science',
+    namedQueries: ['Question46', 'Question46.1'],
+    data: [],
+    chartSeries: [],
+    pieSeries: [],
+    type: 'stackedBars',
+    stats: ['Question46'],
+  },
+  {
+    title: 'Trend in EU Countries with a Financial Strategy on Incentives/rewards for Open Science',
+    namedQueries: ['Question47'],
+    data: [],
+    chartSeries: [],
+    pieSeries: [],
+    type: 'barChart',
+    stats: ['Question47'],
+  },
+  {
+    title: 'Trend in EU Countries with a National Monitoring on Incentives/rewards for Open Science',
+    namedQueries: ['Question94'],
+    data: [],
+    chartSeries: [],
+    pieSeries: [],
+    type: 'barChart',
+    stats: ['Question94'],
+  },
+  {
+    title: 'Trend in EU Countries with National Investments in Incentives/rewards for Open Science per 1000 FTE Researchers',
+    namedQueries: ['Question96', 'Question1'],
+    data: [],
+    chartSeries: [],
+    pieSeries: [],
+    type: 'totalInvestments',
+    stats: ['Question96_trend'],
+  },
+
+
+
 
 
 
