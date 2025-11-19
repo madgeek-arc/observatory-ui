@@ -58,7 +58,7 @@
 
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent1>
       <div class="uk-container">
-        <h5>General Overview of Open Data in Europe for {{(+year-1)}}</h5>
+        <h5>General Overview of Open Data in Europe for {{ year }}</h5>
 
         <div class="uk-child-width-1-3@m uk-child-width-1-3@l uk-child-width-1-1@s uk-grid-match uk-grid-row-medium uk-flex-center" data-uk-grid>
 
@@ -349,7 +349,7 @@
             <li>
               <div class="">
                 <app-tree-graph [data]="treeGraph" [height]="700"
-                                [title]="'Financial Investments in Open Data in 2022'"
+                                [title]="'Financial Investments in Open Data in '+ (+year-1)"
                                 [caption]="monitoringMapCaptions[2] +'<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' - showing data for '+(+year-1)+'.</p>'">
                 </app-tree-graph>
               </div>

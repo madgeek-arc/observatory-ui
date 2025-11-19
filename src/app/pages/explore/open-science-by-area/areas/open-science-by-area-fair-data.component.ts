@@ -96,7 +96,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments in FAIR Data in 2022',
+    title: 'Financial Investments in FAIR Data in '+ (+this.year-1),
     xAxis: '',
     yAxis: '',
   };

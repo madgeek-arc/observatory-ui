@@ -112,7 +112,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments in Open Data in 2022',
+    title: 'Financial Investments in Open Data in '+ (+this.year-1),
     xAxis: '',
     yAxis: '',
   }
