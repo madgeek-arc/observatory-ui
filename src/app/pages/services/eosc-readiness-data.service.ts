@@ -26,6 +26,13 @@ export class EoscReadinessDataService {
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
+  getQuestions(year: string, names: string[]): Observable<RawData> {
+    const series = names.map(name => `{"query":{"name":"eosc.sb.${year}.${name}","profile":"${this.profileName}"}}`);
+    const query: string = `{"series":[${series.toString()}],"verbose":true}`;
+
+    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+  }
+
   getQuestionEU(year: string, name: string): Observable<RawData> {
     const query: string = `{"series":[{"query":{"name":"eosc.sb.eu.${year}.${name}","profile":"${this.profileName}"}}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
