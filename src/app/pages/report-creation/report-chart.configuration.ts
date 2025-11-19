@@ -953,8 +953,8 @@ export const chartsCfg: Chart[] = [
     data: [],
     chartSeries: [],
     pieSeries: [],
-    type: 'rangeColumns',
-    stats: ['Question5'],
+    type: 'totalInvestmentsRangeColumns',
+    stats: ['Question5_total'],
   },
   {
     title: 'Share of EU Countries with National Investments in EOSC and Open Science per 1000 FTE Researchers',

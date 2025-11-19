@@ -34,6 +34,11 @@
                            (chartReady)="onChartReady($event, i)">
             </bar-columns-chart>
           }
+          @case ('totalInvestmentsRangeColumns') {
+            <bar-columns-chart [series]="chart.chartSeries" [categories]="['>0 to 1 €M', '>1 to 5 €M', '>5 to 10 €M', '>10 to 50 €M', '>50 to 100 €M', '>100 €M']"
+                               (chartReady)="onChartReady($event, i)">
+            </bar-columns-chart>
+          }
           @case ('stackedBars') {
             <bar-columns-chart [series]="chart.chartSeries" [categories]="years"
                                [enableLegend]="true" [stacking]="'normal'" [dataLabelsEnabled]="true"
