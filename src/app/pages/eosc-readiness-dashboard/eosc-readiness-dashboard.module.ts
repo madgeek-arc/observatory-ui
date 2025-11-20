@@ -67,7 +67,6 @@ import { ChartsModule } from "../../shared/charts/charts.module";
     OutputsSubcategoriesComponent,
     CumulativeDataTablesComponent,
   //   Dynamic Dashboard
-    EoscReadinessDashboardComponent,
     DemoChartsComponent
   ],
   imports: [
