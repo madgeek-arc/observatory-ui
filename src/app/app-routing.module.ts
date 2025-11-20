@@ -13,6 +13,7 @@ import { ArchiveGuardService } from "./pages/services/archiveGuard.service";
 import {
   ContributionsHomeComponent
 } from "../survey-tool/app/pages/contributions-dashboard/home/contributions-home.component";
+import { ReportCreationComponent } from "./pages/report-creation/report-creation.component";
 
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: "enabled",
@@ -87,6 +88,15 @@ const routes: Routes = [
     path: 'contributions/:id/home',
     component: ContributionsHomeExtentionComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'reportExport',
+    component: ReportCreationComponent,
+    canActivate: [AuthGuard],
+    // data: {
+    //   hasSidebar: false,
+    //   showFooter: false,
+    // }
   },
   {
     path: '',
