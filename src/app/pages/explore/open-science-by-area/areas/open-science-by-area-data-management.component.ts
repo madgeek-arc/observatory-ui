@@ -64,7 +64,7 @@ export class OpenScienceByAreaDataManagementComponent {
     }
   ] as Highcharts.SeriesColumnOptions[];
 
-  stackedColumnCategories = this.years.map(year => (+year-1).toString());
+  stackedColumnCategories = this.years;
   xAxisTitle = 'Year'
   yAxisTitle = 'Percentage of Policies on Data Management'
   tooltipPointFormat = '<span style="color:{series.color}">{series.name}</span> : <b>{point.y}</b>';
@@ -99,7 +99,7 @@ export class OpenScienceByAreaDataManagementComponent {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments in Data Management in '+ (+this.year-1),
+    title: 'Financial Investments in Data Management in '+this.year,
     xAxis: '',
     yAxis: '',
   }
@@ -226,15 +226,17 @@ export class OpenScienceByAreaDataManagementComponent {
 
   /** Stacked column chart ----------------------------------------------------------------------------------------> **/
   getStackedColumnData(year: string, index: number) {
-    zip(
-      this.queryData.getQuestion(year, 'Question2'),  // research performing organisations
-      this.queryData.getQuestion(year, 'Question3'),  // research funding organisations
-      this.queryData.getQuestion(year, 'Question12'), // research performing organisations in your country have a policy on data management
-      this.queryData.getQuestion(year, 'Question13'), // research funding organisations in your country have a policy on data management
-    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    const nameArr = [
+      'Question2', // research performing organisations
+      'Question3', // research funding organisations
+      'Question12', // research performing organisations in your country have a policy on data management
+      'Question13', // research funding organisations in your country have a policy on data management
+    ];
+
+    this.queryData.getQuestions(year, nameArr).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value =>  {
-        this.exploreService.createStackedColumnSeries([value[0], value[2]], this.stackedColumnSeries1);
-        this.exploreService.createStackedColumnSeries([value[1], value[3]], this.stackedColumnSeries2);
+        this.exploreService.createStackedColumnSeries([value.datasets[0], value.datasets[2]], this.stackedColumnSeries1);
+        this.exploreService.createStackedColumnSeries([value.datasets[1], value.datasets[3]], this.stackedColumnSeries2);
         if (this.years.length === index+1) {
           this.stackedColumnSeries1 = [...this.stackedColumnSeries1];
           this.stackedColumnSeries2 = [...this.stackedColumnSeries2];

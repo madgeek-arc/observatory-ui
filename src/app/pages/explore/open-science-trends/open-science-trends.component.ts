@@ -32,7 +32,7 @@ export class OpenScienceTrendsComponent implements OnInit {
   lastUpdateDate?: string;
   smallScreen = false;
 
-  years = ['2023', '2024'];
+  years = ['2022', '2023', '2024'];
   year = this.years[this.years.length - 1];
 
   columnChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data Stewardship', 'Long-term Data Preservation', 'Skills / Training', 'Incentives / Rewards for OS', 'Citizen Science'];
@@ -128,6 +128,7 @@ export class OpenScienceTrendsComponent implements OnInit {
         this.columnChartSeries.push(this.exploreService.createColumnChartSeries(value, year));
 
         if (this.columnChartSeries.length === this.years.length) { // When series complete
+          this.columnChartSeries.sort((a, b) => a.name.localeCompare(b.name));
           this.columnChartSeries = [...this.columnChartSeries]; // Trigger angular detection change
         }
       },
@@ -157,6 +158,7 @@ export class OpenScienceTrendsComponent implements OnInit {
         this.columnChart2Series.push(this.exploreService.createColumnChartSeries(value, year));
 
         if (this.columnChart2Series.length === this.years.length) { // When series complete
+          this.columnChart2Series.sort((a, b) => a.name.localeCompare(b.name));
           this.columnChart2Series = [...this.columnChart2Series]; // Trigger angular detection change
         }
       },
