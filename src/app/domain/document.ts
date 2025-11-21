@@ -64,3 +64,12 @@ export interface Author {
     orcid: string;
 }
 
+export interface HighlightedResults<T> {
+  result: T;
+  highlights: Highlight[];
+}
+
+export interface Highlight {
+  field: string;
+  value: string;
+}

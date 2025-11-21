@@ -21,6 +21,10 @@ export const resourcesRegistryRoutes: Routes = [
   {
     path: 'document-edit/:id',
     component: DocumentEditComponent
+  },
+  {
+    path: 'document-add',
+    component: DocumentEditComponent
   }
 ];
 

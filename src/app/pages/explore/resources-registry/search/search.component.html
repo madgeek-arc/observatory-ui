@@ -51,27 +51,15 @@
       </div>
     </div>
 
-    <div class="uk-section uk-section-small"
-      [ngClass]="isAdminPage ? 'uk-section-default' : 'uk-section-primary uk-preserve-color'">
+    <div class="uk-section uk-section-small" [ngClass]="isAdminPage ? 'uk-section-default' : 'uk-section-primary uk-preserve-color'">
       <div class="uk-container uk-margin-top">
-        <!-- ALERT -->
-        <!-- <div *ngIf="statusMessage" class="uk-width-1-1 uk-margin-small-bottom">
-          <div [ngClass]="{
-                      'uk-alert uk-alert-success uk-width-medium uk-text-center': statusType === 'success',
-                      'uk-alert uk-alert-danger uk-width-medium uk-text-center': statusType === 'danger'
-                    }" uk-alert>
-            <a class="uk-alert-close" uk-close></a>
-            <p>{{ statusMessage }}</p>
-          </div>
-        </div> -->
 
         <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-bottom">
           <div class="uk-flex uk-flex-left uk-flex-middle">
 
             <div class="uk-inline uk-margin-small-right">
               <button class="uk-button uk-button-default" type="button">Language</button>
-              <div id="languageDropdown"
-                uk-dropdown="mode: click; pos: bottom-left; animation: false;  auto-update: true;">
+              <div id="languageDropdown" uk-dropdown="mode: click; pos: bottom-left;  auto-update: true;">
                 <div>
                   <div style="overflow: visible;">
                     <ng-select [items]="languageFacets?.values" bindLabel="value" bindValue="value" [isOpen]="true"
@@ -93,8 +81,7 @@
 
             <div class="uk-inline uk-margin-small-right" style="position: relative;">
               <button class="uk-button uk-button-default" type="button">Country</button>
-              <div id="countryDropdown"
-                uk-dropdown="mode: click; pos: bottom-left; animation: false; auto-update: true;">
+              <div id="countryDropdown" uk-dropdown="mode: click; pos: bottom-left; auto-update: true;">
                 <div>
                   <div style="overflow: visible;">
                     <ng-select [items]="countryFacets?.values" bindLabel="value" bindValue="value" placeholder="Country"
@@ -116,7 +103,7 @@
 
             <div class="uk-inline" style="position: relative;">
               <button class="uk-button uk-button-default" type="button">Tags</button>
-              <div id="tagsDropdown" uk-dropdown="mode: click; pos: bottom-left; animation: false; auto-update: true;">
+              <div id="tagsDropdown" uk-dropdown="mode: click; pos: bottom-left; auto-update: true;">
                 <div>
                   <div style="overflow: visible;">
                     <ng-select [items]="tagFacets?.values" bindLabel="value" bindValue="value" placeholder="Tags"
@@ -137,8 +124,7 @@
             </div>
 
             <span *ngIf="showClearFilter()" class="material-symbols-outlined uk-margin-small-left"
-              style="cursor: pointer;" (click)="clearFilters()" uk-tooltip="Clear All">
-              delete
+              style="cursor: pointer;" (click)="clearFilters()" uk-tooltip="Clear All">delete
             </span>
 
           </div>
