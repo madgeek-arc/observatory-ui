@@ -1,10 +1,10 @@
 <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
   <div class="uk-container uk-container-expand">
-    <a [routerLink]="['../surveys']" class="uk-text-primary">Back to surveys</a>
+<!--    <a [routerLink]="['../surveys']" class="uk-text-primary">Back to surveys</a>-->
     <div class="uk-flex uk-flex-right">
       <div>
-        <button class="uk-button uk-button-primary uk-button-large" (click)="generateReport()">
-          Generate Complete Report
+        <button class="uk-button uk-button-primary uk-button-large" [ngClass]="{'uk-disabled': exporting}" (click)="generateReport()">
+          Generate Complete Report <span class="uk-margin-small-left" [ngClass]="{'uk-hidden': !exporting}" uk-spinner="ratio: 0.7"></span>
         </button>
         <p class="uk-text-meta uk-margin-small-top">
           Charts ready: {{ charts.length }}/{{ chartsCfg.length }} <br>
@@ -32,6 +32,11 @@
           @case ('rangeColumns') {
             <bar-columns-chart [series]="chart.chartSeries" [XAxisTitleText]="'per 1000 FTEs'"
                            (chartReady)="onChartReady($event, i)">
+            </bar-columns-chart>
+          }
+          @case ('totalInvestmentsRangeColumns') {
+            <bar-columns-chart [series]="chart.chartSeries" [categories]="['>0 to 1 €M', '>1 to 5 €M', '>5 to 10 €M', '>10 to 50 €M', '>50 to 100 €M', '>100 €M']"
+                               (chartReady)="onChartReady($event, i)">
             </bar-columns-chart>
           }
           @case ('stackedBars') {
