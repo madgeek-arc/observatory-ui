@@ -9,7 +9,7 @@ import { RawData, Row } from "../../domain/raw-data";
 import * as Highcharts from 'highcharts';
 import { SeriesMappointOptions, SeriesPieOptions } from "highcharts";
 import { latlong } from "../../domain/countries-lat-lon";
-import { JsonPipe, NgForOf, NgIf } from "@angular/common";
+import { JsonPipe, NgClass, NgForOf, NgIf } from "@angular/common";
 import { ReportPieChartComponent } from "../../shared/charts/report-charts/report-pie-chart.component";
 import { Chart, chartsCfg } from "./report-chart.configuration";
 import { BarColumnsComponent } from "../../shared/charts/report-charts/bar-columns.component";
@@ -27,13 +27,13 @@ interface ChartImageData {
   selector: 'app-report-creation',
   standalone: true,
   imports: [
-    RouterLink,
     NgIf,
     NgForOf,
     WorldMapComponent,
     ReportPieChartComponent,
     JsonPipe,
-    BarColumnsComponent
+    BarColumnsComponent,
+    NgClass
   ],
   providers: [StakeholdersService],
   templateUrl: './report-creation.component.html'
@@ -54,6 +54,8 @@ export class ReportCreationComponent implements OnInit {
 
   chartsCfg: Chart[] = chartsCfg;
 
+  exporting = false;
+
   ngOnInit() {
     // this.pieCharts = this.chartsCfg.map(c => new Array(c.namedQueries.length).fill(null));
     // this.worldCharts = new Array(this.chartsCfg.length).fill(null);
@@ -64,8 +66,6 @@ export class ReportCreationComponent implements OnInit {
   }
 
   loadChart(chart: Chart) {
-    // this.worldCharts = [];
-    // this.pieCharts = [];
     // map each key to its observable
     let calls: Observable<RawData>[] = [];
     if (chart.type === 'stackedBars' || chart.type === 'barChart' || chart.type === 'totalInvestments') {
@@ -87,6 +87,11 @@ export class ReportCreationComponent implements OnInit {
         // console.log(`Loaded ${chart.title}:`, results);
         if (chart.type === 'rangeColumns') {
           chart.chartSeries = this.rangeColumnsSeries(results, chart.stats[0]);
+          return;
+        }
+
+        if (chart.type === 'totalInvestmentsRangeColumns') {
+          chart.chartSeries = this.totalInvestmentsRangeColumnsSeries(results, chart.stats[0]);
           return;
         }
 
@@ -123,8 +128,9 @@ export class ReportCreationComponent implements OnInit {
   }
 
   async generateReport() {
-    const before = this.pieCharts.map(r => r ? r.map(c => Object.keys(c||{}).length) : []);
-    console.log('before keysCount: ', before);
+    this.exporting = true;
+    // const before = this.pieCharts.map(r => r ? r.map(c => Object.keys(c||{}).length) : []);
+    // console.log('before keysCount: ', before);
     try {
       console.log(`Processing ${(this.charts.length + this.countAllPieSeries())} charts...`);
 
@@ -159,11 +165,11 @@ export class ReportCreationComponent implements OnInit {
             if (!pieChart) continue; // Skip if no pie chart at this index
 
             console.log(`Exporting pie chart [${i}, ${j}]...`);
-            const buffer = await this.chartToArrayBuffer(pieChart, 300, 225);
+            const buffer = await this.chartToArrayBuffer(pieChart, 400, 300);
             this.chartImages[`pieChartImage_${i}_${j}`] = {
               buffer: buffer,
-              width: 300,
-              height: 225,
+              width: 274,
+              height: 200,
               title: `Pie Chart [${i + 1}, ${j + 1}]`
             };
           }
@@ -179,9 +185,10 @@ export class ReportCreationComponent implements OnInit {
       await this.reportService.exportDocWithMultipleImages(this.reportData, this.chartImages, this.staticImages);
 
       console.log('Report generated successfully!');
+      this.exporting = false;
 
-      const after = this.pieCharts.map(r => r ? r.map(c => Object.keys(c||{}).length) : []);
-      console.log('after keysCount: ', after);
+      // const after = this.pieCharts.map(r => r ? r.map(c => Object.keys(c||{}).length) : []);
+      // console.log('after keysCount: ', after);
 
     } catch (error) {
       console.error('Error generating report:', error);
@@ -598,7 +605,13 @@ export class ReportCreationComponent implements OnInit {
   }
 
   countAllPieSeries() {
-    return this.chartsCfg.reduce((sum, obj) => sum + obj.namedQueries.length, 0);
+    let count = 0;
+    chartsCfg.forEach(chart => {
+      if (chart.type === 'mapWithPoints')
+        count+=chart.namedQueries.length;
+    });
+
+    return count;
   }
 
   // Store ready charts
@@ -612,7 +625,7 @@ export class ReportCreationComponent implements OnInit {
 
   onPieChartReady(chart: Highcharts.Chart, i: number, j: number) {
     console.log(`Pie Chart ready [${i}, ${j}]`);
-    if (this.pieCharts[i] && this.pieCharts[i][j])
+    if (this.pieCharts[i] && this.pieCharts[i][j]) // Skip if the chart already exists
       return;
 
     if (!this.pieCharts[i])
@@ -657,5 +670,76 @@ export class ReportCreationComponent implements OnInit {
         }
     });
     return researchersInFTEs;
+  }
+
+  totalInvestmentsRangeColumnsSeries(data: RawData[], query: string): Highcharts.SeriesColumnOptions[] {
+    let seriesOptions: Highcharts.SeriesColumnOptions[] = [];
+    let series: Highcharts.SeriesColumnOptions = {
+      type: 'column',
+      name: 'countries',
+      data: [],
+      showInLegend: false,
+      color: '#008792',
+    };
+
+    let responses = data[0].datasets[0].series.result.length;
+    let notInvesting = 0;
+    const seriesData = [0, 0, 0, 0, 0, 0];
+
+    const investments: {code: string, value: number | null}[] = [];
+    data[0].datasets[0].series.result.map((element) => {
+
+      // ser value in €M
+      return investments.push({
+        code: element.row[0],
+        value: isNumeric(element.row[1]) ? (parseFloat(element.row[1])) : null
+      });
+    });
+
+
+    investments.forEach((element, index) => {
+      if (investments[index].value === 0 || investments[index].value === null) {
+        notInvesting++;
+      } else if (investments[index].value <= 1) {
+        seriesData[0]++;
+      } else if (investments[index].value <= 5) {
+        seriesData[1]++;
+      } else if (investments[index].value <= 10) {
+        seriesData[2]++;
+      } else if (investments[index].value <= 50) {
+        seriesData[3]++;
+      } else if (investments[index].value <= 100) {
+        seriesData[4]++;
+      } else {
+        seriesData[5]++;
+      }
+
+    });
+
+
+    let percentage = Math.round((notInvesting / responses + Number.EPSILON) * 100);
+    this.reportData[query+'[0]'] = `${percentage}% (${notInvesting}/${responses})`;
+
+    percentage = Math.round((seriesData[0] / responses + Number.EPSILON) * 100);
+    this.reportData[query+'[1]'] = `${percentage}% (${seriesData[0]}/${responses})`;
+
+    percentage = Math.round((seriesData[1] / responses + Number.EPSILON) * 100);
+    this.reportData[query+'[2]'] = `${percentage}% (${seriesData[1]}/${responses})`;
+
+    percentage = Math.round((seriesData[2] / responses + Number.EPSILON) * 100);
+    this.reportData[query+'[3]'] = `${percentage}% (${seriesData[2]}/${responses})`;
+
+    percentage = Math.round((seriesData[3] / responses + Number.EPSILON) * 100);
+    this.reportData[query+'[4]'] = `${percentage}% (${seriesData[3]}/${responses})`;
+
+    percentage = Math.round((seriesData[4] / responses + Number.EPSILON) * 100);
+    this.reportData[query+'[5]'] = `${percentage}% (${seriesData[4]}/${responses})`;
+
+    percentage = Math.round((seriesData[5] / responses + Number.EPSILON) * 100);
+    this.reportData[query+'[6]'] = `${percentage}% (${seriesData[5]}/${responses})`;
+
+    series.data = seriesData;
+    seriesOptions.push(series)
+    return seriesOptions;
   }
 }

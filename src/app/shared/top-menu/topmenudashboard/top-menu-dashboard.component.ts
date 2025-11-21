@@ -32,6 +32,7 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
   acceptedPrivacyPolicy: AcceptedPrivacyPolicy = null;
   name: string = null;
   showArchive: boolean = false;
+  superAdmin: boolean = false;
   // groupIds: string[] = [];
   unreadMessages: UnreadMessages = new UnreadMessages();
 
@@ -56,30 +57,18 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
     // if (this.authentication.authenticated) {
       this.userService.getUserObservable().pipe(takeUntil(this._destroyed)).subscribe(
         next => {
-          // if (next) {
-            this.userInfo = next;
-          // }
-          // else {
-          //   this.userService.getUserInfo().subscribe(
-          //     next => {
-          //       this.userService.setUserInfo(next);
-          //       this.userInfo = next;
-          //     },
-          //     error => {console.error(error);
-          //     }
-          //   )
-          // }
+          this.userInfo = next;
           if (this.userInfo) {
             if (!this.messagingWebsocket.stompClientUnread) {
               this.messagingWebsocket.initializeWebSocketConnectionUnread(`/topic/messages/inbox/unread/${this.userInfo.user.email}`);
               this.messagingWebsocket.WsJoin(`/app/messages/inbox/unread/${this.userInfo.user.email}`, 'action');
             }
             if (!this.messagingWebsocket.stompClientNotification) {
-              // console.log('open notification socket');
               this.messagingWebsocket.initializeWebSocketConnectionNotification(`/topic/messages/inbox/notification/${this.userInfo.user.email}`);
             }
 
             this.showArchive = this.coordinatorContains('eosc-sb') || this.checkIfManager();
+            this.superAdmin = this.userInfo.admin;
 
           }
         },
