@@ -31,7 +31,7 @@ export class NationalMonitoringComponent implements OnInit {
   exportActive = false;
   smallScreen = false;
 
-  years = ['2023', '2024'];
+  years = ['2022', '2023', '2024'];
   year = this.years[this.years.length-1];
 
   tableData: string[][] = [];
@@ -178,6 +178,7 @@ export class NationalMonitoringComponent implements OnInit {
         this.columnChartSeries.push(this.exploreService.createColumnChartSeries(value, year));
 
         if (this.columnChartSeries.length === this.years.length) { // When series complete
+          this.columnChartSeries.sort((a, b) => a.name.localeCompare(b.name));
           this.columnChartSeries = [...this.columnChartSeries]; // Trigger angular detection change
         }
 

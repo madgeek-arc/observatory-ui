@@ -59,13 +59,13 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments in Connecting Repositories to EOSC in '+ (+this.year-1),
+    title: 'Financial Investments in Connecting Repositories to EOSC in '+this.year,
     xAxis: '',
     yAxis: '',
   }
 
   barChartTitles2 = {
-    title: 'Financial Investments in Long-term Data Preservation in '+ (+this.year-1),
+    title: 'Financial Investments in Long-term Data Preservation in '+this.year,
     xAxis: '',
     yAxis: '',
   }

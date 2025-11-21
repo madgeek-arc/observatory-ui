@@ -218,8 +218,9 @@
         </div>
 
         <div class="uk-margin-top">
-          <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science
-          {{ year }} - showing data for {{ (+year-1) }}.
+          <span class="uk-text-bold">Data source:</span>&nbsp;
+          Survey on National Contributions to EOSC and Open Science {{year}} -
+          showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}}).
         </div>
 
       </div>
@@ -230,7 +231,7 @@
 
         <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-          <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="{connect:'#maps', animation: 'fade'}">
+          <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="connect:#maps; animation: uk-animation-fade">
             <li><a class="uk-margin-remove-bottom" (click)="countryName = countryCode = comment = undefined">Policies</a></li>
             <li><a class="uk-margin-remove-bottom" (click)="countryName = countryCode = comment = undefined">Monitoring</a></li>
           </ul>
@@ -243,7 +244,7 @@
                     [mapData]="questionsDataArray[0]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National Policy on FAIR Data'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong> countries have a <br>national policy on FAIR Data</span>'"
-                    [caption]="policesMapCaptions[2] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+' — showing data for '+(+year-1)+'.'"
+                    [caption]="policesMapCaptions[2] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'"
                     (mapClick)="showComment(0, $event)">
                   </app-highcharts-category-map>
                 </div>
@@ -271,7 +272,7 @@
                     [mapData]="questionsDataArray[1]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National Monitoring on FAIR Data'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong> countries have a <br>national monitoring on FAIR Data</span>'"
-                    [caption]="monitoringMapCaptions[2] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+' — showing data for '+(+year-1)+'.'"
+                    [caption]="monitoringMapCaptions[2] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'"
                     (mapClick)="showComment(1, $event)">
                   </app-highcharts-category-map>
                 </div>
@@ -304,7 +305,7 @@
 
         <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-          <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="{connect:'#investments', animation: 'fade'}">
+          <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="connect:#investments; animation: uk-animation-fade">
             <li><a class="uk-margin-remove-bottom">Overview</a></li>
             <li><a class="uk-margin-remove-bottom">Details</a></li>
           </ul>
@@ -317,16 +318,16 @@
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
                                  [customTooltip]="true" [yAxisLabels]="false" [height]="smallScreen ? 500 : 400"
                                  [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Fair Data made by European countries. The investments are categorised in ranges to show the distribution and scale of funding.</p>' +
-                                 '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — showing data for '+(+year-1)+'.</p>'">
+                                 '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for financial contributions the data reflect the previous year ('+(+year-1)+').</p>'">
                 </app-multi-chart>
               </div>
             </li>
             <li>
               <div class="">
                 <app-tree-graph [data]="treeGraph" [height]="700"
-                                [title]="'Financial Investments in FAIR Data in '+ (+year-1)"
+                                [title]="'Financial Investments in FAIR Data in '+year"
                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Fair Data made by European countries. The investments are categorised in ranges to show the distribution and scale of funding.</p>' +
-                            '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — showing data for '+(+year-1)+'.</p>'">
+                            '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for financial contributions the data reflect the previous year ('+(+year-1)+').</p>'">
                 </app-tree-graph>
               </div>
             </li>
@@ -350,7 +351,7 @@
                                   [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle"
                                   [height]="700"
                                   [caption]="'<p class=\'uk-text-justify\'>The presented graph shows the adoption of FAIR Data policies among Research Performing Organisations (RPOs). It highlights the percentage of RPOs that have implemented policies supporting FAIR data principles, compared to those without such policies.</p>' +
-                              '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science.</p>'">
+                              '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science '+year+'.</p>'">
               </app-stacked-column>
             </div>
           </div>
@@ -363,7 +364,7 @@
                                   [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle"
                                   [height]="700"
                                   [caption]="'<p class=\'uk-text-justify\'>The presented graph shows on Research Funding Organisations (RFOs) and their commitment to FAIR Data policies. It illustrates the percentage of RFOs that have implemented FAIR data policies, alongside those that have not.</p>' +
-                              '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science.</p>'">
+                              '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science'+year+'.</p>'">
               </app-stacked-column>
             </div>
           </div>

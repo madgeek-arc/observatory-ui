@@ -4,7 +4,7 @@ import {
 } from "../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
 import { latlong } from "../../domain/countries-lat-lon";
 import { CountryTableData } from "../../domain/country-table-data";
-import { RawData, Row } from "../../domain/raw-data";
+import { Dataset, RawData, Row } from "../../domain/raw-data";
 import { EoscReadinessDataService } from "../services/eosc-readiness-data.service";
 import { CategorizedAreaData, Series } from "../../domain/categorizedAreaData";
 import { BehaviorSubject } from "rxjs";
@@ -295,7 +295,7 @@ export class ExploreService {
   createColumnChartSeries(data: RawData, year: string) {
     let series: Highcharts.SeriesColumnOptions = {
       type: 'column',
-      name: 'Year '+ (+year-1),
+      name: 'Year '+ year,
       data: []
     }
 
@@ -311,15 +311,15 @@ export class ExploreService {
   }
 
   // Stacked columns
-  createStackedColumnSeries(data: RawData[], series: Highcharts.SeriesColumnOptions[]) {
+  createStackedColumnSeries(data: Dataset[], series: Highcharts.SeriesColumnOptions[]) {
     let orgCount = 0;
     let orgCountWithPolicy = 0;
-    data[0].datasets[0].series.result.forEach((result) => {
+    data[0].series.result.forEach((result) => {
       if (this.isNumeric(result.row[1]))
         orgCount += +result.row[1];
     });
 
-    data[1].datasets[0].series.result.forEach((result) => {
+    data[1].series.result.forEach((result) => {
       if (this.isNumeric(result.row[1]))
         orgCountWithPolicy += +result.row[1];
     });
