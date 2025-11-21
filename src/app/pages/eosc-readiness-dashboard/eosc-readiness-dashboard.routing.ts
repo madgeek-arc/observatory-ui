@@ -54,7 +54,7 @@ import { DemoChartsComponent } from "./eosc-readiness-dynamic/demo/demo-charts.c
 const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
     path: '',
-    redirectTo: '2023',
+    redirectTo: '2024',
     pathMatch: 'full'
   },
   {
