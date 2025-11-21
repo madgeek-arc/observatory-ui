@@ -144,7 +144,7 @@ import {exploreIcons} from "../../explore/explore.icons";
 export class EoscReadinessDashboardComponent implements OnInit {
   menuItems: MenuItem[] = [];
   menuSections: MenuSection[] = [];
-  year: string = '2023';
+  year: string = '2024';
 
   hasSidebar = true;
   hasAdminMenu = false;
