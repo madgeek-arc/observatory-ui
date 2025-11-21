@@ -9,7 +9,7 @@ import { RawData, Row } from "../../domain/raw-data";
 import * as Highcharts from 'highcharts';
 import { SeriesMappointOptions, SeriesPieOptions } from "highcharts";
 import { latlong } from "../../domain/countries-lat-lon";
-import { JsonPipe, NgForOf, NgIf } from "@angular/common";
+import { JsonPipe, NgClass, NgForOf, NgIf } from "@angular/common";
 import { ReportPieChartComponent } from "../../shared/charts/report-charts/report-pie-chart.component";
 import { Chart, chartsCfg } from "./report-chart.configuration";
 import { BarColumnsComponent } from "../../shared/charts/report-charts/bar-columns.component";
@@ -27,13 +27,13 @@ interface ChartImageData {
   selector: 'app-report-creation',
   standalone: true,
   imports: [
-    RouterLink,
     NgIf,
     NgForOf,
     WorldMapComponent,
     ReportPieChartComponent,
     JsonPipe,
-    BarColumnsComponent
+    BarColumnsComponent,
+    NgClass
   ],
   providers: [StakeholdersService],
   templateUrl: './report-creation.component.html'
@@ -54,6 +54,8 @@ export class ReportCreationComponent implements OnInit {
 
   chartsCfg: Chart[] = chartsCfg;
 
+  exporting = false;
+
   ngOnInit() {
     // this.pieCharts = this.chartsCfg.map(c => new Array(c.namedQueries.length).fill(null));
     // this.worldCharts = new Array(this.chartsCfg.length).fill(null);
@@ -64,8 +66,6 @@ export class ReportCreationComponent implements OnInit {
   }
 
   loadChart(chart: Chart) {
-    // this.worldCharts = [];
-    // this.pieCharts = [];
     // map each key to its observable
     let calls: Observable<RawData>[] = [];
     if (chart.type === 'stackedBars' || chart.type === 'barChart' || chart.type === 'totalInvestments') {
@@ -128,8 +128,9 @@ export class ReportCreationComponent implements OnInit {
   }
 
   async generateReport() {
-    const before = this.pieCharts.map(r => r ? r.map(c => Object.keys(c||{}).length) : []);
-    console.log('before keysCount: ', before);
+    this.exporting = true;
+    // const before = this.pieCharts.map(r => r ? r.map(c => Object.keys(c||{}).length) : []);
+    // console.log('before keysCount: ', before);
     try {
       console.log(`Processing ${(this.charts.length + this.countAllPieSeries())} charts...`);
 
@@ -164,7 +165,7 @@ export class ReportCreationComponent implements OnInit {
             if (!pieChart) continue; // Skip if no pie chart at this index
 
             console.log(`Exporting pie chart [${i}, ${j}]...`);
-            const buffer = await this.chartToArrayBuffer(pieChart, 274, 200);
+            const buffer = await this.chartToArrayBuffer(pieChart, 400, 300);
             this.chartImages[`pieChartImage_${i}_${j}`] = {
               buffer: buffer,
               width: 274,
@@ -184,9 +185,10 @@ export class ReportCreationComponent implements OnInit {
       await this.reportService.exportDocWithMultipleImages(this.reportData, this.chartImages, this.staticImages);
 
       console.log('Report generated successfully!');
+      this.exporting = false;
 
-      const after = this.pieCharts.map(r => r ? r.map(c => Object.keys(c||{}).length) : []);
-      console.log('after keysCount: ', after);
+      // const after = this.pieCharts.map(r => r ? r.map(c => Object.keys(c||{}).length) : []);
+      // console.log('after keysCount: ', after);
 
     } catch (error) {
       console.error('Error generating report:', error);
@@ -603,7 +605,13 @@ export class ReportCreationComponent implements OnInit {
   }
 
   countAllPieSeries() {
-    return this.chartsCfg.reduce((sum, obj) => sum + obj.namedQueries.length, 0);
+    let count = 0;
+    chartsCfg.forEach(chart => {
+      if (chart.type === 'mapWithPoints')
+        count+=chart.namedQueries.length;
+    });
+
+    return count;
   }
 
   // Store ready charts
@@ -617,7 +625,7 @@ export class ReportCreationComponent implements OnInit {
 
   onPieChartReady(chart: Highcharts.Chart, i: number, j: number) {
     console.log(`Pie Chart ready [${i}, ${j}]`);
-    if (this.pieCharts[i] && this.pieCharts[i][j])
+    if (this.pieCharts[i] && this.pieCharts[i][j]) // Skip if the chart already exists
       return;
 
     if (!this.pieCharts[i])

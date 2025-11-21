@@ -200,8 +200,10 @@
                     <hr *ngIf="showArchive">
                     <li *ngIf="showArchive" class="groups">
                       <a class="" style="cursor: default; pointer-events: none">
-                        <span class="material-icons uk-margin-right">space_dashboard</span>
-                        <span class="uk-text-uppercase uk-text-bold">Other dashboards</span>
+                        <div class="uk-flex uk-flex-middle">
+                          <span class="material-icons uk-margin-right">space_dashboard</span>
+                          <span class="uk-text-uppercase uk-text-bold">Other dashboards</span>
+                        </div>
                       </a>
                     </li>
                     <li *ngIf="showArchive" class="uk-margin-small-left">
@@ -221,13 +223,19 @@
                     </li>
                     <hr>
                     <li>
-                      <a class="" [routerLink]="['/profile']">
-                        <span class="material-icons uk-margin-right">account_circle</span>My Profile
+                      <a [routerLink]="['/profile']">
+                        <div class="uk-flex uk-flex-middle">
+                          <span class="material-icons uk-margin-right">account_circle</span>My Profile
+                        </div>
                       </a>
                     </li>
                     <hr>
                     <li>
-                      <a id="logout" (click)="logout()"><span class="material-icons uk-margin-right">logout</span>Log out</a>
+                      <a id="logout" (click)="logout()">
+                        <div class="uk-flex uk-flex-middle">
+                          <span class="material-icons uk-margin-right">logout</span>Log out
+                        </div>
+                      </a>
                     </li>
                   </ul>
                 </div>
