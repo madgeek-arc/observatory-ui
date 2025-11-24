@@ -144,7 +144,7 @@ import {exploreIcons} from "../../explore/explore.icons";
 export class EoscReadinessDashboardComponent implements OnInit {
   menuItems: MenuItem[] = [];
   menuSections: MenuSection[] = [];
-  year: string = '2024';
+  year: string = '';
 
   hasSidebar = true;
   hasAdminMenu = false;
@@ -152,9 +152,15 @@ export class EoscReadinessDashboardComponent implements OnInit {
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private layoutService: DashboardSideMenuService, private iconService: IconsService) { }
 
   ngOnInit() {
+    this.activatedRoute.params.subscribe(params => {
+      this.year = params['year'] || '2024';
+      this.menuItems = [];
+      this.menuSections = [];
+      this.initMenuItems();
+    })
     this.iconService.registerIcons(exploreIcons);
 
-    this.initMenuItems();
+
 
     this.layoutService.setOpen(true);
 

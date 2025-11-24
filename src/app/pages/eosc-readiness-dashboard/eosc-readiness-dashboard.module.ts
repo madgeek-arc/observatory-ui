@@ -40,7 +40,6 @@ import { ChartsModule } from "../../shared/charts/charts.module";
 
 @NgModule({
   declarations: [
-    EoscReadinessDashboardComponent2021,
     PoliciesComponent,
     PracticesComponent,
     InvestmentsComponent,
