@@ -1,8 +1,8 @@
 export class RawData {
-  datasets: Datasets[] = [];
+  datasets: Dataset[] = [];
 }
 
-export class Datasets {
+export class Dataset {
   series: SeriesItem = new SeriesItem();
 }
 

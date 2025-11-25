@@ -53,7 +53,7 @@ export class SearchComponent implements OnInit {
   totalPages: number = 0;
   offset: number = 2;
 
-  isAdminPage: boolean = false;
+  isAdminPage = false;
 
   // Alert properties
   statusMessage: string = null;
@@ -120,7 +120,7 @@ export class SearchComponent implements OnInit {
 
   // Load documents based on current parameters
   loadDocuments() {
-    this.resourceService.getDocument(this.from, this.pageSize, this.urlParameters).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.resourceService.getDocument(this.from, this.pageSize, this.urlParameters, this.isAdminPage).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (data) => {
         if (data.results.length > 0) {
           this.documents = data as Paging<HighlightedResults<Document>>;

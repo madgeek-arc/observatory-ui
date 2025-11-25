@@ -30,7 +30,8 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
   exportActive = false;
   smallScreen = false;
 
-  years = ['2022', '2023'];
+  years = ['2023', '2024'];
+  year = this.years[this.years.length-1];
 
   citizenProjects: number[] = [];
   countriesWithPolicy: number[] = [];
@@ -60,7 +61,7 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments on Citizen Science in 2022',
+    title: 'Financial Investments on Citizen Science in '+this.year,
     xAxis: '',
     yAxis: '',
   }
@@ -179,7 +180,7 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
 
   /** Investments as tree graph -----------------------------------------------------------------------------------> **/
   getTreeGraphData() {
-    this.queryData.getQuestion(this.years[this.years.length-1], 'Question100').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+    this.queryData.getQuestion(this.year, 'Question100').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
         this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);
