@@ -157,55 +157,55 @@
 
 <ng-template #topTpl>
   <div class="uk-flex uk-flex-center uk-margin-small-top">
-  <nav data-uk-dropnav="mode: click; align: right">
-    <ul class="uk-subnav">
-      <li>
+    <nav data-uk-dropnav="mode: click; align: right">
+      <ul class="uk-subnav">
+        <li>
         <span class="uk-text-bold" style="cursor: pointer">
           National contributions {{ year }} <span data-uk-drop-parent-icon></span>
         </span>
-        <div class="uk-dropdown">
-          <ul class="uk-nav uk-dropdown-nav">
-            <li [routerLink]="['/eoscreadiness/2024']" class="uk-flex uk-flex-center uk-margin-small-top">
-              <span class="uk-text-bold" style="cursor: pointer">2024</span>
-            </li>
-            <li [routerLink]="['/eoscreadiness/2023/']" class="uk-flex uk-flex-center uk-margin-small-top">
-              <span class="uk-text-bold" style="cursor: pointer">2023</span>
-            </li>
-            <li [routerLink]="['/eoscreadiness/2022/']" class="uk-flex uk-flex-center uk-margin-small-top">
-              <span class="uk-text-bold" style="cursor: pointer">2022</span>
-            </li>
-            <li [routerLink]="['/eoscreadiness/2021/']" class="uk-flex uk-flex-center uk-margin-small-top">
-              <span class="uk-text-bold" style="cursor: pointer">2021</span>
-            </li>
-          </ul>
-        </div>
-      </li>
-    </ul>
-  </nav>
+          <div class="uk-dropdown">
+            <ul class="uk-nav uk-dropdown-nav">
+              <li [routerLink]="['/eoscreadiness/2024']" class="uk-flex uk-flex-center uk-margin-small-top">
+                <span class="uk-text-bold" style="cursor: pointer">2024</span>
+              </li>
+              <li [routerLink]="['/eoscreadiness/2023/']" class="uk-flex uk-flex-center uk-margin-small-top">
+                <span class="uk-text-bold" style="cursor: pointer">2023</span>
+              </li>
+              <li [routerLink]="['/eoscreadiness/2022/']" class="uk-flex uk-flex-center uk-margin-small-top">
+                <span class="uk-text-bold" style="cursor: pointer">2022</span>
+              </li>
+              <li [routerLink]="['/eoscreadiness/2021/']" class="uk-flex uk-flex-center uk-margin-small-top">
+                <span class="uk-text-bold" style="cursor: pointer">2021</span>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </nav>
   </div>
 </ng-template>
 
-  <ng-template #footerTpl>
-    <div class="uk-padding uk-margin-medium-top uk-margin-large-bottom">
-              <p class="uk-text-italic" style="font-size: 10px">
-                The Survey on National Contributions to EOSC is in an initial stage of implementation. The survey will be improved
-                in future iterations and collected survey data should for now be taken as a best-effort attempt by participating
-                countries. This means that some of the data may not yet be stable and may improve in future iterations.
-              </p>
-            </div>
-      </ng-template>
+<ng-template #footerTpl>
+  <div class="uk-padding uk-margin-medium-top uk-margin-large-bottom">
+    <p class="uk-text-italic" style="font-size: 10px">
+      The Survey on National Contributions to EOSC is in an initial stage of implementation. The survey will be improved
+      in future iterations and collected survey data should for now be taken as a best-effort attempt by participating
+      countries. This means that some of the data may not yet be stable and may improve in future iterations.
+    </p>
+  </div>
+</ng-template>
 
-      <div id="sidebar" class="sidebar_main_swipe uk-flex uk-background-default"
-           [class.sidebar_main_active]="open && (hasSidebar || hasAdminMenu)"
-           [class.sidebar_mini]="!open &&  (hasSidebar || hasAdminMenu)"
-           [class.sidebar_hover]="hover">
-        <dashboard-sidebar [menuSections]="menuSections" [topTpl]="topTpl" [footerTpl]="footerTpl"></dashboard-sidebar>
-        <main class="uk-width-1-1">
-          <div id="page_content" class="dashboard">
-          <router-outlet></router-outlet>
-          </div>
-        </main>
-      </div>
+<div id="sidebar" class="sidebar_main_swipe uk-flex uk-background-default"
+     [class.sidebar_main_active]="open && (hasSidebar || hasAdminMenu)"
+     [class.sidebar_mini]="!open &&  (hasSidebar || hasAdminMenu)"
+     [class.sidebar_hover]="hover">
+  <dashboard-sidebar [menuSections]="menuSections" [logoTpl]="topTpl" [footerTpl]="footerTpl"></dashboard-sidebar>
+  <main class="uk-width-1-1">
+    <div id="page_content" class="dashboard">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
 
 
 
