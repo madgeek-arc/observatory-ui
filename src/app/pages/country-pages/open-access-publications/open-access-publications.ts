@@ -48,6 +48,7 @@ export class OpenAccessPublicationsPage implements OnInit {
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
   lastUpdateDate?: string;
+  year?: string = '2024';
 
   financialInvestment: (string | null)[] = [null, null];
   financialInvestmentPercentageDiff: number | null = null;
@@ -147,6 +148,7 @@ export class OpenAccessPublicationsPage implements OnInit {
         this.countrySurveyAnswer = answer;
       }
     });
+
   }
 
   /** Get OA VS closed, restricted and embargoed Publications -----------------------------------------------------> **/
@@ -162,7 +164,7 @@ export class OpenAccessPublicationsPage implements OnInit {
 
   /** Get trends of Publications ----------------------------------------------------------------------------------> **/
   getTrends() {
-    this.queryData.getOSOStatsChartData(trendOfOAPublicationsCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(trendOfOAPublicationsCountry(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           const tmpSeries: SeriesOptionsType = {
@@ -258,7 +260,7 @@ export class OpenAccessPublicationsPage implements OnInit {
 
   exportToPDF(contents: HTMLElement[], filename?: string) {
     this.exportActive = true
-   
+
     // Χρόνος για να εφαρμοστούν τα styles
     // setTimeout(() => {
       this.pdfService.export(contents, filename).then(() => {

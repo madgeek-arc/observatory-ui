@@ -13,6 +13,7 @@ export class DataShareService {
   surveyAnswers: BehaviorSubject<Object[]> = new BehaviorSubject<Object[]>([null, null]);
   countrySurveyAnswer: BehaviorSubject<Object | null> = new BehaviorSubject<Object | null>(null);
   countrySurveyAnswerMetaData: BehaviorSubject<AnswerMetadata | null> = new BehaviorSubject<AnswerMetadata | null>(null);
+  year: BehaviorSubject<string> = new BehaviorSubject<string>('2024');
 
   constructor(private exploreService: ExploreService) {}
 

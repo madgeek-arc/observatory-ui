@@ -50,10 +50,12 @@ export class GeneralRDOverviewComponent implements OnInit {
   surveyAnswers: Object[] = [null, null];
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
+  year?: string;
 
   constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
+    console.log("YEAR FROM SERVICE:", this.dataShareService.year.value);
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (code) => {
         this.countryCode = code;
@@ -86,6 +88,12 @@ export class GeneralRDOverviewComponent implements OnInit {
         this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
       }
     });
+
+    this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (year) => {
+        this.year = year;
+      }
+    })
 
   }
 
