@@ -37,6 +37,7 @@ export class FairDataComponent implements OnInit {
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
+  year?: string;
 
   rfoFairDataPercentage: (number | null)[] = [null, null];
   rfoFairDataPercentageDiff: number | null = null;
@@ -93,6 +94,12 @@ export class FairDataComponent implements OnInit {
         this.countryCode = code;
       }
     });
+
+    this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (year) => {
+        this.year = year;
+      }
+    })
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {

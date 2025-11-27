@@ -28,7 +28,7 @@ import {
 export class CountryPagesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
-  modelsIds: string[] = [ 'm-jlFggsCN', 'm-eosc-sb-2023'];
+  modelsIds: string[] = [ 'm-eosc-sb-2023', 'm-eosc-sb-2024'];
   OSModelId = 'm-GPFhURKK';
 
   stakeholderId?: string;
