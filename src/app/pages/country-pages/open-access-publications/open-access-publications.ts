@@ -109,7 +109,7 @@ export class OpenAccessPublicationsPage implements OnInit {
     yAxis: '',
   }
 
-  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService,
+  constructor(protected dataShareService: DataShareService, private queryData: EoscReadinessDataService,
               private exploreService: ExploreService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
@@ -135,7 +135,7 @@ export class OpenAccessPublicationsPage implements OnInit {
         this.getTrends();
         this.getDistributionsOA();
         this.getDistributionOAScholarlyOutputs();
-      })
+      });
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {

@@ -11,7 +11,7 @@
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
                  class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data for 2023</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data for {{ year }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-center"
@@ -38,7 +38,7 @@
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
                  class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data for 2023</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data for {{ year }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-right"
@@ -85,7 +85,7 @@
           country.</p>
 
         <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-medium-top">
-          <h5>General Overview of Open Data in {{ countryName }} for 2023</h5>
+          <h5>General Overview of Open Data in {{ countryName }} for {{ year }}</h5>
         </div>
 
         <div class="uk-grid-small uk-grid-match" data-uk-grid>
@@ -249,7 +249,7 @@
                 [series]="stackedColumnSeries" yAxis="Number of Data Sets" [pointFormat]="tooltipPointFormat"
                 [stackLabels]="true" [dataLabels]="false" [height]="smallScreen ? 750 : 500"
                 [title]="'Trend of Open Data in ' + countryName"
-                [caption]="'<p class=\'uk-text-justify\'>The graph provides a comprehensive view of how data accessibility evolved from 2015 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of Open Data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
+                [caption]="'<p class=\'uk-text-justify\'>The graph provides a comprehensive view of how data accessibility evolved from 2015 to '+ (dataShareService.year$ | async) +'. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of Open Data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
                                   '<p><strong>Data Source: </strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
               </app-stacked-column>
             </div>

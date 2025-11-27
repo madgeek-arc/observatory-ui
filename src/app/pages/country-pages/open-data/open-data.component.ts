@@ -19,6 +19,8 @@ import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
 import { PdfExportService } from "../../services/pdf-export.service";
+import { combineLatest} from "rxjs";
+import { filter } from "rxjs/operators";
 
 @Component({
     selector: 'app-open-data',
@@ -44,6 +46,7 @@ export class OpenDataComponent implements OnInit {
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
+  year?: string;
 
 
   rfoOpenDataPercentage: (number | null)[] = [null, null];
@@ -86,7 +89,7 @@ export class OpenDataComponent implements OnInit {
 
   lastUpdateDate?: string;
 
-  constructor(private dataShareService: DataShareService, private exploreService: ExploreService,
+  constructor(protected dataShareService: DataShareService, private exploreService: ExploreService,
               private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
@@ -97,14 +100,30 @@ export class OpenDataComponent implements OnInit {
       next: value => this.lastUpdateDate = value
     });
 
-    this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (code) => {
+    // this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    //   next: (code) => {
+    //     this.countryCode = code;
+    //     this.getOpenDataPercentage();
+    //     this.getTrendsOpenData();
+    //     this.getDistributionByDocumentType();
+    //   }
+    // });
+    combineLatest([
+      this.dataShareService.countryCode$,
+      this.dataShareService.year$,
+    ])
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter(([code, year]) => !!code && !!year)
+      )
+      .subscribe(([code, year]) => {
+        this.countryCode = code!;
+        this.year = year!;
         this.countryCode = code;
         this.getOpenDataPercentage();
         this.getTrendsOpenData();
         this.getDistributionByDocumentType();
-      }
-    });
+      })
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
@@ -170,7 +189,7 @@ export class OpenDataComponent implements OnInit {
 
   /** Get trends of Open Data -------------------------------------------------------------------------------------> **/
   getTrendsOpenData() {
-    this.queryData.getOSOStatsChartData(trendOfOpenDataCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(trendOfOpenDataCountry(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           let tmpSeries: SeriesOptionsType = {

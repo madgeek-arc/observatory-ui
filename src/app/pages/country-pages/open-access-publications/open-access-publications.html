@@ -11,7 +11,7 @@
              <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
                   class="flag-image" width="42" height="42" alt="rounded flag image">
              <div class="uk-margin-small-left">
-               <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Access Publications for 2023</h4>
+               <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Access Publications for {{ year }}</h4>
              </div>
            </div>
 <!--          <h4>Open Access Publications</h4>-->
@@ -39,7 +39,7 @@
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
                  class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Access Publications for 2023</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Access Publications for {{ year }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-right"
@@ -77,7 +77,7 @@
         <p class="uk-text-lead">Open Access (OA) represents a transformative approach within the scholarly communication landscape, aiming to make research outputs freely accessible to all, without subscription or price barriers. The graphics below provides a high-level overview of key indicators tracking the progress of OA publishing and policies in selected country.</p>
 
         <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-medium-top">
-          <h5>General Overview of Open Access for 2023</h5>
+          <h5>General Overview of Open Access for {{ year }}</h5>
         </div>
 
         <div class="uk-grid-small uk-grid-match" data-uk-grid>
@@ -238,7 +238,7 @@
                                   [dataLabels]="false"
                                   [height]="smallScreen ? 1000 : 750"
                                   [title]="'Trend of Access to Publications in ' + countryName"
-                                  [caption]="'<p class=\'uk-text-justify\'>The graph provides a view of the publications evolution and its access type from 2015 to 2024 in the selected country. Each bar in the graph represents the total number of publications for a given year, segmented by access type categories (categories based on <a href=&quot;https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml&quot; target=\'_blank\'>https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml</a>).</p>'
+                                  [caption]="'<p class=\'uk-text-justify\'>The graph provides a view of the publications evolution and its access type from 2015 to ' + (dataShareService.year$ | async) + ' in the selected country. Each bar in the graph represents the total number of publications for a given year, segmented by access type categories (categories based on <a href=&quot;https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml&quot; target=\'_blank\'>https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml</a>).</p>'
                                   + '<p><strong>Data Source:</strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
               </app-stacked-column>
             </div>
