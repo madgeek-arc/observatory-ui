@@ -20,6 +20,8 @@ import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
 import { PdfExportService } from "../../services/pdf-export.service";
+import { combineLatest} from "rxjs";
+import { filter } from "rxjs/operators";
 
 
 
@@ -48,7 +50,7 @@ export class OpenAccessPublicationsPage implements OnInit {
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
   lastUpdateDate?: string;
-  year?: string = '2024';
+  year?: string;
 
   financialInvestment: (string | null)[] = [null, null];
   financialInvestmentPercentageDiff: number | null = null;
@@ -117,17 +119,23 @@ export class OpenAccessPublicationsPage implements OnInit {
       next: value => this.lastUpdateDate = value
     });
 
-    this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (code) => {
-        this.countryCode = code;
-        if (this.countryCode) {
-          this.getPublicationPercentage();
-          this.getTrends();
-          this.getDistributionsOA();
-          this.getDistributionOAScholarlyOutputs();
-        }
-      }
-    });
+
+    combineLatest([
+      this.dataShareService.countryCode$,
+      this.dataShareService.year$
+    ])
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter(([code, year]) => !!code && !!year)
+      )
+      .subscribe(([code, year]) => {
+        this.countryCode = code!;
+        this.year = year!;
+        this.getPublicationPercentage();
+        this.getTrends();
+        this.getDistributionsOA();
+        this.getDistributionOAScholarlyOutputs();
+      })
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {

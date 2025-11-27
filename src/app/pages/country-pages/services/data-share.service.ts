@@ -15,6 +15,9 @@ export class DataShareService {
   countrySurveyAnswerMetaData: BehaviorSubject<AnswerMetadata | null> = new BehaviorSubject<AnswerMetadata | null>(null);
   year: BehaviorSubject<string> = new BehaviorSubject<string>('2024');
 
+  countryCode$ = this.countryCode.asObservable();
+  year$ = this.year.asObservable();
+
   constructor(private exploreService: ExploreService) {}
 
   /**
