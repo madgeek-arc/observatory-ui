@@ -5,7 +5,7 @@ import { zip } from "rxjs/internal/observable/zip";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { RawData, Row, Data } from "../../../domain/raw-data";
-import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
+import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-dynamic/eosc-readiness-map-subtitles";
 import { DataHandlerService } from "../../services/data-handler.service";
 import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
 import { PdfExportService } from "../../services/pdf-export.service";

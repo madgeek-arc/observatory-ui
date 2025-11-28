@@ -168,8 +168,7 @@ export class EoscReadinessDashboardComponent implements OnInit {
 
   initMenuItems() {
     const BASE_PATH = `/eoscreadiness/${this.year}`;
-    const defaultRoute = `${BASE_PATH}/general/researchers`;
-    this.menuItems.push(new MenuItem('0', 'General', null, defaultRoute, defaultRoute, {name: 'clear_all'}));
+    this.menuItems.push(new MenuItem('0', 'General', null, `${BASE_PATH}/general/researchers`, `${BASE_PATH}/general/researchers`, {name: 'clear_all'}));
     // General with all subitems
     this.menuItems[0].items.push(new MenuItem('0-0', 'Researchers', null, `${BASE_PATH}/general/researchers`, null));
     this.menuItems[0].items.push(new MenuItem('0-1', 'RPOs', null, `${BASE_PATH}/general/RPOs`, null, {name: ''}));
@@ -178,26 +177,23 @@ export class EoscReadinessDashboardComponent implements OnInit {
     this.menuItems[0].items.push(new MenuItem('0-4', 'Investments', null, `${BASE_PATH}/general/investments`, null, {name: ''}));
 
     // Default  Policies Route
-    const defaultPoliciesRoute = `${BASE_PATH}/policies/nationalPolicy/all`;
-    this.menuItems.push(new MenuItem('1', 'EOSC Policies', null, defaultPoliciesRoute, defaultPoliciesRoute, {name: 'policy'}));
+    this.menuItems.push(new MenuItem('1', 'EOSC Policies', null, `${BASE_PATH}/policies/nationalPolicy/all`, `${BASE_PATH}/policies/nationalPolicy/all`, {name: 'policy'}));
     // Policies with all subitems
-    this.menuItems[1].items.push(new MenuItem('1-0', 'National Policy', null, defaultPoliciesRoute, null, {name: ''}));
-    this.menuItems[1].items.push(new MenuItem('1-1', 'Financial Strategy', null, `${BASE_PATH}/policies/financialStrategy/all`,null,  {name: ''}));
-    this.menuItems[1].items.push(new MenuItem('1-2', 'RPOs with Policy', null, `${BASE_PATH}/policies/RPOs/all`, null, {name: ''}));
-    this.menuItems[1].items.push(new MenuItem('1-3', 'RFOs with Policy', null, `${BASE_PATH}/policies/RPOs/all`, null, {name: ''}));
+    this.menuItems[1].items.push(new MenuItem('1-0', 'National Policy', null, `${BASE_PATH}/policies/nationalPolicy/all`, `${BASE_PATH}/policies/nationalPolicy`, {name: ''}));
+    this.menuItems[1].items.push(new MenuItem('1-1', 'Financial Strategy', null, `${BASE_PATH}/policies/financialStrategy/all`,`${BASE_PATH}/policies/financialStrategy`,  {name: ''}));
+    this.menuItems[1].items.push(new MenuItem('1-2', 'RPOs with Policy', null, `${BASE_PATH}/policies/RPOs/all`, `${BASE_PATH}/policies/RPOs`, {name: ''}));
+    this.menuItems[1].items.push(new MenuItem('1-3', 'RFOs with Policy', null, `${BASE_PATH}/policies/RFOs/all`, `${BASE_PATH}/policies/RFOs`, {name: ''}));
 
     // Default Practices Route
-    const defaultPracticesRoute = `${BASE_PATH}/practices/nationalMonitoring/all`;
-    this.menuItems.push(new MenuItem('2', 'EOSC Practices', null, defaultPracticesRoute, null, {name: 'assignment'}));
+    this.menuItems.push(new MenuItem('2', 'EOSC Practices', null, `${BASE_PATH}/practices/nationalMonitoring/all`, null, {name: 'assignment'}));
     // Practices with all subitems
-    this.menuItems[2].items.push(new MenuItem('2-0', 'Monitoring', null, defaultPracticesRoute, null, {name: ''}));
-    this.menuItems[2].items.push(new MenuItem('2-1', 'Use Cases', null, `${BASE_PATH}/practices/useCases/all`, null, {name: ''}));
-    this.menuItems[2].items.push(new MenuItem('2-2', 'Investments', null, `${BASE_PATH}/practices/investments/all`, null, {name: ''}));
-    this.menuItems[2].items.push(new MenuItem('2-3', 'Outputs', null, `${BASE_PATH}/practices/outputs/all`, null, {name: ''}));
+    this.menuItems[2].items.push(new MenuItem('2-0', 'Monitoring', null, `${BASE_PATH}/practices/nationalMonitoring/all`, `${BASE_PATH}/practices/nationalMonitoring`, {name: ''}));
+    this.menuItems[2].items.push(new MenuItem('2-1', 'Use Cases', null, `${BASE_PATH}/practices/useCases/all`, `${BASE_PATH}/practices/useCases`, {name: ''}));
+    this.menuItems[2].items.push(new MenuItem('2-2', 'Investments', null, `${BASE_PATH}/practices/investments/all`, `${BASE_PATH}/practices/investments`, {name: ''}));
+    this.menuItems[2].items.push(new MenuItem('2-3', 'Outputs', null, `${BASE_PATH}/practices/outputs/all`, `${BASE_PATH}/practices/outputs`, {name: ''}));
 
     //Glossary
-    const glossaryRoute = `${BASE_PATH}/glossary`;
-    this.menuItems.push(new MenuItem('3', 'Glossary', null, glossaryRoute, null, {name: 'auto_stories'}));
+    this.menuItems.push(new MenuItem('3', 'Glossary', null, `${BASE_PATH}/glossary`, null, {name: 'auto_stories'}));
 
     this.menuSections.push({items: this.menuItems});
   }
