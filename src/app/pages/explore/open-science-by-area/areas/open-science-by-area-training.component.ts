@@ -60,7 +60,7 @@ export class OpenScienceByAreaTrainingComponent implements OnInit {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments in Skills/Training in Open Science in '+this.year,
+    title: 'Financial Investments in Skills/Training in Open Science in '+(+this.year-1),
     xAxis: '',
     yAxis: '',
   }

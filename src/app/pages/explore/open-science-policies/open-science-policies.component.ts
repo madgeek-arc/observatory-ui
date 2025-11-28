@@ -327,8 +327,8 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
   /** Bubble chart ------------------------------------------------------------------------------------------------> **/
   getBubbleChartData() {
-    zip(
-      this.queryData.getQuestion(this.year, 'Question1'),   // Number of Researchers in FTE per country
+    zip( // Get data from previous year for number of researchers and number of publications to match financial investments.
+      this.queryData.getQuestion(this.years[this.years.length-2], 'Question1'),   // Number of Researchers in FTE per country (from eurostat)
       this.queryData.getQuestion(this.year, 'Question5'),   // Financial investments in EOSC and Open Science per country
       this.queryData.getQuestion(this.year, 'Question56'),  // Financial investments in Open Access publications
       // this.queryData.getQuestion(this.year, 'Question57'), // number of publications published in Open Access

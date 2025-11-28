@@ -99,7 +99,7 @@ export class OpenScienceByAreaDataManagementComponent {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments in Data Management in '+this.year,
+    title: 'Financial Investments in Data Management in '+(+this.year-1),
     xAxis: '',
     yAxis: '',
   }

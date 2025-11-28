@@ -61,7 +61,7 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments on Citizen Science in '+this.year,
+    title: 'Financial Investments on Citizen Science in '+(+this.year-1),
     xAxis: '',
     yAxis: '',
   }
