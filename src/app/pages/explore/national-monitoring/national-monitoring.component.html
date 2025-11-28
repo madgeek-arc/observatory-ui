@@ -65,7 +65,7 @@
                                [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
                                [titles]="columnChartTitles" [legendOptions]="legendOptions" valueSuffix=" %"
                                [caption]="'<p class=\'uk-text-justify\'>This bar chart illustrates the percentage of countries with national monitoring initiatives in various Open Science areas for the years 2021 and 2022. Each bar represents an area of Open Science, such as Open Access Publications, FAIR Data, Open Software, and Citizen Science, showing the changes in monitoring adoption from one year to the next. The chart highlights where countries are increasingly focusing their monitoring efforts, with significant progress in areas like Open Access Publications and FAIR Data, reflecting the growing importance of these aspects in the broader Open Science landscape.</p>'
-                           + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for years '+years.join(', ')+'.</p>'">
+                           + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+'.</p>'">
               </app-multi-chart>
             </div>
 
@@ -182,6 +182,10 @@
             </tr>
             </tbody>
           </table>
+        </div>
+
+        <div class="uk-margin-top">
+          <span class="uk-text-bold">Data source:</span>&nbsp;Survey on National Contributions to EOSC and Open Science {{year}}.
         </div>
 
       </div>
