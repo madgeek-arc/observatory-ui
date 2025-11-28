@@ -10,10 +10,11 @@ import { CountryTableData } from "../../../../domain/country-table-data";
 import { DataHandlerService } from "../../../services/data-handler.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
-import { colors } from "../../../../domain/chart-color-palette";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
-import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {
+  SidebarMobileToggleComponent
+} from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
@@ -32,7 +33,8 @@ export class OpenScienceByAreaDataManagementComponent {
   smallScreen = false;
   lastUpdateDate?: string;
 
-  years = ['2022', '2023'];
+  years = ['2023', '2024'];
+  year = this.years[this.years.length-1];
 
   stackedColumnSeries1 = [
     {
@@ -62,7 +64,7 @@ export class OpenScienceByAreaDataManagementComponent {
     }
   ] as Highcharts.SeriesColumnOptions[];
 
-  stackedColumnCategories = ['2021', '2022'];
+  stackedColumnCategories = this.years;
   xAxisTitle = 'Year'
   yAxisTitle = 'Percentage of Policies on Data Management'
   tooltipPointFormat = '<span style="color:{series.color}">{series.name}</span> : <b>{point.y}</b>';
@@ -97,7 +99,7 @@ export class OpenScienceByAreaDataManagementComponent {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments in Data Management in 2022',
+    title: 'Financial Investments in Data Management in '+(+this.year-1),
     xAxis: '',
     yAxis: '',
   }
@@ -224,15 +226,17 @@ export class OpenScienceByAreaDataManagementComponent {
 
   /** Stacked column chart ----------------------------------------------------------------------------------------> **/
   getStackedColumnData(year: string, index: number) {
-    zip(
-      this.queryData.getQuestion(year, 'Question2'),  // research performing organisations
-      this.queryData.getQuestion(year, 'Question3'),  // research funding organisations
-      this.queryData.getQuestion(year, 'Question12'), // research performing organisations in your country have a policy on data management
-      this.queryData.getQuestion(year, 'Question13'), // research funding organisations in your country have a policy on data management
-    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    const nameArr = [
+      'Question2', // research performing organisations
+      'Question3', // research funding organisations
+      'Question12', // research performing organisations in your country have a policy on data management
+      'Question13', // research funding organisations in your country have a policy on data management
+    ];
+
+    this.queryData.getQuestions(year, nameArr).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value =>  {
-        this.exploreService.createStackedColumnSeries([value[0], value[2]], this.stackedColumnSeries1);
-        this.exploreService.createStackedColumnSeries([value[1], value[3]], this.stackedColumnSeries2);
+        this.exploreService.createStackedColumnSeries([value.datasets[0], value.datasets[2]], this.stackedColumnSeries1);
+        this.exploreService.createStackedColumnSeries([value.datasets[1], value.datasets[3]], this.stackedColumnSeries2);
         if (this.years.length === index+1) {
           this.stackedColumnSeries1 = [...this.stackedColumnSeries1];
           this.stackedColumnSeries2 = [...this.stackedColumnSeries2];
@@ -244,7 +248,7 @@ export class OpenScienceByAreaDataManagementComponent {
 
   /** Investments as tree graph -----------------------------------------------------------------------------------> **/
   getTreeGraphData() {
-    this.queryData.getQuestion(this.years[this.years.length-1], 'Question60').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+    this.queryData.getQuestion(this.year, 'Question60').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
         this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);

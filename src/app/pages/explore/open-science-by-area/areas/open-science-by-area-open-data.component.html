@@ -58,7 +58,7 @@
 
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent1>
       <div class="uk-container">
-        <h5>General Overview of Open Data in Europe for 2022</h5>
+        <h5>General Overview of Open Data in Europe for {{ year }}</h5>
 
         <div class="uk-child-width-1-3@m uk-child-width-1-3@l uk-child-width-1-1@s uk-grid-match uk-grid-row-medium uk-flex-center" data-uk-grid>
 
@@ -244,8 +244,10 @@
         </div>
 
         <div class="uk-margin-top">
-          <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science
-          2023 - showing data for 2022; OpenAIRE Graph data for 2022 (updated on {{ lastUpdateDate }}).
+          <span class="uk-text-bold">Data source:</span>&nbsp;
+          Survey on National Contributions to EOSC and Open Science {{year}} -
+          showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
+          OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
         </div>
 
       </div>
@@ -256,7 +258,7 @@
 
         <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-          <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="{connect:'#maps', animation: 'fade'}">
+          <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="connect:#maps; animation: uk-animation-fade">
             <li><a class="uk-margin-remove-bottom" (click)="countryName = countryCode = comment = undefined">Policies</a></li>
             <li><a class="uk-margin-remove-bottom" (click)="countryName = countryCode = comment = undefined">Monitoring</a></li>
           </ul>
@@ -269,7 +271,7 @@
                     [mapData]="questionsDataArray[0]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National policy on Open Data'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong> countries have a <br>national policy on Open data</span>'"
-                    [caption]="policesMapCaptions[3] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
+                    [caption]="policesMapCaptions[3] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'"
                     (mapClick)="showComment(0, $event)">
                   </app-highcharts-category-map>
                 </div>
@@ -297,7 +299,7 @@
                     [mapData]="questionsDataArray[1]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National monitoring on Open Data'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong> countries have a <br>national monitoring on Open data</span>'"
-                    [caption]="monitoringMapCaptions[3] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
+                    [caption]="monitoringMapCaptions[3] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'"
                     (mapClick)="showComment(1, $event)">
                   </app-highcharts-category-map>
                 </div>
@@ -330,7 +332,7 @@
 
         <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-          <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="{connect:'#investments', animation: 'fade'}">
+          <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="connect:#investments; animation: uk-animation-fade">
             <li><a class="uk-margin-remove-bottom">Overview</a></li>
             <li><a class="uk-margin-remove-bottom">Details</a></li>
           </ul>
@@ -342,15 +344,17 @@
                                  [titles]="barChartTitles" [reversedStacks]="false"
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
                                  [customTooltip]="true" [yAxisLabels]="false" [height]="smallScreen ? 600 : 400"
-                                 [caption]="policesMapCaptions[2] + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
+                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Open Data made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
+                                 '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for financial contributions the data reflect the previous year ('+(+year-1)+').</p>'">
                 </app-multi-chart>
               </div>
             </li>
             <li>
               <div class="">
                 <app-tree-graph [data]="treeGraph" [height]="700"
-                                [title]="'Financial Investments in Open Data in 2022'"
-                                [caption]="monitoringMapCaptions[2] +'<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022</p>'">
+                                [title]="'Financial Investments in Open Data in '+ (+year-1)"
+                                [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Open Access Publications made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
+                                '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for financial contributions the data reflect the previous year ('+(+year-1)+').</p>'">
                 </app-tree-graph>
               </div>
             </li>
@@ -388,8 +392,8 @@
                               [title]="'Distribution of Open Data Types by Different Document Type'"
                               [pointFormat]="tooltipPointFormat" [stackLabels]="false" [stacking]="stacking"
                               [plotFormat]="dataLabels_format" [height]="smallScreen ? 800 : 500"
-                              [caption]="'<p class=\'uk-text-justify\'>The  graph illustrates how Open Data is implemented across various types of documents. It segments the Open Data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each coloured, according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance  accessibility and foster a more transparent, reproducible, and inclusive science.</p>' +
-                          '<p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on ' + lastUpdateDate + ').</p>'">
+                              [caption]="'<p class=\'uk-text-justify\'>The graph illustrates how Open Data is implemented across various types of documents. It segments the Open Data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each coloured, according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance accessibility and foster a more transparent, reproducible, and inclusive science.</p>' +
+                          '<p><strong>Data Source: </strong> OpenAIRE Graph data for '+ year +' (updated on ' + lastUpdateDate + ').</p>'">
           </app-stacked-column>
 
         </div>

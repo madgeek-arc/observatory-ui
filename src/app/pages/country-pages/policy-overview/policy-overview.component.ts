@@ -94,7 +94,7 @@ export class PolicyOverviewComponent {
     });
 
 
-    this.resourceService.getDocument(0, 10, [{key: 'country', values:[this.countryCode]}]).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.resourceService.getDocument(0, 10, [{key: 'country', values:[this.countryCode]}], false).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (data) => {
         this.documents = data.results as HighlightedResults<Document>[];
       },

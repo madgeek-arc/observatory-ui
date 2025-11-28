@@ -5,7 +5,7 @@ import { zip } from "rxjs/internal/observable/zip";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { RawData, Row, Data } from "../../../domain/raw-data";
-import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
+import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-dynamic/eosc-readiness-map-subtitles";
 import { DataHandlerService } from "../../services/data-handler.service";
 import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
 import { PdfExportService } from "../../services/pdf-export.service";
@@ -34,8 +34,8 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
   exportActive = false;
 
-  years = ['2022', '2023'];
-  year = '2023';
+  years = ['2022', '2023', '2024'];
+  year = this.years[this.years.length-1];
   lastUpdateDate?: string;
 
   smallScreen = false;
@@ -73,7 +73,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
     // shadow: true
   };
-  policiesPerCountryPerYear = new Map<string, RawData[]>();
+  policiesPerCountryPerYear = new Map<string, RawData>();
   researchersPerCountryPerYear = new Map<string, RawData>();
   totalResearchersPerYear = new Map<string, string>();
 
@@ -94,7 +94,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
   openScienceAreas = this.columnChartCategories;
   mapTitles = ['National Policy on Open Access Publications', 'National Policy on Data Management', 'National Policy on FAIR Data', 'National Policy on Open Data', 'National Policy on Open Sources Software', 'National Policy on offering services through EOSC', 'National Policy on Connecting Repositories to EOSC', 'National Policy on Data Stewardship', 'National Policy on Long-term Data Preservation', 'National Policy on Skills/Training in Open Science', 'National Policy on Incentives/Rewards for Open Science', 'National Policy on Citizen Science'];
 
-  policiesRawData: RawData[] = [];
+  policiesRawData: RawData = new RawData();
   policiesMapData: CategorizedAreaData = new CategorizedAreaData();
   countriesArray: string[] = [];
   questionsDataArray: any[] = [];
@@ -111,7 +111,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
     this.years.forEach((year, index) => {
       this.getColumnChartData(year, index);
-      this.getFinancialColumnChartData(year, index);
+      this.getFinancialColumnChartData(year);
     });
 
     this.getBubbleChartData();
@@ -126,30 +126,33 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
   /** Bar charts ---------------------------------------------------------------------------------------------------> **/
   getColumnChartData(year: string, index: number) {
-    zip(
-      this.queryData.getQuestion(year, 'Question6'),   // national policy on Open Access publications
-      this.queryData.getQuestion(year, 'Question10'),  // national policy on data management
-      this.queryData.getQuestion(year, 'Question14'),  // national policy on FAIR data
-      this.queryData.getQuestion(year, 'Question18'),  // national policy on Open data
-      this.queryData.getQuestion(year, 'Question22'),  // national policy on software
-      this.queryData.getQuestion(year, 'Question26'),  // national policy on offering services through EOSC
-      this.queryData.getQuestion(year, 'Question30'),  // national policy on connecting repositories to EOSC
-      this.queryData.getQuestion(year, 'Question34'),  // national policy on data stewardship
-      this.queryData.getQuestion(year, 'Question38'),  // national policy on long-term data preservation
-      this.queryData.getQuestion(year, 'Question42'),  // national policy on skills/training for Open Science
-      this.queryData.getQuestion(year, 'Question46'),  // national policy on incentives/rewards for Open Science
-      this.queryData.getQuestion(year, 'Question50'),  // national policy on citizen science
-    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    const nameArr = [
+      'Question6', // national policy on Open Access publications
+      'Question14', // national policy on FAIR data
+      'Question10', // national policy on data management
+      'Question18', // national policy on Open data
+      'Question22', // national policy on software
+      'Question26', // national policy on offering services through EOSC
+      'Question30', // national policy on connecting repositories to EOSC
+      'Question34', // national policy on data stewardship
+      'Question38', // national policy on long-term data preservation
+      'Question42', // national policy on skills/training for Open Science
+      'Question46', // national policy on incentives/rewards for Open Science
+      'Question50', // national policy on citizen science
+    ];
+
+    this.queryData.getQuestions(year, nameArr).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
         this.policiesPerCountryPerYear.set(year, value);
         this.columnChartSeries.push(this.exploreService.createColumnChartSeries(value, year));
 
         if (this.columnChartSeries.length === this.years.length) {
+          this.columnChartSeries.sort((a, b) => a.name.localeCompare(b.name));
           this.columnChartSeries = [...this.columnChartSeries];
         }
 
-        if (this.policiesPerCountryPerYear.size === 2) {
+        if (this.policiesPerCountryPerYear.size === this.years.length) {
           this.getResearchersByYear();
         }
 
@@ -173,27 +176,31 @@ export class OpenSciencePoliciesComponent implements OnInit {
     });
   }
 
-  getFinancialColumnChartData(year: string, index: number) {
-    zip(
-      this.queryData.getQuestion(year, 'Question7'),  // Publications
-      this.queryData.getQuestion(year, 'Question15'), // FAIR-data
-      this.queryData.getQuestion(year, 'Question11'), // Data-management
-      this.queryData.getQuestion(year, 'Question19'), // Open-data
-      this.queryData.getQuestion(year, 'Question23'), // Software
-      this.queryData.getQuestion(year, 'Question27'), // Services
-      this.queryData.getQuestion(year, 'Question31'), // Connecting repositories to EOSC
-      this.queryData.getQuestion(year, 'Question35'), // Data stewardship
-      this.queryData.getQuestion(year, 'Question39'), // Long-term data preservation
-      this.queryData.getQuestion(year, 'Question43'), // Skills/Training
-      this.queryData.getQuestion(year, 'Question47'), // Assessment
-      this.queryData.getQuestion(year, 'Question51'), // Engagement
-    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+  getFinancialColumnChartData(year: string) {
+    const nameArr = [
+      'Question7', // Publications
+      'Question15', // FAIR-data
+      'Question11', // Data-management
+      'Question19', // Open-data
+      'Question23', // Software
+      'Question27', // Services
+      'Question31', // Connecting repositories to EOSC
+      'Question35', // Data stewardship
+      'Question39', // Long-term data preservation
+      'Question43', // Skills/Training
+      'Question47', // Assessment
+      'Question51', // Engagement
+    ];
+
+    this.queryData.getQuestions(year, nameArr).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
         this.columnChart2Series.push(this.exploreService.createColumnChartSeries(value, year));
 
-        if (this.years.length === this.columnChart2Series.length)
-          this.columnChart2Series = [...this.columnChart2Series];
+        if (this.columnChart2Series.length === this.years.length) { // When series complete
+          this.columnChart2Series.sort((a, b) => a.name.localeCompare(b.name));
+          this.columnChart2Series = [...this.columnChart2Series]; // Trigger angular detection change
+        }
       },
       error: err => {console.error(err)}
     });
@@ -208,8 +215,10 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
           this.columnChart3Series.push(this.createResearchersColumnChartSeries(year));
 
-          if (this.columnChart3Series.length === this.years.length)
+          if (this.columnChart3Series.length === this.years.length) {
+            this.columnChart3Series.sort((a, b) => a.name.localeCompare(b.name));
             this.columnChart3Series = [...this.columnChart3Series];
+          }
         },
         error: error => {console.error(error);}
       });
@@ -219,13 +228,12 @@ export class OpenSciencePoliciesComponent implements OnInit {
   createResearchersColumnChartSeries(year: string) {
     let series: Highcharts.SeriesColumnOptions = {
       type: 'column',
-      name: 'Year '+ (+year-1),
+      name: 'Year '+ year,
       data: []
     }
-
-    this.policiesPerCountryPerYear.get(year).forEach(data => {
+    this.policiesPerCountryPerYear.get(year).datasets.forEach(data => {
       let researchersCount = 0;
-      data.datasets[0].series.result.forEach(item => {
+      data.series.result.forEach(item => {
         if (item.row[1] === 'Yes') {
           this.researchersPerCountryPerYear.get(year).datasets[0].series.result.forEach(data => {
             if (data.row[0] === item.row[0]) {
@@ -250,9 +258,11 @@ export class OpenSciencePoliciesComponent implements OnInit {
       this.queryData.getQuestionComment(this.years[this.years.length-1], question), // For tooltip
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: res => {
-        this.tmpQuestionsDataArray[index] = this.dataHandlerService.mergePolicyQuestionData(this.policiesRawData[index], res[0]);
-        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(this.policiesRawData[index]);
-        this.total[index] = this.policiesRawData[index].datasets[0].series.result.length; // Total countries with validated response
+        this.tmpQuestionsDataArray[index] = this.dataHandlerService.mergePolicyQuestionData({
+          datasets: [this.policiesRawData.datasets[index]]
+        }, res[0]);
+        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge({datasets: [this.policiesRawData.datasets[index]]});
+        this.total[index] = this.policiesRawData.datasets[index].series.result.length; // Total countries with validated response
 
         this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[1]);
         this.questionsDataArray[index] = this.exploreService.createCategorizedMapDataFromMergedResponse(this.tmpQuestionsDataArray[index], this.countriesArray);
@@ -317,12 +327,12 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
   /** Bubble chart ------------------------------------------------------------------------------------------------> **/
   getBubbleChartData() {
-    zip(
-      this.queryData.getQuestion(this.year, 'Question1'),   // Number of Researchers in FTE per country
+    zip( // Get data from previous year for number of researchers and number of publications to match financial investments.
+      this.queryData.getQuestion(this.years[this.years.length-2], 'Question1'),   // Number of Researchers in FTE per country (from eurostat)
       this.queryData.getQuestion(this.year, 'Question5'),   // Financial investments in EOSC and Open Science per country
       this.queryData.getQuestion(this.year, 'Question56'),  // Financial investments in Open Access publications
       // this.queryData.getQuestion(this.year, 'Question57'), // number of publications published in Open Access
-      this.queryData.getOSOStats(OAAndTotalPublicationsPerCountry()), // number of publications published in Open Access
+      this.queryData.getOSOStats(OAAndTotalPublicationsPerCountry(this.years[this.years.length-2])), // number of publications published in Open Access
 
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
@@ -363,7 +373,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
   /** Create table ------------------------------------------------------------------------------------------------> **/
   getTableData() {
-    if (this.policiesRawData.length) {
+    if (this.policiesRawData.datasets.length) {
       this.surveyService.getSurveyValidatedCountries('m-eosc-sb-2023').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: countries => {
           this.tableData = this.exploreService.createTable(this.policiesRawData, countries);
@@ -373,20 +383,23 @@ export class OpenSciencePoliciesComponent implements OnInit {
       return;
     }
 
-    zip(
-      this.queryData.getQuestion(this.year, 'Question6'),  // Publications
-      this.queryData.getQuestion(this.year, 'Question10'), // Data-management
-      this.queryData.getQuestion(this.year, 'Question14'), // FAIR-data
-      this.queryData.getQuestion(this.year, 'Question18'), // Open-data
-      this.queryData.getQuestion(this.year, 'Question22'), // Software
-      this.queryData.getQuestion(this.year, 'Question26'), // Services
-      this.queryData.getQuestion(this.year, 'Question30'), // Connecting repositories to EOSC
-      this.queryData.getQuestion(this.year, 'Question34'), // Data stewardship
-      this.queryData.getQuestion(this.year, 'Question38'), // Long-term data preservation
-      this.queryData.getQuestion(this.year, 'Question42'), // Skills/Training
-      this.queryData.getQuestion(this.year, 'Question46'), // Assessment
-      this.queryData.getQuestion(this.year, 'Question50'), // Engagement
-    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+
+    const nameArr = [
+      'Question6', // national policy on Open Access publications
+      'Question14', // national policy on FAIR data
+      'Question10', // national policy on data management
+      'Question18', // national policy on Open data
+      'Question22', // national policy on software
+      'Question26', // national policy on offering services through EOSC
+      'Question30', // national policy on connecting repositories to EOSC
+      'Question34', // national policy on data stewardship
+      'Question38', // national policy on long-term data preservation
+      'Question42', // national policy on skills/training for Open Science
+      'Question46', // national policy on incentives/rewards for Open Science
+      'Question50', // national policy on citizen science
+    ];
+
+    this.queryData.getQuestions(this.year, nameArr).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
         this.surveyService.getSurveyValidatedCountries('m-eosc-sb-2023').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
