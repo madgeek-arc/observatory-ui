@@ -11,7 +11,7 @@
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
                  class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Data Management for 2023</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Data Management for {{ year }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-center"
@@ -38,7 +38,7 @@
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
                  class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Data Management for 2023</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Data Management for {{ year }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-right"
@@ -80,7 +80,7 @@
           standards.</p>
 
         <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h5>General Overview of Data Management in {{countryName}} for 2023</h5>
+          <h5>General Overview of Data Management in {{countryName}} for {{ year }}</h5>
         </div>
 
         <div class="uk-grid-small" data-uk-grid>
