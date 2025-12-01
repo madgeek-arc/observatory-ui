@@ -35,6 +35,7 @@ export class OpenSoftwareComponent implements OnInit {
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
+  year?: string;
 
   rfoSoftwarePercentage: (number | null)[] = [null, null];
   rfoSoftwarePercentageDiff: number | null = null;
@@ -66,6 +67,12 @@ export class OpenSoftwareComponent implements OnInit {
         this.countryName = name;
       }
     });
+
+    this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (year) => {
+        this.year = year;
+      }
+    })
 
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (code) => {
