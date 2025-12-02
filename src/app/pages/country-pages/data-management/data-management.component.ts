@@ -101,8 +101,8 @@ export class DataManagementComponent implements OnInit {
         // Convert the year from string to number using unary plus, then calculate the two previous years as strings
         const numericYear = +year;
         this.stackedColumnCategories = [
-          (numericYear - 2).toString(),
           (numericYear - 1).toString(),
+          (numericYear).toString(),
         ];
       }
     })
