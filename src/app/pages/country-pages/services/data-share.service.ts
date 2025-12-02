@@ -68,6 +68,10 @@ export class DataShareService {
       return null;
     }
 
+    if (previous === next) {
+      return 0;
+    }
+
     const average = (+previous + +next) / 2;
     if (average === 0) {
       return null;

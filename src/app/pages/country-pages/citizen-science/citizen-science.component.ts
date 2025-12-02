@@ -33,6 +33,7 @@ export class CitizenScienceComponent implements OnInit {
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
+  year?: string;
 
   citizenScienceProjects:  (string | null)[] = [null, null];
   citizenSciencePercentageDiff: number | null = null;
@@ -54,6 +55,12 @@ export class CitizenScienceComponent implements OnInit {
         this.countryCode = code;
       }
     });
+
+    this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (year) => {
+        this.year = year;
+      }
+    })
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
@@ -85,8 +92,8 @@ export class CitizenScienceComponent implements OnInit {
   }
 
   initCardValues() {
-    this.citizenScienceProjects[1] = this.surveyAnswers[1]?.['Practices']?.['Question101']?.['Question101-0'];
-    this.citizenScienceProjects[0] = this.surveyAnswers[0]?.['Practices']?.['Question101']?.['Question101-0'];
+    this.citizenScienceProjects[1] = this.surveyAnswers[1]?.['Practices']?.['Question101']?.['Question101-0']?.['Question101-1-1'];
+    this.citizenScienceProjects[0] = this.surveyAnswers[0]?.['Practices']?.['Question101']?.['Question101-0']?.['Question101-1-1'];
     this.citizenSciencePercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.citizenScienceProjects[0], this.citizenScienceProjects[1]);
 
     this.financialInvestmentInCS[1] = this.surveyAnswers[1]?.['Practices']?.['Question100']?.['Question100-0'];
@@ -102,6 +109,9 @@ export class CitizenScienceComponent implements OnInit {
 
     this.hasMonitoringCS = this.surveyAnswers[1]?.['Practices']?.['Question98']?.['Question98-0'] || null;
     this.monitoringClarificationCS = this.surveyAnswers[1]?.['Practices']?.['Question98']?.['Question98-1'] || null;
+
+    console.log("Final citizenScienceProjects:", this.citizenScienceProjects);
+    console.log("Final financialInvestmentInCS:", this.financialInvestmentInCS);
 
   }
 

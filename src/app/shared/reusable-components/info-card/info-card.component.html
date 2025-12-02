@@ -13,10 +13,10 @@
           {{ diff > 0 ? 'arrow_upward' : diff < 0 ? 'arrow_downward' : 'commit' }} </span>
 
 
-            <span
-              [ngClass]="diff > 0 ? 'percentage-up-color' : diff < 0 ? 'percentage-down-color' : 'percentage-neutral-color'">
-              {{ Math.abs(diff) }}%
-            </span>&nbsp; vs last year
+        <span
+          [ngClass]="diff > 0 ? 'percentage-up-color' : diff < 0 ? 'percentage-down-color' : 'percentage-neutral-color'">
+          {{ Math.abs(diff) }}%
+        </span>&nbsp; vs last year
       </div>
       <div>
         <img [ngSrc]="'../assets/images/explore/' + (diff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
