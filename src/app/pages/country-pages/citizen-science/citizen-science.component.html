@@ -11,7 +11,7 @@
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
                  class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Citizen Science for 2023</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Citizen Science for {{ year }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-center"
@@ -36,7 +36,7 @@
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
                  class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Citizen Science for 2023</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Citizen Science for {{ year }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-right"
@@ -72,8 +72,9 @@
           overview of Citizen Science in Europe, featuring key data from the Survey on National Contributions to EOSC
           and Open Science. The data highlights progress and engagement in Citizen Science, supporting broader Open
           Science goals.</p>
+<!--        <pre>{{ surveyAnswers | json }}</pre>-->
         <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h5>General Overview of Citizen Science in {{ countryName }} for 2023</h5>
+          <h5>General Overview of Citizen Science in {{ countryName }} for {{ year }}</h5>
         </div>
 
         <div class="uk-grid-small uk-grid" data-uk-grid>
@@ -83,7 +84,6 @@
             <div class="uk-card uk-card-default uk-card-body visualisation-card">
               <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-grid-small uk-grid" data-uk-grid>
                 <!-- cards: full width mobile, 1/2 small+ -->
-
                 <!--Card 1-->
                 <app-info-card *ngIf="citizenScienceProjects[1] !== null && citizenScienceProjects[1] !== undefined"
                   [titleHtml]="`Number of new Citizen Science projects in <span class='uk-text-bold'>${countryName}</span>`"
@@ -100,6 +100,10 @@
               </div>
             </div>
           </div>
+<!--          <div style="padding: 20px;">-->
+<!--            <pre>{{ citizenScienceProjects[0] | json }}</pre>-->
+<!--            <pre>{{ citizenScienceProjects[1] | json}}</pre>-->
+<!--          </div>-->
 
           <!-- Right Card (2/5) -->
           <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade"> <!-- uk-width-1-1 mobile, 2/5@m desktop-->

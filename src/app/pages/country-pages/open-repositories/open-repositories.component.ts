@@ -34,6 +34,7 @@ export class OpenRepositoriesComponent implements OnInit {
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
+  year?: string;
 
 
   rfoOpenRepositoriesPercentage: (number | null)[] = [null, null];
@@ -67,6 +68,12 @@ export class OpenRepositoriesComponent implements OnInit {
         this.countryName = name;
       }
     });
+
+    this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (year) => {
+        this.year = year;
+      }
+    })
 
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (code) => {

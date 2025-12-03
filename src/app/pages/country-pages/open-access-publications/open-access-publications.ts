@@ -20,6 +20,8 @@ import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
 import { PdfExportService } from "../../services/pdf-export.service";
+import { combineLatest} from "rxjs";
+import { filter } from "rxjs/operators";
 
 
 
@@ -48,6 +50,7 @@ export class OpenAccessPublicationsPage implements OnInit {
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
   lastUpdateDate?: string;
+  year?: string;
 
   financialInvestment: (string | null)[] = [null, null];
   financialInvestmentPercentageDiff: number | null = null;
@@ -106,7 +109,7 @@ export class OpenAccessPublicationsPage implements OnInit {
     yAxis: '',
   }
 
-  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService,
+  constructor(protected dataShareService: DataShareService, private queryData: EoscReadinessDataService,
               private exploreService: ExploreService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
@@ -116,17 +119,23 @@ export class OpenAccessPublicationsPage implements OnInit {
       next: value => this.lastUpdateDate = value
     });
 
-    this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (code) => {
+
+    combineLatest([
+      this.dataShareService.countryCode$,
+      this.dataShareService.year$
+    ])
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter(([code, year]) => !!code && !!year)
+      )
+      .subscribe(([code, year]) => {
         this.countryCode = code;
-        if (this.countryCode) {
-          this.getPublicationPercentage();
-          this.getTrends();
-          this.getDistributionsOA();
-          this.getDistributionOAScholarlyOutputs();
-        }
-      }
-    });
+        this.year = year;
+        this.getPublicationPercentage();
+        this.getTrends();
+        this.getDistributionsOA();
+        this.getDistributionOAScholarlyOutputs();
+      });
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
@@ -147,11 +156,12 @@ export class OpenAccessPublicationsPage implements OnInit {
         this.countrySurveyAnswer = answer;
       }
     });
+
   }
 
   /** Get OA VS closed, restricted and embargoed Publications -----------------------------------------------------> **/
   getPublicationPercentage() {
-    this.queryData.getOSOStats(OAvsTotalPubsPerCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStats(OAvsTotalPubsPerCountry(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.OAPubsPercentage[0] = this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]);
         this.OAPubsPercentage[1] = this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]);
@@ -162,7 +172,7 @@ export class OpenAccessPublicationsPage implements OnInit {
 
   /** Get trends of Publications ----------------------------------------------------------------------------------> **/
   getTrends() {
-    this.queryData.getOSOStatsChartData(trendOfOAPublicationsCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(trendOfOAPublicationsCountry(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           const tmpSeries: SeriesOptionsType = {
@@ -179,7 +189,7 @@ export class OpenAccessPublicationsPage implements OnInit {
 
   /** Get Distribution of Open Access Types by Fields of Science --------------------------------------------------> **/
   getDistributionsOA() {
-    this.queryData.getOSOStatsChartData(distributionOfOAByFieldOfScience(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(distributionOfOAByFieldOfScience(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           (this.bar[index] as SeriesBarOptions).data = series.data;
@@ -195,7 +205,7 @@ export class OpenAccessPublicationsPage implements OnInit {
 
   /** Get Distribution of Open Access Types by Different Scholarly Publication Outputs ----------------------------> **/
   getDistributionOAScholarlyOutputs() {
-    this.queryData.getOSOStatsChartData(distributionOfOAByScholarlyOutputs(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(distributionOfOAByScholarlyOutputs(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           const tmpSeries: SeriesOptionsType = {
@@ -258,7 +268,7 @@ export class OpenAccessPublicationsPage implements OnInit {
 
   exportToPDF(contents: HTMLElement[], filename?: string) {
     this.exportActive = true
-   
+
     // Χρόνος για να εφαρμοστούν τα styles
     // setTimeout(() => {
       this.pdfService.export(contents, filename).then(() => {

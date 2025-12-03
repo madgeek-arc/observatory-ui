@@ -34,6 +34,7 @@ export class OpenScienceTrainingComponent  implements OnInit {
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
+  year?: string;
 
   rfoTrainingPercentage: (number | null)[] = [null, null];
   rfoTrainingPercentageDiff: number | null = null;
@@ -66,6 +67,12 @@ export class OpenScienceTrainingComponent  implements OnInit {
         this.countryName = name;
       }
     });
+
+    this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (year) => {
+        this.year = year;
+      }
+    })
 
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (code) => {

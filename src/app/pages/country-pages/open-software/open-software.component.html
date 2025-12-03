@@ -11,7 +11,7 @@
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
                  class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Software for 2023</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Software for {{ year }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
@@ -36,7 +36,7 @@
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
                  class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Software for 2023</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Software for {{ year }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-right" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
@@ -74,7 +74,7 @@
           investments, and strategies from the Survey on National Contributions to EOSC and Open Science</p>
 
         <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h5>General Overview of Open Software in {{ countryName }} for 2023</h5>
+          <h5>General Overview of Open Software in {{ countryName }} for {{ year }}</h5>
         </div>
 
         <div class="uk-grid-small" data-uk-grid>
