@@ -5,7 +5,7 @@ import { zip } from "rxjs/internal/observable/zip";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { RawData, Row, Data } from "../../../domain/raw-data";
-import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
+import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-dynamic/eosc-readiness-map-subtitles";
 import { DataHandlerService } from "../../services/data-handler.service";
 import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
 import { PdfExportService } from "../../services/pdf-export.service";
@@ -327,8 +327,8 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
   /** Bubble chart ------------------------------------------------------------------------------------------------> **/
   getBubbleChartData() {
-    zip(
-      this.queryData.getQuestion(this.year, 'Question1'),   // Number of Researchers in FTE per country
+    zip( // Get data from previous year for number of researchers and number of publications to match financial investments.
+      this.queryData.getQuestion(this.years[this.years.length-2], 'Question1'),   // Number of Researchers in FTE per country (from eurostat)
       this.queryData.getQuestion(this.year, 'Question5'),   // Financial investments in EOSC and Open Science per country
       this.queryData.getQuestion(this.year, 'Question56'),  // Financial investments in Open Access publications
       // this.queryData.getQuestion(this.year, 'Question57'), // number of publications published in Open Access

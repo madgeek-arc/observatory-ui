@@ -63,7 +63,7 @@ export class OpenScienceByAreaSoftwareComponent implements OnInit {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments in Open Source Software in '+this.year,
+    title: 'Financial Investments in Open Source Software in '+(+this.year-1),
     xAxis: '',
     yAxis: '',
   }

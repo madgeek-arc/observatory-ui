@@ -247,7 +247,7 @@
           <span class="uk-text-bold">Data source:</span>&nbsp;
           Survey on National Contributions to EOSC and Open Science {{year}} -
           showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
-          OpenAIRE Graph data for {{ +year-1 }} (updated on {{ lastUpdateDate }}).
+          OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
         </div>
 
       </div>
@@ -344,15 +344,17 @@
                                  [titles]="barChartTitles" [reversedStacks]="false"
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
                                  [customTooltip]="true" [yAxisLabels]="false" [height]="smallScreen ? 600 : 400"
-                                 [caption]="policesMapCaptions[2] + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+'.</p>'">
+                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Open Data made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
+                                 '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for financial contributions the data reflect the previous year ('+(+year-1)+').</p>'">
                 </app-multi-chart>
               </div>
             </li>
             <li>
               <div class="">
                 <app-tree-graph [data]="treeGraph" [height]="700"
-                                [title]="'Financial Investments in Open Data in '+year"
-                                [caption]="monitoringMapCaptions[2] +'<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+'.</p>'">
+                                [title]="'Financial Investments in Open Data in '+ (+year-1)"
+                                [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Open Access Publications made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
+                                '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for financial contributions the data reflect the previous year ('+(+year-1)+').</p>'">
                 </app-tree-graph>
               </div>
             </li>

@@ -115,7 +115,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   barCategories: string[] = [];
 
   barChartTitles = {
-    title: 'Financial Investments in Open Access Publications in '+this.year,
+    title: 'Financial Investments in Open Access Publications in '+(+this.year-1),
     xAxis: '',
     yAxis: '',
   }

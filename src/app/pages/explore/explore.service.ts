@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import {
-  ColorPallet, countriesNumbers, EoscReadiness2022MapSubtitles
-} from "../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
+  ColorPallet, countriesNumbers, EoscReadinessMapSubtitles
+} from "../eosc-readiness-dashboard/eosc-readiness-dynamic/eosc-readiness-map-subtitles";
 import { latlong } from "../../domain/countries-lat-lon";
 import { CountryTableData } from "../../domain/country-table-data";
 import { Dataset, RawData, Row } from "../../domain/raw-data";
@@ -19,7 +19,7 @@ export class ExploreService {
 
   _lastUpdateDate: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-  mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
+  mapSubtitlesArray: string[][] = EoscReadinessMapSubtitles;
 
   constructor(private eoscReadiness: EoscReadinessDataService, private dataHandlerService: DataHandlerService) {
     this.getLastUpdateDate();

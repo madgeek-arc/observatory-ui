@@ -3,8 +3,8 @@ import { zip } from "rxjs/internal/observable/zip";
 import { CountryTableData } from "../../../domain/country-table-data";
 import {
   ColorPallet,
-  EoscReadiness2022MapSubtitles
-} from "../../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
+  EoscReadinessMapSubtitles
+} from "../../eosc-readiness-dashboard/eosc-readiness-dynamic/eosc-readiness-map-subtitles";
 import { ActivatedRoute } from "@angular/router";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
@@ -27,7 +27,7 @@ export class OpenScienceImpactComponent implements OnInit {
   countriesArray: string[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];
   mapSubtitles: string[] = [];
-  mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
+  mapSubtitlesArray: string[][] = EoscReadinessMapSubtitles;
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
   toolTipData: Map<string, string>[] = [];

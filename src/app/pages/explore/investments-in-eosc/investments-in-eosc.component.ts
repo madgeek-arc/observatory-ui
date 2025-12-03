@@ -27,8 +27,9 @@ export class InvestmentsInEoscComponent implements OnInit {
   exportActive = false;
 
   smallScreen = false;
+  lastUpdateDate?: string;
 
-  years = ['2023', '2024'];
+  years = ['2022', '2023', '2024'];
   year = this.years[this.years.length-1];
 
   treeGraph: PointOptionsObject[] = [];
@@ -100,6 +101,10 @@ export class InvestmentsInEoscComponent implements OnInit {
     });
 
     this.smallScreen = this.exploreService.isMobileOrSmallScreen;
+
+    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => this.lastUpdateDate = value
+    });
   }
 
   /** Get total investments ---------------------------------------------------------------------------------------> **/
@@ -126,8 +131,7 @@ export class InvestmentsInEoscComponent implements OnInit {
     zip(
       this.queryData.getQuestion(this.year, 'Question5'),  // Investments in EOSC and Open Science
       this.queryData.getQuestion(this.year, 'Question56'), // Investments in Open Access publications
-      // this.queryData.getQuestion(this.year, 'Question57'), // Publications
-      this.queryData.getOSOStats(OAPubsPerCountry(this.years[this.years.length-2])), // OA Publications from stat tool
+      this.queryData.getOSOStats(OAPubsPerCountry(this.years[this.years.length-2])), // OA Publications from stat tool from the previous year to match the investments.
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
@@ -279,10 +283,9 @@ export class InvestmentsInEoscComponent implements OnInit {
     return (Math.round((sum + Number.EPSILON) * 100) / 100);
   }
 
-  calculatePercentageChange(data: number[]) {
-    let percentage = Math.abs((data[1] - data[0]) / data[0]);
+  calculatePercentageChange(previous: number, next: number) {
+    let percentage = Math.abs((next - previous) / previous);
     return Math.round((percentage + Number.EPSILON) * 100);
-
   }
 
   // mergeByCountryCode(rawData: RawData[]): string[][] { // Function to merge arrays by country code

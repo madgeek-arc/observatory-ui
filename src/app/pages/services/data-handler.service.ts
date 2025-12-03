@@ -185,7 +185,13 @@ export class DataHandlerService {
     return count;
   }
 
-  public convertRawDataForCumulativeTable(dataset: Dataset, countries: string[], mergedArray?: string[]) {
+  public convertRawDataForCumulativeTable(data: Dataset | RawData, countries: string[], mergedArray?: string[]) {
+    let dataset = new Dataset();
+    if ((data as RawData).datasets) {
+      dataset.series = (data as RawData).datasets[0].series;
+    } else
+      dataset = data as Dataset;
+
     let tmpArr: string[] = [];
     if (!dataset)
       return tmpArr;

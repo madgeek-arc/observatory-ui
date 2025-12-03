@@ -332,7 +332,7 @@
             <li>
               <div class="">
                 <app-tree-graph [data]="treeGraph" style="height: 100%" [height]="700"
-                                [title]="'Financial Investments in Open Sources Software in '+year"
+                                [title]="'Financial Investments in Open Sources Software in '+ (+year-1)"
                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Open-Source Software made by European countries. The investments are categorised in ranges to show the distribution and scale of funding.</p>' +
                                 '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for financial contributions the data reflect the previous year ('+(+year-1)+').</p>'">
                 </app-tree-graph>
