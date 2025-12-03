@@ -11,6 +11,8 @@ import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
 import { PdfExportService } from "../../services/pdf-export.service";
+import {combineLatest} from "rxjs";
+import {filter} from "rxjs/operators";
 
 
 
@@ -50,19 +52,29 @@ export class GeneralRDOverviewComponent implements OnInit {
   surveyAnswers: Object[] = [null, null];
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
-  year?: string;
+  year: string;
+  prevYear: string;
 
   constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
-    console.log("YEAR FROM SERVICE:", this.dataShareService.year.value);
-    this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (code) => {
-        this.countryCode = code;
-        this.getPublicationPercentage();
-        this.getOpenDataPercentage();
-      }
-    });
+
+    combineLatest([
+      this.dataShareService.countryCode$,
+      this.dataShareService.year$,
+    ])
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter(([code, year]) => !!code && !!year)
+      )
+    .subscribe(([code, year]) => {
+      this.countryCode = code;
+      this.year = year;
+      const numericYear = +year;
+      this.prevYear = (numericYear - 1).toString();
+      this.getPublicationPercentage();
+      this.getOpenDataPercentage();
+    })
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
@@ -89,17 +101,11 @@ export class GeneralRDOverviewComponent implements OnInit {
       }
     });
 
-    this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (year) => {
-        this.year = year;
-      }
-    })
-
   }
 
   /** Get OA VS closed, restricted and embargoed Publications -----------------------------------------------------> **/
   getPublicationPercentage() {
-    this.queryData.getOSOStats(OAvsTotalPubsPerCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStats(OAvsTotalPubsPerCountry(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.OAPubsPercentage[0] = this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]);
         this.OAPubsPercentage[1] = this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]);
@@ -110,7 +116,7 @@ export class GeneralRDOverviewComponent implements OnInit {
 
   /** Get Open VS closed, restricted and embargoed Data -----------------------------------------------------------> **/
   getOpenDataPercentage() {
-    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode, this.prevYear, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.OpenDataPercentage[0] = this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]);
         this.OpenDataPercentage[1] = this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]);

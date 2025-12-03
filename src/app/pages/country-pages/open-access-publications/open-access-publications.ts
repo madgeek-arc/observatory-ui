@@ -129,8 +129,8 @@ export class OpenAccessPublicationsPage implements OnInit {
         filter(([code, year]) => !!code && !!year)
       )
       .subscribe(([code, year]) => {
-        this.countryCode = code!;
-        this.year = year!;
+        this.countryCode = code;
+        this.year = year;
         this.getPublicationPercentage();
         this.getTrends();
         this.getDistributionsOA();
@@ -161,7 +161,7 @@ export class OpenAccessPublicationsPage implements OnInit {
 
   /** Get OA VS closed, restricted and embargoed Publications -----------------------------------------------------> **/
   getPublicationPercentage() {
-    this.queryData.getOSOStats(OAvsTotalPubsPerCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStats(OAvsTotalPubsPerCountry(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.OAPubsPercentage[0] = this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]);
         this.OAPubsPercentage[1] = this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]);
@@ -189,7 +189,7 @@ export class OpenAccessPublicationsPage implements OnInit {
 
   /** Get Distribution of Open Access Types by Fields of Science --------------------------------------------------> **/
   getDistributionsOA() {
-    this.queryData.getOSOStatsChartData(distributionOfOAByFieldOfScience(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(distributionOfOAByFieldOfScience(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           (this.bar[index] as SeriesBarOptions).data = series.data;
@@ -205,7 +205,7 @@ export class OpenAccessPublicationsPage implements OnInit {
 
   /** Get Distribution of Open Access Types by Different Scholarly Publication Outputs ----------------------------> **/
   getDistributionOAScholarlyOutputs() {
-    this.queryData.getOSOStatsChartData(distributionOfOAByScholarlyOutputs(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(distributionOfOAByScholarlyOutputs(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           const tmpSeries: SeriesOptionsType = {
