@@ -593,7 +593,7 @@ export class ReportCreationComponent implements OnInit {
     let total = 0;
     let percentage: number;
     data.datasets[0].series.result.forEach(element => {
-      if (element.row[1] !== null && element.row[1].trim() !== '')
+      if (element.row[1] && element.row[1] !== null && element.row[1] !== 'null' && element.row[1].trim() !== '')
         total++;
 
       if (element.row[1] === 'Yes')
