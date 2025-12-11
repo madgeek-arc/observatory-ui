@@ -353,7 +353,7 @@ export const chartsCfg: Chart[] = [
     chartSeries: [],
     pieSeries: [],
     type: 'totalInvestments',
-    stats: ['Question64_trend'],
+    stats: ['Question64'],
   },
   {
     title: 'Trend in EU Countries with National Investments in Open Data per 1000 FTE Researchers',
