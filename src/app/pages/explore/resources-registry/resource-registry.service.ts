@@ -5,6 +5,13 @@ import { Paging } from 'src/survey-tool/catalogue-ui/domain/paging';
 import { Document, Content, HighlightedResults, Highlight } from 'src/app/domain/document';
 import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
 import { Model } from 'src/survey-tool/catalogue-ui/domain/dynamic-form-model';
+import {isArray} from "highcharts/highcharts.src";
+
+// type JsonValue = string | number | boolean | null | JsonObject | JsonValue[];
+// interface JsonObject {
+//   [key: string]: JsonValue;
+// }
+
 
 
 @Injectable({
@@ -130,6 +137,83 @@ export class ResourceRegistryService {
     });
 
     return updated;
+  }
+
+  // cleanNullArrays(obj: any): any {
+  //   // 1. Διαχείριση Array
+  //   if (Array.isArray(obj)) {
+  //     const cleanedArray = obj.map(el => this.cleanNullArrays(el));
+  //
+  //     // Αν το array είναι άδειο ή όλα τα στοιχεία του είναι null, επέστρεψε null
+  //     if (cleanedArray.length === 0 || cleanedArray.every(el => el === null)) {
+  //       return null;
+  //     }
+  //     return cleanedArray;
+  //   }
+  //
+  //   // 2. Διαχείριση Object
+  //   else if (obj !== null && typeof obj === 'object') {
+  //     const cleanedObj: any = {};
+  //     let allPropertiesNull = true;
+  //
+  //     for (const key in obj) {
+  //       if (obj.hasOwnProperty(key)) {
+  //         const cleanedValue = this.cleanNullArrays(obj[key]);
+  //         cleanedObj[key] = cleanedValue;
+  //
+  //         // Αν έστω και μία ιδιότητα ΔΕΝ είναι null, τότε το αντικείμενο δεν είναι "άδειο"
+  //         if (cleanedValue !== null) {
+  //           allPropertiesNull = false;
+  //         }
+  //       }
+  //     }
+  //
+  //     // Αν όλες οι ιδιότητες του αντικειμένου έγιναν null, επέστρεψε null
+  //     return allPropertiesNull ? null : cleanedObj;
+  //   }
+  //
+  //   // 3. Διαχείριση Primitives (string, number, boolean, null)
+  //   return obj;
+  // }
+
+  cleanNullArrays(obj: any): any {
+    // Handle Arrays
+    if (Array.isArray(obj)) {
+      // If the array is already empty return it as is to avoid breaking logic that
+      //expects an array
+      if (obj.length === 0) return obj;
+
+      const cleanedArray = obj.map(el => this.cleanNullArrays(el));
+
+      // if after cleaning, all elements in the array are null, null the entire array
+      if (cleanedArray.every(el => el === null)) {
+        return null;
+      }
+      return cleanedArray;
+    }
+
+    // Handle Objects
+    else if (obj !== null && typeof obj === 'object') {
+      if (obj instanceof Date) return obj;
+
+      const cleanedObj: any = {};
+      let hasValidData = false;
+
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          const value = this.cleanNullArrays(obj[key]);
+          cleanedObj[key] = value;
+
+          // If at least one property contains data, mark the object as valid
+          if (value !== null) {
+            hasValidData = true;
+          }
+        }
+      }
+      // If the object endeded up containing only null values, return null
+      return hasValidData ? cleanedObj : null;
+    }
+    return obj;
   }
 
 }
