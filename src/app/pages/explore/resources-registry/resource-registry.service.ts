@@ -5,13 +5,6 @@ import { Paging } from 'src/survey-tool/catalogue-ui/domain/paging';
 import { Document, Content, HighlightedResults, Highlight } from 'src/app/domain/document';
 import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
 import { Model } from 'src/survey-tool/catalogue-ui/domain/dynamic-form-model';
-import {isArray} from "highcharts/highcharts.src";
-
-// type JsonValue = string | number | boolean | null | JsonObject | JsonValue[];
-// interface JsonObject {
-//   [key: string]: JsonValue;
-// }
-
 
 
 @Injectable({
@@ -139,42 +132,6 @@ export class ResourceRegistryService {
     return updated;
   }
 
-  // cleanNullArrays(obj: any): any {
-  //   // 1. Διαχείριση Array
-  //   if (Array.isArray(obj)) {
-  //     const cleanedArray = obj.map(el => this.cleanNullArrays(el));
-  //
-  //     // Αν το array είναι άδειο ή όλα τα στοιχεία του είναι null, επέστρεψε null
-  //     if (cleanedArray.length === 0 || cleanedArray.every(el => el === null)) {
-  //       return null;
-  //     }
-  //     return cleanedArray;
-  //   }
-  //
-  //   // 2. Διαχείριση Object
-  //   else if (obj !== null && typeof obj === 'object') {
-  //     const cleanedObj: any = {};
-  //     let allPropertiesNull = true;
-  //
-  //     for (const key in obj) {
-  //       if (obj.hasOwnProperty(key)) {
-  //         const cleanedValue = this.cleanNullArrays(obj[key]);
-  //         cleanedObj[key] = cleanedValue;
-  //
-  //         // Αν έστω και μία ιδιότητα ΔΕΝ είναι null, τότε το αντικείμενο δεν είναι "άδειο"
-  //         if (cleanedValue !== null) {
-  //           allPropertiesNull = false;
-  //         }
-  //       }
-  //     }
-  //
-  //     // Αν όλες οι ιδιότητες του αντικειμένου έγιναν null, επέστρεψε null
-  //     return allPropertiesNull ? null : cleanedObj;
-  //   }
-  //
-  //   // 3. Διαχείριση Primitives (string, number, boolean, null)
-  //   return obj;
-  // }
 
   cleanNullArrays(obj: any): any {
     // Handle Arrays
