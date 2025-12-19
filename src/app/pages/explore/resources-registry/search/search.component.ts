@@ -122,9 +122,9 @@ export class SearchComponent implements OnInit {
   loadDocuments() {
     this.resourceService.getDocument(this.from, this.pageSize, this.urlParameters, this.isAdminPage).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (data) => {
-        const cleanedData = this.resourceRegistryService.cleanNullArrays(data);
-        if (cleanedData?.results.length > 0) {
-          this.documents = cleanedData as Paging<HighlightedResults<Document>>;
+        // const cleanedData = this.resourceRegistryService.cleanNullArrays(data);
+        if (data?.results.length > 0) {
+          this.documents = data as Paging<HighlightedResults<Document>>;
           this.documents.results.forEach((element, index) => {
             if (element.result?.docInfo.organisations == null)
               return;

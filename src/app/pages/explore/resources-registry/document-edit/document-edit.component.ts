@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { ResourceRegistryService } from "src/app/pages/explore/resources-registry/resource-registry.service";
 import { Document } from "src/app/domain/document";
@@ -8,7 +8,7 @@ import { CatalogueUiModule } from "src/survey-tool/catalogue-ui/catalogue-ui.mod
 import { SurveyToolModule } from "src/survey-tool/app/survey-tool.module";
 import { SurveyComponent } from "src/survey-tool/catalogue-ui/pages/dynamic-form/survey.component";
 import { WebsocketService } from "../../../../../survey-tool/app/services/websocket.service";
-import {UntypedFormGroup} from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 
 
 @Component({
@@ -71,13 +71,12 @@ export class DocumentEditComponent implements OnInit {
     // const docInfo: Content = this.editForm.value;
 
     if (documentId) {
-      this.resourceRegistryService.updateDocument(documentId, event.get('docInfo').value).subscribe({
+      const doc = this.resourceRegistryService.cleanNullArrays(event.get('docInfo').value);
+      this.resourceRegistryService.updateDocument(documentId, doc).subscribe({
         next: () => {
-          this.router.navigate(
-            ['document-landing', this.documentId],
-            {relativeTo: this.route.parent});
+          this.router.navigate(['document-landing', this.documentId], {relativeTo: this.route.parent}).then();
         },
-        error: ( ) => {
+        error: () => {
           this.errorMessage = 'Failed to save the document';
         }
       });

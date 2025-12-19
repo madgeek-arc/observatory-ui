@@ -65,51 +65,6 @@ export class ResourceRegistryService {
     return htmlString.replace(/<[^>]*>/g, '');
   }
 
-  // applyHighlightsToContent(highlightedResult: HighlightedResults<Document>): HighlightedResults<Document> {
-  //
-  //   const documentData = highlightedResult.result;
-  //   const content: Content = documentData.docInfo;
-  //   const highlights = highlightedResult.highlights;
-  //
-  //   const fields = [
-  //     {name: 'title', isArray: false, path: 'title'},
-  //     {name: 'shortDescription', isArray: false, path: 'shortDescription.text'},
-  //     {name : 'organisations', isArray: true, path: 'organisations'}
-  //   ];
-  //
-  //   fields.forEach(field => {
-  //     const highlightArray = highlights.find(h => h.hasOwnProperty(field.name))?.[field.name];
-  //
-  //
-  //
-  //     if (highlightArray && highlightArray.length > 0) {
-  //       const highlightedValueWithTags = highlightArray[0];
-  //       const cleanValue = this.stripHtml(highlightedValueWithTags);
-  //
-  //       if (!field.isArray) {
-  //         const originalValueContainer = (field.name === 'title') ? content : content.shortDescription;
-  //         const originalValueKey =  (field.name === 'title') ? 'title' : 'text';
-  //
-  //         const originalValue = (originalValueContainer as any)[originalValueKey];
-  //         //MATCH
-  //         if (originalValue && originalValue.includes(cleanValue)) {
-  //           //REPLACE
-  //           (originalValueContainer as any)[originalValueKey] = originalValue.replace(cleanValue, highlightedValueWithTags);
-  //         }
-  //       } else {
-  //         //ARRAY-MATCH
-  //         const index = content.organisations.findIndex(org => org === cleanValue);
-  //
-  //         if (index !== -1) {
-  //           //REPLACE
-  //           content.organisations[index] = highlightedValueWithTags;
-  //         }
-  //       }
-  //     }
-  //   });
-  //   return highlightedResult;
-  // }
-
   replaceWithHighlighted(original: string[], highlights: Highlight[], fieldName: string) {
     if (!original || !Array.isArray(original) || !highlights) return original;
 
@@ -136,7 +91,7 @@ export class ResourceRegistryService {
   cleanNullArrays(obj: any): any {
     // Handle Arrays
     if (Array.isArray(obj)) {
-      // If the array is already empty return it as is to avoid breaking logic that
+      // If the array is already empty, return it as is to avoid breaking logic that
       //expects an array
       if (obj.length === 0) return obj;
 
@@ -167,7 +122,7 @@ export class ResourceRegistryService {
           }
         }
       }
-      // If the object endeded up containing only null values, return null
+      // If the object ended up containing only null values, return null
       return hasValidData ? cleanedObj : null;
     }
     return obj;

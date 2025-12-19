@@ -3,6 +3,7 @@ import { DocumentLandingComponent } from './document-landing/document-landing.co
 import { SearchComponent } from './search/search.component';
 import { NgModule } from '@angular/core';
 import { DocumentEditComponent } from './document-edit/document-edit.component';
+import { AuthGuard } from "../../../../survey-tool/app/services/auth-guard.service";
 
 export const resourcesRegistryRoutes: Routes = [
   {
@@ -20,10 +21,12 @@ export const resourcesRegistryRoutes: Routes = [
   },
   {
     path: 'document-edit/:id',
+    canActivate: [AuthGuard],
     component: DocumentEditComponent
   },
   {
     path: 'document-add',
+    canActivate: [AuthGuard],
     component: DocumentEditComponent
   }
 ];
