@@ -1,10 +1,11 @@
-<!-- <pre>{{documentData | json}}</pre> -->
+<!-- <pre>{{documentData | json}}</pre>-->
 <div page-content [fullWidth]="true">
   <div actions class="uk-section-primary uk-preserve-color">
     <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
   <div inner>
-    <div *ngIf="!isAdminPage; else adminPage" class="uk-section uk-section-small uk-section-primary uk-preserve-color" style="min-height: 95vh">
+    <div *ngIf="!isAdminPage; else adminPage" class="uk-section uk-section-small uk-section-primary uk-preserve-color"
+         style="min-height: 95vh">
       <div *ngIf="documentData!== null" class="uk-container uk-margin-large-top">
         <div class="uk-flex uk-flex-between uk-flex-middle" uk-grid>
           <div class="uk-flex uk-flex-middle uk-width-expand">
@@ -13,11 +14,12 @@
                  class="flag-image uk-margin-small-right" width="30" height="20" alt="rounded flag image">
             <img *ngIf="documentData.docInfo?.country && documentData.docInfo.country === 'EU'"
                  ngSrc="../../survey-tool/assets/images/flags/europe-flag.jpg"
-                 class="flag-image uk-margin-small-right" width="30" height="20" alt="{{documentData.docInfo?.country}} flag">
+                 class="flag-image uk-margin-small-right" width="30" height="20"
+                 alt="{{documentData.docInfo?.country}} flag">
             <h4 class="uk-margin-remove">{{ documentData.docInfo?.title }}</h4>
           </div>
           <span class="uk-margin-left">
-            Last Update: {{ documentData.docInfo?.modificationDate ? documentData.docInfo?.modificationDate : '--' }}
+            Last Update: {{ (documentData?.docInfo?.modificationDate | date:'dd/MM/yyyy') || documentData?.docInfo?.modificationDate || '--' }}
           </span>
         </div>
 
@@ -28,14 +30,16 @@
             <h4>Short Description</h4>
             <p>{{ documentData.docInfo?.shortDescription.text }}</p>
             <div class="uk-flex uk-flex-center">
-              <a *ngIf="documentData?.url" [href]="documentData?.url" target="_blank" class="uk-button uk-button-primary uk-border-pill">
+              <a *ngIf="documentData?.url" [href]="documentData?.url" target="_blank"
+                 class="uk-button uk-button-primary uk-border-pill">
                 Full text
               </a>
             </div>
           </div>
 
           <div class="uk-width-1-3@m">
-            <div class="uk-card uk-card-default uk-card-body uk-border-rounded" style="border-radius: 15px; border: 2px solid #40E0D0;">
+            <div class="uk-card uk-card-default uk-card-body uk-border-rounded"
+                 style="border-radius: 15px; border: 2px solid #40E0D0;">
               <h5 class="uk-text-center">Key Facts</h5>
               <p><strong>Country:</strong> {{ documentData.docInfo?.country }}</p>
               <p>
@@ -51,7 +55,7 @@
               </p>
               <p><strong>Responsible organisation:</strong> {{ documentData.docInfo?.organisations }}</p>
               <p><strong>Language:</strong> {{ documentData.docInfo?.language }}</p>
-              <p><strong>Authors:</strong>
+              <p *ngIf="documentData.docInfo?.authors"><strong>Authors:</strong>
                 <span *ngFor="let author of documentData.docInfo?.authors; let last = last">
                     {{ author.name }} {{ author.orcid }}{{ !last ? ', ' : '' }}
                 </span>
@@ -66,44 +70,52 @@
       <div class="uk-section uk-section-small uk-section-default">
         <div *ngIf="documentData!== null" class="uk-container uk-container-expand">
 
-<!--          <div class="uk-flex uk-flex-right">-->
-<!--            <button class="uk-button uk-button-default">Edit</button>-->
-<!--            <button class="uk-button uk-button-primary">Approve</button>-->
-<!--          </div>-->
+          <!--          <div class="uk-flex uk-flex-right">-->
+          <!--            <button class="uk-button uk-button-default">Edit</button>-->
+          <!--            <button class="uk-button uk-button-primary">Approve</button>-->
+          <!--          </div>-->
 
           <div class="uk-grid-divider uk-grid" uk-grid>
 
             <div class="uk-width-3-4 uk-first-column">
               <!-- ALERT -->
-            <div *ngIf="statusMessage" class="uk-width-1-1 uk-margin-small-bottom">
-              <div [ngClass]="{'uk-alert-success': statusType==='success', 'uk-alert-danger': statusType==='danger'}"
-                  class="uk-alert uk-width-auto" uk-alert>
-                {{ statusMessage }}
-                <a class="uk-alert-close" uk-close (click)="statusMessage = null"></a>
+              <div *ngIf="statusMessage" class="uk-width-1-1 uk-margin-small-bottom">
+                <div [ngClass]="{'uk-alert-success': statusType==='success', 'uk-alert-danger': statusType==='danger'}"
+                     class="uk-alert uk-width-auto" uk-alert>
+                  {{ statusMessage }}
+                  <a class="uk-alert-close" uk-close (click)="statusMessage = null"></a>
+                </div>
               </div>
-            </div>
 
               <div class="uk-flex uk-flex-middle uk-flex-center">
                 <div class="landing-action-bar uk-box-shadow-small uk-margin-bottom uk-text-bolder">
-                  <div uk-grid="" class="uk-grid uk-grid-small uk-flex-between uk-text-xsmall uk-flex-middle uk-grid-divider">
+                  <div uk-grid=""
+                       class="uk-grid uk-grid-small uk-flex-between uk-text-xsmall uk-flex-middle uk-grid-divider">
                     <div class="uk-width-auto uk-first-column">
-                      <a *ngIf="documentData?.url" [href]="documentData?.url" target="_blank" class="uk-flex uk-flex-middle uk-button-link">
-                        <span class="material-symbols-outlined uk-margin-small-left" style="font-size: 20px">download</span>
+                      <a *ngIf="documentData?.url" [href]="documentData?.url" target="_blank"
+                         class="uk-flex uk-flex-middle uk-button-link">
+                        <span class="material-symbols-outlined uk-margin-small-left"
+                              style="font-size: 20px">download</span>
                         <span>Full text</span>
                       </a>
                     </div>
                     <div class="uk-width-expand">
                       <div class="uk-grid uk-grid-small uk-flex-middle uk-child-width-auto" uk-grid>
-                        <a [routerLink]="['../../document-edit', documentId]"  class="uk-flex uk-flex-middle uk-button-link">
-                          <span class="material-symbols-outlined uk-margin-small-left" style="font-size: 20px">edit</span>
+                        <a [routerLink]="['../../document-edit', documentId]"
+                           class="uk-flex uk-flex-middle uk-button-link">
+                          <span class="material-symbols-outlined uk-margin-small-left"
+                                style="font-size: 20px">edit</span>
                           <span>Edit</span>
                         </a>
-                        <a (click)="onUpdateStatus(documentData.id, 'APPROVED')" class="uk-flex uk-flex-middle uk-button-link">
+                        <a (click)="onUpdateStatus(documentData.id, 'APPROVED')"
+                           class="uk-flex uk-flex-middle uk-button-link">
                           <span class="material-symbols-outlined uk-margin-small-left" style="font-size: 20px">check_circle</span>
                           <span>Approve</span>
                         </a>
-                        <a (click)="onUpdateStatus(documentData.id, 'REJECTED')" class="uk-flex uk-flex-middle uk-button-link">
-                          <span class="material-symbols-outlined uk-margin-small-left" style="font-size: 20px">cancel</span>
+                        <a (click)="onUpdateStatus(documentData.id, 'REJECTED')"
+                           class="uk-flex uk-flex-middle uk-button-link">
+                          <span class="material-symbols-outlined uk-margin-small-left"
+                                style="font-size: 20px">cancel</span>
                           <span>Reject</span>
                         </a>
                       </div>
@@ -119,7 +131,8 @@
                        class="flag-image uk-margin-small-right" width="30" height="20" alt="rounded flag image">
                   <img *ngIf="documentData.docInfo?.country && documentData.docInfo.country === 'EU'"
                        ngSrc="../../survey-tool/assets/images/flags/europe-flag.jpg"
-                       class="flag-image uk-margin-small-right" width="30" height="20" alt="{{documentData.docInfo?.country}} flag">
+                       class="flag-image uk-margin-small-right" width="30" height="20"
+                       alt="{{documentData.docInfo?.country}} flag">
                   <h1 class="uk-margin-remove uk-h5">{{ documentData.docInfo?.title }}</h1>
                 </div>
               </div>
@@ -128,21 +141,26 @@
 
               <div>
                 <span>
-                  Last Update: {{ documentData.docInfo?.modificationDate ? documentData.docInfo?.modificationDate : '--' }}
+                   Last Update: {{ (documentData?.docInfo?.modificationDate | date:'dd/MM/yyyy') || documentData?.docInfo?.modificationDate || '--' }}
+
                 </span>
               </div>
 
               <div class="uk-margin-medium-top">
 
-                <div class="uk-text-small">
+                <div *ngIf="documentData.docInfo?.authors" class="uk-text-small">
                   <span class="uk-text-meta uk-margin-xsmall-right">Authors:</span>
-                  <span class="uk-text-italic uk-text-default" *ngFor="let author of documentData.docInfo?.authors; let last = last">
+                  <span class="uk-text-italic uk-text-default"
+                        *ngFor="let author of documentData.docInfo?.authors; let last = last">
                       {{ author.name }} {{ author.orcid }}{{ !last ? ', ' : '' }}
                   </span>
                 </div>
 
                 <div class="uk-margin-top uk-text-small">
-                  <div class="uk-text-meta uk-flex uk-flex-middle">Short Description<span *ngIf="documentData.docInfo?.shortDescription?.generated" class="material-symbols-outlined uk-margin-xsmall-left" style="font-size: 20px">star_shine</span></div>
+                  <div class="uk-text-meta uk-flex uk-flex-middle">Short Description<span
+                    *ngIf="documentData.docInfo?.shortDescription?.generated"
+                    class="material-symbols-outlined uk-margin-xsmall-left" style="font-size: 20px">star_shine</span>
+                  </div>
                   <div class="uk-text-justify">{{ documentData.docInfo?.shortDescription.text }}</div>
                 </div>
 
@@ -154,31 +172,34 @@
                     </div>
                   </div>
                 </div>
-
+                <div>
+                </div>
                 <div *ngIf="documentData.docInfo?.tags" class="uk-text-small uk-margin-top">
                   <span class="uk-text-meta uk-margin-small-right">Tags:</span>
-                  <span class="uk-badge uk-margin-small-right" *ngFor="let tag of documentData.docInfo?.tags; let last = last">
+                  <span class="uk-badge uk-margin-small-right"
+                        *ngFor="let tag of documentData.docInfo?.tags; let last = last">
                       {{ tag }}
                   </span>
                 </div>
 
                 <div *ngIf="documentData.docInfo?.otherTags" class="uk-text-small uk-margin-top">
                   <span class="uk-text-meta uk-margin-small-right">Other tags:</span>
-                  <span class="badge-simple uk-margin-small-right" *ngFor="let tag of documentData.docInfo?.otherTags; let last = last">
+                  <span class="badge-simple uk-margin-small-right"
+                        *ngFor="let tag of documentData.docInfo?.otherTags; let last = last">
                       {{ tag }}
                   </span>
                 </div>
 
-<!--                <div class="uk-flex uk-flex-center uk-margin-top">-->
-<!--                  <a *ngIf="documentData?.url" [href]="documentData?.url" target="_blank" class="uk-button uk-button-primary uk-border-pill">-->
-<!--                    Full text-->
-<!--                  </a>-->
-<!--                </div>-->
+                <!--                <div class="uk-flex uk-flex-center uk-margin-top">-->
+                <!--                  <a *ngIf="documentData?.url" [href]="documentData?.url" target="_blank" class="uk-button uk-button-primary uk-border-pill">-->
+                <!--                    Full text-->
+                <!--                  </a>-->
+                <!--                </div>-->
               </div>
 
               <div class="uk-margin-large">
                 <ul class="uk-tab" uk-margin data-uk-switcher="{connect:'#switcher-content', animation: 'fade'}">
-<!--                <ul class="uk-subnav uk-subnav-pill" uk-margin data-uk-switcher="{connect:'#switcher-content', animation: 'fade'}">-->
+                  <!--                <ul class="uk-subnav uk-subnav-pill" uk-margin data-uk-switcher="{connect:'#switcher-content', animation: 'fade'}">-->
                   <li class="uk-active">
                     <a href="#">
                       <span>Overview</span>
@@ -186,7 +207,9 @@
                   </li>
                   <li class="">
                     <a href="#">
-                      <span class="uk-flex uk-flex-middle">Paragraphs<span class="material-symbols-outlined uk-margin-xsmall-left" style="font-size: 20px">star_shine</span></span>
+                      <span class="uk-flex uk-flex-middle">Paragraphs<span
+                        class="material-symbols-outlined uk-margin-xsmall-left"
+                        style="font-size: 20px">star_shine</span></span>
                     </a>
                   </li>
                   <li>
@@ -214,12 +237,18 @@
                 <ul id="switcher-content" class="uk-switcher uk-margin">
                   <li aria-hidden="false" class="uk-active" style="animation-duration: 200ms;">
                     <div class="uk-margin-top uk-text-small">
-                      <div class="uk-text-meta uk-flex uk-flex-middle">Abstract<span *ngIf="documentData.docInfo?.abstract?.generated" class="material-symbols-outlined uk-margin-xsmall-left" style="font-size: 20px">star_shine</span></div>
+                      <div class="uk-text-meta uk-flex uk-flex-middle">Abstract<span
+                        *ngIf="documentData.docInfo?.abstract?.generated"
+                        class="material-symbols-outlined uk-margin-xsmall-left"
+                        style="font-size: 20px">star_shine</span></div>
                       <div class="uk-text-justify">{{ documentData.docInfo?.abstract.text }}</div>
                     </div>
 
                     <div class="uk-margin-top uk-text-small">
-                      <div class="uk-text-meta uk-flex uk-flex-middle">Summary<span *ngIf="documentData.docInfo?.summary?.generated" class="material-symbols-outlined uk-margin-xsmall-left" style="font-size: 20px">star_shine</span></div>
+                      <div class="uk-text-meta uk-flex uk-flex-middle">Summary<span
+                        *ngIf="documentData.docInfo?.summary?.generated"
+                        class="material-symbols-outlined uk-margin-xsmall-left"
+                        style="font-size: 20px">star_shine</span></div>
                       <div class="uk-text-justify">{{ documentData.docInfo?.summary.text }}</div>
                     </div>
                   </li>
@@ -229,13 +258,15 @@
                         <thead>
                         <tr>
                           <th>Important paragraphs generated from the text in the original language</th>
-                          <th *ngIf="documentData.docInfo?.language!=='en'">Important paragraphs generated from the text in english</th>
+                          <th *ngIf="documentData.docInfo?.language!=='en'">Important paragraphs generated from the text
+                            in english
+                          </th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr *ngFor="let paragraph of documentData.paragraphs; let i= index;">
-                          <td>{{paragraph}}</td>
-                          <td *ngIf="documentData.docInfo?.language!=='en'">{{documentData.paragraphsEn[i]}}</td>
+                          <td>{{ paragraph }}</td>
+                          <td *ngIf="documentData.docInfo?.language!=='en'">{{ documentData.paragraphsEn[i] }}</td>
                         </tr>
                         <tr>
                         </tbody>
@@ -248,13 +279,15 @@
                         <thead>
                         <tr>
                           <th>Original language</th>
-                          <th class="uk-flex uk-flex-middle" *ngIf="documentData.docInfo?.language!=='en'">English<span class="material-symbols-outlined uk-margin-xsmall-left" style="font-size: 20px">star_shine</span></th>
+                          <th class="uk-flex uk-flex-middle" *ngIf="documentData.docInfo?.language!=='en'">English<span
+                            class="material-symbols-outlined uk-margin-xsmall-left"
+                            style="font-size: 20px">star_shine</span></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr *ngFor="let sentence of documentData.sentences; let i= index;">
-                          <td>{{sentence}}</td>
-                          <td *ngIf="documentData.docInfo?.language!=='en'">{{documentData.sentencesEn[i]}}</td>
+                          <td>{{ sentence }}</td>
+                          <td *ngIf="documentData.docInfo?.language!=='en'">{{ documentData.sentencesEn[i] }}</td>
                         </tr>
                         <tr>
                         </tbody>
@@ -263,7 +296,7 @@
                   </li>
                   <li aria-hidden="true" class="" style="animation-duration: 200ms;">
                     <div class="uk-margin-medium-top uk-text-small">
-                      <p>{{documentData.text}}</p>
+                      <p>{{ documentData.text }}</p>
                     </div>
                   </li>
                   <li *ngIf="documentData.references" aria-hidden="true" class="" style="animation-duration: 200ms;">
@@ -277,9 +310,9 @@
                         </thead>
                         <tbody>
                         <tr *ngFor="let reference of documentData.references">
-                          <td>{{reference.surveyAnswerId}}</td>
+                          <td>{{ reference.surveyAnswerId }}</td>
                           <td>
-                            <div *ngFor="let field of reference.fields">{{field}}</div>
+                            <div *ngFor="let field of reference.fields">{{ field }}</div>
                           </td>
                         </tr>
                         <tr>
@@ -287,7 +320,8 @@
                       </table>
                     </div>
                   </li>
-                  <li *ngIf="documentData.docInfo?.links" aria-hidden="true" class="" style="animation-duration: 200ms;">
+                  <li *ngIf="documentData.docInfo?.links" aria-hidden="true" class=""
+                      style="animation-duration: 200ms;">
                     <div class="uk-margin-medium-top">
                       <table class="uk-table uk-table-divider uk-table-striped uk-text-small">
                         <thead>
@@ -301,11 +335,11 @@
                         </thead>
                         <tbody>
                         <tr *ngFor="let link of documentData.docInfo.links">
-                          <td>{{link.name}}</td>
-                          <td>{{link.pid}}</td>
-                          <td>{{link.type}}</td>
-                          <td>{{link.url}}</td>
-                          <td>{{link.description}}</td>
+                          <td>{{ link.name }}</td>
+                          <td>{{ link.pid }}</td>
+                          <td>{{ link.type }}</td>
+                          <td>{{ link.url }}</td>
+                          <td>{{ link.description }}</td>
                         </tr>
                         <tr>
                         </tbody>
@@ -326,11 +360,11 @@
                         </thead>
                         <tbody>
                         <tr *ngFor="let link of documentData.docInfo.otherLinks">
-                          <td>{{link.name}}</td>
-                          <td>{{link.pid}}</td>
-                          <td>{{link.type}}</td>
-                          <td>{{link.url}}</td>
-                          <td>{{link.description}}</td>
+                          <td>{{ link.name }}</td>
+                          <td>{{ link.pid }}</td>
+                          <td>{{ link.type }}</td>
+                          <td>{{ link.url }}</td>
+                          <td>{{ link.description }}</td>
                         </tr>
                         <tr>
                         </tbody>
@@ -345,23 +379,30 @@
             <div class="uk-width-1-4">
 
               <div class="uk-margin-medium-bottom">
-                <p>Status: <span class="uk-label uk-text-upper uk-margin-small-left" [ngClass]="{'uk-label-success': documentData.status === 'APPROVED','uk-label-danger': documentData.status === 'REJECTED','uk-label-warning': documentData.status === 'PENDING'}">{{documentData.status}}</span></p>
-                <p>Source: <span class="uk-label uk-text-upper uk-margin-small-left">{{documentData.source}}</span></p>
-                <p>Curated: <span class="uk-label uk-text-upper uk-margin-small-left">{{documentData.curated}}</span></p>
+                <p>Status: <span class="uk-label uk-text-upper uk-margin-small-left"
+                                 [ngClass]="{'uk-label-success': documentData.status === 'APPROVED','uk-label-danger': documentData.status === 'REJECTED','uk-label-warning': documentData.status === 'PENDING'}">{{ documentData.status }}</span>
+                </p>
+                <p>Source: <span class="uk-label uk-text-upper uk-margin-small-left">{{ documentData.source }}</span>
+                </p>
+                <p>Curated: <span class="uk-label uk-text-upper uk-margin-small-left">{{ documentData.curated }}</span>
+                </p>
               </div>
 
-              <div *ngIf="documentData.docInfo?.country || documentData.docInfo?.language" class="uk-card uk-card-default">
+              <div *ngIf="documentData.docInfo?.country || documentData.docInfo?.language"
+                   class="uk-card uk-card-default">
                 <div class="uk-card-body uk-card-small">
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined uk-text-background">flag</span>
                     <div class="uk-margin-left uk-width-expand uk-text-break">
                       <div *ngIf="documentData.docInfo?.country" class="uk-margin-small-bottom">
                         <div class="uk-text-meta uk-text-xsmall">Country</div>
-                        <div class="uk-text-primary uk-text-bold uk-text-default">{{documentData.docInfo.country}}</div>
+                        <div class="uk-text-primary uk-text-bold uk-text-default">{{ documentData.docInfo.country }}
+                        </div>
                       </div>
                       <div *ngIf="documentData.docInfo?.language">
                         <div class="uk-text-meta uk-text-xsmall">Language</div>
-                        <div class="uk-text-primary uk-text-bold uk-text-default">{{documentData.docInfo.language}}</div>
+                        <div class="uk-text-primary uk-text-bold uk-text-default">{{ documentData.docInfo.language }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -375,15 +416,21 @@
                     <div class="uk-margin-left uk-width-expand uk-text-break">
                       <div class="uk-margin-small-bottom">
                         <div class="uk-text-meta uk-text-xsmall">Start date</div>
-                        <div class="uk-text-primary uk-text-bold uk-text-default">{{ documentData.docInfo?.startDate ? documentData.docInfo?.startDate : '--' }}</div>
+                        <div class="uk-text-primary uk-text-bold uk-text-default">
+                          {{ (documentData.docInfo?.startDate | date: 'dd/MM/yyyy') ??  '--' }}
+                        </div>
                       </div>
                       <div class="uk-margin-small-bottom">
                         <div class="uk-text-meta uk-text-xsmall">End date</div>
-                        <div class="uk-text-primary uk-text-bold uk-text-default">{{ documentData.docInfo?.endDate ? documentData.docInfo?.endDate : '--' }}</div>
+                        <div class="uk-text-primary uk-text-bold uk-text-default">
+                          {{ (documentData.docInfo?.endDate | date: 'dd/MM/yyyy') ?? '--' }}
+                        </div>
                       </div>
                       <div>
                         <div class="uk-text-meta uk-text-xsmall">Publication date</div>
-                        <div class="uk-text-primary uk-text-bold uk-text-default">{{ documentData.docInfo?.publicationDate ? documentData.docInfo?.publicationDate : '--' }}</div>
+                        <div class="uk-text-primary uk-text-bold uk-text-default">
+                          {{ (documentData.docInfo?.publicationDate| date: 'dd/MM/yyyy') ?? '--' }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -397,11 +444,17 @@
                     <div class="uk-margin-left uk-width-expand uk-text-break">
                       <div class="uk-margin-small-bottom">
                         <div class="uk-text-meta uk-text-xsmall">Created by</div>
-                        <div class="uk-text-primary uk-text-bold uk-text-default">{{documentData.metadata?.createdby}} on {{documentData.metadata?.creationDate | date:'medium' }}</div>
+                        <div class="uk-text-primary uk-text-bold uk-text-default">
+                          {{ documentData.metadata?.createdby }}<br>
+                          on {{ documentData.metadata?.creationDate | date:'dd/MM/yyyy, HH:mm:ss' }}
+                        </div>
                       </div>
                       <div class="uk-margin-small-bottom">
                         <div class="uk-text-meta uk-text-xsmall">Last modified by</div>
-                        <div class="uk-text-primary uk-text-bold uk-text-default">{{documentData.metadata?.modifiedBy}} on {{documentData.metadata?.modificationDate | date:'medium' }}</div>
+                        <div class="uk-text-primary uk-text-bold uk-text-default">
+                          {{ documentData.metadata?.modifiedBy }}<br>
+                          on {{ documentData.metadata?.modificationDate | date:'dd/MM/yyyy, HH:mm:ss' }}
+                        </div>
                       </div>
                     </div>
                   </div>

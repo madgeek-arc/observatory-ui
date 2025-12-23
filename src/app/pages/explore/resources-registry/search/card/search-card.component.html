@@ -59,8 +59,9 @@
 
       <div *ngIf="doc.result.docInfo?.publicationDate || doc.result.docInfo?.startDate || doc.result.docInfo?.endDate"
            class="uk-text-small uk-margin-small-bottom document-dates-metadata">
-                  <span *ngIf="doc.result.docInfo?.publicationDate">Publication Date: {{ doc.result.docInfo.publicationDate |
-                    date:'mediumDate' }}</span>
+                  <span *ngIf="doc.result.docInfo?.publicationDate">
+                    Publication Date: {{ doc.result.docInfo.publicationDate |date:'mediumDate' }}
+                  </span>
         <span *ngIf="doc.result.docInfo?.startDate">Start Date: {{ doc.result.docInfo.startDate | date:'mediumDate'
           }}</span>
         <span *ngIf="doc.result.docInfo?.endDate">End Date: {{ doc.result.docInfo.endDate | date:'mediumDate' }}</span>
@@ -72,7 +73,7 @@
             class="uk-height-max-medium uk-overflow-auto uk-text-small uk-text-emphasis uk-flex uk-flex-wrap">
             <span class="uk-text-meta uk-margin-xsmall-right"> Authors: </span>
             <span *ngFor="let author of doc.result.docInfo.authors" style="margin-right: 5px;"
-                  class="uk-text-italic"> {{author.name}}; </span>
+                  class="uk-text-italic"> {{author.name}} </span>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { ResourceRegistryService } from "src/app/pages/explore/resources-registry/resource-registry.service";
 import { Document } from "src/app/domain/document";
@@ -8,6 +8,7 @@ import { CatalogueUiModule } from "src/survey-tool/catalogue-ui/catalogue-ui.mod
 import { SurveyToolModule } from "src/survey-tool/app/survey-tool.module";
 import { SurveyComponent } from "src/survey-tool/catalogue-ui/pages/dynamic-form/survey.component";
 import { WebsocketService } from "../../../../../survey-tool/app/services/websocket.service";
+import { UntypedFormGroup } from "@angular/forms";
 
 
 @Component({
@@ -30,10 +31,11 @@ export class DocumentEditComponent implements OnInit {
   // document: Document | null = null;
   docModel: Model;
   payload: object = null;
+  errorMessage: string = null;
 
   constructor(
     private route: ActivatedRoute,
-    private resourceRegistryService: ResourceRegistryService,
+    private resourceRegistryService: ResourceRegistryService, private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -64,18 +66,19 @@ export class DocumentEditComponent implements OnInit {
   }
 
 
-  onSubmit(event): void {
+  onSubmit(event: UntypedFormGroup): void {
     const documentId = this.documentId;
     // const docInfo: Content = this.editForm.value;
 
     if (documentId) {
-      this.resourceRegistryService.updateDocument(documentId, event[0].get('docInfo').value).subscribe({
-        next: (response) => {
-          // console.log('Document updated successfully:', response);
-          alert('Document updated successfully!');
+      const doc = this.resourceRegistryService.cleanObjectInPlace(event.get('docInfo').value);
+      console.log(doc);
+      this.resourceRegistryService.updateDocument(documentId, doc).subscribe({
+        next: () => {
+          this.router.navigate(['document-landing', this.documentId], {relativeTo: this.route.parent}).then();
         },
-        error: (error) => {
-          console.error('Error updating document:', error);
+        error: () => {
+          this.errorMessage = 'Failed to save the document';
         }
       });
     }
