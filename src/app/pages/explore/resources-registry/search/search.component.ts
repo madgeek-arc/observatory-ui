@@ -1,19 +1,21 @@
-import { Component, DestroyRef, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { ResourceRegistryService } from '../resource-registry.service';
-import { Document, HighlightedResults } from 'src/app/domain/document';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { fromEvent } from "rxjs";
-import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
-import { NgSelectModule } from '@ng-select/ng-select';
-import { SearchCardComponent } from "./card/search-card.component";
-import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
-import { Facet } from 'src/survey-tool/catalogue-ui/domain/facet';
-import { Paging } from 'src/survey-tool/catalogue-ui/domain/paging';
-import { PageContentComponent } from 'src/survey-tool/app/shared/page-content/page-content.component';
-import { SidebarMobileToggleComponent } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
+import {Component, DestroyRef, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {ResourceRegistryService} from '../resource-registry.service';
+import {Document, HighlightedResults} from 'src/app/domain/document';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {fromEvent} from "rxjs";
+import {debounceTime, distinctUntilChanged, map} from "rxjs/operators";
+import {NgSelectModule} from '@ng-select/ng-select';
+import {SearchCardComponent} from "./card/search-card.component";
+import {URLParameter} from 'src/survey-tool/app/domain/url-parameter';
+import {Facet} from 'src/survey-tool/catalogue-ui/domain/facet';
+import {Paging} from 'src/survey-tool/catalogue-ui/domain/paging';
+import {PageContentComponent} from 'src/survey-tool/app/shared/page-content/page-content.component';
+import {
+  SidebarMobileToggleComponent
+} from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
 import * as UIkit from 'uikit';
 
 
@@ -63,7 +65,8 @@ export class SearchComponent implements OnInit {
   alertStates: { [id: string]: { message: string; type: 'success' | 'danger' } } = {};
 
 
-  constructor(private resourceService: ResourceRegistryService, private route: ActivatedRoute, private router: Router, private resourceRegistryService: ResourceRegistryService) {}
+  constructor(private resourceService: ResourceRegistryService, private route: ActivatedRoute, private router: Router, private resourceRegistryService: ResourceRegistryService) {
+  }
 
   ngOnInit() {
 
@@ -120,37 +123,70 @@ export class SearchComponent implements OnInit {
 
   // Load documents based on current parameters
   loadDocuments() {
-    this.resourceService.getDocument(this.from, this.pageSize, this.urlParameters, this.isAdminPage).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (data) => {
-        // const cleanedData = this.resourceRegistryService.cleanNullArrays(data);
-        if (data?.results.length > 0) {
-          this.documents = data as Paging<HighlightedResults<Document>>;
-          this.documents.results.forEach((element, index) => {
-            if (element.result?.docInfo.organisations == null)
-              return;
-            this.documents.results[index].result.docInfo.organisations = this.resourceRegistryService.replaceWithHighlighted(element.result.docInfo.organisations, element.highlights, 'organisations');
-          });
-          // console.log('Documents loaded, total so far:', this.documents.results.length);
-          this.paginationInit();
-          if (data.facets && data.facets.length > 0) {
-            this.languageFacets = data.facets.find(facet => facet.field === 'language');
-            // console.log('Language facets:', this.languageFacets);
-          }
-        }
-        if (data.facets && data.facets.length > 0) {
-          this.countryFacets = data.facets.find(facet => facet.field === 'country');
-          // console.log('Country facets:', this.countryFacets);
-        }
-        if (data.facets && data.facets.length > 0) {
-          this.tagFacets = data.facets.find(facet => facet.field === 'tags');
-          // console.log('Tag facets:', this.tagFacets);
-        }
-      },
-      error: (err) => {
-        console.error('API error:', err);
-      }
-    });
+    this.resourceService.getDocument(this.from, this.pageSize, this.urlParameters, this.isAdminPage)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (data) => {
+          const cleanedData = this.resourceRegistryService.cleanNullArrays(data) as Paging<HighlightedResults<Document>>;
 
+          if (cleanedData?.results?.length > 0) {
+            this.documents = cleanedData;
+
+            this.documents.results.forEach((element) => {
+              const docInfo = element.result?.docInfo;
+
+              if (docInfo) {
+                this.normalizeDocInfo(docInfo);
+                if (docInfo.organisations && element.highlights) {
+                  docInfo.organisations = this.resourceRegistryService.replaceWithHighlighted(
+                    docInfo.organisations,
+                    element.highlights,
+                    'organisations'
+                  );
+                }
+              }
+            });
+
+            this.paginationInit();
+            if (cleanedData.facets && cleanedData.facets.length > 0) {
+              this.languageFacets = cleanedData.facets.find(facet => facet.field === 'language');
+              this.countryFacets = cleanedData.facets.find(facet => facet.field === 'country');
+              this.tagFacets = cleanedData.facets.find(facet => facet.field === 'tags');
+            }
+          } else {
+            this.documents.results = [];
+          }
+        },
+        error: (err) => {
+          console.error('API error:', err);
+        }
+      });
+  }
+
+  normalizeDocInfo(docInfo: any) {
+    if (!docInfo) return;
+
+    if (typeof docInfo.publicationDate === 'number') {
+      docInfo.publicationDate = new Date(docInfo.publicationDate);
+    }
+
+    if (typeof docInfo.lastUpdate === 'number') {
+      docInfo.lastUpdate = new Date(docInfo.lastUpdate);
+    }
+
+    if (Array.isArray(docInfo.authors)) {
+      docInfo.authors = docInfo.authors.filter(
+        author => author && author.name && author.name.trim().length > 0
+      );
+      if (docInfo.authors.length === 0) docInfo.authors = null;
+    }
+
+    if (Array.isArray(docInfo.tags)) {
+      docInfo.tags = docInfo.tags.filter(
+        t => t && typeof t === 'string' && t.trim().length > 0
+      );
+      if (docInfo.tags.length === 0) docInfo.tags = null;
+    }
   }
 
   // Pagination methods
@@ -162,8 +198,12 @@ export class SearchComponent implements OnInit {
     this.pages = [];
 
     for (let i = (+this.currentPage - this.offset); i <= (+this.currentPage + this.offset); i++) {
-      if (i < 1) { addToEndCounter++;}
-      if (i > this.totalPages) { addToStartCounter++; }
+      if (i < 1) {
+        addToEndCounter++;
+      }
+      if (i > this.totalPages) {
+        addToStartCounter++;
+      }
       if (i >= 1 && i <= this.totalPages) {
         this.pages.push(i);
       }

@@ -38,6 +38,7 @@ export class DocumentLandingComponent implements OnInit {
       if (this.documentId) {
         this.documentService.getDocumentById(this.documentId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: (data) => {
+            this.normalizeDocInfo(data.docInfo)
             this.documentData = data;
 
           },
@@ -77,6 +78,28 @@ export class DocumentLandingComponent implements OnInit {
           console.error(err);
         }
       });
+  }
+
+  normalizeDocInfo(docInfo: any) {
+    if (!docInfo) return;
+
+    const dateFields = ['publicationDate', 'lastUpdate', 'modificationDate', 'startDate', 'endDate'];
+
+    dateFields.forEach(field => {
+      if (typeof docInfo[field] === 'number') {
+        docInfo[field] = new Date(docInfo[field]);
+      }
+    });
+
+    if (Array.isArray(docInfo.authors)) {
+      docInfo.authors = docInfo.authors.filter(a => a?.name?.trim().length > 0);
+      if (docInfo.authors.length === 0) docInfo.authors = null;
+    }
+
+    if (Array.isArray(docInfo.tags)) {
+      docInfo.tags = docInfo.tags.filter(t => typeof t === 'string' && t.trim().length > 0);
+      if (docInfo.tags.length === 0) docInfo.tags = null;
+    }
   }
 
 }
