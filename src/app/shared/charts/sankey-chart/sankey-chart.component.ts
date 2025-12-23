@@ -10,8 +10,9 @@ Exporting(Highcharts);
 ExportData(Highcharts);
 
 @Component({
-  selector: 'app-sankey-chart',
-  template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" style="width: 100%; height: 100%; display: block;"></highcharts-chart>'
+    selector: 'app-sankey-chart',
+    template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
+    standalone: false
 })
 
 export class SankeyChartComponent implements OnChanges {

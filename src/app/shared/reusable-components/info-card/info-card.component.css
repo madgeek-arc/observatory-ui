@@ -1,0 +1,13 @@
+:host {
+    display: block;
+}
+
+:host(.empty) {
+    display: contents;
+}
+.neutral-arrow-color, .neutral-percentage-color {
+  color: grey;
+}
+
+
+

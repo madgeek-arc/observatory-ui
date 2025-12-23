@@ -7,8 +7,9 @@ Exporting(Highcharts);
 ExportData(Highcharts);
 
 @Component({
-  selector: "app-area-chart",
-  template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
+    selector: "app-area-chart",
+    template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
+    standalone: false
 })
 
 export class AreaChartComponent {

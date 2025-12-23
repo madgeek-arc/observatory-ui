@@ -10,6 +10,10 @@ import { countryPagesRoutes } from "./pages/country-pages/country-pages.routing"
 import { CountrySelectorComponent } from "./pages/dashboard/country-selector/country-selector.component";
 import { ArchiveModule } from "./pages/archive/archive.module";
 import { ArchiveGuardService } from "./pages/services/archiveGuard.service";
+import {
+  ContributionsHomeComponent
+} from "../survey-tool/app/pages/contributions-dashboard/home/contributions-home.component";
+import { ReportCreationComponent } from "./pages/report-creation/report-creation.component";
 
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: "enabled",
@@ -52,8 +56,7 @@ const routes: Routes = [
   },
   {
     path: 'country/:code',
-    children: countryPagesRoutes,
-    canActivate: [ArchiveGuardService]
+    children: countryPagesRoutes
   },
   {
     path: 'explore',
@@ -72,6 +75,10 @@ const routes: Routes = [
     loadChildren: () => import('../messaging-system-ui/app/messaging-system.module').then(m => m.MessagingSystemModule),
   },
   {
+    path: 'contributions/:stakeholderId/resources-registry',
+    loadChildren: () => import('./pages/explore/resources-registry/resources-registry.module').then(m => m.ResourcesRegistryModule),
+  },
+  {
     path: 'contributions/:id/',
     pathMatch: 'full',
     redirectTo: 'contributions/:id/home'
@@ -80,6 +87,15 @@ const routes: Routes = [
     path: 'contributions/:id/home',
     component: ContributionsHomeExtentionComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'reportExport',
+    component: ReportCreationComponent,
+    canActivate: [AuthGuard],
+    // data: {
+    //   hasSidebar: false,
+    //   showFooter: false,
+    // }
   },
   {
     path: '',

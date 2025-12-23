@@ -10,8 +10,9 @@ ExportingModule(Highcharts); // Call this before using exporting
 ExportData(Highcharts);
 
 @Component({
-  selector: 'app-stacked-column',
-  template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
+    selector: 'app-stacked-column',
+    template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
+    standalone: false
 })
 
 export class StackedColumnComponent implements OnChanges {

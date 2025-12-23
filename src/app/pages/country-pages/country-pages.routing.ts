@@ -34,27 +34,27 @@ export const countryPagesRoutes: Route[] = [
         component: OpenAccessPublicationsPage,
       },
       {
-        path: 'open-access-data',
+        path: 'open-data',
         component: OpenDataComponent
       },
       {
-        path: 'open-citizen-science',
+        path: 'citizen-science',
         component: CitizenScienceComponent
       },
       {
-        path: 'open-data-management',
+        path: 'data-management',
         component: DataManagementComponent
       },
       {
-        path: 'open-fair-data',
+        path: 'fair-data',
         component: FairDataComponent
       },
       {
-        path: 'open-repositories',
+        path: 'repositories',
         component: OpenRepositoriesComponent
       },
       {
-        path: 'open-science-training',
+        path: 'science-training',
         component: OpenScienceTrainingComponent
       },
       {

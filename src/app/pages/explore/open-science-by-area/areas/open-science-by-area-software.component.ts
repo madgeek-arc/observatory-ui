@@ -7,19 +7,21 @@ import { zip } from "rxjs/internal/observable/zip";
 import { CountryTableData } from "../../../../domain/country-table-data";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
+import * as Highcharts from "highcharts";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
-import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import {
+  SidebarMobileToggleComponent
+} from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
-import {CommonModule, NgOptimizedImage} from "@angular/common";
-import * as Highcharts from "highcharts";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
-  selector: 'app-open-science-by-area-software',
-  templateUrl: './open-science-by-area-software.component.html',
-  standalone: true,
-  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage],
+    selector: 'app-open-science-by-area-software',
+    templateUrl: './open-science-by-area-software.component.html',
+    imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent]
 })
 
 export class OpenScienceByAreaSoftwareComponent implements OnInit {
@@ -30,7 +32,8 @@ export class OpenScienceByAreaSoftwareComponent implements OnInit {
 
   smallScreen = false;
 
-  years = ['2022', '2023'];
+  years = ['2023', '2024'];
+  year = this.years[this.years.length-1];
 
   sets: number[] = [];
   countriesWithPolicy: number[] = [];
@@ -60,7 +63,7 @@ export class OpenScienceByAreaSoftwareComponent implements OnInit {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments in Open Source Software in 2022',
+    title: 'Financial Investments in Open Source Software in '+(+this.year-1),
     xAxis: '',
     yAxis: '',
   }
@@ -190,7 +193,7 @@ export class OpenScienceByAreaSoftwareComponent implements OnInit {
 
   /** Investments as tree graph -----------------------------------------------------------------------------------> **/
   getTreeGraphData(question: string) {
-    this.queryData.getQuestion(this.years[this.years.length-1], question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+    this.queryData.getQuestion(this.year, question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
         this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);

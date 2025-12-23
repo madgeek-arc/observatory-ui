@@ -8,23 +8,34 @@ import {
   CatalogueUiReusableComponentsModule
 } from "../../../../survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
+import { PdfExportService } from "../../services/pdf-export.service";
+import {combineLatest} from "rxjs";
+import {filter} from "rxjs/operators";
+import { ExploreService } from "../../explore/explore.service";
+
 
 
 @Component({
-  selector: 'app-general-R&D-overview',
-  standalone: true,
-  templateUrl: './general-R&D-overview.component.html',
-  imports: [
-    CommonModule,
-    NgOptimizedImage,
-    CatalogueUiReusableComponentsModule,
-    SidebarMobileToggleComponent
-  ]
+    selector: 'app-general-R&D-overview',
+    templateUrl: './general-R&D-overview.component.html',
+    imports: [
+        CommonModule,
+        NgOptimizedImage,
+        CatalogueUiReusableComponentsModule,
+        SidebarMobileToggleComponent,
+        PageContentComponent,
+        InfoCardComponent
+    ]
 })
 
 export class GeneralRDOverviewComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private exploreService = inject(ExploreService);
+
   protected readonly Math = Math;
+  exportActive = false;
 
   openSoftware: (string | null)[] = [null, null];
   openSoftwarePercentageDiff: number | null = null;
@@ -43,16 +54,34 @@ export class GeneralRDOverviewComponent implements OnInit {
   countryName?: string;
   surveyAnswers: Object[] = [null, null];
   countrySurveyAnswer?: Object;
+  countrySurveyAnswerLastUpdate: string | null = null;
+  year: string;
+  prevYear: string;
+  lastUpdateDate?: string;
 
-  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService) {}
+  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
-    this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (code) => {
-        this.countryCode = code;
-        this.getPublicationPercentage();
-        this.getOpenDataPercentage();
-      }
+
+    combineLatest([
+      this.dataShareService.countryCode$,
+      this.dataShareService.year$,
+    ])
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter(([code, year]) => !!code && !!year)
+      )
+    .subscribe(([code, year]) => {
+      this.countryCode = code;
+      this.year = year;
+      const numericYear = +year;
+      this.prevYear = (numericYear - 1).toString();
+      this.getPublicationPercentage();
+      this.getOpenDataPercentage();
+    });
+
+    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => this.lastUpdateDate = value
     });
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -73,11 +102,18 @@ export class GeneralRDOverviewComponent implements OnInit {
         this.countrySurveyAnswer = answer;
       }
     });
+
+    this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (metadata) => {
+        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
+      }
+    });
+
   }
 
   /** Get OA VS closed, restricted and embargoed Publications -----------------------------------------------------> **/
   getPublicationPercentage() {
-    this.queryData.getOSOStats(OAvsTotalPubsPerCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStats(OAvsTotalPubsPerCountry(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.OAPubsPercentage[0] = this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]);
         this.OAPubsPercentage[1] = this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]);
@@ -88,7 +124,7 @@ export class GeneralRDOverviewComponent implements OnInit {
 
   /** Get Open VS closed, restricted and embargoed Data -----------------------------------------------------------> **/
   getOpenDataPercentage() {
-    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode, this.prevYear, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.OpenDataPercentage[0] = this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]);
         this.OpenDataPercentage[1] = this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]);
@@ -139,4 +175,21 @@ export class GeneralRDOverviewComponent implements OnInit {
     return this.dataShareService.hasSurveyData(surveyData, questions)
   }
 
+    /** Export to PDF -----------------------------------------------------------------------------------------------> **/
+
+  exportToPDF(contents: HTMLElement[], filename?: string) {
+    this.exportActive = true
+
+    // Χρόνος για να εφαρμοστούν τα styles
+    // setTimeout(() => {
+      this.pdfService.export(contents, filename).then(() => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+      }).catch((error) => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+        console.error('Error during PDF generation:', error);
+      });
+    // }, 0);
+  }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { ExploreService } from "../../explore/explore.service";
+import { AnswerMetadata } from "./coutry-pages.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,11 @@ export class DataShareService {
   countryName: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   surveyAnswers: BehaviorSubject<Object[]> = new BehaviorSubject<Object[]>([null, null]);
   countrySurveyAnswer: BehaviorSubject<Object | null> = new BehaviorSubject<Object | null>(null);
+  countrySurveyAnswerMetaData: BehaviorSubject<AnswerMetadata | null> = new BehaviorSubject<AnswerMetadata | null>(null);
+  year: BehaviorSubject<string> = new BehaviorSubject<string>('2024');
+
+  countryCode$ = this.countryCode.asObservable();
+  year$ = this.year.asObservable();
 
   constructor(private exploreService: ExploreService) {}
 
@@ -62,12 +68,16 @@ export class DataShareService {
       return null;
     }
 
+    if (previous === next) {
+      return 0;
+    }
+
     const average = (+previous + +next) / 2;
     if (average === 0) {
       return null;
     }
 
-    return Math.round(((+previous - +next) / average + Number.EPSILON) * 100);
+    return Math.round(((+next - +previous) / average + Number.EPSILON) * 100);
   }
 
 

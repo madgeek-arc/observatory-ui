@@ -14,13 +14,13 @@ import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import * as Highcharts from "highcharts";
+import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
-  selector: 'app-open-science-by-area-citizen-science',
-  templateUrl: './open-science-by-area-citizen-science.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-  standalone: true,
-  imports: [CommonModule, SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage],
+    selector: 'app-open-science-by-area-citizen-science',
+    templateUrl: './open-science-by-area-citizen-science.component.html',
+    styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+    imports: [CommonModule, SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent]
 })
 
 export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
@@ -30,7 +30,8 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
   exportActive = false;
   smallScreen = false;
 
-  years = ['2022', '2023'];
+  years = ['2023', '2024'];
+  year = this.years[this.years.length-1];
 
   citizenProjects: number[] = [];
   countriesWithPolicy: number[] = [];
@@ -60,7 +61,7 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments on Citizen Science in 2022',
+    title: 'Financial Investments on Citizen Science in '+(+this.year-1),
     xAxis: '',
     yAxis: '',
   }
@@ -179,7 +180,7 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
 
   /** Investments as tree graph -----------------------------------------------------------------------------------> **/
   getTreeGraphData() {
-    this.queryData.getQuestion(this.years[this.years.length-1], 'Question100').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+    this.queryData.getQuestion(this.year, 'Question100').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
         this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);

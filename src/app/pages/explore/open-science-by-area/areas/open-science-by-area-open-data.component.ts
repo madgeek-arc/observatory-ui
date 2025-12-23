@@ -21,14 +21,14 @@ import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/ch
 import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import {CommonModule, NgOptimizedImage} from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
 
 @Component({
-  selector: 'app-open-science-by-area-open-data',
-  templateUrl: './open-science-by-area-open-data.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-  standalone: true,
-  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage]
+    selector: 'app-open-science-by-area-open-data',
+    templateUrl: './open-science-by-area-open-data.component.html',
+    styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+    imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent]
 })
 
 export class OpenScienceByAreaOpenDataComponent implements OnInit {
@@ -39,7 +39,8 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   smallScreen = false;
   lastUpdateDate?: string;
 
-  years = ['2022', '2023'];
+  years = ['2023', '2024'];
+  year = this.years[this.years.length-1];
 
   stackedColumnCategories = [];
   stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
@@ -111,7 +112,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments in Open Data in 2022',
+    title: 'Financial Investments in Open Data in '+(+this.year-1),
     xAxis: '',
     yAxis: '',
   }
@@ -154,7 +155,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
 
   /** Get Trend of Open Data --------------------------------------------------------------------------------------> **/
   getTrend() {
-    this.queryData.getOSOStatsChartData(trendOfOpenData()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(trendOfOpenData(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           let tmpSeries: SeriesOptionsType = {
@@ -171,7 +172,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
 
   /** Get Distribution of Open Data Types by Different Document Type ----------------------------------------------> **/
   getDistributionByDocumentType() {
-    this.queryData.getOSOStatsChartData(distributionByDocumentType()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(distributionByDocumentType(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           this.stackedColumn2Series[index].data.push(...series.data);
@@ -191,7 +192,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
 
   /** Get Open Data VS closed, restricted and embargoed sets ------------------------------------------------------> **/
   getOpenDataPercentage() {
-    this.queryData.getOSOStats(OpenDataVSClosed()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStats(OpenDataVSClosed(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.openData[0] = (Math.round((+value.data[2]/+value.data[3] + Number.EPSILON) * 100));
         this.openData[1] = (Math.round((+value.data[0]/+value.data[1] + Number.EPSILON) * 100));
@@ -202,9 +203,9 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   /** Get maps data ----------------------------------------------------------------------------------> **/
   getNationalPolicies(question: string, index: number) {
     zip(
-      this.queryData.getQuestion(this.years[this.years.length-1], question),
-      this.queryData.getQuestion(this.years[this.years.length-1], question + '.1'),
-      this.queryData.getQuestionComment(this.years[this.years.length-1], question),
+      this.queryData.getQuestion(this.year, question),
+      this.queryData.getQuestion(this.year, question + '.1'),
+      this.queryData.getQuestionComment(this.year, question),
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: res => {
         this.tmpQuestionsDataArray[index] = this.dataHandlerService.mergePolicyQuestionData(res[0], res[1]);
@@ -220,8 +221,8 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
 
   getMonitoring(question: string, index: number, mapCount: number) {
     zip(
-      this.queryData.getQuestion(this.years[this.years.length-1], question),
-      this.queryData.getQuestionComment(this.years[this.years.length-1], question),
+      this.queryData.getQuestion(this.year, question),
+      this.queryData.getQuestionComment(this.year, question),
     ).subscribe({
       next: res => {
         this.tmpQuestionsDataArray[index] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[0]);
@@ -276,7 +277,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
 
   /** Investments as tree graph ------------------------------------------------------------------------------------>**/
   getTreeGraphData() {
-    this.queryData.getQuestion(this.years[this.years.length-1], 'Question68').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+    this.queryData.getQuestion(this.year, 'Question68').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
         this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);

@@ -27,14 +27,14 @@ import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
 
 @Component({
-  selector: 'app-open-science-by-area-publications',
-  templateUrl: './open-science-by-area-publications.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-  standalone: true,
-  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage],
+    selector: 'app-open-science-by-area-publications',
+    templateUrl: './open-science-by-area-publications.component.html',
+    styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+    imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent]
 })
 
 export class OpenScienceByAreaPublicationsComponent implements OnInit {
@@ -45,7 +45,8 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   lastUpdateDate?: string;
   smallScreen = false;
 
-  years = ['2022', '2023'];
+  years = ['2023', '2024'];
+  year = this.years[this.years.length-1];
 
   stackedColumnCategories: string[] = [];
   stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
@@ -114,7 +115,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   barCategories: string[] = [];
 
   barChartTitles = {
-    title: 'Financial Investments in Open Access Publications in 2022',
+    title: 'Financial Investments in Open Access Publications in '+(+this.year-1),
     xAxis: '',
     yAxis: '',
   }
@@ -208,7 +209,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
 
   /** Get trends of Publications ----------------------------------------------------------------------------------> **/
   getTrends() {
-    this.queryData.getOSOStatsChartData(trendOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(trendOfOAPublications(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           const tmpSeries: SeriesOptionsType = {
@@ -225,7 +226,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
 
   /** Get Distribution of Open Access Types by Fields of Science --------------------------------------------------> **/
   getDistributionsOA() {
-    this.queryData.getOSOStatsChartData(distributionOfOA()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(distributionOfOA(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           (this.bar2[index] as SeriesBarOptions).data = series.data;
@@ -241,7 +242,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
 
   /** Get Distribution of Open Access Types by Fields of Science **/
   getDistributionOAByScienceFields() {
-    this.queryData.getOSOStatsChartData(distributionOfOAByScienceFields()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(distributionOfOAByScienceFields(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         let tmpArr = [];
         value.xAxis_categories.forEach((category, index) => {
@@ -294,7 +295,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
 
   /** Get Distribution of Open Access Types by Different Scholarly Publication Outputs **/
   getDistributionOAPublication() {
-    this.queryData.getOSOStatsChartData(distributionOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(distributionOfOAPublications(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           const tmpSeries: SeriesOptionsType = {
@@ -319,7 +320,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
 
   /** Get OA VS closed, restricted and embargoed Publications -----------------------------------------------------> **/
   getPublicationPercentage() {
-    this.queryData.getOSOStats(OAPublicationVSClosed()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStats(OAPublicationVSClosed(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.OAPublications[0] = (Math.round((+value.data[2]/+value.data[3] + Number.EPSILON) * 100));
         this.OAPublications[1] = (Math.round((+value.data[0]/+value.data[1] + Number.EPSILON) * 100));

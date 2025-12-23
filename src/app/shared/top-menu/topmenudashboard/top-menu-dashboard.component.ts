@@ -1,25 +1,28 @@
-import {Component, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from "@angular/core";
-import {Router} from "@angular/router";
-import {Administrator, Coordinator, Stakeholder, UserInfo} from "../../../../survey-tool/app/domain/userInfo";
-import {UserService} from "../../../../survey-tool/app/services/user.service";
-import {MessagingSystemService} from "src/messaging-system-ui/services/messaging-system.service";
-import {AuthenticationService} from "../../../../survey-tool/app/services/authentication.service";
-import {PrivacyPolicyService} from "../../../../survey-tool/app/services/privacy-policy.service";
-import {AcceptedPrivacyPolicy} from "../../../../survey-tool/app/domain/privacy-policy";
-import {UnreadMessages} from "../../../../messaging-system-ui/app/domain/messaging";
-import {MessagingWebsocketService} from "../../../../messaging-system-ui/services/messaging-websocket.service";
-import {Subject} from "rxjs";
-import {takeUntil} from "rxjs/operators";
-import UIkit from 'uikit';
+import {
+  AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild
+} from "@angular/core";
+import { Router } from "@angular/router";
+import { Administrator, Coordinator, Stakeholder, UserInfo } from "../../../../survey-tool/app/domain/userInfo";
+import { UserService } from "../../../../survey-tool/app/services/user.service";
+import { MessagingSystemService } from "src/messaging-system-ui/services/messaging-system.service";
+import { AuthenticationService } from "../../../../survey-tool/app/services/authentication.service";
+import { PrivacyPolicyService } from "../../../../survey-tool/app/services/privacy-policy.service";
+import { AcceptedPrivacyPolicy } from "../../../../survey-tool/app/domain/privacy-policy";
+import { UnreadMessages } from "../../../../messaging-system-ui/app/domain/messaging";
+import { MessagingWebsocketService } from "../../../../messaging-system-ui/services/messaging-websocket.service";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+import * as UIkit from 'uikit';
 
 @Component({
-  selector: 'app-top-menu-dashboard',
-  templateUrl: 'top-menu-dashboard.component.html',
-  styleUrls: ['../top-menu.component.css', './top-menu-dashboard.component.less'],
-  providers: [PrivacyPolicyService]
+    selector: 'app-top-menu-dashboard',
+    templateUrl: 'top-menu-dashboard.component.html',
+    styleUrls: ['../top-menu.component.css', './top-menu-dashboard.component.less'],
+    providers: [PrivacyPolicyService],
+    standalone: false
 })
 
-export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
+export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   private _destroyed: Subject<boolean> = new Subject();
 
   userInfo: UserInfo = null;
@@ -29,10 +32,15 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
   acceptedPrivacyPolicy: AcceptedPrivacyPolicy = null;
   name: string = null;
   showArchive: boolean = false;
+  superAdmin: boolean = false;
   // groupIds: string[] = [];
   unreadMessages: UnreadMessages = new UnreadMessages();
 
   @ViewChild('canvas') canvas: ElementRef;
+  @ViewChild('mobileNav', { static: false }) mobileNav: ElementRef;
+
+  private navComponent: any;
+
 
   constructor(private userService: UserService, private privacyPolicy: PrivacyPolicyService,
               private authentication: AuthenticationService, private router: Router,
@@ -49,30 +57,18 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
     // if (this.authentication.authenticated) {
       this.userService.getUserObservable().pipe(takeUntil(this._destroyed)).subscribe(
         next => {
-          // if (next) {
-            this.userInfo = next;
-          // }
-          // else {
-          //   this.userService.getUserInfo().subscribe(
-          //     next => {
-          //       this.userService.setUserInfo(next);
-          //       this.userInfo = next;
-          //     },
-          //     error => {console.error(error);
-          //     }
-          //   )
-          // }
+          this.userInfo = next;
           if (this.userInfo) {
             if (!this.messagingWebsocket.stompClientUnread) {
               this.messagingWebsocket.initializeWebSocketConnectionUnread(`/topic/messages/inbox/unread/${this.userInfo.user.email}`);
               this.messagingWebsocket.WsJoin(`/app/messages/inbox/unread/${this.userInfo.user.email}`, 'action');
             }
             if (!this.messagingWebsocket.stompClientNotification) {
-              // console.log('open notification socket');
               this.messagingWebsocket.initializeWebSocketConnectionNotification(`/topic/messages/inbox/notification/${this.userInfo.user.email}`);
             }
 
             this.showArchive = this.coordinatorContains('eosc-sb') || this.checkIfManager();
+            this.superAdmin = this.userInfo.admin;
 
           }
         },
@@ -130,6 +126,26 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
       }*/
     });
   }
+
+  ngAfterViewInit() {
+
+    setTimeout(() => {
+      // Initialize UIKit nav component
+      this.initializeNavComponent();
+      // Set the initial active state
+      this.setActiveNavOnLoad();
+    }, 100);
+
+    // Listen to route changes
+    // this.router.events.pipe(takeUntil(this._destroyed)).subscribe(event => {
+    //   if (event instanceof NavigationEnd) {
+    //     setTimeout(() => {
+    //       this.setActiveNavOnLoad();
+    //     }, 100);
+    //   }
+    // });
+  }
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.userInfo)
@@ -262,8 +278,53 @@ export class TopMenuDashboardComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  closeCanvas(element = this.canvas.nativeElement) {
-    UIkit.offcanvas(element).hide();
+  private initializeNavComponent() {
+    if (typeof UIkit !== 'undefined' && this.mobileNav) {
+      this.navComponent = UIkit.nav(this.mobileNav.nativeElement);
+    }
   }
+
+  private setActiveNavOnLoad() {
+    const currentUrl = this.router.url;
+    // Check if the current route matches any submenu items
+    if (currentUrl.startsWith('/about/')) {
+      this.openSubmenu('about');
+    } else if (currentUrl.startsWith('/resources/')) {
+      this.openSubmenu('resources');
+    }
+  }
+
+  private openSubmenu(section: string) {
+    // console.log(this.navComponent);
+    if (this.navComponent) {
+      // Find the parent li element index
+      const parentIndex = this.getParentMenuIndex(section);
+      if (parentIndex !== -1) {
+        // Use UIKit's nav toggle method
+        this.navComponent.toggle(parentIndex, true);
+      }
+    }
+  }
+
+  private getParentMenuIndex(section: string): number {
+    switch (section) { // Return the index +3 to account for the dual-navigation mobile/desktop
+      case 'about':
+        return 0; // First uk-parent item (About)
+      case 'resources':
+        return 1; // Second uk-parent item (Resources)
+      default:
+        return -1;
+    }
+  }
+
+
+  isAboutSectionActive(): boolean {
+    return this.router.url.startsWith('/about/');
+  }
+
+  isResourcesSectionActive(): boolean {
+    return this.router.url.startsWith('/resources/');
+  }
+
 
 }

@@ -177,12 +177,12 @@
 }
 
 .valueTrue {
-  /*background-color: #c6efe1;*/
+  /* background-color: #c6efe1; */
   background-color: var(--eosc-observatory-primary-color-lighter);
 }
 
 .valueFalse {
-  /*background-color: #f8c9c3;*/
+  /* background-color: #f8c9c3; */
   background-color: var(----eosc-observatory-secondary-color-lighter);
 }
 

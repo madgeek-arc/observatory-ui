@@ -1,290 +1,278 @@
-<div id="page_content">
-<div id="page_content_header" class="uk-blur-background" style="margin-top: 0"></div>
-<div id="page_content_actions" class="uk-blur-background" uk-sticky>
-  <sidebar-mobile-toggle [activeSidebarItemStatic]="'Open Data'" class="uk-hidden@m"></sidebar-mobile-toggle>
-</div>
-<div id="page_content_inner" class="">
-  <div class="uk-section uk-section-small">
-  <div class="uk-container">
+<div page-content [fullWidth]="true">
+  <div actions class="uk-section-primary uk-preserve-color">
+    <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
+  </div>
+  <div inner>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
+      <div class="uk-container">
+        <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
+<!--          <h4>Open Data</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data for {{ year }}</h4>
+            </div>
+          </div>
+          <div class="uk-flex uk-flex-center"
+            (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3], 'Open Data')"
+            style="cursor: pointer">
+            <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+              <span style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+                Export report
+              </span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
+              <ng-template #elseBlock>
+                <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
+              </ng-template>
+            </div>
+          </div>
+        </div>
 
-    <div class="uk-flex uk-flex-middle uk-margin-bottom">
-      <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-           class="flag-image" width="42" height="42" alt="rounded flag image">
-      <div class="uk-margin-small-left">
-        <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data</h4>
+        <div class="uk-hidden@m">
+<!--          <h4>Open Data</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data for {{ year }}</h4>
+            </div>
+          </div>
+          <div class="uk-flex uk-flex-right"
+            (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3], 'Open Data')"
+            style="cursor: pointer">
+            <div class="uk-flex uk-flex-middle uk-text-primary"
+              style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+              <span class=""
+                style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+                Export report
+              </span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
+                data-uk-spinner="ratio: 0.7"></span>
+              <ng-template #elseBlock>
+                <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
+<!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
+<!--          <div class="uk-margin-small-left">-->
+<!--            <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data</h4>-->
+<!--          </div>-->
+<!--        </div>-->
+
       </div>
     </div>
 
-  </div>
-</div>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small uk-padding-remove-top" #exportContent1>
+      <div class="uk-container">
 
-<div class="uk-section uk-section-small uk-padding-remove-top">
-  <div class="uk-container">
+        <p class="uk-text-lead">The European Union defines Open Data as the information collected, produced, or paid for
+          by public bodies which
+          is made freely available for anyone to reuse for any purpose. This data is typically provided under an open
+          license and in a convenient, modifiable form that is machine-readable. Open Data policies in the EU are aimed
+          at
+          increasing transparency, fostering innovation, and enhancing public access to valuable information, thereby
+          promoting economic growth and social welfare(source: <a>Publications Office of the EU)</a>. The graphic below
+          offers a comprehensive overview of key metrics that monitor the advancement of Open Data initiatives in
+          selected
+          country.</p>
 
-<!--    <div class="uk-flex uk-flex-between uk-flex-middle">-->
-<!--      <h4>Open Data</h4>-->
-<!--    </div>-->
+        <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-medium-top">
+          <h5>General Overview of Open Data in {{ countryName }} for {{ year }}</h5>
+        </div>
 
-    <p class="uk-text-lead">The European Union defines Open Data as the information collected, produced, or paid for by public bodies which
-      is made freely available for anyone to reuse for any purpose. This data is typically provided under an open
-      license and in a convenient, modifiable form that is machine-readable. Open Data policies in the EU are aimed at
-      increasing transparency, fostering innovation, and enhancing public access to valuable information, thereby
-      promoting economic growth and social welfare(source: <a>Publications Office of the EU)</a>. The graphic below
-      offers a comprehensive overview of key metrics that monitor the advancement of Open Data initiatives in selected
-      country.</p>
+        <div class="uk-grid-small uk-grid-match" data-uk-grid>
+          <div class="uk-width-1-1 uk-width-expand@m" *ngIf="hasAnyLeftCardData()">
+            <div class="uk-card uk-card-default uk-card-body visualisation-card">
+              <div class="uk-child-width-1-1 uk-child-width-1-2@m uk-grid-small" data-uk-grid>
 
-    <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-medium-top">
-      <h5>General Overview of Open Data in {{ countryName }} for 2023</h5>
-    </div>
+                <!-- Card 1 -->
 
-    <div class="uk-grid-small uk-grid-match" data-uk-grid>
-      <div class="uk-width-expand" *ngIf="hasAnyLeftCardData()" >
-        <div class="uk-card uk-card-default uk-card-body visualisation-card">
-          <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>
+                <app-info-card *ngIf="OpenDataPercentage[1] !== null"
+                  [titleHtml]="`Open Data in ${countryName} (OA vs Closed)`" [value]="OpenDataPercentage[1]"
+                  [unit]="'%'" [diff]="OpenDataPercentageDiff">
+                </app-info-card>
 
-            <!-- Card 1 -->
-            <div *ngIf="OpenDataPercentage[1] !== null" class="uk-animation-scale-up">
-              <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Open Data in {{ countryName }} (OA vs Closed)</p>
-                <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">{{ OpenDataPercentage[1] }}%</span>
-                </div>
-                <div *ngIf="OpenDataPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                  <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined" [ngClass]="OpenDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ OpenDataPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                    </span>
-                    <span [ngClass]="OpenDataPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                      {{ Math.abs(OpenDataPercentageDiff) }}%
-                    </span>&nbsp; from last year
-                  </div>
-                  <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (OpenDataPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                      alt="trend image" height="50" width="99">
-                  </div>
-                </div>
+
+                <!-- Card 2 -->
+
+                <app-info-card *ngIf="rfoOpenDataPercentage[1] !== null" [titleHtml]="'RFOs with Policy on Open Data'"
+                  [value]="rfoOpenDataPercentage[1]" [unit]="'%'" [diff]="rfoOpenDataPercentageDiff">
+                </app-info-card>
+
+                <!-- Card 3 -->
+
+                <app-info-card
+                  *ngIf="ODfinancialInvestment[1] !== null && ODfinancialInvestment[1] !== undefined && ODfinancialInvestment[1]"
+                  [titleHtml]="`Financial investments in <span class='uk-text-bold'>Open Data</span>`"
+                  [value]="ODfinancialInvestment[1]" [unit]="'mil Euro'" [diff]="ODfinancialInvestmentPercentageDiff">
+                </app-info-card>
+
+
+                <!-- Card 4 -->
+
+                <app-info-card *ngIf="rpoOpenDataPercentage[1] !== null" [titleHtml]="'RPOs with Policy on Open Data'"
+                  [value]="rpoOpenDataPercentage[1]" [unit]="'%'" [diff]="rpoOpenDataPercentageDiff">
+                </app-info-card>
+
               </div>
             </div>
+          </div>
 
-            <!-- Card 2 -->
-            <div *ngIf="rfoOpenDataPercentage[1] !== null" class="uk-animation-scale-up">
-              <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>RFOs with Policy on Open Data</p>
-                <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">{{ rfoOpenDataPercentage[1] }}%</span>
-                </div>
-                <div *ngIf="rfoOpenDataPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                  <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined" [ngClass]="rfoOpenDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ rfoOpenDataPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                    </span>
-                    <span [ngClass]="rfoOpenDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ Math.abs(rfoOpenDataPercentageDiff) }}%
-                    </span>&nbsp; from last year
-                  </div>
-                  <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (rfoOpenDataPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                      alt="trend image" height="50" width="99">
-                  </div>
-                </div>
+          <!-- Right Card (2/5) -->
+          <div class="uk-child-width-1-1 uk-width-2-5@m uk-animation-fade">
+            <div class="uk-card uk-card-default uk-card-body visualisation-card">
+              <div class="uk-margin-top">
+                <h6 class="uk-flex uk-flex-between uk-margin-remove">
+                  National Policy on Open Data
+                  <span class="material-symbols-outlined" [ngClass]="{
+                      'up-arrow-color': hasNationalPolicyOD === 'Yes',
+                      'down-arrow-color': hasNationalPolicyOD === 'No',
+                      'unanswered-color': hasNationalPolicyOD === null || hasNationalPolicyOD === undefined
+                    }">
+                    {{
+                    hasNationalPolicyOD === 'Yes' ? 'check' :
+                    hasNationalPolicyOD === 'No' ? 'close' :
+                    'question_mark'
+                    }}
+                  </span>
+                </h6>
+                <p *ngIf="policyMandatoryOD === 'Yes'" class="uk-text-primary uk-text-bolder uk-margin-remove-top">
+                  Mandatory policy</p>
+                <read-more-text *ngIf="nationalPolicyClarificationOD !== null" [maxHeight]="68"
+                  [text]="nationalPolicyClarificationOD">
+                </read-more-text>
+              </div>
+              <div class="uk-margin-top">
+                <h6 class="uk-flex uk-flex-between">
+                  Financial Strategy on Open Data
+                  <span class="material-symbols-outlined" [ngClass]="{
+                      'up-arrow-color': hasFinancialStrategyOD === 'Yes',
+                      'down-arrow-color': hasFinancialStrategyOD === 'No',
+                      'unanswered-color': (hasFinancialStrategyOD === null || hasFinancialStrategyOD === undefined)
+                    }">
+                    {{
+                    hasFinancialStrategyOD === 'Yes' ? 'check' :
+                    hasFinancialStrategyOD === 'No' ? 'close' :
+                    'question_mark'
+                    }}
+                  </span>
+                </h6>
+                <read-more-text *ngIf="financialStrategyClarificationOD" [maxHeight]="68"
+                  [text]="financialStrategyClarificationOD">
+                </read-more-text>
+              </div>
+              <div class="uk-margin-top">
+                <h6 class="uk-flex uk-flex-between">
+                  Monitoring on Open Data
+                  <span class="material-symbols-outlined" [ngClass]="{
+                      'up-arrow-color': hasMonitoringOD === 'Yes',
+                      'down-arrow-color': hasMonitoringOD === 'No',
+                      'unanswered-color': hasMonitoringOD === null || hasMonitoringOD === undefined
+                    }">
+                    {{ hasMonitoringOD === 'Yes' ? 'check' : hasMonitoringOD === 'No' ? 'close' : 'question_mark' }}
+                  </span>
+                </h6>
+                <read-more-text *ngIf="monitoringClarificationOD" [maxHeight]="68" [text]="monitoringClarificationOD">
+                </read-more-text>
               </div>
             </div>
-
-            <!-- Card 3 -->
-            <div *ngIf="ODfinancialInvestment[1] !== null && ODfinancialInvestment[1] !== undefined" class="uk-animation-scale-up">
-              <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Financial investments in Open Data</p>
-                <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">{{ ODfinancialInvestment[1] + ' mil Euro' }}</span>
-                </div>
-                <div *ngIf="ODfinancialInvestmentPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                  <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined" [ngClass]="ODfinancialInvestmentPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ ODfinancialInvestmentPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                    </span>
-                    <span [ngClass]="ODfinancialInvestmentPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ Math.abs(ODfinancialInvestmentPercentageDiff) }}%
-                    </span>&nbsp; from last year
-                  </div>
-                  <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (ODfinancialInvestmentPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                      alt="trend image" height="50" width="99">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div *ngIf="rpoOpenDataPercentage[1] !== null" class="uk-animation-scale-up">
-              <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>RPOs with Policy on Open Data</p>
-                <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">{{ rpoOpenDataPercentage[1] }}%</span>
-                </div>
-                <div *ngIf="rpoOpenDataPercentageDiff !== null" class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                  <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined" [ngClass]="rpoOpenDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ rpoOpenDataPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                    </span>
-                    <span [ngClass]="rpoOpenDataPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ Math.abs(rpoOpenDataPercentageDiff) }}%
-                    </span>&nbsp; from last year
-                  </div>
-                  <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (rpoOpenDataPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                      alt="trend image" height="50" width="99">
-                  </div>
-                </div>
-              </div>
-            </div>
+          </div>
+          <div>
+            <p><span class="uk-text-bold">Data source:</span>
+              Survey on National Contributions to EOSC and Open Science {{year}} -
+              showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
+              OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+            </p>
           </div>
         </div>
       </div>
 
-      <!-- Right Card (2/5) -->
-      <div class="uk-width-2-5 uk-animation-fade">
-        <div class="uk-card uk-card-default uk-card-body visualisation-card">
-          <div class="uk-margin-top">
-            <h6 class="uk-flex uk-flex-between uk-margin-remove">
-              National Policy on Open Data
-              <span
-               class="material-symbols-outlined"
-                [ngClass]="{
-                  'up-arrow-color': hasNationalPolicyOD === 'Yes',
-                  'down-arrow-color': hasNationalPolicyOD === 'No',
-                  'unanswered-color': hasNationalPolicyOD === null || hasNationalPolicyOD === undefined
-                }">
-                {{
-                  hasNationalPolicyOD === 'Yes' ? 'check' :
-                  hasNationalPolicyOD === 'No' ? 'close' :
-                  'question_mark'
-                }}
-              </span>
-            </h6>
-            <p *ngIf="policyMandatoryOD === 'Yes'" class="uk-text-primary uk-text-bolder uk-margin-remove-top">Mandatory policy</p>
-            <read-more-text *ngIf="nationalPolicyClarificationOD !== null" [maxHeight]="68"
-                            [text]="nationalPolicyClarificationOD">
-            </read-more-text>
+      <div *ngIf="hasSurveyOpenData()" class="uk-section uk-section-primary uk-preserve-color uk-section-small">
+        <div class="uk-container">
+
+          <div class="uk-animation-fade">
+            <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+              <h6 class="uk-margin-bottom">Learn more about Open Data Landscape in {{ countryName }}</h6>
+              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
+              <div class="uk-margin-medium-top">
+                <read-more [maxHeight]="300">
+                  <div id="national_data_service">
+                    <div class="uk-text-secondary">National Data Service</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else data_service">
+                      <div
+                        [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']">
+                      </div>
+                    </ng-container>
+                    <ng-template #data_service>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                  <div id="">
+                    <div class="uk-text-secondary">Data repositories</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']; else data_repositories">
+                      <div
+                        [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']">
+                      </div>
+                    </ng-container>
+                    <ng-template #data_repositories>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                </read-more>
+              </div>
+            </div>
           </div>
-          <div class="uk-margin-top">
-            <h6 class="uk-flex uk-flex-between">
-              Financial Strategy on Open Data
-              <span
-               class="material-symbols-outlined"
-                [ngClass]="{
-                  'up-arrow-color': hasFinancialStrategyOD === 'Yes',
-                  'down-arrow-color': hasFinancialStrategyOD === 'No',
-                  'unanswered-color': (hasFinancialStrategyOD === null || hasFinancialStrategyOD === undefined)
-                }">
-                {{
-                  hasFinancialStrategyOD === 'Yes' ? 'check' :
-                  hasFinancialStrategyOD === 'No' ? 'close' :
-                  'question_mark'
-                }}
-              </span>
-            </h6>
-            <read-more-text *ngIf="financialStrategyClarificationOD" [maxHeight]="68"
-                            [text]="financialStrategyClarificationOD">
-            </read-more-text>
-          </div>
-          <div class="uk-margin-top">
-            <h6 class="uk-flex uk-flex-between">
-              Monitoring on Open Data
-              <span class="material-symbols-outlined"
-                [ngClass]="{
-                  'up-arrow-color': hasMonitoringOD === 'Yes',
-                  'down-arrow-color': hasMonitoringOD === 'No',
-                  'unanswered-color': hasMonitoringOD === null || hasMonitoringOD === undefined
-                }">
-                {{ hasMonitoringOD === 'Yes' ? 'check' : hasMonitoringOD === 'No' ? 'close' : 'question_mark' }}
-              </span>
-            </h6>
-            <read-more-text *ngIf="monitoringClarificationOD" [maxHeight]="68"
-                            [text]="monitoringClarificationOD">
-            </read-more-text>
-          </div>
+
         </div>
       </div>
     </div>
-    <div>
-      <div class="uk-margin-medium-top ">
-        <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science,
-        OpenAIRE Graph.
-      </div>
 
-    </div>
-  </div>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent2>
+      <div class="uk-container">
 
-  <div *ngIf="hasSurveyOpenData()" class="uk-section uk-section-small uk-margin-top">
-    <div class="uk-container">
+        <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body">
 
-      <div class="uk-animation-fade">
-        <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-          <h6 class="uk-margin-bottom">Learn more about Open Data Landscape in {{ countryName }}</h6>
-          <div class="uk-text-meta">This information has been compiled by the National Open Access Desks</div>
-          <div class="uk-margin-medium-top">
-            <read-more [maxHeight]="300">
-              <div id="national_data_service">
-                <div class="uk-text-secondary">National Data Service</div>
-                <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else data_service">
-                  <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']"></div>
-                </ng-container>
-                <ng-template #data_service><p>N/A</p></ng-template>
-              </div>
-              <div id="">
-                <div class="uk-text-secondary">Data repositories</div>
-                <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']; else data_repositories">
-                  <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']"></div>
-                </ng-container>
-                <ng-template #data_repositories><p>N/A</p></ng-template>
-              </div>
-            </read-more>
+          <div class="uk-grid">
+            <div class="uk-width-1-1">
+              <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend"
+                [series]="stackedColumnSeries" yAxis="Number of Data Sets" [pointFormat]="tooltipPointFormat"
+                [stackLabels]="true" [dataLabels]="false" [height]="smallScreen ? 750 : 500"
+                [title]="'Trend of Open Data in ' + countryName"
+                [caption]="'<p class=\'uk-text-justify\'>The graph provides a comprehensive view of how data accessibility evolved from 2015 to '+ (dataShareService.year$ | async) +'. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of Open Data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
+                                  '<p><strong>Data Source: </strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
+              </app-stacked-column>
+            </div>
+
           </div>
         </div>
+
       </div>
-
     </div>
-  </div>
-</div>
 
-<div class="uk-section uk-section-small">
-  <div class="uk-container">
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent3>
+      <div class="uk-container">
 
-    <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body">
+        <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body">
 
-      <div class="uk-grid">
-        <div class="uk-width-1-1">
-          <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend" [series]="stackedColumnSeries"
-                              yAxis="Number of Data Sets" [pointFormat]="tooltipPointFormat" [stackLabels]="true"
-                              [dataLabels]="false" [height]="600" [title]="'Trend of Open Data in ' + countryName"
-                              [caption]="'<p class=\'uk-text-justify\'>The graph provides a comprehensive view of how data accessibility evolved from 2015 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of Open Data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
-                              '<p><strong>Data Source: </strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
+          <app-stacked-column [categories]="stackedColumn2Categories" [legend]="legend" [series]="stackedColumn2Series"
+            yAxis="Percentage of Open Data" [plotFormat]="dataLabels_format"
+            [title]="'Distribution of Open Data Types by Different Document Type in ' + countryName"
+            [height]="smallScreen ? 750 : 500" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
+            [stacking]="stacking"
+            [caption]="'<p class=\'uk-text-justify\'>The graph illustrates how Open Data is implemented across various types of documents. It segments the Open Data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each colored, according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance accessibility and foster a more transparent, reproducible, and inclusive science.</p>' +
+                              '<p><strong>Data Source: </strong> OpenAIRE Graph data for ' + year + ' (updated on ' + lastUpdateDate + ').</p>'">
           </app-stacked-column>
+
         </div>
 
       </div>
     </div>
-
   </div>
-</div>
-
-<div class="uk-section uk-section-small uk-margin-top">
-  <div class="uk-container">
-
-    <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body">
-
-      <app-stacked-column [categories]="stackedColumn2Categories" [series]="stackedColumn2Series"
-                          yAxis="Percentage of Open Data" [plotFormat]="dataLabels_format"
-                          [title]="'Distribution of Open Data Types by Different Document Type in ' + countryName"
-                          [height]="600" [pointFormat]="tooltipPointFormat" [stackLabels]="false" [stacking]="stacking"
-                          [caption]="'<p class=\'uk-text-justify\'>The graph illustrates how Open Data is implemented across various types of documents. It segments the Open Data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each colored, according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance accessibility and foster a more transparent, reproducible, and inclusive science.</p>' +
-                          '<p><strong>Data Source: </strong> OpenAIRE Graph data for 2022 (updated on ' + lastUpdateDate + ').</p>'">
-      </app-stacked-column>
-
-    </div>
-
-  </div>
-</div>
-</div>
-<div id="page_content_footer"></div>
 </div>

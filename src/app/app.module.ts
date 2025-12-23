@@ -1,13 +1,12 @@
-import { APP_INITIALIZER, ErrorHandler, NgModule } from "@angular/core";
+import { ErrorHandler, inject, NgModule, provideAppInitializer } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
-import * as Sentry from "@sentry/angular-ivy";
+import * as Sentry from "@sentry/angular";
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { environment } from "../environments/environment";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgxMatomoTrackerModule } from '@ngx-matomo/tracker';
-import { NgxMatomoRouterModule } from '@ngx-matomo/router';
+import { provideMatomo } from 'ngx-matomo-client';
 import { UserService } from "../survey-tool/app/services/user.service";
 import { SurveyToolModule } from "../survey-tool/app/survey-tool.module";
 import { HttpInterceptorService } from "./pages/services/http-interceptor.service";
@@ -43,6 +42,11 @@ import { SharedModule } from './shared/shared.module';
 import {
   ContributionsDashboardComponent
 } from "../survey-tool/app/pages/contributions-dashboard/contributions-dashboard.component";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PageContentComponent } from "../survey-tool/app/shared/page-content/page-content.component";
+import {
+  SidebarMobileToggleComponent
+} from "../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 
 
 @NgModule({
@@ -58,6 +62,7 @@ import {
     CategoryIndicatorsWrapperComponent,
     CategoryIndicatorsRowComponent,
     ContributionsHomeExtentionComponent,
+    // ReportPieChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,11 +71,12 @@ import {
     RouterModule,
     SurveyToolModule,
     MessagingSystemModule,
-    NgxMatomoTrackerModule.forRoot({trackerUrl: environment.matomoTrackerUrl, siteId: environment.matomoSiteId}),
-    NgxMatomoRouterModule,
     ReusableComponentsModule,
     SharedModule,
-    ContributionsDashboardComponent
+    ContributionsDashboardComponent,
+    BrowserAnimationsModule,
+    PageContentComponent,
+    SidebarMobileToggleComponent,
   ],
   providers: [
     {
@@ -86,16 +92,32 @@ import {
       useValue: Sentry.createErrorHandler({
         showDialog: false,
       }),
-    }, {
+    },
+    {
       provide: Sentry.TraceService,
       deps: [Router],
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => () => {},
-      deps: [Sentry.TraceService],
-      multi: true,
-    },
+    provideAppInitializer(() => {
+      const initializerFn = (() => {
+        const trace = inject(Sentry.TraceService);
+        return () => {
+          // use `trace` here, e.g. trace.start() or whatever Sentry requires
+        };
+      })();
+
+      return initializerFn();
+    }),
+    // provideAppInitializer(() => inject(TraceService)),
+    // provideAppInitializer(() => {
+    //     const initializerFn = (() => () => {})(inject(Sentry.TraceService));
+    //     return initializerFn();
+    //   }),
+    provideMatomo(
+      {
+        trackerUrl: environment.matomoTrackerUrl,
+        siteId: environment.matomoSiteId,
+      },
+    ),
   ],
   bootstrap: [AppComponent]
 })

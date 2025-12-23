@@ -9,6 +9,32 @@ import JsPDF from "jspdf";
 export class PdfExportService {
 
   export(contents: HTMLElement[], filename: string = 'exported-page.pdf'): Promise<void> {
+
+    // Λίστα για αποθήκευση των elements που τροποποιήθηκαν
+    const modifiedElements: HTMLElement[] = [];
+
+    //Σταμάτα όλα τα animations
+    contents.forEach(element => {
+      const animatedElements = element.querySelectorAll('[class*="uk-animation"]');
+      animatedElements.forEach((el: HTMLElement) => {
+        // Αποθήκευση για επαναφορά
+        modifiedElements.push(el);
+
+        // Προσωρινή απενεργοποίηση animation
+        el.style.animation = 'none';
+        el.style.opacity = '1'; // Βεβαιώσου ότι το στοιχείο είναι ορατό
+        el.style.transform = 'none'; // Επαναφορά τυχόν μετασχηματισμών
+      });
+
+      //Διορθώσεις για responsive elements
+      // const responsiveElements = element.querySelectorAll('.uk-hidden\\@m, .uk-visible\\@m');
+      // responsiveElements.forEach((el: HTMLElement) => {
+      //   el.style.display = 'block';
+      //   el.style.visibility = 'visible';
+      //   el.style.opacity = '1';
+      // });
+    });
+    
     return new Promise((resolve, reject) => {
       const pdf = new JsPDF('p', 'mm', 'a4');
 
@@ -53,17 +79,41 @@ export class PdfExportService {
           // All elements processed, save the PDF
           pdf.save(filename);
           resolve(); // Resolve the promise after completion
+
+           modifiedElements.forEach((el: HTMLElement) => {
+            el.style.animation = '';
+            el.style.transform = '';
+            el.style.opacity = '';
+          });
+          
+          // Επαναφορά των responsive elements
+          // contents.forEach(element => {
+          //   const responsiveElements = element.querySelectorAll('.uk-hidden\\@m, .uk-visible\\@m');
+          //   responsiveElements.forEach((el: HTMLElement) => {
+          //     el.style.display = '';
+          //     el.style.visibility = '';
+          //     el.style.opacity = '';
+          //   });
+          // });
+
           return;
         }
 
         const element = contents[index];
 
-        html2canvas(element).then(canvas => {
+        html2canvas(element, {
+          // possible removes artifacts from pdf
+          
+          // scale: 2, // Increase scale for better quality
+          // useCORS: true, // Enable cross-origin images
+          // backgroundColor: '#ffffff' // Set background to white
+        }).then(canvas => {
           const imgData = canvas.toDataURL('image/png');
 
           // Scale the image width to fit within the page width
           let imgWidth = pageWidth - 2 * margin; // A4 width in mm with margin
           let imgHeight = (canvas.height * imgWidth) / canvas.width; // Scale the height proportionally
+          
 
           // Check if the element height exceeds the page height
           if (imgHeight > pageHeight - 2 * margin) {

@@ -1,30 +1,34 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
+import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { LowerCasePipe, NgOptimizedImage } from "@angular/common";
 import { countries } from "../../domain/countries";
 import { DataShareService } from "./services/data-share.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SurveyPublicAnswer } from "./services/coutry-pages.service";
+import {
+  DashboardSideMenuComponent, MenuItem, MenuSection
+} from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
+import {
+  DashboardSideMenuService
+} from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
 
 @Component({
-  selector: 'app-country-pages',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    RouterLinkActive,
-    RouterLink,
-    LowerCasePipe,
-    NgOptimizedImage
-  ],
-  templateUrl: './country-pages.component.html',
-  styleUrls: ['../../../assets/css/explore-sidebar.less', '../../../assets/css/explore-dashboard.less']
+    selector: 'app-country-pages',
+    imports: [
+        RouterOutlet,
+        LowerCasePipe,
+        NgOptimizedImage,
+        DashboardSideMenuComponent
+    ],
+    templateUrl: './country-pages.component.html',
+    styleUrls: ['../../../assets/css/explore-sidebar.less', '../../../assets/css/explore-dashboard.less']
 })
 
 
 export class CountryPagesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
-  modelsIds: string[] = [ 'm-jlFggsCN', 'm-eosc-sb-2023'];
+  modelsIds: string[] = [ 'm-eosc-sb-2023', 'm-eosc-sb-2024'];
   OSModelId = 'm-GPFhURKK';
 
   stakeholderId?: string;
@@ -32,12 +36,17 @@ export class CountryPagesComponent implements OnInit {
   countryCode?: string;
   countryName?: string;
 
+  hasSidebar = true;
+  hasAdminMenu = false;
+  menuSections: MenuSection[] = [];
+  menuItems: MenuItem[] = [];
+  back: MenuItem = new MenuItem('back', 'Back to country selection', null, '/country-pages', '', null, null, 'uk-text-uppercase back_button uk-margin' );
+
   constructor(private route: ActivatedRoute, private dataService: DataShareService,
-              private surveyAnswer: SurveyPublicAnswer) {}
+              private surveyAnswer: SurveyPublicAnswer, private layoutService: DashboardSideMenuService) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      // console.log(params['code']);
       this.countryCode = params['code'];
       this.dataService.countryCode.next(this.countryCode);
       this.stakeholderId = 'sh-eosc-sb-' + params['code'];
@@ -45,6 +54,9 @@ export class CountryPagesComponent implements OnInit {
 
       this.countryName = this.findCountryByCode(this.countryCode);
       this.dataService.countryName.next(this.countryName);
+
+      this.initMenuItems();
+      this.layoutService.setOpen(true);
 
       this.modelsIds.forEach((modelId, index) => {
         this.surveyAnswer.getAnswer(this.stakeholderId, modelId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -62,6 +74,12 @@ export class CountryPagesComponent implements OnInit {
         }
       });
 
+      this.surveyAnswer.getOSAnswerMetadata(this.countryStakeholderId, this.OSModelId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (metadata) => {
+          this.dataService.countrySurveyAnswerMetaData.next(metadata);
+        }
+      });
+
     });
   }
 
@@ -71,6 +89,32 @@ export class CountryPagesComponent implements OnInit {
       return country.name;
     else
       return countryCode;
+  }
+
+  initMenuItems() {
+    this.menuSections = [];
+    this.menuItems = [];
+
+    this.menuItems.push(new MenuItem('0', 'General R&D Overview', null, '/country/' + this.countryCode + '/general', null, {}));
+    this.menuItems.push(new MenuItem('1', 'Policy overview', null, '/country/' + this.countryCode + '/policy', null, {}));
+    this.menuItems.push(new MenuItem('2', 'Open Access Publications', null, '/country/' + this.countryCode + '/publications', null, {}));
+    this.menuItems.push(new MenuItem('3', 'Open Data', null, '/country/' + this.countryCode + '/open-data', null, {}));
+    this.menuItems.push(new MenuItem('4', 'FAIR Data', null, '/country/' + this.countryCode + '/fair-data', null, {}));
+    this.menuItems.push(new MenuItem('5', 'Data Management', null, '/country/' + this.countryCode + '/data-management', null, {}));
+    this.menuItems.push(new MenuItem('6', 'Citizen Science', null, '/country/' + this.countryCode + '/citizen-science', null, {}));
+    this.menuItems.push(new MenuItem('7', 'Repositories', null, '/country/' + this.countryCode + '/repositories', null, {}));
+    this.menuItems.push(new MenuItem('8', 'Open Science Training', null, '/country/' + this.countryCode + '/science-training', null, {}));
+    this.menuItems.push(new MenuItem('9', 'Open Software', null, '/country/' + this.countryCode + '/open-software', null, {}));
+
+    this.menuSections.push({items: this.menuItems});
+  }
+
+  public get open() {
+    return this.layoutService.open;
+  }
+
+  public get hover() {
+    return this.layoutService.hover;
   }
 
 }

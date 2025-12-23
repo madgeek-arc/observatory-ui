@@ -16,29 +16,38 @@ import { LegendOptions, OptionsStackingValue, SeriesOptionsType } from "highchar
 import { ChartsModule } from "../../../shared/charts/charts.module";
 import { ExploreService } from "../../explore/explore.service";
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
+import { PdfExportService } from "../../services/pdf-export.service";
+import { combineLatest} from "rxjs";
+import { filter } from "rxjs/operators";
 
 @Component({
-  selector: 'app-open-data',
-  imports: [
-    CommonModule,
-    NgOptimizedImage,
-    CatalogueUiReusableComponentsModule,
-    ChartsModule,
-    SidebarMobileToggleComponent
-  ],
-   standalone: true,
-  templateUrl: './open-data.component.html',
-
+    selector: 'app-open-data',
+    imports: [
+        CommonModule,
+        NgOptimizedImage,
+        CatalogueUiReusableComponentsModule,
+        ChartsModule,
+        SidebarMobileToggleComponent,
+        PageContentComponent,
+        InfoCardComponent
+    ],
+    templateUrl: './open-data.component.html'
 })
 export class OpenDataComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
-  protected readonly Math = Math;
+  exportActive = false;
+  smallScreen: boolean = false;
 
   countryCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
+  countrySurveyAnswerLastUpdate: string | null = null;
+  year: string;
+  prevYear: string;
 
 
   rfoOpenDataPercentage: (number | null)[] = [null, null];
@@ -58,16 +67,16 @@ export class OpenDataComponent implements OnInit {
   OpenDataPercentageDiff: number | null = null;
 
   legend: LegendOptions = {
-    align: 'right',
-    x: -30,
-    verticalAlign: 'top',
-    y: 30,
-    floating: true,
+    // align: 'right',
+    // x: -30,
+    // verticalAlign: 'top',
+    // y: 30,
+    // floating: true,
     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
     borderColor: '#CCC',
     borderWidth: 1,
-    shadow: false,
-    reversed: false
+    // shadow: false,
+    // reversed: false
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
@@ -81,22 +90,35 @@ export class OpenDataComponent implements OnInit {
 
   lastUpdateDate?: string;
 
-  constructor(private dataShareService: DataShareService, private exploreService: ExploreService,
-              private queryData: EoscReadinessDataService) {}
+  constructor(protected dataShareService: DataShareService, private exploreService: ExploreService,
+              private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
+
+    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
+
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => this.lastUpdateDate = value
     });
 
-    this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (code) => {
+    combineLatest([
+      this.dataShareService.countryCode$,
+      this.dataShareService.year$,
+    ])
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter(([code, year]) => !!code && !!year)
+      )
+      .subscribe(([code, year]) => {
+        this.countryCode = code;
+        this.year = year;
+        const numericYear = +year;
+        this.prevYear = (numericYear - 1).toString();
         this.countryCode = code;
         this.getOpenDataPercentage();
         this.getTrendsOpenData();
         this.getDistributionByDocumentType();
-      }
-    });
+      })
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
@@ -114,6 +136,12 @@ export class OpenDataComponent implements OnInit {
     this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answer) => {
         this.countrySurveyAnswer = answer;
+      }
+    });
+
+    this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (metadata) => {
+        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
       }
     });
 
@@ -145,7 +173,7 @@ export class OpenDataComponent implements OnInit {
   }
 
   getOpenDataPercentage() {
-    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode, this.prevYear, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.OpenDataPercentage[0] = this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]);
         this.OpenDataPercentage[1] = this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]);
@@ -156,7 +184,7 @@ export class OpenDataComponent implements OnInit {
 
   /** Get trends of Open Data -------------------------------------------------------------------------------------> **/
   getTrendsOpenData() {
-    this.queryData.getOSOStatsChartData(trendOfOpenDataCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(trendOfOpenDataCountry(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           let tmpSeries: SeriesOptionsType = {
@@ -174,7 +202,7 @@ export class OpenDataComponent implements OnInit {
 
   /** Get Distribution By Document Type ---------------------------------------------------------------------------> **/
   getDistributionByDocumentType() {
-    this.queryData.getOSOStatsChartData(distributionOfDataByDocumentTypeCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(distributionOfDataByDocumentTypeCountry(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           let tmpSeries: SeriesOptionsType = {
@@ -209,6 +237,22 @@ export class OpenDataComponent implements OnInit {
     }
     const questions = ['Question15', 'Question18'];
     return this.dataShareService.hasSurveyData(surveyData, questions);
+  }
+
+  exportToPDF(contents: HTMLElement[], filename?: string) {
+    this.exportActive = true
+
+    // Χρόνος για να εφαρμοστούν τα styles
+    // setTimeout(() => {
+      this.pdfService.export(contents, filename).then(() => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+      }).catch((error) => {
+        // this.restoreAnimations(modifiedElements, contents);
+        this.exportActive = false;
+        console.error('Error during PDF generation:', error);
+      });
+    // }, 0);
   }
 
 }

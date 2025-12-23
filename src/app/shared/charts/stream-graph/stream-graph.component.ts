@@ -19,8 +19,9 @@ export class StreamData {
 }
 
 @Component({
-  selector: "app-stream-graph",
-  template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>'
+    selector: "app-stream-graph",
+    template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
+    standalone: false
 })
 
 export class StreamGraphComponent implements OnChanges {

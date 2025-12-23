@@ -15,8 +15,9 @@ interface ExtendedPointOptionsObject extends Highcharts.PointOptionsObject {
 }
 
 @Component({
-  selector: 'app-highcharts-tilemap',
-  templateUrl: './highcharts-tilemap.component.html'
+    selector: 'app-highcharts-tilemap',
+    templateUrl: './highcharts-tilemap.component.html',
+    standalone: false
 })
 
 export class HighchartsTilemapComponent {

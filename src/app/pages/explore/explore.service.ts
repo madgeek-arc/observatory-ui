@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import {
-  ColorPallet, countriesNumbers, EoscReadiness2022MapSubtitles
-} from "../eosc-readiness-dashboard/eosc-readiness-2022/eosc-readiness2022-map-subtitles";
+  ColorPallet, countriesNumbers, EoscReadinessMapSubtitles
+} from "../eosc-readiness-dashboard/eosc-readiness-dynamic/eosc-readiness-map-subtitles";
 import { latlong } from "../../domain/countries-lat-lon";
 import { CountryTableData } from "../../domain/country-table-data";
-import { RawData, Row } from "../../domain/raw-data";
+import { Dataset, RawData, Row } from "../../domain/raw-data";
 import { EoscReadinessDataService } from "../services/eosc-readiness-data.service";
 import { CategorizedAreaData, Series } from "../../domain/categorizedAreaData";
 import { BehaviorSubject } from "rxjs";
@@ -19,7 +19,7 @@ export class ExploreService {
 
   _lastUpdateDate: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-  mapSubtitlesArray: string[][] = EoscReadiness2022MapSubtitles;
+  mapSubtitlesArray: string[][] = EoscReadinessMapSubtitles;
 
   constructor(private eoscReadiness: EoscReadinessDataService, private dataHandlerService: DataHandlerService) {
     this.getLastUpdateDate();
@@ -212,22 +212,22 @@ export class ExploreService {
     return questionsData;
   }
 
-  mergeCategorizedMapData(data: RawData[], areas: string[], countries: string[], seriesName: string) {
+  mergeCategorizedMapData(data: RawData, areas: string[], countries: string[], seriesName: string) {
     let mergedData: string[][] = [];
     let record: Record<string, string[]> = {};
 
-    for (let i = 0; i < data[0].datasets[0].series.result.length; i++) {
+    for (let i = 0; i < data.datasets[0].series.result.length; i++) {
       let answerArray: string[] = [];
       let hasPositiveAnswer = false;
-      for (let j = 0; j < data.length; j++) {
-        if (data[j].datasets[0].series.result[i].row[1] === 'Yes')
+      for (let j = 0; j < data.datasets.length; j++) {
+        if (data.datasets[j].series.result[i].row[1] === 'Yes')
           hasPositiveAnswer = true;
 
-        answerArray.push(areas[j] + ': ' + data[j].datasets[0].series.result[i].row[1]);
+        answerArray.push(areas[j] + ': ' + data.datasets[j].series.result[i].row[1]);
       }
-      mergedData.push([data[0].datasets[0].series.result[i].row[0], hasPositiveAnswer ? 'Yes' : 'No']);
+      mergedData.push([data.datasets[0].series.result[i].row[0], hasPositiveAnswer ? 'Yes' : 'No']);
 
-      record[data[0].datasets[0].series.result[i].row[0]] = answerArray;
+      record[data.datasets[0].series.result[i].row[0]] = answerArray;
     }
     // console.log(record);
     // console.log(mergedData);
@@ -292,34 +292,34 @@ export class ExploreService {
     return series;
   }
 
-  createColumnChartSeries(data: RawData[], year: string) {
+  createColumnChartSeries(data: RawData, year: string) {
     let series: Highcharts.SeriesColumnOptions = {
       type: 'column',
-      name: 'Year '+ (+year-1),
+      name: 'Year '+ year,
       data: []
     }
 
-    data.forEach(el => {
+    data.datasets.forEach(el => {
       let count = 0;
-      el.datasets[0].series.result.forEach(item => {
+      el.series.result.forEach(item => {
         if (item.row[1] === 'Yes')
           count++;
       });
-      series.data.push(Math.round(((count/el.datasets[0].series.result.length + Number.EPSILON) * 100)));
+      series.data.push(Math.round(((count/el.series.result.length + Number.EPSILON) * 100)));
     });
     return series;
   }
 
   // Stacked columns
-  createStackedColumnSeries(data: RawData[], series: Highcharts.SeriesColumnOptions[]) {
+  createStackedColumnSeries(data: Dataset[], series: Highcharts.SeriesColumnOptions[]) {
     let orgCount = 0;
     let orgCountWithPolicy = 0;
-    data[0].datasets[0].series.result.forEach((result) => {
+    data[0].series.result.forEach((result) => {
       if (this.isNumeric(result.row[1]))
         orgCount += +result.row[1];
     });
 
-    data[1].datasets[0].series.result.forEach((result) => {
+    data[1].series.result.forEach((result) => {
       if (this.isNumeric(result.row[1]))
         orgCountWithPolicy += +result.row[1];
     });
@@ -393,21 +393,21 @@ export class ExploreService {
 
 
   // Tables
-  createTable(value: RawData[], countriesEOSC: string[]) {
+  createTable(value: RawData, countriesEOSC: string[]) {
     let tableData: string[][] = [];
 
-    tableData[1] = this.dataHandlerService.convertRawDataForCumulativeTable(value[0], countriesEOSC);
-    tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(value[1], countriesEOSC);
-    tableData[3] = this.dataHandlerService.convertRawDataForCumulativeTable(value[2], countriesEOSC);
-    tableData[4] = this.dataHandlerService.convertRawDataForCumulativeTable(value[3], countriesEOSC);
-    tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(value[4], countriesEOSC);
-    tableData[6] = this.dataHandlerService.convertRawDataForCumulativeTable(value[5], countriesEOSC);
-    tableData[7] = this.dataHandlerService.convertRawDataForCumulativeTable(value[6], countriesEOSC);
-    tableData[8] = this.dataHandlerService.convertRawDataForCumulativeTable(value[7], countriesEOSC);
-    tableData[9] = this.dataHandlerService.convertRawDataForCumulativeTable(value[8], countriesEOSC);
-    tableData[10] = this.dataHandlerService.convertRawDataForCumulativeTable(value[9], countriesEOSC);
-    tableData[11] = this.dataHandlerService.convertRawDataForCumulativeTable(value[10], countriesEOSC);
-    tableData[12] = this.dataHandlerService.convertRawDataForCumulativeTable(value[11], countriesEOSC);
+    tableData[1] = this.dataHandlerService.convertRawDataForCumulativeTable(value.datasets[0], countriesEOSC);
+    tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(value.datasets[1], countriesEOSC);
+    tableData[3] = this.dataHandlerService.convertRawDataForCumulativeTable(value.datasets[2], countriesEOSC);
+    tableData[4] = this.dataHandlerService.convertRawDataForCumulativeTable(value.datasets[3], countriesEOSC);
+    tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(value.datasets[4], countriesEOSC);
+    tableData[6] = this.dataHandlerService.convertRawDataForCumulativeTable(value.datasets[5], countriesEOSC);
+    tableData[7] = this.dataHandlerService.convertRawDataForCumulativeTable(value.datasets[6], countriesEOSC);
+    tableData[8] = this.dataHandlerService.convertRawDataForCumulativeTable(value.datasets[7], countriesEOSC);
+    tableData[9] = this.dataHandlerService.convertRawDataForCumulativeTable(value.datasets[8], countriesEOSC);
+    tableData[10] = this.dataHandlerService.convertRawDataForCumulativeTable(value.datasets[9], countriesEOSC);
+    tableData[11] = this.dataHandlerService.convertRawDataForCumulativeTable(value.datasets[10], countriesEOSC);
+    tableData[12] = this.dataHandlerService.convertRawDataForCumulativeTable(value.datasets[11], countriesEOSC);
 
     tableData[0] = countriesEOSC;
     // Transpose 2d array

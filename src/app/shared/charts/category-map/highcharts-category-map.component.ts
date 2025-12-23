@@ -16,9 +16,10 @@ declare var require: any;
 const worldMap = require('@highcharts/map-collection/custom/world-highres3.topo.json');
 
 @Component({
-  selector: 'app-highcharts-category-map',
-  templateUrl: './highcharts-category-map.component.html',
-  styles: ['#container { display: block; width: 100%; height: 100%; }']
+    selector: 'app-highcharts-category-map',
+    templateUrl: './highcharts-category-map.component.html',
+    styles: ['#container { display: block; width: 100%; height: 100%; }'],
+    standalone: false
 })
 
 export class HighchartsCategoryMapComponent implements OnInit, OnChanges {

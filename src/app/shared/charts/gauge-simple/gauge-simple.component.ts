@@ -11,9 +11,9 @@ Exporting(Highcharts);
 ExportData(Highcharts);
 
 @Component({
-  selector: 'simple-gauge',
-  template: '<div [id]="chartId"></div>',
-  // templateUrl: 'gauge-simple.component.html'
+    selector: 'simple-gauge',
+    template: '<div [id]="chartId"></div>',
+    standalone: false
 })
 
 export class GaugeSimpleComponent implements AfterViewInit, OnChanges {

@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'premiumSort'})
+@Pipe({
+    name: 'premiumSort',
+    standalone: false
+})
 export class PremiumSortPipe implements PipeTransform {
   transform(arr: any[], weights: string[]): any {
     const ret = (arr || []).sort((a, b): number => {

@@ -11,8 +11,9 @@ ExportData(Highcharts);
 
 
 @Component({
-  selector: 'app-multi-chart',
-  template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
+    selector: 'app-multi-chart',
+    template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
+    standalone: false
 })
 
 export class BarOrColumnChartComponent implements OnInit, OnChanges {
@@ -154,7 +155,7 @@ export class BarOrColumnChartComponent implements OnInit, OnChanges {
                   return `${Highcharts.numberFormat(Math.abs(this.point.y), 0)}`
 
                 if (that.valueSuffix)
-                  return this.point.y + that.valueSuffix ?? '';
+                  return this.point.y + (that.valueSuffix ?? '');
 
                 return this.point.y
               },
@@ -170,7 +171,7 @@ export class BarOrColumnChartComponent implements OnInit, OnChanges {
                   return `${Highcharts.numberFormat(Math.abs(this.point.y), 0)}`
 
                 if (that.valueSuffix)
-                  return this.point.y + that.valueSuffix ?? '';
+                  return this.point.y + (that.valueSuffix ?? '');
 
                 return this.point.y
               },

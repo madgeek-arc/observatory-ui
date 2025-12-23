@@ -15,13 +15,13 @@ export const environment = {
   profileName: 'eosc-obs',
   OSO_STATS_API_ENDPOINT: 'https://services.openaire.eu/stats-tool/',
   osoStatsProfileName: 'observatory',
-  matomoTrackerUrl: 'https://eosc-analytics.openaire.eu/matamo.php',
+  matomoTrackerUrl: 'https://eosc-analytics.openaire.eu',
   matomoSiteId: 2,
   RECAPTCHA_V3_KEY: '$RECAPTCHA_V3_SITE_KEY',
   enableSentry: true,
   sentry: {
     dsn: 'https://f3877c1b0e3334d3869db0c5113dc30e@sentry.vereniki.athenarc.gr/5',
-    environment: 'dl123',
+    environment: 'beta',
     tracesSampleRate: 1.0,
     replaysSessionSampleRate: 0.2,
     replaysOnErrorSampleRate: 1.0

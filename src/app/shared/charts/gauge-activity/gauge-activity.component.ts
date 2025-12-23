@@ -17,8 +17,9 @@ export class ActivityGauge {
 }
 
 @Component({
-  selector: 'activity-gauge',
-  templateUrl: 'gauge-activity.component.html'
+    selector: 'activity-gauge',
+    templateUrl: 'gauge-activity.component.html',
+    standalone: false
 })
 
 export class GaugeActivityComponent implements OnChanges {

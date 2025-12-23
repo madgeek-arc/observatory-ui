@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   beta: false,
-  // API_LOGIN: 'http://localhost:8280/observatory/login',
-  API_LOGIN: '/api/oauth2/authorization/eosc',
+  API_LOGIN: '/api/login',
+  // API_LOGIN: '/api/oauth2/authorization/eosc',
   API_ENDPOINT: '/api',
   WS_ENDPOINT: '/api/websocket',
   MESSAGING_ENDPOINT: '/api',
@@ -17,8 +17,8 @@ export const environment = {
   profileName: 'eosc-obs',
   OSO_STATS_API_ENDPOINT: 'https://services.openaire.eu/stats-tool/',
   osoStatsProfileName: 'observatory',
-  matomoTrackerUrl: '',
-  matomoSiteId: -2,
+  matomoTrackerUrl: 'https://eosc-analytics.openaire.eu',
+  matomoSiteId: 3,
   RECAPTCHA_V3_KEY: '6Lc_SFEmAAAAAPULH3Rw_Umpa-UVJ2n1qJ0dOcJ7',
   enableSentry: false,
   sentry: {

@@ -1,7 +1,12 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environment";
-import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
 import { HttpClient, HttpParams } from "@angular/common/http";
+import { User } from "../../../../survey-tool/app/domain/userInfo";
+
+export interface AnswerMetadata {
+  lastUpdate: string;
+  editors: User[];
+}
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +30,12 @@ export class SurveyPublicAnswer {
     params = params.append('stakeholderId', stakeholderId);
     params = params.append('surveyId', surveyId);
     return this.http.get<Object>(this.os_europe + '/answers/public', {params});
+  }
+
+  getOSAnswerMetadata(stakeholderId: string, surveyId: string) {
+    let params = new HttpParams();
+    params = params.append('stakeholderId', stakeholderId);
+    params = params.append('surveyId', surveyId);
+    return this.http.get<AnswerMetadata>(this.os_europe + '/answers/public/metadata', {params});
   }
 }

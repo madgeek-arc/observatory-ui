@@ -4,7 +4,6 @@ import { LegendOptions, SeriesOptionsType } from "highcharts";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { trendOfOAPublications, trendOfOpenData } from "../OSO-stats-queries/explore-queries";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { zip } from "rxjs";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
 import {
@@ -12,16 +11,17 @@ import {
 } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { CommonModule } from "@angular/common";
 import { ChartsModule } from "../../../shared/charts/charts.module";
+import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 
 
 @Component({
   selector: 'app-open-science-trends',
-  standalone: true,
   templateUrl: './open-science-trends.component.html',
   imports: [
     CommonModule,
     SidebarMobileToggleComponent,
-    ChartsModule
+    ChartsModule,
+    PageContentComponent
   ]
 })
 
@@ -32,7 +32,8 @@ export class OpenScienceTrendsComponent implements OnInit {
   lastUpdateDate?: string;
   smallScreen = false;
 
-  years = ['2022', '2023'];
+  years = ['2022', '2023', '2024'];
+  year = this.years[this.years.length - 1];
 
   columnChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data Stewardship', 'Long-term Data Preservation', 'Skills / Training', 'Incentives / Rewards for OS', 'Citizen Science'];
 
@@ -106,25 +107,28 @@ export class OpenScienceTrendsComponent implements OnInit {
 
   /** Bar charts --------------------------------------------------------------------------------------------------> **/
   getColumnChartData(year: string) {
-    zip(
-      this.queryData.getQuestion(year, 'Question6'),   // national policy on Open Access publications
-      this.queryData.getQuestion(year, 'Question14'),  // national policy on FAIR data
-      this.queryData.getQuestion(year, 'Question10'),  // national policy on data management
-      this.queryData.getQuestion(year, 'Question18'),  // national policy on Open data
-      this.queryData.getQuestion(year, 'Question22'),  // national policy on software
-      this.queryData.getQuestion(year, 'Question26'),  // national policy on offering services through EOSC
-      this.queryData.getQuestion(year, 'Question30'),  // national policy on connecting repositories to EOSC
-      this.queryData.getQuestion(year, 'Question34'),  // national policy on data stewardship
-      this.queryData.getQuestion(year, 'Question38'),  // national policy on long-term data preservation
-      this.queryData.getQuestion(year, 'Question42'),  // national policy on skills/training for Open Science
-      this.queryData.getQuestion(year, 'Question46'),  // national policy on incentives/rewards for Open Science
-      this.queryData.getQuestion(year, 'Question50'),  // national policy on citizen science
-    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    const nameArr = [
+      'Question6', // national policy on Open Access publications
+      'Question14', // national policy on FAIR data
+      'Question10', // national policy on data management
+      'Question18', // national policy on Open data
+      'Question22', // national policy on software
+      'Question26', // national policy on offering services through EOSC
+      'Question30', // national policy on connecting repositories to EOSC
+      'Question34', // national policy on data stewardship
+      'Question38', // national policy on long-term data preservation
+      'Question42', // national policy on skills/training for Open Science
+      'Question46', // national policy on incentives/rewards for Open Science
+      'Question50', // national policy on citizen science
+    ];
+
+    this.queryData.getQuestions(year, nameArr).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
         this.columnChartSeries.push(this.exploreService.createColumnChartSeries(value, year));
 
         if (this.columnChartSeries.length === this.years.length) { // When series complete
+          this.columnChartSeries.sort((a, b) => a.name.localeCompare(b.name));
           this.columnChartSeries = [...this.columnChartSeries]; // Trigger angular detection change
         }
       },
@@ -133,28 +137,30 @@ export class OpenScienceTrendsComponent implements OnInit {
   }
 
   getFinancialColumnChartData(year: string) {
-    zip(
-      this.queryData.getQuestion(year, 'Question7'),  // Publications
-      this.queryData.getQuestion(year, 'Question15'), // FAIR-data
-      this.queryData.getQuestion(year, 'Question11'), // Data-management
-      this.queryData.getQuestion(year, 'Question19'), // Open-data
-      this.queryData.getQuestion(year, 'Question23'), // Software
-      this.queryData.getQuestion(year, 'Question27'), // Services
-      this.queryData.getQuestion(year, 'Question31'), // Connecting repositories to EOSC
-      this.queryData.getQuestion(year, 'Question35'), // Data stewardship
-      this.queryData.getQuestion(year, 'Question39'), // Long-term data preservation
-      this.queryData.getQuestion(year, 'Question43'), // Skills/Training
-      this.queryData.getQuestion(year, 'Question47'), // Assessment
-      this.queryData.getQuestion(year, 'Question51'), // Engagement
-    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    const nameArr = [
+      'Question7', // Publications
+      'Question15', // FAIR-data
+      'Question11', // Data-management
+      'Question19', // Open-data
+      'Question23', // Software
+      'Question27', // Services
+      'Question31', // Connecting repositories to EOSC
+      'Question35', // Data stewardship
+      'Question39', // Long-term data preservation
+      'Question43', // Skills/Training
+      'Question47', // Assessment
+      'Question51', // Engagement
+    ];
+
+    this.queryData.getQuestions(year, nameArr).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
         this.columnChart2Series.push(this.exploreService.createColumnChartSeries(value, year));
 
         if (this.columnChart2Series.length === this.years.length) { // When series complete
+          this.columnChart2Series.sort((a, b) => a.name.localeCompare(b.name));
           this.columnChart2Series = [...this.columnChart2Series]; // Trigger angular detection change
         }
-
       },
       error: err => {console.error(err)}
     });
@@ -180,7 +186,7 @@ export class OpenScienceTrendsComponent implements OnInit {
 
   /** Get trends of Publications ----------------------------------------------------------------------------------> **/
   getTrendsPublications() {
-    this.queryData.getOSOStatsChartData(trendOfOAPublications()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(trendOfOAPublications(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           const tmpSeries: SeriesOptionsType = {
@@ -197,7 +203,7 @@ export class OpenScienceTrendsComponent implements OnInit {
 
   /** Get trends of Open Data -------------------------------------------------------------------------------------> **/
   getTrendsOpenData() {
-    this.queryData.getOSOStatsChartData(trendOfOpenData()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(trendOfOpenData(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           let tmpSeries: SeriesOptionsType = {

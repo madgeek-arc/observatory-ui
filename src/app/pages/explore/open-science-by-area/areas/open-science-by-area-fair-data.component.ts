@@ -11,16 +11,18 @@ import { DataHandlerService } from "../../../services/data-handler.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
-import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {
+  SidebarMobileToggleComponent
+} from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
-  selector: 'app-open-science-by-area-fair-data',
-  templateUrl: './open-science-by-area-fair-data.component.html',
-  styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-  standalone: true,
-  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage],
+    selector: 'app-open-science-by-area-fair-data',
+    templateUrl: './open-science-by-area-fair-data.component.html',
+    styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+    imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent]
 })
 
 export class OpenScienceByAreaFairDataComponent implements OnInit {
@@ -34,7 +36,8 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
   smallScreen = false;
   lastUpdateDate?: string;
 
-  years = ['2022', '2023'];
+  years = ['2023', '2024'];
+  year = this.years[this.years.length-1];
 
   stackedColumnSeries1 = [
     {
@@ -62,7 +65,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
       // color: colors[8]
     }
   ] as Highcharts.SeriesColumnOptions[];
-  stackedColumnCategories = ['2021', '2022'];
+  stackedColumnCategories = this.years;
   xAxisTitle = 'Year';
   yAxisTitle = 'Percentage of Policies on FAIR Data';
   tooltipPointFormat = '<span style="color:{series.color}">{series.name}</span> : <b>{point.y}</b>';
@@ -93,7 +96,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments in FAIR Data in 2022',
+    title: 'Financial Investments in FAIR Data in '+(+this.year-1),
     xAxis: '',
     yAxis: '',
   };
@@ -209,15 +212,16 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
 
   /** Stacked column chart ----------------------------------------------------------------------------------------> **/
   getStackedColumnData(year: string, index: number) {
-    zip(
-      this.queryData.getQuestion(year, 'Question2'),  // research performing organisations
-      this.queryData.getQuestion(year, 'Question3'),  // research funding organisations
-      this.queryData.getQuestion(year, 'Question16'),  // research performing organisations with policy on FAIR data
-      this.queryData.getQuestion(year, 'Question17'),  // research funding organisations with policy on FAIR data
-    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    const nameArr = [
+      'Question2', // Research performing organisations
+      'Question3', // Research funding organisations
+      'Question16', // Research performing organisations with policy on FAIR data
+      'Question17', // Research funding organisations with policy on FAIR data
+    ]
+    this.queryData.getQuestions(year ,nameArr).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value =>  {
-        this.exploreService.createStackedColumnSeries([value[0], value[2]], this.stackedColumnSeries1);
-        this.exploreService.createStackedColumnSeries([value[1], value[3]], this.stackedColumnSeries2);
+        this.exploreService.createStackedColumnSeries([value.datasets[0], value.datasets[2]], this.stackedColumnSeries1);
+        this.exploreService.createStackedColumnSeries([value.datasets[1], value.datasets[3]], this.stackedColumnSeries2);
         if (this.years.length === index+1) {
           this.stackedColumnSeries1 = [...this.stackedColumnSeries1];
           this.stackedColumnSeries2 = [...this.stackedColumnSeries2];
@@ -229,7 +233,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
 
   /** Investments as tree graph ------------------------------------------------------------------------------------>**/
   getTreeGraphData() {
-    this.queryData.getQuestion(this.years[this.years.length-1], 'Question64').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+    this.queryData.getQuestion(this.year, 'Question64').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
         this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);

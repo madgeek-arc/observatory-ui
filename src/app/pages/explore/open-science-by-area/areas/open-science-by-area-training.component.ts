@@ -14,12 +14,12 @@ import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/sha
 import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import * as Highcharts from "highcharts";
+import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
-  selector: 'app-open-science-by-area-training',
-  templateUrl: './open-science-by-area-training.component.html',
-  standalone: true,
-  imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage],
+    selector: 'app-open-science-by-area-training',
+    templateUrl: './open-science-by-area-training.component.html',
+    imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent]
 })
 
 export class OpenScienceByAreaTrainingComponent implements OnInit {
@@ -30,7 +30,8 @@ export class OpenScienceByAreaTrainingComponent implements OnInit {
 
   smallScreen = false;
 
-  years = ['2022', '2023'];
+  years = ['2023', '2024'];
+  year = this.years[this.years.length-1];
 
   countriesWithPolicy: number[] = [];
   countriesWithStrategy: number[] = [];
@@ -59,7 +60,7 @@ export class OpenScienceByAreaTrainingComponent implements OnInit {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments in Skills/Training in Open Science in 2022',
+    title: 'Financial Investments in Skills/Training in Open Science in '+(+this.year-1),
     xAxis: '',
     yAxis: '',
   }
@@ -168,7 +169,7 @@ export class OpenScienceByAreaTrainingComponent implements OnInit {
 
   /** Investments as tree graph -----------------------------------------------------------------------------------> **/
   getTreeGraphData(question: string) {
-    this.queryData.getQuestion(this.years[this.years.length-1], question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+    this.queryData.getQuestion(this.year, question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
         this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);

@@ -217,3 +217,40 @@ a.button-osobservatory {
   /*fixme removed since importing the eosc-obs theme on the parent project. Will need to do something for just survey tool*/
   top: 0 !important;
 }
+
+.landing-action-bar {
+  padding:10px 30px;
+  border-radius:4px;
+  border:var(--eosc-observatory-primary-color) solid 1px
+}
+.landing-action-bar .uk-grid-divider>:not(.uk-first-column):before {
+  border-color:#b3b3b3;
+  top:4px;
+  bottom:4px
+}
+.landing-action-bar-mobile {
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index:980
+}
+.landing-action-bar-mobile>div {
+  padding:8px 20px;
+  border-top:1px solid #EAEAEA
+}
+
+.badge-simple {
+  border: 1px solid var(--eosc-observatory-primary-color);
+  background-color: transparent;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 15px;
+  border-radius: 500px;
+  vertical-align: middle;
+  font-size: 12px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+}

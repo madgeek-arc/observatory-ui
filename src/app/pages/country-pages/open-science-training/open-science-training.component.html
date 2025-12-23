@@ -1,164 +1,147 @@
-<div id="page_content">
-  <div id="page_content_header" class="uk-blur-background" style="margin-top: 0"></div>
-  <div id="page_content_actions" class="uk-blur-background" uk-sticky>
-    <sidebar-mobile-toggle [activeSidebarItemStatic]="'Open Science Training'" class="uk-hidden@m"></sidebar-mobile-toggle>
+<div page-content [fullWidth]="true">
+  <div actions class="uk-section-primary uk-preserve-color">
+    <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
-  <div id="page_content_inner" class="">
-    <div class="uk-section uk-section-small">
+  <div inner>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
       <div class="uk-container">
-
-        <div class="uk-flex uk-flex-middle uk-margin-bottom">
-          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-            class="flag-image" width="42" height="42" alt="rounded flag image">
-          <div class="uk-margin-small-left">
-            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>
+        <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
+<!--          <h4>Training for Open Science</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Training for Open Science in {{ year }}</h4>
+            </div>
+          </div>
+          <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
+            style="cursor: pointer">
+            <div class="uk-flex uk-flex-middle uk-text-primary"
+              style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+              <span class=""
+                style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+                Export report
+              </span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
+                data-uk-spinner="ratio: 0.7"></span>
+              <ng-template #elseBlock>
+                <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
+              </ng-template>
+            </div>
           </div>
         </div>
-
-        <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h4>Training for Open Science</h4>
+        <div class="uk-hidden@m">
+<!--          <h4>Training for Open Science</h4>-->
+          <div class="uk-flex uk-flex-middle uk-margin-bottom">
+            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
+            <div class="uk-margin-small-left">
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Training for Open Science in {{ year }}</h4>
+            </div>
+          </div>
+          <div class="uk-flex uk-flex-right" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
+            style="cursor: pointer">
+            <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+              <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+                Export report
+              </span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
+              <ng-template #elseBlock>
+                <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
+              </ng-template>
+            </div>
+          </div>
         </div>
+<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+<!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
+<!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
+<!--          <div class="uk-margin-small-left">-->
+<!--            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <p>Training is essential for the succesful adoption of Open Science, equipping key stakeholders with the skills
+<!--        <div class="uk-flex uk-flex-between uk-flex-middle">-->
+<!--          <h4>Training for Open Science</h4>-->
+<!--        </div>-->
+
+        <p class="uk-margin-medium-bottom">Training is essential for the succesful adoption of Open Science, equipping key stakeholders with the skills
           to implement open practices, share research outputs, and foster global collaboration.
           This page offers an overview of skills and training initiatives in Europe, including policies, financial
           investments, and strategies from the Survey on National Contributions to EOSC and Open Science.</p>
         <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h4>General Overview of Open Science Training in {{ countryName }} for 2023</h4>
+          <h5>General Overview of Open Science Training in {{ countryName }} for {{ year }}</h5>
         </div>
 
-        <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h4>Repositories Overview</h4>
-        </div>
+<!--        <div class="uk-flex uk-flex-between uk-flex-middle">-->
+<!--          <h4>Repositories Overview</h4>-->
+<!--        </div>-->
 
         <div class="uk-grid-small" data-uk-grid>
-          <div class="uk-width-expand" *ngIf="hasAnyLeftCardData()">
+          <div class="uk-width-1-1 uk-width-expand@m" *ngIf="hasAnyLeftCardData()">
             <div class="uk-card uk-card-default uk-card-body visualisation-card">
-              <div class="uk-child-width-1-2 uk-grid-small" data-uk-grid>
+              <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-grid-small" data-uk-grid>
 
                 <!-- Card 1 -->
                 <!-- <div *ngIf="OpenTrainingPercentage[1] !== null" class="uk-animation-scale-up">
-              <div class="uk-card card-simple uk-card-small uk-card-body">
-                <p>Percentage of <span class="uk-text-bold">Open Repositories in {{ countryName }}</span></p>
-                <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">{{ OpenTrainingPercentage[1] }}%</span>
-                </div>
-                <div *ngIf="OpenTrainingPercentageDiff !== null" class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
-                  <div class="uk-flex uk-flex-middle">
-                    <span class="material-symbols-outlined" [ngClass]="OpenTrainingPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                      {{ OpenRepositoriesPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                    </span>
-                    <span [ngClass]="OpenTrainingPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                      {{ Math.abs(OpenTrainingPercentageDiff) }}%
-                    </span>&nbsp; vs last year
-                  </div>
-                  <div>
-                    <img [ngSrc]="'../assets/images/explore/' + (OpenTrainingPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                      alt="trend image" height="50" width="99">
-                  </div>
-                </div>
-              </div>
-            </div> -->
-
-                <!-- Card 2 -->
-                <div *ngIf="rfoTrainingPercentage[1] !== null" class="uk-animation-scale-up">
                   <div class="uk-card card-simple uk-card-small uk-card-body">
-                    <p>Percentage of <span class="uk-text-bold">RFO's Policy on Repositories</span></p>
+                    <p>Percentage of <span class="uk-text-bold">Open Repositories in {{ countryName }}</span></p>
                     <div class="number big uk-margin-medium-top">
-                      <span class="uk-text-bold">{{ rfoTrainingPercentage[1] }}%</span>
+                      <span class="uk-text-bold">{{ OpenTrainingPercentage[1] }}%</span>
                     </div>
-                    <div *ngIf="rfoTrainingPercentageDiff !== null"
-                      class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
+                    <div *ngIf="OpenTrainingPercentageDiff !== null" class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
                       <div class="uk-flex uk-flex-middle">
-                        <span class="material-symbols-outlined"
-                          [ngClass]="rfoTrainingPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                          {{ rfoTrainingPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+                        <span class="material-symbols-outlined" [ngClass]="OpenTrainingPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
+                          {{ OpenRepositoriesPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
                         </span>
-                        <span
-                          [ngClass]="rfoTrainingPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                          {{ Math.abs(rfoTrainingPercentageDiff) }}%
+                        <span [ngClass]="OpenTrainingPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
+                          {{ Math.abs(OpenTrainingPercentageDiff) }}%
                         </span>&nbsp; vs last year
                       </div>
                       <div>
-                        <img
-                          [src]="'../assets/images/explore/' + (rfoTrainingPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+                        <img [ngSrc]="'../assets/images/explore/' + (OpenTrainingPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
                           alt="trend image" height="50" width="99">
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
 
-                <!-- Card 3 -->
-                <div *ngIf="trainingFinancialInvestment[1] !== null" class="uk-animation-scale-up">
-                  <div class="uk-card card-simple uk-card-small uk-card-body">
-                    <p>Total <span class="uk-text-bold">financial investment in repositories</span></p>
-                    <div class="number big uk-margin-medium-top">
-                      <span class="uk-text-bold">{{ trainingFinancialInvestment[1] + ' mil Euro' }}</span>
-                    </div>
-                    <div *ngIf="trainingFinancialInvestmentPercentageDiff !== null"
-                      class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
-                      <div class="uk-flex uk-flex-middle">
-                        <span class="material-symbols-outlined"
-                          [ngClass]="trainingFinancialInvestmentPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                          {{ trainingFinancialInvestmentPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                        </span>
-                        <span
-                          [ngClass]="trainingFinancialInvestmentPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                          {{ Math.abs(trainingFinancialInvestmentPercentageDiff) }}%
-                        </span>&nbsp; vs last year
-                      </div>
-                      <div>
-                        <img
-                          [src]="'../assets/images/explore/' + (trainingFinancialInvestmentPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                          alt="trend image" height="50" width="99">
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                <!-- Card 4 -->
-                <div *ngIf="rpoTrainingPercentage[1] !== null" class="uk-animation-scale-up">
-                  <div class="uk-card card-simple uk-card-small uk-card-body">
-                    <p>Percentage of <span class="uk-text-bold">RPO's Policy in Repositories</span></p>
-                    <div class="number big uk-margin-medium-top">
-                      <span class="uk-text-bold">{{ rpoTrainingPercentage[1] }}%</span>
-                    </div>
-                    <div *ngIf="rpoTrainingPercentageDiff !== null"
-                      class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
-                      <div class="uk-flex uk-flex-middle">
-                        <span class="material-symbols-outlined"
-                          [ngClass]="rpoTrainingPercentageDiff >= 0 ? 'up-arrow-color' : 'down-arrow-color'">
-                          {{ rpoTrainingPercentageDiff >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-                        </span>
-                        <span
-                          [ngClass]="rpoTrainingPercentageDiff >= 0 ? 'percentage-up-color' : 'percentage-down-color'">
-                          {{ Math.abs(rpoTrainingPercentageDiff) }}%
-                        </span>&nbsp; vs last year
-                      </div>
-                      <div>
-                        <img
-                          [src]="'../assets/images/explore/' + (rpoTrainingPercentageDiff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
-                          alt="trend image" height="50" width="99">
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <!--Card 2-->
+
+                <app-info-card *ngIf="rfoTrainingPercentage[1] !== null"
+                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Open Science Training</span>`"
+                  [value]="rfoTrainingPercentage[1]" [unit]="'%'" [diff]="rfoTrainingPercentageDiff">
+                </app-info-card>
+
+                <!--Card 3-->
+
+                <app-info-card *ngIf="trainingFinancialInvestment[1] !== null"
+                  [titleHtml]="`Total <span class='uk-text-bold'>financial investment in Open Science Training</span>`"
+                  [value]="trainingFinancialInvestment[1]" [unit]="'mil Euro'"
+                  [diff]="trainingFinancialInvestmentPercentageDiff">
+                </app-info-card>
+
+                <!--Card 4-->
+
+                <app-info-card *ngIf="rpoTrainingPercentage[1] !== null"
+                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Open Science Training</span>`"
+                  [value]="rpoTrainingPercentage[1]" [unit]="'%'" [diff]="rpoTrainingPercentageDiff">
+                </app-info-card>
 
               </div>
             </div>
           </div>
 
           <!-- Right Card-->
-          <div class="uk-width-2-5 uk-animation-fade">
+          <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
             <div class="uk-card uk-card-default uk-card-body visualisation-card">
               <div class="uk-margin-top">
                 <h5 class="uk-flex uk-flex-between uk-margin-remove">
-                  National Repository Policy
+                  National Open Science Training Policy
                   <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': hasNationalPolicy === 'Yes',
                   'down-arrow-color': hasNationalPolicy === 'No',
-                  'unanswered-color': hasNationalPolicy === null
-                }">
+                  'unanswered-color': hasNationalPolicy === null}">
                     {{
                     hasNationalPolicy === 'Yes' ? 'check' :
                     hasNationalPolicy === 'No' ? 'close' :
@@ -175,12 +158,11 @@
 
               <div class="uk-margin-top">
                 <h5 class="uk-flex uk-flex-between">
-                  Financial Strategy for Repositories
+                  Financial Strategy on Open Science Training
                   <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': hasFinancialStrategy === 'Yes',
                   'down-arrow-color': hasFinancialStrategy === 'No',
-                  'unanswered-color': hasFinancialStrategy === null
-                }">
+                  'unanswered-color': hasFinancialStrategy === null}">
                     {{
                     hasFinancialStrategy === 'Yes' ? 'check' :
                     hasFinancialStrategy === 'No' ? 'close' :
@@ -195,7 +177,7 @@
 
               <div class="uk-margin-top">
                 <h5 class="uk-flex uk-flex-between">
-                  Monitoring of Repositories
+                  Monitoring on Open Science Training
                   <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': hasMonitoring === 'Yes',
                   'down-arrow-color': hasMonitoring === 'No',
@@ -214,100 +196,103 @@
             </div>
           </div>
         </div>
-        <div class="uk-margin-top uk-flex uk-flex-center">
-          <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open
-          Science
-          OpenAIRE Graph.
-        </div>
+        <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
 
-      </div>
-    </div>
-
-
-    <div *ngIf="hasSurveyTrainingData()" class="uk-section uk-section-small">
-      <div class="uk-container">
-
-        <div class="uk-margin-medium-top uk-animation-fade">
-          <div class=" uk-margin-medium-top uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-
-            <read-more [maxHeight]="300">
-              <div id="skills_overview">
-                <div class="uk-text-secondary">Overview</div>
-                <ng-container
-                  *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question24']; else skills_overview">
-                  <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question24']"
-                    class="uk-margin-medium-top"></div>
-                </ng-container>
-                <ng-template #skills_overview>
-                  <p>N/A</p>
-                </ng-template>
-              </div>
-              <div id="training_infrastructure">
-                <div class="uk-text-secondary">Training Infrastructure</div>
-                <ng-container
-                  *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question25']; else training_infrastructure">
-                  <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question25']"
-                    class="uk-margin-medium-top"></div>
-                </ng-container>
-                <ng-template #training_infrastructure>
-                  <p>N/A</p>
-                </ng-template>
-              </div>
-              <div id="competence_centers">
-                <div class="uk-text-secondary">Open Science/Digital Competence centers</div>
-                <ng-container
-                  *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question26']?.length > 0; else competence_centers">
-                  <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question26']"
-                    class="uk-margin-medium-top">
-                    <div [innerHTML]="element['Question26-1']"></div>
-                  </div>
-                </ng-container>
-                <ng-template #competence_centers>
-                  <p>N/A</p>
-                </ng-template>
-              </div>
-              <div id="open_science_professionals">
-                <div class="uk-text-secondary">Open Science Professionals</div>
-                <ng-container
-                  *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question27']; else open_science_professionals">
-                  <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question27']"
-                    class="uk-margin-medium-top"></div>
-                </ng-container>
-                <ng-template #open_science_professionals>
-                  <p>N/A</p>
-                </ng-template>
-              </div>
-              <div id="open_science_curricula">
-                <div class="uk-text-secondary">Open Science Curricula</div>
-                <ng-container
-                  *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question28']?.length > 0; else open_science_curricula">
-                  <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question28']"
-                    class="uk-margin-medium-top">
-                    <div [innerHTML]="element"></div>
-                  </div>
-                </ng-container>
-                <ng-template #open_science_curricula>
-                  <p>N/A</p>
-                </ng-template>
-              </div>
-              <div id="links">
-                <div class="uk-text-secondary">Links to national initiatives on Digital Skills</div>
-                <ng-container
-                  *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question29']?.['Question29-1']; else links">
-                  <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question29']['Question29-1']"
-                    class="uk-margin-medium-top"></div>
-                </ng-container>
-                <ng-template #links>
-                  <p>N/A</p>
-                </ng-template>
-              </div>
-            </read-more>
-
+          <div>
+            <p><span class="uk-text-bold">Data source:</span>
+              Survey on National Contributions to EOSC and Open Science {{year}} -
+              showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
+              OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+            </p>
           </div>
         </div>
-
+      </div>
+    </div>
+    <div #exportContent1>
+      <div *ngIf="hasSurveyTrainingData()" class="uk-section uk-section-primary uk-preserve-color uk-section-small">
+        <div class="uk-container">
+          <div class="uk-animation-fade">
+            <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+              <h6 class="uk-margin-bottom">Learn more about Open Science Training in {{ countryName }}</h6>
+              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
+              <div class="uk-margin-medium-top">
+                <read-more [maxHeight]="300">
+                  <div id="skills_overview">
+                    <div class="uk-text-secondary">Overview</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question24']; else skills_overview">
+                      <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question24']"
+                        class="uk-margin-medium-top"></div>
+                    </ng-container>
+                    <ng-template #skills_overview>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                  <div id="training_infrastructure">
+                    <div class="uk-text-secondary">Training Infrastructure</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question25']; else training_infrastructure">
+                      <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question25']"
+                        class="uk-margin-medium-top"></div>
+                    </ng-container>
+                    <ng-template #training_infrastructure>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                  <div id="competence_centers">
+                    <div class="uk-text-secondary">Open Science/Digital Competence centers</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question26']?.length > 0; else competence_centers">
+                      <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question26']"
+                        class="uk-margin-medium-top">
+                        <div [innerHTML]="element['Question26-1']"></div>
+                      </div>
+                    </ng-container>
+                    <ng-template #competence_centers>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                  <div id="open_science_professionals">
+                    <div class="uk-text-secondary">Open Science Professionals</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question27']; else open_science_professionals">
+                      <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question27']"
+                        class="uk-margin-medium-top"></div>
+                    </ng-container>
+                    <ng-template #open_science_professionals>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                  <div id="open_science_curricula">
+                    <div class="uk-text-secondary">Open Science Curricula</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question28']?.length > 0; else open_science_curricula">
+                      <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question28']"
+                        class="uk-margin-medium-top">
+                        <div [innerHTML]="element"></div>
+                      </div>
+                    </ng-container>
+                    <ng-template #open_science_curricula>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                  <div id="links">
+                    <div class="uk-text-secondary">Links to national initiatives on Digital Skills</div>
+                    <ng-container
+                      *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question29']?.['Question29-1']; else links">
+                      <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question29']['Question29-1']"
+                        class="uk-margin-medium-top"></div>
+                    </ng-container>
+                    <ng-template #links>
+                      <p>N/A</p>
+                    </ng-template>
+                  </div>
+                </read-more>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div id="page_content_footer"></div>
 </div>

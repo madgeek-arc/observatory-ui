@@ -1,9 +1,10 @@
 import {Component, Input} from "@angular/core";
 
 @Component({
-  selector: 'category-indicators-row',
-  templateUrl: 'category-indicators-row.component.html',
-  styleUrls: ['../country-landing-page.component.css'],
+    selector: 'category-indicators-row',
+    templateUrl: 'category-indicators-row.component.html',
+    styleUrls: ['../country-landing-page.component.css'],
+    standalone: false
 })
 
 export class CategoryIndicatorsRowComponent {

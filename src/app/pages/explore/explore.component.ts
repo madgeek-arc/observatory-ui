@@ -2,28 +2,27 @@ import { Component, OnInit } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import {
   DashboardSideMenuComponent,
-  MenuItem, MenuSections
+  MenuItem, MenuSection
 } from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
 import {
   DashboardSideMenuService
 } from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
-import { IconsService } from "../../../survey-tool/app/utils/icons/icons.service";
+import { IconsService } from "../../../survey-tool/app/shared/icons/icons.service";
 import { exploreIcons } from "./explore.icons";
 
 @Component({
-  selector: 'app-explore',
-  standalone: true,
-  imports: [
-    DashboardSideMenuComponent,
-    RouterOutlet,
-  ],
-  templateUrl: './explore.component.html'
+    selector: 'app-explore',
+    imports: [
+        DashboardSideMenuComponent,
+        RouterOutlet,
+    ],
+    templateUrl: './explore.component.html'
 })
 
 export class ExploreComponent implements OnInit {
 
   menuItems: MenuItem[] = [];
-  menuSections: MenuSections[] = [];
+  menuSections: MenuSection[] = [];
 
   hasSidebar = true;
   hasAdminMenu = false;
@@ -59,14 +58,15 @@ export class ExploreComponent implements OnInit {
     this.menuItems.push(new MenuItem('2', 'Investments in EOSC', null, '/explore/investments-in-eosc', null, {name: 'Investments'}));
     this.menuItems.push(new MenuItem('3', 'National Monitoring', null, '/explore/national-monitoring', null, {name: 'OS Monitoring'}));
     this.menuItems.push(new MenuItem('4', 'Open Science Policies', null, '/explore/open-science-policies', null, {name: 'OS Policies'}));
+    // this.menuItems.push(new MenuItem('7', 'Open Science Resource Registry', null, '/explore/resource-registry/search', null, {name: 'OS Resource Registry'}));
 
     // Coming soon items (disabled)
     this.menuSections.push({items: this.menuItems});
 
     this.menuItems = [];
+    this.menuItems.push(new MenuItem('7', 'Open Science Resource Registry', null, '', null, {name: 'OS Resource Registry'}, null, 'custom-disabled-link'));
     this.menuItems.push(new MenuItem('5', 'Open Science Use Cases', null, '', '', {name: 'OS Use Cases'}, null, 'custom-disabled-link'));
-    this.menuItems.push(new MenuItem('6', 'Open Science by Country', null, '', '', {name: 'OS by Country'}, null, 'custom-disabled-link'));
-    this.menuItems.push(new MenuItem('7', 'Open Science Resource Registry', null, '', '', {name: 'OS Resource Registry'}, null, 'custom-disabled-link'));
+    // this.menuItems.push(new MenuItem('6', 'Open Science by Country', null, '', '', {name: 'OS by Country'}, null, 'custom-disabled-link'));
     this.menuItems.push(new MenuItem('8', 'Open Science Impact', null, '', '', {name: 'OS Impact'}, null, 'custom-disabled-link'));
     this.menuItems.push(new MenuItem('9', 'Custom Search', null, '', '', {name: 'Custom Search'}, null, 'custom-disabled-link'));
 

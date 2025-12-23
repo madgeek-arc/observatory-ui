@@ -5,7 +5,15 @@ import { DataShareService } from "../services/data-share.service";
 import {
   CatalogueUiReusableComponentsModule
 } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
-import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import {
+  SidebarMobileToggleComponent
+} from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { PdfExportService } from "../../services/pdf-export.service";
+import { SearchCardComponent } from "../../explore/resources-registry/search/card/search-card.component";
+import { ResourceRegistryService } from "../../explore/resources-registry/resource-registry.service";
+import { Paging } from "../../../../survey-tool/catalogue-ui/domain/paging";
+import { Document, HighlightedResults } from "../../../domain/document";
 
 class TableRow {
   OSArea: string;
@@ -21,28 +29,35 @@ class TableRow {
 
 @Component({
   selector: 'app-policy-overview',
-  standalone: true,
   templateUrl: './policy-overview.component.html',
   styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
   imports: [
     NgOptimizedImage,
     CommonModule,
     CatalogueUiReusableComponentsModule,
-    SidebarMobileToggleComponent
+    SidebarMobileToggleComponent,
+    PageContentComponent,
+    SearchCardComponent
   ]
 })
 
 export class PolicyOverviewComponent {
   private destroyRef = inject(DestroyRef);
+  private dataShareService =  inject(DataShareService);
+  private pdfService = inject(PdfExportService);
+  private resourceService = inject(ResourceRegistryService);
+
+  exportActive = false;
 
   countryCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [];
   table: TableRow[] = [];
-  surveyAnswer: Object[] = [];
   countrySurveyAnswer?: Object;
+  countrySurveyAnswerLastUpdate: string | null = null;
+  year?: string;
 
-  constructor(private dataShareService: DataShareService) {}
+  documents: HighlightedResults<Document>[] = [];
 
   ngOnInit() {
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -70,9 +85,30 @@ export class PolicyOverviewComponent {
     this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answer) => {
         this.countrySurveyAnswer = answer;
-
       }
     });
+
+    this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (metadata) => {
+        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
+      }
+    });
+
+
+    this.resourceService.getDocument(0, 10, [{key: 'country', values:[this.countryCode]}], false).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (data) => {
+        this.documents = data.results as HighlightedResults<Document>[];
+      },
+      error: (error) => {
+        console.error('Error fetching resources:', error);
+      }
+    });
+
+    this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (year) => {
+        this.year = year;
+      }
+    })
   }
 
   /**
@@ -107,6 +143,19 @@ export class PolicyOverviewComponent {
 
     const questions = ['Question10', 'Question11', 'Question12', 'Question13'];
     return this.dataShareService.hasSurveyData(surveyData, questions);
+  }
+
+  exportToPDF(contents: HTMLElement[], filename?: string) {
+    this.exportActive = true;
+
+    this.pdfService.export(contents, filename).then(() => {
+      // this.restoreAnimations(modifiedElements, contents);
+      this.exportActive = false;
+    }).catch((error) => {
+      // this.restoreAnimations(modifiedElements, contents);
+      this.exportActive = false;
+      console.error('Error during PDF generation:', error);
+    });
   }
 
 }

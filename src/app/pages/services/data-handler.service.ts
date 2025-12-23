@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Datasets, RawData, Row } from "../../domain/raw-data";
+import { Dataset, RawData, Row } from "../../domain/raw-data";
 import { CountryTableData } from "../../domain/country-table-data";
 import { FundingForEOSCSums } from "../../domain/funding-for-eosc";
 import { CategorizedAreaData, Series } from "../../domain/categorizedAreaData";
@@ -154,7 +154,7 @@ export class DataHandlerService {
     );
 
     const returnValue: RawData = new RawData();
-    returnValue.datasets.push(new Datasets());
+    returnValue.datasets.push(new Dataset());
     returnValue.datasets[0].series.result = mergedResult;
     return returnValue;
   }
@@ -185,15 +185,21 @@ export class DataHandlerService {
     return count;
   }
 
-  public convertRawDataForCumulativeTable(rawData: RawData, countries: string[], mergedArray?: string[]) {
+  public convertRawDataForCumulativeTable(data: Dataset | RawData, countries: string[], mergedArray?: string[]) {
+    let dataset = new Dataset();
+    if ((data as RawData).datasets) {
+      dataset.series = (data as RawData).datasets[0].series;
+    } else
+      dataset = data as Dataset;
+
     let tmpArr: string[] = [];
-    if (!rawData)
+    if (!dataset)
       return tmpArr;
     let found: boolean = false;
-    for (const series of rawData?.datasets) {
+    // for (const series of rawData?.datasets) {
       for (const country of countries) {
         found = false;
-        for (const rowResult of series.series.result) {
+        for (const rowResult of dataset.series.result) {
           if (rowResult.row[0] === country) {
             if (rowResult.row[1] === 'Yes') {
               tmpArr.push('true');
@@ -208,7 +214,7 @@ export class DataHandlerService {
         if (!found)
           tmpArr.push('-');
       }
-    }
+    // }
     if (mergedArray) {
       for (let i = 0; i < mergedArray.length; i++) {
         if (isNumeric(mergedArray[i]) && isNumeric(tmpArr[i])) {

@@ -8,8 +8,9 @@ import { latlong } from "../../../domain/countries-lat-lon";
 import { zip } from "rxjs";
 
 @Component({
-  selector: 'app-ncte-policies',
-  templateUrl: './ncte-policies.component.html'
+    selector: 'app-ncte-policies',
+    templateUrl: './ncte-policies.component.html',
+    standalone: false
 })
 
 export class NCTEPoliciesComponent implements OnInit{

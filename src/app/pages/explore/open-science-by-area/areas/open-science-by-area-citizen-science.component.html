@@ -1,11 +1,8 @@
-<div id="page_content">
-  <div id="page_content_header" class="uk-blur-background" style="margin-top: 0"></div>
-  <div id="page_content_actions" class="uk-section-primary uk-preserve-color" uk-sticky>
-    <div class="uk-container uk-container-large">
-      <sidebar-mobile-toggle class="uk-hidden@m uk-margin-top uk-display-block uk-margin-bottom"></sidebar-mobile-toggle>
-    </div>
+<div page-content [fullWidth]="true">
+  <div actions class="uk-section-primary uk-preserve-color">
+    <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
-  <div id="page_content_inner" class="">
+  <div inner>
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
       <div class="uk-container">
 
@@ -61,7 +58,7 @@
 
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent1>
       <div class="uk-container">
-        <h5>General Overview of Citizen Science in Europe for 2022</h5>
+        <h5>General Overview of Citizen Science in Europe for {{ year }}</h5>
 
         <div class="uk-child-width-1-3@m uk-child-width-1-3@l uk-child-width-1-1@s uk-grid-match uk-grid-row-medium uk-flex-center" uk-grid>
 
@@ -242,8 +239,9 @@
         </div>
 
         <div class="uk-margin-top">
-          <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open Science
-          2023 - showing data for 2022.
+          <span class="uk-text-bold">Data source:</span>&nbsp;
+          Survey on National Contributions to EOSC and Open Science {{year}} -
+          showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}}).
         </div>
 
       </div>
@@ -254,9 +252,9 @@
 
         <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-          <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="{connect:'#maps', animation: 'fade'}">
-            <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Policies</a></li>
-            <li><a class="uk-margin-remove-bottom" (click)="countryName = comment = undefined">Monitoring</a></li>
+          <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="connect:#maps; animation: uk-animation-fade">
+            <li><a class="uk-margin-remove-bottom" (click)="countryName = countryCode = comment = undefined">Policies</a></li>
+            <li><a class="uk-margin-remove-bottom" (click)="countryName = countryCode = comment = undefined">Monitoring</a></li>
           </ul>
 
           <ul id="maps" class="uk-switcher uk-child-width-1-1 uk-grid-match" uk-grid>
@@ -267,7 +265,7 @@
                     [mapData]="questionsDataArray[0]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National Policy on Citizen Science'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong> countries have a <br>national policy on Citizen Science</span>'"
-                    [caption]="policesMapCaptions[11] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.'"
+                    [caption]="policesMapCaptions[11] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'"
                     (mapClick)="showComment(0, $event)">
                   </app-highcharts-category-map>
                 </div>
@@ -277,8 +275,8 @@
                     <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
                     <!--                <h6>Click on country for additional information</h6>-->
                     <div class="uk-flex uk-flex-middle uk-margin-medium-top">
-                      <img *ngIf="countryCode" src="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
-                           width="30" alt="Rounded country flag">
+                      <img *ngIf="countryCode" ngSrc="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
+                           width="30" height="30" alt="Rounded flag of the selected country">
                       <span *ngIf="countryName" class="uk-margin-small-left">{{ countryName }}</span>
                     </div>
                     <p *ngIf="comment; else noComment" [innerHTML]="comment"
@@ -295,7 +293,7 @@
                     [mapData]="questionsDataArray[1]" [height]="700" [smallScreen]="smallScreen"
                     [title]="'National Monitoring on Citizen Science'" [backgroundColor]="'#ffffff'"
                     [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong> countries have a <br>national monitoring on Citizen Science</span>'"
-                    [caption]="monitoringMapCaptions[11] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022'"
+                    [caption]="monitoringMapCaptions[11] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'"
                     (mapClick)="showComment(1, $event)">
                   </app-highcharts-category-map>
                 </div>
@@ -305,8 +303,8 @@
                     <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
                     <!--                <h6>Click on country for additional information</h6>-->
                     <div class="uk-flex uk-flex-middle uk-margin-medium-top">
-                      <img *ngIf="countryCode" src="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
-                           width="30">
+                      <img *ngIf="countryCode" ngSrc="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
+                           width="30" height="30" alt="Rounded flag of the selected country">
                       <span *ngIf="countryName" class="uk-margin-small-left">{{ countryName }}</span>
                     </div>
                     <p *ngIf="comment; else noComment" [innerHTML]="comment"
@@ -323,13 +321,12 @@
       </div>
     </div>
 
-
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent3>
       <div class="uk-container">
 
         <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-          <ul class="uk-subnav uk-subnav-pill" uk-switcher="{connect:'#investments', animation: 'fade'}">
+          <ul class="uk-subnav uk-subnav-pill" uk-switcher="connect:#investments; animation: uk-animation-fade">
             <li><a class="uk-margin-remove-bottom">Overview</a></li>
             <li><a class="uk-margin-remove-bottom">Details</a></li>
           </ul>
@@ -342,16 +339,16 @@
                                  [pointWidth]="75" [legendOptions]="legendOptions"
                                  [customTooltip]="true" [yAxisLabels]="false" [height]="smallScreen ? 500 : 400"
                                  [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Citizen Science made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>'
-                             + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.</p>'">
+                             + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for financial contributions the data reflect the previous year ('+(+year-1)+').</p>'">
                 </app-multi-chart>
               </div>
             </li>
             <li>
               <div class="">
                 <app-tree-graph [data]="treeGraph" [height]="700"
-                                [title]="'Financial Investments on Citizen Science in 2022'"
+                                [title]="'Financial Investments on Citizen Science in '+ (+year-1)"
                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Citizen Science made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
-                            '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science 2023 - showing data for 2022.</p>'">
+                            '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for financial contributions the data reflect the previous year ('+(+year-1)+').</p>'">
                 </app-tree-graph>
               </div>
             </li>
@@ -363,6 +360,5 @@
     </div>
 
   </div>
-  <div id="page_content_footer"></div>
 </div>
 

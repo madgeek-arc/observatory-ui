@@ -4,8 +4,9 @@ import {
 } from "../../../../../survey-tool/app/pages/contributions-dashboard/home/contributions-home.component";
 
 @Component({
-  selector: 'app-contributions-ext-home',
-  templateUrl: './contributions-home-extention.component.html'
+    selector: 'app-contributions-ext-home',
+    templateUrl: './contributions-home-extention.component.html',
+    standalone: false
 })
 
 export class ContributionsHomeExtentionComponent extends ContributionsHomeComponent{
