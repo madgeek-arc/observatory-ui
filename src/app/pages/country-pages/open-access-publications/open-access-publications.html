@@ -123,10 +123,6 @@
                 </app-info-card>
 
               </div>
-              <div class="uk-margin-top">
-                <span class="uk-text-bold">Data source:</span>&nbsp;
-                Survey on National Contributions to EOSC and Open Science; OpenAIRE Graph.
-              </div>
             </div>
           </div>
 
@@ -194,6 +190,14 @@
             </div>
           </div>
 
+          <div>
+            <p><span class="uk-text-bold">Data source:</span>
+              Survey on National Contributions to EOSC and Open Science {{year}} -
+              showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
+              OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+            </p>
+          </div>
+
         </div>
 
       </div>
@@ -207,7 +211,7 @@
           <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
             <read-more [maxHeight]="300">
               <h6 class="uk-margin-bottom">Open Access Landscape in {{ countryName }}</h6>
-              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks</div>
+              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
               <div class="uk-margin-medium-top" id="open_access_publishing">
                 <div class="uk-text-secondary">Open Access Publishing</div>
                 <ng-container *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question7']; else open_access">

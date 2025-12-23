@@ -17,14 +17,11 @@
           <div class="uk-flex uk-flex-center"
             (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3], 'Open Data')"
             style="cursor: pointer">
-            <div class="uk-flex uk-flex-middle uk-text-primary"
-              style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
-              <span class=""
-                style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+            <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+              <span style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
-                data-uk-spinner="ratio: 0.7"></span>
+              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
               <ng-template #elseBlock>
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
               </ng-template>
@@ -185,14 +182,13 @@
               </div>
             </div>
           </div>
-        </div>
-        <div>
-          <div class="uk-margin-medium-top ">
-            <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open
-            Science,
-            OpenAIRE Graph.
+          <div>
+            <p><span class="uk-text-bold">Data source:</span>
+              Survey on National Contributions to EOSC and Open Science {{year}} -
+              showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
+              OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+            </p>
           </div>
-
         </div>
       </div>
 

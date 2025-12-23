@@ -109,15 +109,12 @@
 
 
                 <!--Card 2-->
-
                 <app-info-card *ngIf="rfoSoftwarePercentage[1] !== null && rfoSoftwarePercentage[1] !== undefined"
                   [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Open Software</span>`"
                   [value]="rfoSoftwarePercentage[1]" [unit]="'%'" [diff]="rfoSoftwarePercentageDiff">
                 </app-info-card>
 
                 <!-- Card 3 -->
-
-
                 <app-info-card *ngIf="softwareFinancialInvestment[1]"
                   [titleHtml]="'Total <span class=\'uk-text-bold\'>financial investment in Open Software</span>'"
                   [value]="softwareFinancialInvestment[1]" [unit]="'mil Euro'"
@@ -126,10 +123,9 @@
 
 
                 <!--Card 4-->
-
                 <app-info-card *ngIf="rpoSoftwarePercentage[1] !== null && rpoSoftwarePercentage[1] !== undefined"
                   [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Open Software</span>`"
-                  [value]="rpoSoftwarePercentage[1]" [unit]="'mil Euro'" [diff]="rpoSoftwarePercentageDiff">
+                  [value]="rpoSoftwarePercentage[1]" [unit]="'%'" [diff]="rpoSoftwarePercentageDiff">
                 </app-info-card>
 
               </div>
@@ -203,9 +199,13 @@
           </div>
         </div>
         <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
+
           <div>
-            <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open
-            Science OpenAIRE Graph.
+            <p><span class="uk-text-bold">Data source:</span>
+              Survey on National Contributions to EOSC and Open Science {{year}} -
+              showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
+              OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+            </p>
           </div>
         </div>
       </div>

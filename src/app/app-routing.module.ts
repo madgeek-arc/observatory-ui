@@ -56,8 +56,7 @@ const routes: Routes = [
   },
   {
     path: 'country/:code',
-    children: countryPagesRoutes,
-    canActivate: [ArchiveGuardService]
+    children: countryPagesRoutes
   },
   {
     path: 'explore',

@@ -98,10 +98,6 @@
                 </app-info-card>
 
               </div>
-              <div class="uk-margin-top">
-                <span class="uk-text-bold">Data source:</span>&nbsp;
-                Survey on National Contributions to EOSC and Open Science OpenAIRE Graph.
-              </div>
             </div>
           </div>
 
@@ -109,7 +105,6 @@
           <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
             <div class="uk-card uk-card-default uk-card-body external-sources visualisation-card">
               <h5>R&D Information</h5>
-              <!--          <p>Data for 2022 coming soon</p>-->
 
               <div class="uk-child-width-1-2 uk-grid-small uk-grid-match uk-grid" data-uk-grid>
 
@@ -128,17 +123,14 @@
                             'down-arrow-color': rfosPercentageDiff < 0,
                             'neutral-arrow-color': rfosPercentageDiff === 0
                           }">
-                          {{
-                          rfosPercentageDiff > 0
-                          ? 'arrow_upward'
-                          : rfosPercentageDiff < 0 ? 'arrow_downward' : 'commit' }} </span>
-                            <span [ngClass]="{
+                          {{ rfosPercentageDiff > 0 ? 'arrow_upward' : rfosPercentageDiff < 0 ? 'arrow_downward' : 'commit' }}
+                        </span>
+                        <span [ngClass]="{
                           'percentage-up-color': rfosPercentageDiff > 0,
                           'percentage-down-color': rfosPercentageDiff < 0,
-                          'percentage-neutral-color': rfosPercentageDiff === 0
-                        }">
-                              {{ Math.abs(rfosPercentageDiff) }}%
-                            </span>&nbsp; from last year
+                          'percentage-neutral-color': rfosPercentageDiff === 0 }">
+                          {{ Math.abs(rfosPercentageDiff) }}%
+                        </span>&nbsp; from last year
                       </div>
                     </div>
                   </div>
@@ -159,17 +151,14 @@
                             'down-arrow-color': rposPercentageDiff < 0,
                             'neutral-arrow-color': rposPercentageDiff === 0
                           }">
-                          {{
-                          rposPercentageDiff > 0
-                          ? 'arrow_upward'
-                          : rposPercentageDiff < 0 ? 'arrow_downward' : 'commit' }} </span>
-                            <span [ngClass]="{
+                          {{rposPercentageDiff > 0 ? 'arrow_upward' : rposPercentageDiff < 0 ? 'arrow_downward' : 'commit' }}
+                        </span>
+                        <span [ngClass]="{
                           'percentage-up-color': rposPercentageDiff > 0,
                           'percentage-down-color': rposPercentageDiff < 0,
-                          'percentage-neutral-color': rposPercentageDiff === 0
-                        }">
-                              {{ Math.abs(rposPercentageDiff) }}%
-                            </span>&nbsp; from last year
+                          'percentage-neutral-color': rposPercentageDiff === 0 }">
+                          {{ Math.abs(rposPercentageDiff) }}%
+                        </span>&nbsp; from last year
                       </div>
                     </div>
                   </div>
@@ -177,6 +166,14 @@
 
               </div>
             </div>
+          </div>
+
+          <div>
+            <p><span class="uk-text-bold">Data source:</span>
+              Survey on National Contributions to EOSC and Open Science {{year}} -
+              showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
+              OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+            </p>
           </div>
         </div>
       </div>

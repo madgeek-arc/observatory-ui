@@ -13,6 +13,7 @@ import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/
 import { PdfExportService } from "../../services/pdf-export.service";
 import {combineLatest} from "rxjs";
 import {filter} from "rxjs/operators";
+import { ExploreService } from "../../explore/explore.service";
 
 
 
@@ -31,6 +32,8 @@ import {filter} from "rxjs/operators";
 
 export class GeneralRDOverviewComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private exploreService = inject(ExploreService);
+
   protected readonly Math = Math;
   exportActive = false;
 
@@ -54,6 +57,7 @@ export class GeneralRDOverviewComponent implements OnInit {
   countrySurveyAnswerLastUpdate: string | null = null;
   year: string;
   prevYear: string;
+  lastUpdateDate?: string;
 
   constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
 
@@ -74,7 +78,11 @@ export class GeneralRDOverviewComponent implements OnInit {
       this.prevYear = (numericYear - 1).toString();
       this.getPublicationPercentage();
       this.getOpenDataPercentage();
-    })
+    });
+
+    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => this.lastUpdateDate = value
+    });
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {

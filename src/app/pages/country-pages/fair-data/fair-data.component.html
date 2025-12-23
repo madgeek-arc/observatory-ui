@@ -17,10 +17,8 @@
           <div class="uk-flex uk-flex-center"
             (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5], 'Open Data')"
             style="cursor: pointer">
-            <div class="uk-flex uk-flex-middle uk-text-primary"
-              style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
-              <span class=""
-                style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+            <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+              <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
               <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
@@ -184,12 +182,15 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="uk-margin-medium-top">
+
           <div>
-            <span class="uk-text-bold">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open
-            Science, OpenAIRE Graph.
+            <p><span class="uk-text-bold">Data source:</span>
+              Survey on National Contributions to EOSC and Open Science {{year}} -
+              showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
+              OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+            </p>
           </div>
+
         </div>
       </div>
     </div>
@@ -246,7 +247,7 @@
                 [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
                 [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [height]="700"
                 [caption]="'<p class=\'uk-text-justify\'>The presented graph shows the adoption of FAIR Data policies among Research Performing Organisations (RPOs). It highlights the percentage of RPOs that have implemented policies supporting FAIR data principles, compared to those without such policies.</p>' +
-                                  '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science.</p>'">
+                                  '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science for year '+year+'.</p>'">
               </app-stacked-column>
             </div>
           </div>
@@ -258,7 +259,7 @@
                 [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
                 [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [height]="700"
                 [caption]="'<p class=\'uk-text-justify\'>The presented graph shows on Research Funding Organisations (RFOs) and their commitment to FAIR Data policies. It illustrates the percentage of RFOs that have implemented FAIR data policies, alongside those that have not.</p>' +
-                                  '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science.</p>'">
+                                  '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science for year '+year+'.</p>'">
               </app-stacked-column>
             </div>
           </div>
