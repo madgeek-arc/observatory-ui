@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ResourceRegistryService } from '../resource-registry.service';
 import { Document } from 'src/app/domain/document';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DestroyRef, inject } from '@angular/core';
-import { CommonModule, LowerCasePipe, NgOptimizedImage } from "@angular/common";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { PageContentComponent } from 'src/survey-tool/app/shared/page-content/page-content.component';
-import { SidebarMobileToggleComponent } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
-import { set } from 'lodash';
+import {
+  SidebarMobileToggleComponent
+} from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
 
 @Component({
-    selector: 'app-document-landing',
+  selector: 'app-document-landing',
   imports: [NgOptimizedImage, CommonModule, PageContentComponent, SidebarMobileToggleComponent, RouterLink],
-    templateUrl: './document-landing.component.html'
+  templateUrl: './document-landing.component.html'
 })
 
 export class DocumentLandingComponent implements OnInit {
@@ -38,7 +38,6 @@ export class DocumentLandingComponent implements OnInit {
       if (this.documentId) {
         this.documentService.getDocumentById(this.documentId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: (data) => {
-            this.normalizeDocInfo(data.docInfo)
             this.documentData = data;
 
           },
@@ -78,28 +77,6 @@ export class DocumentLandingComponent implements OnInit {
           console.error(err);
         }
       });
-  }
-
-  normalizeDocInfo(docInfo: any) {
-    if (!docInfo) return;
-
-    const dateFields = ['publicationDate', 'lastUpdate', 'modificationDate', 'startDate', 'endDate'];
-
-    dateFields.forEach(field => {
-      if (typeof docInfo[field] === 'number') {
-        docInfo[field] = new Date(docInfo[field]);
-      }
-    });
-
-    if (Array.isArray(docInfo.authors)) {
-      docInfo.authors = docInfo.authors.filter(a => a?.name?.trim().length > 0);
-      if (docInfo.authors.length === 0) docInfo.authors = null;
-    }
-
-    if (Array.isArray(docInfo.tags)) {
-      docInfo.tags = docInfo.tags.filter(t => typeof t === 'string' && t.trim().length > 0);
-      if (docInfo.tags.length === 0) docInfo.tags = null;
-    }
   }
 
 }

@@ -124,19 +124,16 @@ export class SearchComponent implements OnInit {
   // Load documents based on current parameters
   loadDocuments() {
     this.resourceService.getDocument(this.from, this.pageSize, this.urlParameters, this.isAdminPage)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
+      .pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: (data) => {
-          const cleanedData = this.resourceRegistryService.cleanNullArrays(data) as Paging<HighlightedResults<Document>>;
 
-          if (cleanedData?.results?.length > 0) {
-            this.documents = cleanedData;
+          if (data?.results?.length > 0) {
+            this.documents = data as Paging<HighlightedResults<Document>>;
 
             this.documents.results.forEach((element) => {
               const docInfo = element.result?.docInfo;
 
               if (docInfo) {
-                this.normalizeDocInfo(docInfo);
                 if (docInfo.organisations && element.highlights) {
                   docInfo.organisations = this.resourceRegistryService.replaceWithHighlighted(
                     docInfo.organisations,
@@ -148,10 +145,10 @@ export class SearchComponent implements OnInit {
             });
 
             this.paginationInit();
-            if (cleanedData.facets && cleanedData.facets.length > 0) {
-              this.languageFacets = cleanedData.facets.find(facet => facet.field === 'language');
-              this.countryFacets = cleanedData.facets.find(facet => facet.field === 'country');
-              this.tagFacets = cleanedData.facets.find(facet => facet.field === 'tags');
+            if (data.facets && data.facets.length > 0) {
+              this.languageFacets = data.facets.find(facet => facet.field === 'language');
+              this.countryFacets = data.facets.find(facet => facet.field === 'country');
+              this.tagFacets = data.facets.find(facet => facet.field === 'tags');
             }
           } else {
             this.documents.results = [];
@@ -161,32 +158,6 @@ export class SearchComponent implements OnInit {
           console.error('API error:', err);
         }
       });
-  }
-
-  normalizeDocInfo(docInfo: any) {
-    if (!docInfo) return;
-
-    if (typeof docInfo.publicationDate === 'number') {
-      docInfo.publicationDate = new Date(docInfo.publicationDate);
-    }
-
-    if (typeof docInfo.lastUpdate === 'number') {
-      docInfo.lastUpdate = new Date(docInfo.lastUpdate);
-    }
-
-    if (Array.isArray(docInfo.authors)) {
-      docInfo.authors = docInfo.authors.filter(
-        author => author && author.name && author.name.trim().length > 0
-      );
-      if (docInfo.authors.length === 0) docInfo.authors = null;
-    }
-
-    if (Array.isArray(docInfo.tags)) {
-      docInfo.tags = docInfo.tags.filter(
-        t => t && typeof t === 'string' && t.trim().length > 0
-      );
-      if (docInfo.tags.length === 0) docInfo.tags = null;
-    }
   }
 
   // Pagination methods

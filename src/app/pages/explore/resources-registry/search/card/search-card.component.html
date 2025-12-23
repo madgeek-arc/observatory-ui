@@ -59,8 +59,9 @@
 
       <div *ngIf="doc.result.docInfo?.publicationDate || doc.result.docInfo?.startDate || doc.result.docInfo?.endDate"
            class="uk-text-small uk-margin-small-bottom document-dates-metadata">
-                  <span *ngIf="doc.result.docInfo?.publicationDate">Publication Date: {{ doc.result.docInfo.publicationDate |
-                    date:'mediumDate' }}</span>
+                  <span *ngIf="doc.result.docInfo?.publicationDate">
+                    Publication Date: {{ doc.result.docInfo.publicationDate |date:'mediumDate' }}
+                  </span>
         <span *ngIf="doc.result.docInfo?.startDate">Start Date: {{ doc.result.docInfo.startDate | date:'mediumDate'
           }}</span>
         <span *ngIf="doc.result.docInfo?.endDate">End Date: {{ doc.result.docInfo.endDate | date:'mediumDate' }}</span>

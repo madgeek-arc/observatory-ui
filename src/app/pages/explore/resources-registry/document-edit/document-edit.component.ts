@@ -71,7 +71,8 @@ export class DocumentEditComponent implements OnInit {
     // const docInfo: Content = this.editForm.value;
 
     if (documentId) {
-      const doc = this.resourceRegistryService.cleanNullArrays(event.get('docInfo').value);
+      const doc = this.resourceRegistryService.cleanObjectInPlace(event.get('docInfo').value);
+      console.log(doc);
       this.resourceRegistryService.updateDocument(documentId, doc).subscribe({
         next: () => {
           this.router.navigate(['document-landing', this.documentId], {relativeTo: this.route.parent}).then();

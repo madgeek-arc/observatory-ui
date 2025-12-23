@@ -7,6 +7,12 @@ import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
 import { Model } from 'src/survey-tool/catalogue-ui/domain/dynamic-form-model';
 
 
+type CleanOptions = {
+  removeNull?: boolean;
+  removeEmptyString?: boolean;
+  removeUndefined?: boolean; // optional extra
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -87,44 +93,75 @@ export class ResourceRegistryService {
     return updated;
   }
 
+  cleanObjectInPlace(obj: any, options: CleanOptions = {}) {
+    const {removeNull = true, removeEmptyString = true, removeUndefined = true} = options;
 
-  cleanNullArrays(obj: any): any {
-    // Handle Arrays
-    if (Array.isArray(obj)) {
-      // If the array is already empty, return it as is to avoid breaking logic that
-      //expects an array
-      if (obj.length === 0) return obj;
+    const seen = new WeakSet<object>();
 
-      const cleanedArray = obj.map(el => this.cleanNullArrays(el));
-
-      // if after cleaning, all elements in the array are null, null the entire array
-      if (cleanedArray.every(el => el === null)) {
-        return null;
-      }
-      return cleanedArray;
+    function isMissing(value: any): boolean {
+      if (removeUndefined && value === undefined) return true;
+      if (removeNull && value === null) return true;
+      if (removeEmptyString && value === "") return true;
+      return false;
     }
 
-    // Handle Objects
-    else if (obj !== null && typeof obj === 'object') {
-      if (obj instanceof Date) return obj;
+    // Walk returns true if the value contains any meaningful data
+    function walk(value: any): boolean {
+      if (isMissing(value)) {
+        return false;
+      }
 
-      const cleanedObj: any = {};
-      let hasValidData = false;
+      if (value && typeof value === "object") {
+        if (seen.has(value)) return true; // assume cyclic refs are meaningful
+        seen.add(value);
 
-      for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          const value = this.cleanNullArrays(obj[key]);
-          cleanedObj[key] = value;
+        if (Array.isArray(value)) {
+          let write = 0;
+          let hasMeaningful = false;
 
-          // If at least one property contains data, mark the object as valid
-          if (value !== null) {
-            hasValidData = true;
+          for (let read = 0; read < value.length; read++) {
+            const item = value[read];
+
+            const itemHasMeaning = item && typeof item === "object" ? walk(item) : !isMissing(item);
+
+            if (itemHasMeaning) {
+              value[write++] = value[read];
+              hasMeaningful = true;
+            }
           }
+
+          value.length = write;
+          return hasMeaningful;
+        } else {
+          // plain object
+          let hasMeaningful = false;
+
+          for (const key of Object.keys(value)) {
+            const prop = value[key];
+            const propHasMeaning =
+              prop && typeof prop === "object" ? walk(prop) : !isMissing(prop);
+
+            if (!propHasMeaning) {
+              value[key] = null;
+            } else {
+              hasMeaningful = true;
+            }
+          }
+
+          return hasMeaningful;
         }
       }
-      // If the object ended up containing only null values, return null
-      return hasValidData ? cleanedObj : null;
+
+      return true;
     }
+
+    const hasMeaningful = walk(obj);
+
+    // If the root object itself is empty, normalize it to null
+    if (!hasMeaningful && typeof obj === "object") {
+      return null;
+    }
+
     return obj;
   }
 

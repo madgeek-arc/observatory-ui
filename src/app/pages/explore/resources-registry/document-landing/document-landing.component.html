@@ -416,20 +416,20 @@
                     <div class="uk-margin-left uk-width-expand uk-text-break">
                       <div class="uk-margin-small-bottom">
                         <div class="uk-text-meta uk-text-xsmall">Start date</div>
-                        <div
-                          class="uk-text-primary uk-text-bold uk-text-default">{{ documentData.docInfo?.startDate ? documentData.docInfo?.startDate : '--' }}
+                        <div class="uk-text-primary uk-text-bold uk-text-default">
+                          {{ (documentData.docInfo?.startDate | date: 'dd/MM/yyyy') ??  '--' }}
                         </div>
                       </div>
                       <div class="uk-margin-small-bottom">
                         <div class="uk-text-meta uk-text-xsmall">End date</div>
-                        <div
-                          class="uk-text-primary uk-text-bold uk-text-default">{{ documentData.docInfo?.endDate ? documentData.docInfo?.endDate : '--' }}
+                        <div class="uk-text-primary uk-text-bold uk-text-default">
+                          {{ (documentData.docInfo?.endDate | date: 'dd/MM/yyyy') ?? '--' }}
                         </div>
                       </div>
                       <div>
                         <div class="uk-text-meta uk-text-xsmall">Publication date</div>
-                        <div
-                          class="uk-text-primary uk-text-bold uk-text-default">{{ documentData.docInfo?.publicationDate ? documentData.docInfo?.publicationDate : '--' }}
+                        <div class="uk-text-primary uk-text-bold uk-text-default">
+                          {{ (documentData.docInfo?.publicationDate| date: 'dd/MM/yyyy') ?? '--' }}
                         </div>
                       </div>
                     </div>
@@ -444,15 +444,16 @@
                     <div class="uk-margin-left uk-width-expand uk-text-break">
                       <div class="uk-margin-small-bottom">
                         <div class="uk-text-meta uk-text-xsmall">Created by</div>
-                        <div class="uk-text-primary uk-text-bold uk-text-default">{{ documentData.metadata?.createdby }}
-                          on {{ documentData.metadata?.creationDate | date:'medium' }}
+                        <div class="uk-text-primary uk-text-bold uk-text-default">
+                          {{ documentData.metadata?.createdby }}<br>
+                          on {{ documentData.metadata?.creationDate | date:'dd/MM/yyyy, HH:mm:ss' }}
                         </div>
                       </div>
                       <div class="uk-margin-small-bottom">
                         <div class="uk-text-meta uk-text-xsmall">Last modified by</div>
-                        <div
-                          class="uk-text-primary uk-text-bold uk-text-default">{{ documentData.metadata?.modifiedBy }}
-                          on {{ documentData.metadata?.modificationDate | date:'medium' }}
+                        <div class="uk-text-primary uk-text-bold uk-text-default">
+                          {{ documentData.metadata?.modifiedBy }}<br>
+                          on {{ documentData.metadata?.modificationDate | date:'dd/MM/yyyy, HH:mm:ss' }}
                         </div>
                       </div>
                     </div>
