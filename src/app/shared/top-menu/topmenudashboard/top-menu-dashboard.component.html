@@ -289,7 +289,7 @@
 <!--                      currentCoordinator.name : currentAdministrator.name))}}-->
 <!--                      </span>-->
 <!--                  </div>-->
-                  <div *ngIf="!userInfo.user.profile?.picture; else elseBlock">
+                  <div *ngIf="!userInfo.user.profile?.picture; else elseBlockMobile">
                     <svg height="60" width="60">
                       <circle cx="30" cy="30" r="20" stroke-width="1"></circle>
                       <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%">{{parseUsername()}}</text>
@@ -299,7 +299,7 @@
                       </text>
                     </svg>
                   </div>
-                  <ng-template #elseBlock>
+                  <ng-template #elseBlockMobile>
                     <svg height="60" width="60">
                       <image x="10" y="10" [attr.href]="'data:image;base64,' + userInfo.user.profile.picture" height="40" width="40" clip-path="inset(0% round 20px)" />
                       <!--                        For messages-->

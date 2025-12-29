@@ -46,9 +46,9 @@
                 style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
+              <span *ngIf="exportActive else elseBlockMobile" class="uk-margin-small-left"
                 data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              <ng-template #elseBlockMobile>
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
               </ng-template>
             </div>
