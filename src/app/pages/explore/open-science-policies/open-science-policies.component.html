@@ -9,16 +9,17 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
           <h4>Open Science Policies</h4>
           <div class="uk-flex uk-flex-center"
-               (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5, exportContent6], 'Open Science Policies')"
-               style="cursor: pointer">
+            (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5, exportContent6], 'Open Science Policies')"
+            style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              @if (exportActive) {
+                <span class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
@@ -26,16 +27,17 @@
         <div class="uk-hidden@m">
           <h4>Open Science Policies</h4>
           <div class="uk-flex uk-flex-right"
-               (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5, exportContent6], 'Open Science Policies')"
-               style="cursor: pointer">
+            (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5, exportContent6], 'Open Science Policies')"
+            style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlockMobile" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlockMobile>
+              @if (exportActive) {
+                <span class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
@@ -48,7 +50,7 @@
           various European countries have adopted such policies across different areas of Open Science, including Open
           Access Publications, FAIR Data, and more. It also explores the impact of these policies and investments on the
           dissemination of open research outputs, offering insights into the financial strategies supporting these
-          initiatives.</p>
+        initiatives.</p>
 
       </div>
     </div>
@@ -61,9 +63,9 @@
           <div class="uk-grid">
             <div class="uk-width-1-1">
               <app-multi-chart chartType=bar [series]="columnChartSeries" [categories]="columnChartCategories"
-                               [titles]="columnChartTitles" [legendOptions]="legendOptions" valueSuffix="%"
-                               [height]="smallScreen ? 1150 : 950"
-                               [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
+                [titles]="columnChartTitles" [legendOptions]="legendOptions" valueSuffix="%"
+                [height]="smallScreen ? 1150 : 950"
+                [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
                                [caption]="'<p class=\'uk-text-justify\'>This bar chart illustrates the percentage of countries with established national policies across various Open Science areas for the years 2021 and 2022. Each bar represents a different area of Open Science, such as Open Access Publications, FAIR Data, and Citizen Science, showing the progression or changes in policy adoption from one year to the next. The comparison highlights the evolving landscape of Open Science initiatives at a national level, indicating which aspects of Open Science are gaining attention.</p>'
                            + '<b>Data source:</b> Survey on National Contributions to EOSC and Open Science '+year+'.'">
               </app-multi-chart>
@@ -84,7 +86,7 @@
             <div class="uk-width-1-1">
               <app-multi-chart chartType=bar [series]="columnChart3Series" [categories]="columnChartCategories"
                                [titles]="columnChart3Titles" [legendOptions]="legendOptions" valueSuffix="%"
-                               [height]="smallScreen ? 1150 : 950" [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
+                [height]="smallScreen ? 1150 : 950" [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
                                [caption]="'<p class=\'uk-text-justify\'>This bar illustrates the coverage of researchers by national Open Science policies across various policy areas in Europe, as measured in Full-Time Equivalents (FTE). To calculate the percentage, we sum the number of researchers covered by each policy across all countries and then calculate the percentage in relation to the total number of researchers in Europe (using data from Eurostat). The graph displays this breakdown for each policy area, offering insights into the extent of policy coverage for Open Science across European countries.</p>'
                            + '<b>Data source:</b> Survey on National Contributions to EOSC and Open Science '+year+'; <a href=&quot;https://ec.europa.eu/eurostat/databrowser/view/tsc00004/default/table?lang=en&quot; target=&quot;_blank&quot;>Eurostat</a>'">
               </app-multi-chart>
@@ -108,38 +110,46 @@
                 <li>
                   <a class="uk-margin-remove-bottom"><span>Overview</span></a>
                 </li>
-                <li class="" *ngFor="let pill of openScienceAreas; let i=index">
-                  <a class="uk-margin-remove-bottom" (click)="getChart(i)"><span>{{ pill }}</span></a>
-                </li>
+                @for (pill of openScienceAreas; track pill; let i = $index) {
+                  <li class="">
+                    <a class="uk-margin-remove-bottom" (click)="getChart(i)"><span>{{ pill }}</span></a>
+                  </li>
+                }
               </ul>
               <!-- Dropdown for mobile only-->
               <select class="uk-select uk-hidden@m uk-margin-small-top uk-margin-small-bottom" (change)="onSelectChange($event)">
                 <option value="0">Overview</option>
-                <option *ngFor="let pill of openScienceAreas; let i=index" [value]="i+1">{{ pill }}</option>
+                @for (pill of openScienceAreas; track pill; let i = $index) {
+                  <option [value]="i+1">{{ pill }}</option>
+                }
               </select>
             </div>
             <div class="uk-width-1-1@s uk-width-3-4@m uk-width-3-4@l">
               <ul id="map-charts" class="uk-switcher uk-margin">
-                <li class="" style="animation-duration: 200ms;" *ngIf="policiesMapData.series.length">
-                  <div>
-                    <app-highcharts-category-map
-                      [mapData]="policiesMapData" [title]="'National Policies'" [backgroundColor]="'#ffffff'"
-                      [height]="700" [smallScreen]="smallScreen"
+                @if (policiesMapData.series.length) {
+                  <li class="" style="animation-duration: 200ms;">
+                    <div>
+                      <app-highcharts-category-map
+                        [mapData]="policiesMapData" [title]="'National Policies'" [backgroundColor]="'#ffffff'"
+                        [height]="700" [smallScreen]="smallScreen"
                       [caption]="'<p class=\'uk-text-justify\'>This map visualizes the presence or absence of national policies across various Open Science areas in European countries. A country is labelled as having a \'national policy\' if it has implemented at least one policy in areas such as Open Access Publications, Data Management, FAIR Data, Open Data, and others. By hovering over a country, you can view a detailed breakdown of the specific policies in place within that country. You can also filter the map by selecting different Open Science areas on the right side, allowing you to explore which aspects of Open Science are being monitored in each country.</p>' +
                       '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'">
                     </app-highcharts-category-map>
                   </div>
                 </li>
-                <li *ngFor="let pill of openScienceAreas; let i = index">
+}
+                @for (pill of openScienceAreas; track pill; let i = $index) {
+<li>
                   <div>
                     <app-highcharts-category-map
                       [mapData]="questionsDataArray[i]" [title]="mapTitles[i]" [toolTipData]="toolTipData[i]"
-                      [backgroundColor]="'#ffffff'" [height]="700" [smallScreen]="smallScreen"
-                      [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
-                      [caption]="policesMapCaptions[i] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'">
-                    </app-highcharts-category-map>
-                  </div>
-                </li>
+                        [backgroundColor]="'#ffffff'" [height]="700" [smallScreen]="smallScreen"
+                        [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
+                        [caption]="policesMapCaptions[i] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'">
+                      </app-highcharts-category-map>
+                    </div>
+                  </li>
+                }
               </ul>
             </div>
           </div>
@@ -157,10 +167,10 @@
           <div class="uk-grid">
             <div class="uk-width-1-1">
               <app-bubble-chart [enablePlotLines]="false" [enableLegend]="false" [toolTip]="bubbleChartTooltip"
-                                xAxisTitle="Publications per Researcher FTE"
-                                yAxisTitle="Financial Investment per Researcher FTE"
-                                [title]="'Impact of Policy and Investment on Open Access Publications'"
-                                [series]="bubbleChart" [height]="smallScreen ? 1200 : 700"
+                xAxisTitle="Publications per Researcher FTE"
+                yAxisTitle="Financial Investment per Researcher FTE"
+                [title]="'Impact of Policy and Investment on Open Access Publications'"
+                [series]="bubbleChart" [height]="smallScreen ? 1200 : 700"
                                 [caption]="'<p class=\'uk-text-justify\'>This interactive bubble chart explores the relationship between policy frameworks, financial investments, and the activity levels of Open Science (OS) initiatives across a selection of European countries. Each bubble represents a specific country, with the size indicating the percentage of OS activities relative to the total national output in this area. The bubble\'s color denotes the policy status—green for mandatory policies, orange for non-mandatory policies, and grey for countries without specific policies.</p>' +
                             '<p class=\'uk-text-justify\'>The x-axis quantifies the actual number of OS activities, providing a measure of how actively countries are engaged in OS projects. The y-axis categorizes the level of financial investment into OS, segmented into four major categories: \'<1M\', \'1-5M\', \'5-10M\', and \'>20M\'. These categories help illustrate the financial commitment to OS projects within each country.</p>' +
                             '<p class=\'uk-text-justify\'>By clicking on individual bubbles, viewers can access detailed information, including the country’s specific OS policy status, the exact count of OS activities, the percentage these constitute of total national output in this area, and the specific investment bracket.</p>' +
@@ -184,7 +194,7 @@
             <div class="uk-width-1-1">
               <app-multi-chart chartType=bar [series]="columnChart2Series" [categories]="columnChartCategories"
                                [titles]="columnChart2Titles" [legendOptions]="legendOptions" valueSuffix="%"
-                               [height]="smallScreen ? 1150 : 950" [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
+                [height]="smallScreen ? 1150 : 950" [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
                                [caption]="'<p class=\'uk-text-justify\'>This graph presents an overview of the share of countries that have implemented financial strategies to support Open Science and EOSC initiatives across various domains. It illustrates the percentage of countries that have adopted financial frameworks within categories such as Open Access Publications, Fair Data, Data Management, and more.</p>'
                            + '<b>Data source:</b> Survey on National Contributions to EOSC and Open Science.'">
               </app-multi-chart>
@@ -235,19 +245,24 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let row of tableData">
-              <ng-container *ngFor="let item of row; let i = index">
-                <td *ngIf="i === 0; else addTooltip" class="uk-text-bold">
+            @for (row of tableData; track row) {
+<tr>
+              @for (item of row; track item; let i = $index) {
+
+                @if (i === 0) {
+<td class="uk-text-bold">
                   {{ item }}
                 </td>
-                <ng-template #addTooltip>
+} @else {
+
                   <td [title]="columnChartCategories[i-1]"
                       [ngClass]="{valueTrue: item === 'true', valueFalse: item==='-'}" style="">
-                    <a style="width:100%; height:100%">&#8203;</a>
-                  </td>
-                </ng-template>
-              </ng-container>
-            </tr>
+                        <a style="width:100%; height:100%">&#8203;</a>
+                      </td>
+                    }
+                  }
+                </tr>
+              }
             </tbody>
           </table>
         </div>

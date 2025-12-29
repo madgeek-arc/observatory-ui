@@ -9,16 +9,17 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
           <h4>Open Science by Area / Open Data</h4>
           <div class="uk-flex uk-flex-center"
-               (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5], 'Open Data')"
-               style="cursor: pointer">
+            (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5], 'Open Data')"
+            style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              @if (exportActive) {
+                <span class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
@@ -26,16 +27,17 @@
         <div class="uk-hidden@m">
           <h4>Open Science by Area / Open Data</h4>
           <div class="uk-flex uk-flex-right"
-               (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5], 'Open Data')"
-               style="cursor: pointer">
+            (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4, exportContent5], 'Open Data')"
+            style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlockMobile" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlockMobile>
+              @if (exportActive) {
+                <span class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
@@ -47,22 +49,23 @@
           machine-readable. Open Data policies in the EU are aimed at increasing transparency, fostering innovation, and
           enhancing public access to valuable information, thereby promoting economic growth and social welfare​
           (source: <a
-            href="https://op.europa.eu/en/publication-detail/-/publication/ef43f58a-d7ea-11ec-a95f-01aa75ed71a1"
-            target="_blank">Publications Office of the EU</a>). The graphic below offers a comprehensive overview of key
-          metrics that monitor the advancement of Open Data initiatives and policies across Europe. Understanding these
-          indicators is essential for assessing the degree to which Europe is embracing and implementing Open Data and
-          Open Science principles.</p>
+          href="https://op.europa.eu/en/publication-detail/-/publication/ef43f58a-d7ea-11ec-a95f-01aa75ed71a1"
+        target="_blank">Publications Office of the EU</a>). The graphic below offers a comprehensive overview of key
+        metrics that monitor the advancement of Open Data initiatives and policies across Europe. Understanding these
+        indicators is essential for assessing the degree to which Europe is embracing and implementing Open Data and
+      Open Science principles.</p>
 
-      </div>
     </div>
+  </div>
 
-    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent1>
-      <div class="uk-container">
-        <h5>General Overview of Open Data in Europe for {{ year }}</h5>
+  <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent1>
+    <div class="uk-container">
+      <h5>General Overview of Open Data in Europe for {{ year }}</h5>
 
-        <div class="uk-child-width-1-3@m uk-child-width-1-3@l uk-child-width-1-1@s uk-grid-match uk-grid-row-medium uk-flex-center" data-uk-grid>
+      <div class="uk-child-width-1-3@m uk-child-width-1-3@l uk-child-width-1-1@s uk-grid-match uk-grid-row-medium uk-flex-center" data-uk-grid>
 
-          <div *ngIf="openData.length === 2">
+        @if (openData.length === 2) {
+          <div>
             <div class="uk-card card-simple uk-card-small uk-card-body">
               <div>
                 <p>Open Data in Europe (Open vs Closed)</p>
@@ -71,7 +74,7 @@
                 <span class="uk-text-bold">{{ openData[1] }}%</span>
               </div>
               <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                <ng-container *ngIf="openData[1] >= openData[0]; else pubsDown">
+                @if (openData[1] >= openData[0]) {
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
                     <span class="percentage-up-color">+{{ Math.abs(openData[0] - openData[1]) }}%</span>&nbsp; from last
@@ -79,10 +82,9 @@
                   </div>
                   <div>
                     <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50"
-                         width="99">
+                      width="99">
                   </div>
-                </ng-container>
-                <ng-template #pubsDown>
+                } @else {
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
                     <span class="percentage-down-color">-{{ Math.abs(openData[0] - openData[1]) }}%</span>&nbsp; from
@@ -90,14 +92,16 @@
                   </div>
                   <div>
                     <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50"
-                         width="99">
+                      width="99">
                   </div>
-                </ng-template>
+                }
               </div>
             </div>
           </div>
+        }
 
-          <div *ngIf="countriesWithPolicy.length === 2">
+        @if (countriesWithPolicy.length === 2) {
+          <div>
             <div class="uk-card card-simple uk-card-small uk-card-body">
               <div>
                 <p>EU Countries with Policy on Open Data</p>
@@ -106,33 +110,34 @@
                 <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
               </div>
               <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                <ng-container *ngIf="countriesWithPolicy[1] >= countriesWithPolicy[0]; else policyDown">
+                @if (countriesWithPolicy[1] >= countriesWithPolicy[0]) {
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
                     <span class="percentage-up-color">+{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}
-                      %</span>&nbsp; from last year
+                    %</span>&nbsp; from last year
                   </div>
                   <div>
                     <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50"
-                         width="99">
+                      width="99">
                   </div>
-                </ng-container>
-                <ng-template #policyDown>
+                } @else {
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
                     <span class="percentage-down-color">-{{ Math.abs(countriesWithPolicy[0] - countriesWithPolicy[1]) }}
-                      %</span>&nbsp; from last year
+                    %</span>&nbsp; from last year
                   </div>
                   <div>
                     <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50"
-                         width="99">
+                      width="99">
                   </div>
-                </ng-template>
+                }
               </div>
             </div>
           </div>
+        }
 
-          <div *ngIf="totalInvestments.length === 2">
+        @if (totalInvestments.length === 2) {
+          <div>
             <div class="uk-card card-simple uk-card-small uk-card-body">
               <div>
                 <p>Financial investments in Open Data</p>
@@ -141,7 +146,7 @@
                 <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
               </div>
               <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                <ng-container *ngIf="totalInvestments[1] >= totalInvestments[0]; else policyDown">
+                @if (totalInvestments[1] >= totalInvestments[0]) {
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
                     <span class="percentage-up-color">+{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp;
@@ -149,10 +154,9 @@
                   </div>
                   <div>
                     <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50"
-                         width="99">
+                      width="99">
                   </div>
-                </ng-container>
-                <ng-template #policyDown>
+                } @else {
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
                     <span class="percentage-down-color">-{{ calculatePercentageChange(totalInvestments) }}%</span>&nbsp;
@@ -160,14 +164,16 @@
                   </div>
                   <div>
                     <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50"
-                         width="99">
+                      width="99">
                   </div>
-                </ng-template>
+                }
               </div>
             </div>
           </div>
+        }
 
-          <div *ngIf="countriesWithStrategy.length === 2">
+        @if (countriesWithStrategy.length === 2) {
+          <div>
             <div class="uk-card card-simple uk-card-small uk-card-body">
               <div>
                 <p>EU Countries with Financial Strategy on Open Data</p>
@@ -176,35 +182,36 @@
                 <span class="uk-text-bold">{{ countriesWithStrategy[1] }}%</span>
               </div>
               <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                <ng-container *ngIf="countriesWithStrategy[1] >= countriesWithStrategy[0]; else policyDown">
+                @if (countriesWithStrategy[1] >= countriesWithStrategy[0]) {
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
                     <span
                       class="percentage-up-color">+{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}
-                      %</span>&nbsp; from last year
+                    %</span>&nbsp; from last year
                   </div>
                   <div>
                     <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50"
-                         width="99">
+                      width="99">
                   </div>
-                </ng-container>
-                <ng-template #policyDown>
+                } @else {
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
                     <span
                       class="percentage-down-color">-{{ Math.abs(countriesWithStrategy[0] - countriesWithStrategy[1]) }}
-                      %</span>&nbsp; from last year
+                    %</span>&nbsp; from last year
                   </div>
                   <div>
                     <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50"
-                         width="99">
+                      width="99">
                   </div>
-                </ng-template>
+                }
               </div>
             </div>
           </div>
+        }
 
-          <div *ngIf="countriesWithMonitoring.length === 2">
+        @if (countriesWithMonitoring.length === 2) {
+          <div>
             <div class="uk-card card-simple uk-card-small uk-card-body">
               <div>
                 <p>EU Countries with National Open Data Monitoring Initiatives</p>
@@ -213,137 +220,151 @@
                 <span class="uk-text-bold">{{ countriesWithMonitoring[1] }}%</span>
               </div>
               <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                <ng-container *ngIf="countriesWithMonitoring[1] >= countriesWithMonitoring[0]; else policyDown">
+                @if (countriesWithMonitoring[1] >= countriesWithMonitoring[0]) {
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
                     <span
                       class="percentage-up-color">+{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}
-                      %</span>&nbsp; from last year
+                    %</span>&nbsp; from last year
                   </div>
                   <div>
                     <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50"
-                         width="99">
+                      width="99">
                   </div>
-                </ng-container>
-                <ng-template #policyDown>
+                } @else {
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
                     <span
                       class="percentage-down-color">-{{ Math.abs(countriesWithMonitoring[0] - countriesWithMonitoring[1]) }}
-                      %</span>&nbsp; from last year
+                    %</span>&nbsp; from last year
                   </div>
                   <div>
                     <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50"
-                         width="99">
+                      width="99">
                   </div>
-                </ng-template>
+                }
               </div>
             </div>
           </div>
-
-        </div>
-
-        <div class="uk-margin-top">
-          <span class="uk-text-bold">Data source:</span>&nbsp;
-          Survey on National Contributions to EOSC and Open Science {{year}} -
-          showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
-          OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
-        </div>
+        }
 
       </div>
+
+      <div class="uk-margin-top">
+        <span class="uk-text-bold">Data source:</span>&nbsp;
+        Survey on National Contributions to EOSC and Open Science {{year}} -
+        showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
+        OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+      </div>
+
     </div>
+  </div>
 
-    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent2>
-      <div class="uk-container">
+  <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent2>
+    <div class="uk-container">
 
-        <div class="uk-card uk-card-default visualisation-card uk-card-body">
+      <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-          <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="connect:#maps; animation: uk-animation-fade">
-            <li><a class="uk-margin-remove-bottom" (click)="countryName = countryCode = comment = undefined">Policies</a></li>
-            <li><a class="uk-margin-remove-bottom" (click)="countryName = countryCode = comment = undefined">Monitoring</a></li>
-          </ul>
+        <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="connect:#maps; animation: uk-animation-fade">
+          <li><a class="uk-margin-remove-bottom" (click)="countryName = countryCode = comment = undefined">Policies</a></li>
+          <li><a class="uk-margin-remove-bottom" (click)="countryName = countryCode = comment = undefined">Monitoring</a></li>
+        </ul>
 
-          <ul id="maps" class="uk-switcher uk-child-width-1-1 uk-grid-match" data-uk-grid>
-            <li>
-              <div data-uk-grid>
-                <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
-                  <app-highcharts-category-map
-                    [mapData]="questionsDataArray[0]" [height]="700" [smallScreen]="smallScreen"
-                    [title]="'National policy on Open Data'" [backgroundColor]="'#ffffff'"
-                    [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong> countries have a <br>national policy on Open data</span>'"
-                    [caption]="policesMapCaptions[3] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'"
-                    (mapClick)="showComment(0, $event)">
-                  </app-highcharts-category-map>
-                </div>
-                <div class="uk-width-1-3@m uk-width-1-3@l uk-width-1-1@s">
-                  <div>
-                    <h6>Start Exploring</h6>
-                    <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
-                    <!--                <h6>Click on country for additional information</h6>-->
-                    <div class="uk-flex uk-flex-middle uk-margin-medium-top">
-                      <img *ngIf="countryCode" ngSrc="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
-                           width="30" height="30" alt="Rounded flag of the selected country">
-                      <span *ngIf="countryName" class="uk-margin-small-left">{{ countryName }}</span>
-                    </div>
-                    <p *ngIf="comment; else noComment" [innerHTML]="comment"
-                       class="uk-text-justify uk-text-small overflow-wrap-break-word"></p>
-                    <ng-template #noComment>--</ng-template>
+        <ul id="maps" class="uk-switcher uk-child-width-1-1 uk-grid-match" data-uk-grid>
+          <li>
+            <div data-uk-grid>
+              <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
+                <app-highcharts-category-map
+                  [mapData]="questionsDataArray[0]" [height]="700" [smallScreen]="smallScreen"
+                  [title]="'National policy on Open Data'" [backgroundColor]="'#ffffff'"
+                  [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong> countries have a <br>national policy on Open data</span>'"
+                  [caption]="policesMapCaptions[3] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'"
+                  (mapClick)="showComment(0, $event)">
+                </app-highcharts-category-map>
+              </div>
+              <div class="uk-width-1-3@m uk-width-1-3@l uk-width-1-1@s">
+                <div>
+                  <h6>Start Exploring</h6>
+                  <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
+                  <!--                <h6>Click on country for additional information</h6>-->
+                  <div class="uk-flex uk-flex-middle uk-margin-medium-top">
+                    @if (countryCode) {
+                      <img ngSrc="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
+                        width="30" height="30" alt="Rounded flag of the selected country">
+                    }
+                    @if (countryName) {
+                      <span class="uk-margin-small-left">{{ countryName }}</span>
+                    }
                   </div>
+                  @if (comment) {
+                    <p [innerHTML]="comment"
+                    class="uk-text-justify uk-text-small overflow-wrap-break-word"></p>
+                  } @else {
+                    --
+                  }
                 </div>
               </div>
-            </li>
-            <li>
-              <div data-uk-grid>
-                <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
-                  <app-highcharts-category-map
-                    [mapData]="questionsDataArray[1]" [height]="700" [smallScreen]="smallScreen"
-                    [title]="'National monitoring on Open Data'" [backgroundColor]="'#ffffff'"
-                    [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong> countries have a <br>national monitoring on Open data</span>'"
-                    [caption]="monitoringMapCaptions[3] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'"
-                    (mapClick)="showComment(1, $event)">
-                  </app-highcharts-category-map>
-                </div>
-                <div class="uk-width-1-3@m uk-width-1-3@l uk-width-1-1@s">
-                  <div>
-                    <h6>Start Exploring</h6>
-                    <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
-                    <!--                <h6>Click on country for additional information</h6>-->
-                    <div class="uk-flex uk-flex-middle uk-margin-medium-top">
-                      <img *ngIf="countryCode" ngSrc="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
-                           width="30" height="30" alt="Rounded flag of the selected country">
-                      <span *ngIf="countryName" class="uk-margin-small-left">{{ countryName }}</span>
-                    </div>
-                    <p *ngIf="comment; else noComment" [innerHTML]="comment"
-                       class="uk-text-justify uk-text-small overflow-wrap-break-word"></p>
-                    <ng-template #noComment>--</ng-template>
+            </div>
+          </li>
+          <li>
+            <div data-uk-grid>
+              <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
+                <app-highcharts-category-map
+                  [mapData]="questionsDataArray[1]" [height]="700" [smallScreen]="smallScreen"
+                  [title]="'National monitoring on Open Data'" [backgroundColor]="'#ffffff'"
+                  [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong> countries have a <br>national monitoring on Open data</span>'"
+                  [caption]="monitoringMapCaptions[3] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'"
+                  (mapClick)="showComment(1, $event)">
+                </app-highcharts-category-map>
+              </div>
+              <div class="uk-width-1-3@m uk-width-1-3@l uk-width-1-1@s">
+                <div>
+                  <h6>Start Exploring</h6>
+                  <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
+                  <!--                <h6>Click on country for additional information</h6>-->
+                  <div class="uk-flex uk-flex-middle uk-margin-medium-top">
+                    @if (countryCode) {
+                      <img ngSrc="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
+                        width="30" height="30" alt="Rounded flag of the selected country">
+                    }
+                    @if (countryName) {
+                      <span class="uk-margin-small-left">{{ countryName }}</span>
+                    }
                   </div>
+                  @if (comment) {
+                    <p [innerHTML]="comment"
+                    class="uk-text-justify uk-text-small overflow-wrap-break-word"></p>
+                  } @else {
+                    --
+                  }
                 </div>
               </div>
-            </li>
-          </ul>
-
-        </div>
+            </div>
+          </li>
+        </ul>
 
       </div>
+
     </div>
+  </div>
 
-    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent3>
-      <div class="uk-container">
+  <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent3>
+    <div class="uk-container">
 
-        <div class="uk-card uk-card-default visualisation-card uk-card-body">
+      <div class="uk-card uk-card-default visualisation-card uk-card-body">
 
-          <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="connect:#investments; animation: uk-animation-fade">
-            <li><a class="uk-margin-remove-bottom">Overview</a></li>
-            <li><a class="uk-margin-remove-bottom">Details</a></li>
-          </ul>
+        <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="connect:#investments; animation: uk-animation-fade">
+          <li><a class="uk-margin-remove-bottom">Overview</a></li>
+          <li><a class="uk-margin-remove-bottom">Details</a></li>
+        </ul>
 
-          <ul id="investments" class="uk-switcher">
-            <li>
-              <div class="">
-                <app-multi-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
-                                 [titles]="barChartTitles" [reversedStacks]="false"
-                                 [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
-                                 [customTooltip]="true" [yAxisLabels]="false" [height]="smallScreen ? 600 : 400"
+        <ul id="investments" class="uk-switcher">
+          <li>
+            <div class="">
+              <app-multi-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
+                [titles]="barChartTitles" [reversedStacks]="false"
+                [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
+                [customTooltip]="true" [yAxisLabels]="false" [height]="smallScreen ? 600 : 400"
                                  [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Open Data made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
                                  '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for financial contributions the data reflect the previous year ('+(+year-1)+').</p>'">
                 </app-multi-chart>
@@ -371,8 +392,8 @@
 
           <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend" [series]="stackedColumnSeries"
                               [title]="'Trend of Open Data'" [height]="700"
-                              [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
-                              [dataLabels]="false"
+          [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
+          [dataLabels]="false"
                               [caption]="'<p class=\'uk-text-justify\'>The graph provides a comprehensive view of how data accessibility evolved from 2015 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of Open Data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
                               '<p><strong>Data Source: </strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
           </app-stacked-column>
@@ -389,9 +410,9 @@
 
           <app-stacked-column [categories]="stackedColumn2Categories" [series]="stackedColumn2Series"
                               [yAxis]="yAxisTitle2"
-                              [title]="'Distribution of Open Data Types by Different Document Type'"
-                              [pointFormat]="tooltipPointFormat" [stackLabels]="false" [stacking]="stacking"
-                              [plotFormat]="dataLabels_format" [height]="smallScreen ? 800 : 500"
+          [title]="'Distribution of Open Data Types by Different Document Type'"
+          [pointFormat]="tooltipPointFormat" [stackLabels]="false" [stacking]="stacking"
+          [plotFormat]="dataLabels_format" [height]="smallScreen ? 800 : 500"
                               [caption]="'<p class=\'uk-text-justify\'>The graph illustrates how Open Data is implemented across various types of documents. It segments the Open Data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each coloured, according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance accessibility and foster a more transparent, reproducible, and inclusive science.</p>' +
                           '<p><strong>Data Source: </strong> OpenAIRE Graph data for '+ year +' (updated on ' + lastUpdateDate + ').</p>'">
           </app-stacked-column>

@@ -9,14 +9,15 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
           <h4>Investments in EOSC</h4>
           <div class="uk-flex uk-flex-center"
-               (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3], 'Investments in EOSC')"
-               style="cursor: pointer">
+            (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3], 'Investments in EOSC')"
+            style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">Export report</span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              @if (exportActive) {
+                <span class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
@@ -24,14 +25,15 @@
         <div class="uk-hidden@m">
           <h4>Investments in EOSC</h4>
           <div class="uk-flex uk-flex-right"
-               (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3], 'Investments in EOSC')"
-               style="cursor: pointer">
+            (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3], 'Investments in EOSC')"
+            style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">Export report</span>
-              <span *ngIf="exportActive else elseBlockMobile" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlockMobile>
+              @if (exportActive) {
+                <span class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
@@ -57,100 +59,106 @@
 
           <div class="uk-width-1-3@m uk-width-1-3@l uk-width-1-1@s">
             <div class="uk-margin-medium-bottom">
-              <div *ngIf="totalInvestments[2]" class="uk-card card-simple uk-card-small uk-card-body">
-                <div>
-                  <p>Total amount of <strong>investments</strong> in EOSC and Open Science {{ (+year-1) }}</p>
+              @if (totalInvestments[2]) {
+                <div class="uk-card card-simple uk-card-small uk-card-body">
+                  <div>
+                    <p>Total amount of <strong>investments</strong> in EOSC and Open Science {{ (+year-1) }}</p>
+                  </div>
+                  <div class="number big">
+                    <span class="uk-text-bold">{{ totalInvestments[2] }} mil Euro</span>
+                  </div>
+                  <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                    @if (totalInvestments[2] >= totalInvestments[1]) {
+                      <div class="uk-flex uk-flex-middle">
+                        <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
+                        <span class="percentage-up-color">+{{ calculatePercentageChange(totalInvestments[1], totalInvestments[2]) }}%</span>&nbsp;
+                        vs last year
+                      </div>
+                      <div>
+                        <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+                      </div>
+                    } @else {
+                      <div class="uk-flex uk-flex-middle">
+                        <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                        <span class="percentage-down-color">-{{ calculatePercentageChange(totalInvestments[1], totalInvestments[2]) }}%</span>&nbsp;
+                        vs last year
+                      </div>
+                      <div>
+                        <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+                      </div>
+                    }
+                  </div>
                 </div>
-                <div class="number big">
-                  <span class="uk-text-bold">{{ totalInvestments[2] }} mil Euro</span>
-                </div>
-                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                  <ng-container *ngIf="totalInvestments[2] >= totalInvestments[1]; else policyDown">
-                    <div class="uk-flex uk-flex-middle">
-                      <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
-                      <span class="percentage-up-color">+{{ calculatePercentageChange(totalInvestments[1], totalInvestments[2]) }}%</span>&nbsp;
-                      vs last year
-                    </div>
-                    <div>
-                      <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
-                    </div>
-                  </ng-container>
-                  <ng-template #policyDown>
-                    <div class="uk-flex uk-flex-middle">
-                      <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                      <span class="percentage-down-color">-{{ calculatePercentageChange(totalInvestments[1], totalInvestments[2]) }}%</span>&nbsp;
-                      vs last year
-                    </div>
-                    <div>
-                      <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
-                    </div>
-                  </ng-template>
-                </div>
-              </div>
+              }
             </div>
             <div class="uk-margin-medium-bottom">
-              <div *ngIf="totalInvestments[1]" class="uk-card card-simple uk-card-small uk-card-body">
-                <div>
-                  <p>Total amount of <strong>investments</strong> in EOSC and Open Science {{ (+year-2) }}</p>
+              @if (totalInvestments[1]) {
+                <div class="uk-card card-simple uk-card-small uk-card-body">
+                  <div>
+                    <p>Total amount of <strong>investments</strong> in EOSC and Open Science {{ (+year-2) }}</p>
+                  </div>
+                  <div class="number big">
+                    <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
+                  </div>
+                  <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                    @if (totalInvestments[1] >= totalInvestments[0]) {
+                      <div class="uk-flex uk-flex-middle">
+                        <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
+                        <span class="percentage-up-color">+{{ calculatePercentageChange(totalInvestments[0], totalInvestments[1]) }}%</span>&nbsp;
+                        vs last year
+                      </div>
+                      <div>
+                        <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+                      </div>
+                    } @else {
+                      <div class="uk-flex uk-flex-middle">
+                        <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
+                        <span class="percentage-down-color">-{{ calculatePercentageChange(totalInvestments[0], totalInvestments[1]) }}%</span>&nbsp;
+                        vs last year
+                      </div>
+                      <div>
+                        <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
+                      </div>
+                    }
+                  </div>
                 </div>
-                <div class="number big">
-                  <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
-                </div>
-                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                  <ng-container *ngIf="totalInvestments[1] >= totalInvestments[0]; else policyDown">
-                    <div class="uk-flex uk-flex-middle">
-                      <span class="material-symbols-outlined up-arrow-color">arrow_upward</span>
-                      <span class="percentage-up-color">+{{ calculatePercentageChange(totalInvestments[0], totalInvestments[1]) }}%</span>&nbsp;
-                      vs last year
-                    </div>
-                    <div>
-                      <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
-                    </div>
-                  </ng-container>
-                  <ng-template #policyDown>
-                    <div class="uk-flex uk-flex-middle">
-                      <span class="material-symbols-outlined down-arrow-color">arrow_downward</span>
-                      <span class="percentage-down-color">-{{ calculatePercentageChange(totalInvestments[0], totalInvestments[1]) }}%</span>&nbsp;
-                      vs last year
-                    </div>
-                    <div>
-                      <img ngSrc="../assets/images/explore/trend_red.svg" alt="Downward trend line" height="50" width="99">
-                    </div>
-                  </ng-template>
-                </div>
-              </div>
+              }
             </div>
 
             <div class="uk-margin-medium-bottom">
-              <div *ngIf="totalInvestments[0]" class="uk-card card-simple uk-card-small uk-card-body">
-                <div>
-                  <p>Total amount of <strong>investments</strong> in EOSC and Open Science {{ (+year-3) }}</p>
-                </div>
-                <div class="number big">
-                  <span class="uk-text-bold">{{ totalInvestments[0] }} mil Euro</span>
-                </div>
-                <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                  <div class="uk-flex uk-flex-middle">
-                    <span>base line</span>
-                  </div>
+              @if (totalInvestments[0]) {
+                <div class="uk-card card-simple uk-card-small uk-card-body">
                   <div>
-                    <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+                    <p>Total amount of <strong>investments</strong> in EOSC and Open Science {{ (+year-3) }}</p>
+                  </div>
+                  <div class="number big">
+                    <span class="uk-text-bold">{{ totalInvestments[0] }} mil Euro</span>
+                  </div>
+                  <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                    <div class="uk-flex uk-flex-middle">
+                      <span>base line</span>
+                    </div>
+                    <div>
+                      <img ngSrc="../assets/images/explore/trend_green.svg" alt="Upward trend line" height="50" width="99">
+                    </div>
                   </div>
                 </div>
-              </div>
+              }
             </div>
           </div>
 
           <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
             <div class="uk-card uk-card-default visualisation-card uk-card-body">
-              <app-pie-chart *ngIf="variablePie[0]?.data.length" chartId="variablePie" type="variablepie" title=""
-                             [series]="variablePie" [tooltip]="pieTooltip"
-                             [title]="'Investments in EOSC and Open Science'"
-                             [height]="smallScreen ? 600 : 500"
+              @if (variablePie[0]?.data.length) {
+                <app-pie-chart chartId="variablePie" type="variablepie" title=""
+                  [series]="variablePie" [tooltip]="pieTooltip"
+                  [title]="'Investments in EOSC and Open Science'"
+                  [height]="smallScreen ? 600 : 500"
                              [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments made in different areas of Open Science. Each segment of the graph represents a specific area that was made by countries of the EOSC association.</p>' +
                          '<p class=\'uk-text-justify\'>This data highlights how funds are allocated across these various sectors, indicating the focus areas for enhancing Open Science infrastructure and initiatives.</p>'+
                          '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for financial contributions the data reflect the previous year ('+(+year-1)+').</p>'">
               </app-pie-chart>
+}
             </div>
           </div>
         </div>
@@ -172,8 +180,8 @@
               <li>
                 <app-multi-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
                                  [stacking]="'normal'" [pointWidth]="75" [legendOptions]="legendOptions"
-                                 [titles]="barChartTitles" [height]="smallScreen ? 620 : 400"
-                                 [customTooltip]="true" [yAxisLabels]="false"
+                  [titles]="barChartTitles" [height]="smallScreen ? 620 : 400"
+                  [customTooltip]="true" [yAxisLabels]="false"
                                  [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments made by various European countries in the EOSC and Open Science. The investments are categorised in ranges to show the distribution and scale of funding.</p>'
                                  + '<p class=\'uk-text-justify\'>This data highlights the commitment and support from different countries towards advancing open science initiatives and building the EOSC infrastructure.</p>'
                                  + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for financial contributions the data reflect the previous year ('+(+year-1)+').</p>'">
@@ -182,7 +190,7 @@
               <li>
                 <app-tree-graph [data]="treeGraph"
                                 [title]="'Overview of investments in EOSC and Open Science in European Countries'"
-                                [height]="smallScreen ? 1000 : 700"
+                  [height]="smallScreen ? 1000 : 700"
                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments made by various European countries in the EOSC and Open Science. The investments are categorised in ranges to show the distribution and scale of funding.</p>' +
                              '<p class=\'uk-text-justify\'>This data highlights the commitment and support from different countries towards advancing open science initiatives and building the EOSC infrastructure.</p>' +
                              '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for financial contributions the data reflect the previous year ('+(+year-1)+').</p>'">
@@ -206,10 +214,10 @@
             <div class="uk-width-1-1">
               <app-bubble-chart [enablePlotLines]="true" [series]="bubbleWithPlotLines" [enableLegend]="false"
                                 [toolTip]="bubbleChartTooltip" [xAxisLabelFormat]="'{value} M'"
-                                [yAxisLabelFormat]="'{value} M'"
-                                [title]="'Total Investments in EOSC and Open Science with Open Access Publication Investments Across Nations'"
-                                xAxisTitle="Total Investments in EOSC and OS" yAxisTitle="Total Investmets in OA"
-                                [height]="smallScreen ? 1200 : 700"
+                [yAxisLabelFormat]="'{value} M'"
+                [title]="'Total Investments in EOSC and Open Science with Open Access Publication Investments Across Nations'"
+                xAxisTitle="Total Investments in EOSC and OS" yAxisTitle="Total Investmets in OA"
+                [height]="smallScreen ? 1200 : 700"
                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the relationship between total investments in the EOSC and OS and total investments in Open Access (OA) across various countries. Each bubble represents a country, with the size of the bubble indicating the number of OA publications. The x-axis shows total investments in EOSC and OS, while the y-axis shows total investments in OA. The dotted lines represent the average investments across European countries.</p>' +
                               '<p class=\'uk-text-justify\'>This data helps to visualise how different countries allocate their funds between broader EOSC/OS initiatives and specific Open Access projects, highlighting trends and outliers. Countries positioned above the horizontal dotted line invest more in OA than the average, while those to the right of the vertical dotted line invest more in EOSC and OS than the average.</p>' +
                               '<p class=\'uk-text-justify\'>This graph utilises a base-10 logarithmic scale to transform investment data, converting exponential differences into a linear view. This approach compresses large values and amplifies smaller ones, enabling a clearer comparison of funding levels in EOSC/OS and Open Access across countries, regardless of scale.</p>' +
