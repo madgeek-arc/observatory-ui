@@ -1,9 +1,11 @@
-<highcharts-chart *ngIf="ready" #chart
-                  id="container"
-                  [Highcharts]="Highcharts"
-                  [callbackFunction]="chartCallback"
-                  [options]="chartOptions"
-                  [(update)]="updateFlag"
-                  >
-</highcharts-chart>
+@if (ready) {
+  <highcharts-chart #chart
+    id="container"
+    [Highcharts]="Highcharts"
+    [callbackFunction]="chartCallback"
+    [options]="chartOptions"
+    [(update)]="updateFlag"
+    >
+  </highcharts-chart>
+}
 

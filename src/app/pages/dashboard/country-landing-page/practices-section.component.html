@@ -1,383 +1,458 @@
-<div *ngIf="surveyAnswer" class="categories-content-tabs">
-
-  <ul class="uk-subnav uk-subnav-pill categories-selection-tabs" uk-switcher>
-    <li><a href="#">All</a></li>
-    <li><a href="#">Publications</a></li>
-    <li><a href="#">Data</a></li>
-    <li><a href="#">Software</a></li>
-    <li><a href="#">Services</a></li>
-    <li><a href="#">Infrastructure</a></li>
-    <li><a href="#">Skills/Training</a></li>
-    <li><a href="#">Assessment</a></li>
-    <li><a href="#">Engagement</a></li>
-  </ul>
-
-  <ul class="uk-switcher uk-margin">
-    <li>
-      <div class="uk-margin-medium-top">
-        <div class="uk-grid uk-grid-divider">
-          <div class="uk-width-2-3">
-
-            <table class="uk-table uk-table-divider uk-table-middle bordered-table">
-              <thead>
-              <tr>
-                <th></th>
-                <th>National monitoring</th>
-                <th>Use cases</th>
-                <th>Financial investments</th>
-                <th>Outputs</th>
-              </tr>
-              </thead>
-              <tbody>
-              <!--              <category-indicators-row [indicator1]="surveyAnswer['Practices']?.['Question6']?.['Question6-0']"-->
-              <!--                                       [indicator2]="surveyAnswer['Practices']?.['Question7']?.['Question7-0']"-->
-              <!--                                       [indicator3]="surveyAnswer['Practices']?.['Question8']?.['Question8-0']"-->
-              <!--                                       [indicator4]="surveyAnswer['Practices']?.['Question9']?.['Question9-0']">-->
-              <!--              </category-indicators-row>-->
-              <tr>
-                <td>
-                  <div class="uk-text-bold">Publications</div>
-                </td>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question54']?.['Question54-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question54']?.['Question54-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question54']?.['Question54-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question55']?.['Question55-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question55']?.['Question55-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question55']?.['Question55-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question56']?.['Question56-0']">{{surveyAnswer['Practices']?.['Question56']?.['Question56-0']}} M</ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question56']?.['Question56-0']">N/A</ng-container>
-                </td>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question57']?.['Question57-0']">
-                    {{surveyAnswer['Practices']?.['Question57']?.['Question57-1'] === 'Yes' ?
-                    surveyAnswer['Practices']?.['Question57']?.['Question57-0'] : surveyAnswer['Practices']?.['Question57']?.['Question57-1-1']}}
-                  </ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question57']?.['Question57-0']">N/A</ng-container>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="uk-text-bold">Data</div>
-                  <div class="uk-text-secondary uk-text-small uk-text-italic">Data management</div>
-                </td>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question58']?.['Question58-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question58']?.['Question58-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question58']?.['Question58-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question59']?.['Question59-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question59']?.['Question59-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question59']?.['Question59-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question60']?.['Question60-0']">{{surveyAnswer['Practices']?.['Question60']?.['Question60-0']}} M</ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question60']?.['Question60-0']">N/A</ng-container>
-                </td>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question61']?.['Question61-0']">
-                    {{surveyAnswer['Practices']?.['Question61']?.['Question61-1'] === 'Yes' ?
-                    surveyAnswer['Practices']?.['Question61']?.['Question61-0'] : surveyAnswer['Practices']?.['Question61']?.['Question61-1-1']}}
-                  </ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question61']?.['Question61-0']">N/A</ng-container>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="uk-text-bold">Data</div>
-                  <div class="uk-text-secondary uk-text-small uk-text-italic">FAIR data</div>
-                </td>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question62']?.['Question62-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question62']?.['Question62-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question62']?.['Question62-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question63']?.['Question63-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question63']?.['Question63-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question63']?.['Question63-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question64']?.['Question64-0']">{{surveyAnswer['Practices']?.['Question64']?.['Question64-0']}} M</ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question64']?.['Question64-0']">N/A</ng-container>
-                </td>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question65']?.['Question65-0']">
-                    {{surveyAnswer['Practices']?.['Question65']?.['Question65-1'] === 'Yes' ?
-                    surveyAnswer['Practices']?.['Question65']?.['Question65-0'] : surveyAnswer['Practices']?.['Question65']?.['Question65-1-1']}}
-                  </ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question65']?.['Question65-0']">N/A</ng-container>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="uk-text-bold">Data</div>
-                  <div class="uk-text-secondary uk-text-small uk-text-italic">Open Data</div>
-                </td>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question66']?.['Question66-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question66']?.['Question66-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question66']?.['Question66-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question67']?.['Question67-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question67']?.['Question67-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question67']?.['Question67-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question68']?.['Question68-0']">{{surveyAnswer['Practices']?.['Question68']?.['Question68-0']}} M</ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question68']?.['Question68-0']">N/A</ng-container>
-                </td>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question69']?.['Question69-0']">
-                    {{surveyAnswer['Practices']?.['Question69']?.['Question69-1'] === 'Yes' ?
-                    surveyAnswer['Practices']?.['Question69']?.['Question69-0'] : surveyAnswer['Practices']?.['Question69']?.['Question69-1-1']}}
-                  </ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question69']?.['Question69-0']">N/A</ng-container>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="uk-text-bold">Software</div>
-                </td>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question70']?.['Question70-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question70']?.['Question70-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question70']?.['Question70-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question71']?.['Question71-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question71']?.['Question71-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question71']?.['Question71-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question72']?.['Question72-0']">{{surveyAnswer['Practices']?.['Question72']?.['Question72-0']}} M</ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question72']?.['Question72-0']">N/A</ng-container>
-                </td>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question73']?.['Question73-0']">
-                    {{surveyAnswer['Practices']?.['Question73']?.['Question73-1'] === 'Yes' ?
-                    surveyAnswer['Practices']?.['Question73']?.['Question73-0'] : surveyAnswer['Practices']?.['Question73']?.['Question73-1-1']}}
-                  </ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question73']?.['Question73-0']">N/A</ng-container>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="uk-text-bold">Services</div>
-                </td>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question74']?.['Question74-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question74']?.['Question74-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question74']?.['Question74-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question75']?.['Question75-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question75']?.['Question75-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question75']?.['Question75-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question76']?.['Question76-0']">{{surveyAnswer['Practices']?.['Question76']?.['Question76-0']}} M</ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question76']?.['Question76-0']">N/A</ng-container>
-                </td>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question77']?.['Question77-0']">
-                    {{surveyAnswer['Practices']?.['Question77']?.['Question77-1'] === 'Yes' ?
-                    surveyAnswer['Practices']?.['Question77']?.['Question77-0'] : surveyAnswer['Practices']?.['Question77']?.['Question77-1-1']}}
-                  </ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question77']?.['Question77-0']">N/A</ng-container>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="uk-text-bold">Infrastructure</div>
-                  <div class="uk-text-secondary uk-text-small uk-text-italic">Connecting repositories to EOSC</div>
-                </td>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question78']?.['Question78-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question78']?.['Question78-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question78']?.['Question78-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question79']?.['Question79-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question79']?.['Question79-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question79']?.['Question79-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question80']?.['Question80-0']">{{surveyAnswer['Practices']?.['Question80']?.['Question80-0']}} M</ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question80']?.['Question80-0']">N/A</ng-container>
-                </td>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question81']?.['Question81-0']">
-                    {{surveyAnswer['Practices']?.['Question81']?.['Question81-1'] === 'Yes' ?
-                    surveyAnswer['Practices']?.['Question81']?.['Question81-0'] : surveyAnswer['Practices']?.['Question81']?.['Question81-1-1']}}
-                  </ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question81']?.['Question81-0']">N/A</ng-container>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="uk-text-bold">Infrastructure</div>
-                  <div class="uk-text-secondary uk-text-small uk-text-italic">Data stewardship</div>
-                </td>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question82']?.['Question82-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question82']?.['Question82-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question82']?.['Question82-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question83']?.['Question83-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question83']?.['Question83-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question83']?.['Question83-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question84']?.['Question84-0']">{{surveyAnswer['Practices']?.['Question84']?.['Question84-0']}} M</ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question84']?.['Question84-0']">N/A</ng-container>
-                </td>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question85']?.['Question85-0']">{{surveyAnswer['Practices']?.['Question85']?.['Question85-1']}}</ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question85']?.['Question85-0']">N/A</ng-container>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="uk-text-bold">Infrastructure</div>
-                  <div class="uk-text-secondary uk-text-small uk-text-italic">Long-term data preservation</div>
-                </td>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question86']?.['Question86-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question86']?.['Question86-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question86']?.['Question86-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question87']?.['Question87-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question87']?.['Question87-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question87']?.['Question87-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question88']?.['Question88-0']">{{surveyAnswer['Practices']?.['Question88']?.['Question88-0']}} M</ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question88']?.['Question88-0']">N/A</ng-container>
-                </td>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question89']?.['Question89-0']">
-                    {{surveyAnswer['Practices']?.['Question89']?.['Question89-1'] === 'Yes' ?
-                    surveyAnswer['Practices']?.['Question89']?.['Question89-0'] : surveyAnswer['Practices']?.['Question89']?.['Question89-1-1']}}
-                  </ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question89']?.['Question89-0']">N/A</ng-container>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="uk-text-bold">Skills/Training</div>
-                </td>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question90']?.['Question90-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question90']?.['Question90-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question90']?.['Question90-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question91']?.['Question91-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question91']?.['Question91-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question91']?.['Question91-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question92']?.['Question92-0']">{{surveyAnswer['Practices']?.['Question92']?.['Question92-0']}} M</ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question92']?.['Question92-0']">N/A</ng-container>
-                </td>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question93']?.['Question93-0']">{{surveyAnswer['Practices']?.['Question93']?.['Question93-1']}}</ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question93']?.['Question93-0']">N/A</ng-container>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="uk-text-bold">Assessment</div>
-                </td>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question94']?.['Question94-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question94']?.['Question94-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question94']?.['Question94-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question95']?.['Question95-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question95']?.['Question95-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question95']?.['Question95-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question96']?.['Question96-0']">{{surveyAnswer['Practices']?.['Question96']?.['Question96-0']}} M</ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question96']?.['Question96-0']">N/A</ng-container>
-                </td>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question97']?.['Question97-0']">
-                    {{surveyAnswer['Practices']?.['Question97']?.['Question97-1'] === 'Yes' ?
-                    surveyAnswer['Practices']?.['Question97']?.['Question97-0'] : surveyAnswer['Practices']?.['Question97']?.['Question97-1-1']}}
-                  </ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question97']?.['Question97-0']">N/A</ng-container>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="uk-text-bold">Engagement</div>
-                </td>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question98']?.['Question98-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question98']?.['Question98-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question98']?.['Question98-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <ng-container *ngIf="surveyAnswer['Practices']?.['Question99']?.['Question99-0']">
-                  <td [ngClass]="surveyAnswer['Practices']?.['Question99']?.['Question99-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
-                </ng-container>
-                <ng-container *ngIf="!surveyAnswer['Practices']?.['Question99']?.['Question99-0']">
-                  <td class="valueNotAvailable"></td>
-                </ng-container>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question100']?.['Question100-0']">{{surveyAnswer['Practices']?.['Question100']?.['Question100-0']}} M</ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question100']?.['Question100-0']">N/A</ng-container>
-                </td>
-                <td>
-                  <ng-container *ngIf="surveyAnswer['Practices']?.['Question101']?.['Question101-0']">{{surveyAnswer['Practices']?.['Question101']?.['Question101-1']}}</ng-container>
-                  <ng-container *ngIf="!surveyAnswer['Practices']?.['Question101']?.['Question101-0']">N/A</ng-container>
-                </td>
-              </tr>
+@if (surveyAnswer) {
+  <div class="categories-content-tabs">
+    <ul class="uk-subnav uk-subnav-pill categories-selection-tabs" uk-switcher>
+      <li><a href="#">All</a></li>
+      <li><a href="#">Publications</a></li>
+      <li><a href="#">Data</a></li>
+      <li><a href="#">Software</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Infrastructure</a></li>
+      <li><a href="#">Skills/Training</a></li>
+      <li><a href="#">Assessment</a></li>
+      <li><a href="#">Engagement</a></li>
+    </ul>
+    <ul class="uk-switcher uk-margin">
+      <li>
+        <div class="uk-margin-medium-top">
+          <div class="uk-grid uk-grid-divider">
+            <div class="uk-width-2-3">
+              <table class="uk-table uk-table-divider uk-table-middle bordered-table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>National monitoring</th>
+                    <th>Use cases</th>
+                    <th>Financial investments</th>
+                    <th>Outputs</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!--              <category-indicators-row [indicator1]="surveyAnswer['Practices']?.['Question6']?.['Question6-0']"-->
+                  <!--                                       [indicator2]="surveyAnswer['Practices']?.['Question7']?.['Question7-0']"-->
+                  <!--                                       [indicator3]="surveyAnswer['Practices']?.['Question8']?.['Question8-0']"-->
+                  <!--                                       [indicator4]="surveyAnswer['Practices']?.['Question9']?.['Question9-0']">-->
+                <!--              </category-indicators-row>-->
+                <tr>
+                  <td>
+                    <div class="uk-text-bold">Publications</div>
+                  </td>
+                  @if (surveyAnswer['Practices']?.['Question54']?.['Question54-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question54']?.['Question54-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question54']?.['Question54-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  @if (surveyAnswer['Practices']?.['Question55']?.['Question55-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question55']?.['Question55-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question55']?.['Question55-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question56']?.['Question56-0']) {
+                      {{surveyAnswer['Practices']?.['Question56']?.['Question56-0']}} M
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question56']?.['Question56-0']) {
+                      N/A
+                    }
+                  </td>
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question57']?.['Question57-0']) {
+                      {{surveyAnswer['Practices']?.['Question57']?.['Question57-1'] === 'Yes' ?
+                      surveyAnswer['Practices']?.['Question57']?.['Question57-0'] : surveyAnswer['Practices']?.['Question57']?.['Question57-1-1']}}
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question57']?.['Question57-0']) {
+                      N/A
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="uk-text-bold">Data</div>
+                    <div class="uk-text-secondary uk-text-small uk-text-italic">Data management</div>
+                  </td>
+                  @if (surveyAnswer['Practices']?.['Question58']?.['Question58-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question58']?.['Question58-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question58']?.['Question58-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  @if (surveyAnswer['Practices']?.['Question59']?.['Question59-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question59']?.['Question59-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question59']?.['Question59-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question60']?.['Question60-0']) {
+                      {{surveyAnswer['Practices']?.['Question60']?.['Question60-0']}} M
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question60']?.['Question60-0']) {
+                      N/A
+                    }
+                  </td>
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question61']?.['Question61-0']) {
+                      {{surveyAnswer['Practices']?.['Question61']?.['Question61-1'] === 'Yes' ?
+                      surveyAnswer['Practices']?.['Question61']?.['Question61-0'] : surveyAnswer['Practices']?.['Question61']?.['Question61-1-1']}}
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question61']?.['Question61-0']) {
+                      N/A
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="uk-text-bold">Data</div>
+                    <div class="uk-text-secondary uk-text-small uk-text-italic">FAIR data</div>
+                  </td>
+                  @if (surveyAnswer['Practices']?.['Question62']?.['Question62-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question62']?.['Question62-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question62']?.['Question62-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  @if (surveyAnswer['Practices']?.['Question63']?.['Question63-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question63']?.['Question63-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question63']?.['Question63-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question64']?.['Question64-0']) {
+                      {{surveyAnswer['Practices']?.['Question64']?.['Question64-0']}} M
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question64']?.['Question64-0']) {
+                      N/A
+                    }
+                  </td>
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question65']?.['Question65-0']) {
+                      {{surveyAnswer['Practices']?.['Question65']?.['Question65-1'] === 'Yes' ?
+                      surveyAnswer['Practices']?.['Question65']?.['Question65-0'] : surveyAnswer['Practices']?.['Question65']?.['Question65-1-1']}}
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question65']?.['Question65-0']) {
+                      N/A
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="uk-text-bold">Data</div>
+                    <div class="uk-text-secondary uk-text-small uk-text-italic">Open Data</div>
+                  </td>
+                  @if (surveyAnswer['Practices']?.['Question66']?.['Question66-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question66']?.['Question66-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question66']?.['Question66-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  @if (surveyAnswer['Practices']?.['Question67']?.['Question67-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question67']?.['Question67-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question67']?.['Question67-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question68']?.['Question68-0']) {
+                      {{surveyAnswer['Practices']?.['Question68']?.['Question68-0']}} M
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question68']?.['Question68-0']) {
+                      N/A
+                    }
+                  </td>
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question69']?.['Question69-0']) {
+                      {{surveyAnswer['Practices']?.['Question69']?.['Question69-1'] === 'Yes' ?
+                      surveyAnswer['Practices']?.['Question69']?.['Question69-0'] : surveyAnswer['Practices']?.['Question69']?.['Question69-1-1']}}
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question69']?.['Question69-0']) {
+                      N/A
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="uk-text-bold">Software</div>
+                  </td>
+                  @if (surveyAnswer['Practices']?.['Question70']?.['Question70-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question70']?.['Question70-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question70']?.['Question70-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  @if (surveyAnswer['Practices']?.['Question71']?.['Question71-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question71']?.['Question71-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question71']?.['Question71-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question72']?.['Question72-0']) {
+                      {{surveyAnswer['Practices']?.['Question72']?.['Question72-0']}} M
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question72']?.['Question72-0']) {
+                      N/A
+                    }
+                  </td>
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question73']?.['Question73-0']) {
+                      {{surveyAnswer['Practices']?.['Question73']?.['Question73-1'] === 'Yes' ?
+                      surveyAnswer['Practices']?.['Question73']?.['Question73-0'] : surveyAnswer['Practices']?.['Question73']?.['Question73-1-1']}}
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question73']?.['Question73-0']) {
+                      N/A
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="uk-text-bold">Services</div>
+                  </td>
+                  @if (surveyAnswer['Practices']?.['Question74']?.['Question74-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question74']?.['Question74-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question74']?.['Question74-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  @if (surveyAnswer['Practices']?.['Question75']?.['Question75-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question75']?.['Question75-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question75']?.['Question75-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question76']?.['Question76-0']) {
+                      {{surveyAnswer['Practices']?.['Question76']?.['Question76-0']}} M
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question76']?.['Question76-0']) {
+                      N/A
+                    }
+                  </td>
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question77']?.['Question77-0']) {
+                      {{surveyAnswer['Practices']?.['Question77']?.['Question77-1'] === 'Yes' ?
+                      surveyAnswer['Practices']?.['Question77']?.['Question77-0'] : surveyAnswer['Practices']?.['Question77']?.['Question77-1-1']}}
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question77']?.['Question77-0']) {
+                      N/A
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="uk-text-bold">Infrastructure</div>
+                    <div class="uk-text-secondary uk-text-small uk-text-italic">Connecting repositories to EOSC</div>
+                  </td>
+                  @if (surveyAnswer['Practices']?.['Question78']?.['Question78-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question78']?.['Question78-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question78']?.['Question78-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  @if (surveyAnswer['Practices']?.['Question79']?.['Question79-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question79']?.['Question79-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question79']?.['Question79-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question80']?.['Question80-0']) {
+                      {{surveyAnswer['Practices']?.['Question80']?.['Question80-0']}} M
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question80']?.['Question80-0']) {
+                      N/A
+                    }
+                  </td>
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question81']?.['Question81-0']) {
+                      {{surveyAnswer['Practices']?.['Question81']?.['Question81-1'] === 'Yes' ?
+                      surveyAnswer['Practices']?.['Question81']?.['Question81-0'] : surveyAnswer['Practices']?.['Question81']?.['Question81-1-1']}}
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question81']?.['Question81-0']) {
+                      N/A
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="uk-text-bold">Infrastructure</div>
+                    <div class="uk-text-secondary uk-text-small uk-text-italic">Data stewardship</div>
+                  </td>
+                  @if (surveyAnswer['Practices']?.['Question82']?.['Question82-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question82']?.['Question82-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question82']?.['Question82-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  @if (surveyAnswer['Practices']?.['Question83']?.['Question83-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question83']?.['Question83-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question83']?.['Question83-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question84']?.['Question84-0']) {
+                      {{surveyAnswer['Practices']?.['Question84']?.['Question84-0']}} M
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question84']?.['Question84-0']) {
+                      N/A
+                    }
+                  </td>
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question85']?.['Question85-0']) {
+                      {{surveyAnswer['Practices']?.['Question85']?.['Question85-1']}}
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question85']?.['Question85-0']) {
+                      N/A
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="uk-text-bold">Infrastructure</div>
+                    <div class="uk-text-secondary uk-text-small uk-text-italic">Long-term data preservation</div>
+                  </td>
+                  @if (surveyAnswer['Practices']?.['Question86']?.['Question86-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question86']?.['Question86-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question86']?.['Question86-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  @if (surveyAnswer['Practices']?.['Question87']?.['Question87-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question87']?.['Question87-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question87']?.['Question87-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question88']?.['Question88-0']) {
+                      {{surveyAnswer['Practices']?.['Question88']?.['Question88-0']}} M
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question88']?.['Question88-0']) {
+                      N/A
+                    }
+                  </td>
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question89']?.['Question89-0']) {
+                      {{surveyAnswer['Practices']?.['Question89']?.['Question89-1'] === 'Yes' ?
+                      surveyAnswer['Practices']?.['Question89']?.['Question89-0'] : surveyAnswer['Practices']?.['Question89']?.['Question89-1-1']}}
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question89']?.['Question89-0']) {
+                      N/A
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="uk-text-bold">Skills/Training</div>
+                  </td>
+                  @if (surveyAnswer['Practices']?.['Question90']?.['Question90-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question90']?.['Question90-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question90']?.['Question90-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  @if (surveyAnswer['Practices']?.['Question91']?.['Question91-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question91']?.['Question91-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question91']?.['Question91-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question92']?.['Question92-0']) {
+                      {{surveyAnswer['Practices']?.['Question92']?.['Question92-0']}} M
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question92']?.['Question92-0']) {
+                      N/A
+                    }
+                  </td>
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question93']?.['Question93-0']) {
+                      {{surveyAnswer['Practices']?.['Question93']?.['Question93-1']}}
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question93']?.['Question93-0']) {
+                      N/A
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="uk-text-bold">Assessment</div>
+                  </td>
+                  @if (surveyAnswer['Practices']?.['Question94']?.['Question94-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question94']?.['Question94-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question94']?.['Question94-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  @if (surveyAnswer['Practices']?.['Question95']?.['Question95-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question95']?.['Question95-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question95']?.['Question95-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question96']?.['Question96-0']) {
+                      {{surveyAnswer['Practices']?.['Question96']?.['Question96-0']}} M
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question96']?.['Question96-0']) {
+                      N/A
+                    }
+                  </td>
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question97']?.['Question97-0']) {
+                      {{surveyAnswer['Practices']?.['Question97']?.['Question97-1'] === 'Yes' ?
+                      surveyAnswer['Practices']?.['Question97']?.['Question97-0'] : surveyAnswer['Practices']?.['Question97']?.['Question97-1-1']}}
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question97']?.['Question97-0']) {
+                      N/A
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="uk-text-bold">Engagement</div>
+                  </td>
+                  @if (surveyAnswer['Practices']?.['Question98']?.['Question98-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question98']?.['Question98-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question98']?.['Question98-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  @if (surveyAnswer['Practices']?.['Question99']?.['Question99-0']) {
+                    <td [ngClass]="surveyAnswer['Practices']?.['Question99']?.['Question99-0'] == 'Yes'? 'valueTrue' : 'valueFalse'"></td>
+                  }
+                  @if (!surveyAnswer['Practices']?.['Question99']?.['Question99-0']) {
+                    <td class="valueNotAvailable"></td>
+                  }
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question100']?.['Question100-0']) {
+                      {{surveyAnswer['Practices']?.['Question100']?.['Question100-0']}} M
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question100']?.['Question100-0']) {
+                      N/A
+                    }
+                  </td>
+                  <td>
+                    @if (surveyAnswer['Practices']?.['Question101']?.['Question101-0']) {
+                      {{surveyAnswer['Practices']?.['Question101']?.['Question101-1']}}
+                    }
+                    @if (!surveyAnswer['Practices']?.['Question101']?.['Question101-0']) {
+                      N/A
+                    }
+                  </td>
+                </tr>
               </tbody>
             </table>
-
-<!--            &lt;!&ndash;          Publications&ndash;&gt;-->
-<!--            <div class="uk-grid uk-child-width-1-2">-->
-<!--              <div>-->
-<!--                <category-indicators-wrapper [cardTitle]="'Publications'"-->
-<!--                                             [cardIcon]="'../assets/images/country_pages/Icon%20awesome-file-alt.svg'">-->
-<!--                  <practices-category-indicators [monitoring]="surveyAnswer['Practices']?.['Question54']?.['Question54-0']"-->
-<!--                                                 [useCases]="surveyAnswer['Practices']?.['Question55']?.['Question55-0']"-->
-<!--                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']"-->
+            <!--            &lt;!&ndash;          Publications&ndash;&gt;-->
+            <!--            <div class="uk-grid uk-child-width-1-2">-->
+            <!--              <div>-->
+            <!--                <category-indicators-wrapper [cardTitle]="'Publications'"-->
+            <!--                                             [cardIcon]="'../assets/images/country_pages/Icon%20awesome-file-alt.svg'">-->
+            <!--                  <practices-category-indicators [monitoring]="surveyAnswer['Practices']?.['Question54']?.['Question54-0']"-->
+            <!--                                                 [useCases]="surveyAnswer['Practices']?.['Question55']?.['Question55-0']"-->
+            <!--                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']"-->
 <!--                                                 [outputs]="surveyAnswer['Practices']?.['Question57']?.['Question57-1'] === 'Yes' ?-->
 <!--                surveyAnswer['Practices']?.['Question57']?.['Question57-0'] : surveyAnswer['Practices']?.['Question57']?.['Question57-1-1']"-->
 <!--                                                 [outputsTitle]="'publications published in Open Access'">-->
@@ -535,7 +610,8 @@
           <!--          Comments....-->
           <div class="uk-width-1-3">
             <ul uk-accordion="collapsible: false" class="uk-text-small">
-              <li *ngIf="surveyAnswer['Practices']?.['Question54']?.['Question54-1']" class="uk-margin-medium-bottom">
+              @if (surveyAnswer['Practices']?.['Question54']?.['Question54-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">National monitoring on Open Access to publications</span>
@@ -544,7 +620,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question54']?.['Question54-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question55']?.['Question55-3']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question55']?.['Question55-3']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Use cases on Open Access to publications</span>
@@ -553,7 +631,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question55']?.['Question55-3']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question56']?.['Question56-1']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question56']?.['Question56-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Financial investments in Open Access to publications</span>
@@ -562,7 +642,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question56']?.['Question56-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question57']?.['Question57-2']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question57']?.['Question57-2']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Publications published in Open Access</span>
@@ -571,8 +653,10 @@
                   <p>{{surveyAnswer['Practices']?.['Question57']?.['Question57-2']}}</p>
                 </div>
               </li>
+}
               <!--              Data management-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question58']?.['Question58-1']" class="uk-margin-medium-bottom">
+              @if (surveyAnswer['Practices']?.['Question58']?.['Question58-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">National monitoring on data management</span>
@@ -581,7 +665,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question58']?.['Question58-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question59']?.['Question59-3']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question59']?.['Question59-3']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Use cases on data management</span>
@@ -590,7 +676,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question59']?.['Question59-3']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question60']?.['Question60-1']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question60']?.['Question60-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Financial investments in data management</span>
@@ -599,7 +687,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question60']?.['Question60-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question61']?.['Question61-2']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question61']?.['Question61-2']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Data management plans published</span>
@@ -608,8 +698,10 @@
                   <p>{{surveyAnswer['Practices']?.['Question61']?.['Question61-2']}}</p>
                 </div>
               </li>
+}
               <!--              FAIR Data-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question62']?.['Question62-1']" class="uk-margin-medium-bottom">
+              @if (surveyAnswer['Practices']?.['Question62']?.['Question62-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">National monitoring on FAIR data</span>
@@ -618,7 +710,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question62']?.['Question62-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question63']?.['Question63-3']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question63']?.['Question63-3']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Use cases on FAIR data</span>
@@ -627,7 +721,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question63']?.['Question63-3']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question64']?.['Question64-1']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question64']?.['Question64-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Financial investments in FAIR data</span>
@@ -636,7 +732,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question64']?.['Question64-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question65']?.['Question65-2']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question65']?.['Question65-2']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">FAIR data sets published</span>
@@ -645,8 +743,10 @@
                   <p>{{surveyAnswer['Practices']?.['Question65']?.['Question65-2']}}</p>
                 </div>
               </li>
+}
               <!--              Open Data-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question66']?.['Question66-1']" class="uk-margin-medium-bottom">
+              @if (surveyAnswer['Practices']?.['Question66']?.['Question66-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">National monitoring on open data</span>
@@ -655,7 +755,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question66']?.['Question66-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question67']?.['Question67-3']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question67']?.['Question67-3']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Use cases on open data</span>
@@ -664,7 +766,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question67']?.['Question67-3']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question68']?.['Question68-1']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question68']?.['Question68-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Financial investments in open data</span>
@@ -673,7 +777,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question68']?.['Question68-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question69']?.['Question69-2']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question69']?.['Question69-2']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Open data sets published</span>
@@ -682,8 +788,10 @@
                   <p>{{surveyAnswer['Practices']?.['Question69']?.['Question69-2']}}</p>
                 </div>
               </li>
+}
               <!--              Software-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question70']?.['Question70-1']" class="uk-margin-medium-bottom">
+              @if (surveyAnswer['Practices']?.['Question70']?.['Question70-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">National monitoring on open source software</span>
@@ -692,7 +800,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question70']?.['Question70-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question71']?.['Question71-3']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question71']?.['Question71-3']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Use cases on open source software</span>
@@ -701,7 +811,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question71']?.['Question71-3']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question72']?.['Question72-1']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question72']?.['Question72-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Financial investments in open source software</span>
@@ -710,7 +822,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question72']?.['Question72-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question73']?.['Question73-2']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question73']?.['Question73-2']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Open source software sets published</span>
@@ -719,8 +833,10 @@
                   <p>{{surveyAnswer['Practices']?.['Question73']?.['Question73-2']}}</p>
                 </div>
               </li>
+}
               <!--              Services-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question74']?.['Question74-1']" class="uk-margin-medium-bottom">
+              @if (surveyAnswer['Practices']?.['Question74']?.['Question74-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">National monitoring on offering services through EOSC</span>
@@ -729,7 +845,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question74']?.['Question74-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question75']?.['Question75-3']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question75']?.['Question75-3']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Use cases on offering services through EOSC</span>
@@ -738,7 +856,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question75']?.['Question75-3']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question76']?.['Question76-1']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question76']?.['Question76-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Financial investments in offering services through EOSC</span>
@@ -747,7 +867,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question76']?.['Question76-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question77']?.['Question77-2']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question77']?.['Question77-2']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Services offered through EOSC</span>
@@ -756,8 +878,10 @@
                   <p>{{surveyAnswer['Practices']?.['Question77']?.['Question77-2']}}</p>
                 </div>
               </li>
+}
               <!--              Connecting repositories-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question78']?.['Question78-1']" class="uk-margin-medium-bottom">
+              @if (surveyAnswer['Practices']?.['Question78']?.['Question78-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">National monitoring on connecting repositories to EOSC</span>
@@ -766,7 +890,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question78']?.['Question78-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question79']?.['Question79-3']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question79']?.['Question79-3']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Use cases on connecting repositories to EOSC</span>
@@ -775,7 +901,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question79']?.['Question79-3']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question80']?.['Question80-1']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question80']?.['Question80-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Financial investments in connecting repositories to EOSC</span>
@@ -784,7 +912,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question80']?.['Question80-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question81']?.['Question81-2']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question81']?.['Question81-2']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Repositories connected to EOSC</span>
@@ -793,8 +923,10 @@
                   <p>{{surveyAnswer['Practices']?.['Question81']?.['Question81-2']}}</p>
                 </div>
               </li>
+}
               <!--              Data stewardship-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question82']?.['Question82-1']" class="uk-margin-medium-bottom">
+              @if (surveyAnswer['Practices']?.['Question82']?.['Question82-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">National monitoring on data stewardship</span>
@@ -803,7 +935,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question82']?.['Question82-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question83']?.['Question83-3']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question83']?.['Question83-3']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Use cases on data stewardship</span>
@@ -812,7 +946,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question83']?.['Question83-3']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question84']?.['Question84-1']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question84']?.['Question84-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Financial investments in data stewardship</span>
@@ -821,7 +957,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question84']?.['Question84-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question85']?.['Question85-1']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question85']?.['Question85-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Data stewards employed</span>
@@ -830,8 +968,10 @@
                   <p>{{surveyAnswer['Practices']?.['Question85']?.['Question85-1']}}</p>
                 </div>
               </li>
+}
               <!--              Long-term data preservation-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question86']?.['Question86-1']" class="uk-margin-medium-bottom">
+              @if (surveyAnswer['Practices']?.['Question86']?.['Question86-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">National monitoring on long-term data preservation</span>
@@ -840,7 +980,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question86']?.['Question86-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question87']?.['Question87-3']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question87']?.['Question87-3']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Use cases on long-term data preservation</span>
@@ -849,7 +991,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question87']?.['Question87-3']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question88']?.['Question88-1']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question88']?.['Question88-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Financial investments in long-term data preservation</span>
@@ -858,7 +1002,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question88']?.['Question88-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question89']?.['Question89-2']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question89']?.['Question89-2']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Repositories offered long-term data preservation</span>
@@ -867,8 +1013,10 @@
                   <p>{{surveyAnswer['Practices']?.['Question89']?.['Question89-2']}}</p>
                 </div>
               </li>
+}
               <!--              Skills/Training-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question90']?.['Question90-1']" class="uk-margin-medium-bottom">
+              @if (surveyAnswer['Practices']?.['Question90']?.['Question90-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">National monitoring on skills/training for Open Science</span>
@@ -877,7 +1025,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question90']?.['Question90-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question91']?.['Question91-3']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question91']?.['Question91-3']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Use cases on skills/training for Open Science</span>
@@ -886,7 +1036,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question91']?.['Question91-3']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question92']?.['Question92-1']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question92']?.['Question92-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Financial investments in skills/training for Open Science</span>
@@ -895,7 +1047,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question92']?.['Question92-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question93']?.['Question93-1']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question93']?.['Question93-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Educational curricula with an Open Science dimension offered</span>
@@ -904,8 +1058,10 @@
                   <p>{{surveyAnswer['Practices']?.['Question93']?.['Question93-1']}}</p>
                 </div>
               </li>
+}
               <!--              Assessment-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question94']?.['Question94-1']" class="uk-margin-medium-bottom">
+              @if (surveyAnswer['Practices']?.['Question94']?.['Question94-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">National monitoring on incentives/rewards for Open Science</span>
@@ -914,7 +1070,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question94']?.['Question94-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question95']?.['Question95-3']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question95']?.['Question95-3']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Use cases on incentives/rewards for Open Science</span>
@@ -923,7 +1081,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question95']?.['Question95-3']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question96']?.['Question96-1']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question96']?.['Question96-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Financial investments in incentives/rewards for Open Science</span>
@@ -932,7 +1092,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question96']?.['Question96-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question97']?.['Question97-2']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question97']?.['Question97-2']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Signatories of the Agreement on Reforming Research Assessment</span>
@@ -941,8 +1103,10 @@
                   <p>{{surveyAnswer['Practices']?.['Question97']?.['Question97-2']}}</p>
                 </div>
               </li>
+}
               <!--              Engagement-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question98']?.['Question98-1']" class="uk-margin-medium-bottom">
+              @if (surveyAnswer['Practices']?.['Question98']?.['Question98-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">National monitoring on citizen science</span>
@@ -951,7 +1115,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question98']?.['Question98-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question99']?.['Question99-3']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question99']?.['Question99-3']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Use cases on citizen science</span>
@@ -960,7 +1126,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question99']?.['Question99-3']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question100']?.['Question100-1']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question100']?.['Question100-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Financial investments in citizen science</span>
@@ -969,7 +1137,9 @@
                   <p>{{surveyAnswer['Practices']?.['Question100']?.['Question100-1']}}</p>
                 </div>
               </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question101']?.['Question101-1']" class="uk-margin-medium-bottom">
+}
+              @if (surveyAnswer['Practices']?.['Question101']?.['Question101-1']) {
+<li class="uk-margin-medium-bottom">
                 <a class="uk-accordion-title" href>
                   <span class="comment-number uk-margin-small-right">-</span>
                   <span class="comment-title">Projects with a citizen science dimension were started</span>
@@ -978,6 +1148,7 @@
                   <p>{{surveyAnswer['Practices']?.['Question101']?.['Question101-1']}}</p>
                 </div>
               </li>
+}
             </ul>
           </div>
         </div>
@@ -992,692 +1163,789 @@
               <div>
                 <category-indicators-wrapper [cardTitle]="'Publications'"
                                              [cardIcon]="'../assets/images/country_pages/Icon%20awesome-file-alt.svg'">
-                  <practices-category-indicators [monitoring]="surveyAnswer['Practices']?.['Question54']?.['Question54-0']"
-                                                 [useCases]="surveyAnswer['Practices']?.['Question55']?.['Question55-0']"
-                                                 [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']"
+              <practices-category-indicators [monitoring]="surveyAnswer['Practices']?.['Question54']?.['Question54-0']"
+                [useCases]="surveyAnswer['Practices']?.['Question55']?.['Question55-0']"
+                [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']"
                                                  [outputs]="surveyAnswer['Practices']?.['Question57']?.['Question57-1'] === 'Yes' ?
                 surveyAnswer['Practices']?.['Question57']?.['Question57-0'] : surveyAnswer['Practices']?.['Question57']?.['Question57-1-1']"
-                                                 [outputsTitle]="'publications published in open access'">
-                  </practices-category-indicators>
-                </category-indicators-wrapper>
-              </div>
-            </div>
-          </div>
-          <div class="uk-width-1-3">
-            <ul uk-accordion="collapsible: false" class="uk-text-small">
-              <!--              Publications-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question54']?.['Question54-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">National monitoring on open access to publications</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question54']?.['Question54-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question55']?.['Question55-3']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Use cases on open access to publications</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question55']?.['Question55-3']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question56']?.['Question56-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Financial investments in open access to publications</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question56']?.['Question56-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question57']?.['Question57-2']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Publications published in open access</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question57']?.['Question57-2']}}</p>
-                </div>
-              </li>
-            </ul>
+                [outputsTitle]="'publications published in open access'">
+              </practices-category-indicators>
+            </category-indicators-wrapper>
           </div>
         </div>
       </div>
-    </li>
-    <li>
-      <div class="uk-margin-medium-top">
-        <div class="uk-grid uk-grid-divider">
-          <div class="uk-width-2-3">
-            <!--          Data-->
-            <div class="uk-grid uk-child-width-1-1">
-              <div>
-                <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Data'"
-                                             [cardIcon]="'../assets/images/country_pages/Icon%20awesome-database.svg'">
-                  <practices-category-indicators [subtitle]="'Data management'"
-                                                 [monitoring]="surveyAnswer['Practices']?.['Question58']?.['Question58-0']"
-                                                 [useCases]="surveyAnswer['Practices']?.['Question59']?.['Question59-0']"
-                                                 [investments]="surveyAnswer['Practices']?.['Question60']?.['Question60-0']"
+      <div class="uk-width-1-3">
+        <ul uk-accordion="collapsible: false" class="uk-text-small">
+          <!--              Publications-->
+          @if (surveyAnswer['Practices']?.['Question54']?.['Question54-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">National monitoring on open access to publications</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question54']?.['Question54-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question55']?.['Question55-3']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Use cases on open access to publications</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question55']?.['Question55-3']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question56']?.['Question56-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Financial investments in open access to publications</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question56']?.['Question56-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question57']?.['Question57-2']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Publications published in open access</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question57']?.['Question57-2']}}</p>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="uk-margin-medium-top">
+    <div class="uk-grid uk-grid-divider">
+      <div class="uk-width-2-3">
+        <!--          Data-->
+        <div class="uk-grid uk-child-width-1-1">
+          <div>
+            <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Data'"
+              [cardIcon]="'../assets/images/country_pages/Icon%20awesome-database.svg'">
+              <practices-category-indicators [subtitle]="'Data management'"
+                [monitoring]="surveyAnswer['Practices']?.['Question58']?.['Question58-0']"
+                [useCases]="surveyAnswer['Practices']?.['Question59']?.['Question59-0']"
+                [investments]="surveyAnswer['Practices']?.['Question60']?.['Question60-0']"
                                                  [outputs]="surveyAnswer['Practices']?.['Question61']?.['Question61-1'] === 'Yes' ?
                 surveyAnswer['Practices']?.['Question61']?.['Question61-0'] : surveyAnswer['Practices']?.['Question61']?.['Question61-1-1']"
-                                                 [outputsTitle]="'data management plans published'">
-                  </practices-category-indicators>
-                  <practices-category-indicators [subtitle]="'FAIR data'"
-                                                 [monitoring]="surveyAnswer['Practices']?.['Question62']?.['Question62-0']"
-                                                 [useCases]="surveyAnswer['Practices']?.['Question63']?.['Question63-0']"
-                                                 [investments]="surveyAnswer['Practices']?.['Question64']?.['Question64-0']"
+                [outputsTitle]="'data management plans published'">
+              </practices-category-indicators>
+              <practices-category-indicators [subtitle]="'FAIR data'"
+                [monitoring]="surveyAnswer['Practices']?.['Question62']?.['Question62-0']"
+                [useCases]="surveyAnswer['Practices']?.['Question63']?.['Question63-0']"
+                [investments]="surveyAnswer['Practices']?.['Question64']?.['Question64-0']"
                                                  [outputs]="surveyAnswer['Practices']?.['Question65']?.['Question65-1'] === 'Yes' ?
                 surveyAnswer['Practices']?.['Question65']?.['Question65-0'] : surveyAnswer['Practices']?.['Question65']?.['Question65-1-1']"
-                                                 [outputsTitle]="'FAIR datasets published'">
-                  </practices-category-indicators>
-                  <practices-category-indicators [subtitle]="'Open data'"
-                                                 [monitoring]="surveyAnswer['Practices']?.['Question66']?.['Question66-0']"
-                                                 [useCases]="surveyAnswer['Practices']?.['Question67']?.['Question67-0']"
-                                                 [investments]="surveyAnswer['Practices']?.['Question68']?.['Question68-0']"
+                [outputsTitle]="'FAIR datasets published'">
+              </practices-category-indicators>
+              <practices-category-indicators [subtitle]="'Open data'"
+                [monitoring]="surveyAnswer['Practices']?.['Question66']?.['Question66-0']"
+                [useCases]="surveyAnswer['Practices']?.['Question67']?.['Question67-0']"
+                [investments]="surveyAnswer['Practices']?.['Question68']?.['Question68-0']"
                                                  [outputs]="surveyAnswer['Practices']?.['Question69']?.['Question69-1'] === 'Yes' ?
                 surveyAnswer['Practices']?.['Question69']?.['Question69-0'] : surveyAnswer['Practices']?.['Question69']?.['Question69-1-1']"
-                                                 [outputsTitle]="'open datasets published'">
-                  </practices-category-indicators>
-                </category-indicators-wrapper>
-              </div>
-            </div>
-          </div>
-          <div class="uk-width-1-3">
-            <ul uk-accordion="collapsible: false" class="uk-text-small">
-<!--              Data management-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question58']?.['Question58-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">National monitoring on data management</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question58']?.['Question58-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question59']?.['Question59-3']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Use cases on data management</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question59']?.['Question59-3']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question60']?.['Question60-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Financial investments in data management</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question60']?.['Question60-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question61']?.['Question61-2']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Data management plans published</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question61']?.['Question61-2']}}</p>
-                </div>
-              </li>
-              <!--              FAIR Data-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question62']?.['Question62-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">National monitoring on FAIR data</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question62']?.['Question62-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question63']?.['Question63-3']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Use cases on FAIR data</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question63']?.['Question63-3']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question64']?.['Question64-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Financial investments in FAIR data</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question64']?.['Question64-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question65']?.['Question65-2']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">FAIR data sets published</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question65']?.['Question65-2']}}</p>
-                </div>
-              </li>
-              <!--              Open Data-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question66']?.['Question66-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">National monitoring on open data</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question66']?.['Question66-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question67']?.['Question67-3']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Use cases on open data</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question67']?.['Question67-3']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question68']?.['Question68-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Financial investments in open data</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question68']?.['Question68-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question69']?.['Question69-2']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Open data sets published</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question69']?.['Question69-2']}}</p>
-                </div>
-              </li>
-            </ul>
+                [outputsTitle]="'open datasets published'">
+              </practices-category-indicators>
+            </category-indicators-wrapper>
           </div>
         </div>
       </div>
-    </li>
-    <li>
-      <!--      Software content-->
-      <div class="uk-margin-medium-top">
-        <div class="uk-grid uk-grid-divider">
-          <div class="uk-width-2-3">
-            <div class="uk-grid uk-child-width-1-2">
-              <div>
-                <category-indicators-wrapper [cardTitle]="'Software'"
-                                             [cardIcon]="'../assets/images/country_pages/noun-software-2822919.svg'">
-                  <practices-category-indicators
-                    [monitoring]="surveyAnswer['Practices']?.['Question70']?.['Question70-0']"
-                    [useCases]="surveyAnswer['Practices']?.['Question71']?.['Question71-0']"
-                    [investments]="surveyAnswer['Practices']?.['Question72']?.['Question72-0']"
+      <div class="uk-width-1-3">
+        <ul uk-accordion="collapsible: false" class="uk-text-small">
+          <!--              Data management-->
+          @if (surveyAnswer['Practices']?.['Question58']?.['Question58-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">National monitoring on data management</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question58']?.['Question58-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question59']?.['Question59-3']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Use cases on data management</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question59']?.['Question59-3']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question60']?.['Question60-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Financial investments in data management</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question60']?.['Question60-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question61']?.['Question61-2']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Data management plans published</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question61']?.['Question61-2']}}</p>
+              </div>
+            </li>
+          }
+          <!--              FAIR Data-->
+          @if (surveyAnswer['Practices']?.['Question62']?.['Question62-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">National monitoring on FAIR data</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question62']?.['Question62-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question63']?.['Question63-3']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Use cases on FAIR data</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question63']?.['Question63-3']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question64']?.['Question64-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Financial investments in FAIR data</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question64']?.['Question64-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question65']?.['Question65-2']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">FAIR data sets published</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question65']?.['Question65-2']}}</p>
+              </div>
+            </li>
+          }
+          <!--              Open Data-->
+          @if (surveyAnswer['Practices']?.['Question66']?.['Question66-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">National monitoring on open data</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question66']?.['Question66-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question67']?.['Question67-3']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Use cases on open data</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question67']?.['Question67-3']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question68']?.['Question68-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Financial investments in open data</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question68']?.['Question68-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question69']?.['Question69-2']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Open data sets published</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question69']?.['Question69-2']}}</p>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</li>
+<li>
+  <!--      Software content-->
+  <div class="uk-margin-medium-top">
+    <div class="uk-grid uk-grid-divider">
+      <div class="uk-width-2-3">
+        <div class="uk-grid uk-child-width-1-2">
+          <div>
+            <category-indicators-wrapper [cardTitle]="'Software'"
+              [cardIcon]="'../assets/images/country_pages/noun-software-2822919.svg'">
+              <practices-category-indicators
+                [monitoring]="surveyAnswer['Practices']?.['Question70']?.['Question70-0']"
+                [useCases]="surveyAnswer['Practices']?.['Question71']?.['Question71-0']"
+                [investments]="surveyAnswer['Practices']?.['Question72']?.['Question72-0']"
                     [outputs]="surveyAnswer['Practices']?.['Question73']?.['Question73-1'] === 'Yes' ?
                       surveyAnswer['Practices']?.['Question73']?.['Question73-0'] : surveyAnswer['Practices']?.['Question73']?.['Question73-1-1']"
-                    [outputsTitle]="'open source software sets published'">
-                  </practices-category-indicators>
-                </category-indicators-wrapper>
-              </div>
-            </div>
-          </div>
-          <div class="uk-width-1-3">
-            <ul uk-accordion="collapsible: false" class="uk-text-small">
-              <li *ngIf="surveyAnswer['Practices']?.['Question70']?.['Question70-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">National monitoring on open source software</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question70']?.['Question70-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question71']?.['Question71-3']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Use cases on open source software</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question71']?.['Question71-3']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question72']?.['Question72-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Financial investments in open source software</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question72']?.['Question72-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question73']?.['Question73-2']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Open source software sets published</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question73']?.['Question73-2']}}</p>
-                </div>
-              </li>
-            </ul>
+                [outputsTitle]="'open source software sets published'">
+              </practices-category-indicators>
+            </category-indicators-wrapper>
           </div>
         </div>
       </div>
-    </li>
-    <li>
-      <!--      Services content-->
-      <div class="uk-margin-medium-top">
-        <div class="uk-grid uk-grid-divider">
-          <div class="uk-width-2-3">
-            <div class="uk-grid uk-child-width-1-2">
-              <div>
-                <category-indicators-wrapper [cardTitle]="'Services'"
-                                             [cardIcon]="'../assets/images/country_pages/noun-settings-5110695.svg'">
-                  <practices-category-indicators
-                    [monitoring]="surveyAnswer['Practices']?.['Question74']?.['Question74-0']"
-                    [useCases]="surveyAnswer['Practices']?.['Question75']?.['Question75-0']"
-                    [investments]="surveyAnswer['Practices']?.['Question76']?.['Question76-0']"
+      <div class="uk-width-1-3">
+        <ul uk-accordion="collapsible: false" class="uk-text-small">
+          @if (surveyAnswer['Practices']?.['Question70']?.['Question70-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">National monitoring on open source software</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question70']?.['Question70-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question71']?.['Question71-3']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Use cases on open source software</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question71']?.['Question71-3']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question72']?.['Question72-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Financial investments in open source software</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question72']?.['Question72-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question73']?.['Question73-2']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Open source software sets published</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question73']?.['Question73-2']}}</p>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</li>
+<li>
+  <!--      Services content-->
+  <div class="uk-margin-medium-top">
+    <div class="uk-grid uk-grid-divider">
+      <div class="uk-width-2-3">
+        <div class="uk-grid uk-child-width-1-2">
+          <div>
+            <category-indicators-wrapper [cardTitle]="'Services'"
+              [cardIcon]="'../assets/images/country_pages/noun-settings-5110695.svg'">
+              <practices-category-indicators
+                [monitoring]="surveyAnswer['Practices']?.['Question74']?.['Question74-0']"
+                [useCases]="surveyAnswer['Practices']?.['Question75']?.['Question75-0']"
+                [investments]="surveyAnswer['Practices']?.['Question76']?.['Question76-0']"
                     [outputs]="surveyAnswer['Practices']?.['Question77']?.['Question77-1'] === 'Yes' ?
                       surveyAnswer['Practices']?.['Question77']?.['Question77-0'] : surveyAnswer['Practices']?.['Question77']?.['Question77-1-1']"
-                    [outputsTitle]="'services offered through EOSC'">
-                  </practices-category-indicators>
-                </category-indicators-wrapper>
-              </div>
-            </div>
-          </div>
-          <div class="uk-width-1-3">
-            <ul uk-accordion="collapsible: false" class="uk-text-small">
-              <li *ngIf="surveyAnswer['Practices']?.['Question74']?.['Question74-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">National monitoring on offering services through EOSC</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question74']?.['Question74-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question75']?.['Question75-3']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Use cases on offering services through EOSC</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question75']?.['Question75-3']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question76']?.['Question76-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Financial investments in offering services through EOSC</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question76']?.['Question76-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question77']?.['Question77-2']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Services offered through EOSC</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question77']?.['Question77-2']}}</p>
-                </div>
-              </li>
-            </ul>
+                [outputsTitle]="'services offered through EOSC'">
+              </practices-category-indicators>
+            </category-indicators-wrapper>
           </div>
         </div>
       </div>
-    </li>
-    <li>
-      <div class="uk-margin-medium-top">
-        <div class="uk-grid uk-grid-divider">
-          <div class="uk-width-2-3">
-            <!--          Infrastructure-->
-            <div class="uk-grid uk-child-width-1-1">
-              <div>
-                <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Infrastructure'"
-                                             [cardIcon]="'../assets/images/country_pages/noun-infrastructure-1694567.svg'">
-                  <practices-category-indicators
-                    [subtitle]="'Data management'"
-                    [monitoring]="surveyAnswer['Practices']?.['Question78']?.['Question78-0']"
-                    [useCases]="surveyAnswer['Practices']?.['Question79']?.['Question79-0']"
-                    [investments]="surveyAnswer['Practices']?.['Question80']?.['Question80-0']"
+      <div class="uk-width-1-3">
+        <ul uk-accordion="collapsible: false" class="uk-text-small">
+          @if (surveyAnswer['Practices']?.['Question74']?.['Question74-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">National monitoring on offering services through EOSC</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question74']?.['Question74-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question75']?.['Question75-3']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Use cases on offering services through EOSC</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question75']?.['Question75-3']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question76']?.['Question76-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Financial investments in offering services through EOSC</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question76']?.['Question76-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question77']?.['Question77-2']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Services offered through EOSC</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question77']?.['Question77-2']}}</p>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="uk-margin-medium-top">
+    <div class="uk-grid uk-grid-divider">
+      <div class="uk-width-2-3">
+        <!--          Infrastructure-->
+        <div class="uk-grid uk-child-width-1-1">
+          <div>
+            <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Infrastructure'"
+              [cardIcon]="'../assets/images/country_pages/noun-infrastructure-1694567.svg'">
+              <practices-category-indicators
+                [subtitle]="'Data management'"
+                [monitoring]="surveyAnswer['Practices']?.['Question78']?.['Question78-0']"
+                [useCases]="surveyAnswer['Practices']?.['Question79']?.['Question79-0']"
+                [investments]="surveyAnswer['Practices']?.['Question80']?.['Question80-0']"
                     [outputs]="surveyAnswer['Practices']?.['Question81']?.['Question81-1'] === 'Yes' ?
                       surveyAnswer['Practices']?.['Question81']?.['Question81-0'] : surveyAnswer['Practices']?.['Question81']?.['Question81-1-1']"
-                    [outputsTitle]="'repositories connected to EOSC'">
-                  </practices-category-indicators>
-                  <practices-category-indicators
-                    [subtitle]="'FAIR data'"
-                    [monitoring]="surveyAnswer['Practices']?.['Question82']?.['Question82-0']"
-                    [useCases]="surveyAnswer['Practices']?.['Question83']?.['Question83-0']"
-                    [investments]="surveyAnswer['Practices']?.['Question84']?.['Question84-0']"
+                [outputsTitle]="'repositories connected to EOSC'">
+              </practices-category-indicators>
+              <practices-category-indicators
+                [subtitle]="'FAIR data'"
+                [monitoring]="surveyAnswer['Practices']?.['Question82']?.['Question82-0']"
+                [useCases]="surveyAnswer['Practices']?.['Question83']?.['Question83-0']"
+                [investments]="surveyAnswer['Practices']?.['Question84']?.['Question84-0']"
                     [outputs]="surveyAnswer['Practices']?.['Question85']?.['Question85-1'] === 'Yes' ?
                       surveyAnswer['Practices']?.['Question85']?.['Question85-0'] : surveyAnswer['Practices']?.['Question85']?.['Question85-1-1']"
-                    [outputsTitle]="'data stewards employed'">
-                  </practices-category-indicators>
-                  <practices-category-indicators
-                    [subtitle]="'Open data'"
-                    [monitoring]="surveyAnswer['Practices']?.['Question86']?.['Question86-0']"
-                    [useCases]="surveyAnswer['Practices']?.['Question87']?.['Question87-0']"
-                    [investments]="surveyAnswer['Practices']?.['Question88']?.['Question88-0']"
+                [outputsTitle]="'data stewards employed'">
+              </practices-category-indicators>
+              <practices-category-indicators
+                [subtitle]="'Open data'"
+                [monitoring]="surveyAnswer['Practices']?.['Question86']?.['Question86-0']"
+                [useCases]="surveyAnswer['Practices']?.['Question87']?.['Question87-0']"
+                [investments]="surveyAnswer['Practices']?.['Question88']?.['Question88-0']"
                     [outputs]="surveyAnswer['Practices']?.['Question89']?.['Question89-1'] === 'Yes' ?
                       surveyAnswer['Practices']?.['Question89']?.['Question89-0'] : surveyAnswer['Practices']?.['Question89']?.['Question89-1-1']"
-                    [outputsTitle]="'repositories offering long-term data preservation'">
-                  </practices-category-indicators>
-                </category-indicators-wrapper>
-              </div>
-            </div>
-          </div>
-          <div class="uk-width-1-3">
-            <ul uk-accordion="collapsible: false" class="uk-text-small">
-<!--              Connecting repositories-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question78']?.['Question78-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">National monitoring on connecting repositories to EOSC</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question78']?.['Question78-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question79']?.['Question79-3']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Use cases on connecting repositories to EOSC</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question79']?.['Question79-3']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question80']?.['Question80-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Financial investments in connecting repositories to EOSC</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question80']?.['Question80-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question81']?.['Question81-2']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Repositories connected to EOSC</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question81']?.['Question81-2']}}</p>
-                </div>
-              </li>
-<!--              Data stewardship-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question82']?.['Question82-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">National monitoring on data stewardship</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question82']?.['Question82-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question83']?.['Question83-3']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Use cases on data stewardship</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question83']?.['Question83-3']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question84']?.['Question84-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Financial investments in data stewardship</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question84']?.['Question84-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question85']?.['Question85-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Data stewards employed</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question85']?.['Question85-1']}}</p>
-                </div>
-              </li>
-              <!--              Long-term data preservation-->
-              <li *ngIf="surveyAnswer['Practices']?.['Question86']?.['Question86-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">National monitoring on long-term data preservation</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question86']?.['Question86-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question87']?.['Question87-3']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Use cases on long-term data preservation</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question87']?.['Question87-3']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question88']?.['Question88-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Financial investments in long-term data preservation</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question88']?.['Question88-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question89']?.['Question89-2']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Repositories offered long-term data preservation</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question89']?.['Question89-2']}}</p>
-                </div>
-              </li>
-            </ul>
+                [outputsTitle]="'repositories offering long-term data preservation'">
+              </practices-category-indicators>
+            </category-indicators-wrapper>
           </div>
         </div>
       </div>
-    </li>
-    <li>
-      <!--      Skills/Training content-->
-      <div class="uk-margin-medium-top">
-        <div class="uk-grid uk-grid-divider">
-          <div class="uk-width-2-3">
-            <div class="uk-grid uk-child-width-1-2">
-              <div>
-                <category-indicators-wrapper [cardTitle]="'Skills/Training'"
-                                             [cardIcon]="'../assets/images/country_pages/noun-skills-2129400.svg'">
-                  <practices-category-indicators
-                    [monitoring]="surveyAnswer['Practices']?.['Question90']?.['Question90-0']"
-                    [useCases]="surveyAnswer['Practices']?.['Question91']?.['Question91-0']"
-                    [investments]="surveyAnswer['Practices']?.['Question92']?.['Question92-0']"
-                    [outputs]="surveyAnswer['Practices']?.['Question93']?.['Question93-0']"
-                    [outputsTitle]="'educational curricula with an Open Science dimension'">
-                  </practices-category-indicators>
-                </category-indicators-wrapper>
+      <div class="uk-width-1-3">
+        <ul uk-accordion="collapsible: false" class="uk-text-small">
+          <!--              Connecting repositories-->
+          @if (surveyAnswer['Practices']?.['Question78']?.['Question78-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">National monitoring on connecting repositories to EOSC</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question78']?.['Question78-1']}}</p>
               </div>
-            </div>
-          </div>
-          <div class="uk-width-1-3">
-            <ul uk-accordion="collapsible: false" class="uk-text-small">
-              <li *ngIf="surveyAnswer['Practices']?.['Question90']?.['Question90-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">National monitoring on skills/training for Open Science</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question90']?.['Question90-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question91']?.['Question91-3']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Use cases on skills/training for Open Science</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question91']?.['Question91-3']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question92']?.['Question92-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Financial investments in skills/training for Open Science</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question92']?.['Question92-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question93']?.['Question93-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Educational curricula with an Open Science dimension offered</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question93']?.['Question93-1']}}</p>
-                </div>
-              </li>
-            </ul>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question79']?.['Question79-3']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Use cases on connecting repositories to EOSC</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question79']?.['Question79-3']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question80']?.['Question80-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Financial investments in connecting repositories to EOSC</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question80']?.['Question80-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question81']?.['Question81-2']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Repositories connected to EOSC</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question81']?.['Question81-2']}}</p>
+              </div>
+            </li>
+          }
+          <!--              Data stewardship-->
+          @if (surveyAnswer['Practices']?.['Question82']?.['Question82-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">National monitoring on data stewardship</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question82']?.['Question82-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question83']?.['Question83-3']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Use cases on data stewardship</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question83']?.['Question83-3']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question84']?.['Question84-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Financial investments in data stewardship</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question84']?.['Question84-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question85']?.['Question85-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Data stewards employed</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question85']?.['Question85-1']}}</p>
+              </div>
+            </li>
+          }
+          <!--              Long-term data preservation-->
+          @if (surveyAnswer['Practices']?.['Question86']?.['Question86-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">National monitoring on long-term data preservation</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question86']?.['Question86-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question87']?.['Question87-3']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Use cases on long-term data preservation</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question87']?.['Question87-3']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question88']?.['Question88-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Financial investments in long-term data preservation</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question88']?.['Question88-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question89']?.['Question89-2']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Repositories offered long-term data preservation</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question89']?.['Question89-2']}}</p>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</li>
+<li>
+  <!--      Skills/Training content-->
+  <div class="uk-margin-medium-top">
+    <div class="uk-grid uk-grid-divider">
+      <div class="uk-width-2-3">
+        <div class="uk-grid uk-child-width-1-2">
+          <div>
+            <category-indicators-wrapper [cardTitle]="'Skills/Training'"
+              [cardIcon]="'../assets/images/country_pages/noun-skills-2129400.svg'">
+              <practices-category-indicators
+                [monitoring]="surveyAnswer['Practices']?.['Question90']?.['Question90-0']"
+                [useCases]="surveyAnswer['Practices']?.['Question91']?.['Question91-0']"
+                [investments]="surveyAnswer['Practices']?.['Question92']?.['Question92-0']"
+                [outputs]="surveyAnswer['Practices']?.['Question93']?.['Question93-0']"
+                [outputsTitle]="'educational curricula with an Open Science dimension'">
+              </practices-category-indicators>
+            </category-indicators-wrapper>
           </div>
         </div>
       </div>
-    </li>
-    <li>
-      <!--      Assessment content-->
-      <div class="uk-margin-medium-top">
-        <div class="uk-grid uk-grid-divider">
-          <div class="uk-width-2-3">
-            <div class="uk-grid uk-child-width-1-2">
-              <div>
-                <category-indicators-wrapper [cardTitle]="'Assessment'"
-                                             [cardIcon]="'../assets/images/country_pages/noun-assesment-4658555.svg'">
-                  <practices-category-indicators
-                    [monitoring]="surveyAnswer['Practices']?.['Question94']?.['Question94-0']"
-                    [useCases]="surveyAnswer['Practices']?.['Question95']?.['Question95-0']"
-                    [investments]="surveyAnswer['Practices']?.['Question96']?.['Question96-0']"
+      <div class="uk-width-1-3">
+        <ul uk-accordion="collapsible: false" class="uk-text-small">
+          @if (surveyAnswer['Practices']?.['Question90']?.['Question90-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">National monitoring on skills/training for Open Science</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question90']?.['Question90-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question91']?.['Question91-3']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Use cases on skills/training for Open Science</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question91']?.['Question91-3']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question92']?.['Question92-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Financial investments in skills/training for Open Science</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question92']?.['Question92-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question93']?.['Question93-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Educational curricula with an Open Science dimension offered</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question93']?.['Question93-1']}}</p>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</li>
+<li>
+  <!--      Assessment content-->
+  <div class="uk-margin-medium-top">
+    <div class="uk-grid uk-grid-divider">
+      <div class="uk-width-2-3">
+        <div class="uk-grid uk-child-width-1-2">
+          <div>
+            <category-indicators-wrapper [cardTitle]="'Assessment'"
+              [cardIcon]="'../assets/images/country_pages/noun-assesment-4658555.svg'">
+              <practices-category-indicators
+                [monitoring]="surveyAnswer['Practices']?.['Question94']?.['Question94-0']"
+                [useCases]="surveyAnswer['Practices']?.['Question95']?.['Question95-0']"
+                [investments]="surveyAnswer['Practices']?.['Question96']?.['Question96-0']"
                     [outputs]="surveyAnswer['Practices']?.['Question97']?.['Question97-1'] === 'Yes' ?
                       surveyAnswer['Practices']?.['Question97']?.['Question97-0'] : surveyAnswer['Practices']?.['Question97']?.['Question97-1-1']"
-                    [outputsTitle]="'signatories of the Agreement on Reforming Research Assessment'">
-                  </practices-category-indicators>
-                </category-indicators-wrapper>
-              </div>
-            </div>
-          </div>
-          <div class="uk-width-1-3">
-            <ul uk-accordion="collapsible: false" class="uk-text-small">
-              <li *ngIf="surveyAnswer['Practices']?.['Question94']?.['Question94-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">National monitoring on incentives/rewards for Open Science</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question94']?.['Question94-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question95']?.['Question95-3']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Use cases on incentives/rewards for Open Science</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question95']?.['Question95-3']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question96']?.['Question96-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Financial investments in incentives/rewards for Open Science</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question96']?.['Question96-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question97']?.['Question97-2']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Signatories of the Agreement on Reforming Research Assessment</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question97']?.['Question97-2']}}</p>
-                </div>
-              </li>
-            </ul>
+                [outputsTitle]="'signatories of the Agreement on Reforming Research Assessment'">
+              </practices-category-indicators>
+            </category-indicators-wrapper>
           </div>
         </div>
       </div>
-    </li>
-    <li>
-      <div class="uk-margin-medium-top">
-        <div class="uk-grid uk-grid-divider">
-          <div class="uk-width-2-3">
-            <!--          Engagement-->
-            <div class="uk-grid uk-child-width-1-2">
-              <div>
-                <category-indicators-wrapper [cardTitle]="'Engagement'"
-                                             [cardIcon]="'../assets/images/country_pages/noun-work-engagement-946691.svg'">
-                  <practices-category-indicators
-                    [monitoring]="surveyAnswer['Practices']?.['Question98']?.['Question98-0']"
-                    [useCases]="surveyAnswer['Practices']?.['Question99']?.['Question99-0']"
-                    [investments]="surveyAnswer['Practices']?.['Question100']?.['Question100-0']"
-                    [outputs]="surveyAnswer['Practices']?.['Question101']?.['Question101-0']"
-                    [outputsTitle]="'projects with a citizen science dimension'">
-                  </practices-category-indicators>
-                </category-indicators-wrapper>
+      <div class="uk-width-1-3">
+        <ul uk-accordion="collapsible: false" class="uk-text-small">
+          @if (surveyAnswer['Practices']?.['Question94']?.['Question94-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">National monitoring on incentives/rewards for Open Science</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question94']?.['Question94-1']}}</p>
               </div>
-            </div>
-          </div>
-          <div class="uk-width-1-3">
-            <ul uk-accordion="collapsible: false" class="uk-text-small">
-              <li *ngIf="surveyAnswer['Practices']?.['Question98']?.['Question98-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">National monitoring on citizen science</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question98']?.['Question98-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question99']?.['Question99-3']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Use cases on citizen science</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question99']?.['Question99-3']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question100']?.['Question100-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Financial investments in citizen science</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question100']?.['Question100-1']}}</p>
-                </div>
-              </li>
-              <li *ngIf="surveyAnswer['Practices']?.['Question101']?.['Question101-1']" class="uk-margin-medium-bottom">
-                <a class="uk-accordion-title" href>
-                  <span class="comment-number uk-margin-small-right">-</span>
-                  <span class="comment-title">Projects with a citizen science dimension were started</span>
-                </a>
-                <div class="uk-accordion-content">
-                  <p>{{surveyAnswer['Practices']?.['Question101']?.['Question101-1']}}</p>
-                </div>
-              </li>
-            </ul>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question95']?.['Question95-3']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Use cases on incentives/rewards for Open Science</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question95']?.['Question95-3']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question96']?.['Question96-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Financial investments in incentives/rewards for Open Science</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question96']?.['Question96-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question97']?.['Question97-2']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Signatories of the Agreement on Reforming Research Assessment</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question97']?.['Question97-2']}}</p>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</li>
+<li>
+  <div class="uk-margin-medium-top">
+    <div class="uk-grid uk-grid-divider">
+      <div class="uk-width-2-3">
+        <!--          Engagement-->
+        <div class="uk-grid uk-child-width-1-2">
+          <div>
+            <category-indicators-wrapper [cardTitle]="'Engagement'"
+              [cardIcon]="'../assets/images/country_pages/noun-work-engagement-946691.svg'">
+              <practices-category-indicators
+                [monitoring]="surveyAnswer['Practices']?.['Question98']?.['Question98-0']"
+                [useCases]="surveyAnswer['Practices']?.['Question99']?.['Question99-0']"
+                [investments]="surveyAnswer['Practices']?.['Question100']?.['Question100-0']"
+                [outputs]="surveyAnswer['Practices']?.['Question101']?.['Question101-0']"
+                [outputsTitle]="'projects with a citizen science dimension'">
+              </practices-category-indicators>
+            </category-indicators-wrapper>
           </div>
         </div>
       </div>
-    </li>
-  </ul>
+      <div class="uk-width-1-3">
+        <ul uk-accordion="collapsible: false" class="uk-text-small">
+          @if (surveyAnswer['Practices']?.['Question98']?.['Question98-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">National monitoring on citizen science</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question98']?.['Question98-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question99']?.['Question99-3']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Use cases on citizen science</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question99']?.['Question99-3']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question100']?.['Question100-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Financial investments in citizen science</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question100']?.['Question100-1']}}</p>
+              </div>
+            </li>
+          }
+          @if (surveyAnswer['Practices']?.['Question101']?.['Question101-1']) {
+            <li class="uk-margin-medium-bottom">
+              <a class="uk-accordion-title" href>
+                <span class="comment-number uk-margin-small-right">-</span>
+                <span class="comment-title">Projects with a citizen science dimension were started</span>
+              </a>
+              <div class="uk-accordion-content">
+                <p>{{surveyAnswer['Practices']?.['Question101']?.['Question101-1']}}</p>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</li>
+</ul>
 </div>
+}
 

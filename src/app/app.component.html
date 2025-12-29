@@ -1,14 +1,11 @@
 <!--<router-outlet></router-outlet>-->
 
-<ng-container *ngIf="isContributionsDashboardRoute() ; else public">
+@if (isContributionsDashboardRoute() ) {
   <app-contributions-dashboard></app-contributions-dashboard>
-</ng-container>
-
-<ng-template #public>
-
-  <ng-container *ngIf="isEOSCReadinessDashboardRoute() ; else home">
+} @else {
+  @if (isEOSCReadinessDashboardRoute() ) {
     <app-top-menu-dashboard></app-top-menu-dashboard>
-<!--    <div style="margin-top: 80px"></div>-->
+    <!--    <div style="margin-top: 80px"></div>-->
     <router-outlet></router-outlet>
     <div style="margin-left: 280px" class="uk-visible@m">
       <app-full-footer></app-full-footer>
@@ -16,14 +13,12 @@
     <div class="uk-hidden@m">
       <app-full-footer></app-full-footer>
     </div>
-  </ng-container>
-
-  <ng-template #home>
+  } @else {
     <app-top-menu-dashboard></app-top-menu-dashboard>
     <!--  <div style="margin-top: 90px"></div>-->
-<!--    <div style="margin-top: 80px"></div>-->
+    <!--    <div style="margin-top: 80px"></div>-->
     <router-outlet></router-outlet>
     <app-full-footer></app-full-footer>
-  </ng-template>
+  }
+}
 
-</ng-template>
