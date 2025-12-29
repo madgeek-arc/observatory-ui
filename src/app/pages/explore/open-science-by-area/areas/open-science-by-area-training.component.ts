@@ -11,7 +11,7 @@ import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts"
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { NgOptimizedImage } from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import * as Highcharts from "highcharts";
 import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
@@ -19,7 +19,7 @@ import { PageContentComponent } from "../../../../../survey-tool/app/shared/page
 @Component({
     selector: 'app-open-science-by-area-training',
     templateUrl: './open-science-by-area-training.component.html',
-    imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent]
+    imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent]
 })
 
 export class OpenScienceByAreaTrainingComponent implements OnInit {
@@ -60,7 +60,7 @@ export class OpenScienceByAreaTrainingComponent implements OnInit {
   countryCode?: string;
 
   barChartTitles = {
-    title: 'Financial Investments in Skills/Training in Open Science in '+this.year,
+    title: 'Financial Investments in Skills/Training in Open Science in '+(+this.year-1),
     xAxis: '',
     yAxis: '',
   }

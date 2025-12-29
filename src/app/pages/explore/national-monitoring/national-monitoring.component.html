@@ -9,17 +9,18 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
           <h4>National Monitoring</h4>
           <div class="uk-flex uk-flex-center"
-               (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent4], 'National Monitoring')"
-               style="cursor: pointer">
+            (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent4], 'National Monitoring')"
+            style="cursor: pointer">
             <!--          <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4], 'National Monitoring')" style="cursor: pointer">-->
             <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              @if (exportActive) {
+                <span class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
@@ -27,17 +28,18 @@
         <div class="uk-hidden@m">
           <h4>National Monitoring</h4>
           <div class="uk-flex uk-flex-right"
-               (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent4], 'National Monitoring')"
-               style="cursor: pointer">
+            (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent4], 'National Monitoring')"
+            style="cursor: pointer">
             <!--          <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4], 'National Monitoring')" style="cursor: pointer">-->
             <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              @if (exportActive) {
+                <span class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
@@ -48,10 +50,10 @@
           principles. National monitoring helps identify gaps, track improvements, and promote accountability, while
           also enabling governments and institutions to make informed decisions that foster transparency,
           collaboration, and innovation in research. This page offers an overview of the current state of national
-          monitoring efforts across key areas of Open Science, highlighting progress and emerging trends.</p>
+        monitoring efforts across key areas of Open Science, highlighting progress and emerging trends.</p>
 
       </div>
-  </div>
+    </div>
 
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent1>
       <div class="uk-container">
@@ -61,11 +63,11 @@
           <div class="uk-grid">
             <div class="uk-width-1-1">
               <app-multi-chart chartType='bar' [series]="columnChartSeries" [categories]="columnChartCategories"
-                               [height]="smallScreen ? 1150 : 950"
-                               [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
-                               [titles]="columnChartTitles" [legendOptions]="legendOptions" valueSuffix=" %"
+                [height]="smallScreen ? 1150 : 950"
+                [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
+                [titles]="columnChartTitles" [legendOptions]="legendOptions" valueSuffix=" %"
                                [caption]="'<p class=\'uk-text-justify\'>This bar chart illustrates the percentage of countries with national monitoring initiatives in various Open Science areas for the years 2021 and 2022. Each bar represents an area of Open Science, such as Open Access Publications, FAIR Data, Open Software, and Citizen Science, showing the changes in monitoring adoption from one year to the next. The chart highlights where countries are increasingly focusing their monitoring efforts, with significant progress in areas like Open Access Publications and FAIR Data, reflecting the growing importance of these aspects in the broader Open Science landscape.</p>'
-                           + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for years '+years.join(', ')+'.</p>'">
+                           + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+'.</p>'">
               </app-multi-chart>
             </div>
 
@@ -88,38 +90,46 @@
                 <li>
                   <a class="uk-margin-remove-bottom"><span>Overview</span></a>
                 </li>
-                <li class="" *ngFor="let pill of openScienceAreas; let i=index">
-                  <a class="uk-margin-remove-bottom" (click)="getChart(i)"><span>{{ pill }}</span></a>
-                </li>
+                @for (pill of openScienceAreas; track pill; let i = $index) {
+                  <li class="">
+                    <a class="uk-margin-remove-bottom" (click)="getChart(i)"><span>{{ pill }}</span></a>
+                  </li>
+                }
               </ul>
               <!--Dropdown for mobile only-->
               <select class="uk-select uk-hidden@m uk-margin-small-top uk-margin-small-bottom" (change)="onSelectChange($event)">
                 <option value="0">Overview</option>
-                <option *ngFor="let pill of openScienceAreas; let i=index" [value]="i+1">{{ pill }}</option>
+                @for (pill of openScienceAreas; track pill; let i = $index) {
+                  <option [value]="i+1">{{ pill }}</option>
+                }
               </select>
             </div>
             <div class="uk-width-1-1@s uk-width-3-4@m uk-width-3-4@l">
               <ul id="map-charts" class="uk-switcher uk-margin">
-                <li *ngIf="monitoringMapData.series.length">
-                  <div>
-                    <app-highcharts-category-map
-                      [mapData]="monitoringMapData" [title]="'National Monitoring'" [backgroundColor]="'#ffffff'"
-                      [height]="700" [smallScreen]="smallScreen"
+                @if (monitoringMapData.series.length) {
+                  <li>
+                    <div>
+                      <app-highcharts-category-map
+                        [mapData]="monitoringMapData" [title]="'National Monitoring'" [backgroundColor]="'#ffffff'"
+                        [height]="700" [smallScreen]="smallScreen"
                       [caption]="'<p class=\'uk-text-justify\'>This map illustrates the existence or non-existence of national monitoring for Open Science (OS) areas across different countries. A country is marked as having \'national monitoring\' if at least one monitoring system for any of the OS areas (such as Publications, Data Management, FAIR Data, Open Data, etc.) is in place. When you hover over a country, a detailed view will display what specific monitoring is in place within that country. Additionally, you can browse through different OS areas by selecting options on the right side, allowing you to explore which areas of Open Science are being monitored in each country.</p>' +
                   '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'">
                     </app-highcharts-category-map>
                   </div>
                 </li>
-                <li *ngFor="let pill of openScienceAreas; let i = index">
+}
+                @for (pill of openScienceAreas; track pill; let i = $index) {
+<li>
                   <div>
                     <app-highcharts-category-map
                       [mapData]="questionsDataArray[i]" [subtitle]="" [toolTipData]="toolTipData[i]"
-                      [title]="mapTitles[i]" [backgroundColor]="'#ffffff'" [height]="700" [smallScreen]="smallScreen"
-                      [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
-                      [caption]="monitoringMapCaptions[i] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'">
-                    </app-highcharts-category-map>
-                  </div>
-                </li>
+                        [title]="mapTitles[i]" [backgroundColor]="'#ffffff'" [height]="700" [smallScreen]="smallScreen"
+                        [customLabelText]="'<strong>'+participatingCountries[i] + ' out of '+ total[i] + '</strong><br> countries have a <br>national monitoring on <br> '+ openScienceAreas[i]"
+                        [caption]="monitoringMapCaptions[i] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'">
+                      </app-highcharts-category-map>
+                    </div>
+                  </li>
+                }
               </ul>
             </div>
           </div>
@@ -138,50 +148,57 @@
         <div class="uk-overflow-auto">
           <table class="uk-table uk-table-divider uk-table-middle bordered-table">
             <thead>
-            <tr>
-              <th></th>
-              <th>
-                <div class="uk-text-bold">Publications</div>
-              </th>
-              <th colspan="3">
-                <div class="uk-text-bold">Data</div>
-              </th>
-              <th>
-                <div class="uk-text-bold">Software</div>
-              </th>
-              <th>
-                <div class="uk-text-bold">Services</div>
-              </th>
-              <th colspan="3">
-                <div class="uk-text-bold">Infrastructure</div>
-              </th>
-              <th>
-                <div class="uk-text-bold">Skills/Training</div>
-              </th>
-              <th>
-                <div class="uk-text-bold">Assessment</div>
-              </th>
-              <th>
-                <div class="uk-text-bold">Engagement</div>
-              </th>
-            </tr>
+              <tr>
+                <th></th>
+                <th>
+                  <div class="uk-text-bold">Publications</div>
+                </th>
+                <th colspan="3">
+                  <div class="uk-text-bold">Data</div>
+                </th>
+                <th>
+                  <div class="uk-text-bold">Software</div>
+                </th>
+                <th>
+                  <div class="uk-text-bold">Services</div>
+                </th>
+                <th colspan="3">
+                  <div class="uk-text-bold">Infrastructure</div>
+                </th>
+                <th>
+                  <div class="uk-text-bold">Skills/Training</div>
+                </th>
+                <th>
+                  <div class="uk-text-bold">Assessment</div>
+                </th>
+                <th>
+                  <div class="uk-text-bold">Engagement</div>
+                </th>
+              </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let row of tableData">
-              <ng-container *ngFor="let item of row; let i = index">
-                <td *ngIf="i === 0; else addTooltip" class="uk-text-bold">
-                  {{ item }}
-                </td>
-                <ng-template #addTooltip>
-                  <td [title]="columnChartCategories[i-1]"
-                      [ngClass]="{valueTrue: item === 'true', valueFalse: item==='-'}" style="">
-                    <a style="width:100%; height:100%">&#8203;</a>
-                  </td>
-                </ng-template>
-              </ng-container>
-            </tr>
+              @for (row of tableData; track row) {
+                <tr>
+                  @for (item of row; track item; let i = $index) {
+                    @if (i === 0) {
+                      <td class="uk-text-bold">
+                        {{ item }}
+                      </td>
+                    } @else {
+                      <td [title]="columnChartCategories[i-1]"
+                        [ngClass]="{valueTrue: item === 'true', valueFalse: item==='-'}" style="">
+                        <a style="width:100%; height:100%">&#8203;</a>
+                      </td>
+                    }
+                  }
+                </tr>
+              }
             </tbody>
           </table>
+        </div>
+
+        <div class="uk-margin-top">
+          <span class="uk-text-bold">Data source:</span>&nbsp;Survey on National Contributions to EOSC and Open Science {{year}}.
         </div>
 
       </div>

@@ -1,6 +1,18 @@
 <div id="page_content">
-	<div id="page_content_inner">
-		@if (docModel && payload) {
+  <div id="page_content_inner">
+
+    <div class="uk-container uk-container-expand">
+      @if (errorMessage) {
+        <div
+          class="uk-alert uk-alert-danger uk-margin"
+          uk-alert>
+          <a class="uk-alert-close" uk-close (click)="errorMessage = null"></a>
+          {{ errorMessage }}
+        </div>
+      }
+    </div>
+
+    @if (docModel && payload) {
       <app-survey [model]="docModel" [payload]="payload" (submit)="onSubmit($event)">
         <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right uk-margin uk-padding-xsmall" style="min-height: 40px">
           <div>
@@ -10,7 +22,7 @@
           </div>
         </div>
       </app-survey>
-		}
-<!--		<pre>{{payload | json}}</pre>-->
-	</div>
+    }
+    <!--		<pre>{{payload | json}}</pre>-->
+  </div>
 </div>

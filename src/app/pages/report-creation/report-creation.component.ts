@@ -9,7 +9,7 @@ import { RawData, Row } from "../../domain/raw-data";
 import * as Highcharts from 'highcharts';
 import { SeriesMappointOptions, SeriesPieOptions } from "highcharts";
 import { latlong } from "../../domain/countries-lat-lon";
-import { JsonPipe, NgClass, NgForOf, NgIf } from "@angular/common";
+import { JsonPipe, NgClass } from "@angular/common";
 import { ReportPieChartComponent } from "../../shared/charts/report-charts/report-pie-chart.component";
 import { Chart, chartsCfg } from "./report-chart.configuration";
 import { BarColumnsComponent } from "../../shared/charts/report-charts/bar-columns.component";
@@ -27,14 +27,12 @@ interface ChartImageData {
   selector: 'app-report-creation',
   standalone: true,
   imports: [
-    NgIf,
-    NgForOf,
     WorldMapComponent,
     ReportPieChartComponent,
     JsonPipe,
     BarColumnsComponent,
     NgClass
-  ],
+],
   providers: [StakeholdersService],
   templateUrl: './report-creation.component.html'
 })
@@ -252,7 +250,7 @@ export class ReportCreationComponent implements OnInit {
     const currentYear = trends[trends.length-1];
 
     this.reportData[queryName+'[0]'] = currentYear.investment > previousYear.investment ? 'an increase' : currentYear.investment < previousYear.investment ? 'a decrease' : 'no change';
-    this.reportData[queryName+'[1]'] = currentYear.investment > surveyStartYear.investment ? 'an overall increase' : currentYear.investment < surveyStartYear.investment ? 'an overall decrease' : 'overall no change';
+    this.reportData[queryName+'[1]'] = currentYear.investment > surveyStartYear.investment ? 'an overall increase' : currentYear.investment < surveyStartYear.investment ? 'an overall decrease' : 'overall, no change';
 
     return seriesOptions;
   }
@@ -290,7 +288,7 @@ export class ReportCreationComponent implements OnInit {
     const currentYear = trends[trends.length-1];
 
     this.reportData[queryName+'[0]'] = currentYear.hasPolicy > previousYear.hasPolicy ? 'an increase' : currentYear.hasPolicy < previousYear.hasPolicy ? 'a decrease' : 'no change';
-    this.reportData[queryName+'[1]'] = currentYear.hasPolicy > surveyStartYear.hasPolicy ? 'an overall increase' : currentYear.hasPolicy < surveyStartYear.hasPolicy ? 'an overall decrease' : 'overall no change';
+    this.reportData[queryName+'[1]'] = currentYear.hasPolicy > surveyStartYear.hasPolicy ? 'an overall increase' : currentYear.hasPolicy < surveyStartYear.hasPolicy ? 'an overall decrease' : 'overall, no change';
 
     return seriesOptions;
   }
@@ -340,9 +338,9 @@ export class ReportCreationComponent implements OnInit {
     const currentYear = trends[trends.length-1];
 
     this.reportData[queryName+'[0]'] = currentYear.hasPolicy > previousYear.hasPolicy ? 'an increase' : currentYear.hasPolicy < previousYear.hasPolicy ? 'a decrease' : 'no change';
-    this.reportData[queryName+'[1]'] = currentYear.hasPolicy > surveyStartYear.hasPolicy ? 'an overall increase' : currentYear.hasPolicy < surveyStartYear.hasPolicy ? 'an overall decrease' : 'overall no change';
+    this.reportData[queryName+'[1]'] = currentYear.hasPolicy > surveyStartYear.hasPolicy ? 'an overall increase' : currentYear.hasPolicy < surveyStartYear.hasPolicy ? 'an overall decrease' : 'overall, no change';
     this.reportData[queryName+'[2]'] = currentYear.isMandatory > previousYear.isMandatory ? 'an increase' : currentYear.isMandatory < previousYear.isMandatory ? 'a decrease' : 'no change';
-    this.reportData[queryName+'[3]'] = currentYear.isMandatory > surveyStartYear.isMandatory ? 'an overall increase' : currentYear.isMandatory < surveyStartYear.isMandatory ? 'an overall decrease' : 'overall no change';
+    this.reportData[queryName+'[3]'] = currentYear.isMandatory > surveyStartYear.isMandatory ? 'an overall increase' : currentYear.isMandatory < surveyStartYear.isMandatory ? 'an overall decrease' : 'overall, no change';
 
     return seriesOptions;
   }
@@ -593,7 +591,7 @@ export class ReportCreationComponent implements OnInit {
     let total = 0;
     let percentage: number;
     data.datasets[0].series.result.forEach(element => {
-      if (element.row[1] !== null && element.row[1].trim() !== '')
+      if (element.row[1] && element.row[1] !== null && element.row[1] !== 'null' && element.row[1].trim() !== '')
         total++;
 
       if (element.row[1] === 'Yes')

@@ -7,6 +7,7 @@ COPY package.json ./
 COPY package-lock.json ./
 
 RUN npm ci
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 COPY . .
 ARG configuration=prod
 RUN npm run build:$configuration

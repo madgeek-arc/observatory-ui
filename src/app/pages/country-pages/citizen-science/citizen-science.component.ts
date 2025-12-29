@@ -9,6 +9,7 @@ import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
 import { PdfExportService } from "../../services/pdf-export.service";
+import { ExploreService } from "../../explore/explore.service";
 
 
 @Component({
@@ -25,6 +26,8 @@ import { PdfExportService } from "../../services/pdf-export.service";
 })
 export class CitizenScienceComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private exploreService = inject(ExploreService);
+
   protected readonly Math = Math;
   exportActive = false;
 
@@ -33,6 +36,8 @@ export class CitizenScienceComponent implements OnInit {
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
+  year?: string;
+  lastUpdateDate?: string;
 
   citizenScienceProjects:  (string | null)[] = [null, null];
   citizenSciencePercentageDiff: number | null = null;
@@ -49,11 +54,21 @@ export class CitizenScienceComponent implements OnInit {
   constructor(private dataShareService: DataShareService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
+    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => this.lastUpdateDate = value
+    });
+
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (code) => {
         this.countryCode = code;
       }
     });
+
+    this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (year) => {
+        this.year = year;
+      }
+    })
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
@@ -85,8 +100,8 @@ export class CitizenScienceComponent implements OnInit {
   }
 
   initCardValues() {
-    this.citizenScienceProjects[1] = this.surveyAnswers[1]?.['Practices']?.['Question101']?.['Question101-0'];
-    this.citizenScienceProjects[0] = this.surveyAnswers[0]?.['Practices']?.['Question101']?.['Question101-0'];
+    this.citizenScienceProjects[1] = this.surveyAnswers[1]?.['Practices']?.['Question101']?.['Question101-0']?.['Question101-1-1'];
+    this.citizenScienceProjects[0] = this.surveyAnswers[0]?.['Practices']?.['Question101']?.['Question101-0']?.['Question101-1-1'];
     this.citizenSciencePercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.citizenScienceProjects[0], this.citizenScienceProjects[1]);
 
     this.financialInvestmentInCS[1] = this.surveyAnswers[1]?.['Practices']?.['Question100']?.['Question100-0'];
@@ -102,6 +117,9 @@ export class CitizenScienceComponent implements OnInit {
 
     this.hasMonitoringCS = this.surveyAnswers[1]?.['Practices']?.['Question98']?.['Question98-0'] || null;
     this.monitoringClarificationCS = this.surveyAnswers[1]?.['Practices']?.['Question98']?.['Question98-1'] || null;
+
+    console.log("Final citizenScienceProjects:", this.citizenScienceProjects);
+    console.log("Final financialInvestmentInCS:", this.financialInvestmentInCS);
 
   }
 

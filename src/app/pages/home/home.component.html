@@ -36,7 +36,6 @@
             <span>
               <img src="assets/images/explore/OS%20by%20Area.svg" style="width: 71px; height: 33px">
             </span>
-<!--            <span class="material-symbols-outlined filled uk-text-primary">category</span>-->
             <div class="uk-margin-left">
               <h5>Open Science by Area</h5>
               <p>Search data on Open Access publications, Open software,  infrastructure, training, and more. </p>
@@ -45,12 +44,11 @@
         </a>
       </div>
       <div>
-        <a class="text-black custom-disabled-link uk-link-reset" uk-tooltip="Coming soon..">
+        <a [routerLink]="['/country-pages']" class="text-black uk-link-reset">
           <div class="uk-card card-explore uk-card-small uk-card-body uk-flex">
             <span>
               <img src="assets/images/explore/Open%20Science%20by%20country.svg" style="width: 31px; height: 33px">
             </span>
-<!--            <span class="material-symbols-outlined filled uk-text-primary">flag</span>-->
             <div class="uk-margin-left">
               <h5>Open Science by Country</h5>
               <p>Compare OS initiatives across Europe, country by country.</p>
@@ -130,6 +128,7 @@
       </div>
       <div>
         <a [routerLink]="['/explore/resource-registry/search']" class="text-black uk-link-reset">
+<!--        <a class="text-black uk-link-reset custom-disabled-link" uk-tooltip="Coming soon..">-->
           <div class="uk-card card-explore uk-card-body uk-flex">
             <span>
               <img src="assets/images/explore/Open%20Science%20Resource%20Registryu.svg" style="width: 41px; height: 33px">

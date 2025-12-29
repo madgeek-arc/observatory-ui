@@ -1,0 +1,287 @@
+<div class="uk-section uk-section-default uk-section-small">
+  @if (type) {
+    <div class="uk-container uk-container-expand">
+      <div>
+        @switch (type) {
+          @case ('researchers') {
+            <div>
+              <div class="uk-grid uk-margin-medium-top">
+                <div class="uk-width-2-3" style="height: 800px">
+                  <app-highcharts-color-axis [mapData]="questionsDataArray[0]" title="Number of researchers employed in {{ +year-1 }}"
+                    [subtitle]="'(in full-time equivalents)'" [dataSeriesSuffix]="''"
+                    [toolTipData]="toolTipData[0]" [participatingCountries]="countriesArray"
+                    [caption]="'Data has been extracted from <a href=&quot;https://ec.europa.eu/eurostat/databrowser/view/tsc00004/default/table?lang=en&quot; target=&quot;_blank&quot; style=&quot;color: #008792;&quot;>Eurostat</a>'">
+                  </app-highcharts-color-axis>
+                </div>
+                <div class="uk-width-1-3">
+                  <div class="uk-margin-medium-bottom">
+                    <div class="uk-card uk-card-default uk-card-body indicator-card">
+                      <div class="indicator-label">
+                        Total number of researchers employed in {{ +year-1 }}
+                        <span class="uk-text-muted">(in full-time equivalents)</span>
+                      </div>
+                      @if (!sumsArray[0]) {
+                        <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                      }
+                      @if (sumsArray[0]) {
+                        <div class="uk-text-lead uk-margin-small-top">
+                          <strong>{{ sumsArray[0] | number: '':'el-GR' }}</strong>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                  <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
+                    <app-bar-chart [mapData]="questionsDataArrayForBarChart[0]" [subTitle]="'(in full-time equivalents)'"
+                      title="Number of researchers employed in {{ +year-1 }}" [dataSeriesSuffix]="''"
+                      [caption]="'Data has been extracted from <a href=&quot;https://ec.europa.eu/eurostat/databrowser/view/tsc00004/default/table?lang=en&quot; target=&quot;_blank&quot; style=&quot;color: #008792;&quot;>Eurostat</a>'">
+                    </app-bar-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+          @case ('RPOs') {
+            <div>
+              <div class="uk-grid uk-margin-medium-top">
+                <div class="uk-width-2-3" style="height: 800px">
+                  <app-highcharts-color-axis [mapData]="questionsDataArray[1]" [title]="'Number of Research-performing Organisations'"
+                    [toolTipData]="toolTipData[1]" [subtitle]="" [dataSeriesSuffix]="''"
+                    [participatingCountries]="countriesArray">
+                  </app-highcharts-color-axis>
+                </div>
+                <div class="uk-width-1-3">
+                  <div class="uk-margin-medium-bottom">
+                    <div class="uk-card uk-card-default uk-card-body indicator-card">
+                      <div class="indicator-label">Total number of Research-performing Organisations</div>
+                      @if (!sumsArray[1]) {
+                        <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                      }
+                      @if (sumsArray[1]) {
+                        <div class="uk-text-lead uk-margin-small-top">
+                          <strong>{{ sumsArray[1] | number: '':'el-GR' }}</strong>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                  <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
+                    <app-bar-chart [mapData]="questionsDataArrayForBarChart[1]" [subTitle]="''"
+                      [title]="'Number of Research-performing Organisations'" [dataSeriesSuffix]="''">
+                    </app-bar-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+          @case ('RFOs') {
+            <div>
+              <div class="uk-grid uk-margin-medium-top">
+                <div class="uk-width-2-3" style="height: 800px">
+                  <app-highcharts-color-axis [mapData]="questionsDataArray[2]" [title]="'Number of Research-funding Organisations'"
+                    [toolTipData]="toolTipData[2]" [subtitle]="" [dataSeriesSuffix]="''"
+                    [participatingCountries]="countriesArray">
+                  </app-highcharts-color-axis>
+                </div>
+                <div class="uk-width-1-3">
+                  <div class="uk-margin-medium-bottom">
+                    <div class="uk-card uk-card-default uk-card-body indicator-card">
+                      <div class="indicator-label">Total number of Research-funding Organisations</div>
+                      @if (!sumsArray[2]) {
+                        <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                      }
+                      @if (sumsArray[2]) {
+                        <div class="uk-text-lead uk-margin-small-top">
+                          <strong>{{ sumsArray[2] | number: '':'el-GR' }}</strong>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                  <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
+                    <app-bar-chart [mapData]="questionsDataArrayForBarChart[2]" [subTitle]="''"
+                      [title]="'Number of Research-funding Organisations'" [dataSeriesSuffix]="''">
+                    </app-bar-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+          @case ('repositories') {
+            <div>
+              <div class="uk-grid uk-margin-medium-top">
+                <div class="uk-width-2-3" style="height: 800px">
+                  <app-highcharts-color-axis [mapData]="questionsDataArray[3]" [title]="'Number of repositories'"
+                    [toolTipData]="toolTipData[3]" [subtitle]="" [dataSeriesSuffix]="''"
+                    [participatingCountries]="countriesArray">
+                  </app-highcharts-color-axis>
+                </div>
+                <div class="uk-width-1-3">
+                  <div class="uk-margin-medium-bottom">
+                    <div class="uk-card uk-card-default uk-card-body indicator-card">
+                      <div class="indicator-label">Total number of repositories</div>
+                      @if (!sumsArray[3]) {
+                        <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                      }
+                      @if (sumsArray[3]) {
+                        <div class="uk-text-lead uk-margin-small-top">
+                          <strong>{{ sumsArray[3] | number: '':'el-GR' }}</strong>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                  <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
+                    <app-bar-chart [mapData]="questionsDataArrayForBarChart[3]" [subTitle]="''"
+                      [title]="'Number of repositories'" [dataSeriesSuffix]="''">
+                    </app-bar-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+          @case ('investments') {
+            <div>
+              <!--        <ul id="investmentsContent" class="uk-subnav uk-subnav-pill" uk-switcher>-->
+              <!--          <li><a [routerLink]="['./']" [fragment]="'absolute'">Absolute number</a></li>-->
+              <!--          <li><a [routerLink]="['./']" [fragment]="'gdp'">GDP percentage</a></li>-->
+              <!--          <li><a [routerLink]="['./']" [fragment]="'gerd'">GERD percentage</a></li>-->
+              <!--          <li><a [routerLink]="['./']" [fragment]="'income'">National income percentage</a></li>-->
+              <!--          <li><a [routerLink]="['./']" [fragment]="'total'">Distribution total</a></li>-->
+              <!--          <li><a [routerLink]="['./']" [fragment]="'details'">Distribution details</a></li>-->
+            <!--        </ul>-->
+            <!--        <div [ngSwitch]="fragment">-->
+            <!--          <div *ngSwitchCase="'absolute'" class="uk-animation-fade">-->
+            <!--            <div class="uk-grid uk-margin-medium-top">-->
+            <!--              <div id="1" class="uk-width-2-3" style="height: 800px">-->
+            <!--                <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [title]="'Financial investments in EOSC and Open Science in {{ +year-1 }}'"-->
+            <!--                                           [toolTipData]="toolTipData[4]" [subtitle]="'(in millions of Euro)'"-->
+            <!--                                           [dataSeriesSuffix]="'M'" [participatingCountries]="countriesArray">-->
+          <!--                </app-highcharts-color-axis>-->
+        <!--              </div>-->
+        <!--              <div class="uk-width-1-3">-->
+        <!--                <div class="uk-margin-medium-bottom">-->
+        <!--                  <div class="uk-card uk-card-default uk-card-body indicator-card">-->
+        <!--                    <div class="indicator-label">-->
+        <!--                      Total amount of financial investments in EOSC and Open Science in {{ +year-1 }}-->
+        <!--                      <span class="uk-text-muted">(in millions of Euro)</span>-->
+      <!--                    </div>-->
+      <!--                    <div *ngIf="!sumsArray[4]" class="uk-text-lead uk-margin-small-top"><strong>&#45;&#45;</strong></div>-->
+      <!--                    <div *ngIf="sumsArray[4]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[4]}} M</strong></div>-->
+    <!--                  </div>-->
+  <!--                </div>-->
+  <!--                <div class="uk-card uk-card-default uk-card-body" style="height: 550px">-->
+  <!--                  <app-bar-chart [mapData]="questionsDataArrayForBarChart[4]" [subTitle]="'(in millions of Euro)'"-->
+  <!--                                 [title]="'Financial investments in EOSC and Open Science in {{ +year-1 }}'">-->
+<!--                  </app-bar-chart>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div *ngSwitchCase="'gdp'" class="uk-animation-fade">-->
+<!--            <div class="uk-text-italic">-->
+<!--              <span class="uk-text-meta">* GDP collected from </span><a href="https://ec.europa.eu/eurostat/databrowser/view/TEC00001/default/table?lang=en" target="_blank">Eurostat</a>-->
+<!--            </div>-->
+<!--            <div class="uk-grid uk-margin-medium-top">-->
+<!--              <div class="uk-width-2-3" style="height: 800px">-->
+<!--                <app-highcharts-color-axis [mapData]="questionsDataArray[5]" [title]="'Financial investments in EOSC and Open Science in {{ +year-1 }}'"-->
+<!--                                           [toolTipData]="toolTipData[5]" [subtitle]="'(in thousands of GDP)'"-->
+<!--                                           [dataSeriesSuffix]="'‰'" [participatingCountries]="countriesArray">-->
+<!--                </app-highcharts-color-axis>-->
+<!--              </div>-->
+<!--              <div class="uk-width-1-3">-->
+<!--                <div class="uk-card uk-card-default uk-card-body" style="height: 550px">-->
+<!--                  <app-bar-chart [mapData]="questionsDataArrayForBarChart[5]" [subTitle]="'(in thousands of GDP)'"-->
+<!--                                 [title]="'Financial investments in EOSC and Open Science in {{ +year-1 }}'">-->
+<!--                  </app-bar-chart>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div *ngSwitchCase="'gerd'" class="uk-animation-fade">-->
+<!--            <div class="uk-text-italic">-->
+<!--              <span class="uk-text-meta">* GERD collected from </span><a href="https://ec.europa.eu/eurostat/databrowser/view/RD_E_GERDTOT/default/table?lang=en" target="_blank">Eurostat</a>-->
+<!--            </div>-->
+<!--            <div class="uk-grid uk-margin-medium-top">-->
+<!--              <div class="uk-width-2-3" style="height: 800px">-->
+<!--                <app-highcharts-color-axis [mapData]="questionsDataArray[6]" [title]="'Financial investments in EOSC and Open Science in {{ +year-1 }}'"-->
+<!--                                           [toolTipData]="toolTipData[6]" [subtitle]="'(in thousands of GERD)'"-->
+<!--                                           [dataSeriesSuffix]="'‰'" [participatingCountries]="countriesArray">-->
+<!--                </app-highcharts-color-axis>-->
+<!--              </div>-->
+<!--              <div class="uk-width-1-3">-->
+<!--                <div class="uk-card uk-card-default uk-card-body" style="height: 550px">-->
+<!--                  <app-bar-chart [mapData]="questionsDataArrayForBarChart[6]" [subTitle]="'(in thousands of GERD)'"-->
+<!--                                 [title]="'Financial investments in EOSC and Open Science in {{ +year-1 }}'">-->
+<!--                  </app-bar-chart>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div *ngSwitchCase="'income'" class="uk-animation-fade">-->
+<!--            <div class="uk-text-italic">-->
+<!--              <span class="uk-text-meta">* National income collected from </span><a href="https://ec.europa.eu/eurostat/databrowser/view/teina080/default/table?lang=en" target="_blank">Eurostat</a>-->
+<!--            </div>-->
+<!--            <div class="uk-grid uk-margin-medium-top">-->
+<!--              <div class="uk-width-2-3" style="height: 800px">-->
+<!--                <app-highcharts-color-axis [mapData]="questionsDataArray[7]" [title]="'Financial investments in EOSC and Open Science in {{ +year-1 }}'"-->
+<!--                                           [toolTipData]="toolTipData[7]" [subtitle]="'(in thousands of national income)'"-->
+<!--                                           [dataSeriesSuffix]="'‰'" [participatingCountries]="countriesArray">-->
+<!--                </app-highcharts-color-axis>-->
+<!--              </div>-->
+<!--              <div class="uk-width-1-3">-->
+<!--                <div class="uk-card uk-card-default uk-card-body" style="height: 550px">-->
+<!--                  <app-bar-chart [mapData]="questionsDataArrayForBarChart[7]" [subTitle]="'(in thousands of national income)'"-->
+<!--                                 [title]="'Financial investments in EOSC and Open Science in {{ +year-1 }}'">-->
+<!--                  </app-bar-chart>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<div class="uk-animation-fade">
+  <div class="uk-grid uk-margin-medium-top">
+    <div class="uk-width-3-5" style="height: 600px">
+      <app-column-ranges-chart [chartId]="'column1'" [series]="columnSeries"
+        [title]="'Country investments in EOSC and Open Science'" [subTitle]="'(in ranges)'">
+      </app-column-ranges-chart>
+    </div>
+    <div class="uk-width-2-5">
+      <div class="uk-margin-bottom">
+        <div class="uk-card uk-card-default uk-card-body indicator-card">
+          <div class="indicator-label">
+            Total amount of financial investments in EOSC and Open Science in {{ +year-1 }}
+            <span class="uk-text-muted">(in millions of Euro)</span>
+          </div>
+          @if (!sumsArray[8]) {
+            <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+          }
+          @if (sumsArray[8]) {
+            <div class="uk-text-lead uk-margin-small-top">
+              <strong>{{ sumsArray[8] }} M</strong>
+            </div>
+          }
+        </div>
+      </div>
+      <div class="uk-card uk-card-default uk-card-body">
+        <app-pie-chart [chartId]="'pie1'" [series]="pieSeries"></app-pie-chart>
+      </div>
+    </div>
+    <!--              <div class="uk-width-2-3" style="height: 800px">-->
+    <!--                <app-highcharts-color-axis [mapData]="questionsDataArray[9]" [title]="'Financial investments in EOSC and Open Science in {{ +year-1 }}'"-->
+    <!--                                           [toolTipData]="toolTipData[9]" [subtitle]="'(in millions of Euro)'"-->
+    <!--                                           [dataSeriesSuffix]="'M'" [participatingCountries]="countriesArray"-->
+    <!--                                           [colorAxis]="colorAxis" [legend]="legend">-->
+  <!--                </app-highcharts-color-axis>-->
+<!--              </div>-->
+<!--              <div class="uk-width-1-3">-->
+<!--                <div class="uk-card uk-card-default uk-card-body" style="height: 550px">-->
+<!--                  <app-pie-chart [chartId]="'pie2'" [series]="series"></app-pie-chart>-->
+<!--                </div>-->
+<!--              </div>-->
+</div>
+</div>
+<!--        </div>-->
+</div>
+}
+}
+</div>
+</div>
+}
+</div>
+

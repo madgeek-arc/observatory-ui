@@ -7,12 +7,12 @@
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
       <div class="uk-container">
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
-<!--          <h4>Repositories</h4>-->
+          <!--          <h4>Repositories</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-                 class="flag-image" width="42" height="42" alt="rounded flag image">
+              class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Repositories in 2023</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Repositories in {{ year }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
@@ -23,21 +23,22 @@
                 style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
+              @if (exportActive) {
+                <span class="uk-margin-small-left"
                 data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
         <div class="uk-hidden@m">
-<!--          <h4>Repositories</h4>-->
+          <!--          <h4>Repositories</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-                 class="flag-image" width="42" height="42" alt="rounded flag image">
+              class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Repositories in 2023</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Repositories in {{ year }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-right" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
@@ -48,223 +49,225 @@
                 style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
+              @if (exportActive) {
+                <span class="uk-margin-small-left"
                 data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
-<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
-<!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
-<!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
-<!--          <div class="uk-margin-small-left">-->
-<!--            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>-->
-<!--          </div>-->
-<!--        </div>-->
+        <!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+        <!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
+        <!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
+        <!--          <div class="uk-margin-small-left">-->
+        <!--            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>-->
+      <!--          </div>-->
+    <!--        </div>-->
 
-<!--        <div class="uk-flex uk-flex-between uk-flex-middle">-->
-<!--          <h4>Repositories</h4>-->
-<!--        </div>-->
+    <!--        <div class="uk-flex uk-flex-between uk-flex-middle">-->
+    <!--          <h4>Repositories</h4>-->
+  <!--        </div>-->
 
-        <p class="uk-margin-medium-bottom">Repositories are essential for the uptake and advancement of Open Science, providing secure platforms for
-          storing, sharing, and preserving research outputs in line with FAIR principles. They promote transparency,
-          reproducibility, and collaboration while supporting long-term knowledge preservation. By connecting national
-          and regional research systems, repositories play a key role in advancing Open Science and contributing to the
-          EOSC.
-          This page provides an overview of the state of repositories in Europe based on the data from the Survey on
-          National Contributions to EOSC and Open Science.</p>
+  <p class="uk-margin-medium-bottom">Repositories are essential for the uptake and advancement of Open Science, providing secure platforms for
+    storing, sharing, and preserving research outputs in line with FAIR principles. They promote transparency,
+    reproducibility, and collaboration while supporting long-term knowledge preservation. By connecting national
+    and regional research systems, repositories play a key role in advancing Open Science and contributing to the
+    EOSC.
+    This page provides an overview of the state of repositories in Europe based on the data from the Survey on
+  National Contributions to EOSC and Open Science.</p>
 
-        <div class="uk-grid-small" data-uk-grid>
-          <div class="uk-width-1-1 uk-width-expand@m" *ngIf="hasAnyLeftCardData()">
-            <div class="uk-card uk-card-default uk-card-body visualisation-card">
-              <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-grid-small uk-grid" data-uk-grid>
-
-                <!-- Card 1 -->
-
-                <app-info-card *ngIf="OpenRepositoriesPercentage[1] !== null"
-                  [titleHtml]="`Percentage of <span class='uk-text-bold'>Open Repositories in ${countryName}</span>`"
-                  [value]="OpenRepositoriesPercentage[1]" [unit]="'%'" [diff]="OpenRepositoriesPercentageDiff">
-                </app-info-card>
-
-                <!-- Card 2 -->
-
-                <app-info-card *ngIf="rfoOpenRepositoriesPercentage[1] !== null"
-                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Repositories</span>`"
-                  [value]="rfoOpenRepositoriesPercentage[1]" [unit]="'%'" [diff]="rfoOpenRepositoriesPercentageDiff">
-                </app-info-card>
-
-
-                <!-- Card 3 -->
-
-                <app-info-card *ngIf="financialInvestment[1] !== null"
-                  [titleHtml]="`Total <span class='uk-text-bold'>financial investment in repositories</span>`"
-                  [value]="financialInvestment[1]" [unit]="'mil Euro'" [diff]="financialInvestmentPercentageDiff">
-                </app-info-card>
-
-                <!-- Card 4 -->
-
-                <app-info-card *ngIf="rpoOpenRepositoriesPercentage[1] !== null"
-                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy in Repositories</span>`"
-                  [value]="rpoOpenRepositoriesPercentage[1]" [unit]="'%'" [diff]="rpoOpenRepositoriesPercentageDiff">
-                </app-info-card>
-
-              </div>
-            </div>
+  <div class="uk-grid-small" data-uk-grid>
+    @if (hasAnyLeftCardData()) {
+      <div class="uk-width-1-1 uk-width-expand@m">
+        <div class="uk-card uk-card-default uk-card-body visualisation-card">
+          <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-grid-small uk-grid" data-uk-grid>
+            <!-- Card 1 -->
+            @if (OpenRepositoriesPercentage[1] !== null) {
+              <app-info-card
+                [titleHtml]="`Percentage of <span class='uk-text-bold'>Open Repositories in ${countryName}</span>`"
+                [value]="OpenRepositoriesPercentage[1]" [unit]="'%'" [diff]="OpenRepositoriesPercentageDiff">
+              </app-info-card>
+            }
+            <!-- Card 2 -->
+            @if (rfoOpenRepositoriesPercentage[1] !== null) {
+              <app-info-card
+                [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Repositories</span>`"
+                [value]="rfoOpenRepositoriesPercentage[1]" [unit]="'%'" [diff]="rfoOpenRepositoriesPercentageDiff">
+              </app-info-card>
+            }
+            <!-- Card 3 -->
+            @if (financialInvestment[1] !== null) {
+              <app-info-card
+                [titleHtml]="`Total <span class='uk-text-bold'>financial investment in repositories</span>`"
+                [value]="financialInvestment[1]" [unit]="'mil Euro'" [diff]="financialInvestmentPercentageDiff">
+              </app-info-card>
+            }
+            <!-- Card 4 -->
+            @if (rpoOpenRepositoriesPercentage[1] !== null) {
+              <app-info-card
+                [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy in Repositories</span>`"
+                [value]="rpoOpenRepositoriesPercentage[1]" [unit]="'%'" [diff]="rpoOpenRepositoriesPercentageDiff">
+              </app-info-card>
+            }
           </div>
+        </div>
+      </div>
+    }
 
-          <!-- Right Card-->
-          <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
-            <div class="uk-card uk-card-default uk-card-body visualisation-card">
-              <div class="uk-margin-top">
-                <h5 class="uk-flex uk-flex-between uk-margin-remove">
-                  National Repository Policy
+    <!-- Right Card-->
+    <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+      <div class="uk-card uk-card-default uk-card-body visualisation-card">
+        <div class="uk-margin-top">
+          <h5 class="uk-flex uk-flex-between uk-margin-remove">
+            National Repository Policy
                   <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': hasNationalPolicyOR === 'Yes',
                   'down-arrow-color': hasNationalPolicyOR === 'No',
                   'unanswered-color': hasNationalPolicyOR === null
                 }">
-                    {{
-                    hasNationalPolicyOR === 'Yes' ? 'check' :
-                    hasNationalPolicyOR === 'No' ? 'close' :
-                    'question_mark'
-                    }}
-                  </span>
-                </h5>
-                <p *ngIf="policyMandatoryOR === 'Yes'" class="uk-text-primary uk-text-bolder uk-margin-remove-top">
-                  Mandatory policy</p>
-                <read-more-text *ngIf="nationalPolicyClarificationOR" [maxHeight]="68"
-                  [text]="nationalPolicyClarificationOR">
-                </read-more-text>
-              </div>
-              <div class="uk-margin-top">
-                <h5 class="uk-flex uk-flex-between">
-                  Financial Strategy for Repositories
+              {{
+              hasNationalPolicyOR === 'Yes' ? 'check' :
+              hasNationalPolicyOR === 'No' ? 'close' :
+              'question_mark'
+              }}
+            </span>
+          </h5>
+          @if (policyMandatoryOR === 'Yes') {
+            <p class="uk-text-primary uk-text-bolder uk-margin-remove-top">
+            Mandatory policy</p>
+          }
+          @if (nationalPolicyClarificationOR) {
+            <read-more-text [maxHeight]="68"
+              [text]="nationalPolicyClarificationOR">
+            </read-more-text>
+          }
+        </div>
+        <div class="uk-margin-top">
+          <h5 class="uk-flex uk-flex-between">
+            Financial Strategy for Repositories
                   <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': hasFinancialStrategyOR === 'Yes',
                   'down-arrow-color': hasFinancialStrategyOR === 'No',
                   'unanswered-color': hasFinancialStrategyOR === null
                 }">
-                    {{
-                    hasFinancialStrategyOR === 'Yes' ? 'check' :
-                    hasFinancialStrategyOR === 'No' ? 'close' :
-                    'question_mark'
-                    }}
-                  </span>
-                </h5>
-                <read-more-text *ngIf="financialStrategyClarificationOR" [maxHeight]="68"
-                  [text]="financialStrategyClarificationOR">
-                </read-more-text>
-              </div>
+              {{
+              hasFinancialStrategyOR === 'Yes' ? 'check' :
+              hasFinancialStrategyOR === 'No' ? 'close' :
+              'question_mark'
+              }}
+            </span>
+          </h5>
+          @if (financialStrategyClarificationOR) {
+            <read-more-text [maxHeight]="68"
+              [text]="financialStrategyClarificationOR">
+            </read-more-text>
+          }
+        </div>
 
-              <div class="uk-margin-top">
-                <h5 class="uk-flex uk-flex-between">
-                  Monitoring of Repositories
+        <div class="uk-margin-top">
+          <h5 class="uk-flex uk-flex-between">
+            Monitoring of Repositories
                   <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': hasMonitoringOR === 'Yes',
                   'down-arrow-color': hasMonitoringOR === 'No',
                   'unanswered-color': hasMonitoringOR === null
                 }">
-                    {{
-                    hasMonitoringOR === 'Yes' ? 'check' :
-                    hasMonitoringOR === 'No' ? 'close' :
-                    'question_mark'
-                    }}
-                  </span>
-                </h5>
-                <read-more-text *ngIf="monitoringClarificationOR" [maxHeight]="68" [text]="monitoringClarificationOR">
-                </read-more-text>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
-          <div>
-            <span class="uk-text-bold ">Data source:</span>&nbsp; Survey on National Contributions to EOSC and Open
-            Science
-            OpenAIRE Graph.
-          </div>
-        </div>
-      </div>
-    </div>
-    <div #exportContent1>
-      <div *ngIf="hasSurveyRepositoriesData()" class="uk-section uk-section-primary uk-preserve-color uk-section-small">
-        <div class="uk-container">
-
-          <div class="uk-animation-fade">
-            <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-              <h6 class="uk-margin-bottom">Learn more about Repositories Landscape in {{ countryName }}</h6>
-              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
-              <div class="uk-margin-medium-top">
-                <read-more [maxHeight]="300">
-
-                <div id="networks_&_aggregators">
-                  <div class="uk-text-secondary">Networks & Aggregators of Scientific/Research Content</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question16']?.['Question16-1']; else networks_aggregators">
-                    <div
-                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question16']['Question16-1']"
-                      class="uk-margin-medium-top"></div>
-                  </ng-container>
-                  <ng-template #networks_aggregators>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-                <div id="literature_repositories">
-                  <div class="uk-text-secondary">Literature repositories</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question17']?.['Question17-1']; else literature_repositories">
-                    <div
-                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question17']['Question17-1']"
-                      class="uk-margin-medium-top"></div>
-                  </ng-container>
-                  <ng-template #literature_repositories>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-                <div id="data_repositories">
-                  <div class="uk-text-secondary">Data repositories</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']; else data_repositories">
-                    <div
-                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']"
-                      class="uk-margin-medium-top"></div>
-                  </ng-container>
-                  <ng-template #data_repositories>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-                <div id="software_repositories">
-                  <div class="uk-text-secondary">Software repositories</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']?.['Question19-1']; else software_repositories">
-                    <div
-                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']['Question19-1']"
-                      class="uk-margin-medium-top"></div>
-                  </ng-container>
-                  <ng-template #software_repositories>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-                <div id="OA_publishing_platforms">
-                  <div class="uk-text-secondary">OA Publishing Platforms</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question20']?.['Question20-1']; else OA_publishing_platforms">
-                    <div
-                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question20']['Question20-1']"
-                      class="uk-margin-medium-top"></div>
-                  </ng-container>
-                  <ng-template #OA_publishing_platforms>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-              </read-more>
-              </div>
-            </div>
-          </div>
+              {{
+              hasMonitoringOR === 'Yes' ? 'check' :
+              hasMonitoringOR === 'No' ? 'close' :
+              'question_mark'
+              }}
+            </span>
+          </h5>
+          @if (monitoringClarificationOR) {
+            <read-more-text [maxHeight]="68" [text]="monitoringClarificationOR">
+            </read-more-text>
+          }
         </div>
       </div>
     </div>
   </div>
+  <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
+    <div>
+      <p><span class="uk-text-bold">Data source:</span>
+      Survey on National Contributions to EOSC and Open Science {{year}} -
+      showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
+      OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+    </p>
+  </div>
+</div>
+
+</div>
+</div>
+<div #exportContent1>
+  @if (hasSurveyRepositoriesData()) {
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
+      <div class="uk-container">
+        <div class="uk-animation-fade">
+          <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+            <h6 class="uk-margin-bottom">Learn more about Repositories Landscape in {{ countryName }}</h6>
+            <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
+            <div class="uk-margin-medium-top">
+              <read-more [maxHeight]="300">
+                <div id="networks_&_aggregators">
+                  <div class="uk-text-secondary">Networks & Aggregators of Scientific/Research Content</div>
+                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question16']?.['Question16-1']) {
+                    <div
+                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question16']['Question16-1']"
+                    class="uk-margin-medium-top"></div>
+                  } @else {
+                    <p>N/A</p>
+                  }
+                </div>
+                <div id="literature_repositories">
+                  <div class="uk-text-secondary">Literature repositories</div>
+                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question17']?.['Question17-1']) {
+                    <div
+                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question17']['Question17-1']"
+                    class="uk-margin-medium-top"></div>
+                  } @else {
+                    <p>N/A</p>
+                  }
+                </div>
+                <div id="data_repositories">
+                  <div class="uk-text-secondary">Data repositories</div>
+                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']) {
+                    <div
+                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']"
+                    class="uk-margin-medium-top"></div>
+                  } @else {
+                    <p>N/A</p>
+                  }
+                </div>
+                <div id="software_repositories">
+                  <div class="uk-text-secondary">Software repositories</div>
+                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']?.['Question19-1']) {
+                    <div
+                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']['Question19-1']"
+                    class="uk-margin-medium-top"></div>
+                  } @else {
+                    <p>N/A</p>
+                  }
+                </div>
+                <div id="OA_publishing_platforms">
+                  <div class="uk-text-secondary">OA Publishing Platforms</div>
+                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question20']?.['Question20-1']) {
+                    <div
+                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question20']['Question20-1']"
+                    class="uk-margin-medium-top"></div>
+                  } @else {
+                    <p>N/A</p>
+                  }
+                </div>
+              </read-more>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+</div>
 </div>

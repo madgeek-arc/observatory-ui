@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { NgOptimizedImage } from "@angular/common";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { RawData } from "../../../../domain/raw-data";
 import {
@@ -34,7 +34,7 @@ import { PageContentComponent } from "../../../../../survey-tool/app/shared/page
     selector: 'app-open-science-by-area-publications',
     templateUrl: './open-science-by-area-publications.component.html',
     styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-    imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, NgOptimizedImage, PageContentComponent]
+    imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent]
 })
 
 export class OpenScienceByAreaPublicationsComponent implements OnInit {
@@ -115,7 +115,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   barCategories: string[] = [];
 
   barChartTitles = {
-    title: 'Financial Investments in Open Access Publications in '+this.year,
+    title: 'Financial Investments in Open Access Publications in '+(+this.year-1),
     xAxis: '',
     yAxis: '',
   }

@@ -13,6 +13,10 @@ export class DataShareService {
   surveyAnswers: BehaviorSubject<Object[]> = new BehaviorSubject<Object[]>([null, null]);
   countrySurveyAnswer: BehaviorSubject<Object | null> = new BehaviorSubject<Object | null>(null);
   countrySurveyAnswerMetaData: BehaviorSubject<AnswerMetadata | null> = new BehaviorSubject<AnswerMetadata | null>(null);
+  year: BehaviorSubject<string> = new BehaviorSubject<string>('2024');
+
+  countryCode$ = this.countryCode.asObservable();
+  year$ = this.year.asObservable();
 
   constructor(private exploreService: ExploreService) {}
 
@@ -62,6 +66,10 @@ export class DataShareService {
 
     if (!this.exploreService.isNumeric(previous) || !this.exploreService.isNumeric(next)) {
       return null;
+    }
+
+    if (previous === next) {
+      return 0;
     }
 
     const average = (+previous + +next) / 2;

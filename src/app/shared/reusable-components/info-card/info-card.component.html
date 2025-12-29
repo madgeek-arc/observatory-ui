@@ -6,22 +6,22 @@
       <span class="uk-text-bold">{{ value }}{{ unit ? ' ' + unit : '' }}</span>
     </div>
 
-    <div *ngIf="diff != null" class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
-      <div class="uk-flex uk-flex-middle">
-        <span class="material-symbols-outlined"
-          [ngClass]="diff > 0 ? 'up-arrow-color' : diff < 0 ? 'down-arrow-color' : 'neutral-arrow-color'">
+    @if (diff != null) {
+      <div class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
+        <div class="uk-flex uk-flex-middle">
+          <span class="material-symbols-outlined"
+            [ngClass]="diff > 0 ? 'up-arrow-color' : diff < 0 ? 'down-arrow-color' : 'neutral-arrow-color'">
           {{ diff > 0 ? 'arrow_upward' : diff < 0 ? 'arrow_downward' : 'commit' }} </span>
-
-
-            <span
-              [ngClass]="diff > 0 ? 'percentage-up-color' : diff < 0 ? 'percentage-down-color' : 'percentage-neutral-color'">
-              {{ Math.abs(diff) }}%
-            </span>&nbsp; vs last year
-      </div>
-      <div>
-        <img [ngSrc]="'../assets/images/explore/' + (diff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
+          <span
+            [ngClass]="diff > 0 ? 'percentage-up-color' : diff < 0 ? 'percentage-down-color' : 'percentage-neutral-color'">
+            {{ Math.abs(diff) }}%
+          </span>&nbsp; vs last year
+        </div>
+        <div>
+          <img [ngSrc]="'../assets/images/explore/' + (diff >= 0 ? 'trend_green' : 'trend_red') + '.svg'"
           alt="trend image" height="50" width="99">
+        </div>
       </div>
-    </div>
+    }
   </div>
 </div>

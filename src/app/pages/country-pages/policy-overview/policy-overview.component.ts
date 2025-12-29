@@ -55,6 +55,7 @@ export class PolicyOverviewComponent {
   table: TableRow[] = [];
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
+  year?: string;
 
   documents: HighlightedResults<Document>[] = [];
 
@@ -102,6 +103,12 @@ export class PolicyOverviewComponent {
         console.error('Error fetching resources:', error);
       }
     });
+
+    this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (year) => {
+        this.year = year;
+      }
+    })
   }
 
   /**

@@ -37,6 +37,8 @@ export class DataManagementComponent implements OnInit {
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
+  year?: string;
+  lastUpdateDate?: string;
 
   rfoDataManagementPercentage: (number | null)[] = [null, null];
   rfoDataManagementPercentageDiff: number | null = null;
@@ -78,7 +80,7 @@ export class DataManagementComponent implements OnInit {
       // color: colors[8]
     }
   ] as Highcharts.SeriesColumnOptions[];
-  stackedColumnCategories = ['2021', '2022'];
+  stackedColumnCategories: string[] = [];
   xAxisTitle = 'Year'
   yAxisTitle = 'Percentage of Policies on Data Management'
   tooltipPointFormat = '<span style="color:{series.color}">{series.name}</span> : <b>{point.y}</b>';
@@ -88,11 +90,28 @@ export class DataManagementComponent implements OnInit {
   constructor(private dataShareService: DataShareService, private exploreService: ExploreService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
+
+    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => this.lastUpdateDate = value
+    });
+
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (code) => {
         this.countryCode = code;
       }
     });
+
+    this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (year) => {
+        this.year = year;
+        // Convert the year from string to number using unary plus, then calculate the two previous years as strings
+        const numericYear = +year;
+        this.stackedColumnCategories = [
+          (numericYear - 1).toString(),
+          (numericYear).toString(),
+        ];
+      }
+    })
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {

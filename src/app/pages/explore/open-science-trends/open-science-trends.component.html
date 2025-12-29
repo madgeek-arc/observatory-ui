@@ -9,16 +9,17 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
           <h4>Open Science Trends</h4>
           <div class="uk-flex uk-flex-center"
-               (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4], 'Open Science Trends')"
-               style="cursor: pointer">
+            (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4], 'Open Science Trends')"
+            style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              @if (exportActive) {
+                <span class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
@@ -26,17 +27,18 @@
         <div class="uk-hidden@m">
           <h4>Open Science Trends</h4>
           <div class="uk-flex uk-flex-right"
-               (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4], 'Open Science Trends')"
-               style="cursor: pointer">
+            (click)="exportToPDF([exportContent, exportContent1, exportContent2, exportContent3, exportContent4], 'Open Science Trends')"
+            style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span class=""
-                    style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
+                style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              @if (exportActive) {
+                <span class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
@@ -45,7 +47,7 @@
           and impact of Open Science practices across different regions and disciplines. It enables policymakers,
           researchers, and institutions to gauge progress and align strategies with global standards and goals. This
           page displays an array of visualizations detailing the trends in national policies, financial strategies, Open
-          Access publications, and Open Data, providing a snapshot of how Open Science is evolving across Europe.</p>
+        Access publications, and Open Data, providing a snapshot of how Open Science is evolving across Europe.</p>
 
       </div>
     </div>
@@ -63,7 +65,7 @@
                 [height]="smallScreen ? 1150 : 900"
                 [legendOptions]="legendOptions" valueSuffix=" %"
                 [caption]="'<p class=\'uk-text-justify\'>This bar chart illustrates the percentage of countries with established national policies across various Open Science areas for the years '+ years.join(', ') +'. Each bar represents a different area of Open Science, such as Open Access Publications, FAIR Data, and Citizen Science, showing the progression or changes in policy adoption from one year to the next. The comparison highlights the evolving landscape of Open Science initiatives at a national level, indicating which aspects of Open Science are gaining attention.</p>'
-                           + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' - for years '+years.join(', ') +'.</p>'">
+                           + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science.</p>'">
               </app-multi-chart>
             </div>
 
@@ -86,7 +88,7 @@
                 [groupPadding]="0.2" [pointPadding]="0.05"
                 [pointWidth]="15" [legendOptions]="legendOptions" valueSuffix=" %"
                 [caption]="'<p class=\'uk-text-justify\'>This graph presents an overview of the share of countries that have implemented financial strategies to support Open Science and EOSC initiatives across various domains. It illustrates the percentage of countries that have adopted financial frameworks within categories such as Open Access Publications, Fair Data, Data Management, and more.</p>'
-                           + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' - for years '+years.join(', ') +'.</p>'">
+                           + '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science.</p>'">
               </app-multi-chart>
             </div>
 
@@ -105,8 +107,8 @@
             <div class="uk-width-1-1">
               <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend"
                                   [series]="stackedColumnSeries" [height]="700"
-                                  [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
-                                  [dataLabels]="false" [title]="'Trend of Open Access Publications'"
+                [yAxis]="yAxisTitle" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
+                [dataLabels]="false" [title]="'Trend of Open Access Publications'"
                                   [caption]="'<p class=\'uk-text-justify\'>The graph provides a view of the evolution of publication and its access type from 2015 to 2024. Each bar in the graph represents the total number of publications for a given year, segmented by access type categories (categories based on <a href=&quot;https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml&quot; target=\'_blank\'>https://vocabularies.coar-repositories.org/access_rights/access_rights_for_dspace_en.xml</a>).</p>'
                               + '<p><strong>Data Source:</strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
               </app-stacked-column>
@@ -127,8 +129,8 @@
             <div class="uk-width-1-1">
               <app-stacked-column [categories]="stackedColumn2Categories" [legend]="legend"
                                   [series]="stackedColumn2Series" [height]="smallScreen ? 700 : 600"
-                                  [yAxis]="yAxis2Title" [pointFormat]="tooltipPointFormat" [stackLabels]="true"
-                                  [dataLabels]="false" [title]="'Trend of Open Data'"
+                [yAxis]="yAxis2Title" [pointFormat]="tooltipPointFormat" [stackLabels]="true"
+                [dataLabels]="false" [title]="'Trend of Open Data'"
                                   [caption]="'<p class=\'uk-text-justify\'>The graph provides a comprehensive view of how data accessibility evolved from 2015 to 2024. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of Open Data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
                               '<p><strong>Data Source: </strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
               </app-stacked-column>

@@ -1,256 +1,352 @@
-<div *ngIf="surveyAnswer" class="categories-content-tabs">
-
-  <ul class="uk-subnav uk-subnav-pill categories-selection-tabs" uk-switcher>
-    <li><a href="#">Publications</a></li>
-    <li><a href="#">Data</a></li>
-    <li><a href="#">Software</a></li>
-    <li><a href="#">Services</a></li>
-    <li><a href="#">Infrastructure</a></li>
-    <li><a href="#">Skills/Training</a></li>
-    <li><a href="#">Assessment</a></li>
-    <li><a href="#">Engagement</a></li>
-  </ul>
-
-  <ul class="uk-switcher uk-margin">
-    <li>
-      <div class="uk-margin-medium-top">
-        <ng-container *ngIf="surveyAnswer['Practices']?.['Question55']?.['Question55-0'] && surveyAnswer['Practices']['Question55']['Question55-0']=='Yes'; else elseBlockPublications">
-          <div *ngFor="let element of surveyAnswer['Practices']?.['Question55']?.['Question55-1-0']; let i=index" class="uk-margin-medium-top">
-            <hr *ngIf="i>0" class="uk-divider-small">
-            <div [innerHTML]="element['Question55-1']"></div>
-            <div *ngIf="element['Question55-2']" class="uk-margin-top">
-              <div *ngFor="let subElement of element['Question55-2-1']">
-                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
+@if (surveyAnswer) {
+  <div class="categories-content-tabs">
+    <ul class="uk-subnav uk-subnav-pill categories-selection-tabs" uk-switcher>
+      <li><a href="#">Publications</a></li>
+      <li><a href="#">Data</a></li>
+      <li><a href="#">Software</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Infrastructure</a></li>
+      <li><a href="#">Skills/Training</a></li>
+      <li><a href="#">Assessment</a></li>
+      <li><a href="#">Engagement</a></li>
+    </ul>
+    <ul class="uk-switcher uk-margin">
+      <li>
+        <div class="uk-margin-medium-top">
+          @if (surveyAnswer['Practices']?.['Question55']?.['Question55-0'] && surveyAnswer['Practices']['Question55']['Question55-0']=='Yes') {
+            @for (element of surveyAnswer['Practices']?.['Question55']?.['Question55-1-0']; track element; let i = $index) {
+              <div class="uk-margin-medium-top">
+                @if (i>0) {
+                  <hr class="uk-divider-small">
+                }
+                <div [innerHTML]="element['Question55-1']"></div>
+                @if (element['Question55-2']) {
+                  <div class="uk-margin-top">
+                    @for (subElement of element['Question55-2-1']; track subElement) {
+                      <div>
+                        <a href="{{subElement}}" target="_blank">{{subElement}}</a>
+                      </div>
+                    }
+                  </div>
+                }
               </div>
+            }
+          } @else {
+            <div class="uk-margin-medium-top uk-text-muted">
+              No available use cases on open access publications
             </div>
-          </div>
-        </ng-container>
-        <ng-template #elseBlockPublications>
-          <div class="uk-margin-medium-top uk-text-muted">
-            No available use cases on open access publications
-          </div>
-        </ng-template>
-      </div>
-    </li>
-    <li>
-      <div class="uk-margin-medium-top">
-        <div class="uk-text-secondary">Data management</div>
-        <ng-container *ngIf="surveyAnswer['Practices']?.['Question59']?.['Question59-0'] && surveyAnswer['Practices']['Question59']['Question59-0']=='Yes'; else elseBlockDataManagement" class="uk-margin-medium-bottom">
-          <div *ngFor="let element of surveyAnswer['Practices']?.['Question59']?.['Question59-1-0']; let i=index" class="uk-margin-medium-top">
-            <hr *ngIf="i>0" class="uk-divider-small">
-            <div [innerHTML]="element['Question59-1']"></div>
-            <div *ngIf="element['Question59-2'] && element['Question59-2']=='Yes'" class="uk-margin-top">
-              <div *ngFor="let subElement of element['Question59-2-1']">
-                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-        <ng-template #elseBlockDataManagement>
-          <div class="uk-margin-medium-top uk-text-muted">
-            No available use cases on data management
-          </div>
-        </ng-template>
-        <hr>
-        <div class="uk-text-secondary">FAIR data</div>
-        <div *ngIf="surveyAnswer['Practices']?.['Question63']?.['Question63-0'] && surveyAnswer['Practices']['Question63']['Question63-0']=='Yes'; else elseBlockFAIRData" class="uk-margin-medium-bottom">
-          <div *ngFor="let element of surveyAnswer['Practices']?.['Question63']?.['Question63-1-0']; let i=index" class="uk-margin-medium-top">
-            <hr *ngIf="i>0" class="uk-divider-small">
-            <div [innerHTML]="element['Question63-1']"></div>
-            <div *ngIf="element['Question63-2'] && element['Question63-2']=='Yes'" class="uk-margin-top">
-              <div *ngFor="let subElement of element['Question63-2-1']">
-                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
-              </div>
-            </div>
-          </div>
+          }
         </div>
-        <ng-template #elseBlockFAIRData>
-          <div class="uk-margin-medium-top uk-text-muted">
-            No available use cases on FAIR data
-          </div>
-        </ng-template>
-        <hr>
-        <div class="uk-text-secondary">Open data</div>
-        <div *ngIf="surveyAnswer['Practices']?.['Question67']?.['Question67-0'] && surveyAnswer['Practices']['Question67']['Question67-0']=='Yes'; else elseBlockOpenData" class="">
-          <div *ngFor="let element of surveyAnswer['Practices']?.['Question67']?.['Question67-1-0']; let i=index" class="uk-margin-medium-top">
-            <hr *ngIf="i>0" class="uk-divider-small">
-            <div [innerHTML]="element['Question67-1']"></div>
-            <div *ngIf="element['Question67-2'] && element['Question67-2']=='Yes'" class="uk-margin-top">
-              <div *ngFor="let subElement of element['Question67-2-1']">
-                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
-              </div>
+      </li>
+      <li>
+        <div class="uk-margin-medium-top">
+          <div class="uk-text-secondary">Data management</div>
+          @if (surveyAnswer['Practices']?.['Question59']?.['Question59-0'] && surveyAnswer['Practices']['Question59']['Question59-0']=='Yes') {
+            <ng-container class="uk-margin-medium-bottom">
+              @for (element of surveyAnswer['Practices']?.['Question59']?.['Question59-1-0']; track element; let i = $index) {
+                <div class="uk-margin-medium-top">
+                  @if (i>0) {
+                    <hr class="uk-divider-small">
+                  }
+                  <div [innerHTML]="element['Question59-1']"></div>
+                  @if (element['Question59-2'] && element['Question59-2']=='Yes') {
+                    <div class="uk-margin-top">
+                      @for (subElement of element['Question59-2-1']; track subElement) {
+                        <div>
+                          <a href="{{subElement}}" target="_blank">{{subElement}}</a>
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+              }
+            </ng-container>
+          } @else {
+            <div class="uk-margin-medium-top uk-text-muted">
+              No available use cases on data management
             </div>
-          </div>
-        </div>
-        <ng-template #elseBlockOpenData>
-          <div class="uk-margin-medium-top uk-text-muted">
-            No available use cases on open data
-          </div>
-        </ng-template>
-      </div>
-    </li>
-    <li>
-      <!--      Software content-->
-      <div class="uk-margin-medium-top">
-        <ng-container *ngIf="surveyAnswer['Practices']?.['Question71']?.['Question71-0'] && surveyAnswer['Practices']['Question71']['Question71-0']=='Yes'; else elseBlockSoftware">
-          <div *ngFor="let element of surveyAnswer['Practices']?.['Question71']?.['Question71-1-0']; let i=index" class="uk-margin-medium-top">
-            <hr *ngIf="i>0" class="uk-divider-small">
-            <div [innerHTML]="element['Question71-1']"></div>
-            <div *ngIf="element['Question71-2']" class="uk-margin-top">
-              <div *ngFor="let subElement of element['Question71-2-1']">
-                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
+          }
+          <hr>
+            <div class="uk-text-secondary">FAIR data</div>
+            @if (surveyAnswer['Practices']?.['Question63']?.['Question63-0'] && surveyAnswer['Practices']['Question63']['Question63-0']=='Yes') {
+              <div class="uk-margin-medium-bottom">
+                @for (element of surveyAnswer['Practices']?.['Question63']?.['Question63-1-0']; track element; let i = $index) {
+                  <div class="uk-margin-medium-top">
+                    @if (i>0) {
+                      <hr class="uk-divider-small">
+                    }
+                    <div [innerHTML]="element['Question63-1']"></div>
+                    @if (element['Question63-2'] && element['Question63-2']=='Yes') {
+                      <div class="uk-margin-top">
+                        @for (subElement of element['Question63-2-1']; track subElement) {
+                          <div>
+                            <a href="{{subElement}}" target="_blank">{{subElement}}</a>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
               </div>
-            </div>
-          </div>
-        </ng-container>
-        <ng-template #elseBlockSoftware>
-          <div class="uk-margin-medium-top uk-text-muted">
-            No available use cases on open source software
-          </div>
-        </ng-template>
-      </div>
-    </li>
-    <li>
-      <!--      Services content-->
-      <div class="uk-margin-medium-top">
-        <ng-container *ngIf="surveyAnswer['Practices']?.['Question75']?.['Question75-0'] && surveyAnswer['Practices']['Question75']['Question75-0']=='Yes'; else elseBlockServices">
-          <div *ngFor="let element of surveyAnswer['Practices']?.['Question75']?.['Question75-1-0']; let i=index" class="uk-margin-medium-top">
-            <hr *ngIf="i>0" class="uk-divider-small">
-            <div [innerHTML]="element['Question75-1']"></div>
-            <div *ngIf="element['Question75-2']" class="uk-margin-top">
-              <div *ngFor="let subElement of element['Question75-2-1']">
-                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
+            } @else {
+              <div class="uk-margin-medium-top uk-text-muted">
+                No available use cases on FAIR data
               </div>
+            }
+            <hr>
+              <div class="uk-text-secondary">Open data</div>
+              @if (surveyAnswer['Practices']?.['Question67']?.['Question67-0'] && surveyAnswer['Practices']['Question67']['Question67-0']=='Yes') {
+                <div class="">
+                  @for (element of surveyAnswer['Practices']?.['Question67']?.['Question67-1-0']; track element; let i = $index) {
+                    <div class="uk-margin-medium-top">
+                      @if (i>0) {
+                        <hr class="uk-divider-small">
+                      }
+                      <div [innerHTML]="element['Question67-1']"></div>
+                      @if (element['Question67-2'] && element['Question67-2']=='Yes') {
+                        <div class="uk-margin-top">
+                          @for (subElement of element['Question67-2-1']; track subElement) {
+                            <div>
+                              <a href="{{subElement}}" target="_blank">{{subElement}}</a>
+                            </div>
+                          }
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+              } @else {
+                <div class="uk-margin-medium-top uk-text-muted">
+                  No available use cases on open data
+                </div>
+              }
             </div>
-          </div>
-        </ng-container>
-        <ng-template #elseBlockServices>
-          <div class="uk-margin-medium-top uk-text-muted">
-            No available use cases on offering services through EOSC
-          </div>
-        </ng-template>
-      </div>
-    </li>
-    <li>
-<!--      Infrastructure content-->
-      <div class="uk-margin-medium-top">
-        <div class="uk-text-secondary">Connecting repositories to EOSC</div>
-        <ng-container *ngIf="surveyAnswer['Practices']?.['Question79']?.['Question79-0'] && surveyAnswer['Practices']['Question79']['Question79-0']=='Yes'; else elseBlockConnectingRepositories" class="uk-margin-medium-bottom">
-          <div *ngFor="let element of surveyAnswer['Practices']?.['Question79']?.['Question79-1-0']; let i=index" class="uk-margin-medium-top">
-            <hr *ngIf="i>0" class="uk-divider-small">
-            <div [innerHTML]="element['Question79-1']"></div>
-            <div *ngIf="element['Question79-2'] && element['Question79-2']=='Yes'" class="uk-margin-top">
-              <div *ngFor="let subElement of element['Question79-2-1']">
-                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
-              </div>
+          </li>
+          <li>
+            <!--      Software content-->
+            <div class="uk-margin-medium-top">
+              @if (surveyAnswer['Practices']?.['Question71']?.['Question71-0'] && surveyAnswer['Practices']['Question71']['Question71-0']=='Yes') {
+                @for (element of surveyAnswer['Practices']?.['Question71']?.['Question71-1-0']; track element; let i = $index) {
+                  <div class="uk-margin-medium-top">
+                    @if (i>0) {
+                      <hr class="uk-divider-small">
+                    }
+                    <div [innerHTML]="element['Question71-1']"></div>
+                    @if (element['Question71-2']) {
+                      <div class="uk-margin-top">
+                        @for (subElement of element['Question71-2-1']; track subElement) {
+                          <div>
+                            <a href="{{subElement}}" target="_blank">{{subElement}}</a>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              } @else {
+                <div class="uk-margin-medium-top uk-text-muted">
+                  No available use cases on open source software
+                </div>
+              }
             </div>
-          </div>
-        </ng-container>
-        <ng-template #elseBlockConnectingRepositories>
-          <div class="uk-margin-medium-top uk-text-muted">
-            No available use cases on connecting repositories to EOSC
-          </div>
-        </ng-template>
-        <hr>
-        <div class="uk-text-secondary">Data stewardship</div>
-        <ng-container *ngIf="surveyAnswer['Practices']?.['Question83']?.['Question83-0'] && surveyAnswer['Practices']['Question83']['Question83-0']=='Yes'; else elseBlockDataStewardship" class="uk-margin-medium-bottom">
-          <div *ngFor="let element of surveyAnswer['Practices']?.['Question83']?.['Question83-1-0']; let i=index" class="uk-margin-medium-top">
-            <hr *ngIf="i>0" class="uk-divider-small">
-            <div [innerHTML]="element['Question83-1']"></div>
-            <div *ngIf="element['Question83-2'] && element['Question83-2']=='Yes'" class="uk-margin-top">
-              <div *ngFor="let subElement of element['Question83-2-1']">
-                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
-              </div>
+          </li>
+          <li>
+            <!--      Services content-->
+            <div class="uk-margin-medium-top">
+              @if (surveyAnswer['Practices']?.['Question75']?.['Question75-0'] && surveyAnswer['Practices']['Question75']['Question75-0']=='Yes') {
+                @for (element of surveyAnswer['Practices']?.['Question75']?.['Question75-1-0']; track element; let i = $index) {
+                  <div class="uk-margin-medium-top">
+                    @if (i>0) {
+                      <hr class="uk-divider-small">
+                    }
+                    <div [innerHTML]="element['Question75-1']"></div>
+                    @if (element['Question75-2']) {
+                      <div class="uk-margin-top">
+                        @for (subElement of element['Question75-2-1']; track subElement) {
+                          <div>
+                            <a href="{{subElement}}" target="_blank">{{subElement}}</a>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              } @else {
+                <div class="uk-margin-medium-top uk-text-muted">
+                  No available use cases on offering services through EOSC
+                </div>
+              }
             </div>
+          </li>
+          <li>
+            <!--      Infrastructure content-->
+            <div class="uk-margin-medium-top">
+              <div class="uk-text-secondary">Connecting repositories to EOSC</div>
+              @if (surveyAnswer['Practices']?.['Question79']?.['Question79-0'] && surveyAnswer['Practices']['Question79']['Question79-0']=='Yes') {
+                <ng-container class="uk-margin-medium-bottom">
+                  @for (element of surveyAnswer['Practices']?.['Question79']?.['Question79-1-0']; track element; let i = $index) {
+                    <div class="uk-margin-medium-top">
+                      @if (i>0) {
+                        <hr class="uk-divider-small">
+                      }
+                      <div [innerHTML]="element['Question79-1']"></div>
+                      @if (element['Question79-2'] && element['Question79-2']=='Yes') {
+                        <div class="uk-margin-top">
+                          @for (subElement of element['Question79-2-1']; track subElement) {
+                            <div>
+                              <a href="{{subElement}}" target="_blank">{{subElement}}</a>
+                            </div>
+                          }
+                        </div>
+                      }
+                    </div>
+                  }
+                </ng-container>
+              } @else {
+                <div class="uk-margin-medium-top uk-text-muted">
+                  No available use cases on connecting repositories to EOSC
+                </div>
+              }
+              <hr>
+                <div class="uk-text-secondary">Data stewardship</div>
+                @if (surveyAnswer['Practices']?.['Question83']?.['Question83-0'] && surveyAnswer['Practices']['Question83']['Question83-0']=='Yes') {
+                  <ng-container class="uk-margin-medium-bottom">
+                    @for (element of surveyAnswer['Practices']?.['Question83']?.['Question83-1-0']; track element; let i = $index) {
+                      <div class="uk-margin-medium-top">
+                        @if (i>0) {
+                          <hr class="uk-divider-small">
+                        }
+                        <div [innerHTML]="element['Question83-1']"></div>
+                        @if (element['Question83-2'] && element['Question83-2']=='Yes') {
+                          <div class="uk-margin-top">
+                            @for (subElement of element['Question83-2-1']; track subElement) {
+                              <div>
+                                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
+                              </div>
+                            }
+                          </div>
+                        }
+                      </div>
+                    }
+                  </ng-container>
+                } @else {
+                  <div class="uk-margin-medium-top uk-text-muted">
+                    No available use cases on data stewardship
+                  </div>
+                }
+                <hr>
+                  <div class="uk-text-secondary">Long-term data preservation</div>
+                  @if (surveyAnswer['Practices']?.['Question87']?.['Question87-0'] && surveyAnswer['Practices']['Question87']['Question87-0']=='Yes') {
+                    <ng-container class="">
+                      @for (element of surveyAnswer['Practices']?.['Question87']?.['Question87-1-0']; track element; let i = $index) {
+                        <div class="uk-margin-medium-top">
+                          @if (i>0) {
+                            <hr class="uk-divider-small">
+                          }
+                          <div [innerHTML]="element['Question87-1']"></div>
+                          @if (element['Question87-2'] && element['Question87-2']=='Yes') {
+                            <div class="uk-margin-top">
+                              @for (subElement of element['Question87-2-1']; track subElement) {
+                                <div>
+                                  <a href="{{subElement}}" target="_blank">{{subElement}}</a>
+                                </div>
+                              }
+                            </div>
+                          }
+                        </div>
+                      }
+                    </ng-container>
+                  } @else {
+                    <div class="uk-margin-medium-top uk-text-muted">
+                      No available use cases on long-term data preservation
+                    </div>
+                  }
+                </div>
+              </li>
+              <li>
+                <!--      Skills/Training content-->
+                <div class="uk-margin-medium-top">
+                  @if (surveyAnswer['Practices']?.['Question91']?.['Question91-0'] && surveyAnswer['Practices']['Question91']['Question91-0']=='Yes') {
+                    @for (element of surveyAnswer['Practices']?.['Question91']?.['Question91-1-0']; track element; let i = $index) {
+                      <div class="uk-margin-medium-top">
+                        @if (i>0) {
+                          <hr class="uk-divider-small">
+                        }
+                        <div [innerHTML]="element['Question91-1']"></div>
+                        @if (element['Question91-2']) {
+                          <div class="uk-margin-top">
+                            @for (subElement of element['Question91-2-1']; track subElement) {
+                              <div>
+                                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
+                              </div>
+                            }
+                          </div>
+                        }
+                      </div>
+                    }
+                  } @else {
+                    <div class="uk-margin-medium-top uk-text-muted">
+                      No available use cases on skills/training for Open Science
+                    </div>
+                  }
+                </div>
+              </li>
+              <li>
+                <!--      Assessment content-->
+                <div class="uk-margin-medium-top">
+                  @if (surveyAnswer['Practices']?.['Question95']?.['Question95-0'] && surveyAnswer['Practices']['Question95']['Question95-0']=='Yes') {
+                    @for (element of surveyAnswer['Practices']?.['Question95']?.['Question95-1-0']; track element; let i = $index) {
+                      <div class="uk-margin-medium-top">
+                        @if (i>0) {
+                          <hr class="uk-divider-small">
+                        }
+                        <div [innerHTML]="element['Question95-1']"></div>
+                        @if (element['Question95-2']) {
+                          <div class="uk-margin-top">
+                            @for (subElement of element['Question95-2-1']; track subElement) {
+                              <div>
+                                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
+                              </div>
+                            }
+                          </div>
+                        }
+                      </div>
+                    }
+                  } @else {
+                    <div class="uk-margin-medium-top uk-text-muted">
+                      No available use cases on incentives/rewards for Open Science
+                    </div>
+                  }
+                </div>
+              </li>
+              <li>
+                <div class="uk-margin-medium-top">
+                  @if (surveyAnswer['Practices']?.['Question99']?.['Question99-0'] && surveyAnswer['Practices']['Question99']['Question99-0']=='Yes') {
+                    @for (element of surveyAnswer['Practices']?.['Question99']?.['Question99-1-0']; track element; let i = $index) {
+                      <div class="uk-margin-medium-top">
+                        @if (i>0) {
+                          <hr class="uk-divider-small">
+                        }
+                        <div [innerHTML]="element['Question99-1']"></div>
+                        @if (element['Question99-2']) {
+                          <div class="uk-margin-top">
+                            @for (subElement of element['Question99-2-1']; track subElement) {
+                              <div>
+                                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
+                              </div>
+                            }
+                          </div>
+                        }
+                      </div>
+                    }
+                  } @else {
+                    <div class="uk-margin-medium-top uk-text-muted">
+                      No available use cases on citizen science
+                    </div>
+                  }
+                </div>
+              </li>
+            </ul>
           </div>
-        </ng-container>
-        <ng-template #elseBlockDataStewardship>
-          <div class="uk-margin-medium-top uk-text-muted">
-            No available use cases on data stewardship
-          </div>
-        </ng-template>
-        <hr>
-        <div class="uk-text-secondary">Long-term data preservation</div>
-        <ng-container *ngIf="surveyAnswer['Practices']?.['Question87']?.['Question87-0'] && surveyAnswer['Practices']['Question87']['Question87-0']=='Yes'; else elseBlockLongTermDataPreservation" class="">
-          <div *ngFor="let element of surveyAnswer['Practices']?.['Question87']?.['Question87-1-0']; let i=index" class="uk-margin-medium-top">
-            <hr *ngIf="i>0" class="uk-divider-small">
-            <div [innerHTML]="element['Question87-1']"></div>
-            <div *ngIf="element['Question87-2'] && element['Question87-2']=='Yes'" class="uk-margin-top">
-              <div *ngFor="let subElement of element['Question87-2-1']">
-                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-        <ng-template #elseBlockLongTermDataPreservation>
-          <div class="uk-margin-medium-top uk-text-muted">
-            No available use cases on long-term data preservation
-          </div>
-        </ng-template>
-      </div>
-    </li>
-    <li>
-      <!--      Skills/Training content-->
-      <div class="uk-margin-medium-top">
-        <ng-container *ngIf="surveyAnswer['Practices']?.['Question91']?.['Question91-0'] && surveyAnswer['Practices']['Question91']['Question91-0']=='Yes'; else elseBlockSkillsAndTraining">
-          <div *ngFor="let element of surveyAnswer['Practices']?.['Question91']?.['Question91-1-0']; let i=index" class="uk-margin-medium-top">
-            <hr *ngIf="i>0" class="uk-divider-small">
-            <div [innerHTML]="element['Question91-1']"></div>
-            <div *ngIf="element['Question91-2']" class="uk-margin-top">
-              <div *ngFor="let subElement of element['Question91-2-1']">
-                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-        <ng-template #elseBlockSkillsAndTraining>
-          <div class="uk-margin-medium-top uk-text-muted">
-            No available use cases on skills/training for Open Science
-          </div>
-        </ng-template>
-      </div>
-    </li>
-    <li>
-      <!--      Assessment content-->
-      <div class="uk-margin-medium-top">
-        <ng-container *ngIf="surveyAnswer['Practices']?.['Question95']?.['Question95-0'] && surveyAnswer['Practices']['Question95']['Question95-0']=='Yes'; else elseBlockAssessment">
-          <div *ngFor="let element of surveyAnswer['Practices']?.['Question95']?.['Question95-1-0']; let i=index" class="uk-margin-medium-top">
-            <hr *ngIf="i>0" class="uk-divider-small">
-            <div [innerHTML]="element['Question95-1']"></div>
-            <div *ngIf="element['Question95-2']" class="uk-margin-top">
-              <div *ngFor="let subElement of element['Question95-2-1']">
-                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-        <ng-template #elseBlockAssessment>
-          <div class="uk-margin-medium-top uk-text-muted">
-            No available use cases on incentives/rewards for Open Science
-          </div>
-        </ng-template>
-      </div>
-    </li>
-    <li>
-      <div class="uk-margin-medium-top">
-        <ng-container *ngIf="surveyAnswer['Practices']?.['Question99']?.['Question99-0'] && surveyAnswer['Practices']['Question99']['Question99-0']=='Yes'; else elseBlockEngagement">
-          <div *ngFor="let element of surveyAnswer['Practices']?.['Question99']?.['Question99-1-0']; let i=index" class="uk-margin-medium-top">
-            <hr *ngIf="i>0" class="uk-divider-small">
-            <div [innerHTML]="element['Question99-1']"></div>
-            <div *ngIf="element['Question99-2']" class="uk-margin-top">
-              <div *ngFor="let subElement of element['Question99-2-1']">
-                <a href="{{subElement}}" target="_blank">{{subElement}}</a>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-        <ng-template #elseBlockEngagement>
-          <div class="uk-margin-medium-top uk-text-muted">
-            No available use cases on citizen science
-          </div>
-        </ng-template>
-      </div>
-    </li>
-  </ul>
-</div>
+        }
 

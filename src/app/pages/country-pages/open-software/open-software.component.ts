@@ -11,6 +11,7 @@ import {
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
 import { PdfExportService } from "../../services/pdf-export.service";
+import { ExploreService } from "../../explore/explore.service";
 
 @Component({
   selector: 'app-open-software',
@@ -27,6 +28,7 @@ import { PdfExportService } from "../../services/pdf-export.service";
 
 export class OpenSoftwareComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private exploreService = inject(ExploreService);
 
   exportActive = false;
 
@@ -35,6 +37,8 @@ export class OpenSoftwareComponent implements OnInit {
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
+  year?: string;
+  lastUpdateDate?: string;
 
   rfoSoftwarePercentage: (number | null)[] = [null, null];
   rfoSoftwarePercentageDiff: number | null = null;
@@ -54,6 +58,10 @@ export class OpenSoftwareComponent implements OnInit {
   constructor(private dataShareService: DataShareService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
+    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => this.lastUpdateDate = value
+    });
+
     this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answers) => {
         this.surveyAnswers = answers;
@@ -66,6 +74,12 @@ export class OpenSoftwareComponent implements OnInit {
         this.countryName = name;
       }
     });
+
+    this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (year) => {
+        this.year = year;
+      }
+    })
 
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (code) => {

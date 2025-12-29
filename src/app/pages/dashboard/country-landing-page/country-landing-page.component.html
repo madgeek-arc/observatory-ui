@@ -1,321 +1,327 @@
-<div *ngIf="surveyAnswer && countryCode" class="uk-section uk-section-secondary uk-section-small">
-  <div class="uk-container uk-container-expand">
-    <div class="uk-flex uk-flex-between">
-      <div class="">
-        <img src="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png" class="flag-image" width="78" height="78">
-        <div class="uk-inline uk-margin-left">
-          <h3 class="uk-margin-small-bottom">{{findCountryByCode(countryCode)}}</h3>
-          <div class="uk-text-italic">
-            <span class="lastUpdateInfo">Last Update: </span>
-            <span *ngIf="surveyAnswer?.metadata?.modificationDate" class="lastUpdateInfo">{{surveyAnswer.metadata.modificationDate | date:'mediumDate'}}</span>
+@if (surveyAnswer && countryCode) {
+  <div class="uk-section uk-section-secondary uk-section-small">
+    <div class="uk-container uk-container-expand">
+      <div class="uk-flex uk-flex-between">
+        <div class="">
+          <img src="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png" class="flag-image" width="78" height="78">
+          <div class="uk-inline uk-margin-left">
+            <h3 class="uk-margin-small-bottom">{{findCountryByCode(countryCode)}}</h3>
+            <div class="uk-text-italic">
+              <span class="lastUpdateInfo">Last Update: </span>
+              @if (surveyAnswer?.metadata?.modificationDate) {
+                <span class="lastUpdateInfo">{{surveyAnswer.metadata.modificationDate | date:'mediumDate'}}</span>
+              }
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+}
 
-<div *ngIf="answer" class="uk-section-default uk-section">
-  <div class="uk-container uk-container-expand">
-
-    <div class="uk-grid uk-grid-match">
-
-      <div class="uk-width-expand">
-        <div class="uk-grid uk-grid-small uk-grid-match">
-
-          <div class="uk-width-2-5">
-            <div class="uk-card uk-card-default uk-card-body">
-              <div class="vertical-card-header uk-flex uk-flex-center">
-                <div class="uk-text-center">
-                  <span class="material-icons">verified_user</span>
-                  <h6 class="uk-margin-top">Policies</h6>
-                </div>
-              </div>
-              <hr class="hr-light">
-              <div class="uk-text-small">
-                <div class="uk-margin-medium-top">
-                  <div class="uk-text-secondary uk-text-bold uk-text-italic">National OA Policy</div>
-                  <div class="uk-margin-small-top uk-flex uk-flex-middle">
-                    <span *ngIf="answer['Policies']?.['Question6']?.['Question6-0'] === 'Yes'"
-                          class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
-                    </span>
-                    <span *ngIf="!(answer['Policies']?.['Question6']?.['Question6-0'] === 'Yes')"
-                          class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
-                    </span>Publications
-                  </div>
-                  <div class="uk-margin-small-top uk-flex uk-flex-middle">
-                    <span *ngIf="answer['Policies']?.['Question10']?.['Question10-0'] === 'Yes' ||
-                                answer['Policies']?.['Question14']?.['Question14-0'] === 'Yes' ||
-                                answer['Policies']?.['Question18']?.['Question18-0'] === 'Yes'"
-                          class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
-                    </span>
-                    <span *ngIf="!(answer['Policies']?.['Question10']?.['Question10-0'] === 'Yes' ||
-                                answer['Policies']?.['Question14']?.['Question14-0'] === 'Yes' ||
-                                answer['Policies']?.['Question18']?.['Question18-0'] === 'Yes')"
-                          class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
-                    </span>Data
-                  </div>
-                  <div class="uk-margin-small-top uk-flex uk-flex-middle">
-                    <span *ngIf="answer['Policies']?.['Question22']?.['Question22-0'] === 'Yes'"
-                          class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
-                    </span>
-                    <span *ngIf="!(answer['Policies']?.['Question22']?.['Question22-0'] === 'Yes')"
-                          class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
-                    </span>Software
-                  </div>
-                </div>
-                <div class="uk-margin-top">
-                  <div class="uk-text-secondary uk-text-bold uk-text-italic">Financial strategy on OA</div>
-                  <div class="uk-margin-small-top uk-flex uk-flex-middle">
-                    <span *ngIf="answer['Policies']?.['Question7']?.['Question7-0'] === 'Yes'"
-                          class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
-                    </span>
-                    <span *ngIf="!(answer['Policies']?.['Question7']?.['Question7-0'] === 'Yes')"
-                          class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
-                    </span>Publications
-                  </div>
-                  <div class="uk-margin-small-top uk-flex uk-flex-middle">
-                    <span *ngIf="answer['Policies']?.['Question11']?.['Question11-0'] === 'Yes' ||
-                                answer['Policies']?.['Question15']?.['Question15-0'] === 'Yes' ||
-                                answer['Policies']?.['Question19']?.['Question19-0'] === 'Yes'"
-                          class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
-                    </span>
-                    <span *ngIf="!(answer['Policies']?.['Question11']?.['Question11-0'] === 'Yes' ||
-                                answer['Policies']?.['Question15']?.['Question15-0'] === 'Yes' ||
-                                answer['Policies']?.['Question19']?.['Question19-0'] === 'Yes')"
-                          class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
-                    </span>Data
-                  </div>
-                  <div class="uk-margin-small-top uk-flex uk-flex-middle">
-
-                    <span *ngIf="answer['Policies']?.['Question23']?.['Question23-0'] === 'Yes'"
-                          class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
-                    </span>
-                    <span *ngIf="!(answer['Policies']?.['Question23']?.['Question23-0'] === 'Yes')"
-                          class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
-                    </span>Software
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="uk-width-expand">
-            <div class="vertical-card practices-card">
+@if (answer) {
+  <div class="uk-section-default uk-section">
+    <div class="uk-container uk-container-expand">
+      <div class="uk-grid uk-grid-match">
+        <div class="uk-width-expand">
+          <div class="uk-grid uk-grid-small uk-grid-match">
+            <div class="uk-width-2-5">
               <div class="uk-card uk-card-default uk-card-body">
-                <div class="uk-grid uk-grid-divider">
-                  <div class="uk-width-2-5 horizontal-card-header uk-flex uk-flex-center uk-flex-middle">
-                    <div class="uk-text-center">
-                      <span class="material-icons">settings</span>
-                      <h6>Practices</h6>
-                    </div>
+                <div class="vertical-card-header uk-flex uk-flex-center">
+                  <div class="uk-text-center">
+                    <span class="material-icons">verified_user</span>
+                    <h6 class="uk-margin-top">Policies</h6>
                   </div>
-                  <!--          TODO add real values-->
-                  <div class="uk-width-3-5">
-                    <div class="uk-flex uk-flex-middle">
-                      <img src="assets/images/country_pages/graph%20icon.svg">
-                      <div>
-                        <h5 class="uk-margin-remove">
-                          <span *ngIf="!answer['Practices']?.['Question57']?.['Question57-0'] &&
-                                       !answer['Practices']?.['Question57']?.['Question57-1-1'] else elseOA"> N/A
+                </div>
+                <hr class="hr-light">
+                <div class="uk-text-small">
+                  <div class="uk-margin-medium-top">
+                    <div class="uk-text-secondary uk-text-bold uk-text-italic">National OA Policy</div>
+                    <div class="uk-margin-small-top uk-flex uk-flex-middle">
+                      @if (answer['Policies']?.['Question6']?.['Question6-0'] === 'Yes') {
+                        <span
+                          class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
+                        </span>
+                      }
+                      @if (!(answer['Policies']?.['Question6']?.['Question6-0'] === 'Yes')) {
+                        <span
+                          class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
+                        </span>
+                        }Publications
+                      </div>
+                      <div class="uk-margin-small-top uk-flex uk-flex-middle">
+                        @if (answer['Policies']?.['Question10']?.['Question10-0'] === 'Yes' ||
+                          answer['Policies']?.['Question14']?.['Question14-0'] === 'Yes' ||
+                          answer['Policies']?.['Question18']?.['Question18-0'] === 'Yes') {
+                          <span
+                            class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
                           </span>
-                          <ng-template #elseOA>
-                            {{answer['Practices']?.['Question57']?.['Question57-1'] === 'Yes' ?
-                            answer['Practices']?.['Question57']?.['Question57-0'] :
-                            answer['Practices']?.['Question57']?.['Question57-1-1']}}
-                          </ng-template>
-                        </h5>
-                        <div class="text">Open Access publications</div>
+                        }
+                        @if (!(answer['Policies']?.['Question10']?.['Question10-0'] === 'Yes' ||
+                          answer['Policies']?.['Question14']?.['Question14-0'] === 'Yes' ||
+                          answer['Policies']?.['Question18']?.['Question18-0'] === 'Yes')) {
+                          <span
+                            class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
+                          </span>
+                          }Data
+                        </div>
+                        <div class="uk-margin-small-top uk-flex uk-flex-middle">
+                          @if (answer['Policies']?.['Question22']?.['Question22-0'] === 'Yes') {
+                            <span
+                              class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
+                            </span>
+                          }
+                          @if (!(answer['Policies']?.['Question22']?.['Question22-0'] === 'Yes')) {
+                            <span
+                              class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
+                            </span>
+                            }Software
+                          </div>
+                        </div>
+                        <div class="uk-margin-top">
+                          <div class="uk-text-secondary uk-text-bold uk-text-italic">Financial strategy on OA</div>
+                          <div class="uk-margin-small-top uk-flex uk-flex-middle">
+                            @if (answer['Policies']?.['Question7']?.['Question7-0'] === 'Yes') {
+                              <span
+                                class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
+                              </span>
+                            }
+                            @if (!(answer['Policies']?.['Question7']?.['Question7-0'] === 'Yes')) {
+                              <span
+                                class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
+                              </span>
+                              }Publications
+                            </div>
+                            <div class="uk-margin-small-top uk-flex uk-flex-middle">
+                              @if (answer['Policies']?.['Question11']?.['Question11-0'] === 'Yes' ||
+                                answer['Policies']?.['Question15']?.['Question15-0'] === 'Yes' ||
+                                answer['Policies']?.['Question19']?.['Question19-0'] === 'Yes') {
+                                <span
+                                  class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
+                                </span>
+                              }
+                              @if (!(answer['Policies']?.['Question11']?.['Question11-0'] === 'Yes' ||
+                                answer['Policies']?.['Question15']?.['Question15-0'] === 'Yes' ||
+                                answer['Policies']?.['Question19']?.['Question19-0'] === 'Yes')) {
+                                <span
+                                  class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
+                                </span>
+                                }Data
+                              </div>
+                              <div class="uk-margin-small-top uk-flex uk-flex-middle">
+                                @if (answer['Policies']?.['Question23']?.['Question23-0'] === 'Yes') {
+                                  <span
+                                    class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
+                                  </span>
+                                }
+                                @if (!(answer['Policies']?.['Question23']?.['Question23-0'] === 'Yes')) {
+                                  <span
+                                    class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
+                                  </span>
+                                  }Software
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="uk-width-expand">
+                          <div class="vertical-card practices-card">
+                            <div class="uk-card uk-card-default uk-card-body">
+                              <div class="uk-grid uk-grid-divider">
+                                <div class="uk-width-2-5 horizontal-card-header uk-flex uk-flex-center uk-flex-middle">
+                                  <div class="uk-text-center">
+                                    <span class="material-icons">settings</span>
+                                    <h6>Practices</h6>
+                                  </div>
+                                </div>
+                                <!--          TODO add real values-->
+                                <div class="uk-width-3-5">
+                                  <div class="uk-flex uk-flex-middle">
+                                    <img src="assets/images/country_pages/graph%20icon.svg">
+                                    <div>
+                                      <h5 class="uk-margin-remove">
+                                        @if (!answer['Practices']?.['Question57']?.['Question57-0'] &&
+                                          !answer['Practices']?.['Question57']?.['Question57-1-1']) {
+                                          <span> N/A
+                                          </span>
+                                        } @else {
+                                          {{answer['Practices']?.['Question57']?.['Question57-1'] === 'Yes' ?
+                                          answer['Practices']?.['Question57']?.['Question57-0'] :
+                                          answer['Practices']?.['Question57']?.['Question57-1-1']}}
+                                        }
+                                      </h5>
+                                      <div class="text">Open Access publications</div>
+                                    </div>
+                                  </div>
+                                  <div class="uk-flex uk-flex-middle uk-margin-top">
+                                    <img src="assets/images/country_pages/graph%20icon2.svg">
+                                    <div>
+                                      <h5 class="uk-margin-remove">
+                                        {{answer['Practices']?.['Question56']?.['Question56-0'] ?
+                                        (answer['Practices']?.['Question56']?.['Question56-0'] + 'M') : '--'}}
+                                      </h5>
+                                      <div class="text">investments in publications</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="vertical-card uk-margin-top">
+                            <div class="uk-card uk-card-default uk-card-body" style="opacity: 0.6">
+                              <div class="uk-grid uk-grid-divider">
+                                <div class="uk-width-2-5 horizontal-card-header uk-flex uk-flex-center uk-flex-middle">
+                                  <div class="uk-text-center">
+                                    <span class="material-icons">play_for_work</span>
+                                    <h6>Impact</h6>
+                                  </div>
+                                </div>
+                                <div class="uk-width-3-5">
+                                  <div class="impact-background uk-flex uk-flex-middle uk-flex-center">
+                                    <h5>Coming soon</h5>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div class="uk-flex uk-flex-middle uk-margin-top">
-                      <img src="assets/images/country_pages/graph%20icon2.svg">
-                      <div>
-                        <h5 class="uk-margin-remove">
-                          {{answer['Practices']?.['Question56']?.['Question56-0'] ?
-                          (answer['Practices']?.['Question56']?.['Question56-0'] + 'M') : '--'}}
-                        </h5>
-                        <div class="text">investments in publications</div>
+                    <div class="uk-width-1-3">
+                      <div class="uk-card r-d-card uk-card-body">
+                        <h6>R&D Information</h6>
+                        <div class="uk-grid uk-child-width-1-2 uk-grid-match">
+                          <div class="">
+                            <h5 class="uk-margin-remove uk-text-primary-darker">1.18%</h5>
+                            <div class="text">of GDP for 2018 R&D expenditure</div>
+                          </div>
+                          <div class="">
+                            <h5 class="uk-margin-remove uk-text-primary-darker">--</h5>
+                            <div class="text">FTEs</div>
+                          </div>
+                          <div class="uk-grid-margin">
+                            <div class="h5-subHeader-primary">Total researchers</div>
+                            <h5 class="uk-margin-remove uk-text-primary-darker">12k</h5>
+                            <div class="text">by sector of performance</div>
+                          </div>
+                          <div class="uk-grid-margin">
+                            <div class="h5-subHeader-primary">Doctorate students</div>
+                            <h5 class="uk-margin-remove uk-text-primary-darker">12k</h5>
+                            <div class="text">in science and technology fields</div>
+                          </div>
+                        </div>
+                        <div class="uk-text-meta uk-text-italic uk-margin-top">By Eurostat. Last update: Nov 20, 2022</div>
+                        <hr style="color: #eaeaea">
+                        <div class="uk-grid uk-child-width-1-2 uk-grid-match">
+                          <div class="">
+                            <h5 class="uk-margin-remove uk-text-primary-darker">44</h5>
+                            <div class="text">funding organisations</div>
+                          </div>
+                          <div class="">
+                            <h5 class="uk-margin-remove uk-text-primary-darker">5</h5>
+                            <div class="text">funders</div>
+                          </div>
+                        </div>
+                        <div class="uk-text-meta uk-text-italic uk-margin-top">By OpenAIRE. Last update: Nov 20, 2022</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            }
 
-            <div class="vertical-card uk-margin-top">
-              <div class="uk-card uk-card-default uk-card-body" style="opacity: 0.6">
-                <div class="uk-grid uk-grid-divider">
-                  <div class="uk-width-2-5 horizontal-card-header uk-flex uk-flex-center uk-flex-middle">
-                    <div class="uk-text-center">
-                      <span class="material-icons">play_for_work</span>
-                      <h6>Impact</h6>
+            @if (surveyAnswer && countryCode) {
+              <div class="uk-section-default uk-section uk-section-small" style="min-height: auto; padding-top: 0px">
+                <div class="uk-container uk-container-expand">
+                  @if (countryPageOSOURL) {
+                    <div class="uk-flex uk-flex-right" style="position: relative;">
+                      <a class="uk-button uk-button-primary button-osobservatory uk-flex uk-flex-middle" target="_blank"
+                        [href]="countryPageOSOURL">
+                        <img src="../assets/images/openaire-logos/OS_Logo_small.svg" width="20px" class="uk-margin-small-right">
+                        <span>Open Science Observatory</span>
+                        <span class="material-icons uk-margin-small-left" style="color: #fff">chevron_right</span>
+                      </a>
                     </div>
+                  }
+                  <div class="uk-position-relative">
+                    <ul class="survey-tabs" uk-tab uk-switcher="connect: #survey-selection">
+                      <li class="uk-active">
+                        <a href="#" class="uk-flex uk-flex-middle">
+                          <span class="material-icons uk-margin-small-right">edit_document</span>Survey
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" class="uk-flex uk-flex-middle">
+                          <span class="material-icons uk-margin-small-right">landscape</span>Landscape
+                        </a>
+                      </li>
+                      <!--        <li class="uk-flex uk-flex-end"><a>Observatory</a></li>-->
+                    </ul>
                   </div>
-                  <div class="uk-width-3-5">
-                    <div class="impact-background uk-flex uk-flex-middle uk-flex-center">
-                      <h5>Coming soon</h5>
-                    </div>
+                  <div>
+                    <ul id="survey-selection" class="uk-switcher">
+                      <li>
+                        <div class="uk-section-primary uk-preserve-color uk-padding" style="min-height: 300px">
+                          <div class="uk-position-relative">
+                            <ul class="chapter-selection-tabs" uk-tab uk-switcher="connect: #chapter-selection">
+                              <li class="uk-active"><a href="#" class="">General</a></li>
+                              <li><a href="#" class="">Policies</a></li>
+                              <li><a href="#" class="">Practices</a></li>
+                              <li class="uk-disabled"><a href="#">Impact</a></li>
+                              <li class="use-cases"><a href="#" class="">Use cases</a></li>
+                            </ul>
+                          </div>
+                          <div>
+                            <ul id="chapter-selection" class="uk-switcher">
+                              <li>
+                                <country-landing-page-general [surveyAnswer]="answer"></country-landing-page-general>
+                              </li>
+                              <li>
+                                <country-landing-page-policies [surveyAnswer]="answer"></country-landing-page-policies>
+                              </li>
+                              <li>
+                                <country-landing-page-practices [surveyAnswer]="answer"></country-landing-page-practices>
+                              </li>
+                              <li>
+                                Impact
+                              </li>
+                              <li>
+                                <country-landing-page-use-cases [surveyAnswer]="answer"></country-landing-page-use-cases>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        @if (countryCode === 'ES' || countryCode === 'GR') {
+                          <div
+                            class="uk-section-primary uk-preserve-color uk-padding-remove" style="min-height: 80%">
+                            <iframe width="100%" height="100%"
+                              [src]=countryPageNarrativeURL
+                              style="display: block; height: 100vh; width: 95vw; border: 0; position: relative">
+                            </iframe>
+                          </div>
+                        } @else {
+                          <div class="uk-section-primary uk-preserve-color uk-padding-remove" style="min-height: 150px">
+                            <h4 class="uk-padding">Coming soon...</h4>
+                          </div>
+                        }
+                      </li>
+                    </ul>
                   </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
-      <div class="uk-width-1-3">
-        <div class="uk-card r-d-card uk-card-body">
-          <h6>R&D Information</h6>
-
-          <div class="uk-grid uk-child-width-1-2 uk-grid-match">
-            <div class="">
-              <h5 class="uk-margin-remove uk-text-primary-darker">1.18%</h5>
-              <div class="text">of GDP for 2018 R&D expenditure</div>
-            </div>
-            <div class="">
-              <h5 class="uk-margin-remove uk-text-primary-darker">--</h5>
-              <div class="text">FTEs</div>
-            </div>
-            <div class="uk-grid-margin">
-              <div class="h5-subHeader-primary">Total researchers</div>
-              <h5 class="uk-margin-remove uk-text-primary-darker">12k</h5>
-              <div class="text">by sector of performance</div>
-            </div>
-            <div class="uk-grid-margin">
-              <div class="h5-subHeader-primary">Doctorate students</div>
-              <h5 class="uk-margin-remove uk-text-primary-darker">12k</h5>
-              <div class="text">in science and technology fields</div>
+                  <!--    <div *ngIf="surveyModel && answer">-->
+                  <!--      <h6>{{surveyModel.name}}</h6>-->
+                  <!--      <div>{{answer['Practices']?.['Question54']?.['Question54-0']}}</div>-->
+                  <!--      <div>{{answer['Practices']?.['Question54']?.['Question54-1']}}</div>-->
+                  <!--      <div>{{answer['General']?.['Question1']?.['Question1-1']}}</div>-->
+                  <!--      <div>{{answer['General']?.['Question3']?.['Question3-1']}}</div>-->
+                  <!--      <div *ngFor="let entry of answer['Practices']?.['Question59']?.['Question59-1-0']">-->
+                  <!--        {{entry['Question59-1']}}-->
+                  <!--        {{entry['Question59-2']}}-->
+                  <!--        <span *ngFor="let element of entry['Question59-2-1']">{{element}}</span>-->
+                <!--      </div>-->
+                <!--      <pre>{{answer | json}}</pre>-->
+              <!--    </div>-->
             </div>
           </div>
-
-          <div class="uk-text-meta uk-text-italic uk-margin-top">By Eurostat. Last update: Nov 20, 2022</div>
-
-          <hr style="color: #eaeaea">
-
-          <div class="uk-grid uk-child-width-1-2 uk-grid-match">
-            <div class="">
-              <h5 class="uk-margin-remove uk-text-primary-darker">44</h5>
-              <div class="text">funding organisations</div>
-            </div>
-            <div class="">
-              <h5 class="uk-margin-remove uk-text-primary-darker">5</h5>
-              <div class="text">funders</div>
-            </div>
-          </div>
-          <div class="uk-text-meta uk-text-italic uk-margin-top">By OpenAIRE. Last update: Nov 20, 2022</div>
-
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div *ngIf="surveyAnswer && countryCode" class="uk-section-default uk-section uk-section-small" style="min-height: auto; padding-top: 0px">
-  <div class="uk-container uk-container-expand">
-
-    <div *ngIf="countryPageOSOURL" class="uk-flex uk-flex-right" style="position: relative;">
-      <a class="uk-button uk-button-primary button-osobservatory uk-flex uk-flex-middle" target="_blank"
-         [href]="countryPageOSOURL">
-        <img src="../assets/images/openaire-logos/OS_Logo_small.svg" width="20px" class="uk-margin-small-right">
-        <span>Open Science Observatory</span>
-        <span class="material-icons uk-margin-small-left" style="color: #fff">chevron_right</span>
-      </a>
-    </div>
-
-    <div class="uk-position-relative">
-      <ul class="survey-tabs" uk-tab uk-switcher="connect: #survey-selection">
-        <li class="uk-active">
-          <a href="#" class="uk-flex uk-flex-middle">
-            <span class="material-icons uk-margin-small-right">edit_document</span>Survey
-          </a>
-        </li>
-        <li>
-          <a href="#" class="uk-flex uk-flex-middle">
-            <span class="material-icons uk-margin-small-right">landscape</span>Landscape
-          </a>
-        </li>
-<!--        <li class="uk-flex uk-flex-end"><a>Observatory</a></li>-->
-      </ul>
-
-    </div>
-
-    <div>
-      <ul id="survey-selection" class="uk-switcher">
-        <li>
-          <div class="uk-section-primary uk-preserve-color uk-padding" style="min-height: 300px">
-
-            <div class="uk-position-relative">
-              <ul class="chapter-selection-tabs" uk-tab uk-switcher="connect: #chapter-selection">
-                <li class="uk-active"><a href="#" class="">General</a></li>
-                <li><a href="#" class="">Policies</a></li>
-                <li><a href="#" class="">Practices</a></li>
-                <li class="uk-disabled"><a href="#">Impact</a></li>
-                <li class="use-cases"><a href="#" class="">Use cases</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <ul id="chapter-selection" class="uk-switcher">
-                <li>
-                  <country-landing-page-general [surveyAnswer]="answer"></country-landing-page-general>
-                </li>
-                <li>
-                  <country-landing-page-policies [surveyAnswer]="answer"></country-landing-page-policies>
-                </li>
-                <li>
-                  <country-landing-page-practices [surveyAnswer]="answer"></country-landing-page-practices>
-                </li>
-                <li>
-                  Impact
-                </li>
-                <li>
-                  <country-landing-page-use-cases [surveyAnswer]="answer"></country-landing-page-use-cases>
-                </li>
-              </ul>
-            </div>
-
-          </div>
-        </li>
-        <li>
-          <div *ngIf="countryCode === 'ES' || countryCode === 'GR'; else elseBlock"
-               class="uk-section-primary uk-preserve-color uk-padding-remove" style="min-height: 80%">
-            <iframe width="100%" height="100%"
-                    [src]=countryPageNarrativeURL
-                    style="display: block; height: 100vh; width: 95vw; border: 0; position: relative">
-            </iframe>
-          </div>
-          <ng-template #elseBlock>
-            <div class="uk-section-primary uk-preserve-color uk-padding-remove" style="min-height: 150px">
-              <h4 class="uk-padding">Coming soon...</h4>
-            </div>
-          </ng-template>
-
-        </li>
-      </ul>
-    </div>
-
-
-<!--    <div *ngIf="surveyModel && answer">-->
-<!--      <h6>{{surveyModel.name}}</h6>-->
-<!--      <div>{{answer['Practices']?.['Question54']?.['Question54-0']}}</div>-->
-<!--      <div>{{answer['Practices']?.['Question54']?.['Question54-1']}}</div>-->
-
-
-<!--      <div>{{answer['General']?.['Question1']?.['Question1-1']}}</div>-->
-<!--      <div>{{answer['General']?.['Question3']?.['Question3-1']}}</div>-->
-
-<!--      <div *ngFor="let entry of answer['Practices']?.['Question59']?.['Question59-1-0']">-->
-<!--        {{entry['Question59-1']}}-->
-<!--        {{entry['Question59-2']}}-->
-<!--        <span *ngFor="let element of entry['Question59-2-1']">{{element}}</span>-->
-<!--      </div>-->
-
-
-<!--      <pre>{{answer | json}}</pre>-->
-<!--    </div>-->
-
-  </div>
-</div>
+        }

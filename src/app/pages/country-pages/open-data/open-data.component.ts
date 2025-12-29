@@ -19,6 +19,8 @@ import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
 import { PdfExportService } from "../../services/pdf-export.service";
+import { combineLatest} from "rxjs";
+import { filter } from "rxjs/operators";
 
 @Component({
     selector: 'app-open-data',
@@ -44,6 +46,8 @@ export class OpenDataComponent implements OnInit {
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
+  year: string;
+  prevYear: string;
 
 
   rfoOpenDataPercentage: (number | null)[] = [null, null];
@@ -86,7 +90,7 @@ export class OpenDataComponent implements OnInit {
 
   lastUpdateDate?: string;
 
-  constructor(private dataShareService: DataShareService, private exploreService: ExploreService,
+  constructor(protected dataShareService: DataShareService, private exploreService: ExploreService,
               private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
@@ -97,14 +101,24 @@ export class OpenDataComponent implements OnInit {
       next: value => this.lastUpdateDate = value
     });
 
-    this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (code) => {
+    combineLatest([
+      this.dataShareService.countryCode$,
+      this.dataShareService.year$,
+    ])
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter(([code, year]) => !!code && !!year)
+      )
+      .subscribe(([code, year]) => {
+        this.countryCode = code;
+        this.year = year;
+        const numericYear = +year;
+        this.prevYear = (numericYear - 1).toString();
         this.countryCode = code;
         this.getOpenDataPercentage();
         this.getTrendsOpenData();
         this.getDistributionByDocumentType();
-      }
-    });
+      })
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
@@ -159,7 +173,7 @@ export class OpenDataComponent implements OnInit {
   }
 
   getOpenDataPercentage() {
-    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode, this.prevYear, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.OpenDataPercentage[0] = this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]);
         this.OpenDataPercentage[1] = this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]);
@@ -170,7 +184,7 @@ export class OpenDataComponent implements OnInit {
 
   /** Get trends of Open Data -------------------------------------------------------------------------------------> **/
   getTrendsOpenData() {
-    this.queryData.getOSOStatsChartData(trendOfOpenDataCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(trendOfOpenDataCountry(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           let tmpSeries: SeriesOptionsType = {
@@ -188,7 +202,7 @@ export class OpenDataComponent implements OnInit {
 
   /** Get Distribution By Document Type ---------------------------------------------------------------------------> **/
   getDistributionByDocumentType() {
-    this.queryData.getOSOStatsChartData(distributionOfDataByDocumentTypeCountry(this.countryCode)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(distributionOfDataByDocumentTypeCountry(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         value.series.forEach((series, index) => {
           let tmpSeries: SeriesOptionsType = {

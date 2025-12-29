@@ -1,0 +1,190 @@
+<div>
+  @switch (dataType) {
+    @case ('dataManagement') {
+      <div>
+        <div uk-grid>
+          <div class="uk-margin-medium-top uk-animation-fade uk-width-2-3" style="height: 700px">
+            <app-highcharts-category-map [mapData]="questionsDataArray[0]" [subtitle]="" [toolTipData]="toolTipData[0]"
+              [title]="'Use cases on data management'">
+            </app-highcharts-category-map>
+          </div>
+          <div class="uk-width-1-3">
+            @if (participatingCountries[0] >= 0) {
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="uk-text-lead uk-margin-small-top uk-text-center">
+                  <strong>{{participatingCountries[0] +' out of '+ countriesArray?.length}}</strong>
+                </div>
+                <div class="indicator-label">
+                  countries have use cases on data management
+                </div>
+              </div>
+            }
+            @if (participatingCountries[0] >= 0) {
+              <div class="uk-margin-top">
+                <div class="uk-card uk-card-default uk-card-body">
+                  <simple-gauge [chartId]="'gauge6'" [data]=participatingCountriesPercentage[0]
+                  [title]="'Percentage of countries with use cases on data management'"></simple-gauge>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+    @case ('fairData') {
+      <div>
+        <div uk-grid>
+          <div class="uk-margin-medium-top uk-animation-fade uk-width-2-3" style="height: 700px">
+            <app-highcharts-category-map [mapData]="questionsDataArray[1]" [subtitle]="" [toolTipData]="toolTipData[1]"
+              [title]="'Use cases on FAIR data'">
+            </app-highcharts-category-map>
+          </div>
+          <div class="uk-width-1-3">
+            @if (participatingCountries[1] >= 0) {
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="uk-text-lead uk-margin-small-top uk-text-center">
+                  <strong>{{participatingCountries[1] +' out of '+ countriesArray?.length}}</strong>
+                </div>
+                <div class="indicator-label">
+                  countries have use cases on FAIR data
+                </div>
+              </div>
+            }
+            @if (participatingCountries[1] >= 0) {
+              <div class="uk-margin-top">
+                <div class="uk-card uk-card-default uk-card-body">
+                  <simple-gauge [chartId]="'gauge7'" [data]=participatingCountriesPercentage[1]
+                  [title]="'Percentage of countries with use cases on FAIR data'"></simple-gauge>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+    @case ('openData') {
+      <div>
+        <div uk-grid>
+          <div class="uk-margin-medium-top uk-animation-fade uk-width-2-3" style="height: 700px">
+            <app-highcharts-category-map [mapData]="questionsDataArray[2]" [subtitle]="" [toolTipData]="toolTipData[2]"
+              [title]="'Use cases on open data'">
+            </app-highcharts-category-map>
+          </div>
+          <div class="uk-width-1-3">
+            @if (participatingCountries[2] >= 0) {
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="uk-text-lead uk-margin-small-top uk-text-center">
+                  <strong>{{participatingCountries[2] +' out of '+ countriesArray?.length}}</strong>
+                </div>
+                <div class="indicator-label">
+                  countries have use cases on open data
+                </div>
+              </div>
+            }
+            @if (participatingCountries[2] >= 0) {
+              <div class="uk-margin-top">
+                <div class="uk-card uk-card-default uk-card-body">
+                  <simple-gauge [chartId]="'gauge8'" [data]=participatingCountriesPercentage[2]
+                  [title]="'Percentage of countries with use cases on open data'"></simple-gauge>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+    @case ('connectingRepositoriesToEOSC') {
+      <div>
+        <div uk-grid>
+          <div class="uk-margin-medium-top uk-animation-fade uk-width-2-3" style="height: 700px">
+            <app-highcharts-category-map [mapData]="questionsDataArray[3]" [subtitle]="" [toolTipData]="toolTipData[3]"
+              [title]="'Use cases on connecting repositories to EOSC'">
+            </app-highcharts-category-map>
+          </div>
+          <div class="uk-width-1-3">
+            @if (participatingCountries[3] >= 0) {
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="uk-text-lead uk-margin-small-top uk-text-center">
+                  <strong>{{participatingCountries[3] +' out of '+ countriesArray?.length}}</strong>
+                </div>
+                <div class="indicator-label">
+                  countries have use cases on connecting repositories to EOSC
+                </div>
+              </div>
+            }
+            @if (participatingCountries[3] >= 0) {
+              <div class="uk-margin-top">
+                <div class="uk-card uk-card-default uk-card-body">
+                  <simple-gauge [chartId]="'gauge9'" [data]=participatingCountriesPercentage[3]
+                  [title]="'Percentage of countries with use cases on connecting repositories to EOSC'"></simple-gauge>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+    @case ('dataStewardship') {
+      <div>
+        <div uk-grid>
+          <div class="uk-margin-medium-top uk-animation-fade uk-width-2-3" style="height: 700px">
+            <app-highcharts-category-map [mapData]="questionsDataArray[4]" [subtitle]="" [toolTipData]="toolTipData[4]"
+              [title]="'Use cases on data stewardship'">
+            </app-highcharts-category-map>
+          </div>
+          <div class="uk-width-1-3">
+            @if (participatingCountries[4] >= 0) {
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="uk-text-lead uk-margin-small-top uk-text-center">
+                  <strong>{{participatingCountries[4] +' out of '+ countriesArray?.length}}</strong>
+                </div>
+                <div class="indicator-label">
+                  countries have use cases on data stewardship
+                </div>
+              </div>
+            }
+            @if (participatingCountries[4] >= 0) {
+              <div class="uk-margin-top">
+                <div class="uk-card uk-card-default uk-card-body">
+                  <simple-gauge [chartId]="'gauge10'" [data]=participatingCountriesPercentage[4]
+                  [title]="'Percentage of countries with use cases on data stewardship'"></simple-gauge>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+    @case ('longTermDataPreservation') {
+      <div>
+        <div uk-grid>
+          <div class="uk-margin-medium-top uk-animation-fade uk-width-2-3" style="height: 700px">
+            <app-highcharts-category-map [mapData]="questionsDataArray[5]" [subtitle]="" [toolTipData]="toolTipData[5]"
+              [title]="'Use cases on long-term data preservation'">
+            </app-highcharts-category-map>
+          </div>
+          <div class="uk-width-1-3">
+            @if (participatingCountries[5] >= 0) {
+              <div class="uk-card uk-card-default uk-card-body indicator-card">
+                <div class="uk-text-lead uk-margin-small-top uk-text-center">
+                  <strong>{{participatingCountries[5] +' out of '+ countriesArray?.length}}</strong>
+                </div>
+                <div class="indicator-label">
+                  countries have use cases on long-term data preservation
+                </div>
+              </div>
+            }
+            @if (participatingCountries[5] >= 0) {
+              <div class="uk-margin-top">
+                <div class="uk-card uk-card-default uk-card-body">
+                  <simple-gauge [chartId]="'gauge11'" [data]=participatingCountriesPercentage[5]
+                  [title]="'Percentage of countries with use cases on long-term data preservation'"></simple-gauge>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>
