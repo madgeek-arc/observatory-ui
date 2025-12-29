@@ -6,233 +6,245 @@
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent>
       <div class="uk-container">
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
-<!--          <h4>Data Management</h4>-->
+          <!--          <h4>Data Management</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-                 class="flag-image" width="42" height="42" alt="rounded flag image">
+              class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
               <h4 class="uk-margin-remove-bottom">{{ countryName }} - Data Management for {{ year }}</h4>
             </div>
           </div>
           <div (click)="exportToPDF([exportContent, exportContent1, exportContent2], 'Open Data')"
-               class="uk-flex uk-flex-center" style="cursor: pointer">
+            class="uk-flex uk-flex-center" style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
+              @if (exportActive) {
+                <span class="uk-margin-small-left"
                 data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
 
         <div class="uk-hidden@m">
-<!--          <h4>Data Management</h4>-->
+          <!--          <h4>Data Management</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-                 class="flag-image" width="42" height="42" alt="rounded flag image">
+              class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
               <h4 class="uk-margin-remove-bottom">{{ countryName }} - Data Management for {{ year }}</h4>
             </div>
           </div>
           <div (click)="exportToPDF([exportContent, exportContent1, exportContent2], 'Open Data')"
-               class="uk-flex uk-flex-right" style="cursor: pointer">
+            class="uk-flex uk-flex-right" style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
+              @if (exportActive) {
+                <span class="uk-margin-small-left"
                 data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
-<!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
-<!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
-<!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
-<!--          <div class="uk-margin-small-left">-->
-<!--            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>-->
-<!--          </div>-->
-<!--        </div>-->
+        <!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
+        <!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
+        <!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
+        <!--          <div class="uk-margin-small-left">-->
+        <!--            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>-->
+      <!--          </div>-->
+    <!--        </div>-->
 
-<!--        <div class="uk-flex uk-flex-between uk-flex-middle">-->
-<!--          <h4>Data Management</h4>-->
-<!--        </div>-->
+    <!--        <div class="uk-flex uk-flex-between uk-flex-middle">-->
+    <!--          <h4>Data Management</h4>-->
+  <!--        </div>-->
 
-        <p class="uk-margin-medium-bottom">Data management refers to the process of collecting, organizing, storing, and maintaining data throughout its
-          lifecycle. It involves ensuring that data is accessible, secure, and usable, facilitating effective
-          decision-making and research outcomes.
-          A key component of modern data management is the adherence to the FAIR principles, which emphasize making data
-          Findable, Accessible, Interoperable, and Reusable. These principles aim to improve the transparency,
-          accessibility, and value of data for
-          researchers, enabling better collaboration and discovery while ensuring compliance with ethical and legal
-          standards.</p>
+  <p class="uk-margin-medium-bottom">Data management refers to the process of collecting, organizing, storing, and maintaining data throughout its
+    lifecycle. It involves ensuring that data is accessible, secure, and usable, facilitating effective
+    decision-making and research outcomes.
+    A key component of modern data management is the adherence to the FAIR principles, which emphasize making data
+    Findable, Accessible, Interoperable, and Reusable. These principles aim to improve the transparency,
+    accessibility, and value of data for
+    researchers, enabling better collaboration and discovery while ensuring compliance with ethical and legal
+  standards.</p>
 
-        <div class="uk-flex uk-flex-between uk-flex-middle">
-          <h5>General Overview of Data Management in {{countryName}} for {{ year }}</h5>
-        </div>
+  <div class="uk-flex uk-flex-between uk-flex-middle">
+    <h5>General Overview of Data Management in {{countryName}} for {{ year }}</h5>
+  </div>
 
-        <div class="uk-grid-small" data-uk-grid>
-          <div class="uk-width-1-1 uk-width-expand@m" *ngIf="hasAnyLeftCardData()">
-            <div class="uk-card uk-card-default uk-card-body visualisation-card">
-              <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-grid-small uk-grid" data-uk-grid>
-
-                <!-- Card 1 -->
-                <app-info-card
-                  *ngIf="rfoDataManagementPercentage[1] !== null && rfoDataManagementPercentage[1] !== undefined"
-                  [titleHtml]="`Percentage of <span class='uk-text-bold'> RFO\'s Policy on Data Management</span>`"
-                  [value]="rfoDataManagementPercentage[1]" [unit]="'%'" [diff]="rfoDataManagementPercentageDiff">
-                </app-info-card>
-
-                <!-- Card 2 -->
-
-                <app-info-card
-                  [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Data Management</span>`"
-                  [value]="rpoDataManagementPercentage[1]" [unit]="'%'" [diff]="rpoDataManagementPercentageDiff">
-                </app-info-card>
-
-
-                <!-- Card 3 -->
-
-                <app-info-card *ngIf="financialInvestmentDM[1] !== null && financialInvestmentDM[1] !== undefined"
-                  [titleHtml]="`Total amount of <span class='uk-text-bold'>financial investments</span> in OA publications`"
-                  [value]="financialInvestmentDM[1]" [unit]="'mil Euro'" [diff]="financialInvestmentDMPercentageDiff">
-                </app-info-card>
-
-              </div>
-            </div>
+  <div class="uk-grid-small" data-uk-grid>
+    @if (hasAnyLeftCardData()) {
+      <div class="uk-width-1-1 uk-width-expand@m">
+        <div class="uk-card uk-card-default uk-card-body visualisation-card">
+          <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-grid-small uk-grid" data-uk-grid>
+            <!-- Card 1 -->
+            @if (rfoDataManagementPercentage[1] !== null && rfoDataManagementPercentage[1] !== undefined) {
+              <app-info-card
+                [titleHtml]="`Percentage of <span class='uk-text-bold'> RFO\'s Policy on Data Management</span>`"
+                [value]="rfoDataManagementPercentage[1]" [unit]="'%'" [diff]="rfoDataManagementPercentageDiff">
+              </app-info-card>
+            }
+            <!-- Card 2 -->
+            <app-info-card
+              [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Data Management</span>`"
+              [value]="rpoDataManagementPercentage[1]" [unit]="'%'" [diff]="rpoDataManagementPercentageDiff">
+            </app-info-card>
+            <!-- Card 3 -->
+            @if (financialInvestmentDM[1] !== null && financialInvestmentDM[1] !== undefined) {
+              <app-info-card
+                [titleHtml]="`Total amount of <span class='uk-text-bold'>financial investments</span> in OA publications`"
+                [value]="financialInvestmentDM[1]" [unit]="'mil Euro'" [diff]="financialInvestmentDMPercentageDiff">
+              </app-info-card>
+            }
           </div>
+        </div>
+      </div>
+    }
 
-          <!-- Right Card (2/5) -->
-          <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
-            <div class="uk-card uk-card-default uk-card-body visualisation-card">
-              <div class="uk-margin-top">
-                <h5 class="uk-flex uk-flex-between uk-margin-remove">
-                  National Policy on Data Management
+    <!-- Right Card (2/5) -->
+    <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+      <div class="uk-card uk-card-default uk-card-body visualisation-card">
+        <div class="uk-margin-top">
+          <h5 class="uk-flex uk-flex-between uk-margin-remove">
+            National Policy on Data Management
                   <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': nationalPolicyResponse === 'Yes',
                   'down-arrow-color': nationalPolicyResponse === 'No',
                   'unanswered-color': nationalPolicyResponse === null || nationalPolicyResponse === undefined
                 }">{{
-                      nationalPolicyResponse === 'Yes' ? 'check' : nationalPolicyResponse === 'No' ? 'close' : 'question_mark'
-                    }}
-                  </span>
-                </h5>
-                <p *ngIf="policyMandatory === 'Yes'" class="uk-text-primary uk-text-bolder uk-margin-remove-top">
-                  Mandatory policy</p>
-                <read-more-text *ngIf="nationalPolicyClarification !== null" [maxHeight]="68"
-                  [text]="nationalPolicyClarification"></read-more-text>
-              </div>
-              <div class="uk-margin-top">
-                <h5 class="uk-flex uk-flex-between">
-                  Financial Strategy on Data Management
+              nationalPolicyResponse === 'Yes' ? 'check' : nationalPolicyResponse === 'No' ? 'close' : 'question_mark'
+              }}
+            </span>
+          </h5>
+          @if (policyMandatory === 'Yes') {
+            <p class="uk-text-primary uk-text-bolder uk-margin-remove-top">
+            Mandatory policy</p>
+          }
+          @if (nationalPolicyClarification !== null) {
+            <read-more-text [maxHeight]="68"
+            [text]="nationalPolicyClarification"></read-more-text>
+          }
+        </div>
+        <div class="uk-margin-top">
+          <h5 class="uk-flex uk-flex-between">
+            Financial Strategy on Data Management
                   <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': financialStrategyResponse === 'Yes',
                   'down-arrow-color': financialStrategyResponse === 'No',
                   'unanswered-color': financialStrategyResponse === null || financialStrategyResponse === undefined
                 }">{{
-                      financialStrategyResponse === 'Yes' ? 'check' : financialStrategyResponse === 'No' ? 'close' : 'question_mark'
-                    }}
-                  </span>
-                </h5>
-                <read-more-text *ngIf="financialStrategyClarification" [maxHeight]="68"
-                  [text]="financialStrategyClarification"></read-more-text>
-              </div>
-              <div class="uk-margin-top">
-                <h5 class="uk-flex uk-flex-between">
-                  Monitoring on Data Management
+              financialStrategyResponse === 'Yes' ? 'check' : financialStrategyResponse === 'No' ? 'close' : 'question_mark'
+              }}
+            </span>
+          </h5>
+          @if (financialStrategyClarification) {
+            <read-more-text [maxHeight]="68"
+            [text]="financialStrategyClarification"></read-more-text>
+          }
+        </div>
+        <div class="uk-margin-top">
+          <h5 class="uk-flex uk-flex-between">
+            Monitoring on Data Management
                   <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': monitoringResponse === 'Yes',
                   'down-arrow-color': monitoringResponse === 'No',
                   'unanswered-color': monitoringResponse === null || monitoringResponse === undefined
                 }">
-                    {{
-                    monitoringResponse === 'Yes' ? 'check' :
-                    monitoringResponse === 'No' ? 'close' :
-                    'question_mark'
-                    }}
-                  </span>
-                </h5>
-                <read-more-text *ngIf="monitoringClarification" [maxHeight]="68"
-                  [text]="monitoringClarification"></read-more-text>
-              </div>
-            </div>
-          </div>
-          <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
-
-            <div>
-              <p><span class="uk-text-bold">Data source:</span>
-                Survey on National Contributions to EOSC and Open Science {{year}} -
-                showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
-                OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
-              </p>
-            </div>
-          </div>
-
+              {{
+              monitoringResponse === 'Yes' ? 'check' :
+              monitoringResponse === 'No' ? 'close' :
+              'question_mark'
+              }}
+            </span>
+          </h5>
+          @if (monitoringClarification) {
+            <read-more-text [maxHeight]="68"
+            [text]="monitoringClarification"></read-more-text>
+          }
         </div>
       </div>
     </div>
+    <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
 
-    <div #exportContent1>
-      <div *ngIf="hasSurveyDataManagementData()" class="uk-section uk-section-primary uk-preserve-color uk-section-small">
-        <div class="uk-container">
-
-          <div class="uk-margin-medium-top uk-animation-fade">
-            <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-              <h6>Learn More about National Data Service in {{ countryName }}</h6>
-              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
-              <div class="uk-margin-medium-top">
-                <read-more [maxHeight]="300">
-                  <div id="">
-                    <div class="uk-text-secondary">National Data Service</div>
-                    <ng-container *ngIf="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']; else data_service">
-                      <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']"
-                        class="uk-margin-medium-top"></div>
-                    </ng-container>
-                    <ng-template #data_service>
-                      <p>N/A</p>
-                    </ng-template>
-                  </div>
-                </read-more>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div>
+        <p><span class="uk-text-bold">Data source:</span>
+        Survey on National Contributions to EOSC and Open Science {{year}} -
+        showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
+        OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+      </p>
     </div>
+  </div>
 
-    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent2>
+</div>
+</div>
+</div>
+
+<div #exportContent1>
+  @if (hasSurveyDataManagementData()) {
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
       <div class="uk-container">
-        <div class="uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
-          <div *ngIf="stackedColumnSeries1[0].data.length">
-            <div class="uk-card uk-card-default visualisation-card uk-card-body">
-              <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries1"
-                [yAxis]="yAxisTitle"
-                [title]="'Trend of Policies on Data Management among Research Performing Organisations in '+ countryName"
-                [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
-                [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [height]="700"
+        <div class="uk-margin-medium-top uk-animation-fade">
+          <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+            <h6>Learn More about National Data Service in {{ countryName }}</h6>
+            <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
+            <div class="uk-margin-medium-top">
+              <read-more [maxHeight]="300">
+                <div id="">
+                  <div class="uk-text-secondary">National Data Service</div>
+                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']) {
+                    <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']"
+                    class="uk-margin-medium-top"></div>
+                  } @else {
+                    <p>N/A</p>
+                  }
+                </div>
+              </read-more>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+<div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent2>
+  <div class="uk-container">
+    <div class="uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
+      @if (stackedColumnSeries1[0].data.length) {
+        <div>
+          <div class="uk-card uk-card-default visualisation-card uk-card-body">
+            <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries1"
+              [yAxis]="yAxisTitle"
+              [title]="'Trend of Policies on Data Management among Research Performing Organisations in '+ countryName"
+              [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
+              [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [height]="700"
                 [caption]="'<p class=\'uk-text-justify\'>The presented graph shows the adoption of Data Management policies among Research Performing Organisations (RPOs). It highlights the percentage of RPOs that have implemented policies mentioning Data Management, compared to those without such policies.</p>' +
                                 '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science for year '+year+'.</p>'">
               </app-stacked-column>
             </div>
           </div>
-          <div *ngIf="stackedColumnSeries2[0].data.length">
+}
+          @if (stackedColumnSeries2[0].data.length) {
+<div>
             <div class="uk-card uk-card-default visualisation-card uk-card-body">
               <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries2"
                 [yAxis]="yAxisTitle"
-                [title]="'Trend of Policies on Data Management among Research Funding Organisations in '+ countryName"
-                [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
-                [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [height]="700"
+              [title]="'Trend of Policies on Data Management among Research Funding Organisations in '+ countryName"
+              [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
+              [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle" [height]="700"
                 [caption]="'<p class=\'uk-text-justify\'>The presented graph shows Research Funding Organisations (RFOs) and their commitment to Data Management policies. It illustrates the percentage of RFOs that have implemented policies on Data Management, alongside those that have not.</p>' +
                                 '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science for year '+year+'.</p>'">
               </app-stacked-column>
             </div>
           </div>
+}
         </div>
       </div>
     </div>

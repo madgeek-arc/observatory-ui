@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { CommonModule } from "@angular/common";
+
 import { ResourceRegistryService } from "src/app/pages/explore/resources-registry/resource-registry.service";
 import { Document } from "src/app/domain/document";
 import { Model } from "src/survey-tool/catalogue-ui/domain/dynamic-form-model";
@@ -16,10 +16,9 @@ import { UntypedFormGroup } from "@angular/forms";
   templateUrl: './document-edit.component.html',
   standalone: true,
   imports: [
-    CommonModule,
     CatalogueUiModule,
-    SurveyToolModule,
-  ],
+    SurveyToolModule
+],
   providers: [WebsocketService]
 })
 

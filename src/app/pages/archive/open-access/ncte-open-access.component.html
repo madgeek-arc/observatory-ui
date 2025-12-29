@@ -2,8 +2,12 @@
   <div class="uk-container uk-container-expand">
 
     <div class="uk-card uk-card-default uk-card-body uk-margin-medium-top">
-      <div *ngIf="loadingPercentageTable" class="whiteFilm"><i class="fa fa-spinner fa-spin fa-2x loader" aria-hidden="true"></i></div>
-      <app-countries-table *ngIf="tablePercentageData" [countries]="tablePercentageData" [tableType]="'openAccess'"></app-countries-table>
+      @if (loadingPercentageTable) {
+        <div class="whiteFilm"><i class="fa fa-spinner fa-spin fa-2x loader" aria-hidden="true"></i></div>
+      }
+      @if (tablePercentageData) {
+        <app-countries-table [countries]="tablePercentageData" [tableType]="'openAccess'"></app-countries-table>
+      }
     </div>
 
   </div>

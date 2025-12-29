@@ -93,15 +93,19 @@
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="indicator-label">Total number of publications published in open access in {{ +year-1 }}</div>
-                <div *ngIf="!sumsArray[0]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="sumsArray[0]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[0]}}</strong></div>
+                @if (!sumsArray[0]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                }
+                @if (sumsArray[0]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[0]}}</strong></div>
+                }
               </div>
             </div>
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
               <app-bar-chart [mapData]="questionsDataArrayForBarChart[0]" [subTitle]="''" [dataSeriesSuffix]="''"
-                             title="Number of publications published in open access in {{ +year-1 }}"
-                             [caption]="'Data have been extracted from <a href=&quot;https://graph.openaire.eu/&quot; target=&quot;_blank&quot; style=&quot;color: #008792;&quot;>OpenAIRE Graph</a>'">
+                title="Number of publications published in open access in {{ +year-1 }}"
+                [caption]="'Data have been extracted from <a href=&quot;https://graph.openaire.eu/&quot; target=&quot;_blank&quot; style=&quot;color: #008792;&quot;>OpenAIRE Graph</a>'">
               </app-bar-chart>
             </div>
           </div>
@@ -128,15 +132,19 @@
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="indicator-label">Total number of open source software sets published in {{ +year-1 }}</div>
-                <div *ngIf="!sumsArray[1]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="sumsArray[1]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[1]}}</strong></div>
+                @if (!sumsArray[1]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                }
+                @if (sumsArray[1]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[1]}}</strong></div>
+                }
               </div>
             </div>
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
               <app-bar-chart [mapData]="questionsDataArrayForBarChart[1]" [subTitle]="''" [dataSeriesSuffix]="''"
-                             title="Number of open source software sets published in {{ +year-1 }}"
-                             [caption]="'Data have been extracted from <a href=&quot;https://graph.openaire.eu/&quot; target=&quot;_blank&quot; style=&quot;color: #008792;&quot;>OpenAIRE Graph</a>'">
+                title="Number of open source software sets published in {{ +year-1 }}"
+                [caption]="'Data have been extracted from <a href=&quot;https://graph.openaire.eu/&quot; target=&quot;_blank&quot; style=&quot;color: #008792;&quot;>OpenAIRE Graph</a>'">
               </app-bar-chart>
             </div>
           </div>
@@ -156,15 +164,19 @@
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="indicator-label">Total number of services offered through EOSC in {{ +year-1 }}</div>
-                <div *ngIf="!sumsArray[2]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="sumsArray[2]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[2]}}</strong></div>
+                @if (!sumsArray[2]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                }
+                @if (sumsArray[2]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[2]}}</strong></div>
+                }
               </div>
             </div>
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
               <app-bar-chart [mapData]="questionsDataArrayForBarChart[2]" [subTitle]="''" [dataSeriesSuffix]="''"
-                             title="Number of services offered through EOSC in {{ +year-1 }}"
-                             [caption]="'Data have been extracted from <a href=&quot;https://search.marketplace.eosc-portal.eu/search/service?q=*&quot; target=&quot;_blank&quot; style=&quot;color: #008792;&quot;>EOSC Portal</a>'">
+                title="Number of services offered through EOSC in {{ +year-1 }}"
+                [caption]="'Data have been extracted from <a href=&quot;https://search.marketplace.eosc-portal.eu/search/service?q=*&quot; target=&quot;_blank&quot; style=&quot;color: #008792;&quot;>EOSC Portal</a>'">
               </app-bar-chart>
             </div>
           </div>
@@ -181,8 +193,8 @@
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[3]" [toolTipData]="toolTipData[3]"
-                                       title="Number of educational curricula with an Open Science dimension offered in {{ +year-1 }}"
-                                       [subtitle]="" [dataSeriesSuffix]="''" [participatingCountries]="countriesArray">
+              title="Number of educational curricula with an Open Science dimension offered in {{ +year-1 }}"
+              [subtitle]="" [dataSeriesSuffix]="''" [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
           </div>
 
@@ -190,14 +202,18 @@
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="indicator-label">Total number of educational curricula with an Open Science dimension offered in {{ +year-1 }}</div>
-                <div *ngIf="!sumsArray[3]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="sumsArray[3]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[3]}}</strong></div>
+                @if (!sumsArray[3]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                }
+                @if (sumsArray[3]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[3]}}</strong></div>
+                }
               </div>
             </div>
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
               <app-bar-chart [mapData]="questionsDataArrayForBarChart[3]" [subTitle]="''" [dataSeriesSuffix]="''"
-                             title="Number of educational curricula with an Open Science dimension offered in {{ +year-1 }}">
+                title="Number of educational curricula with an Open Science dimension offered in {{ +year-1 }}">
               </app-bar-chart>
             </div>
           </div>
@@ -218,15 +234,19 @@
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="indicator-label">Total number of signatories of the Agreement on Reforming Research Assessment</div>
-                <div *ngIf="!sumsArray[4]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="sumsArray[4]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[4]}}</strong></div>
+                @if (!sumsArray[4]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                }
+                @if (sumsArray[4]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[4]}}</strong></div>
+                }
               </div>
             </div>
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
               <app-bar-chart [mapData]="questionsDataArrayForBarChart[4]" [subTitle]="''" [dataSeriesSuffix]="''"
-                             [title]="'Number of signatories of the Agreement on Reforming Research Assessment'"
-                             [caption]="'Data have been extracted from <a href=&quot;https://coara.eu/agreement/signatories&quot; target=&quot;_blank&quot; style=&quot;color: #008792;&quot;>COARA</a>'">
+                [title]="'Number of signatories of the Agreement on Reforming Research Assessment'"
+                [caption]="'Data have been extracted from <a href=&quot;https://coara.eu/agreement/signatories&quot; target=&quot;_blank&quot; style=&quot;color: #008792;&quot;>COARA</a>'">
               </app-bar-chart>
             </div>
           </div>
@@ -236,8 +256,8 @@
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
             <app-highcharts-color-axis [mapData]="questionsDataArray[5]" [toolTipData]="toolTipData[5]"
-                                       title="Number of projects with a citizen science dimension started in {{ +year-1 }}"
-                                       [subtitle]="" [dataSeriesSuffix]="''" [participatingCountries]="countriesArray">
+              title="Number of projects with a citizen science dimension started in {{ +year-1 }}"
+              [subtitle]="" [dataSeriesSuffix]="''" [participatingCountries]="countriesArray">
             </app-highcharts-color-axis>
           </div>
 
@@ -245,14 +265,18 @@
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="indicator-label">Total number of projects with a citizen science dimension started in {{ +year-1 }}</div>
-                <div *ngIf="!sumsArray[5]" class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
-                <div *ngIf="sumsArray[5]" class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[5]}}</strong></div>
+                @if (!sumsArray[5]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
+                }
+                @if (sumsArray[5]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[5]}}</strong></div>
+                }
               </div>
             </div>
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
               <app-bar-chart [mapData]="questionsDataArrayForBarChart[5]" [subTitle]="''" [dataSeriesSuffix]="''"
-                             title="Number of of projects with a citizen science dimension started in {{ +year-1 }}">
+                title="Number of of projects with a citizen science dimension started in {{ +year-1 }}">
               </app-bar-chart>
             </div>
           </div>

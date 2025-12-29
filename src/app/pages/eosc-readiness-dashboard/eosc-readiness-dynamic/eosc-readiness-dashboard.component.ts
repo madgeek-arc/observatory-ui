@@ -125,7 +125,7 @@ import {ActivatedRoute, Router, RouterLink, RouterOutlet} from "@angular/router"
 import { DashboardSideMenuComponent, MenuItem, MenuSection} from "../../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
 import { DashboardSideMenuService} from "../../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
 import { FormsModule} from "@angular/forms";
-import { NgIf} from "@angular/common";
+
 import {IconsService} from "../../../../survey-tool/app/shared/icons/icons.service";
 import {exploreIcons} from "../../explore/explore.icons";
 

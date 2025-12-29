@@ -10,7 +10,7 @@ ExportData(Highcharts);
 
 @Component({
     selector: 'app-column-ranges-chart',
-    template: '<div *ngIf="chartId" [id]="chartId" class="container"></div>',
+    template: '@if (chartId) {<div [id]="chartId" class="container"></div>}',
     styles: [`.container {display: block; width: 100%; height: 100%; }`],
     standalone: false
 })

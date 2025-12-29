@@ -105,401 +105,481 @@
           <div class="uk-navbar-right">
             <ul class="uk-navbar-nav user_actions">
               <li>
-                <a *ngIf="userInfo" class="uk-icon" aria-expanded="false">
-                  <div class="uk-flex">
-                    <div class="uk-padding-remove uk-flex uk-flex-middle">
-                      <span *ngIf="currentCoordinator || currentStakeholder || currentAdministrator" class="">
-                        {{(currentStakeholder?.name ? currentStakeholder.name : (currentCoordinator?.name ? currentCoordinator.name : currentAdministrator.name))}}
-                      </span>
-                    </div>
-                    <div *ngIf="!userInfo.user.profile?.picture; else elseBlock">
-                      <svg height="60" width="60">
-                        <circle cx="30" cy="30" r="20" stroke-width="1"></circle>
-                        <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%">{{parseUsername()}}</text>
-                        <circle class="notification" *ngIf="unreadMessages.totalUnread > 0" cx="45" cy="15" r="7" stroke-width="1"></circle>
-                        <text class="notification" *ngIf="unreadMessages.totalUnread > 0" x="45" y="19" text-anchor="middle">
-                          {{unreadMessages?.totalUnread.toString()}}
-                        </text>
-                      </svg>
-                    </div>
-                    <ng-template #elseBlock>
-                      <svg height="60" width="60">
-                        <image x="10" y="10" [attr.href]="'data:image;base64,' + userInfo.user.profile.picture"
-                          height="40" width="40" clip-path="inset(0% round 20px)" />
-                        <!--                        For messages-->
-                        <circle class="notification" *ngIf="unreadMessages?.totalUnread > 0" cx="45" cy="15" r="7" stroke-width="1"></circle>
-                        <text class="notification" *ngIf="unreadMessages?.totalUnread > 0" x="45" y="19" text-anchor="middle">
-                          {{unreadMessages?.totalUnread.toString()}}
-                        </text>
-                      </svg>
-                    </ng-template>
-                  </div>
-                </a>
-                <div *ngIf="userInfo" class="uk-padding-remove-horizontal uk-dropdown"
-                  data-uk-dropdown="mode: click; offset: -2; delay-hide: 0; flip: false; pos: bottom-right">
-                  <ul class="uk-nav uk-dropdown-nav">
-                    <li class="user-info">
-                      <div>
-                        <div class="uk-text-bold">{{userInfo.user.fullname}}</div>
-                        <div class="uk-text-meta">{{userInfo.user.email}}</div>
+                @if (userInfo) {
+                  <a class="uk-icon" aria-expanded="false">
+                    <div class="uk-flex">
+                      <div class="uk-padding-remove uk-flex uk-flex-middle">
+                        @if (currentCoordinator || currentStakeholder || currentAdministrator) {
+                          <span class="">
+                            {{(currentStakeholder?.name ? currentStakeholder.name : (currentCoordinator?.name ? currentCoordinator.name : currentAdministrator.name))}}
+                          </span>
+                        }
                       </div>
-                    </li>
-                    <hr *ngIf="userInfo.stakeholders?.length > 0">
-                    <li class="groups" *ngFor="let stakeholder of userInfo.stakeholders">
-                      <a (click)="setGroup(stakeholder)">
-                        <div class="uk-flex uk-flex-middle">
-                          <span class="material-icons uk-margin-right">group</span>
-                          {{stakeholder.name + (stakeholder.type === 'association' ? (', EOSC Association '+
-                          (stakeholder.country ? '(' + stakeholder.country + ')': '')) : '') }}
-                          <!-- for messages -->
-                          <svg *ngIf="showUnread(stakeholder.id)" height="20" width="20" class="uk-margin-xsmall-left">
-                            <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1"></circle>
-                            <text class="notification" x="7.2" y="13" text-anchor="middle">
-                              {{showUnread(stakeholder.id)}}
-                            </text>
-                          </svg>
-                        </div>
-                      </a>
-                    </li>
-                    <hr *ngIf="userInfo.coordinators?.length > 0">
-                    <li class="groups" *ngFor="let coordinator of userInfo.coordinators">
-                      <a (click)="setCoordinator(coordinator)">
-                        <div class="uk-flex uk-flex-middle">
-                          <span class="material-icons uk-margin-right">group</span>{{coordinator.name}}
-                          <!-- For messages -->
-                          <svg *ngIf="showUnread(coordinator.id)" height="20" width="20" class="uk-margin-xsmall-left">
-                            <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1"></circle>
-                            <text class="notification" x="7.2" y="13" text-anchor="middle">
-                              {{showUnread(coordinator.id)}}
-                            </text>
-                          </svg>
-                        </div>
-                      </a>
-                    </li>
-                    <ng-container *ngIf="userInfo.administrators?.length > 0">
-                      <hr>
-                      <li *ngFor="let admin of userInfo.administrators">
-                        <a (click)="setAdministrator(admin)">
-                          <div class="uk-flex uk-flex-middle">
-                            <span class="material-icons uk-margin-right">shield</span>{{admin.name}}
-                            <!-- For messages -->
-                            <svg *ngIf="showUnread(admin.id)" height="20" width="20" class="uk-margin-xsmall-left">
-                              <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1"></circle>
-                              <text class="notification" x="7.2" y="13" text-anchor="middle">
-                                {{showUnread(admin.id)}}
+                      @if (!userInfo.user.profile?.picture) {
+                        <div>
+                          <svg height="60" width="60">
+                            <circle cx="30" cy="30" r="20" stroke-width="1"></circle>
+                            <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%">{{parseUsername()}}</text>
+                            @if (unreadMessages.totalUnread > 0) {
+                              <circle class="notification" cx="45" cy="15" r="7" stroke-width="1"></circle>
+                            }
+                            @if (unreadMessages.totalUnread > 0) {
+                              <text class="notification" x="45" y="19" text-anchor="middle">
+                                {{unreadMessages?.totalUnread.toString()}}
                               </text>
-                            </svg>
+                            }
+                          </svg>
+                        </div>
+                      } @else {
+                        <svg height="60" width="60">
+                          <image x="10" y="10" [attr.href]="'data:image;base64,' + userInfo.user.profile.picture"
+                            height="40" width="40" clip-path="inset(0% round 20px)" />
+                          <!--                        For messages-->
+                          @if (unreadMessages?.totalUnread > 0) {
+                            <circle class="notification" cx="45" cy="15" r="7" stroke-width="1"></circle>
+                          }
+                          @if (unreadMessages?.totalUnread > 0) {
+                            <text class="notification" x="45" y="19" text-anchor="middle">
+                              {{unreadMessages?.totalUnread.toString()}}
+                            </text>
+                          }
+                        </svg>
+                      }
+                    </div>
+                  </a>
+                }
+                @if (userInfo) {
+                  <div class="uk-padding-remove-horizontal uk-dropdown"
+                    data-uk-dropdown="mode: click; offset: -2; delay-hide: 0; flip: false; pos: bottom-right">
+                    <ul class="uk-nav uk-dropdown-nav">
+                      <li class="user-info">
+                        <div>
+                          <div class="uk-text-bold">{{userInfo.user.fullname}}</div>
+                          <div class="uk-text-meta">{{userInfo.user.email}}</div>
+                        </div>
+                      </li>
+                      @if (userInfo.stakeholders?.length > 0) {
+                        <hr>
+                        }
+                        @for (stakeholder of userInfo.stakeholders; track stakeholder) {
+                          <li class="groups">
+                            <a (click)="setGroup(stakeholder)">
+                              <div class="uk-flex uk-flex-middle">
+                                <span class="material-icons uk-margin-right">group</span>
+                                {{stakeholder.name + (stakeholder.type === 'association' ? (', EOSC Association '+
+                                (stakeholder.country ? '(' + stakeholder.country + ')': '')) : '') }}
+                                <!-- for messages -->
+                                @if (showUnread(stakeholder.id)) {
+                                  <svg height="20" width="20" class="uk-margin-xsmall-left">
+                                    <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1"></circle>
+                                    <text class="notification" x="7.2" y="13" text-anchor="middle">
+                                      {{showUnread(stakeholder.id)}}
+                                    </text>
+                                  </svg>
+                                }
+                              </div>
+                            </a>
+                          </li>
+                        }
+                        @if (userInfo.coordinators?.length > 0) {
+                          <hr>
+                          }
+                          @for (coordinator of userInfo.coordinators; track coordinator) {
+                            <li class="groups">
+                              <a (click)="setCoordinator(coordinator)">
+                                <div class="uk-flex uk-flex-middle">
+                                  <span class="material-icons uk-margin-right">group</span>{{coordinator.name}}
+                                  <!-- For messages -->
+                                  @if (showUnread(coordinator.id)) {
+                                    <svg height="20" width="20" class="uk-margin-xsmall-left">
+                                      <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1"></circle>
+                                      <text class="notification" x="7.2" y="13" text-anchor="middle">
+                                        {{showUnread(coordinator.id)}}
+                                      </text>
+                                    </svg>
+                                  }
+                                </div>
+                              </a>
+                            </li>
+                          }
+                          @if (userInfo.administrators?.length > 0) {
+                            <hr>
+                              @for (admin of userInfo.administrators; track admin) {
+                                <li>
+                                  <a (click)="setAdministrator(admin)">
+                                    <div class="uk-flex uk-flex-middle">
+                                      <span class="material-icons uk-margin-right">shield</span>{{admin.name}}
+                                      <!-- For messages -->
+                                      @if (showUnread(admin.id)) {
+                                        <svg height="20" width="20" class="uk-margin-xsmall-left">
+                                          <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1"></circle>
+                                          <text class="notification" x="7.2" y="13" text-anchor="middle">
+                                            {{showUnread(admin.id)}}
+                                          </text>
+                                        </svg>
+                                      }
+                                    </div>
+                                  </a>
+                                </li>
+                              }
+                            }
+                            @if (superAdmin) {
+                              <hr>
+                              }
+                              @if (superAdmin) {
+                                <li class="groups">
+                                  <a [routerLink]="['/reportExport']">
+                                    <div class="uk-flex uk-flex-middle">
+                                      <span class="material-icons uk-margin-right">edit_note</span>Generate report
+                                    </div>
+                                  </a>
+                                </li>
+                              }
+                              @if (showArchive) {
+                                <hr>
+                                }
+                                @if (showArchive) {
+                                  <li class="groups">
+                                    <a class="" style="cursor: default; pointer-events: none">
+                                      <div class="uk-flex uk-flex-middle">
+                                        <span class="material-icons uk-margin-right">space_dashboard</span>
+                                        <span class="uk-text-uppercase uk-text-bold">Other dashboards</span>
+                                      </div>
+                                    </a>
+                                  </li>
+                                }
+                                <!--                    <li *ngIf="showArchive" class="uk-margin-small-left">-->
+                                <!--                      <a class="" [routerLink]="['/country-pages']" aria-expanded="false">-->
+                                <!--                        <span class="uk-text-small uk-margin-medium-left">Country pages</span>-->
+                              <!--                      </a>-->
+                            <!--                    </li>-->
+                            @if (showArchive) {
+                              <li class="uk-margin-small-left">
+                                <a class="" [routerLink]="['/eoscreadiness']" aria-expanded="false">
+                                  <span class="uk-text-small uk-margin-medium-left"> EOSC Readiness</span>
+                                </a>
+                              </li>
+                            }
+                            <hr>
+                              <li>
+                                <a [routerLink]="['/profile']">
+                                  <div class="uk-flex uk-flex-middle">
+                                    <span class="material-icons uk-margin-right">account_circle</span>My Profile
+                                  </div>
+                                </a>
+                              </li>
+                              <hr>
+                                <li>
+                                  <a id="logout" (click)="logout()">
+                                    <div class="uk-flex uk-flex-middle">
+                                      <span class="material-icons uk-margin-right">logout</span>Log out
+                                    </div>
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          }
+                        </li>
+                        @if (!userInfo) {
+                          <li class="uk-animation-fade">
+                            <a class="uk-button uk-button-link" (click)="logInButton()">Login</a>
+                          </li>
+                        }
+                      </ul>
+                    </div>
+
+                  </nav>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="main-menu-small" class="tm-header uk-hidden@m tm-header-transparent">
+              <nav class="uk-navbar uk-navbar-container" data-uk-navbar>
+                <div class="uk-navbar-left">
+                  <!-- Hamburger button -->
+                  <a class="uk-navbar-toggle" data-uk-toggle="target: #tm-mobile" href="#">
+                    <span data-uk-navbar-toggle-icon></span>
+                  </a>
+                </div>
+
+                <div class="uk-navbar-center">
+                  <a class="logo" [routerLink]="['home']">
+                    <img src="../../../../assets/logo/svg/EOSC%20OPEN%20SCIENCE%20OBSERVATORY%20LOGO.svg" width="100px" alt="EOSC Open Science Observatory" />
+                  </a>
+                </div>
+
+                <div class="uk-navbar-right">
+                  <div>
+                    <ul class="uk-navbar-nav user_actions">
+                      @if (!userInfo) {
+                        <li>
+                          <a class="" aria-label="Login" (click)="logInButton()">
+                            <span class="material-symbols-outlined">person</span>
+                          </a>
+                        </li>
+                      }
+                      @if (userInfo) {
+                        <li>
+                          @if (userInfo) {
+                            <a class="uk-icon" aria-expanded="false" href=" #offcanvas-account" data-uk-toggle>
+                              <div class="uk-flex">
+                                <!--                  fixme selected stakeholder not show for now on the mobile menu-->
+                                <!--                  <div class="uk-padding-remove uk-flex uk-flex-middle">-->
+                                <!--                    &lt;!&ndash;                      <span class="uk-text-small uk-text-bold uk-width-1-1">{{userInfo.user.fullname}}</span>&ndash;&gt;-->
+                                <!--                    <span *ngIf="currentCoordinator || currentStakeholder || currentAdministrator" class="">-->
+                                <!--                        {{(currentStakeholder?.name ? currentStakeholder.name : (currentCoordinator?.name ?-->
+                                <!--                      currentCoordinator.name : currentAdministrator.name))}}-->
+                              <!--                      </span>-->
+                            <!--                  </div>-->
+                            @if (!userInfo.user.profile?.picture) {
+                              <div>
+                                <svg height="60" width="60">
+                                  <circle cx="30" cy="30" r="20" stroke-width="1"></circle>
+                                  <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%">{{parseUsername()}}</text>
+                                  @if (unreadMessages.totalUnread > 0) {
+                                    <circle class="notification" cx="45" cy="15" r="7" stroke-width="1"></circle>
+                                  }
+                                  @if (unreadMessages.totalUnread > 0) {
+                                    <text class="notification" x="45" y="19" text-anchor="middle">
+                                      {{unreadMessages?.totalUnread.toString()}}
+                                    </text>
+                                  }
+                                </svg>
+                              </div>
+                            } @else {
+                              <svg height="60" width="60">
+                                <image x="10" y="10" [attr.href]="'data:image;base64,' + userInfo.user.profile.picture" height="40" width="40" clip-path="inset(0% round 20px)" />
+                                <!--                        For messages-->
+                                @if (unreadMessages?.totalUnread > 0) {
+                                  <circle class="notification" cx="45" cy="15" r="7" stroke-width="1"></circle>
+                                }
+                                @if (unreadMessages?.totalUnread > 0) {
+                                  <text class="notification" x="45" y="19" text-anchor="middle">
+                                    {{unreadMessages?.totalUnread.toString()}}
+                                  </text>
+                                }
+                              </svg>
+                            }
                           </div>
                         </a>
-                      </li>
-                    </ng-container>
-
-                    <hr *ngIf="superAdmin">
-                    <li class="groups" *ngIf="superAdmin">
-                      <a [routerLink]="['/reportExport']">
-                        <div class="uk-flex uk-flex-middle">
-                          <span class="material-icons uk-margin-right">edit_note</span>Generate report
-                        </div>
-                      </a>
-                    </li>
-                    <hr *ngIf="showArchive">
-                    <li *ngIf="showArchive" class="groups">
-                      <a class="" style="cursor: default; pointer-events: none">
-                        <div class="uk-flex uk-flex-middle">
-                          <span class="material-icons uk-margin-right">space_dashboard</span>
-                          <span class="uk-text-uppercase uk-text-bold">Other dashboards</span>
-                        </div>
-                      </a>
-                    </li>
-<!--                    <li *ngIf="showArchive" class="uk-margin-small-left">-->
-<!--                      <a class="" [routerLink]="['/country-pages']" aria-expanded="false">-->
-<!--                        <span class="uk-text-small uk-margin-medium-left">Country pages</span>-->
-<!--                      </a>-->
-<!--                    </li>-->
-                    <li *ngIf="showArchive" class="uk-margin-small-left">
-                      <a class="" [routerLink]="['/eoscreadiness']" aria-expanded="false">
-                        <span class="uk-text-small uk-margin-medium-left"> EOSC Readiness</span>
-                      </a>
-                    </li>
-                    <hr>
-                    <li>
-                      <a [routerLink]="['/profile']">
-                        <div class="uk-flex uk-flex-middle">
-                          <span class="material-icons uk-margin-right">account_circle</span>My Profile
-                        </div>
-                      </a>
-                    </li>
-                    <hr>
-                    <li>
-                      <a id="logout" (click)="logout()">
-                        <div class="uk-flex uk-flex-middle">
-                          <span class="material-icons uk-margin-right">logout</span>Log out
-                        </div>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li *ngIf="!userInfo" class="uk-animation-fade">
-                <a class="uk-button uk-button-link" (click)="logInButton()">Login</a>
-              </li>
-            </ul>
-          </div>
-
-        </nav>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- Mobile Menu -->
-  <div id="main-menu-small" class="tm-header uk-hidden@m tm-header-transparent">
-    <nav class="uk-navbar uk-navbar-container" data-uk-navbar>
-      <div class="uk-navbar-left">
-        <!-- Hamburger button -->
-        <a class="uk-navbar-toggle" data-uk-toggle="target: #tm-mobile" href="#">
-          <span data-uk-navbar-toggle-icon></span>
-        </a>
-      </div>
-
-      <div class="uk-navbar-center">
-        <a class="logo" [routerLink]="['home']">
-          <img src="../../../../assets/logo/svg/EOSC%20OPEN%20SCIENCE%20OBSERVATORY%20LOGO.svg" width="100px" alt="EOSC Open Science Observatory" />
-        </a>
-      </div>
-
-      <div class="uk-navbar-right">
-        <div>
-          <ul class="uk-navbar-nav user_actions">
-            <li *ngIf="!userInfo">
-              <a class="" aria-label="Login" (click)="logInButton()">
-                <span class="material-symbols-outlined">person</span>
-              </a>
-            </li>
-            <li *ngIf="userInfo">
-              <a *ngIf="userInfo" class="uk-icon" aria-expanded="false" href=" #offcanvas-account" data-uk-toggle>
-                <div class="uk-flex">
-<!--                  fixme selected stakeholder not show for now on the mobile menu-->
-<!--                  <div class="uk-padding-remove uk-flex uk-flex-middle">-->
-<!--                    &lt;!&ndash;                      <span class="uk-text-small uk-text-bold uk-width-1-1">{{userInfo.user.fullname}}</span>&ndash;&gt;-->
-<!--                    <span *ngIf="currentCoordinator || currentStakeholder || currentAdministrator" class="">-->
-<!--                        {{(currentStakeholder?.name ? currentStakeholder.name : (currentCoordinator?.name ?-->
-<!--                      currentCoordinator.name : currentAdministrator.name))}}-->
-<!--                      </span>-->
-<!--                  </div>-->
-                  <div *ngIf="!userInfo.user.profile?.picture; else elseBlock">
-                    <svg height="60" width="60">
-                      <circle cx="30" cy="30" r="20" stroke-width="1"></circle>
-                      <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%">{{parseUsername()}}</text>
-                      <circle class="notification" *ngIf="unreadMessages.totalUnread > 0" cx="45" cy="15" r="7" stroke-width="1"></circle>
-                      <text class="notification" *ngIf="unreadMessages.totalUnread > 0" x="45" y="19" text-anchor="middle">
-                        {{unreadMessages?.totalUnread.toString()}}
-                      </text>
-                    </svg>
-                  </div>
-                  <ng-template #elseBlock>
-                    <svg height="60" width="60">
-                      <image x="10" y="10" [attr.href]="'data:image;base64,' + userInfo.user.profile.picture" height="40" width="40" clip-path="inset(0% round 20px)" />
-                      <!--                        For messages-->
-                      <circle class="notification" *ngIf="unreadMessages?.totalUnread > 0" cx="45" cy="15" r="7" stroke-width="1"></circle>
-                      <text class="notification" *ngIf="unreadMessages?.totalUnread > 0" x="45" y="19" text-anchor="middle">
-                        {{unreadMessages?.totalUnread.toString()}}
-                      </text>
-                    </svg>
-                  </ng-template>
-                </div>
-              </a>
-<!--              <a class="" aria-label="Login" href=" #offcanvas-account" uk-mobile-toggle>-->
-<!--                <span class="material-symbols-outlined">person</span>-->
-<!--              </a>-->
-              <!-- Offcanvas for user login -->
-              <div id="offcanvas-account" data-uk-offcanvas="overlay: true; flip: true">
-                <div class="uk-offcanvas-bar uk-width-expand">
-
-                  <button class="uk-offcanvas-close" type="button" data-uk-close></button>
-
-                  <div *ngIf="userInfo">
-                    <h4 class="uk-text-bold uk-margin-small-bottom">{{ userInfo.user.fullname }}</h4>
-                    <div class="uk-text-meta uk-margin-small-bottom">{{ userInfo.user.email }}</div>
-                    <hr>
-
-                    <!--Stakeholders-->
-                    <div *ngIf="userInfo.stakeholders?.length > 0">
-                      <h5 class="uk-text-uppercase uk-text-bold">Stakeholders</h5>
-                      <ul class="uk-nav uk-nav-default">
-                        <li *ngFor="let stakeholder of userInfo.stakeholders">
-                          <a (click)="setGroup(stakeholder)">
-                            {{ stakeholder.name }}
-                            <svg *ngIf="showUnread(stakeholder.id)" height="20" width="20" style="margin-left: 8px;">
-                              <circle class="notification" cx="10" cy="10" r="7" stroke-width="1" fill="#E53935" stroke="E53935"></circle>
-                              <text class="notification" x="10" y="14" text-anchor="middle" font-size="10px" fill="#FFFFFF">
-                                {{ showUnread(stakeholder.id) }}
-                              </text>
-                            </svg>
-                          </a>
-                        </li>
-                      </ul>
-                      <hr>
+                      }
+                      <!--              <a class="" aria-label="Login" href=" #offcanvas-account" uk-mobile-toggle>-->
+                      <!--                <span class="material-symbols-outlined">person</span>-->
+                    <!--              </a>-->
+                    <!-- Offcanvas for user login -->
+                    <div id="offcanvas-account" data-uk-offcanvas="overlay: true; flip: true">
+                      <div class="uk-offcanvas-bar uk-width-expand">
+                        <button class="uk-offcanvas-close" type="button" data-uk-close></button>
+                        @if (userInfo) {
+                          <div>
+                            <h4 class="uk-text-bold uk-margin-small-bottom">{{ userInfo.user.fullname }}</h4>
+                            <div class="uk-text-meta uk-margin-small-bottom">{{ userInfo.user.email }}</div>
+                            <hr>
+                              <!--Stakeholders-->
+                              @if (userInfo.stakeholders?.length > 0) {
+                                <div>
+                                  <h5 class="uk-text-uppercase uk-text-bold">Stakeholders</h5>
+                                  <ul class="uk-nav uk-nav-default">
+                                    @for (stakeholder of userInfo.stakeholders; track stakeholder) {
+                                      <li>
+                                        <a (click)="setGroup(stakeholder)">
+                                          {{ stakeholder.name }}
+                                          @if (showUnread(stakeholder.id)) {
+                                            <svg height="20" width="20" style="margin-left: 8px;">
+                                              <circle class="notification" cx="10" cy="10" r="7" stroke-width="1" fill="#E53935" stroke="E53935"></circle>
+                                              <text class="notification" x="10" y="14" text-anchor="middle" font-size="10px" fill="#FFFFFF">
+                                                {{ showUnread(stakeholder.id) }}
+                                              </text>
+                                            </svg>
+                                          }
+                                        </a>
+                                      </li>
+                                    }
+                                  </ul>
+                                  <hr>
+                                  </div>
+                                }
+                                <!--Coordinators-->
+                                @if (userInfo.coordinators?.length > 0) {
+                                  <div>
+                                    <h5 class="uk-text-uppercase uk-text-bold">Coordinators</h5>
+                                    <ul class="uk-nav uk-nav-default">
+                                      @for (coordinator of userInfo.coordinators; track coordinator) {
+                                        <li>
+                                          <a (click)="setCoordinator(coordinator)">
+                                            {{ coordinator.name }}
+                                            @if (showUnread(coordinator.id)) {
+                                              <svg height="20" width="20" style="margin-left: 8px;">
+                                                <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1">
+                                                  <text class="notification" x="7.2" y="13" text-anchor="middle">
+                                                    {{ showUnread(coordinator.id) }}
+                                                  </text>
+                                                </circle>
+                                              </svg>
+                                            }
+                                          </a>
+                                        </li>
+                                      }
+                                    </ul>
+                                    <hr>
+                                    </div>
+                                  }
+                                  <!--Administrators-->
+                                  @if (userInfo.administrators?.length > 0) {
+                                    <div>
+                                      <h5 class="uk-text-uppercase uk-text-bold">Administrators</h5>
+                                      <ul class="uk-nav uk-nav-default">
+                                        @for (admin of userInfo.administrators; track admin) {
+                                          <li>
+                                            <a (click)="setAdministrator(admin)">
+                                              {{ admin.name }}
+                                              @if (showUnread(admin.id)) {
+                                                <svg height="20" width="20" style="margin-left: 8px;">
+                                                  <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1"></circle>
+                                                  <text class="notification" x="7.2" y="13" text-anchor="middle">
+                                                    {{ showUnread(admin.id) }}
+                                                  </text>
+                                                </svg>
+                                              }
+                                            </a>
+                                          </li>
+                                        }
+                                      </ul>
+                                      <hr>
+                                      </div>
+                                    }
+                                    <!--Archive Links-->
+                                    @if (showArchive) {
+                                      <div>
+                                        <h5 class="uk-text-uppercase uk-text-bold">Other Dashboards</h5>
+                                        <ul class="uk-nav uk-nav-default">
+                                          <li>
+                                            <a [routerLink]="['/country_selector']" (click)="closeOffCanvas('offcanvas-account')">
+                                              National Contributions by country
+                                            </a>
+                                          </li>
+                                          <li>
+                                            <a [routerLink]="['/archive']" (click)="closeOffCanvas('offcanvas-account')">
+                                              Archive 2021
+                                            </a>
+                                          </li>
+                                        </ul>
+                                        <hr>
+                                        </div>
+                                      }
+                                      <!-- My Profile-->
+                                      <ul class="uk-nav uk-nav-default">
+                                        <li>
+                                          <a [routerLink]="['/profile']" (click)="closeOffCanvas('offcanvas-account')">
+                                            <span class="material-icons uk-margin-right">account_circle</span>My Profile
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a id="logout" (click)="logout()">
+                                            <span class="material-icons uk-margin-right">logout</span>Log out
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  }
+                                  @if (!userInfo) {
+                                    <div>
+                                      <button class="uk-button uk-button-primary uk-width-1-1" (click)="logInButton()">Login</button>
+                                    </div>
+                                  }
+                                </div>
+                              </div>
+                            </li>
+                          }
+                        </ul>
+                      </div>
                     </div>
-                    <!--Coordinators-->
-                    <div *ngIf="userInfo.coordinators?.length > 0">
-                      <h5 class="uk-text-uppercase uk-text-bold">Coordinators</h5>
-                      <ul class="uk-nav uk-nav-default">
-                        <li *ngFor="let coordinator of userInfo.coordinators">
-                          <a (click)="setCoordinator(coordinator)">
-                            {{ coordinator.name }}
-                            <svg *ngIf="showUnread(coordinator.id)" height="20" width="20" style="margin-left: 8px;">
-                              <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1">
-                                <text class="notification" x="7.2" y="13" text-anchor="middle">
-                                  {{ showUnread(coordinator.id) }}
-                                </text>
-                              </circle>
-                            </svg>
+                  </nav>
+
+                  <!-- Offcanvas Menu -->
+                  <div id="tm-mobile" class="uk-offcanvas uk-offcanvas-overlay" data-uk-offcanvas="mode: none; overlay: true">
+                    <div class="uk-offcanvas-bar uk-padding-remove uk-offcanvas-none" style="width: 100%;">
+
+                      <!-- Offcanvas navbar -->
+                      <nav class="uk-navbar-container uk-background-default uk-sticky uk-sticky-fixed" data-uk-navbar>
+
+                        <div class="uk-navbar-left">
+                          <button class="uk-navbar-toggle uk-icon uk-close" (click)="closeOffCanvas('tm-mobile')">
+                            <span class="uk-display-inline-block">
+                              <span class="material-icons" style="font-size: 30px;">close</span>
+                            </span>
+                          </button>
+                        </div>
+
+                        <div class="uk-navbar-center">
+                          <a class="logo" [routerLink]="['home']">
+                            <img src="../../../../assets/logo/svg/EOSC%20OPEN%20SCIENCE%20OBSERVATORY%20LOGO.svg" width="100px" alt="EOSC Open Science Observatory" />
                           </a>
+                        </div>
+
+                      </nav>
+
+                      <div class="uk-sticky-placeholder" style="height: 65px; width: 390px; margin: 0;"></div>
+
+                      <!-- Menu items -->
+                      <ul class="uk-nav uk-nav-primary uk-list uk-list-large" data-uk-nav #mobileNav>
+                        <li class="uk-parent" [routerLinkActive]="'uk-active'">
+                          <a href="#">About<span class="uk-nav-parent-icon"></span></a>
+                          <ul class="uk-nav-sub">
+                            <li [routerLinkActive]="'uk-active'">
+                              <a [routerLink]="['/about/eosc-observatory']"  (click)="closeOffCanvas('tm-mobile')">About EOSC Observatory</a>
+                            </li>
+                            <li [routerLinkActive]="'uk-active'">
+                              <a [routerLink]="['/about/eosc-track']" (click)="closeOffCanvas('tm-mobile')">About EOSC Track</a>
+                            </li>
+                            <li [routerLinkActive]="'uk-active'">
+                              <a [routerLink]="['/about/news']" (click)="closeOffCanvas('tm-mobile')">News</a>
+                            </li>
+                          </ul>
                         </li>
+
+                        <li [routerLinkActive]="'uk-active'"><a [routerLink]="['/explore']" (click)="closeOffCanvas('tm-mobile')">Explore</a></li>
+                        <li class="uk-parent" [routerLinkActive]="'uk-active'">
+                          <a href="#">Resources<span class="uk-nav-parent-icon"></span></a>
+                          <ul class="uk-nav-sub">
+                            <li [routerLinkActive]="'uk-active'">
+                              <a [routerLink]="['/resources/data-workflow-and-methodology']" (click)="closeOffCanvas('tm-mobile')">Data Workflow & Methodology</a>
+                            </li>
+                            <li [routerLinkActive]="'uk-active'">
+                              <a [routerLink]="['/resources/publications-and-deliverables']" (click)="closeOffCanvas('tm-mobile')">Publications & Deliverables</a>
+                            </li>
+                            <li [routerLinkActive]="'uk-active'">
+                              <a [routerLink]="['/resources/data-download']" (click)="closeOffCanvas('tm-mobile')">Data Download</a>
+                            </li>
+                            <li [routerLinkActive]="'uk-active'">
+                              <a [routerLink]="['/resources/support-and-faq']" (click)="closeOffCanvas('tm-mobile')">Support & FAQ</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li [routerLinkActive]="'uk-active'"><a [routerLink]="['/contact']" (click)="closeOffCanvas('tm-mobile')">Contact</a></li>
                       </ul>
-                      <hr>
+
                     </div>
-                    <!--Administrators-->
-                    <div *ngIf="userInfo.administrators?.length > 0">
-                      <h5 class="uk-text-uppercase uk-text-bold">Administrators</h5>
-                      <ul class="uk-nav uk-nav-default">
-                        <li *ngFor="let admin of userInfo.administrators">
-                          <a (click)="setAdministrator(admin)">
-                            {{ admin.name }}
-                            <svg *ngIf="showUnread(admin.id)" height="20" width="20" style="margin-left: 8px;">
-                              <circle class="notification" cx="7.5" cy="10" r="7" stroke-width="1"></circle>
-                              <text class="notification" x="7.2" y="13" text-anchor="middle">
-                                {{ showUnread(admin.id) }}
-                              </text>
-                            </svg>
-                          </a>
-                        </li>
-                      </ul>
-                      <hr>
-                    </div>
-                    <!--Archive Links-->
-                    <div *ngIf="showArchive">
-                      <h5 class="uk-text-uppercase uk-text-bold">Other Dashboards</h5>
-                      <ul class="uk-nav uk-nav-default">
-                        <li>
-                          <a [routerLink]="['/country_selector']" (click)="closeOffCanvas('offcanvas-account')">
-                            National Contributions by country
-                          </a>
-                        </li>
-                        <li>
-                          <a [routerLink]="['/archive']" (click)="closeOffCanvas('offcanvas-account')">
-                            Archive 2021
-                          </a>
-                        </li>
-                      </ul>
-                      <hr>
-                    </div>
-                    <!-- My Profile-->
-                    <ul class="uk-nav uk-nav-default">
-                      <li>
-                        <a [routerLink]="['/profile']" (click)="closeOffCanvas('offcanvas-account')">
-                          <span class="material-icons uk-margin-right">account_circle</span>My Profile
-                        </a>
-                      </li>
-                      <li>
-                        <a id="logout" (click)="logout()">
-                          <span class="material-icons uk-margin-right">logout</span>Log out
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div *ngIf="!userInfo">
-                    <button class="uk-button uk-button-primary uk-width-1-1" (click)="logInButton()">Login</button>
                   </div>
                 </div>
               </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
 
-    <!-- Offcanvas Menu -->
-    <div id="tm-mobile" class="uk-offcanvas uk-offcanvas-overlay" data-uk-offcanvas="mode: none; overlay: true">
-      <div class="uk-offcanvas-bar uk-padding-remove uk-offcanvas-none" style="width: 100%;">
-
-        <!-- Offcanvas navbar -->
-        <nav class="uk-navbar-container uk-background-default uk-sticky uk-sticky-fixed" data-uk-navbar>
-
-          <div class="uk-navbar-left">
-            <button class="uk-navbar-toggle uk-icon uk-close" (click)="closeOffCanvas('tm-mobile')">
-              <span class="uk-display-inline-block">
-                <span class="material-icons" style="font-size: 30px;">close</span>
-              </span>
-            </button>
-          </div>
-
-          <div class="uk-navbar-center">
-            <a class="logo" [routerLink]="['home']">
-              <img src="../../../../assets/logo/svg/EOSC%20OPEN%20SCIENCE%20OBSERVATORY%20LOGO.svg" width="100px" alt="EOSC Open Science Observatory" />
-            </a>
-          </div>
-
-        </nav>
-
-        <div class="uk-sticky-placeholder" style="height: 65px; width: 390px; margin: 0;"></div>
-
-        <!-- Menu items -->
-        <ul class="uk-nav uk-nav-primary uk-list uk-list-large" data-uk-nav #mobileNav>
-          <li class="uk-parent" [routerLinkActive]="'uk-active'">
-            <a href="#">About<span class="uk-nav-parent-icon"></span></a>
-            <ul class="uk-nav-sub">
-              <li [routerLinkActive]="'uk-active'">
-                <a [routerLink]="['/about/eosc-observatory']"  (click)="closeOffCanvas('tm-mobile')">About EOSC Observatory</a>
-              </li>
-              <li [routerLinkActive]="'uk-active'">
-                <a [routerLink]="['/about/eosc-track']" (click)="closeOffCanvas('tm-mobile')">About EOSC Track</a>
-              </li>
-              <li [routerLinkActive]="'uk-active'">
-                <a [routerLink]="['/about/news']" (click)="closeOffCanvas('tm-mobile')">News</a>
-              </li>
-            </ul>
-          </li>
-
-          <li [routerLinkActive]="'uk-active'"><a [routerLink]="['/explore']" (click)="closeOffCanvas('tm-mobile')">Explore</a></li>
-          <li class="uk-parent" [routerLinkActive]="'uk-active'">
-            <a href="#">Resources<span class="uk-nav-parent-icon"></span></a>
-            <ul class="uk-nav-sub">
-              <li [routerLinkActive]="'uk-active'">
-                <a [routerLink]="['/resources/data-workflow-and-methodology']" (click)="closeOffCanvas('tm-mobile')">Data Workflow & Methodology</a>
-              </li>
-              <li [routerLinkActive]="'uk-active'">
-                <a [routerLink]="['/resources/publications-and-deliverables']" (click)="closeOffCanvas('tm-mobile')">Publications & Deliverables</a>
-              </li>
-              <li [routerLinkActive]="'uk-active'">
-                <a [routerLink]="['/resources/data-download']" (click)="closeOffCanvas('tm-mobile')">Data Download</a>
-              </li>
-              <li [routerLinkActive]="'uk-active'">
-                <a [routerLink]="['/resources/support-and-faq']" (click)="closeOffCanvas('tm-mobile')">Support & FAQ</a>
-              </li>
-            </ul>
-          </li>
-          <li [routerLinkActive]="'uk-active'"><a [routerLink]="['/contact']" (click)="closeOffCanvas('tm-mobile')">Contact</a></li>
-        </ul>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-  <!-- Consent modal -->
-<div id="consent-modal" data-uk-modal="esc-close: false; bg-close: false ">
-  <div class="uk-modal-dialog uk-modal-body">
-    <p>Click the link below and read it carefully. By pressing I agree you acknowledge that you have read and agree to the following terms.</p>
-    <hr>
-    <a *ngIf="acceptedPrivacyPolicy" target="_blank"
-      href="../../../../assets/pdf/{{acceptedPrivacyPolicy.privacyPolicy.filename}}">EOSC Observatory Privacy Policy</a>
-    <p class="uk-text-right">
-      <button class="uk-button uk-button-secondary" type="button" (click)="closeModal()">Close</button>
-      <button class="uk-button uk-button-primary" type="button" (click)="updateConsent()">I agree</button>
-    </p>
-  </div>
-</div>
+              <!-- Consent modal -->
+              <div id="consent-modal" data-uk-modal="esc-close: false; bg-close: false ">
+                <div class="uk-modal-dialog uk-modal-body">
+                  <p>Click the link below and read it carefully. By pressing I agree you acknowledge that you have read and agree to the following terms.</p>
+                  <hr>
+                    @if (acceptedPrivacyPolicy) {
+                      <a target="_blank"
+                      href="../../../../assets/pdf/{{acceptedPrivacyPolicy.privacyPolicy.filename}}">EOSC Observatory Privacy Policy</a>
+                    }
+                    <p class="uk-text-right">
+                      <button class="uk-button uk-button-secondary" type="button" (click)="closeModal()">Close</button>
+                      <button class="uk-button uk-button-primary" type="button" (click)="updateConsent()">I agree</button>
+                    </p>
+                  </div>
+                </div>

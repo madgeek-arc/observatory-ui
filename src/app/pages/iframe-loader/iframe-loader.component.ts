@@ -1,15 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { NgIf } from "@angular/common";
+
 import { SafeUrlPipe } from "../../../survey-tool/catalogue-ui/shared/pipes/safeUrlPipe";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
 @Component({
     selector: 'app-iframe-loader',
     templateUrl: './iframe-loader.component.html',
-    imports: [
-        NgIf
-    ]
+    imports: []
 })
 
 export class IframeLoaderComponent implements OnInit {
