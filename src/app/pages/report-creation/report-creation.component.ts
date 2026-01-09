@@ -299,16 +299,22 @@ export class ReportCreationComponent implements OnInit {
     const seriesOptions: Highcharts.SeriesBarOptions[] = [
       {
         type: 'bar',
-        name: 'Mandatory policy',
-        color: '#EB5C80',
+        name: 'Policy is not mandatory',
+        color: '#008792',
         data: []
       },
       {
         type: 'bar',
-        name: 'Non mandatory policy',
-        color: '#008792',
+        name: 'Policy is mandatory',
+        color: '#EB5C80',
         data: []
       }
+      // {
+      //   type: 'bar',
+      //   name: 'Policy is not mandatory',
+      //   color: '#008792',
+      //   data: []
+      // }
     ];
 
     const trends: {year: string, hasPolicy: number, isMandatory: number}[] = [];
@@ -454,12 +460,12 @@ export class ReportCreationComponent implements OnInit {
       type: 'pie',
       data: [
         {
-          name: index > 0 ? 'Policy is mandatory' : 'Has policy',
+          name: index > 0 ? 'Policy is mandatory' : 'Has  national policy',
           y: yesCount,
           color: '#008792'
         },
         {
-          name: index > 0 ? 'Not mandatory policy' : 'Does not have policy',
+          name: index > 0 ? 'Not mandatory policy' : 'Does not have national policy',
           y: noCount,
           color: '#EB5C80'
         }
@@ -475,7 +481,7 @@ export class ReportCreationComponent implements OnInit {
     const mapLegendSeries = [
       {
         type: 'map',
-        name: 'Has national policy',
+        name: 'Has financial strategy',
         color: '#008792',
         showInLegend: true,
         data: [], // Keep empty for legend-only
@@ -483,7 +489,7 @@ export class ReportCreationComponent implements OnInit {
       },
       {
         type: 'map',
-        name: 'Does not have national policy',
+        name: 'Does not have financial strategy',
         color: '#EB5C80',
         showInLegend: true,
         data: [], // Keep empty for legend-only
@@ -541,7 +547,7 @@ export class ReportCreationComponent implements OnInit {
 
       const tmpMandatorySeries: SeriesMappointOptions = {
         type: 'mappoint',
-        name: 'Mandatory',
+        name: 'Policy is mandatory',
         marker: {
           symbol: 'circle',
         },
@@ -555,7 +561,7 @@ export class ReportCreationComponent implements OnInit {
 
       const tmpNotMandatorySeries: SeriesMappointOptions = {
         type: 'mappoint',
-        name: 'Not Mandatory',
+        name: 'Policy is not mandatory',
         marker: {
           symbol: 'diamond',
         },
