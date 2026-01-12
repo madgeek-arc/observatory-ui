@@ -460,14 +460,16 @@ export class ReportCreationComponent implements OnInit {
       type: 'pie',
       data: [
         {
-          name: index > 0 ? 'Policy is mandatory' : 'Has  national policy',
-          y: yesCount,
-          color: '#008792'
-        },
-        {
           name: index > 0 ? 'Not mandatory policy' : 'Does not have national policy',
           y: noCount,
-          color: '#EB5C80'
+          color: '#EB5C80',
+          legendIndex: 1
+        },
+        {
+          name: index > 0 ? 'Policy is mandatory' : 'Has national policy',
+          y: yesCount,
+          color: '#008792',
+          legendIndex: 0
         }
       ]
     }];
@@ -486,6 +488,7 @@ export class ReportCreationComponent implements OnInit {
         showInLegend: true,
         data: [], // Keep empty for legend-only
         // visible: false, // Hide from map but show in legend
+        legendIndex: 0
       },
       {
         type: 'map',
@@ -494,6 +497,7 @@ export class ReportCreationComponent implements OnInit {
         showInLegend: true,
         data: [], // Keep empty for legend-only
         // visible: false, // Hide from map but show in legend
+        legendIndex: 1
       },
       {
         type: 'map',
@@ -502,6 +506,7 @@ export class ReportCreationComponent implements OnInit {
         showInLegend: true,
         data: [], // Keep empty for legend-only
         // visible: false, // Hide from map but show in legend
+        legendIndex: 4
       }
     ];
 
@@ -556,7 +561,8 @@ export class ReportCreationComponent implements OnInit {
         },
         color: '#23CE6B',
         data: [],
-        showInLegend: true
+        showInLegend: true,
+        legendIndex: 2
       }
 
       const tmpNotMandatorySeries: SeriesMappointOptions = {
@@ -570,7 +576,8 @@ export class ReportCreationComponent implements OnInit {
         },
         color: '#FFCB47',
         data: [],
-        showInLegend: true
+        showInLegend: true,
+        legendIndex: 3
       }
 
       // console.log(data[1].datasets[0].series.result);

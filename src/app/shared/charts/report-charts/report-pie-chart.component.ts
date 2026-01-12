@@ -61,14 +61,14 @@ export class ReportPieChartComponent implements OnInit, OnChanges {
       plotOptions: {
         pie: {
           innerSize: '50%',
-          startAngle: 90,
+          startAngle: 0,
           allowPointSelect: true,
           cursor: 'pointer',
           showInLegend: true,
           dataLabels: {
             enabled: true,
             format: '{point.percentage:.0f}%',
-            distance: -40,
+            distance: -30,
             style: {
               fontSize: '16px',
               fontWeight: 'bold',
