@@ -40,16 +40,14 @@
             </bar-columns-chart>
           }
           @case ('stackedBars') {
-            <bar-columns-chart [series]="chart.chartSeries" [categories]="years"
+            <bar-columns-chart [series]="chart.chartSeries" [categories]="years" [reversedStacks]="false"
                                [enableLegend]="true" [stacking]="'normal'" [dataLabelsEnabled]="true"
-                               [subtitleText]="chart.title "
                                (chartReady)="onChartReady($event, i)">
             </bar-columns-chart>
           }
           @case ('barChart') {
             <bar-columns-chart [series]="chart.chartSeries" [categories]="years"
                                [dataLabelsEnabled]="true"
-                               [subtitleText]="chart.title "
                                (chartReady)="onChartReady($event, i)">
             </bar-columns-chart>
           }

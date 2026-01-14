@@ -22,6 +22,7 @@ export class BarColumnsComponent implements OnChanges {
   @Input() XAxisTitleText = undefined;
   @Input() YAxisTitleText = undefined;
   @Input() stacking = undefined;
+  @Input() reversedStacks = true;
   @Input() dataLabelsEnabled = false;
 
 
@@ -37,13 +38,13 @@ export class BarColumnsComponent implements OnChanges {
 
   updateChart() {
     const that = this;
-    if (this.series.length === 1) {
-      // If last column empty remove from chart as requested
-      if (this.series[0].data[5] === 0) {
-        this.series[0].data.pop();
-        this.categories.pop();
-      }
-    }
+    // if (this.series.length === 1) {
+    //   // If last column empty remove from chart as requested
+    //   if (this.series[0].data[5] === 0) {
+    //     this.series[0].data.pop();
+    //     this.categories.pop();
+    //   }
+    // }
 
     this.chartOptions = {
       chart: {
@@ -70,9 +71,11 @@ export class BarColumnsComponent implements OnChanges {
         }
       },
       yAxis: {
+        allowDecimals: false,
         title: {
           text: this.YAxisTitleText
-        }
+        },
+        reversedStacks: this.reversedStacks,
       },
       legend: {
         enabled: this.enableLegend
@@ -88,6 +91,12 @@ export class BarColumnsComponent implements OnChanges {
             style: {
               fontSize: '14px',
               fontWeight: 'bold',
+            },
+            formatter: function() {
+              if (this.y === 0 || this.y === null) {
+                return '';
+              }
+              return this.y.toString();
             }
           },
         }

@@ -110,11 +110,17 @@ export class ReportCreationComponent implements OnInit {
           return;
         }
 
-        chart.chartSeries = this.mapSeries(results); // Create map series
+        let legendWording = 'national policy';
+        if (chart.title.includes('Monitoring'))
+          legendWording = 'national monitoring';
+        else if (chart.title.includes('Financial Strategy'))
+          legendWording = 'financial strategy';
+
+        chart.chartSeries = this.mapSeries(results, legendWording); // Create map series
 
         results.forEach(result => {
           // console.log('Loaded Pie:', result);
-          chart.pieSeries.push(this.pieSeries(result, chart.pieSeries.length));
+          chart.pieSeries.push(this.pieSeries(result, chart.pieSeries.length, legendWording));
         });
 
         if (chart.stats) {
@@ -219,6 +225,14 @@ export class ReportCreationComponent implements OnInit {
       {
         type: 'bar',
         color: '#008792',
+        dataLabels: {
+          enabled: true,
+          inside: true,
+          style: {
+            color: '#FFFFFF',
+            textOutline: 'black'
+          }
+        },
         data: []
       }
     ];
@@ -263,6 +277,13 @@ export class ReportCreationComponent implements OnInit {
       {
         type: 'bar',
         color: '#008792',
+        dataLabels: {
+          inside: true,
+          style: {
+            color: '#FFFFFF',
+            textOutline: 'black'
+          }
+        },
         data: []
       }
     ];
@@ -299,22 +320,30 @@ export class ReportCreationComponent implements OnInit {
     const seriesOptions: Highcharts.SeriesBarOptions[] = [
       {
         type: 'bar',
-        name: 'Policy is not mandatory',
+        name: 'Policy is mandatory',
         color: '#008792',
+        dataLabels: {
+          enabled: true,
+          style: {
+            color: '#FFFFFF',
+            textOutline: 'black'
+          }
+        },
         data: []
       },
       {
         type: 'bar',
-        name: 'Policy is mandatory',
+        name: 'Policy is not mandatory',
         color: '#EB5C80',
+        dataLabels: {
+          enabled: true,
+          style: {
+            color: '#FFFFFF',
+            textOutline: 'black'
+          }
+        },
         data: []
       }
-      // {
-      //   type: 'bar',
-      //   name: 'Policy is not mandatory',
-      //   color: '#008792',
-      //   data: []
-      // }
     ];
 
     const trends: {year: string, hasPolicy: number, isMandatory: number}[] = [];
@@ -444,7 +473,7 @@ export class ReportCreationComponent implements OnInit {
     return researchers;
   }
 
-  pieSeries(data: RawData, index: number) {
+  pieSeries(data: RawData, index: number, legendWording: string) {
 
     let yesCount = 0;
     let noCount = 0;
@@ -460,13 +489,13 @@ export class ReportCreationComponent implements OnInit {
       type: 'pie',
       data: [
         {
-          name: index > 0 ? 'Not mandatory policy' : 'Does not have national policy',
+          name: index > 0 ? 'Policy is not mandatory' : `Does not have ${legendWording}`,
           y: noCount,
           color: '#EB5C80',
           legendIndex: 1
         },
         {
-          name: index > 0 ? 'Policy is mandatory' : 'Has national policy',
+          name: index > 0 ? 'Policy is mandatory' : `Has ${legendWording}`,
           y: yesCount,
           color: '#008792',
           legendIndex: 0
@@ -477,13 +506,13 @@ export class ReportCreationComponent implements OnInit {
     return series;
   }
 
-  mapSeries(data: RawData[]) {
+  mapSeries(data: RawData[], legendWording: string) {
 
     let series = [];
     const mapLegendSeries = [
       {
         type: 'map',
-        name: 'Has financial strategy',
+        name: `Has ${legendWording}`,
         color: '#008792',
         showInLegend: true,
         data: [], // Keep empty for legend-only
@@ -492,7 +521,7 @@ export class ReportCreationComponent implements OnInit {
       },
       {
         type: 'map',
-        name: 'Does not have financial strategy',
+        name: `Does not have ${legendWording}`,
         color: '#EB5C80',
         showInLegend: true,
         data: [], // Keep empty for legend-only
