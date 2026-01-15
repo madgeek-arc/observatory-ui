@@ -343,7 +343,7 @@ export const chartsCfg: Chart[] = [
     data: [],
     chartSeries: [],
     pieSeries: [],
-    type: 'totalInvestments',
+    type: 'totalInvestmentsRangeColumns',
     stats: ['Question60'],
   },
   {
