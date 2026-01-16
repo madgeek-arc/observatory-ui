@@ -13,7 +13,7 @@
     </div>
 
     @if (docModel && payload) {
-      <app-survey [model]="docModel" [payload]="payload" (submit)="onSubmit($event)">
+      <app-survey [model]="docModel" [payload]="payload" (submitForm)="onSubmit($event)">
         <div class="form-action-bar titleAndActionsBar uk-flex uk-flex-right uk-margin uk-padding-xsmall" style="min-height: 40px">
           <div>
             <button class="uk-button uk-button-secondary uk-margin-left" (click)="child.parentSubmit()">
