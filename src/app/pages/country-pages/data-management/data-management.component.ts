@@ -38,6 +38,7 @@ export class DataManagementComponent implements OnInit {
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
   year?: string;
+  lastUpdateDate?: string;
 
   rfoDataManagementPercentage: (number | null)[] = [null, null];
   rfoDataManagementPercentageDiff: number | null = null;
@@ -89,6 +90,11 @@ export class DataManagementComponent implements OnInit {
   constructor(private dataShareService: DataShareService, private exploreService: ExploreService, private pdfService: PdfExportService) {}
 
   ngOnInit() {
+
+    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => this.lastUpdateDate = value
+    });
+
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (code) => {
         this.countryCode = code;

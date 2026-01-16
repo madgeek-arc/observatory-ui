@@ -9,7 +9,7 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m"><!-- Desktop -->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-                 class="flag-image" width="42" height="42" alt="rounded flag image">
+              class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
               <h4 class="uk-margin-remove-bottom">{{ countryName }} - Policy Overview for {{ year }}</h4>
             </div>
@@ -20,10 +20,11 @@
               <span style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              @if (exportActive) {
+                <span class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
@@ -31,7 +32,7 @@
         <div class="uk-hidden@m"><!-- Mobile -->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-                 class="flag-image" width="42" height="42" alt="rounded flag image">
+              class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
               <h4 class="uk-margin-remove-bottom">{{ countryName }} - Policy Overview for {{ year }}</h4>
             </div>
@@ -43,10 +44,11 @@
               <span style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              @if (exportActive) {
+                <span class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
@@ -59,40 +61,43 @@
 
         <div class="uk-grid-small" data-uk-grid>
           <!-- left card -->
-          <div *ngIf="table.length" class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
-            <div class="uk-card uk-card-default uk-card-body visualisation-card">
-              <table class="uk-table uk-table-divider uk-table-small uk-table-middle">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th class="uk-text-center">NATIONAL POLICY</th>
-                    <th class="uk-text-center">FINANCIAL STRATEGY</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let row of table">
-                    <td class="uk-text-left uk-text-bold">{{ row.OSArea }}</td>
-                    <td
-                      [ngClass]="{'valueTrue': row.nationalPolicy === 'Yes', 'valueFalse': row.nationalPolicy === 'No', 'valueNotAvailable': row.nationalPolicy === undefined}">
-                    </td>
-                    <td
-                      [ngClass]="{'valueTrue': row.financialStrategy === 'Yes', 'valueFalse': row.financialStrategy === 'No', 'valueNotAvailable': row.financialStrategy === undefined}">
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
-              <div class="uk-width-1-1 uk-flex uk-flex-center uk-margin-top">
-                <div>
-                  <span class="uk-text-bold" style="white-space: nowrap;">Data source:</span>&nbsp;
-                  Survey on National Contributions to EOSC and Open Science.
-                </div>
+          @if (table.length) {
+            <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+              <div class="uk-card uk-card-default uk-card-body visualisation-card">
+                <table class="uk-table uk-table-divider uk-table-small uk-table-middle">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th class="uk-text-center">NATIONAL POLICY</th>
+                      <th class="uk-text-center">FINANCIAL STRATEGY</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (row of table; track row) {
+                      <tr>
+                        <td class="uk-text-left uk-text-bold">{{ row.OSArea }}</td>
+                        <td
+                          [ngClass]="{'valueTrue': row.nationalPolicy === 'Yes', 'valueFalse': row.nationalPolicy === 'No', 'valueNotAvailable': row.nationalPolicy === undefined}">
+                        </td>
+                        <td
+                          [ngClass]="{'valueTrue': row.financialStrategy === 'Yes', 'valueFalse': row.financialStrategy === 'No', 'valueNotAvailable': row.financialStrategy === undefined}">
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+                <div class="uk-width-1-1 uk-flex uk-flex-center uk-margin-top">
+                  <p><span class="uk-text-bold">Data source:</span>
+                  Survey on National Contributions to EOSC and Open Science {{year}}.
+                </p>
               </div>
             </div>
           </div>
+        }
 
-          <!-- right card -->
-          <div *ngIf="hasSurveyPolicyData()" class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
+        <!-- right card -->
+        @if (hasSurveyPolicyData()) {
+          <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
             <div class="uk-card uk-card-default uk-card-body visualisation-card noads">
               <h6 class="uk-margin-bottom">Policy Landscape in {{ countryName }}</h6>
               <div class="uk-text-meta">
@@ -102,70 +107,68 @@
                 <read-more [maxHeight]="300">
                   <div id="policies_overview">
                     <div class="uk-text-secondary">Overview</div>
-                    <ng-container
-                      *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']; else policies_overview">
+                    @if (countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']) {
                       <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']"
-                        class="uk-margin-medium-top"></div>
-                    </ng-container>
-                    <ng-template #policies_overview>
+                      class="uk-margin-medium-top"></div>
+                    } @else {
                       <p>N/A</p>
-                    </ng-template>
+                    }
                   </div>
                   <div id="national_policy_and_legislation">
                     <div class="uk-text-secondary">National Policy and Legislation</div>
-                    <ng-container
-                      *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']?.length; else legislation">
-                      <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']"
-                        class="uk-margin-medium-top">
-                        <div [innerHTML]="element['Question11-1']"></div>
-                      </div>
-                    </ng-container>
-                    <ng-template #legislation>
+                    @if (countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']?.length) {
+                      @for (element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']; track element) {
+                        <div
+                          class="uk-margin-medium-top">
+                          <div [innerHTML]="element['Question11-1']"></div>
+                        </div>
+                      }
+                    } @else {
                       <p>N/A</p>
-                    </ng-template>
+                    }
                   </div>
                   <div id="funder_policies">
                     <div class="uk-text-secondary">Funder Policies</div>
-                    <ng-container
-                      *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']?.length; else funder_policies">
-                      <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']"
-                        class="uk-margin-medium-top">
-                        <div [innerHTML]="element['Question12-1']"></div>
-                      </div>
-                    </ng-container>
-                    <ng-template #funder_policies>
+                    @if (countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']?.length) {
+                      @for (element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']; track element) {
+                        <div
+                          class="uk-margin-medium-top">
+                          <div [innerHTML]="element['Question12-1']"></div>
+                        </div>
+                      }
+                    } @else {
                       <p>N/A</p>
-                    </ng-template>
+                    }
                   </div>
                   <div id="institutional_policies">
                     <div class="uk-text-secondary">Institutional policies</div>
-                    <ng-container
-                      *ngIf="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']?.length; else institutional_policies">
-                      <div *ngFor="let element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']"
-                        class="uk-margin-medium-top">
-                        <div [innerHTML]="element['Question13-1']"></div>
-                      </div>
-                    </ng-container>
-                    <ng-template #institutional_policies>
+                    @if (countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']?.length) {
+                      @for (element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']; track element) {
+                        <div
+                          class="uk-margin-medium-top">
+                          <div [innerHTML]="element['Question13-1']"></div>
+                        </div>
+                      }
+                    } @else {
                       <p>N/A</p>
-                    </ng-template>
+                    }
                   </div>
                 </read-more>
               </div>
-
             </div>
           </div>
-
-        </div>
+        }
 
       </div>
-    </div>
 
-    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small uk-padding-remove-top" #exportContent1>
-      <div class="uk-container">
-        <app-search-results [documents]="documents"></app-search-results>
-      </div>
     </div>
-
   </div>
+
+  <div class="uk-section uk-section-primary uk-preserve-color uk-section-small uk-padding-remove-top" #exportContent1>
+    <div class="uk-container">
+      <app-search-results [documents]="documents"></app-search-results>
+    </div>
+  </div>
+
+</div>
 </div>

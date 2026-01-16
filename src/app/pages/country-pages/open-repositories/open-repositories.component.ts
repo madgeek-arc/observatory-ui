@@ -9,6 +9,7 @@ import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
 import { PdfExportService } from "../../services/pdf-export.service";
+import { ExploreService } from "../../explore/explore.service";
 
 
 @Component({
@@ -26,6 +27,8 @@ import { PdfExportService } from "../../services/pdf-export.service";
 
 export class OpenRepositoriesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private exploreService = inject(ExploreService)
+
   protected readonly Math = Math;
   exportActive = false;
 
@@ -35,6 +38,7 @@ export class OpenRepositoriesComponent implements OnInit {
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
   year?: string;
+  lastUpdateDate?: string;
 
 
   rfoOpenRepositoriesPercentage: (number | null)[] = [null, null];
@@ -56,6 +60,10 @@ export class OpenRepositoriesComponent implements OnInit {
   constructor(private dataShareService: DataShareService, private pdfService: PdfExportService) {}
 
   ngOnInit(): void {
+    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => this.lastUpdateDate = value
+    });
+
     this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answers) => {
         this.surveyAnswers = answers;

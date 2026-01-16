@@ -1,19 +1,17 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { DatePipe, LowerCasePipe, NgClass, NgForOf, NgIf, NgOptimizedImage } from "@angular/common";
+import { DatePipe, LowerCasePipe, NgClass, NgOptimizedImage } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { Document, HighlightedResults } from "../../../../../domain/document";
 
 @Component({
   selector: 'app-search-results',
   imports: [
-    NgForOf,
-    NgIf,
     RouterLink,
     LowerCasePipe,
     DatePipe,
     NgClass,
     NgOptimizedImage
-  ],
+],
   templateUrl: 'search-card.component.html'
 })
 

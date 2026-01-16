@@ -11,6 +11,7 @@ import {
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
 import { PdfExportService } from "../../services/pdf-export.service";
+import { ExploreService } from "../../explore/explore.service";
 
 @Component({
     selector: 'app-open-science-training',
@@ -26,6 +27,8 @@ import { PdfExportService } from "../../services/pdf-export.service";
 })
 export class OpenScienceTrainingComponent  implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private exploreService = inject(ExploreService);
+
   protected readonly Math = Math;
   exportActive = false;
 
@@ -35,6 +38,7 @@ export class OpenScienceTrainingComponent  implements OnInit {
   countrySurveyAnswer?: Object;
   countrySurveyAnswerLastUpdate: string | null = null;
   year?: string;
+  lastUpdateDate?: string;
 
   rfoTrainingPercentage: (number | null)[] = [null, null];
   rfoTrainingPercentageDiff: number | null = null;
@@ -55,45 +59,49 @@ export class OpenScienceTrainingComponent  implements OnInit {
   constructor(private dataShareService: DataShareService, private pdfService: PdfExportService) {}
 
     ngOnInit() {
-    this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (answers) => {
-        this.surveyAnswers = answers;
-        this.initCardValues();
-      }
-    });
+      this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: value => this.lastUpdateDate = value
+      });
 
-    this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (name) => {
-        this.countryName = name;
-      }
-    });
+      this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (answers) => {
+          this.surveyAnswers = answers;
+          this.initCardValues();
+        }
+      });
 
-    this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (year) => {
-        this.year = year;
-      }
-    })
+      this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (name) => {
+          this.countryName = name;
+        }
+      });
 
-    this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (code) => {
-        this.countryCode = code;
-      }
-    });
+      this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (year) => {
+          this.year = year;
+        }
+      })
+
+      this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (code) => {
+          this.countryCode = code;
+        }
+      });
 
 
-    this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (answer) => {
-        this.countrySurveyAnswer = answer;
-      }
-    });
+      this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (answer) => {
+          this.countrySurveyAnswer = answer;
+        }
+      });
 
-    this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (metadata) => {
-        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
-      }
-    });
+      this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (metadata) => {
+          this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
+        }
+      });
 
-  }
+    }
 
   initCardValues() {
     this.rfoTrainingPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question45']?.['Question45-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);

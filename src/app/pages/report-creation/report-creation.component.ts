@@ -9,7 +9,7 @@ import { RawData, Row } from "../../domain/raw-data";
 import * as Highcharts from 'highcharts';
 import { SeriesMappointOptions, SeriesPieOptions } from "highcharts";
 import { latlong } from "../../domain/countries-lat-lon";
-import { JsonPipe, NgClass, NgForOf, NgIf } from "@angular/common";
+import { JsonPipe, NgClass, NgStyle } from "@angular/common";
 import { ReportPieChartComponent } from "../../shared/charts/report-charts/report-pie-chart.component";
 import { Chart, chartsCfg } from "./report-chart.configuration";
 import { BarColumnsComponent } from "../../shared/charts/report-charts/bar-columns.component";
@@ -27,8 +27,6 @@ interface ChartImageData {
   selector: 'app-report-creation',
   standalone: true,
   imports: [
-    NgIf,
-    NgForOf,
     WorldMapComponent,
     ReportPieChartComponent,
     JsonPipe,

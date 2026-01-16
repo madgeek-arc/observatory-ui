@@ -7,6 +7,12 @@ import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
 import { Model } from 'src/survey-tool/catalogue-ui/domain/dynamic-form-model';
 
 
+type CleanOptions = {
+  removeNull?: boolean;
+  removeEmptyString?: boolean;
+  removeUndefined?: boolean; // optional extra
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -65,51 +71,6 @@ export class ResourceRegistryService {
     return htmlString.replace(/<[^>]*>/g, '');
   }
 
-  // applyHighlightsToContent(highlightedResult: HighlightedResults<Document>): HighlightedResults<Document> {
-  //
-  //   const documentData = highlightedResult.result;
-  //   const content: Content = documentData.docInfo;
-  //   const highlights = highlightedResult.highlights;
-  //
-  //   const fields = [
-  //     {name: 'title', isArray: false, path: 'title'},
-  //     {name: 'shortDescription', isArray: false, path: 'shortDescription.text'},
-  //     {name : 'organisations', isArray: true, path: 'organisations'}
-  //   ];
-  //
-  //   fields.forEach(field => {
-  //     const highlightArray = highlights.find(h => h.hasOwnProperty(field.name))?.[field.name];
-  //
-  //
-  //
-  //     if (highlightArray && highlightArray.length > 0) {
-  //       const highlightedValueWithTags = highlightArray[0];
-  //       const cleanValue = this.stripHtml(highlightedValueWithTags);
-  //
-  //       if (!field.isArray) {
-  //         const originalValueContainer = (field.name === 'title') ? content : content.shortDescription;
-  //         const originalValueKey =  (field.name === 'title') ? 'title' : 'text';
-  //
-  //         const originalValue = (originalValueContainer as any)[originalValueKey];
-  //         //MATCH
-  //         if (originalValue && originalValue.includes(cleanValue)) {
-  //           //REPLACE
-  //           (originalValueContainer as any)[originalValueKey] = originalValue.replace(cleanValue, highlightedValueWithTags);
-  //         }
-  //       } else {
-  //         //ARRAY-MATCH
-  //         const index = content.organisations.findIndex(org => org === cleanValue);
-  //
-  //         if (index !== -1) {
-  //           //REPLACE
-  //           content.organisations[index] = highlightedValueWithTags;
-  //         }
-  //       }
-  //     }
-  //   });
-  //   return highlightedResult;
-  // }
-
   replaceWithHighlighted(original: string[], highlights: Highlight[], fieldName: string) {
     if (!original || !Array.isArray(original) || !highlights) return original;
 
@@ -130,6 +91,78 @@ export class ResourceRegistryService {
     });
 
     return updated;
+  }
+
+  cleanObjectInPlace(obj: any, options: CleanOptions = {}) {
+    const {removeNull = true, removeEmptyString = true, removeUndefined = true} = options;
+
+    const seen = new WeakSet<object>();
+
+    function isMissing(value: any): boolean {
+      if (removeUndefined && value === undefined) return true;
+      if (removeNull && value === null) return true;
+      if (removeEmptyString && value === "") return true;
+      return false;
+    }
+
+    // Walk returns true if the value contains any meaningful data
+    function walk(value: any): boolean {
+      if (isMissing(value)) {
+        return false;
+      }
+
+      if (value && typeof value === "object") {
+        if (seen.has(value)) return true; // assume cyclic refs are meaningful
+        seen.add(value);
+
+        if (Array.isArray(value)) {
+          let write = 0;
+          let hasMeaningful = false;
+
+          for (let read = 0; read < value.length; read++) {
+            const item = value[read];
+
+            const itemHasMeaning = item && typeof item === "object" ? walk(item) : !isMissing(item);
+
+            if (itemHasMeaning) {
+              value[write++] = value[read];
+              hasMeaningful = true;
+            }
+          }
+
+          value.length = write;
+          return hasMeaningful;
+        } else {
+          // plain object
+          let hasMeaningful = false;
+
+          for (const key of Object.keys(value)) {
+            const prop = value[key];
+            const propHasMeaning =
+              prop && typeof prop === "object" ? walk(prop) : !isMissing(prop);
+
+            if (!propHasMeaning) {
+              value[key] = null;
+            } else {
+              hasMeaningful = true;
+            }
+          }
+
+          return hasMeaningful;
+        }
+      }
+
+      return true;
+    }
+
+    const hasMeaningful = walk(obj);
+
+    // If the root object itself is empty, normalize it to null
+    if (!hasMeaningful && typeof obj === "object") {
+      return null;
+    }
+
+    return obj;
   }
 
 }

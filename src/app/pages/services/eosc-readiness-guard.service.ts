@@ -45,37 +45,3 @@ export const EoscReadinessGuard: CanActivateFn = (route: ActivatedRouteSnapshot,
     })
   );
 }
-
-
-//
-// @Injectable()
-// export class EoscReadinessGuardService {
-//
-//   constructor(private userService: UserService, private router: Router) {
-//   }
-//
-//   canActivate(routeSnapshot: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-//     let userInfo = this.userService.getCurrentUserInfo();
-//     if (!this.userService.getCurrentUserInfo()) {
-//       return this.fail();
-//     }
-//     if (userInfo.coordinators.filter(c => c.type === 'eosc-sb').length > 0) {
-//       return true;
-//     }
-//     if (userInfo.stakeholders.filter(c => c.type === 'eosc-sb').length > 0) {
-//       let stakeHolders: Stakeholder[] = userInfo.stakeholders.filter(c => c.type === 'eosc-sb');
-//       for (const stakeHolder of stakeHolders) {
-//         if (stakeHolder.admins.indexOf(userInfo.user.email) >= 0)
-//           return true;
-//       }
-//       return this.fail();
-//     }
-//
-//     return this.fail();
-//   }
-//
-//   fail(): boolean {
-//     this.router.navigate(['/']).then();
-//     return false;
-//   }
-// }

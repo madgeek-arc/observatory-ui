@@ -49,6 +49,7 @@ export class OpenAccessPublicationsPage implements OnInit {
   countryName?: string;
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
+  countrySurveyAnswerLastUpdate: string | null = null;
   lastUpdateDate?: string;
   year?: string;
 
@@ -156,6 +157,14 @@ export class OpenAccessPublicationsPage implements OnInit {
         this.countrySurveyAnswer = answer;
       }
     });
+
+
+
+  this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    next: (metadata) => {
+      this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
+    }
+  });
 
   }
 

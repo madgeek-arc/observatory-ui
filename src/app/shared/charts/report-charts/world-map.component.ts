@@ -3,7 +3,7 @@ import * as Highcharts from 'highcharts/highmaps';
 import { SeriesOptionsType } from 'highcharts/highmaps';
 import worldMapData from '@highcharts/map-collection/custom/world-highres3.topo.json';
 import { HighchartsChartModule } from 'highcharts-angular';
-import { NgIf } from "@angular/common";
+
 import HC_map from 'highcharts/modules/map';
 import Exporting from 'highcharts/modules/exporting';
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
@@ -22,10 +22,9 @@ export type CustomSeriesMapOptions = Omit<Highcharts.SeriesMapOptions, 'data'> &
   selector: 'app-world-map',
   standalone: true,
   imports: [
-    HighchartsChartModule,
-    NgIf
-  ],
-  template: `<highcharts-chart *ngIf="ready" [Highcharts]="Highcharts" [constructorType]="'mapChart'" [options]="chartOptions" style="width: 100%; display: block;"></highcharts-chart>`
+    HighchartsChartModule
+],
+  template: `@if (ready) {<highcharts-chart [Highcharts]="Highcharts" [constructorType]="'mapChart'" [options]="chartOptions" style="width: 100%; display: block;"></highcharts-chart>}`
 })
 
 export class WorldMapComponent implements OnChanges {
