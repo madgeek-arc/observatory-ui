@@ -3,9 +3,7 @@
 
     <div class="uk-container uk-container-expand">
       @if (errorMessage) {
-        <div
-          class="uk-alert uk-alert-danger uk-margin"
-          uk-alert>
+        <div class="uk-alert uk-alert-danger uk-margin" uk-alert>
           <a class="uk-alert-close" uk-close (click)="errorMessage = null"></a>
           {{ errorMessage }}
         </div>
