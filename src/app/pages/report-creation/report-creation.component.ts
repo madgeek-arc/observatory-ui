@@ -9,7 +9,7 @@ import { RawData, Row } from "../../domain/raw-data";
 import * as Highcharts from 'highcharts';
 import { SeriesMappointOptions, SeriesPieOptions } from "highcharts";
 import { latlong } from "../../domain/countries-lat-lon";
-import { JsonPipe, NgClass } from "@angular/common";
+import { JsonPipe, NgClass, NgStyle } from "@angular/common";
 import { ReportPieChartComponent } from "../../shared/charts/report-charts/report-pie-chart.component";
 import { Chart, chartsCfg } from "./report-chart.configuration";
 import { BarColumnsComponent } from "../../shared/charts/report-charts/bar-columns.component";
@@ -32,7 +32,7 @@ interface ChartImageData {
     JsonPipe,
     BarColumnsComponent,
     NgClass
-],
+  ],
   providers: [StakeholdersService],
   templateUrl: './report-creation.component.html'
 })
@@ -108,11 +108,17 @@ export class ReportCreationComponent implements OnInit {
           return;
         }
 
-        chart.chartSeries = this.mapSeries(results); // Create map series
+        let legendWording = 'national policy';
+        if (chart.title.includes('Monitoring'))
+          legendWording = 'national monitoring';
+        else if (chart.title.includes('Financial Strategy'))
+          legendWording = 'financial strategy';
+
+        chart.chartSeries = this.mapSeries(results, legendWording); // Create map series
 
         results.forEach(result => {
           // console.log('Loaded Pie:', result);
-          chart.pieSeries.push(this.pieSeries(result, chart.pieSeries.length));
+          chart.pieSeries.push(this.pieSeries(result, chart.pieSeries.length, legendWording));
         });
 
         if (chart.stats) {
@@ -217,6 +223,14 @@ export class ReportCreationComponent implements OnInit {
       {
         type: 'bar',
         color: '#008792',
+        dataLabels: {
+          enabled: true,
+          inside: true,
+          style: {
+            color: '#FFFFFF',
+            textOutline: 'black'
+          }
+        },
         data: []
       }
     ];
@@ -261,6 +275,13 @@ export class ReportCreationComponent implements OnInit {
       {
         type: 'bar',
         color: '#008792',
+        dataLabels: {
+          inside: true,
+          style: {
+            color: '#FFFFFF',
+            textOutline: 'black'
+          }
+        },
         data: []
       }
     ];
@@ -297,14 +318,28 @@ export class ReportCreationComponent implements OnInit {
     const seriesOptions: Highcharts.SeriesBarOptions[] = [
       {
         type: 'bar',
-        name: 'Mandatory policy',
-        color: '#EB5C80',
+        name: 'Policy is mandatory',
+        color: '#008792',
+        dataLabels: {
+          enabled: true,
+          style: {
+            color: '#FFFFFF',
+            textOutline: 'black'
+          }
+        },
         data: []
       },
       {
         type: 'bar',
-        name: 'Non mandatory policy',
-        color: '#008792',
+        name: 'Policy is not mandatory',
+        color: '#EB5C80',
+        dataLabels: {
+          enabled: true,
+          style: {
+            color: '#FFFFFF',
+            textOutline: 'black'
+          }
+        },
         data: []
       }
     ];
@@ -436,7 +471,7 @@ export class ReportCreationComponent implements OnInit {
     return researchers;
   }
 
-  pieSeries(data: RawData, index: number) {
+  pieSeries(data: RawData, index: number, legendWording: string) {
 
     let yesCount = 0;
     let noCount = 0;
@@ -452,14 +487,16 @@ export class ReportCreationComponent implements OnInit {
       type: 'pie',
       data: [
         {
-          name: index > 0 ? 'Policy is mandatory' : 'Has policy',
-          y: yesCount,
-          color: '#008792'
+          name: index > 0 ? 'Policy is not mandatory' : `Does not have ${legendWording}`,
+          y: noCount,
+          color: '#EB5C80',
+          legendIndex: 1
         },
         {
-          name: index > 0 ? 'Not mandatory policy' : 'Does not have policy',
-          y: noCount,
-          color: '#EB5C80'
+          name: index > 0 ? 'Policy is mandatory' : `Has ${legendWording}`,
+          y: yesCount,
+          color: '#008792',
+          legendIndex: 0
         }
       ]
     }];
@@ -467,25 +504,27 @@ export class ReportCreationComponent implements OnInit {
     return series;
   }
 
-  mapSeries(data: RawData[]) {
+  mapSeries(data: RawData[], legendWording: string) {
 
     let series = [];
     const mapLegendSeries = [
       {
         type: 'map',
-        name: 'Has national policy',
+        name: `Has ${legendWording}`,
         color: '#008792',
         showInLegend: true,
         data: [], // Keep empty for legend-only
         // visible: false, // Hide from map but show in legend
+        legendIndex: 0
       },
       {
         type: 'map',
-        name: 'Does not have national policy',
+        name: `Does not have ${legendWording}`,
         color: '#EB5C80',
         showInLegend: true,
         data: [], // Keep empty for legend-only
         // visible: false, // Hide from map but show in legend
+        legendIndex: 1
       },
       {
         type: 'map',
@@ -494,6 +533,7 @@ export class ReportCreationComponent implements OnInit {
         showInLegend: true,
         data: [], // Keep empty for legend-only
         // visible: false, // Hide from map but show in legend
+        legendIndex: 4
       }
     ];
 
@@ -539,7 +579,7 @@ export class ReportCreationComponent implements OnInit {
 
       const tmpMandatorySeries: SeriesMappointOptions = {
         type: 'mappoint',
-        name: 'Mandatory',
+        name: 'Policy is mandatory',
         marker: {
           symbol: 'circle',
         },
@@ -548,12 +588,13 @@ export class ReportCreationComponent implements OnInit {
         },
         color: '#23CE6B',
         data: [],
-        showInLegend: true
+        showInLegend: true,
+        legendIndex: 2
       }
 
       const tmpNotMandatorySeries: SeriesMappointOptions = {
         type: 'mappoint',
-        name: 'Not Mandatory',
+        name: 'Policy is not mandatory',
         marker: {
           symbol: 'diamond',
         },
@@ -562,7 +603,8 @@ export class ReportCreationComponent implements OnInit {
         },
         color: '#FFCB47',
         data: [],
-        showInLegend: true
+        showInLegend: true,
+        legendIndex: 3
       }
 
       // console.log(data[1].datasets[0].series.result);
