@@ -34,10 +34,7 @@
      [class.sidebar_mini]="!open &&  (hasSidebar || hasAdminMenu)"
      [class.sidebar_hover]="hover">
 
-  <dashboard-sidebar
-    [menuSections]="menuSections"
-    [logoTpl]="topTpl">
-  </dashboard-sidebar>
+  <dashboard-sidebar [menuSections]="menuSections" [logoTpl]="topTpl"></dashboard-sidebar>
 
   <div id="page_content" class="dashboard">
     <router-outlet></router-outlet>
