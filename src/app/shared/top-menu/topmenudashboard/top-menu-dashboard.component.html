@@ -106,7 +106,7 @@
             <ul class="uk-navbar-nav user_actions">
               <li>
                 @if (userInfo) {
-                  <a class="uk-icon" aria-expanded="false">
+                  <a class="uk-icon" aria-expanded="false" (click)="getInfo()">
                     <div class="uk-flex">
                       <div class="uk-padding-remove uk-flex uk-flex-middle">
                         @if (currentCoordinator || currentStakeholder || currentAdministrator) {
@@ -325,7 +325,7 @@
                       @if (userInfo) {
                         <li>
                           @if (userInfo) {
-                            <a class="uk-icon" aria-expanded="false" href=" #offcanvas-account" data-uk-toggle>
+                            <a class="uk-icon" aria-expanded="false" href=" #offcanvas-account" data-uk-toggle (click)="getInfo()">
                               <div class="uk-flex">
                                 <!--                  fixme selected stakeholder not show for now on the mobile menu-->
                                 <!--                  <div class="uk-padding-remove uk-flex uk-flex-middle">-->

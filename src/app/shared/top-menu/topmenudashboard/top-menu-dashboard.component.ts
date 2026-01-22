@@ -326,5 +326,18 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
     return this.router.url.startsWith('/resources/');
   }
 
+  getInfo() {
+    this.userService.getUserInfo()
+     .pipe(takeUntil(this._destroyed))
+     .subscribe({
+       next: (res) => {
+         this.userInfo = res;
+       },
+       error: (err) => {
+         console.error(err);
+       }
+     });
+  }
+
 
 }
