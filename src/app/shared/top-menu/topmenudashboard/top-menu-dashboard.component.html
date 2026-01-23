@@ -188,7 +188,7 @@
                             <li class="groups">
                               <a (click)="setCoordinator(coordinator)">
                                 <div class="uk-flex uk-flex-middle">
-                                  <span class="material-icons uk-margin-right">group</span>{{coordinator.name}}
+                                  <span class="material-symbols-outlined uk-margin-right" style="font-size: 21px;">supervisor_account</span>{{coordinator.name}}
                                   <!-- For messages -->
                                   @if (showUnread(coordinator.id)) {
                                     <svg height="20" width="20" class="uk-margin-xsmall-left">
@@ -411,6 +411,8 @@
                                       @for (coordinator of userInfo.coordinators; track coordinator) {
                                         <li>
                                           <a (click)="setCoordinator(coordinator)">
+                                            <div class="uk-flex uk-flex-middle">
+                                              <span class="material-symbols-outlined uk-margin-right">supervisor_account</span>
                                             {{ coordinator.name }}
                                             @if (showUnread(coordinator.id)) {
                                               <svg height="20" width="20" style="margin-left: 8px;">
@@ -421,6 +423,7 @@
                                                 </circle>
                                               </svg>
                                             }
+                                            </div>
                                           </a>
                                         </li>
                                       }
