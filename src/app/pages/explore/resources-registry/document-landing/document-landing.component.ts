@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import {Component, DestroyRef, inject, model, OnInit} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ResourceRegistryService } from '../resource-registry.service';
 import { Document } from 'src/app/domain/document';
@@ -8,6 +8,8 @@ import { PageContentComponent } from 'src/survey-tool/app/shared/page-content/pa
 import {
   SidebarMobileToggleComponent
 } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
+import {Model} from "../../../../../survey-tool/catalogue-ui/domain/dynamic-form-model";
+import {SurveyService} from "../../../../../survey-tool/app/services/survey.service";
 
 @Component({
   selector: 'app-document-landing',
@@ -26,7 +28,10 @@ export class DocumentLandingComponent implements OnInit {
   statusMessage: string = null;
   statusType: 'success' | 'danger' = null;
 
-  constructor(private route: ActivatedRoute, private documentService: ResourceRegistryService) {}
+  surveyModels: Map<string, Model> = new Map();
+  fieldPathsMap: { [key: string]: string } = {};
+
+  constructor(private route: ActivatedRoute, private documentService: ResourceRegistryService, private surveyService: SurveyService,) {}
 
     ngOnInit() {
 
@@ -39,7 +44,7 @@ export class DocumentLandingComponent implements OnInit {
         this.documentService.getDocumentById(this.documentId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: (data) => {
             this.documentData = data;
-
+            this.loadSurveyModels();
           },
           error: (err) => {
             this.error = 'Error fetching document.';
@@ -79,4 +84,125 @@ export class DocumentLandingComponent implements OnInit {
       });
   }
 
+  loadSurveyModels() {
+    if (!this.documentData?.references) {
+      console.log('No reference found in this document');
+      return;
+    }
+
+    const uniqueAnswerIds = [...new Set(this.documentData.references.map(r => r.surveyAnswerId))];
+    console.log('Found Answer IDs: ', uniqueAnswerIds);
+    uniqueAnswerIds.forEach(answerId => {
+      this.surveyService.getAnswer(answerId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (answer) => {
+          if (answer && answer.surveyId) {
+            this.surveyService.getSurvey(answer.surveyId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+              next: (model) => {
+                console.log(`Success loaded model for Survey Id ${answer.surveyId}`, model);
+                this.surveyModels.set(answerId, model);
+                this.generateAllPaths();
+              },
+              error: (err) => console.error('Failed to load Survey Model', err)
+            });
+          }
+        },
+        error: (err) => console.error('Failed to load answer', err)
+      })
+    })
+  }
+
+
+  generateAllPaths() {
+    if (!this.documentData.references) return;
+
+    this.documentData.references.forEach(ref => {
+      const model = this.surveyModels.get(ref.surveyAnswerId);
+      ref.fields.forEach(fieldId => {
+        const path = this.findPathInModel(model, fieldId);
+        if (path) {
+          console.log(`Step 4 SUCCESS: ${fieldId} -> ${path}`);
+          this.fieldPathsMap[fieldId] = path;
+        }
+      });
+    });
+  }
+
+  findPathInModel(model: Model, targetFieldId: string): string | null {
+    if (!model.sections) return null;
+
+    for (const section of model.sections) {
+      const startPath = section.name || section.id;
+
+      const result = this.searchRecursively(section, targetFieldId, [startPath]);
+      if (result) return result;
+    }
+    return null;
+  }
+
+
+  searchRecursively(node: any, targetId: string, currentPath: string[]): string | null {
+    if (node.name) {
+      const isExactMatch = node.name === targetId;
+      const isParentMatch = targetId.startsWith(node.name + '-');
+
+      if (isExactMatch || isParentMatch) {
+        if (node.label && node.label.text && node.label.text.trim().length > 0) {
+          return this.buildResult(node, currentPath);
+        }
+      }
+    }
+
+    if (node.id && String(node.id) === targetId && node.label?.text) {
+      return this.buildResult(node, currentPath);
+    }
+
+
+    // A. Fields
+    if (node.fields) {
+      for (const field of node.fields) {
+        const result = this.searchRecursively(field, targetId, [...currentPath]);
+        if (result) return result;
+      }
+    }
+
+    // B. SubSections
+    if (node.subSections) {
+      for (const subSection of node.subSections) {
+        const nextPath = [...currentPath, subSection.name || subSection.id];
+        const result = this.searchRecursively(subSection, targetId, nextPath);
+        if (result) return result;
+      }
+    }
+
+    // C. SubFields
+    if (node.subFields) {
+      for (const subField of node.subFields) {
+        const parentName = node.name || node.id;
+        const nextPath = [...currentPath];
+        if (parentName && currentPath[currentPath.length - 1] !== parentName) {
+        }
+        const result = this.searchRecursively(subField, targetId, nextPath);
+        if (result) return result;
+      }
+    }
+    return null;
+  }
+
+  buildResult(node: any, currentPath: string[]): string {
+    let finalLabel = node.label?.text;
+    if (!finalLabel) {
+      finalLabel = node.description;
+    }
+    if (finalLabel) {
+      finalLabel = finalLabel.replace(/<[^>]*>/g, '').trim();
+      finalLabel = finalLabel.replace(/&nbsp;/g, ' ');
+      if (finalLabel.length > 100) {
+        finalLabel = finalLabel.substring(0, 100) + '...';
+      }
+    } else {
+
+      finalLabel = node.name || node.id;
+    }
+    return [...currentPath, finalLabel].join(' > ');
+  }
 }
