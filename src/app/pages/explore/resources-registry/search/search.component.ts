@@ -5,8 +5,8 @@ import {CommonModule} from '@angular/common';
 import {ResourceRegistryService} from '../resource-registry.service';
 import {Document, HighlightedResults} from 'src/app/domain/document';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {fromEvent} from "rxjs";
-import {debounceTime, distinctUntilChanged, map} from "rxjs/operators";
+import {fromEvent, Subject} from "rxjs";
+import {debounceTime, distinctUntilChanged, map, takeUntil} from "rxjs/operators";
 import {NgSelectModule} from '@ng-select/ng-select';
 import {SearchCardComponent} from "./card/search-card.component";
 import {URLParameter} from 'src/survey-tool/app/domain/url-parameter';
@@ -17,10 +17,13 @@ import {
   SidebarMobileToggleComponent
 } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
 import * as UIkit from 'uikit';
-
+import { UserService} from "../../../../../survey-tool/app/services/user.service";
+import { StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
+import { Administrator} from "../../../../../survey-tool/app/domain/userInfo";
 
 @Component({
   selector: 'app-resource-registry-search',
+  providers: [ResourceRegistryService, StakeholdersService],
   templateUrl: './search.component.html',
   imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, PageContentComponent, SidebarMobileToggleComponent, SearchCardComponent]
 })
@@ -63,12 +66,30 @@ export class SearchComponent implements OnInit {
   error: string = null;
 
   alertStates: { [id: string]: { message: string; type: 'success' | 'danger' } } = {};
+  private _destroyed: Subject<boolean> = new Subject();
 
 
-  constructor(private resourceService: ResourceRegistryService, private route: ActivatedRoute, private router: Router, private resourceRegistryService: ResourceRegistryService) {
+
+  constructor(private resourceService: ResourceRegistryService, private route: ActivatedRoute, private router: Router, private resourceRegistryService: ResourceRegistryService, private userService: UserService, private stakeholdersService: StakeholdersService) {
   }
 
   ngOnInit() {
+    this.route.params.pipe(takeUntil(this._destroyed)).subscribe(params => {
+      let id = params['id'] || params['stakeholderId'];
+
+      if (id) {
+        this.initAdminGroup(id);
+      } else {
+          if (this.route.parent) {
+            this.route.parent.params.subscribe(parentParams => {
+              id = parentParams['id'];
+              if (id) {
+                this.initAdminGroup(id);
+              }
+            })
+          }
+      }
+    })
 
     if (this.route.snapshot.paramMap.get('stakeholderId') && this.route.snapshot.paramMap.get('stakeholderId') === 'admin-eosc-sb') {
       this.isAdminPage = true
@@ -118,6 +139,30 @@ export class SearchComponent implements OnInit {
       this.updateURLParameters('from', '0');
       this.updateURLParameters('keyword', text);
       this.navigateUsingURLParameters();
+    });
+  }
+
+  initAdminGroup(id: string) {
+    this.userService.currentAdministrator.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(next => {
+      // Προσπαθούμε να βρούμε τον Admin από το session storage ή το behavior subject
+      const currentGroup = !!next ? next : JSON.parse(sessionStorage.getItem('currentAdministrator'));
+
+      // Αν βρήκαμε τον Admin και το ID ταιριάζει, όλα καλά (αλλά κάνουμε trigger το change για το μενού)
+      if (currentGroup !== null && currentGroup.id === id) {
+        this.userService.changeCurrentAdministrator(currentGroup as Administrator);
+        this.isAdminPage = true; // Επιβεβαίωση
+      }
+      // Αν δεν βρήκαμε Admin ή το ID είναι διαφορετικό, τον φέρνουμε από το API
+      else {
+        this.stakeholdersService.getAdministrators(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+          res => {
+            // ΑΥΤΟ ΕΙΝΑΙ ΠΟΥ ΕΝΕΡΓΟΠΟΙΕΙ ΤΟ ΜΕΝΟΥ
+            this.userService.changeCurrentAdministrator(res as Administrator);
+            this.isAdminPage = true;
+          },
+          error => console.error('Failed to load administrator info', error)
+        );
+      }
     });
   }
 

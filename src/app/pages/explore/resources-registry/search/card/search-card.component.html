@@ -1,10 +1,10 @@
 @for (doc of documents; track doc) {
   <div class="uk-card uk-card-default uk-margin-bottom"
-    [attr.id]="'card-' + doc.result.id">
+       [attr.id]="'card-' + doc.result.id">
     <div class="uk-card-body">
       @if (alertStates[doc.result.id]) {
         <div class="uk-margin-small-bottom uk-animation-fade">
-      <div [ngClass]="{
+          <div [ngClass]="{
                             'uk-alert uk-alert-success uk-text-center': alertStates[doc.result.id].type === 'success',
                             'uk-alert uk-alert-danger uk-text-center': alertStates[doc.result.id].type === 'danger'
                           }" uk-alert>
@@ -16,148 +16,155 @@
       @if (isAdminPage) {
         <div class="uk-flex uk-flex-right uk-margin-bottom">
           <div class=""
-            [ngClass]="{'uk-label-success': doc.result.status === 'APPROVED','uk-label-danger': doc.result.status === 'REJECTED','uk-label-warning': doc.result.status === 'PENDING'}">
+               [ngClass]="{'uk-label-success': doc.result.status === 'APPROVED','uk-label-danger': doc.result.status === 'REJECTED','uk-label-warning': doc.result.status === 'PENDING'}">
             {{ doc.result.status }}
           </div>
         </div>
       }
       @if (!doc.result.docInfo) {
         <div>
-          No information was found or generated for this URL <a href="{{doc.result.url}}" target="_blank">{{ doc.result.url
-        }}</a>
-      </div>
-    } @else {
-      <div class="uk-card-title">
-        <div class="uk-flex uk-flex-middle uk-flex-between uk-margin-small-bottom">
-          <div class="uk-flex uk-flex-middle">
-            <!-- {{doc.docInfo | json}} -->
-            @if (doc.result.docInfo?.country && doc.result.docInfo.country !== 'EU') {
-              <img
-                ngSrc="../../survey-tool/assets/images/flags/{{doc.result.docInfo?.country | lowercase}}-flag-round.png"
-                class="flag-image uk-margin-small-right" width="30" height="20"
-                alt="{{doc.result.docInfo?.country}} flag">
-            }
-            @if (doc.result.docInfo?.country && doc.result.docInfo.country === 'EU') {
-              <img
-                ngSrc="../../survey-tool/assets/images/flags/europe-flag.jpg"
-                class="flag-image uk-margin-small-right" width="30" height="20"
-                alt="{{doc.result.docInfo?.country}} flag">
-            }
-            <strong>
-              <a [routerLink]="['../document-landing', doc.result.id]"
-                [innerHTML] = "getHighlightForField(doc, 'title') ?? doc.result.docInfo?.title">
-              </a>
-            </strong>
-            <span style="margin-left: 20px;"></span>
-            @if (doc.result.url) {
-              <a [href]="doc.result.url" target="_blank">
+          No information was found or generated for this URL <a href="{{doc.result.url}}" target="_blank">{{
+            doc.result.url
+          }}</a>
+        </div>
+      } @else {
+        <div class="uk-card-title">
+          <div class="uk-flex uk-flex-middle uk-flex-between uk-margin-small-bottom">
+            <div class="uk-flex uk-flex-middle">
+              <!-- {{doc.docInfo | json}} -->
+              @if (doc.result.docInfo?.country && doc.result.docInfo.country !== 'EU') {
+                <img
+                  ngSrc="../../survey-tool/assets/images/flags/{{doc.result.docInfo?.country | lowercase}}-flag-round.png"
+                  class="flag-image uk-margin-small-right" width="30" height="20"
+                  alt="{{doc.result.docInfo?.country}} flag">
+              }
+              @if (doc.result.docInfo?.country && doc.result.docInfo.country === 'EU') {
+                <img
+                  ngSrc="../../survey-tool/assets/images/flags/europe-flag.jpg"
+                  class="flag-image uk-margin-small-right" width="30" height="20"
+                  alt="{{doc.result.docInfo?.country}} flag">
+              }
+              <strong>
+                <a [routerLink]="['../document-landing', doc.result.id]">
+                  @if ((getHighlightForField(doc, 'title') ?? doc.result.docInfo?.title)) {
+                    <span [innerHTML]="getHighlightForField(doc, 'title') ?? doc.result.docInfo?.title"></span>
+                  } @else if (isAdminPage) {
+                    <span class="uk-text-muted">&#123; No title found &#125;</span>
+                  }
+                </a>
+              </strong>
+              <span style="margin-left: 20px;"></span>
+              @if (doc.result.url) {
+                <a [href]="doc.result.url" target="_blank">
                 <span class="material-symbols-outlined" style="font-size: 20px; vertical-align: middle;">
                   open_in_new
                 </span>
-              </a>
-            }
-          </div>
-          <div class="uk-flex uk-flex-middle">
-            @for (tag of doc.result.docInfo?.tags; track tag) {
-              <span
-                class="uk-label uk-margin-small-left uk-label-primary uk-text-bold">
+                </a>
+              }
+            </div>
+            <div class="uk-flex uk-flex-middle">
+              @for (tag of doc.result.docInfo?.tags; track tag) {
+                <span
+                  class="uk-label uk-margin-small-left uk-label-primary uk-text-bold">
                 {{ tag }}
               </span>
-            }
+              }
+            </div>
           </div>
         </div>
-      </div>
-      @if (doc.result.docInfo?.publicationDate || doc.result.docInfo?.startDate || doc.result.docInfo?.endDate) {
-        <div
-          class="uk-text-small uk-margin-small-bottom document-dates-metadata">
-          @if (doc.result.docInfo?.publicationDate) {
-            <span>
+        @if (doc.result.docInfo?.publicationDate || doc.result.docInfo?.startDate || doc.result.docInfo?.endDate) {
+          <div
+            class="uk-text-small uk-margin-small-bottom document-dates-metadata">
+            @if (doc.result.docInfo?.publicationDate) {
+              <span>
               Publication Date: {{ doc.result.docInfo.publicationDate |date:'mediumDate' }}
             </span>
-          }
-          @if (doc.result.docInfo?.startDate) {
-            <span>Start Date: {{ doc.result.docInfo.startDate | date:'mediumDate'
-            }}</span>
-          }
-          @if (doc.result.docInfo?.endDate) {
-            <span>End Date: {{ doc.result.docInfo.endDate | date:'mediumDate' }}</span>
-          }
-        </div>
-      }
-      @if (doc.result.docInfo?.authors && doc.result.docInfo?.authors?.length>0) {
-        <div
-          class="uk-text-small uk-margin-small-bottom">
-          <div class="uk-margin-xsmall-bottom">
-            <div
-              class="uk-height-max-medium uk-overflow-auto uk-text-small uk-text-emphasis uk-flex uk-flex-wrap">
-              <span class="uk-text-meta uk-margin-xsmall-right"> Authors: </span>
-              @for (author of doc.result.docInfo.authors; track author) {
-                <span style="margin-right: 5px;"
-                class="uk-text-italic"> {{author.name}} </span>
-              }
-            </div>
+            }
+            @if (doc.result.docInfo?.startDate) {
+              <span>Start Date: {{
+                  doc.result.docInfo.startDate | date:'mediumDate'
+                }}</span>
+            }
+            @if (doc.result.docInfo?.endDate) {
+              <span>End Date: {{ doc.result.docInfo.endDate | date:'mediumDate' }}</span>
+            }
           </div>
-        </div>
-      }
-      <!--                <pre>{{doc.result.docInfo?.shortDescription?.text}}</pre>-->
-      @if (doc.result.docInfo?.shortDescription) {
-        <p
-          [title]="doc.result.docInfo?.shortDescription?.generated ? 'This description is AI-generated' : null">
-          @if (doc.result.docInfo?.shortDescription?.generated) {
-            <span class="material-symbols-outlined"
-            style="font-size: 16px">star_shine</span>
-          }
-          <!--                    <span [innerHTML]=doc.result.docInfo?.shortDescription?.text></span>-->
-          <span [innerHTML]="getHighlightForField(doc, 'shortDescription') ?? doc.result.docInfo?.shortDescription?.text"></span>
-          <!--                  <span [innerHTML]=doc.highlights.find(el => el['field'] === 'shortDescription')></span>-->
-          <!--                  <span *ngIf="doc.docInfo?.shortDescription?.generated" class="material-symbols-outlined uk-text-secondary" style="font-size: 16px">star_shine</span>-->
-        </p>
-      }
-      @if (doc.result.docInfo?.organisations && doc.result.docInfo?.organisations?.length>0) {
-        <div
-          class="uk-text-small uk-margin-small-bottom">
-          <div class="uk-margin-xsmall-bottom">
-            <div
-              class="uk-height-max-medium uk-overflow-auto uk-text-small uk-text-emphasis uk-flex uk-flex-wrap">
-              <span class="uk-text-meta uk-margin-xsmall-right"> Organisations: </span>
-              @for (organisation of doc.result.docInfo.organisations; track organisation; let i = $index) {
-                @if (i!==0) {
-                  <span class="uk-margin-xsmall-right">,</span>
+        }
+        @if (doc.result.docInfo?.authors && doc.result.docInfo?.authors?.length > 0) {
+          <div
+            class="uk-text-small uk-margin-small-bottom">
+            <div class="uk-margin-xsmall-bottom">
+              <div
+                class="uk-height-max-medium uk-overflow-auto uk-text-small uk-text-emphasis uk-flex uk-flex-wrap">
+                <span class="uk-text-meta uk-margin-xsmall-right"> Authors: </span>
+                @for (author of doc.result.docInfo.authors; track author) {
+                  <span style="margin-right: 5px;"
+                        class="uk-text-italic"> {{ author.name }} </span>
                 }
-                <span [innerHTML]="organisation"></span>
-              }
+              </div>
             </div>
           </div>
-        </div>
+        }
+        <!--                <pre>{{doc.result.docInfo?.shortDescription?.text}}</pre>-->
+        @if (doc.result.docInfo?.shortDescription) {
+          <p
+            [title]="doc.result.docInfo?.shortDescription?.generated ? 'This description is AI-generated' : null">
+            @if (doc.result.docInfo?.shortDescription?.generated) {
+              <span class="material-symbols-outlined"
+                    style="font-size: 16px">star_shine</span>
+            }
+            <!--                    <span [innerHTML]=doc.result.docInfo?.shortDescription?.text></span>-->
+            <span
+              [innerHTML]="getHighlightForField(doc, 'shortDescription') ?? doc.result.docInfo?.shortDescription?.text"></span>
+            <!--                  <span [innerHTML]=doc.highlights.find(el => el['field'] === 'shortDescription')></span>-->
+            <!--                  <span *ngIf="doc.docInfo?.shortDescription?.generated" class="material-symbols-outlined uk-text-secondary" style="font-size: 16px">star_shine</span>-->
+          </p>
+        }
+        @if (doc.result.docInfo?.organisations && doc.result.docInfo?.organisations?.length > 0) {
+          <div
+            class="uk-text-small uk-margin-small-bottom">
+            <div class="uk-margin-xsmall-bottom">
+              <div
+                class="uk-height-max-medium uk-overflow-auto uk-text-small uk-text-emphasis uk-flex uk-flex-wrap">
+                <span class="uk-text-meta uk-margin-xsmall-right"> Organisations: </span>
+                @for (organisation of doc.result.docInfo.organisations; track organisation; let i = $index) {
+                  @if (i !== 0) {
+                    <span class="uk-margin-xsmall-right">,</span>
+                  }
+                  <span [innerHTML]="organisation"></span>
+                }
+              </div>
+            </div>
+          </div>
+        }
       }
-    }
-  </div>
-  @if (isAdminPage) {
-    <div class="uk-card-footer">
-      <div class="uk-flex uk-flex-right">
-        <a [routerLink]="['../document-edit', doc.result.id]"
-          class="uk-link uk-link-reset uk-margin-medium-right uk-flex uk-flex-middle uk-text-small"
-          title="Edit Document"><span class="material-symbols-outlined uk-margin-xsmall-right"
-        style="font-size: 18px">edit</span>Edit</a>
-        <!--                <hr class="uk-divider-vertical">-->
-        <a (click)="updateStatus(doc.result.id, 'APPROVED')"
-          class="uk-link uk-link-reset uk-flex uk-flex-middle uk-text-small"
-          style="padding-left: 40px; border-left: 1px solid #ccc; cursor: pointer;">
+    </div>
+    @if (isAdminPage) {
+      <div class="uk-card-footer">
+        <div class="uk-flex uk-flex-right">
+          <a [routerLink]="['../document-edit', doc.result.id]"
+             class="uk-link uk-link-reset uk-margin-medium-right uk-flex uk-flex-middle uk-text-small"
+             title="Edit Document"><span class="material-symbols-outlined uk-margin-xsmall-right"
+                                         style="font-size: 18px">edit</span>Edit</a>
+          <!--                <hr class="uk-divider-vertical">-->
+          <a (click)="updateStatus(doc.result.id, 'APPROVED')"
+             class="uk-link uk-link-reset uk-flex uk-flex-middle uk-text-small"
+             style="padding-left: 40px; border-left: 1px solid #ccc; cursor: pointer;">
           <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">
             check_circle
           </span>Approve
-        </a>
-        <a (click)="updateStatus(doc.result.id, 'REJECTED')"
-          class="uk-link uk-link-reset uk-flex uk-flex-middle uk-text-small"
-          style="padding-left: 40px; border-left: 1px solid #ccc; margin-left: 10px; cursor: pointer;">
+          </a>
+          <a (click)="updateStatus(doc.result.id, 'REJECTED')"
+             class="uk-link uk-link-reset uk-flex uk-flex-middle uk-text-small"
+             style="padding-left: 40px; border-left: 1px solid #ccc; margin-left: 10px; cursor: pointer;">
           <span class="material-symbols-outlined uk-margin-xsmall-right" style="font-size: 18px">
             cancel
           </span>Reject
-        </a>
+          </a>
+        </div>
       </div>
-    </div>
-  }
-</div>
+    }
+  </div>
 }
 
 

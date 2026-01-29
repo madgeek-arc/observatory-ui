@@ -350,17 +350,30 @@
                             <tbody>
                               @for (reference of documentData.references; track reference) {
                                 <tr>
-                                  <td>{{ reference.surveyAnswerId }}</td>
+                                  <td>
+                                    <div class="uk-text-bold">{{ reference.surveyAnswerId }}</div>
+                                    @if (surveyNames.get(reference.surveyAnswerId)) {
+                                      <div class="uk-text-muted">
+                                        {{ surveyNames.get(reference.surveyAnswerId) }}
+                                      </div>
+                                    }
+                                  </td>
                                   <td>
                                     @for (fieldId of reference.fields; track fieldId) {
-                                      <span class="uk-text-bold uk-display-block">
-                                          {{ fieldPathsMap[fieldId] ? fieldPathsMap[fieldId] : fieldId }}
-                                      </span>
+                                      <div class="uk-margin-small-bottom">
+                                        @if (fieldPathsMap[fieldId]) {
+                                          <div class="uk-text-small">
+                                            {{ fieldPathsMap[fieldId] }}
+                                          </div>
+                                          <span class="uk-text-bold uk-text-muted">
+                                            {{ fieldId }}
+                                         </span>
+                                        }
+                                      </div>
                                     }
                                   </td>
                                 </tr>
                               }
-                            <tr>
                             </tbody>
                           </table>
                         </div>

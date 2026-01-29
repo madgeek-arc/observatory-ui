@@ -30,6 +30,7 @@ export class DocumentLandingComponent implements OnInit {
 
   surveyModels: Map<string, Model> = new Map();
   fieldPathsMap: { [key: string]: string } = {};
+  surveyNames: Map<string, string> = new Map();
 
   constructor(private route: ActivatedRoute, private documentService: ResourceRegistryService, private surveyService: SurveyService,) {}
 
@@ -99,6 +100,9 @@ export class DocumentLandingComponent implements OnInit {
             this.surveyService.getSurvey(answer.surveyId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
               next: (model) => {
                 console.log(`Success loaded model for Survey Id ${answer.surveyId}`, model);
+                if ( model.name) {
+                  this.surveyNames.set(answerId, model.name)
+                }
                 this.surveyModels.set(answerId, model);
                 this.generateAllPaths();
               },
