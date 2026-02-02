@@ -79,16 +79,17 @@ export class SearchComponent implements OnInit {
 
       if (id) {
         this.initAdminGroup(id);
-      } else {
-          if (this.route.parent) {
-            this.route.parent.params.subscribe(parentParams => {
-              id = parentParams['id'];
-              if (id) {
-                this.initAdminGroup(id);
-              }
-            })
-          }
-      }
+       }
+        // else {
+      //     if (this.route.parent) {
+      //       this.route.parent.params.subscribe(parentParams => {
+      //         id = parentParams['id'];
+      //         if (id) {
+      //           this.initAdminGroup(id);
+      //         }
+      //       })
+      //     }
+      // }
     })
 
     if (this.route.snapshot.paramMap.get('stakeholderId') && this.route.snapshot.paramMap.get('stakeholderId') === 'admin-eosc-sb') {
@@ -143,19 +144,36 @@ export class SearchComponent implements OnInit {
   }
 
 // Initializes administrator state to ensure the Side Menu appears on page refresh
+//   initAdminGroup(id: string) {
+//     const sessionItem = JSON.parse(sessionStorage.getItem('currentAdministrator'));
+//     if (sessionItem && sessionItem.id === id) {
+//       this.userService.changeCurrentAdministrator(sessionItem as Administrator);
+//       this.isAdminPage = true;
+//     } else {
+//       this.stakeholdersService.getAdministrators(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+//         res => {
+//           this.userService.changeCurrentCoordinator(res as Administrator);
+//           this.isAdminPage = true;
+//         },
+//         error => console.error('Failed to load administrator', error));
+//     }
+//   }
   initAdminGroup(id: string) {
-    const sessionItem = JSON.parse(sessionStorage.getItem('currentAdministrator'));
-    if (sessionItem && sessionItem.id === id) {
-      this.userService.changeCurrentAdministrator(sessionItem as Administrator);
-      this.isAdminPage = true;
-    } else {
-      this.stakeholdersService.getAdministrators(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
-        res => {
-          this.userService.changeCurrentCoordinator(res as Administrator);
-          this.isAdminPage = true;
-        },
-        error => console.error('Failed to load administrator', error));
-    }
+    this.userService.currentAdministrator.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(next => {
+      const currentGroup = !!next ? next : JSON.parse(sessionStorage.getItem('currentAdministrator'));
+      if (currentGroup !== null && currentGroup.id === id) {
+        this.isAdminPage = true;
+      }
+      else {
+        this.stakeholdersService.getAdministrators(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+          res => {
+            this.userService.changeCurrentAdministrator(res as Administrator);
+            this.isAdminPage = true;
+          },
+          error => console.error('Failed to load administrator info', error)
+        );
+      }
+    });
   }
 
   // Load documents based on current parameters
