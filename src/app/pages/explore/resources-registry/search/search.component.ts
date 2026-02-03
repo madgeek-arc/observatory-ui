@@ -79,16 +79,7 @@ export class SearchComponent implements OnInit {
 
       if (id) {
         this.initAdminGroup(id);
-      } else {
-          if (this.route.parent) {
-            this.route.parent.params.subscribe(parentParams => {
-              id = parentParams['id'];
-              if (id) {
-                this.initAdminGroup(id);
-              }
-            })
-          }
-      }
+       }
     })
 
     if (this.route.snapshot.paramMap.get('stakeholderId') && this.route.snapshot.paramMap.get('stakeholderId') === 'admin-eosc-sb') {
@@ -142,21 +133,30 @@ export class SearchComponent implements OnInit {
     });
   }
 
+// Initializes administrator state to ensure the Side Menu appears on page refresh
+//   initAdminGroup(id: string) {
+//     const sessionItem = JSON.parse(sessionStorage.getItem('currentAdministrator'));
+//     if (sessionItem && sessionItem.id === id) {
+//       this.userService.changeCurrentAdministrator(sessionItem as Administrator);
+//       this.isAdminPage = true;
+//     } else {
+//       this.stakeholdersService.getAdministrators(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+//         res => {
+//           this.userService.changeCurrentCoordinator(res as Administrator);
+//           this.isAdminPage = true;
+//         },
+//         error => console.error('Failed to load administrator', error));
+//     }
+//   }
   initAdminGroup(id: string) {
     this.userService.currentAdministrator.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(next => {
-      // Προσπαθούμε να βρούμε τον Admin από το session storage ή το behavior subject
       const currentGroup = !!next ? next : JSON.parse(sessionStorage.getItem('currentAdministrator'));
-
-      // Αν βρήκαμε τον Admin και το ID ταιριάζει, όλα καλά (αλλά κάνουμε trigger το change για το μενού)
       if (currentGroup !== null && currentGroup.id === id) {
-        this.userService.changeCurrentAdministrator(currentGroup as Administrator);
-        this.isAdminPage = true; // Επιβεβαίωση
+        this.isAdminPage = true;
       }
-      // Αν δεν βρήκαμε Admin ή το ID είναι διαφορετικό, τον φέρνουμε από το API
       else {
         this.stakeholdersService.getAdministrators(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
           res => {
-            // ΑΥΤΟ ΕΙΝΑΙ ΠΟΥ ΕΝΕΡΓΟΠΟΙΕΙ ΤΟ ΜΕΝΟΥ
             this.userService.changeCurrentAdministrator(res as Administrator);
             this.isAdminPage = true;
           },

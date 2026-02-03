@@ -58,8 +58,6 @@ export class DocumentLandingComponent implements OnInit {
     onUpdateStatus(id: string, status: 'APPROVED' | 'REJECTED') {
       this.documentService.updateStatus(id, status).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: () => {
-          console.log(`Document ${id} status updated to ${status}`);
-
           this.statusMessage = status === 'APPROVED' ? 'Document approved successfully.' : 'Document rejected successfully.';
           this.statusType = 'success' ;
           setTimeout(() => this.statusMessage = null, 5000);
@@ -87,19 +85,16 @@ export class DocumentLandingComponent implements OnInit {
 
   loadSurveyModels() {
     if (!this.documentData?.references) {
-      console.log('No reference found in this document');
       return;
     }
 
     const uniqueAnswerIds = [...new Set(this.documentData.references.map(r => r.surveyAnswerId))];
-    console.log('Found Answer IDs: ', uniqueAnswerIds);
     uniqueAnswerIds.forEach(answerId => {
       this.surveyService.getAnswer(answerId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: (answer) => {
           if (answer && answer.surveyId) {
             this.surveyService.getSurvey(answer.surveyId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
               next: (model) => {
-                console.log(`Success loaded model for Survey Id ${answer.surveyId}`, model);
                 if ( model.name) {
                   this.surveyNames.set(answerId, model.name)
                 }
@@ -124,7 +119,6 @@ export class DocumentLandingComponent implements OnInit {
       ref.fields.forEach(fieldId => {
         const path = this.findPathInModel(model, fieldId);
         if (path) {
-          console.log(`Step 4 SUCCESS: ${fieldId} -> ${path}`);
           this.fieldPathsMap[fieldId] = path;
         }
       });
