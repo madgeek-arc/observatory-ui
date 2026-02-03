@@ -80,16 +80,6 @@ export class SearchComponent implements OnInit {
       if (id) {
         this.initAdminGroup(id);
        }
-        // else {
-      //     if (this.route.parent) {
-      //       this.route.parent.params.subscribe(parentParams => {
-      //         id = parentParams['id'];
-      //         if (id) {
-      //           this.initAdminGroup(id);
-      //         }
-      //       })
-      //     }
-      // }
     })
 
     if (this.route.snapshot.paramMap.get('stakeholderId') && this.route.snapshot.paramMap.get('stakeholderId') === 'admin-eosc-sb') {
