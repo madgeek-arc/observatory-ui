@@ -14,6 +14,15 @@ import {
   ContributionsHomeComponent
 } from "../survey-tool/app/pages/contributions-dashboard/home/contributions-home.component";
 import { ReportCreationComponent } from "./pages/report-creation/report-creation.component";
+import {
+  StakeholdersHomeComponent
+} from "./pages/dashboard/contribution-dashboard-extension/stakeholders/stakeholders-home.component";
+import {
+  CoordinatorHomeComponent
+} from "./pages/dashboard/contribution-dashboard-extension/coordinators/coordinator-home.component";
+import {
+  AdministratorHomeComponent
+} from "./pages/dashboard/contribution-dashboard-extension/administrator/administrator-home.component";
 
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: "enabled",
@@ -84,8 +93,18 @@ const routes: Routes = [
     redirectTo: 'contributions/:id/home'
   },
   {
-    path: 'contributions/:id/home',
-    component: ContributionsHomeExtentionComponent,
+    path: 'contributions/:id/stakeholder',
+    component: StakeholdersHomeComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'contributions/:id/coordinator',
+    component: CoordinatorHomeComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'contributions/:id/administrator',
+    component: AdministratorHomeComponent,
     canActivate: [AuthGuard]
   },
   {
