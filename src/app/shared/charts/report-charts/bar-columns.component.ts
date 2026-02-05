@@ -24,6 +24,7 @@ export class BarColumnsComponent implements OnChanges {
   @Input() stacking = undefined;
   @Input() reversedStacks = true;
   @Input() dataLabelsEnabled = false;
+  @Input() whitespace?: string = undefined;
 
 
   @Output() chartReady = new EventEmitter<Highcharts.Chart>();
@@ -39,7 +40,7 @@ export class BarColumnsComponent implements OnChanges {
   updateChart() {
     const that = this;
     // if (this.series.length === 1) {
-    //   // If last column empty remove from chart as requested
+    //   // If last column is empty remove from chart as requested
     //   if (this.series[0].data[5] === 0) {
     //     this.series[0].data.pop();
     //     this.categories.pop();
@@ -48,6 +49,8 @@ export class BarColumnsComponent implements OnChanges {
 
     this.chartOptions = {
       chart: {
+        height: 660,
+        width: 990,
         events: {
           load(this: Highcharts.Chart) {
             // `this` is already typed as the Chart instance
@@ -68,6 +71,14 @@ export class BarColumnsComponent implements OnChanges {
         categories: this.categories,
         title: {
           text: this.XAxisTitleText
+        },
+        labels: {
+          allowOverlap: true,
+          style: this.whitespace ? {
+            fontSize: '18px',
+            whiteSpace: this.whitespace,
+            textOverflow: 'none'
+          } : {}
         }
       },
       yAxis: {
@@ -78,7 +89,10 @@ export class BarColumnsComponent implements OnChanges {
         reversedStacks: this.reversedStacks,
       },
       legend: {
-        enabled: this.enableLegend
+        enabled: this.enableLegend,
+        itemStyle: {
+          fontSize: '18px',
+        }
       },
       exporting: {
         enabled: false

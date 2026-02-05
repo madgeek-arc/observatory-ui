@@ -42,6 +42,8 @@ export class ReportPieChartComponent implements OnInit, OnChanges {
     this.chartOptions = {
       chart: {
         type: 'pie',
+        height: 416,
+        width: 624,
         events: {
           load(this: Highcharts.Chart) {
             // `this` is already typed as the Chart instance
@@ -70,7 +72,7 @@ export class ReportPieChartComponent implements OnInit, OnChanges {
             format: '{point.percentage:.0f}%',
             distance: -30,
             style: {
-              fontSize: '16px',
+              fontSize: '18px',
               fontWeight: 'bold',
               color: 'white'
             }
@@ -80,7 +82,10 @@ export class ReportPieChartComponent implements OnInit, OnChanges {
       legend: {
         enabled: true,
         align: 'center',
-        verticalAlign: 'bottom'
+        verticalAlign: 'bottom',
+        itemStyle: {
+          fontSize: '18px',
+        }
       },
       series: this.series.length > 0 ? this.series : []
     };

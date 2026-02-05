@@ -343,8 +343,8 @@ export const chartsCfg: Chart[] = [
     data: [],
     chartSeries: [],
     pieSeries: [],
-    type: 'totalInvestmentsRangeColumns',
-    stats: ['Question60'],
+    type: 'totalInvestments', // Type is correct do not change, according to other trends
+    stats: ['Question60_trend'],
   },
   {
     title: 'Trend in EU Countries with National Investments in FAIR Data per 1000 FTE Researchers',
@@ -352,8 +352,8 @@ export const chartsCfg: Chart[] = [
     data: [],
     chartSeries: [],
     pieSeries: [],
-    type: 'totalInvestments',
-    stats: ['Question64'],
+    type: 'totalInvestments', // Type is correct do not change, according to other trends
+    stats: ['Question64_trend'],
   },
   {
     title: 'Trend in EU Countries with National Investments in Open Data per 1000 FTE Researchers',
@@ -361,7 +361,7 @@ export const chartsCfg: Chart[] = [
     data: [],
     chartSeries: [],
     pieSeries: [],
-    type: 'totalInvestments',
+    type: 'totalInvestments', // Type is correct do not change, according to other trends
     stats: ['Question68_trend'],
   },
   {
