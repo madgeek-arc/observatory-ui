@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, inject, OnInit } from "@angular/core";
 import { ReportCreationService } from "../services/report-creation.service";
 import { EoscReadinessDataService } from "../services/eosc-readiness-data.service";
 import { StakeholdersService } from "../../../survey-tool/app/services/stakeholders.service";
@@ -39,9 +39,14 @@ interface ChartImageData {
 export class ReportCreationComponent implements OnInit {
   private queryData = inject(EoscReadinessDataService);
   private reportService =  inject(ReportCreationService);
+  private cdr = inject(ChangeDetectorRef);
 
   charts: Highcharts.Chart[] = [];
   pieCharts: Highcharts.Chart[][] = [];
+
+  chartsReadyCount = 0;
+  pieChartsReadyCount = 0;
+  totalPieChartsCount = 0;
 
   years = ['2022', '2023', '2024'];
   categories = ['Survey 2022', 'Survey 2023', 'Survey 2024'];
@@ -59,6 +64,9 @@ export class ReportCreationComponent implements OnInit {
     // this.worldCharts = new Array(this.chartsCfg.length).fill(null);
     this.charts = [];
     this.pieCharts = [];
+    this.chartsReadyCount = 0;
+    this.pieChartsReadyCount = 0;
+    this.totalPieChartsCount = this.countAllPieSeries();
     this.reportData['Year'] = this.years[this.years.length-1];
     this.reportData['FiscalYear'] = this.years[this.years.length-2];
     this.chartsCfg.forEach(chart => this.loadChart(chart));
@@ -124,7 +132,7 @@ export class ReportCreationComponent implements OnInit {
 
         if (chart.stats) {
           chart.stats.forEach((query, index) => {
-            this.reportData[query] = this.countAnswer(chart.data, index);
+            this.reportData[query] = this.countAnswer(chart.data[index]);
           });
         }
       },
@@ -257,8 +265,8 @@ export class ReportCreationComponent implements OnInit {
         seriesOptions[0].data.push(0);
         trends.push({year: year, investment: 0});
       } else {
-        seriesOptions[0].data.push(Math.floor((investments * 1000) / (researchersInFTE / 1000)));
-        trends.push({year: year, investment: Math.floor((investments * 1000) / (researchersInFTE / 1000))});
+        seriesOptions[0].data.push(Math.round((investments * 1000) / (researchersInFTE / 1000)));
+        trends.push({year: year, investment: Math.round((investments * 1000) / (researchersInFTE / 1000))});
       }
 
     });
@@ -634,8 +642,7 @@ export class ReportCreationComponent implements OnInit {
 
 
   /** utils **/
-  countAnswer(dataArr: RawData[], index: number) {
-    let data = dataArr[index];
+  countAnswer(data: RawData) {
     let count = 0;
     let total = 0;
     let percentage: number;
@@ -646,13 +653,6 @@ export class ReportCreationComponent implements OnInit {
       if (element.row[1] === 'Yes')
         count++;
     });
-    if (index === 1) { // Calculate total from previus positive answer (in somecases the question was not answered)
-      total = 0;
-      dataArr[index - 1].datasets[0].series.result.forEach(element => {
-        if (element.row[1] === 'Yes')
-          total++;
-      });
-    }
 
     percentage = Math.round((count / total + Number.EPSILON) * 100);
 
@@ -676,6 +676,8 @@ export class ReportCreationComponent implements OnInit {
       return;
 
     this.charts[chartIndex] = chart;
+    this.chartsReadyCount++;
+    this.cdr.detectChanges();
   }
 
   onPieChartReady(chart: Highcharts.Chart, i: number, j: number) {
@@ -687,7 +689,8 @@ export class ReportCreationComponent implements OnInit {
       this.pieCharts[i] = [];
 
     this.pieCharts[i][j] = chart;
-
+    this.pieChartsReadyCount++;
+    this.cdr.detectChanges();
   }
 
   // Generate individual chart image (useful for testing)

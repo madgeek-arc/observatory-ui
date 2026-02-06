@@ -105,7 +105,7 @@ export class BarColumnsComponent implements OnChanges {
           dataLabels: {
             enabled: this.dataLabelsEnabled,
             style: {
-              fontSize: '14px',
+              fontSize: '18px',
               fontWeight: 'bold',
             },
             formatter: function() {
