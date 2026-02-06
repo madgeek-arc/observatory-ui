@@ -26,14 +26,14 @@
   </div>
 
   <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
-    <div class="uk-container uk-container-expand uk-child-width-1-3" data-uk-grid>
+    <div class="uk-container uk-container-expand">
       @for (chart of chartsCfg; track chart; let i = $index) {
         <div>
           @if (chart.chartSeries.length > 0) {
             <h6 class="uk-flex uk-flex-center">{{ chart.title }}</h6>
             @switch (chart.type) {
               @case ('rangeColumns') {
-                <bar-columns-chart [series]="chart.chartSeries" [XAxisTitleText]="'per 1000 FTEs'"
+                <bar-columns-chart [series]="chart.chartSeries" [XAxisTitleText]="'per 1000 FTEs'" whitespace="nowrap"
                                    (chartReady)="onChartReady($event, i)">
                 </bar-columns-chart>
               }
@@ -43,7 +43,7 @@
                 </bar-columns-chart>
               }
               @case ('stackedBars') {
-                <bar-columns-chart [series]="chart.chartSeries" [categories]="years" [reversedStacks]="false"
+                <bar-columns-chart [series]="chart.chartSeries" [categories]="categories" [reversedStacks]="false"
                                    [enableLegend]="true" [stacking]="'normal'" [dataLabelsEnabled]="true"
                                    (chartReady)="onChartReady($event, i)">
                 </bar-columns-chart>
@@ -74,7 +74,7 @@
   </div>
 
   <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
-    <div class="uk-container uk-container-expand uk-child-width-1-4" data-uk-grid>
+    <div class="uk-container uk-container-expand uk-child-width-1-2" data-uk-grid>
       @for (chartArray of chartsCfg; track chartArray; let i = $index) {
         @for (chart of chartArray.pieSeries; track chart; let j = $index) {
           <div>

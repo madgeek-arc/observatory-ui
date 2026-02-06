@@ -1,19 +1,18 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { RouterLink } from "@angular/router";
 import { ReportCreationService } from "../services/report-creation.service";
 import { EoscReadinessDataService } from "../services/eosc-readiness-data.service";
 import { StakeholdersService } from "../../../survey-tool/app/services/stakeholders.service";
 import { CustomSeriesMapOptions, WorldMapComponent } from "../../shared/charts/report-charts/world-map.component";
 import { forkJoin, Observable } from "rxjs";
 import { RawData, Row } from "../../domain/raw-data";
-import * as Highcharts from 'highcharts';
-import { SeriesMappointOptions, SeriesPieOptions } from "highcharts";
+import { SeriesMappointOptions, SeriesPieOptions } from 'highcharts';
 import { latlong } from "../../domain/countries-lat-lon";
-import { JsonPipe, NgClass, NgStyle } from "@angular/common";
-import { ReportPieChartComponent } from "../../shared/charts/report-charts/report-pie-chart.component";
+import { JsonPipe, NgClass } from "@angular/common";
 import { Chart, chartsCfg } from "./report-chart.configuration";
 import { BarColumnsComponent } from "../../shared/charts/report-charts/bar-columns.component";
 import { isNumeric } from "../../../survey-tool/app/utils/utils";
+import { ReportPieChartComponent } from "../../shared/charts/report-charts/report-pie-chart.component";
+import * as Highcharts from 'highcharts';
 
 
 interface ChartImageData {
@@ -27,11 +26,11 @@ interface ChartImageData {
   selector: 'app-report-creation',
   standalone: true,
   imports: [
-    WorldMapComponent,
-    ReportPieChartComponent,
     JsonPipe,
     BarColumnsComponent,
-    NgClass
+    NgClass,
+    WorldMapComponent,
+    ReportPieChartComponent
   ],
   providers: [StakeholdersService],
   templateUrl: './report-creation.component.html'
@@ -45,6 +44,7 @@ export class ReportCreationComponent implements OnInit {
   pieCharts: Highcharts.Chart[][] = [];
 
   years = ['2022', '2023', '2024'];
+  categories = ['Survey 2022', 'Survey 2023', 'Survey 2024'];
 
   reportData: Record<string, string> = {};
   chartImages: { [key: string]: ChartImageData } = {};
@@ -60,6 +60,7 @@ export class ReportCreationComponent implements OnInit {
     this.charts = [];
     this.pieCharts = [];
     this.reportData['Year'] = this.years[this.years.length-1];
+    this.reportData['FiscalYear'] = this.years[this.years.length-2];
     this.chartsCfg.forEach(chart => this.loadChart(chart));
   }
 
@@ -80,7 +81,7 @@ export class ReportCreationComponent implements OnInit {
     // run them all in parallel
     forkJoin(calls).subscribe({
       next: results => {
-        // results is an array in the same order as namedQueries
+        // the results is an array in the same order as namedQueries
         chart.data = results;
         // console.log(`Loaded ${chart.title}:`, results);
         if (chart.type === 'rangeColumns') {
@@ -123,7 +124,7 @@ export class ReportCreationComponent implements OnInit {
 
         if (chart.stats) {
           chart.stats.forEach((query, index) => {
-            this.reportData[query] = this.countAnswer(chart.data[index]);
+            this.reportData[query] = this.countAnswer(chart.data, index);
           });
         }
       },
@@ -148,11 +149,11 @@ export class ReportCreationComponent implements OnInit {
           const chart = this.charts[i];
           console.log(`Converting chart ${i + 1} to image buffer...`);
 
-          const imageBuffer = await this.chartToArrayBuffer(chart, 400, 300);
+          const imageBuffer = await this.chartToArrayBuffer(chart, 495, 330);
           this.chartImages[`chartImage${i + 1}`] = {
             buffer: imageBuffer,
-            width: 400,
-            height: 300,
+            width: 495,
+            height: 330,
             title: `Chart ${i + 1}`
           };
         }
@@ -169,11 +170,11 @@ export class ReportCreationComponent implements OnInit {
             if (!pieChart) continue; // Skip if no pie chart at this index
 
             console.log(`Exporting pie chart [${i}, ${j}]...`);
-            const buffer = await this.chartToArrayBuffer(pieChart, 400, 300);
+            const buffer = await this.chartToArrayBuffer(pieChart, 312, 226);
             this.chartImages[`pieChartImage_${i}_${j}`] = {
               buffer: buffer,
-              width: 274,
-              height: 200,
+              width: 312,
+              height: 226,
               title: `Pie Chart [${i + 1}, ${j + 1}]`
             };
           }
@@ -245,16 +246,21 @@ export class ReportCreationComponent implements OnInit {
           // console.log(parseFloat(result.row[1]));
           let tmp: number | null = this.getResearchersInFTEs(data[index * 2 + 1], result.row[0])
           // console.log(tmp);
-          if (tmp !== null) { // Add to sum only if both values exist and are valid
+          if (tmp !== null) { // Add to the sum only if both values exist and are valid
             investments += parseFloat(result.row[1]);
             researchersInFTE += tmp;
           }
         }
       });
 
-      seriesOptions[0].data.push(Math.floor((investments * 1000) / (researchersInFTE / 1000)));
+      if (investments === 0 && researchersInFTE === 0) {
+        seriesOptions[0].data.push(0);
+        trends.push({year: year, investment: 0});
+      } else {
+        seriesOptions[0].data.push(Math.floor((investments * 1000) / (researchersInFTE / 1000)));
+        trends.push({year: year, investment: Math.floor((investments * 1000) / (researchersInFTE / 1000))});
+      }
 
-      trends.push({year: year, investment: Math.floor((investments * 1000) / (researchersInFTE / 1000))});
     });
 
     trends.sort((a: { year: string; }, b: { year: string; }) => a.year.localeCompare(b.year));
@@ -264,7 +270,7 @@ export class ReportCreationComponent implements OnInit {
     const currentYear = trends[trends.length-1];
 
     this.reportData[queryName+'[0]'] = currentYear.investment > previousYear.investment ? 'an increase' : currentYear.investment < previousYear.investment ? 'a decrease' : 'no change';
-    this.reportData[queryName+'[1]'] = currentYear.investment > surveyStartYear.investment ? 'an overall increase' : currentYear.investment < surveyStartYear.investment ? 'an overall decrease' : 'overall, no change';
+    this.reportData[queryName+'[1]'] = currentYear.investment > surveyStartYear.investment ? 'an overall increase' : currentYear.investment < surveyStartYear.investment ? 'an overall decrease' : 'overall no change';
 
     return seriesOptions;
   }
@@ -290,7 +296,7 @@ export class ReportCreationComponent implements OnInit {
 
     this.years.forEach((year, index) => {
       let hasPolicy = 0;
-      let isMandatory = 0;
+      // let isMandatory = 0;
       data[index].datasets[0].series.result.forEach(element => {
         if (element.row[1] === 'Yes') {
           hasPolicy++;
@@ -309,7 +315,7 @@ export class ReportCreationComponent implements OnInit {
     const currentYear = trends[trends.length-1];
 
     this.reportData[queryName+'[0]'] = currentYear.hasPolicy > previousYear.hasPolicy ? 'an increase' : currentYear.hasPolicy < previousYear.hasPolicy ? 'a decrease' : 'no change';
-    this.reportData[queryName+'[1]'] = currentYear.hasPolicy > surveyStartYear.hasPolicy ? 'an overall increase' : currentYear.hasPolicy < surveyStartYear.hasPolicy ? 'an overall decrease' : 'overall, no change';
+    this.reportData[queryName+'[1]'] = currentYear.hasPolicy > surveyStartYear.hasPolicy ? 'an overall increase' : currentYear.hasPolicy < surveyStartYear.hasPolicy ? 'an overall decrease' : 'overall no change';
 
     return seriesOptions;
   }
@@ -373,9 +379,9 @@ export class ReportCreationComponent implements OnInit {
     const currentYear = trends[trends.length-1];
 
     this.reportData[queryName+'[0]'] = currentYear.hasPolicy > previousYear.hasPolicy ? 'an increase' : currentYear.hasPolicy < previousYear.hasPolicy ? 'a decrease' : 'no change';
-    this.reportData[queryName+'[1]'] = currentYear.hasPolicy > surveyStartYear.hasPolicy ? 'an overall increase' : currentYear.hasPolicy < surveyStartYear.hasPolicy ? 'an overall decrease' : 'overall, no change';
+    this.reportData[queryName+'[1]'] = currentYear.hasPolicy > surveyStartYear.hasPolicy ? 'an overall increase' : currentYear.hasPolicy < surveyStartYear.hasPolicy ? 'an overall decrease' : 'overall no change';
     this.reportData[queryName+'[2]'] = currentYear.isMandatory > previousYear.isMandatory ? 'an increase' : currentYear.isMandatory < previousYear.isMandatory ? 'a decrease' : 'no change';
-    this.reportData[queryName+'[3]'] = currentYear.isMandatory > surveyStartYear.isMandatory ? 'an overall increase' : currentYear.isMandatory < surveyStartYear.isMandatory ? 'an overall decrease' : 'overall, no change';
+    this.reportData[queryName+'[3]'] = currentYear.isMandatory > surveyStartYear.isMandatory ? 'an overall increase' : currentYear.isMandatory < surveyStartYear.isMandatory ? 'an overall decrease' : 'overall no change';
 
     return seriesOptions;
   }
@@ -390,7 +396,7 @@ export class ReportCreationComponent implements OnInit {
       color: '#008792',
     };
 
-    let responses = data[0].datasets[0].series.result.length; // Double check if this is valid
+    let responses = data[0].datasets[0].series.result.length; // Double-check if this is valid
     let notInvesting = 0;
     const seriesData = [0, 0, 0, 0, 0, 0];
 
@@ -407,7 +413,7 @@ export class ReportCreationComponent implements OnInit {
     const tmpData = data[1].datasets[0].series.result;
     investments.forEach((element, index) => {
       const researchersInFTEs = this.getResearchersByCountry(element.code, tmpData);
-      // console.log('country: ',element.code, ' researchers: ', researchersInFTEs);
+
       if (researchersInFTEs !== null && element.value !== null)
         investments[index].value = investments[index].value / (researchersInFTEs / 1000);
       else
@@ -514,7 +520,7 @@ export class ReportCreationComponent implements OnInit {
         color: '#008792',
         showInLegend: true,
         data: [], // Keep empty for legend-only
-        // visible: false, // Hide from map but show in legend
+        // visible: false, // Hide from the map but show in legend
         legendIndex: 0
       },
       {
@@ -523,7 +529,7 @@ export class ReportCreationComponent implements OnInit {
         color: '#EB5C80',
         showInLegend: true,
         data: [], // Keep empty for legend-only
-        // visible: false, // Hide from map but show in legend
+        // visible: false, // Hide from the map but show in legend
         legendIndex: 1
       },
       {
@@ -532,7 +538,7 @@ export class ReportCreationComponent implements OnInit {
         color: '#A9A9A9',
         showInLegend: true,
         data: [], // Keep empty for legend-only
-        // visible: false, // Hide from map but show in legend
+        // visible: false, // Hide from the map but show in legend
         legendIndex: 4
       }
     ];
@@ -628,7 +634,8 @@ export class ReportCreationComponent implements OnInit {
 
 
   /** utils **/
-  countAnswer(data: RawData) {
+  countAnswer(dataArr: RawData[], index: number) {
+    let data = dataArr[index];
     let count = 0;
     let total = 0;
     let percentage: number;
@@ -639,6 +646,14 @@ export class ReportCreationComponent implements OnInit {
       if (element.row[1] === 'Yes')
         count++;
     });
+    if (index === 1) { // Calculate total from previus positive answer (in somecases the question was not answered)
+      total = 0;
+      dataArr[index - 1].datasets[0].series.result.forEach(element => {
+        if (element.row[1] === 'Yes')
+          total++;
+      });
+    }
+
     percentage = Math.round((count / total + Number.EPSILON) * 100);
 
     return `${percentage}% (${count}/${total})`
@@ -654,7 +669,7 @@ export class ReportCreationComponent implements OnInit {
     return count;
   }
 
-  // Store ready charts
+  // Store the ready charts
   onChartReady(chart: Highcharts.Chart, chartIndex: number) {
     console.log(`Chart ${chartIndex + 1} ready`);
     if (this.charts[chartIndex]) // Skip if the chart already exists
