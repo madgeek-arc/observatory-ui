@@ -124,7 +124,7 @@ export class ReportCreationComponent implements OnInit {
 
         if (chart.stats) {
           chart.stats.forEach((query, index) => {
-            this.reportData[query] = this.countAnswer(chart.data[index]);
+            this.reportData[query] = this.countAnswer(chart.data, index);
           });
         }
       },
@@ -634,7 +634,8 @@ export class ReportCreationComponent implements OnInit {
 
 
   /** utils **/
-  countAnswer(data: RawData) {
+  countAnswer(dataArr: RawData[], index: number) {
+    let data = dataArr[index];
     let count = 0;
     let total = 0;
     let percentage: number;
@@ -645,6 +646,14 @@ export class ReportCreationComponent implements OnInit {
       if (element.row[1] === 'Yes')
         count++;
     });
+    if (index === 1) { // Calculate total from previus positive answer (in somecases the question was not answered)
+      total = 0;
+      dataArr[index - 1].datasets[0].series.result.forEach(element => {
+        if (element.row[1] === 'Yes')
+          total++;
+      });
+    }
+
     percentage = Math.round((count / total + Number.EPSILON) * 100);
 
     return `${percentage}% (${count}/${total})`
