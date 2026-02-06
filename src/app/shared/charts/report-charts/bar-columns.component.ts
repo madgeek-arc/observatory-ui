@@ -78,7 +78,9 @@ export class BarColumnsComponent implements OnChanges {
             fontSize: '18px',
             whiteSpace: this.whitespace,
             textOverflow: 'none'
-          } : {}
+          } : {
+            fontSize: '18px',
+          }
         }
       },
       yAxis: {
