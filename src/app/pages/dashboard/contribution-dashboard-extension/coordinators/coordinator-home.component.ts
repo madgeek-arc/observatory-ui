@@ -6,6 +6,7 @@ import {ActivatedRoute} from "@angular/router";
 import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
 import {map, switchMap, takeUntil} from "rxjs/operators";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {SurveyService} from "../../../../../survey-tool/app/services/survey.service";
 
 @Component({
   selector: "app-coordinator-home",
@@ -19,6 +20,7 @@ export class CoordinatorHomeComponent implements OnInit {
   private userService = inject(UserService);
   private stakeholdersService = inject(StakeholdersService);
   private route = inject(ActivatedRoute);
+  private surveyService = inject(SurveyService);
 
   constructor() {}
 
@@ -44,6 +46,28 @@ export class CoordinatorHomeComponent implements OnInit {
           },
           error => console.error('Error fetching coordinator', error));
       }
+      const urlParameters = [
+        {key: 'groupId', values: ['admin-eosc-sb'] },
+        { key: 'stakeholderId', values: [id] },
+        { key: 'sort', values: ['modificationDate'] },
+        { key: 'order', values: ['desc'] }
+      ];
+
+      console.log('Params:', urlParameters);
+
+
+      this.surveyService.getSurveyEntries(urlParameters)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (res) => {
+            console.log('--- SUCCESS ---');
+            console.log(res);
+          },
+          error: (err) => {
+            console.error('--- ERROR ---');
+            console.error(err);
+          }
+        });
     })
   }
 

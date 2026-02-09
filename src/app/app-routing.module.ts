@@ -94,7 +94,7 @@ const routes: Routes = [
   },
   {
     path: 'contributions/:id/stakeholder',
-    component: StakeholdersHomeComponent,
+    component: ContributionsHomeExtentionComponent,
     canActivate: [AuthGuard]
   },
   {

@@ -1,11 +1,9 @@
-import {Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {Component, DestroyRef, inject, Input, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {Stakeholder} from "../../../../../survey-tool/app/domain/userInfo";
-import {Subject} from "rxjs";
 import {UserService} from "../../../../../survey-tool/app/services/user.service";
 import {ActivatedRoute} from "@angular/router";
 import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
-import {map, switchMap, takeUntil} from "rxjs/operators";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {SurveyService} from "../../../../../survey-tool/app/services/survey.service";
 
@@ -23,24 +21,30 @@ export class StakeholdersHomeComponent implements OnInit {
   private userService = inject(UserService);
   private stakeholdersService = inject(StakeholdersService);
   private route = inject(ActivatedRoute);
+  private surveyService = inject(SurveyService);
+
+  latestAnswerInfo: any = null;
+  loading: boolean = false;
+
+  @Input() stakeholder: Stakeholder | null = null;
 
   constructor() {}
 
   ngOnInit() {
+    if (this.stakeholder) {
+      this.currentGroup = this.stakeholder;
+    }
+
     this.userService.currentStakeholder.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(next => {
       this.currentGroup = next;
+      console.log('Current Group', next);
     });
 
-    // ----------------------------------------------------------------
-    // SUBSCRIPTION 2: URL & Data Fetching Logic (Active)
-    // Reacts to URL changes (ID), checks if data exists locally/storage,
-    // and fetches from API only if necessary.
-    // ----------------------------------------------------------------
-
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
-      const id = params['id'];
+      const id = params['id'] || this.stakeholder?.id;
       if (!id) return;
       const storedGroup = this.currentGroup || JSON.parse(sessionStorage.getItem("currentStakeholder"));
+
       if (!storedGroup) {
         console.log('Fetching new stakeholder for ID:', id);
         this.stakeholdersService.getStakeholder(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
@@ -48,6 +52,34 @@ export class StakeholdersHomeComponent implements OnInit {
           },
           error => console.error('Error fetching stakeholder', error));
       }
+
+      const urlParameters = [
+        {key: 'groupId', values: [id] },
+        { key: 'stakeholderId', values: [id] },
+        { key: 'sort', values: ['creation_date'] },
+        { key: 'order', values: ['desc'] }
+      ];
+
+      console.log('Params:', urlParameters);
+
+      this.loading = true;
+      this.surveyService.getSurveyEntries(urlParameters)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (res) => {
+            console.log('--- SUCCESS ---');
+            if ( res && res.results && res.results.length > 0) {
+              this.latestAnswerInfo = res.results[0];
+            }
+            console.log(res);
+            this.loading = false;
+          },
+          error: (err) => {
+            console.error('--- ERROR ---');
+            console.error(err);
+            this.loading = false;
+          }
+        });
     })
   }
 }
