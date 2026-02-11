@@ -165,19 +165,26 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
     return firstLetters;
   }
 
-  setGroup(group: Stakeholder) {
-    this.userService.changeCurrentStakeholder(group);
-    this.router.navigate([`/contributions/${group.id}/home`]);
+  setStakeholder(stakeholder: Stakeholder) {
+    // this.userService.changeCurrentCoordinator(null);
+    // this.userService.changeCurrentAdministrator(null);
+
+    this.userService.changeCurrentStakeholder(stakeholder);
+    this.router.navigate([`/contributions/${stakeholder.id}/stakeholder`]);
   }
 
   setCoordinator(coordinator: Coordinator){
+    // this.userService.changeCurrentStakeholder(null);
+    // this.userService.changeCurrentAdministrator(null);
     this.userService.changeCurrentCoordinator(coordinator);
-    this.router.navigate([`/contributions/${coordinator.id}/home`]);
+    this.router.navigate([`/contributions/${coordinator.id}/coordinator`]);
   }
 
   setAdministrator(admin: Administrator){
+    // this.userService.changeCurrentStakeholder(null);
+    // this.userService.changeCurrentCoordinator(null);
     this.userService.changeCurrentAdministrator(admin);
-    this.router.navigate([`/contributions/${admin.id}/home`]);
+    this.router.navigate([`/contributions/${admin.id}/administrator`]);
   }
 
   coordinatorContains(name: string) {

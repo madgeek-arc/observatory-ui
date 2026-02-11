@@ -163,7 +163,7 @@
                       }
                       @for (stakeholder of userInfo.stakeholders; track stakeholder) {
                         <li class="groups">
-                          <a (click)="setGroup(stakeholder)">
+                          <a (click)="setStakeholder(stakeholder)">
                             <div class="uk-flex uk-flex-middle">
                               <span class="material-icons uk-margin-right">group</span>
                               {{
@@ -387,7 +387,7 @@
                             <ul class="uk-nav uk-nav-default">
                               @for (stakeholder of userInfo.stakeholders; track stakeholder) {
                                 <li>
-                                  <a (click)="setGroup(stakeholder)">
+                                  <a (click)="setStakeholder(stakeholder)">
                                     {{ stakeholder.name }}
                                     @if (showUnread(stakeholder.id)) {
                                       <svg height="20" width="20" style="margin-left: 8px;">

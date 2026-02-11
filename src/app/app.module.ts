@@ -51,6 +51,10 @@ import { PageContentComponent } from "../survey-tool/app/shared/page-content/pag
 import {
   SidebarMobileToggleComponent
 } from "../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { XsrfTokenExtractor } from "../survey-tool/catalogue-ui/services/xsrf-token-extractor.service";
+import {
+    StakeholdersHomeComponent
+} from "./pages/dashboard/contribution-dashboard-extension/stakeholders/stakeholders-home.component";
 
 
 @NgModule({
@@ -68,20 +72,21 @@ import {
     ContributionsHomeExtentionComponent,
     // ReportPieChartComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ChartsModule,
-    RouterModule,
-    SurveyToolModule,
-    MessagingSystemModule,
-    ReusableComponentsModule,
-    SharedModule,
-    ContributionsDashboardComponent,
-    BrowserAnimationsModule,
-    PageContentComponent,
-    SidebarMobileToggleComponent,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ChartsModule,
+        RouterModule,
+        SurveyToolModule,
+        MessagingSystemModule,
+        ReusableComponentsModule,
+        SharedModule,
+        ContributionsDashboardComponent,
+        BrowserAnimationsModule,
+        PageContentComponent,
+        SidebarMobileToggleComponent,
+        StakeholdersHomeComponent,
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
