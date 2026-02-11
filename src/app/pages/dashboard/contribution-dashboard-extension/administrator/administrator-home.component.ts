@@ -1,11 +1,9 @@
-import {Component, DestroyRef, inject, OnInit} from "@angular/core";
-import {Administrator, Stakeholder} from "../../../../../survey-tool/app/domain/userInfo";
-import {Subject} from "rxjs";
-import {UserService} from "../../../../../survey-tool/app/services/user.service";
-import {ActivatedRoute} from "@angular/router";
-import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {map, switchMap} from "rxjs/operators";
+import { Component, DestroyRef, inject, OnInit } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { ActivatedRoute } from "@angular/router";
+import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
+import { UserService } from "../../../../../survey-tool/app/services/user.service";
+import { Administrator } from "../../../../../survey-tool/app/domain/userInfo";
 
 @Component({
   selector: "app-administrator-home",
@@ -13,14 +11,12 @@ import {map, switchMap} from "rxjs/operators";
   standalone: true,
 })
 export class AdministratorHomeComponent implements OnInit {
-  currentGroup: Administrator | null = null;
   private destroyRef = inject(DestroyRef);
-
-  private userService = inject(UserService);
-  private stakeholdersService = inject(StakeholdersService);
   private route = inject(ActivatedRoute);
+  private stakeholdersService = inject(StakeholdersService);
+  private userService = inject(UserService);
 
-  constructor() {}
+  currentGroup: Administrator | null = null;
 
   ngOnInit() {
     this.userService.currentAdministrator.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(next => {
@@ -38,12 +34,17 @@ export class AdministratorHomeComponent implements OnInit {
       if (!id) return;
       const storedGroup = this.currentGroup || JSON.parse(sessionStorage.getItem("currentAdministrator"));
       if (!storedGroup) {
-        console.log('Fetching new administrator for ID:', id);
-        this.stakeholdersService.getAdministratorById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
+        // console.log('Fetching new administrator for ID:', id);
+        this.stakeholdersService.getAdministratorById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+          next: res => {
             this.userService.changeCurrentAdministrator(res);
           },
-          error => console.error('Error fetching administrator', error));
+          error: err => {
+            console.error('Error fetching administrator', err)
+          }
+        });
       }
-    })
+    });
   }
+
 }

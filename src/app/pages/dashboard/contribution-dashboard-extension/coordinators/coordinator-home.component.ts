@@ -1,12 +1,10 @@
-import {Component, DestroyRef, inject, OnInit} from "@angular/core";
-import {Coordinator} from "../../../../../survey-tool/app/domain/userInfo";
-import {Subject} from "rxjs";
-import {UserService} from "../../../../../survey-tool/app/services/user.service";
-import {ActivatedRoute} from "@angular/router";
-import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
-import {map, switchMap, takeUntil} from "rxjs/operators";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {SurveyService} from "../../../../../survey-tool/app/services/survey.service";
+import { Component, DestroyRef, inject, OnInit } from "@angular/core";
+import { Coordinator } from "../../../../../survey-tool/app/domain/userInfo";
+import { UserService } from "../../../../../survey-tool/app/services/user.service";
+import { ActivatedRoute } from "@angular/router";
+import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { SurveyService } from "../../../../../survey-tool/app/services/survey.service";
 
 @Component({
   selector: "app-coordinator-home",
@@ -14,15 +12,13 @@ import {SurveyService} from "../../../../../survey-tool/app/services/survey.serv
   standalone: true,
 })
 export class CoordinatorHomeComponent implements OnInit {
-  currentGroup: Coordinator | null = null;
   private destroyRef = inject(DestroyRef);
-
-  private userService = inject(UserService);
-  private stakeholdersService = inject(StakeholdersService);
   private route = inject(ActivatedRoute);
+  private userService = inject(UserService);
   private surveyService = inject(SurveyService);
+  private stakeholdersService = inject(StakeholdersService);
 
-  constructor() {}
+  currentGroup: Coordinator | null = null;
 
   ngOnInit() {
     this.userService.currentCoordinator.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(next => {
@@ -41,30 +37,34 @@ export class CoordinatorHomeComponent implements OnInit {
       const storedGroup = this.currentGroup || JSON.parse(sessionStorage.getItem("currentCoordinator"));
       if (!storedGroup) {
         console.log('Fetching new coordinator for ID:', id);
-        this.stakeholdersService.getCoordinatorById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
+        this.stakeholdersService.getCoordinatorById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+          next: res => {
             this.userService.changeCurrentCoordinator(res);
           },
-          error => console.error('Error fetching coordinator', error));
+          error: err => {
+            console.error('Error fetching coordinator', err)
+          }
+        });
       }
       const urlParameters = [
-        {key: 'groupId', values: ['admin-eosc-sb'] },
-        { key: 'stakeholderId', values: [id] },
-        { key: 'sort', values: ['modificationDate'] },
-        { key: 'order', values: ['desc'] }
+        {key: 'groupId', values: ['admin-eosc-sb']},
+        {key: 'stakeholderId', values: [id]},
+        {key: 'sort', values: ['modificationDate']},
+        {key: 'order', values: ['desc']}
       ];
 
-      console.log('Params:', urlParameters);
+      // console.log('Params:', urlParameters);
 
 
       this.surveyService.getSurveyEntries(urlParameters)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (res) => {
-            console.log('--- SUCCESS ---');
-            console.log(res);
+            // console.log('--- SUCCESS ---');
+            // console.log(res);
           },
           error: (err) => {
-            console.error('--- ERROR ---');
+            // console.error('--- ERROR ---');
             console.error(err);
           }
         });

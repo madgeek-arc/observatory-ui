@@ -1,20 +1,26 @@
-import {Component, DestroyRef, inject, OnInit} from "@angular/core";
+import { Component, DestroyRef, inject, OnInit } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { ActivatedRoute } from "@angular/router";
+import { combineLatest } from "rxjs";
+import { filter, map, switchMap } from "rxjs/operators";
+import { UserService } from "../../../../../survey-tool/app/services/user.service";
+import { Stakeholder, UserInfo } from "../../../../../survey-tool/app/domain/userInfo";
+import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import {
   ContributionsHomeComponent
 } from "../../../../../survey-tool/app/pages/contributions-dashboard/home/contributions-home.component";
-import {Stakeholder} from "../../../../../survey-tool/app/domain/userInfo";
-import {UserService} from "../../../../../survey-tool/app/services/user.service";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {combineLatest} from "rxjs";
-import {ActivatedRoute} from "@angular/router";
-import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
 
 @Component({
   selector: 'app-contributions-ext-home',
   templateUrl: './contributions-home-extention.component.html',
   standalone: false
 })
+
 export class ContributionsHomeExtentionComponent extends ContributionsHomeComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
+  private route = inject(ActivatedRoute);
+  private stakeholderService = inject(StakeholdersService);
+  private userService = inject(UserService);
 
   title: string = 'Welcome to the survey tool of the EOSC Observatory';
   text: string = 'This is a tool that is being developed by the EOSC Future project to support the EOSC Steering Board and\n' +
@@ -27,47 +33,41 @@ export class ContributionsHomeExtentionComponent extends ContributionsHomeCompon
     '            surveys and responses will be available on this private survey tool homepage.';
 
   currentStakeholder: Stakeholder | null = null;
+  userInfo: UserInfo | null = null;
   isManager: boolean | null = null;
 
-  private userService = inject(UserService);
-  private destroyRef = inject(DestroyRef);
-  private route = inject(ActivatedRoute);
-  private stakeholderService = inject(StakeholdersService);
-
   ngOnInit() {
-    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
-      const id = params['id'];
-      if (id && !this.userService.currentStakeholder.getValue()) {
-        this.stakeholderService.getStakeholder(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-          next: res => {
-            this.userService.changeCurrentStakeholder(res);
-          },
-          error: (err) => console.error('Error loading Stakeholder', err)
-        })
-      }
-    })
+    this.route.params.pipe(
+      map(params => params['id']),
+      filter(id => !!id && !this.userService.currentStakeholder.getValue()),
+      switchMap(id => this.stakeholderService.getStakeholder(id)),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      next: res => this.userService.changeCurrentStakeholder(res),
+      error: err => console.error('Error loading Stakeholder', err)
+    });
 
     combineLatest([
       this.userService.currentStakeholder,
       this.userService.getUserObservable()
-    ]).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(([stakeholder, userInfo]) => {
-      if (!stakeholder || !userInfo || !userInfo.user) {
-        return;
-      }
+    ]).pipe(
+      filter(([stakeholder, userInfo]) => !!stakeholder && !!userInfo?.user),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(([stakeholder, userInfo]) => {
       this.currentStakeholder = stakeholder;
+      this.userInfo = userInfo;
       this.isManager = this.checkIfManager();
     });
   }
 
   checkIfManager(): boolean {
-    const userInfo = this.userService.getCurrentUserInfo();
-    if (this.currentStakeholder) {
-      for (const email of this.currentStakeholder.admins) {
-        if (userInfo.user.email === email) {
-          return true;
-        }
+    for (const email of this.currentStakeholder.admins) {
+      if (this.userInfo.user.email === email) {
+        return true;
       }
     }
+
     return false;
   }
+
 }

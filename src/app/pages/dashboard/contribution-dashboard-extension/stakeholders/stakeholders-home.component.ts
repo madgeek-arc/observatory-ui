@@ -1,12 +1,11 @@
-import {Component, DestroyRef, inject, Input, OnInit} from '@angular/core';
-import {CommonModule} from "@angular/common";
-import {Stakeholder} from "../../../../../survey-tool/app/domain/userInfo";
-import {UserService} from "../../../../../survey-tool/app/services/user.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {SurveyService} from "../../../../../survey-tool/app/services/survey.service";
-// import {zip} from "rxjs";
+import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import { CommonModule } from "@angular/common";
+import { Stakeholder } from "../../../../../survey-tool/app/domain/userInfo";
+import { UserService } from "../../../../../survey-tool/app/services/user.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { SurveyService } from "../../../../../survey-tool/app/services/survey.service";
 
 @Component({
   selector: 'app-stakeholders-home',
@@ -16,33 +15,26 @@ import {SurveyService} from "../../../../../survey-tool/app/services/survey.serv
 })
 
 export class StakeholdersHomeComponent implements OnInit {
-  currentGroup: Stakeholder | null = null;
   private destroyRef = inject(DestroyRef);
-
-  private userService = inject(UserService);
-  private stakeholdersService = inject(StakeholdersService);
   private route = inject(ActivatedRoute);
-  private surveyService = inject(SurveyService);
   private router = inject(Router);
+  private stakeholdersService = inject(StakeholdersService);
+  private surveyService = inject(SurveyService);
+  private userService = inject(UserService);
 
+
+  currentGroup: Stakeholder | null = null;
   latestAnswerInfo: any = null;
   loading: boolean = false;
 
-  @Input() stakeholder: Stakeholder | null = null;
-
-  constructor() {}
-
   ngOnInit() {
-    if (this.stakeholder) {
-      this.currentGroup = this.stakeholder;
-    }
 
     this.userService.currentStakeholder.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(next => {
       this.currentGroup = next;
     });
 
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
-      const id = params['id'] || this.stakeholder?.id;
+      const id = params['id'];
       if (!id) return;
       const storedGroup = this.currentGroup || JSON.parse(sessionStorage.getItem("currentStakeholder"));
 
