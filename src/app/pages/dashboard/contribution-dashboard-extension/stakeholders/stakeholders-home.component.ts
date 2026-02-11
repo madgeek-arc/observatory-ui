@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {SurveyService} from "../../../../../survey-tool/app/services/survey.service";
+import {zip} from "rxjs";
 
 @Component({
   selector: 'app-stakeholders-home',
@@ -71,6 +72,7 @@ export class StakeholdersHomeComponent implements OnInit {
             console.log('--- SUCCESS ---');
             if ( res && res.results && res.results.length > 0) {
               this.latestAnswerInfo = res.results[0];
+              this.modelAnswer();
             }
             console.log(res);
             this.loading = false;
@@ -88,5 +90,29 @@ export class StakeholdersHomeComponent implements OnInit {
     if ( this.currentGroup && this.currentGroup.id ) {
       this.router.navigate(['/contributions', this.currentGroup.id, 'mySurveys']);
     }
+  }
+
+  modelAnswer() {
+    const surveyId = this.latestAnswerInfo.surveyId;
+    const answerId = this.latestAnswerInfo.surveyAnswerId;
+    console.log(`Model: ${surveyId}, Answer: ${answerId}`);
+
+    zip(
+      this.surveyService.getSurvey(surveyId),
+      this.surveyService.getAnswer(answerId)
+    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: ([model, answer]) => {
+        console.log('Success. Model downloaded!');
+
+        console.log('- MODEL (Structure) -');
+        console.log(model);
+
+        console.log('- ANSWER (User Answers) -');
+        console.log(answer);
+      },
+      error: (err) => {
+        console.error('Error:', err);
+      }
+    });
   }
 }
