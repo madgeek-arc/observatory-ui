@@ -2,7 +2,7 @@ import {Component, DestroyRef, inject, Input, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {Stakeholder} from "../../../../../survey-tool/app/domain/userInfo";
 import {UserService} from "../../../../../survey-tool/app/services/user.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {SurveyService} from "../../../../../survey-tool/app/services/survey.service";
@@ -22,6 +22,7 @@ export class StakeholdersHomeComponent implements OnInit {
   private stakeholdersService = inject(StakeholdersService);
   private route = inject(ActivatedRoute);
   private surveyService = inject(SurveyService);
+  private router = inject(Router);
 
   latestAnswerInfo: any = null;
   loading: boolean = false;
@@ -81,5 +82,11 @@ export class StakeholdersHomeComponent implements OnInit {
           }
         });
     })
+  }
+
+  navigateToMySurveys() {
+    if ( this.currentGroup && this.currentGroup.id ) {
+      this.router.navigate(['/contributions', this.currentGroup.id, 'mySurveys']);
+    }
   }
 }

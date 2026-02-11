@@ -5,6 +5,9 @@ import {
 import {Stakeholder} from "../../../../../survey-tool/app/domain/userInfo";
 import {UserService} from "../../../../../survey-tool/app/services/user.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {combineLatest} from "rxjs";
+import {ActivatedRoute} from "@angular/router";
+import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
 
 @Component({
   selector: 'app-contributions-ext-home',
@@ -24,25 +27,43 @@ export class ContributionsHomeExtentionComponent extends ContributionsHomeCompon
     '            surveys and responses will be available on this private survey tool homepage.';
 
   currentStakeholder: Stakeholder | null = null;
-  isManager: boolean = false;
+  isManager: boolean | null = null;
 
   private userService = inject(UserService);
   private destroyRef = inject(DestroyRef);
+  private route = inject(ActivatedRoute);
+  private stakeholderService = inject(StakeholdersService);
 
   ngOnInit() {
-    this.userService.currentStakeholder
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(stakeholder => {
-        this.currentStakeholder = stakeholder;
-        this.isManager = this.checkIfManager();
-      });
+    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+      const id = params['id'];
+      if (id && !this.userService.currentStakeholder.getValue()) {
+        this.stakeholderService.getStakeholder(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+          next: res => {
+            this.userService.changeCurrentStakeholder(res);
+          },
+          error: (err) => console.error('Error loading Stakeholder', err)
+        })
+      }
+    })
+
+    combineLatest([
+      this.userService.currentStakeholder,
+      this.userService.getUserObservable()
+    ]).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(([stakeholder, userInfo]) => {
+      if (!stakeholder || !userInfo || !userInfo.user) {
+        return;
+      }
+      this.currentStakeholder = stakeholder;
+      this.isManager = this.checkIfManager();
+    });
   }
 
   checkIfManager(): boolean {
     const userInfo = this.userService.getCurrentUserInfo();
-    if (this.currentStakeholder && this.currentStakeholder.admins && userInfo && userInfo.user && userInfo.user.email) {
-      for (const manager of this.currentStakeholder.admins) {
-        if (userInfo.user.email === manager) {
+    if (this.currentStakeholder) {
+      for (const email of this.currentStakeholder.admins) {
+        if (userInfo.user.email === email) {
           return true;
         }
       }

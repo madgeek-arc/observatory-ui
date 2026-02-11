@@ -6,9 +6,9 @@
     <div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom"
          style="min-height: calc(100svh - var(--header-height));">
       <div class="uk-container uk-container-expand uk-margin-left uk-margin-right">
-        @if (isManager) {
+        @if (isManager === true) {
           <app-stakeholders-home [stakeholder]="currentStakeholder"></app-stakeholders-home>
-        } @else {
+        } @else if (isManager === false) {
           <div class="uk-grid">
             <div class="uk-width-3-5">
               <div class="uk-card uk-card-body uk-card-default">
@@ -16,6 +16,10 @@
                 <p>{{ text }}</p>
               </div>
             </div>
+          </div>
+        } @else {
+          <div class="uk-flex uk-flex-center uk-margin-medium-top">
+            <span uk-spinner="ratio: 2"></span>
           </div>
         }
       </div>
