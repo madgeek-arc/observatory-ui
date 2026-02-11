@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {SurveyService} from "../../../../../survey-tool/app/services/survey.service";
-import {zip} from "rxjs";
+// import {zip} from "rxjs";
 
 @Component({
   selector: 'app-stakeholders-home',
@@ -39,7 +39,6 @@ export class StakeholdersHomeComponent implements OnInit {
 
     this.userService.currentStakeholder.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(next => {
       this.currentGroup = next;
-      console.log('Current Group', next);
     });
 
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
@@ -48,7 +47,6 @@ export class StakeholdersHomeComponent implements OnInit {
       const storedGroup = this.currentGroup || JSON.parse(sessionStorage.getItem("currentStakeholder"));
 
       if (!storedGroup) {
-        console.log('Fetching new stakeholder for ID:', id);
         this.stakeholdersService.getStakeholder(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
             this.userService.changeCurrentStakeholder(res);
           },
@@ -62,23 +60,17 @@ export class StakeholdersHomeComponent implements OnInit {
         { key: 'order', values: ['desc'] }
       ];
 
-      console.log('Params:', urlParameters);
-
       this.loading = true;
       this.surveyService.getSurveyEntries(urlParameters)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (res) => {
-            console.log('--- SUCCESS ---');
             if ( res && res.results && res.results.length > 0) {
               this.latestAnswerInfo = res.results[0];
-              this.modelAnswer();
             }
-            console.log(res);
             this.loading = false;
           },
           error: (err) => {
-            console.error('--- ERROR ---');
             console.error(err);
             this.loading = false;
           }
@@ -92,27 +84,29 @@ export class StakeholdersHomeComponent implements OnInit {
     }
   }
 
-  modelAnswer() {
-    const surveyId = this.latestAnswerInfo.surveyId;
-    const answerId = this.latestAnswerInfo.surveyAnswerId;
-    console.log(`Model: ${surveyId}, Answer: ${answerId}`);
 
-    zip(
-      this.surveyService.getSurvey(surveyId),
-      this.surveyService.getAnswer(answerId)
-    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: ([model, answer]) => {
-        console.log('Success. Model downloaded!');
-
-        console.log('- MODEL (Structure) -');
-        console.log(model);
-
-        console.log('- ANSWER (User Answers) -');
-        console.log(answer);
-      },
-      error: (err) => {
-        console.error('Error:', err);
-      }
-    });
-  }
+  // TODO: Uncomment when PDF implementation is ready
+  // modelAnswer() {
+  //   const surveyId = this.latestAnswerInfo.surveyId;
+  //   const answerId = this.latestAnswerInfo.surveyAnswerId;
+  //   console.log(`Model: ${surveyId}, Answer: ${answerId}`);
+  //
+  //   zip(
+  //     this.surveyService.getSurvey(surveyId),
+  //     this.surveyService.getAnswer(answerId)
+  //   ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+  //     next: ([model, answer]) => {
+  //       console.log('Success. Model downloaded!');
+  //
+  //       console.log('- MODEL (Structure) -');
+  //       console.log(model);
+  //
+  //       console.log('- ANSWER (User Answers) -');
+  //       console.log(answer);
+  //     },
+  //     error: (err) => {
+  //       console.error('Error:', err);
+  //     }
+  //   });
+  // }
 }
