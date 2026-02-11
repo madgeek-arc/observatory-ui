@@ -2,11 +2,7 @@ import { ErrorHandler, inject, NgModule, provideAppInitializer } from "@angular/
 import { Router, RouterModule } from "@angular/router";
 import * as Sentry from "@sentry/angular";
 import { BrowserModule } from '@angular/platform-browser';
-import {
-  HTTP_INTERCEPTORS,
-  provideHttpClient,
-  withXsrfConfiguration
-} from "@angular/common/http";
+import { HTTP_INTERCEPTORS, provideHttpClient, withXsrfConfiguration } from "@angular/common/http";
 import { environment } from "../environments/environment";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -51,9 +47,8 @@ import { PageContentComponent } from "../survey-tool/app/shared/page-content/pag
 import {
   SidebarMobileToggleComponent
 } from "../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import { XsrfTokenExtractor } from "../survey-tool/catalogue-ui/services/xsrf-token-extractor.service";
 import {
-    StakeholdersHomeComponent
+  StakeholdersHomeComponent
 } from "./pages/dashboard/contribution-dashboard-extension/stakeholders/stakeholders-home.component";
 
 
@@ -70,23 +65,22 @@ import {
     CategoryIndicatorsWrapperComponent,
     CategoryIndicatorsRowComponent,
     ContributionsHomeExtentionComponent,
-    // ReportPieChartComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        ChartsModule,
-        RouterModule,
-        SurveyToolModule,
-        MessagingSystemModule,
-        ReusableComponentsModule,
-        SharedModule,
-        ContributionsDashboardComponent,
-        BrowserAnimationsModule,
-        PageContentComponent,
-        SidebarMobileToggleComponent,
-        StakeholdersHomeComponent,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ChartsModule,
+    RouterModule,
+    SurveyToolModule,
+    MessagingSystemModule,
+    ReusableComponentsModule,
+    SharedModule,
+    ContributionsDashboardComponent,
+    BrowserAnimationsModule,
+    PageContentComponent,
+    SidebarMobileToggleComponent,
+    StakeholdersHomeComponent,
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -121,12 +115,6 @@ import {
         headerName: 'X-XSRF-TOKEN',
       })
     ),
-
-    // provideAppInitializer(() => inject(TraceService)),
-    // provideAppInitializer(() => {
-    //     const initializerFn = (() => () => {})(inject(Sentry.TraceService));
-    //     return initializerFn();
-    //   }),
     provideMatomo(
       {
         trackerUrl: environment.matomoTrackerUrl,
