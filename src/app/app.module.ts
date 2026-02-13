@@ -50,7 +50,7 @@ import {
 import {
   StakeholdersHomeComponent
 } from "./pages/dashboard/contribution-dashboard-extension/stakeholders/stakeholders-home.component";
-import { APP_ENV } from "../survey-tool/catalogue-ui/config/app-env.token";
+// import { APP_ENV } from "../survey-tool/catalogue-ui/config/app-env.token";
 
 
 @NgModule({
@@ -90,7 +90,7 @@ import { APP_ENV } from "../survey-tool/catalogue-ui/config/app-env.token";
     },
     UserService,
     MessagingSystemService,
-    { provide: APP_ENV, useValue: environment },
+    // { provide: APP_ENV, useValue: environment },
     {
       provide: ErrorHandler,
       useValue: Sentry.createErrorHandler({
