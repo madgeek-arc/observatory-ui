@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { ActivatedRoute } from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import { combineLatest } from "rxjs";
 import { filter, map, switchMap } from "rxjs/operators";
 import { UserService } from "../../../../../survey-tool/app/services/user.service";
@@ -21,6 +21,7 @@ export class ContributionsHomeExtentionComponent extends ContributionsHomeCompon
   private route = inject(ActivatedRoute);
   private stakeholderService = inject(StakeholdersService);
   private userService = inject(UserService);
+  private router = inject(Router);
 
   title: string = 'Welcome to the survey tool of the EOSC Observatory';
   text: string = 'This is a tool that is being developed by the EOSC Future project to support the EOSC Steering Board and\n' +
@@ -37,6 +38,10 @@ export class ContributionsHomeExtentionComponent extends ContributionsHomeCompon
   isManager: boolean | null = null;
 
   ngOnInit() {
+    const url = this.router.url;
+    if (url.includes('/coordinator') || url.includes('administrator')) {
+      this.isManager = false;
+    }
     this.route.params.pipe(
       map(params => params['id']),
       filter(id => !!id && !this.userService.currentStakeholder.getValue()),

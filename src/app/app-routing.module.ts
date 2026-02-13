@@ -99,12 +99,12 @@ const routes: Routes = [
   },
   {
     path: 'contributions/:id/coordinator',
-    component: CoordinatorHomeComponent,
+    component: ContributionsHomeExtentionComponent,
     canActivate: [AuthGuard]
   },
   {
     path: 'contributions/:id/administrator',
-    component: AdministratorHomeComponent,
+    component: ContributionsHomeExtentionComponent,
     canActivate: [AuthGuard]
   },
   {
