@@ -57,6 +57,15 @@ export class CoordinatorHomeComponent implements OnInit {
   fetchSurveyData(group: Coordinator) {
     this.loadingResults = true;
 
+    // Reset stats to prevent data leakage between different coordinators
+    this.surveyStats = {
+      activeSurveyName: '',
+      totalParticipants: 0,
+      hasProgressCount: 0,
+      validatedCount: 0,
+      globalProgress: 0
+    };
+
     this.surveyService.getSurveys('type', group.type).pipe(
       takeUntilDestroyed(this.destroyRef),
       switchMap(res => {
@@ -100,7 +109,6 @@ export class CoordinatorHomeComponent implements OnInit {
             : 0;
         }
         this.loadingResults = false;
-        console.log('Processed Coordinator Stats:', this.surveyStats);
       },
       error: (err) => {
         console.error(err);
