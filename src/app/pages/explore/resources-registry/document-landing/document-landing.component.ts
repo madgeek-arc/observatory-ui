@@ -37,23 +37,27 @@ export class DocumentLandingComponent implements OnInit {
 
     ngOnInit() {
 
-    if(this.route.snapshot.paramMap.get('stakeholderId') && this.route.snapshot.paramMap.get('stakeholderId') === 'admin-eosc-sb') {
-        this.isAdminPage = true
+      if (this.route.snapshot.paramMap.get('stakeholderId') && this.route.snapshot.paramMap.get('stakeholderId') === 'admin-eosc-sb') {
+          this.isAdminPage = true
       }
+      this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
+        this.documentId = params['documentId'];
+        if (this.documentId) {
+          this.documentService.getDocumentById(this.documentId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+            next: (data) => {
+              this.documentData = data;
+              this.loadSurveyModels();
+            },
+            error: (err) => {
+              this.error = 'Error fetching document.';
+              console.error(err);
+            },
+          });
+        }
+      })
 
-      this.documentId = this.route.snapshot.paramMap.get('documentId');
-      if (this.documentId) {
-        this.documentService.getDocumentById(this.documentId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-          next: (data) => {
-            this.documentData = data;
-            this.loadSurveyModels();
-          },
-          error: (err) => {
-            this.error = 'Error fetching document.';
-            console.error(err);
-          },
-        });
-      }
+      // this.documentId = this.route.snapshot.paramMap.get('documentId');
+
     }
 
     onUpdateStatus(id: string, status: 'APPROVED' | 'REJECTED') {
@@ -204,4 +208,6 @@ export class DocumentLandingComponent implements OnInit {
     }
     return [...currentPath, finalLabel].join(' > ');
   }
+
+  protected readonly indexedDB = indexedDB;
 }

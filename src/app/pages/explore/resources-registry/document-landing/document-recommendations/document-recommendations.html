@@ -1,23 +1,45 @@
-@if (recommendedDocs) {
+@if (recommendedDocs.length > 0) {
   <div class="uk-container uk-margin-large-top">
     <h4 class="uk-text-bold uk-margin-bottom">Explore more resources</h4>
 
-    <div class="uk-grid uk-grid-medium uk-child-width-1-1" uk-grid>
-      @for (doc of recommendedDocs; track doc.id) {
-        <div>
+    <div class="uk-child-width-1-1" data-uk-grid>
+      @for (doc of recommendedDocs; track $index) {
+        <div class="uk-margin">
           <div class="uk-card uk-card-default uk-card-body">
 
             @if (doc.url) {
               <div class="uk-position-top-right uk-position-small">
-                <a [href]="doc.url" target="_blank"
-                   class="uk-button uk-button-primary uk-button-small uk-border-pill">
+                <a [href]="doc.url" target="_blank" class="uk-button uk-button-primary uk-button-small uk-border-pill">
                   Full text
                 </a>
               </div>
             }
-            <h5 class="uk-text-bold uk-margin-remove-bottom uk-text-truncate" [title]="doc.docInfo?.title">
-              {{ doc.docInfo?.title }}
-            </h5>
+<!--            <h5 class="uk-text-bold uk-margin-remove-bottom uk-text-truncate" [title]="doc.docInfo?.title">-->
+<!--              {{ doc.docInfo?.title }}-->
+<!--            </h5>-->
+
+            <div class="uk-flex uk-flex-middle">
+              @if (doc.docInfo?.country && doc.docInfo.country !== 'EU') {
+                <img ngSrc="../../survey-tool/assets/images/flags/{{doc.docInfo?.country | lowercase}}-flag-round.png"
+                     class="flag-image uk-margin-small-right" width="30" height="20" alt="{{doc.docInfo?.country}} flag">
+              }
+              @if (doc.docInfo?.country && doc.docInfo.country === 'EU') {
+                <img ngSrc="../../survey-tool/assets/images/flags/europe-flag.jpg" width="30" height="20"
+                     class="flag-image uk-margin-small-right" alt="{{doc.docInfo?.country}} flag">
+              }
+              <strong>
+                <a [routerLink]="['../', doc.id]">
+                  @if (doc.docInfo?.title) {
+                    <span [innerHTML]="doc.docInfo?.title"></span>
+                  }
+                </a>
+              </strong>
+              @if (doc.url) {
+                <a [href]="doc.url" target="_blank" class="uk-margin-left">
+                  <span class="material-symbols-outlined" style="font-size: 20px; vertical-align: middle;">open_in_new</span>
+                </a>
+              }
+            </div>
             <p class="uk-text-meta uk-text-italic uk-text-xsmall uk-margin-remove-top">
               {{ doc.docInfo?.originalTitles?.[0] }}
             </p>
@@ -25,19 +47,19 @@
               {{ doc.docInfo?.shortDescription?.text }}
             </p>
             @if (doc.docInfo?.tags) {
-            <div class="uk-margin-small-top">
-              @for (tag of doc.docInfo.tags; track tag) {
-            <span class="uk-badge uk-margin-xsmall-right uk-text-xsmall uk-margin-xsmall-bottom">
+              <div class="uk-margin-small-top">
+                @for (tag of doc.docInfo.tags; track $index;) {
+                  <span class="uk-badge uk-margin-xsmall-right uk-text-xsmall uk-margin-xsmall-bottom">
                     {{ tag }}
                   </span>
-            }
-            </div>
+                }
+              </div>
             }
             @if (doc.docInfo?.otherTags) {
               <div class="uk-margin-small-top">
-                @for (otag of doc.docInfo.otherTags; track otag) {
+                @for (oTag of doc.docInfo.otherTags; track $index) {
                   <span class="badge-simple uk-margin-xsmall-right uk-text-xsmall uk-margin-xsmall-bottom">
-                    {{ otag }}
+                    {{ oTag }}
                   </span>
                 }
               </div>

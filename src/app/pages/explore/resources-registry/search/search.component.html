@@ -8,7 +8,7 @@
         <div class="uk-container uk-margin-top">
           <h4>European Open Science Resources Registry</h4>
           <div class="">
-            <div class="uk-grid-match" uk-grid>
+            <div class="uk-grid-match" data-uk-grid>
               <div class="uk-width-2-3">
                 <div>
                   <p>
@@ -60,7 +60,7 @@
 
             <div class="uk-inline uk-margin-small-right">
               <button class="uk-button uk-button-default" type="button">Language</button>
-              <div id="languageDropdown" uk-dropdown="mode: click; pos: bottom-left;  auto-update: true;">
+              <div id="languageDropdown" data-uk-dropdown="mode: click; pos: bottom-left;  auto-update: true;">
                 <div>
                   <div style="overflow: visible;">
                     <ng-select [items]="languageFacets?.values" bindLabel="value" bindValue="value" [isOpen]="true"
