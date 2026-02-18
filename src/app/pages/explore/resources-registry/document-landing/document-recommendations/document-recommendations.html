@@ -24,11 +24,20 @@
             <p class="uk-text-small uk-margin-small-top">
               {{ doc.docInfo?.shortDescription?.text }}
             </p>
+            @if (doc.docInfo?.tags) {
+            <div class="uk-margin-small-top">
+              @for (tag of doc.docInfo.tags; track tag) {
+            <span class="uk-badge uk-margin-xsmall-right uk-text-xsmall uk-margin-xsmall-bottom">
+                    {{ tag }}
+                  </span>
+            }
+            </div>
+            }
             @if (doc.docInfo?.otherTags) {
               <div class="uk-margin-small-top">
-                @for (tag of doc.docInfo.otherTags; track tag) {
+                @for (otag of doc.docInfo.otherTags; track otag) {
                   <span class="badge-simple uk-margin-xsmall-right uk-text-xsmall uk-margin-xsmall-bottom">
-                    {{ tag }}
+                    {{ otag }}
                   </span>
                 }
               </div>
