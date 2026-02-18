@@ -21,7 +21,8 @@ export class RecommendationsPage implements OnInit {
 
   ngOnInit() {
     if (this.documentId) {
-      this.resourcesRegistryService.getRecommendations(this.documentId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+      // FIXME: set status to null to get documents of all statuses in the admin resources-registry page, implement correctly.
+      this.resourcesRegistryService.getRecommendations(this.documentId, 5, null).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
         {
           next: (res: Document[]) => {
             this.recommendedDocs = res;
