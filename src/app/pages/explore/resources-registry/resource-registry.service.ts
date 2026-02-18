@@ -5,6 +5,7 @@ import { Paging } from 'src/survey-tool/catalogue-ui/domain/paging';
 import { Document, Content, HighlightedResults, Highlight } from 'src/app/domain/document';
 import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
 import { Model } from 'src/survey-tool/catalogue-ui/domain/dynamic-form-model';
+import {Observable} from "rxjs";
 
 
 type CleanOptions = {
@@ -62,6 +63,13 @@ export class ResourceRegistryService {
   getDocumentModel() {
     const url = `${this.base}/forms/models/m-document`;
     return this.httpClient.get<Model>(url);
+  }
+
+  getRecommendations(id: string, quantity: number = 3, status: string = 'APPROVED') {
+    let params = new HttpParams();
+    params = params.append("quantity", quantity);
+    params = status ? params.append("status", status) : params;
+    return this.httpClient.get<Document[]>(`${this.base}/documents/${id}/recommendations`, {params});
   }
 
   stripHtml(htmlString: string): string {
