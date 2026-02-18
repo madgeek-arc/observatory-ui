@@ -66,7 +66,10 @@ export class ResourceRegistryService {
   }
 
   getRecommendations(id: string, quantity: number = 3, status: string = 'APPROVED') {
-    return this.httpClient.get<Document[]>(`${this.base}/documents/${id}/recommendations?status=${status}&quantity=${quantity}`);
+    let params = new HttpParams();
+    params = params.append("quantity", quantity);
+    params = status ? params.append("status", status) : params;
+    return this.httpClient.get<Document[]>(`${this.base}/documents/${id}/recommendations`, {params});
   }
 
   stripHtml(htmlString: string): string {
