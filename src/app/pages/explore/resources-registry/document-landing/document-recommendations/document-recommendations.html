@@ -1,0 +1,41 @@
+@if (recommendedDocs) {
+  <div class="uk-container uk-margin-large-top">
+    <h4 class="uk-text-bold uk-margin-bottom">Explore more resources</h4>
+
+    <div class="uk-grid uk-grid-medium uk-child-width-1-1" uk-grid>
+      @for (doc of recommendedDocs; track doc.id) {
+        <div>
+          <div class="uk-card uk-card-default uk-card-body">
+
+            @if (doc.url) {
+              <div class="uk-position-top-right uk-position-small">
+                <a [href]="doc.url" target="_blank"
+                   class="uk-button uk-button-primary uk-button-small uk-border-pill">
+                  Full text
+                </a>
+              </div>
+            }
+            <h5 class="uk-text-bold uk-margin-remove-bottom uk-text-truncate" [title]="doc.docInfo?.title">
+              {{ doc.docInfo?.title }}
+            </h5>
+            <p class="uk-text-meta uk-text-italic uk-text-xsmall uk-margin-remove-top">
+              {{ doc.docInfo?.originalTitles?.[0] }}
+            </p>
+            <p class="uk-text-small uk-margin-small-top">
+              {{ doc.docInfo?.shortDescription?.text }}
+            </p>
+            @if (doc.docInfo?.otherTags) {
+              <div class="uk-margin-small-top">
+                @for (tag of doc.docInfo.otherTags; track tag) {
+                  <span class="badge-simple uk-margin-xsmall-right uk-text-xsmall uk-margin-xsmall-bottom">
+                    {{ tag }}
+                  </span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}

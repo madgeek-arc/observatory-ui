@@ -10,11 +10,12 @@ import {
 } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
 import {Model} from "../../../../../survey-tool/catalogue-ui/domain/dynamic-form-model";
 import {SurveyService} from "../../../../../survey-tool/app/services/survey.service";
+import {RecommendationsPage} from "./document-recommendations/document-recommendations";
 
 @Component({
   selector: 'app-document-landing',
-  imports: [NgOptimizedImage, CommonModule, PageContentComponent, SidebarMobileToggleComponent, RouterLink],
-  templateUrl: './document-landing.component.html'
+  imports: [NgOptimizedImage, CommonModule, PageContentComponent, SidebarMobileToggleComponent, RouterLink, RecommendationsPage],
+  templateUrl: './document-landing.component.html',
 })
 
 export class DocumentLandingComponent implements OnInit {
