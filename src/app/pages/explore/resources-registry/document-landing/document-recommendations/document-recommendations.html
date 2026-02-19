@@ -19,13 +19,11 @@
 <!--            </h5>-->
 
             <div class="uk-flex uk-flex-middle">
-              @if (doc.docInfo?.country && doc.docInfo.country !== 'EU') {
+
+              @if (!(showImage.get(doc.id) === false)) {
                 <img ngSrc="../../survey-tool/assets/images/flags/{{doc.docInfo?.country | lowercase}}-flag-round.png"
-                     class="flag-image uk-margin-small-right" width="30" height="20" alt="{{doc.docInfo?.country}} flag">
-              }
-              @if (doc.docInfo?.country && doc.docInfo.country === 'EU') {
-                <img ngSrc="../../survey-tool/assets/images/flags/europe-flag.jpg" width="30" height="20"
-                     class="flag-image uk-margin-small-right" alt="{{doc.docInfo?.country}} flag">
+                     class="flag-image uk-margin-small-right" width="30" height="20" alt="{{doc.docInfo?.country}} flag"
+                     (error)="imageError(doc.id)">
               }
               <strong>
                 <a [routerLink]="['../', doc.id]">

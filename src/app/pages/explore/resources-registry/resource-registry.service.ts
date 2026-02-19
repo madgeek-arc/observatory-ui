@@ -2,10 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Paging } from 'src/survey-tool/catalogue-ui/domain/paging';
-import { Document, Content, HighlightedResults, Highlight } from 'src/app/domain/document';
+import { Content, Document, Highlight, HighlightedResults } from 'src/app/domain/document';
 import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
 import { Model } from 'src/survey-tool/catalogue-ui/domain/dynamic-form-model';
-import {Observable} from "rxjs";
 
 
 type CleanOptions = {
@@ -56,8 +55,7 @@ export class ResourceRegistryService {
 
   updateDocument(id: string, docInfo: Content) {
     const url = `${this.base}/documents/${id}/docInfo`;
-    const body = docInfo;
-    return this.httpClient.put(url, body);
+    return this.httpClient.put(url, docInfo);
   }
 
   getDocumentModel() {

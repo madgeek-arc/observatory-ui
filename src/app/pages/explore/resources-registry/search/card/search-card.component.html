@@ -26,13 +26,10 @@
         <div class="uk-card-title">
           <div class="uk-flex uk-flex-middle uk-flex-between uk-margin-small-bottom">
             <div class="uk-flex uk-flex-middle">
-              @if (doc.result.docInfo?.country && doc.result.docInfo.country !== 'EU') {
+              @if (!(showImage.get(doc.result.id) === false)) {
                 <img ngSrc="../../survey-tool/assets/images/flags/{{doc.result.docInfo?.country | lowercase}}-flag-round.png"
-                     class="flag-image uk-margin-small-right" width="30" height="20" alt="{{doc.result.docInfo?.country}} flag">
-              }
-              @if (doc.result.docInfo?.country && doc.result.docInfo.country === 'EU') {
-                <img ngSrc="../../survey-tool/assets/images/flags/europe-flag.jpg" width="30" height="20"
-                     class="flag-image uk-margin-small-right" alt="{{doc.result.docInfo?.country}} flag">
+                     class="flag-image uk-margin-small-right" width="30" height="20"
+                     alt="{{doc.result.docInfo?.country}} flag" (error)="imageError(doc.result.id)">
               }
               <strong>
                 <a [routerLink]="['../document-landing', doc.result.id]">

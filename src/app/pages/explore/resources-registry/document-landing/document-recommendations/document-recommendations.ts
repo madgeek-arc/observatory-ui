@@ -14,11 +14,13 @@ import { ResourceRegistryService } from "../../resource-registry.service";
 
 export class RecommendationsPage implements OnChanges {
 
+  private destroyRef = inject(DestroyRef);
   private resourcesRegistryService = inject(ResourceRegistryService);
-  destroyRef = inject(DestroyRef);
 
   @Input() documentId: string = null;
+
   recommendedDocs: Document[] = [];
+  showImage = new Map<string, boolean>();
 
   ngOnChanges() {
     if (this.documentId) {
@@ -30,6 +32,10 @@ export class RecommendationsPage implements OnChanges {
         error: (err) => console.error('Error fetching recommendations for document', err),
       });
     }
+  }
+
+  imageError(id: string) {
+    this.showImage.set(id, false);
   }
 
 }
