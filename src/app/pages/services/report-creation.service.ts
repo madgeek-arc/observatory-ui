@@ -17,7 +17,7 @@ interface ChartImageData {
 })
 export class ReportCreationService {
 
-  templateUrl = 'assets/docx-templates/report_template_test.docx';
+  templateUrl = 'assets/docx-templates/report_template.docx';
 
   constructor(private http: HttpClient) {}
 

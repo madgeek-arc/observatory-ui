@@ -1,0 +1,108 @@
+<div id="page_content">
+  <div id="page_content_inner">
+    <div class="uk-section uk-section-small uk-padding-remove-top">
+      <div class="uk-container uk-container-expand">
+
+        @if (loadingResults()) {
+          <div class="uk-flex uk-flex-center uk-margin-medium-top">
+            <span data-uk-spinner="ratio: 2"></span>
+          </div>
+
+        } @else if (surveyStats().activeSurveyName) {
+          @let stats = surveyStats();
+
+          <div class="uk-margin-medium-bottom">
+            <h4 class="uk-text uk-margin-remove-bottom uk-margin-top">
+              Welcome to the Survey Tool of the EOSC Open Science Observatory
+            </h4>
+            <p class="uk-text-meta uk-margin-top">
+              This survey tool was originally developed within the EOSC Future project and is now further enhanced by
+              EOSC Track project to support the monitoring activities of the EOSC Steering Board. The tool is used to
+              conduct the Survey on National Contributions to EOSC and Open Science, which collects information
+              from representatives of European Member States and Associated Countries. All current and past surveys,
+              together with submitted responses, will be available to authorised users through this survey tool
+            </p>
+
+            <div class="uk-grid uk-grid-medium uk-child-width-1-3@m uk-grid-match" data-uk-grid>
+
+              <div>
+                <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
+                  <div class="uk-flex uk-flex-between uk-flex-top">
+                    <div>
+                      <h6 class="uk-text-meta uk-text-small uk-margin-remove uk-text-uppercase">Active
+                        Participation</h6>
+                      <h5 class="uk-h4 uk-margin-small-top uk-margin-remove-bottom uk-text-bold uk-text-emphasis">
+                        {{ stats.hasProgressCount }} / {{ stats.totalParticipants }}
+                      </h5>
+                      <p class="uk-text-meta uk-text-small uk-margin-remove-top">Stakeholders started</p>
+                    </div>
+                    <div class="uk-flex uk-flex-center uk-flex-middle uk-border-rounded uk-padding-small">
+                      <span class="material-symbols-outlined">groups</span>
+                    </div>
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <progress class="uk-progress uk-margin-remove-bottom"
+                              [value]="stats.hasProgressCount"
+                              [max]="stats.totalParticipants">
+                    </progress>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
+                  <div class="uk-flex uk-flex-between uk-flex-top">
+                    <div>
+                      <h6 class="uk-text-meta uk-text-small uk-margin-remove uk-text-uppercase">Validation Rate</h6>
+                      <h2 class="uk-h4 uk-margin-small-top uk-margin-remove-bottom uk-text-bold uk-text-emphasis">
+                        {{ stats.validatedCount }} / {{ stats.hasProgressCount }}
+                      </h2>
+                      <p class="uk-text-meta uk-text-small uk-margin-remove-top">of active responses</p>
+                    </div>
+                    <div class="uk-flex uk-flex-center uk-flex-middle uk-border-rounded uk-padding-small">
+                      <span class="material-symbols-outlined">beenhere</span>
+                    </div>
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <progress class="uk-progress uk-margin-remove-bottom uk-progress-success"
+                              [value]="stats.validatedCount"
+                              [max]="stats.hasProgressCount">
+                    </progress>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
+                  <div class="uk-flex uk-flex-between uk-flex-top">
+                    <div>
+                      <h6 class="uk-text-meta uk-text-small uk-margin-remove uk-text-uppercase">Average Progress</h6>
+                      <h2 class="uk-h4 uk-margin-small-top uk-margin-remove-bottom uk-text-bold uk-text-emphasis">
+                        {{ stats.globalProgress }}%
+                      </h2>
+                      <p class="uk-text-meta uk-text-small uk-margin-remove-top">Completion across all</p>
+                    </div>
+                    <div class="uk-flex uk-flex-center uk-flex-middle uk-border-rounded uk-padding-small">
+                      <span class="material-symbols-outlined">analytics</span>
+                    </div>
+                  </div>
+                  <div class="uk-margin-small-top">
+                    <progress class="uk-progress uk-margin-remove-bottom"
+                              [value]="stats.globalProgress"
+                              max="100">
+                    </progress>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        } @else {
+          <div class="uk-alert uk-alert-primary uk-border-rounded uk-margin-top" uk-alert>
+            <p>No active monitoring data available for your group.</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

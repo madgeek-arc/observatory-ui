@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Paging } from 'src/survey-tool/catalogue-ui/domain/paging';
-import { Document, Content, HighlightedResults, Highlight } from 'src/app/domain/document';
+import { Content, Document, Highlight, HighlightedResults } from 'src/app/domain/document';
 import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
 import { Model } from 'src/survey-tool/catalogue-ui/domain/dynamic-form-model';
 
@@ -44,7 +44,7 @@ export class ResourceRegistryService {
   }
 
   getDocumentById(id: string) {
-    return this.httpClient.get<Document>(`${this.base}/items/${id}?resourceType=document`);
+    return this.httpClient.get<Document>(`${this.base}/documents/${id}?resourceType=document`);
   }
 
   updateStatus(id: string, status: 'APPROVED' | 'REJECTED') {
@@ -55,13 +55,19 @@ export class ResourceRegistryService {
 
   updateDocument(id: string, docInfo: Content) {
     const url = `${this.base}/documents/${id}/docInfo`;
-    const body = docInfo;
-    return this.httpClient.put(url, body);
+    return this.httpClient.put(url, docInfo);
   }
 
   getDocumentModel() {
     const url = `${this.base}/forms/models/m-document`;
     return this.httpClient.get<Model>(url);
+  }
+
+  getRecommendations(id: string, quantity: number = 3, status: string = 'APPROVED') {
+    let params = new HttpParams();
+    params = params.append("quantity", quantity);
+    params = status ? params.append("status", status) : params;
+    return this.httpClient.get<Document[]>(`${this.base}/documents/${id}/recommendations`, {params});
   }
 
   stripHtml(htmlString: string): string {

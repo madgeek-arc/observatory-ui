@@ -9,7 +9,7 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-                 class="flag-image uk-margin-small-right" width="42" height="42" alt="rounded flag image">
+              class="flag-image uk-margin-small-right" width="42" height="42" alt="rounded flag image">
             <h4 class="uk-margin-remove">{{ countryName }} - Open Science for {{ year }}</h4>
           </div>
           <div class="uk-flex uk-flex-center"
@@ -21,11 +21,12 @@
                 style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
+              @if (exportActive) {
+                <span class="uk-margin-small-left"
                 data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
@@ -33,10 +34,10 @@
         <div class="uk-hidden@m">
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-                 class="flag-image uk-margin-small-right" width="42" height="42" alt="rounded flag image">
+              class="flag-image uk-margin-small-right" width="42" height="42" alt="rounded flag image">
             <h4 class="uk-margin-remove">{{ countryName }} - Open Science for {{ year }}</h4>
           </div>
-<!--          <h4>General R&D Overview</h4>-->
+          <!--          <h4>General R&D Overview</h4>-->
           <div class="uk-flex uk-flex-right"
             (click)="exportToPDF([exportContent, exportContent1, exportContent2], 'General R&D Overview')"
             style="cursor: pointer">
@@ -46,11 +47,12 @@
                 style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              <span *ngIf="exportActive else elseBlock" class="uk-margin-small-left"
+              @if (exportActive) {
+                <span class="uk-margin-small-left"
                 data-uk-spinner="ratio: 0.7"></span>
-              <ng-template #elseBlock>
+              } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
-              </ng-template>
+              }
             </div>
           </div>
         </div>
@@ -66,40 +68,41 @@
 
         <div class="uk-grid-small uk-grid-match uk-grid" data-uk-grid>
 
-          <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade" *ngIf="hasAnyLeftCardData()">
-            <div class="uk-card uk-card-default uk-card-body visualisation-card">
-              <div class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center" data-uk-grid>
-
-                <!-- Card 1 -->
-
-                <app-info-card *ngIf="  OAPubsPercentage[1] !== null"
-                  [titleHtml]="'OA Publication in ' + countryName + ' (OA vs Closed)'" [value]="OAPubsPercentage[1]"
-                  unit="%" [diff]="OAPubsPercentageDiff">
-                </app-info-card>
-
-                <!-- Card 2 -->
-
-                <app-info-card *ngIf="OpenDataPercentage[1] !== null"
-                  [titleHtml]="'Open Data in ' + countryName + ' (OA vs Closed)'" [value]="OpenDataPercentage[1]"
-                  unit="%" [diff]="OpenDataPercentageDiff">
-                </app-info-card>
-
-                <!-- Card 3 -->
-
-                <app-info-card *ngIf="totalInvestment[1] !== null" titleHtml="Total investment in EOSC and Open Science"
-                  [value]="totalInvestment[1]" unit="mil Euro" [diff]="investmentPercentageDiff">
-                </app-info-card>
-
-                <!-- Card 4 -->
-
-                <app-info-card *ngIf="openSoftware[1] !== null"
-                  titleHtml="Number of Open Software sets published in {{ countryName }}" [value]="openSoftware[1]"
-                  unit="sets" [diff]="openSoftwarePercentageDiff">
-                </app-info-card>
-
+          @if (hasAnyLeftCardData()) {
+            <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
+              <div class="uk-card uk-card-default uk-card-body visualisation-card">
+                <div class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center" data-uk-grid>
+                  <!-- Card 1 -->
+                  @if (  OAPubsPercentage[1] !== null) {
+                    <app-info-card
+                      [titleHtml]="'OA Publication in ' + countryName + ' (OA vs Closed)'" [value]="OAPubsPercentage[1]"
+                      unit="%" [diff]="OAPubsPercentageDiff">
+                    </app-info-card>
+                  }
+                  <!-- Card 2 -->
+                  @if (OpenDataPercentage[1] !== null) {
+                    <app-info-card
+                      [titleHtml]="'Open Data in ' + countryName + ' (OA vs Closed)'" [value]="OpenDataPercentage[1]"
+                      unit="%" [diff]="OpenDataPercentageDiff">
+                    </app-info-card>
+                  }
+                  <!-- Card 3 -->
+                  @if (totalInvestment[1] !== null) {
+                    <app-info-card titleHtml="Total investment in EOSC and Open Science"
+                      [value]="totalInvestment[1]" unit="mil Euro" [diff]="investmentPercentageDiff">
+                    </app-info-card>
+                  }
+                  <!-- Card 4 -->
+                  @if (openSoftware[1] !== null) {
+                    <app-info-card
+                      titleHtml="Number of Open Software sets published in {{ countryName }}" [value]="openSoftware[1]"
+                      unit="sets" [diff]="openSoftwarePercentageDiff">
+                    </app-info-card>
+                  }
+                </div>
               </div>
             </div>
-          </div>
+          }
 
           <!-- Right Card (2/5) -->
           <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
@@ -108,61 +111,67 @@
 
               <div class="uk-child-width-1-2 uk-grid-small uk-grid-match uk-grid" data-uk-grid>
 
-                <div *ngIf="rfos[1]">
-                  <div class="">
-                    <p>Number of research funding organisations</p>
-                    <div class="number big uk-margin">
-                      <span class="uk-text-bold">{{ rfos[1] }}</span>
-                    </div>
-
-                    <div *ngIf="rfosPercentageDiff !== null"
-                      class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                      <div class="uk-flex uk-flex-middle">
+                @if (rfos[1]) {
+                  <div>
+                    <div class="">
+                      <p>Number of research funding organisations</p>
+                      <div class="number big uk-margin">
+                        <span class="uk-text-bold">{{ rfos[1] }}</span>
+                      </div>
+                      @if (rfosPercentageDiff !== null) {
+                        <div
+                          class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                          <div class="uk-flex uk-flex-middle">
                         <span class="material-symbols-outlined" [ngClass]="{
                             'up-arrow-color': rfosPercentageDiff > 0,
                             'down-arrow-color': rfosPercentageDiff < 0,
                             'neutral-arrow-color': rfosPercentageDiff === 0
                           }">
-                          {{ rfosPercentageDiff > 0 ? 'arrow_upward' : rfosPercentageDiff < 0 ? 'arrow_downward' : 'commit' }}
-                        </span>
+                              {{ rfosPercentageDiff > 0 ? 'arrow_upward' : rfosPercentageDiff < 0 ? 'arrow_downward' : 'commit' }}
+                            </span>
                         <span [ngClass]="{
                           'percentage-up-color': rfosPercentageDiff > 0,
                           'percentage-down-color': rfosPercentageDiff < 0,
                           'percentage-neutral-color': rfosPercentageDiff === 0 }">
-                          {{ Math.abs(rfosPercentageDiff) }}%
-                        </span>&nbsp; from last year
-                      </div>
+                              {{ Math.abs(rfosPercentageDiff) }}%
+                            </span>&nbsp; from last year
+                          </div>
+                        </div>
+                      }
                     </div>
                   </div>
-                </div>
+                }
 
-                <div *ngIf="rpos[1]">
-                  <div class="">
-                    <p>Number of research performing organisations</p>
-                    <div class="number big uk-margin">
-                      <span class="uk-text-bold">{{ rpos[1] }}</span>
-                    </div>
-
-                    <div *ngIf="rposPercentageDiff !== null"
-                      class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                      <div class="uk-flex uk-flex-middle">
+                @if (rpos[1]) {
+                  <div>
+                    <div class="">
+                      <p>Number of research performing organisations</p>
+                      <div class="number big uk-margin">
+                        <span class="uk-text-bold">{{ rpos[1] }}</span>
+                      </div>
+                      @if (rposPercentageDiff !== null) {
+                        <div
+                          class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
+                          <div class="uk-flex uk-flex-middle">
                         <span class="material-symbols-outlined" [ngClass]="{
                             'up-arrow-color': rposPercentageDiff > 0,
                             'down-arrow-color': rposPercentageDiff < 0,
                             'neutral-arrow-color': rposPercentageDiff === 0
                           }">
-                          {{rposPercentageDiff > 0 ? 'arrow_upward' : rposPercentageDiff < 0 ? 'arrow_downward' : 'commit' }}
-                        </span>
+                              {{rposPercentageDiff > 0 ? 'arrow_upward' : rposPercentageDiff < 0 ? 'arrow_downward' : 'commit' }}
+                            </span>
                         <span [ngClass]="{
                           'percentage-up-color': rposPercentageDiff > 0,
                           'percentage-down-color': rposPercentageDiff < 0,
                           'percentage-neutral-color': rposPercentageDiff === 0 }">
-                          {{ Math.abs(rposPercentageDiff) }}%
-                        </span>&nbsp; from last year
-                      </div>
+                              {{ Math.abs(rposPercentageDiff) }}%
+                            </span>&nbsp; from last year
+                          </div>
+                        </div>
+                      }
                     </div>
                   </div>
-                </div>
+                }
 
               </div>
             </div>
@@ -170,92 +179,85 @@
 
           <div>
             <p><span class="uk-text-bold">Data source:</span>
-              Survey on National Contributions to EOSC and Open Science {{year}} -
-              showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
-              OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
-            </p>
-          </div>
+            Survey on National Contributions to EOSC and Open Science {{year}} -
+            showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
+            OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+          </p>
         </div>
       </div>
     </div>
+  </div>
 
-    <ng-container #exportContent2>
-      <div *ngIf="hasSurveyGeneralData()" class="uk-section uk-section-primary uk-preserve-color uk-section-small">
+  <ng-container #exportContent2>
+    @if (hasSurveyGeneralData()) {
+      <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
         <div class="uk-container">
-
           <div class="uk-margin-medium-top uk-animation-fade">
             <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
               <h6 class="uk-margin-bottom">Learn more aboutOpen Science Key Actors in {{ countryName }}</h6>
               <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
               <div class="uk-margin-medium-top">
                 <read-more [maxHeight]="300">
-                <div id="research_funding_organisations">
-                  <div class="uk-text-secondary">Research Funding Organisations</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2'][0]['Question2-1']; else funding_organisations">
-                    <div
-                      *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']"
-                      class="uk-margin-medium-top">
-                      <div [innerHTML]="element['Question2-1']"></div>
-                    </div>
-                  </ng-container>
-                  <ng-template #funding_organisations>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-                <div id="research_performing_organisations">
-                  <div class="uk-text-secondary">Research Performing Organisations</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3'][0]['Question3-1']; else performing_organisations">
-                    <div
-                      *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3']"
-                      class="uk-margin-medium-top">
-                      <div [innerHTML]="element['Question3-1']"></div>
-                    </div>
-                  </ng-container>
-                  <ng-template #performing_organisations>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-
-                <div id="research_support_organisations">
-                  <div class="uk-text-secondary">Research Support Organisations</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4'][0]['Question4-1']; else support_organisations">
-                    <div
-                      *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4']"
-                      class="uk-margin-medium-top">
-                      <div [innerHTML]="element['Question4-1']"></div>
-                    </div>
-                  </ng-container>
-                  <ng-template #support_organisations>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-
-                <div id="other_organisations">
-                  <div class="uk-text-secondary">Other Organisations</div>
-                  <ng-container
-                    *ngIf="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30'][0]['Question30-1']; else other_organisations">
-                    <div
-                      *ngFor="let element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30']"
-                      class="uk-margin-medium-top">
-                      <div [innerHTML]="element['Question30-1']"></div>
-                    </div>
-                  </ng-container>
-                  <ng-template #other_organisations>
-                    <p>N/A</p>
-                  </ng-template>
-                </div>
-              </read-more>
+                  <div id="research_funding_organisations">
+                    <div class="uk-text-secondary">Research Funding Organisations</div>
+                    @if (countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2'][0]['Question2-1']) {
+                      @for (element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question2']; track element) {
+                        <div
+                          class="uk-margin-medium-top">
+                          <div [innerHTML]="element['Question2-1']"></div>
+                        </div>
+                      }
+                    } @else {
+                      <p>N/A</p>
+                    }
+                  </div>
+                  <div id="research_performing_organisations">
+                    <div class="uk-text-secondary">Research Performing Organisations</div>
+                    @if (countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3'][0]['Question3-1']) {
+                      @for (element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question3']; track element) {
+                        <div
+                          class="uk-margin-medium-top">
+                          <div [innerHTML]="element['Question3-1']"></div>
+                        </div>
+                      }
+                    } @else {
+                      <p>N/A</p>
+                    }
+                  </div>
+                  <div id="research_support_organisations">
+                    <div class="uk-text-secondary">Research Support Organisations</div>
+                    @if (countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4'][0]['Question4-1']) {
+                      @for (element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question4']; track element) {
+                        <div
+                          class="uk-margin-medium-top">
+                          <div [innerHTML]="element['Question4-1']"></div>
+                        </div>
+                      }
+                    } @else {
+                      <p>N/A</p>
+                    }
+                  </div>
+                  <div id="other_organisations">
+                    <div class="uk-text-secondary">Other Organisations</div>
+                    @if (countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30']?.length > 0 && countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30'][0]['Question30-1']) {
+                      @for (element of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question30']; track element) {
+                        <div
+                          class="uk-margin-medium-top">
+                          <div [innerHTML]="element['Question30-1']"></div>
+                        </div>
+                      }
+                    } @else {
+                      <p>N/A</p>
+                    }
+                  </div>
+                </read-more>
               </div>
             </div>
           </div>
-
           <!--    <pre *ngFor="let element of surveyAnswers">{{element | json}}</pre>-->
-
         </div>
       </div>
-    </ng-container>
-  </div>
+    }
+  </ng-container>
+</div>
 </div>

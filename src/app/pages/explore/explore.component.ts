@@ -58,13 +58,13 @@ export class ExploreComponent implements OnInit {
     this.menuItems.push(new MenuItem('2', 'Investments in EOSC', null, '/explore/investments-in-eosc', null, {name: 'Investments'}));
     this.menuItems.push(new MenuItem('3', 'National Monitoring', null, '/explore/national-monitoring', null, {name: 'OS Monitoring'}));
     this.menuItems.push(new MenuItem('4', 'Open Science Policies', null, '/explore/open-science-policies', null, {name: 'OS Policies'}));
-    // this.menuItems.push(new MenuItem('7', 'Open Science Resource Registry', null, '/explore/resource-registry/search', null, {name: 'OS Resource Registry'}));
+    this.menuItems.push(new MenuItem('7', 'Open Science Resource Registry', null, '/explore/resource-registry/search', null, {name: 'OS Resource Registry'}));
 
     // Coming soon items (disabled)
     this.menuSections.push({items: this.menuItems});
 
     this.menuItems = [];
-    this.menuItems.push(new MenuItem('7', 'Open Science Resource Registry', null, '', null, {name: 'OS Resource Registry'}, null, 'custom-disabled-link'));
+    // this.menuItems.push(new MenuItem('7', 'Open Science Resource Registry', null, '', null, {name: 'OS Resource Registry'}, null, 'custom-disabled-link'));
     this.menuItems.push(new MenuItem('5', 'Open Science Use Cases', null, '', '', {name: 'OS Use Cases'}, null, 'custom-disabled-link'));
     // this.menuItems.push(new MenuItem('6', 'Open Science by Country', null, '', '', {name: 'OS by Country'}, null, 'custom-disabled-link'));
     this.menuItems.push(new MenuItem('8', 'Open Science Impact', null, '', '', {name: 'OS Impact'}, null, 'custom-disabled-link'));

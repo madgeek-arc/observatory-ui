@@ -9,7 +9,7 @@ import { ExploreService } from "../explore.service";
 import {
   SidebarMobileToggleComponent
 } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import { CommonModule } from "@angular/common";
+
 import { ChartsModule } from "../../../shared/charts/charts.module";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 
@@ -18,11 +18,10 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
   selector: 'app-open-science-trends',
   templateUrl: './open-science-trends.component.html',
   imports: [
-    CommonModule,
     SidebarMobileToggleComponent,
     ChartsModule,
     PageContentComponent
-  ]
+]
 })
 
 export class OpenScienceTrendsComponent implements OnInit {

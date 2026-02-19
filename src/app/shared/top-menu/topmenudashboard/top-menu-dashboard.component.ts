@@ -165,19 +165,26 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
     return firstLetters;
   }
 
-  setGroup(group: Stakeholder) {
-    this.userService.changeCurrentStakeholder(group);
-    this.router.navigate([`/contributions/${group.id}/home`]);
+  setStakeholder(stakeholder: Stakeholder) {
+    // this.userService.changeCurrentCoordinator(null);
+    // this.userService.changeCurrentAdministrator(null);
+
+    this.userService.changeCurrentStakeholder(stakeholder);
+    this.router.navigate([`/contributions/${stakeholder.id}/stakeholder`]);
   }
 
   setCoordinator(coordinator: Coordinator){
+    // this.userService.changeCurrentStakeholder(null);
+    // this.userService.changeCurrentAdministrator(null);
     this.userService.changeCurrentCoordinator(coordinator);
-    this.router.navigate([`/contributions/${coordinator.id}/home`]);
+    this.router.navigate([`/contributions/${coordinator.id}/coordinator`]);
   }
 
   setAdministrator(admin: Administrator){
+    // this.userService.changeCurrentStakeholder(null);
+    // this.userService.changeCurrentCoordinator(null);
     this.userService.changeCurrentAdministrator(admin);
-    this.router.navigate([`/contributions/${admin.id}/home`]);
+    this.router.navigate([`/contributions/${admin.id}/administrator`]);
   }
 
   coordinatorContains(name: string) {
@@ -228,18 +235,18 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
     this.authentication.logout();
   }
 
-  change() {
-    const el: HTMLElement = document.getElementById('hamburger');
-    if(el.classList.contains('change')) {
-      el.classList.remove('change');
-      const el1: HTMLElement = document.getElementById('sidebar_main_content');
-      el1.classList.remove('sidebar_main_active');
-    } else {
-      el.classList.add('change');
-      const el1: HTMLElement = document.getElementById('sidebar_main_content');
-      el1.classList.add('sidebar_main_active');
-    }
-  }
+  // change() {
+  //   const el: HTMLElement = document.getElementById('hamburger');
+  //   if(el.classList.contains('change')) {
+  //     el.classList.remove('change');
+  //     const el1: HTMLElement = document.getElementById('sidebar_main_content');
+  //     el1.classList.remove('sidebar_main_active');
+  //   } else {
+  //     el.classList.add('change');
+  //     const el1: HTMLElement = document.getElementById('sidebar_main_content');
+  //     el1.classList.add('sidebar_main_active');
+  //   }
+  // }
 
   updateConsent() {
     this.userService.setUserConsent(this.acceptedPrivacyPolicy.privacyPolicy.id).pipe(takeUntil(this._destroyed))
@@ -316,15 +323,5 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
         return -1;
     }
   }
-
-
-  isAboutSectionActive(): boolean {
-    return this.router.url.startsWith('/about/');
-  }
-
-  isResourcesSectionActive(): boolean {
-    return this.router.url.startsWith('/resources/');
-  }
-
 
 }

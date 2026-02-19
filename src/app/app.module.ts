@@ -2,7 +2,7 @@ import { ErrorHandler, inject, NgModule, provideAppInitializer } from "@angular/
 import { Router, RouterModule } from "@angular/router";
 import * as Sentry from "@sentry/angular";
 import { BrowserModule } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, provideHttpClient, withXsrfConfiguration } from "@angular/common/http";
 import { environment } from "../environments/environment";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -47,6 +47,10 @@ import { PageContentComponent } from "../survey-tool/app/shared/page-content/pag
 import {
   SidebarMobileToggleComponent
 } from "../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import {
+  StakeholdersHomeComponent
+} from "./pages/dashboard/contribution-dashboard-extension/stakeholders/stakeholders-home.component";
+// import { APP_ENV } from "../survey-tool/catalogue-ui/config/app-env.token";
 
 
 @NgModule({
@@ -62,7 +66,6 @@ import {
     CategoryIndicatorsWrapperComponent,
     CategoryIndicatorsRowComponent,
     ContributionsHomeExtentionComponent,
-    // ReportPieChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,6 +80,7 @@ import {
     BrowserAnimationsModule,
     PageContentComponent,
     SidebarMobileToggleComponent,
+    StakeholdersHomeComponent,
   ],
   providers: [
     {
@@ -85,8 +89,8 @@ import {
       multi: true
     },
     UserService,
-    // ArchiveGuardService,
     MessagingSystemService,
+    // { provide: APP_ENV, useValue: environment },
     {
       provide: ErrorHandler,
       useValue: Sentry.createErrorHandler({
@@ -107,11 +111,12 @@ import {
 
       return initializerFn();
     }),
-    // provideAppInitializer(() => inject(TraceService)),
-    // provideAppInitializer(() => {
-    //     const initializerFn = (() => () => {})(inject(Sentry.TraceService));
-    //     return initializerFn();
-    //   }),
+    provideHttpClient(
+      withXsrfConfiguration({
+        cookieName: 'XSRF-TOKEN',
+        headerName: 'X-XSRF-TOKEN',
+      })
+    ),
     provideMatomo(
       {
         trackerUrl: environment.matomoTrackerUrl,
@@ -121,5 +126,6 @@ import {
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
 }

@@ -1,48 +1,70 @@
 <ng-container>
-  <table *ngIf="countries" class="uk-table uk-table-hover uk-table-divider uk-table-small">
-    <thead>
-      <tr>
-        <th class="uk-text-center" (click)="sortByColumn($event)">
-          <span *ngIf="sortedColumnIndex !== 0" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort.svg"></span>
-          <span *ngIf="sortedColumnIndex === 0 && !asc" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-descending.svg"></span>
-          <span *ngIf="sortedColumnIndex === 0 && asc" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-ascending.svg"></span>
-          Country
-        </th>
-        <th *ngFor="let header of tableHeaders; let i = index" class="uk-text-center" (click)="sortByColumn($event)">
-          <span *ngIf="sortedColumnIndex !== i+1" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort.svg"></span>
-          <span *ngIf="sortedColumnIndex === i+1 && !asc" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-descending.svg"></span>
-          <span *ngIf="sortedColumnIndex === i+1 && asc" class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-ascending.svg"></span>
-          {{header}}
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let countryOverview of countries">
-        <td class="uk-text-center"><span>{{countryOverview.name}}</span></td>
-        <ng-container *ngIf="tableType==='policies'">
-          <td *ngFor="let column of countryOverview.EOSCRelevantPoliciesInPlace" class="uk-text-center">
-            <span>{{column === 'true' ? 'Yes' : '--'}}</span>
-          </td>
-        </ng-container>
-        <td *ngIf="tableType === 'funding'" class="uk-text-center">
-          <ng-container *ngIf="countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies === null
-                              || countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies === 'null';
-                              else elseBlockFunding"> Awaiting data
-          </ng-container>
-          <ng-template #elseBlockFunding>
-            {{countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies}}
-          </ng-template>
-        </td>
-        <td *ngIf="tableType === 'mandate'" class="uk-text-center">
-          <ng-container *ngIf="countryOverview.hasAppointedMandatedOrganization === null
-                              || countryOverview.hasAppointedMandatedOrganization === 'null';
-                              else elseBlockMandate">Awaiting data
-          </ng-container>
-          <ng-template #elseBlockMandate>
-            {{countryOverview.hasAppointedMandatedOrganization}}
-          </ng-template>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  @if (countries) {
+    <table class="uk-table uk-table-hover uk-table-divider uk-table-small">
+      <thead>
+        <tr>
+          <th class="uk-text-center" (click)="sortByColumn($event)">
+            @if (sortedColumnIndex !== 0) {
+              <span class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort.svg"></span>
+            }
+            @if (sortedColumnIndex === 0 && !asc) {
+              <span class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-descending.svg"></span>
+            }
+            @if (sortedColumnIndex === 0 && asc) {
+              <span class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-ascending.svg"></span>
+            }
+            Country
+          </th>
+          @for (header of tableHeaders; track header; let i = $index) {
+            <th class="uk-text-center" (click)="sortByColumn($event)">
+              @if (sortedColumnIndex !== i+1) {
+                <span class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort.svg"></span>
+              }
+              @if (sortedColumnIndex === i+1 && !asc) {
+                <span class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-descending.svg"></span>
+              }
+              @if (sortedColumnIndex === i+1 && asc) {
+                <span class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-ascending.svg"></span>
+              }
+              {{header}}
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (countryOverview of countries; track countryOverview) {
+          <tr>
+            <td class="uk-text-center"><span>{{countryOverview.name}}</span></td>
+            @if (tableType==='policies') {
+              @for (column of countryOverview.EOSCRelevantPoliciesInPlace; track column) {
+                <td class="uk-text-center">
+                  <span>{{column === 'true' ? 'Yes' : '--'}}</span>
+                </td>
+              }
+            }
+            @if (tableType === 'funding') {
+              <td class="uk-text-center">
+                @if (countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies === null
+                  || countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies === 'null') {
+                  Awaiting data
+                } @else {
+                  {{countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies}}
+                }
+              </td>
+            }
+            @if (tableType === 'mandate') {
+              <td class="uk-text-center">
+                @if (countryOverview.hasAppointedMandatedOrganization === null
+                  || countryOverview.hasAppointedMandatedOrganization === 'null') {
+                  Awaiting data
+                } @else {
+                  {{countryOverview.hasAppointedMandatedOrganization}}
+                }
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
 </ng-container>

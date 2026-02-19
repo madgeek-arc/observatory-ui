@@ -3,53 +3,54 @@
     <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
   <div inner>
-    <div *ngIf="!isAdminPage" class="uk-section uk-section-small uk-section-primary uk-preserve-color">
-      <div class="uk-container uk-margin-top">
-        <h4>European Open Science Resources Registry</h4>
-        <div class="">
-          <div class="uk-grid-match" uk-grid>
-            <div class="uk-width-2-3">
-              <div>
-                <p>
-                  In the European Open Science Resources Registry, you can find a curated collection of key resources
-                  supporting Open Science across Europe, including national policies, strategies, best practices,
-                  templates, and impact stories. Users can easily filter resources by country, date, topic, and
-                  document type, making it simple to locate relevant information. Policies and strategies are vital to
-                  creating a collaborative, transparent, and accessible research environment, and the registry goes
-                  beyond simply listing these documents.
-                  You’ll find detailed information on each policy, including the option to read full texts where
-                  available, helping you understand their scope, implementation, and impact in depth.
-                </p>
-                <p>
-                  You can easily filter resources by country, date, topic, and document type, making it simple to
-                  locate exactly what you need.
-                  If you have valuable documents to share, you can also contribute to the registry by uploading
-                  resources with relevant metadata, building a more comprehensive and collaborative resource for
-                  the entire Open Science community.
-                </p>
+    @if (!isAdminPage) {
+      <div class="uk-section uk-section-small uk-section-primary uk-preserve-color">
+        <div class="uk-container uk-margin-top">
+          <h4>European Open Science Resources Registry</h4>
+          <div class="">
+            <div class="uk-grid-match" data-uk-grid>
+              <div class="uk-width-2-3">
+                <div>
+                  <p>
+                    In the European Open Science Resources Registry, you can find a curated collection of key resources
+                    supporting Open Science across Europe, including national policies, strategies, best practices,
+                    templates, and impact stories. Users can easily filter resources by country, date, topic, and
+                    document type, making it simple to locate relevant information. Policies and strategies are vital to
+                    creating a collaborative, transparent, and accessible research environment, and the registry goes
+                    beyond simply listing these documents.
+                    You’ll find detailed information on each policy, including the option to read full texts where
+                    available, helping you understand their scope, implementation, and impact in depth.
+                  </p>
+                  <p>
+                    You can easily filter resources by country, date, topic, and document type, making it simple to
+                    locate exactly what you need.
+                    If you have valuable documents to share, you can also contribute to the registry by uploading
+                    resources with relevant metadata, building a more comprehensive and collaborative resource for
+                    the entire Open Science community.
+                  </p>
+                </div>
               </div>
-            </div>
-
-            <div class="uk-width-1-3">
-              <div class="uk-card uk-card-default uk-card-body uk-margin-bottom" style="background-color: #DAEEF3;">
-                <h5 class="uk-card-title uk-text-center uk-text-bold">Anything missing?</h5>
-                <p class="uk-margin-left">You can easily filter resources by country, date, topic, and document type,
-                  making it simple to locate exactly what you need.
-                  If you have valuable documents to share, you can also contribute to the registry by uploading
-                  resources with relevant metadata, building a more comprehensive and collaborative resource for the
-                  entire Open Science community.
-                </p>
-                <div class="uk-flex uk-flex-center">
-                  <button class="uk-button-primary uk-text-bold" style="border-radius: 30px; padding: 0 15px">Submit
-                    resources
-                  </button>
+              <div class="uk-width-1-3">
+                <div class="uk-card uk-card-default uk-card-body uk-margin-bottom" style="background-color: #DAEEF3;">
+                  <h5 class="uk-card-title uk-text-center uk-text-bold">Anything missing?</h5>
+                  <p class="uk-margin-left">You can easily filter resources by country, date, topic, and document type,
+                    making it simple to locate exactly what you need.
+                    If you have valuable documents to share, you can also contribute to the registry by uploading
+                    resources with relevant metadata, building a more comprehensive and collaborative resource for the
+                    entire Open Science community.
+                  </p>
+                  <div class="uk-flex uk-flex-center">
+                    <button class="uk-button-primary uk-text-bold" style="border-radius: 30px; padding: 0 15px">Submit
+                      resources
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    }
 
     <div class="uk-section uk-section-small" [ngClass]="isAdminPage ? 'uk-section-default' : 'uk-section-primary uk-preserve-color'">
       <div class="uk-container uk-margin-top">
@@ -59,7 +60,7 @@
 
             <div class="uk-inline uk-margin-small-right">
               <button class="uk-button uk-button-default" type="button">Language</button>
-              <div id="languageDropdown" uk-dropdown="mode: click; pos: bottom-left;  auto-update: true;">
+              <div id="languageDropdown" data-uk-dropdown="mode: click; pos: bottom-left;  auto-update: true;">
                 <div>
                   <div style="overflow: visible;">
                     <ng-select [items]="languageFacets?.values" bindLabel="value" bindValue="value" [isOpen]="true"
@@ -123,9 +124,11 @@
               </div>
             </div>
 
-            <span *ngIf="showClearFilter()" class="material-symbols-outlined uk-margin-small-left"
-              style="cursor: pointer;" (click)="clearFilters()" uk-tooltip="Clear All">delete
-            </span>
+            @if (showClearFilter()) {
+              <span class="material-symbols-outlined uk-margin-small-left uk-cursor-pointer" (click)="clearFilters()"
+                    data-uk-tooltip="Clear All">delete
+              </span>
+            }
 
           </div>
           <div class="uk-inline">
@@ -139,89 +142,107 @@
         <div class="badge-container uk-margin-bottom uk-flex">
           <div>
 
-            <span *ngFor="let language of appliedLanguages" class="filter-badge">
-              <strong>Language: &nbsp;</strong>{{ language }}
-              <button class="remove-btn" type="button" (click)="removeLanguageFilter(language)">x</button>
-            </span>
+            @for (language of appliedLanguages; track language) {
+              <span class="filter-badge">
+                <strong>Language: &nbsp;</strong>{{ language }}
+                <button class="remove-btn" type="button" (click)="removeLanguageFilter(language)">x</button>
+              </span>
+            }
 
 
-            <span *ngFor="let country of appliedCountries" class="filter-badge">
-              <strong>Country: &nbsp;</strong> {{ country }}
-              <button class="remove-btn" type="button" (click)="removeCountryFilter(country)">x</button>
-            </span>
+            @for (country of appliedCountries; track country) {
+              <span class="filter-badge">
+                <strong>Country: &nbsp;</strong> {{ country }}
+                <button class="remove-btn" type="button" (click)="removeCountryFilter(country)">x</button>
+              </span>
+            }
 
 
-            <span *ngFor="let tag of appliedTags" class="filter-badge">
-              <strong>Tag: &nbsp;</strong> {{ tag }}
-              <button class="remove-btn" type="button" (click)="removeTagFilter(tag)">×</button>
-            </span>
+            @for (tag of appliedTags; track tag) {
+              <span class="filter-badge">
+                <strong>Tag: &nbsp;</strong> {{ tag }}
+                <button class="remove-btn" type="button" (click)="removeTagFilter(tag)">×</button>
+              </span>
+            }
 
 
-            <span *ngIf="searchQuery" class="filter-badge">
-              <strong>Keyword: &nbsp;</strong> {{ searchQuery }}
-              <button class="remove-btn" type="button" (click)="removeKeywordFilter()">x</button>
-            </span>
+            @if (searchQuery) {
+              <span class="filter-badge">
+                <strong>Keyword: &nbsp;</strong> {{ searchQuery }}
+                <button class="remove-btn" type="button" (click)="removeKeywordFilter()">x</button>
+              </span>
+            }
 
           </div>
         </div>
 
 
-        <div *ngIf="documents.results.length > 0; else noResults">
-
-          <app-search-results [documents]="documents.results" [isAdminPage]="isAdminPage" (onUpdateStatus)="onUpdateStatus($event.id, $event.status)"></app-search-results>
-
-          <!--Pagination Section-->
-          <div *ngIf="documents.total > 0" class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">
-            <div class="uk-width-1-1">
-              <div class="uk-flex uk-flex-between uk-flex-middle">
-                <!--Info text-->
-                <p class="big-text uk-margin-remove">
-                  <span class="uk-text-bold">{{ documents.total }}</span> Documents, Page
-                  <span class="uk-text-bold">{{ this.currentPage }}</span> of {{ this.totalPages }}
-                </p>
-                <!--Pagination Controls-->
-                <ul class="uk-pagination" *ngIf="totalPages > 1">
-                  <li *ngIf="currentPage > 2 && totalPages > 5">
-                    <a (click)="goToPage(0)" class="uk-pagination-link">
-                      <span uk-pagination-previous></span>
-                      <span uk-pagination-previous></span>
-                    </a>
-                  </li>
-
-                  <!--Previous Page-->
-                  <li *ngIf="currentPage > 1">
-                    <a (click)="previousPage()" class="uk-pagination-link">
-                      <span uk-pagination-previous></span>
-                    </a>
-                  </li>
-
-                  <!--Page Numbers-->
-                  <li *ngFor="let i of pages" [ngClass]="i == currentPage ? 'uk-active uk-animation-fade' : ''">
-                    <a (click)="goToPage(i - 1)" class="uk=pagination-link">{{ i }}</a>
-                  </li>
-
-                  <!--Next Page-->
-                  <li *ngIf="currentPage < totalPages">
-                    <a (click)="nextPage()" class="uk=pagination-link">
-                      <span uk-pagination-next></span>
-                    </a>
-                  </li>
-                  <!--Last Page-->
-                  <li *ngIf="currentPage < totalPages - 1 && totalPages > 5">
-                    <a (click)="goToPage(totalPages - 1)" class="uk-pagination-link">
-                      <span uk-pagination-next></span>
-                      <span uk-pagination-next></span>
-                    </a>
-                  </li>
-                </ul>
+        @if (documents.results.length > 0) {
+          <div>
+            <app-search-results [documents]="documents.results" [isAdminPage]="isAdminPage" (onUpdateStatus)="onUpdateStatus($event.id, $event.status)"></app-search-results>
+            <!--Pagination Section-->
+            @if (documents.total > 0) {
+              <div class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">
+                <div class="uk-width-1-1">
+                  <div class="uk-flex uk-flex-between uk-flex-middle">
+                    <!--Info text-->
+                    <p class="big-text uk-margin-remove">
+                      <span class="uk-text-bold">{{ documents.total }}</span> Documents, Page
+                      <span class="uk-text-bold">{{ this.currentPage }}</span> of {{ this.totalPages }}
+                    </p>
+                    <!--Pagination Controls-->
+                    @if (totalPages > 1) {
+                      <ul class="uk-pagination">
+                        @if (currentPage > 2 && totalPages > 5) {
+                          <li>
+                            <a (click)="goToPage(0)" class="uk-pagination-link">
+                              <span uk-pagination-previous></span>
+                              <span uk-pagination-previous></span>
+                            </a>
+                          </li>
+                        }
+                        <!--Previous Page-->
+                        @if (currentPage > 1) {
+                          <li>
+                            <a (click)="previousPage()" class="uk-pagination-link">
+                              <span uk-pagination-previous></span>
+                            </a>
+                          </li>
+                        }
+                        <!--Page Numbers-->
+                        @for (i of pages; track i) {
+                          <li [ngClass]="i == currentPage ? 'uk-active uk-animation-fade' : ''">
+                            <a (click)="goToPage(i - 1)" class="uk=pagination-link">{{ i }}</a>
+                          </li>
+                        }
+                        <!--Next Page-->
+                        @if (currentPage < totalPages) {
+                          <li>
+                            <a (click)="nextPage()" class="uk=pagination-link">
+                              <span uk-pagination-next></span>
+                            </a>
+                          </li>
+                        }
+                        <!--Last Page-->
+                        @if (currentPage < totalPages - 1 && totalPages > 5) {
+                          <li>
+                            <a (click)="goToPage(totalPages - 1)" class="uk-pagination-link">
+                              <span uk-pagination-next></span>
+                              <span uk-pagination-next></span>
+                            </a>
+                          </li>
+                        }
+                      </ul>
+                    }
+                  </div>
+                </div>
               </div>
-            </div>
+            }
           </div>
-        </div>
-
-        <ng-template #noResults>
+        } @else {
           <p>No results found for these search parameters.</p>
-        </ng-template>
+        }
+
 
       </div>
     </div>
