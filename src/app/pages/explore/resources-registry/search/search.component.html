@@ -52,198 +52,236 @@
       </div>
     }
 
-    <div class="uk-section uk-section-small" [ngClass]="isAdminPage ? 'uk-section-default' : 'uk-section-primary uk-preserve-color'">
+    <div class="uk-section uk-section-small"
+         [ngClass]="isAdminPage ? 'uk-section-default' : 'uk-section-primary uk-preserve-color'">
       <div class="uk-container uk-margin-top">
-
-        <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-bottom">
-          <div class="uk-flex uk-flex-left uk-flex-middle">
-
-            <div class="uk-inline uk-margin-small-right">
-              <button class="uk-button uk-button-default" type="button">Language</button>
-              <div id="languageDropdown" data-uk-dropdown="mode: click; pos: bottom-left;  auto-update: true;">
-                <div>
-                  <div style="overflow: visible;">
-                    <ng-select [items]="languageFacets?.values" bindLabel="value" bindValue="value" [isOpen]="true"
-                      placeholder="Language" [closeOnSelect]="false" class="open" [multiple]="true" [appendTo]="''"
-                      [dropdownPosition]="'bottom'" [(ngModel)]="selectedLanguages"
-                      (change)="onFilterChange('language', selectedLanguages)"
-                      (remove)="onFilterRemove('language', selectedLanguages)" [clearable]="false">
-                      <ng-template ng-option-tmp let-item="item">
-                        {{ item.value }} ({{ item.count }})
-                      </ng-template>
-                    </ng-select>
-                    <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
-                      (click)="applyFilter('languageDropdown')">Apply
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="uk-inline uk-margin-small-right" style="position: relative;">
-              <button class="uk-button uk-button-default" type="button">Country</button>
-              <div id="countryDropdown" uk-dropdown="mode: click; pos: bottom-left; auto-update: true;">
-                <div>
-                  <div style="overflow: visible;">
-                    <ng-select [items]="countryFacets?.values" bindLabel="value" bindValue="value" placeholder="Country"
-                      [isOpen]="true" class="open" [multiple]="true" [closeOnSelect]="false"
-                      [dropdownPosition]="'bottom'" [(ngModel)]="selectedCountry"
-                      (change)="onFilterChange('country', selectedCountry)"
-                      (remove)="onFilterRemove('country', selectedCountry)" [clearable]="false">
-                      <ng-template ng-option-tmp let-item="item">
-                        {{ item.value }} ({{ item.count }})
-                      </ng-template>
-                    </ng-select>
-                    <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
-                      (click)="applyFilter('countryDropdown')">Apply
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="uk-inline" style="position: relative;">
-              <button class="uk-button uk-button-default" type="button">Tags</button>
-              <div id="tagsDropdown" uk-dropdown="mode: click; pos: bottom-left; auto-update: true;">
-                <div>
-                  <div style="overflow: visible;">
-                    <ng-select [items]="tagFacets?.values" bindLabel="value" bindValue="value" placeholder="Tags"
-                      [multiple]="true" class="open" [isOpen]="true" [closeOnSelect]="false"
-                      [dropdownPosition]="'bottom'" [(ngModel)]="selectedTag"
-                      (change)="onFilterChange('tags', selectedTag)" (remove)="onFilterRemove('tags', selectedTag)"
-                      [clearable]="false">
-                      <ng-template ng-option-tmp let-item="item">
-                        {{ item.value }} ({{ item.count }})
-                      </ng-template>
-                    </ng-select>
-                    <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
-                      (click)="applyFilter('tagsDropdown')">Apply
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            @if (showClearFilter()) {
-              <span class="material-symbols-outlined uk-margin-small-left uk-cursor-pointer" (click)="clearFilters()"
-                    data-uk-tooltip="Clear All">delete
-              </span>
-            }
-
-          </div>
-          <div class="uk-inline">
-            <span class="uk-form-icon" data-uk-icon="icon: search"></span>
-            <input type="text" #searchInput class="uk-input menuSearch" placeholder="Search..."
-              [(ngModel)]="searchQuery" style="border-radius: 20px;">
-          </div>
-        </div>
-
-        <!-- Badges Container-->
-        <div class="badge-container uk-margin-bottom uk-flex">
-          <div>
-
-            @for (language of appliedLanguages; track language) {
-              <span class="filter-badge">
-                <strong>Language: &nbsp;</strong>{{ language }}
-                <button class="remove-btn" type="button" (click)="removeLanguageFilter(language)">x</button>
-              </span>
-            }
-
-
-            @for (country of appliedCountries; track country) {
-              <span class="filter-badge">
-                <strong>Country: &nbsp;</strong> {{ country }}
-                <button class="remove-btn" type="button" (click)="removeCountryFilter(country)">x</button>
-              </span>
-            }
-
-
-            @for (tag of appliedTags; track tag) {
-              <span class="filter-badge">
-                <strong>Tag: &nbsp;</strong> {{ tag }}
-                <button class="remove-btn" type="button" (click)="removeTagFilter(tag)">×</button>
-              </span>
-            }
-
-
-            @if (searchQuery) {
-              <span class="filter-badge">
-                <strong>Keyword: &nbsp;</strong> {{ searchQuery }}
-                <button class="remove-btn" type="button" (click)="removeKeywordFilter()">x</button>
-              </span>
-            }
-
-          </div>
-        </div>
-
-
-        @if (documents.results.length > 0) {
-          <div>
-            <app-search-results [documents]="documents.results" [isAdminPage]="isAdminPage" (onUpdateStatus)="onUpdateStatus($event.id, $event.status)"></app-search-results>
-            <!--Pagination Section-->
-            @if (documents.total > 0) {
-              <div class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">
-                <div class="uk-width-1-1">
-                  <div class="uk-flex uk-flex-between uk-flex-middle">
-                    <!--Info text-->
-                    <p class="big-text uk-margin-remove">
-                      <span class="uk-text-bold">{{ documents.total }}</span> Documents, Page
-                      <span class="uk-text-bold">{{ this.currentPage }}</span> of {{ this.totalPages }}
-                    </p>
-                    <!--Pagination Controls-->
-                    @if (totalPages > 1) {
-                      <ul class="uk-pagination">
-                        @if (currentPage > 2 && totalPages > 5) {
-                          <li>
-                            <a (click)="goToPage(0)" class="uk-pagination-link">
-                              <span uk-pagination-previous></span>
-                              <span uk-pagination-previous></span>
-                            </a>
-                          </li>
-                        }
-                        <!--Previous Page-->
-                        @if (currentPage > 1) {
-                          <li>
-                            <a (click)="previousPage()" class="uk-pagination-link">
-                              <span uk-pagination-previous></span>
-                            </a>
-                          </li>
-                        }
-                        <!--Page Numbers-->
-                        @for (i of pages; track i) {
-                          <li [ngClass]="i == currentPage ? 'uk-active uk-animation-fade' : ''">
-                            <a (click)="goToPage(i - 1)" class="uk=pagination-link">{{ i }}</a>
-                          </li>
-                        }
-                        <!--Next Page-->
-                        @if (currentPage < totalPages) {
-                          <li>
-                            <a (click)="nextPage()" class="uk=pagination-link">
-                              <span uk-pagination-next></span>
-                            </a>
-                          </li>
-                        }
-                        <!--Last Page-->
-                        @if (currentPage < totalPages - 1 && totalPages > 5) {
-                          <li>
-                            <a (click)="goToPage(totalPages - 1)" class="uk-pagination-link">
-                              <span uk-pagination-next></span>
-                              <span uk-pagination-next></span>
-                            </a>
-                          </li>
-                        }
-                      </ul>
-                    }
-                  </div>
-                </div>
-              </div>
-            }
+        @if (loading) {
+          <div class="uk-flex uk-flex-center uk-flex-middle">
+            <span uk-spinner="ratio: 2"></span>
           </div>
         } @else {
-          <p>No results found for these search parameters.</p>
+          <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-bottom">
+            <div class="uk-flex uk-flex-left uk-flex-middle">
+              <div class="uk-inline uk-margin-small-right">
+                <button class="uk-button uk-button-default" type="button">Language</button>
+                <div id="languageDropdown" data-uk-dropdown="mode: click; pos: bottom-left;  auto-update: true;">
+                  <div>
+                    <div style="overflow: visible;">
+                      <ng-select [items]="languageFacets?.values" bindLabel="value" bindValue="value" [isOpen]="true"
+                                 placeholder="Language" [closeOnSelect]="false" class="open" [multiple]="true"
+                                 [appendTo]="''"
+                                 [dropdownPosition]="'bottom'" [(ngModel)]="selectedLanguages"
+                                 (change)="onFilterChange('language', selectedLanguages)"
+                                 (remove)="onFilterRemove('language', selectedLanguages)" [clearable]="false">
+                        <ng-template ng-option-tmp let-item="item">
+                          {{ item.value }} ({{ item.count }})
+                        </ng-template>
+                      </ng-select>
+                      <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
+                              (click)="applyFilter('languageDropdown')">Apply
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="uk-inline uk-margin-small-right" style="position: relative;">
+                <button class="uk-button uk-button-default" type="button">Country</button>
+                <div id="countryDropdown" uk-dropdown="mode: click; pos: bottom-left; auto-update: true;">
+                  <div>
+                    <div style="overflow: visible;">
+                      <ng-select [items]="countryFacets?.values" bindLabel="value" bindValue="value"
+                                 placeholder="Country"
+                                 [isOpen]="true" class="open" [multiple]="true" [closeOnSelect]="false"
+                                 [dropdownPosition]="'bottom'" [(ngModel)]="selectedCountry"
+                                 (change)="onFilterChange('country', selectedCountry)"
+                                 (remove)="onFilterRemove('country', selectedCountry)" [clearable]="false">
+                        <ng-template ng-option-tmp let-item="item">
+                          {{ item.value }} ({{ item.count }})
+                        </ng-template>
+                      </ng-select>
+                      <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
+                              (click)="applyFilter('countryDropdown')">Apply
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="uk-inline uk-margin-small-right" style="position: relative;">
+                <button class="uk-button uk-button-default" type="button">Tags</button>
+                <div id="tagsDropdown" uk-dropdown="mode: click; pos: bottom-left; auto-update: true;">
+                  <div>
+                    <div style="overflow: visible;">
+                      <ng-select [items]="tagFacets?.values" bindLabel="value" bindValue="value" placeholder="Tags"
+                                 [multiple]="true" class="open" [isOpen]="true" [closeOnSelect]="false"
+                                 [dropdownPosition]="'bottom'" [(ngModel)]="selectedTag"
+                                 (change)="onFilterChange('tags', selectedTag)"
+                                 (remove)="onFilterRemove('tags', selectedTag)"
+                                 [clearable]="false">
+                        <ng-template ng-option-tmp let-item="item">
+                          {{ item.value }} ({{ item.count }})
+                        </ng-template>
+                      </ng-select>
+                      <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
+                              (click)="applyFilter('tagsDropdown')">Apply
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              @if (isAdminPage) {
+                <div class="uk-inline" style="position: relative;">
+                  <button class="uk-button uk-button-default" type="button">Status</button>
+                  <div id="statusDropdown" uk-dropdown="mode: click; pos: bottom-left; auto-update: true;">
+                    <div>
+                      <div style="overflow: visible;">
+                        <ng-select [items]="statusFacets?.values" bindLabel="value" bindValue="value"
+                                   placeholder="Status"
+                                   [multiple]="true" class="open" [isOpen]="true" [closeOnSelect]="false"
+                                   [dropdownPosition]="'bottom'" [(ngModel)]="selectedStatus"
+                                   (change)="onFilterChange('status', selectedStatus)"
+                                   (remove)="onFilterRemove('status', selectedStatus)"
+                                   [clearable]="false">
+                          <ng-template ng-option-tmp let-item="item">
+                            {{ item.value }} ({{ item.count }})
+                          </ng-template>
+                        </ng-select>
+                        <button class="uk-button uk-button-primary uk-margin-top uk-float-right" type="button"
+                                (click)="applyFilter('statusDropdown')">Apply
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+
+
+              @if (showClearFilter()) {
+                <span class="material-symbols-outlined uk-margin-small-left uk-cursor-pointer" style="cursor: pointer"
+                      (click)="clearFilters()"
+                      data-uk-tooltip="Clear All">delete
+              </span>
+              }
+
+            </div>
+            <div class="uk-inline">
+              <span class="uk-form-icon" data-uk-icon="icon: search"></span>
+              <input type="text" #searchInput class="uk-input menuSearch" placeholder="Search..."
+                     [(ngModel)]="searchQuery" style="border-radius: 20px;">
+            </div>
+          </div>
+
+          <!-- Badges Container-->
+          <div class="badge-container uk-margin-bottom uk-flex">
+            <div>
+              @for (language of appliedLanguages; track language) {
+                <span class="filter-badge">
+                <strong>Language: &nbsp;</strong>{{ language }}
+                  <button class="remove-btn" type="button" (click)="removeLanguageFilter(language)">x</button>
+              </span>
+              }
+
+              @for (country of appliedCountries; track country) {
+                <span class="filter-badge">
+                <strong>Country: &nbsp;</strong> {{ country }}
+                  <button class="remove-btn" type="button" (click)="removeCountryFilter(country)">x</button>
+              </span>
+              }
+
+              @for (tag of appliedTags; track tag) {
+                <span class="filter-badge">
+                <strong>Tag: &nbsp;</strong> {{ tag }}
+                  <button class="remove-btn" type="button" (click)="removeTagFilter(tag)">x</button>
+              </span>
+              }
+
+              @for (status of appliedStatus; track status) {
+                <span class="filter-badge">
+                <strong>Status: </strong> {{ status }}
+                  <button class="remove-btn" type="button" (click)="removeStatusFilter(status)">x</button>
+              </span>
+              }
+
+              @if (searchQuery) {
+                <span class="filter-badge">
+                <strong>Keyword: &nbsp;</strong> {{ searchQuery }}
+                  <button class="remove-btn" type="button" (click)="removeKeywordFilter()">x</button>
+              </span>
+              }
+            </div>
+          </div>
+
+
+          @if (documents.results.length > 0) {
+            <div>
+              <app-search-results [documents]="documents.results" [isAdminPage]="isAdminPage"
+                                  (onUpdateStatus)="onUpdateStatus($event.id, $event.status)"></app-search-results>
+              <!--Pagination Section-->
+              @if (documents.total > 0) {
+                <div class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">
+                  <div class="uk-width-1-1">
+                    <div class="uk-flex uk-flex-between uk-flex-middle">
+                      <!--Info text-->
+                      <p class="big-text uk-margin-remove">
+                        <span class="uk-text-bold">{{ documents.total }}</span> Documents, Page
+                        <span class="uk-text-bold">{{ this.currentPage }}</span> of {{ this.totalPages }}
+                      </p>
+                      <!--Pagination Controls-->
+                      @if (totalPages > 1) {
+                        <ul class="uk-pagination">
+                          @if (currentPage > 2 && totalPages > 5) {
+                            <li>
+                              <a (click)="goToPage(0)" class="uk-pagination-link">
+                                <span uk-pagination-previous></span>
+                                <span uk-pagination-previous></span>
+                              </a>
+                            </li>
+                          }
+                          <!--Previous Page-->
+                          @if (currentPage > 1) {
+                            <li>
+                              <a (click)="previousPage()" class="uk-pagination-link">
+                                <span uk-pagination-previous></span>
+                              </a>
+                            </li>
+                          }
+                          <!--Page Numbers-->
+                          @for (i of pages; track i) {
+                            <li [ngClass]="i == currentPage ? 'uk-active uk-animation-fade' : ''">
+                              <a (click)="goToPage(i - 1)" class="uk=pagination-link">{{ i }}</a>
+                            </li>
+                          }
+                          <!--Next Page-->
+                          @if (currentPage < totalPages) {
+                            <li>
+                              <a (click)="nextPage()" class="uk=pagination-link">
+                                <span uk-pagination-next></span>
+                              </a>
+                            </li>
+                          }
+                          <!--Last Page-->
+                          @if (currentPage < totalPages - 1 && totalPages > 5) {
+                            <li>
+                              <a (click)="goToPage(totalPages - 1)" class="uk-pagination-link">
+                                <span uk-pagination-next></span>
+                                <span uk-pagination-next></span>
+                              </a>
+                            </li>
+                          }
+                        </ul>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          } @else {
+            <p>No results found for these search parameters.</p>
+          }
+
         }
-
-
       </div>
     </div>
   </div>

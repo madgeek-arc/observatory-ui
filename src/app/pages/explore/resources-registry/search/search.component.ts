@@ -48,14 +48,18 @@ export class SearchComponent implements OnInit {
   languageFacets: Facet;
   countryFacets: Facet;
   tagFacets: Facet;
+  statusFacets: Facet;
   selectedLanguages: string[] = [];
   selectedCountry: string[] = [];
   selectedTag: string[] = [];
+  selectedStatus: string[] = [];
+  loading: boolean = true;
 
   // Variables to hold applied filters
   appliedLanguages: string[] = [];
   appliedCountries: string[] = [];
   appliedTags: string[] = [];
+  appliedStatus: string[] = [];
 
   // Pagination State
   pages: number[] = [];
@@ -78,6 +82,7 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loading = true;
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       let id = params['id'] || params['stakeholderId'];
 
@@ -106,12 +111,14 @@ export class SearchComponent implements OnInit {
       this.selectedLanguages = params['language'] ? params['language'].split(',') : [];
       this.selectedCountry = params['country'] ? params['country'].split(',') : [];
       this.selectedTag = params['tags'] ? params['tags'].split(',') : [];
+      this.selectedStatus = params['status'] ? params['status'].split(',') : [];
       this.searchQuery = params['keyword'] || '';
 
       // Initialize applied filters from URL parameters
       this.appliedLanguages = [...this.selectedLanguages];
       this.appliedCountries = [...this.selectedCountry];
       this.appliedTags = [...this.selectedTag];
+      this.appliedStatus = [...this.selectedStatus];
 
       // Pagination offset from URL
       if (params['from']) {
@@ -177,12 +184,13 @@ export class SearchComponent implements OnInit {
                 }
               }
             });
-
+            this.loading = false;
             this.paginationInit();
             if (data.facets && data.facets.length > 0) {
               this.languageFacets = data.facets.find(facet => facet.field === 'language');
               this.countryFacets = data.facets.find(facet => facet.field === 'country');
               this.tagFacets = data.facets.find(facet => facet.field === 'tags');
+              this.statusFacets = data.facets.find(facet => facet.field === 'status');
             }
           } else {
             this.documents.results = [];
@@ -190,6 +198,7 @@ export class SearchComponent implements OnInit {
         },
         error: (err) => {
           console.error('API error:', err);
+          this.loading = false;
         }
       });
   }
@@ -302,6 +311,7 @@ export class SearchComponent implements OnInit {
       param.key !== 'language' &&
       param.key !== 'country' &&
       param.key !== 'tags' &&
+      param.key !== 'status' &&
       param.key !== 'quantity'
     );
     // this.updateURLParameters('from', '0');
@@ -309,6 +319,7 @@ export class SearchComponent implements OnInit {
     this.selectedLanguages = [];
     this.selectedCountry = [];
     this.selectedTag = [];
+    this.selectedStatus = [];
     this.removeKeywordFilter();
   }
 
@@ -327,6 +338,7 @@ export class SearchComponent implements OnInit {
       (this.appliedLanguages && this.appliedLanguages.length > 0) ||
       (this.appliedCountries && this.appliedCountries.length > 0) ||
       (this.appliedTags && this.appliedTags.length > 0) ||
+      (this.appliedStatus && this.appliedStatus.length > 0) ||
       (this.searchQuery && this.searchQuery.trim() !== '')
     );
   }
@@ -349,6 +361,13 @@ export class SearchComponent implements OnInit {
     this.selectedTag = this.selectedTag.filter(t => t !== tag);
     this.appliedTags = this.appliedTags.filter(t => t !== tag);
     this.updateURLParameters('tags', this.selectedTag);
+    this.navigateUsingURLParameters();
+  }
+
+  removeStatusFilter(status: string) {
+    this.selectedStatus = this.selectedStatus.filter(t => t !== status);
+    this.appliedStatus = this.appliedStatus.filter(t => t !== status);
+    this.updateURLParameters('status', this.selectedStatus);
     this.navigateUsingURLParameters();
   }
 

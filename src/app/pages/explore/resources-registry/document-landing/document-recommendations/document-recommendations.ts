@@ -18,14 +18,20 @@ export class RecommendationsPage implements OnChanges {
   private resourcesRegistryService = inject(ResourceRegistryService);
 
   @Input() documentId: string = null;
+  @Input() isAdminPage = false;
 
   recommendedDocs: Document[] = [];
   showImage = new Map<string, boolean>();
 
   ngOnChanges() {
     if (this.documentId) {
-      // FIXME: set status to null to get documents of all statuses in the admin resources-registry page, implement correctly.
-      this.resourcesRegistryService.getRecommendations(this.documentId, 3, null).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      let quantity = 3;
+      let status: string | null = 'APPROVED';
+      if (this.isAdminPage) {
+        quantity = 5;
+        status = null;
+      }
+      this.resourcesRegistryService.getRecommendations(this.documentId, quantity, status).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: (res: Document[]) => {
           this.recommendedDocs = res;
         },
