@@ -1,24 +1,38 @@
-<!--<router-outlet></router-outlet>-->
-
-@if (isContributionsDashboardRoute() ) {
+@if (!isFormBuilderRoute()) {
+  <app-top-menu-dashboard></app-top-menu-dashboard>
+}
+@if (isContributionsDashboardRoute()) {
   <app-contributions-dashboard></app-contributions-dashboard>
 } @else {
-  @if (isEOSCReadinessDashboardRoute() ) {
-    <app-top-menu-dashboard></app-top-menu-dashboard>
-    <!--    <div style="margin-top: 80px"></div>-->
-    <router-outlet></router-outlet>
-    <div style="margin-left: 280px" class="uk-visible@m">
-      <app-full-footer></app-full-footer>
-    </div>
-    <div class="uk-hidden@m">
-      <app-full-footer></app-full-footer>
-    </div>
-  } @else {
-    <app-top-menu-dashboard></app-top-menu-dashboard>
-    <!--  <div style="margin-top: 90px"></div>-->
-    <!--    <div style="margin-top: 80px"></div>-->
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
+  @if (smallScreen || !isEOSCReadinessDashboardRoute()) {
     <app-full-footer></app-full-footer>
+  } @else {
+    <div [ngStyle]="{'margin-left': isOpen ? '280px' : '100px'}">
+      <app-full-footer></app-full-footer>
+    </div>
   }
 }
 
+
+<!--@if (isContributionsDashboardRoute() ) {-->
+<!--  <app-contributions-dashboard></app-contributions-dashboard>-->
+<!--} @else {-->
+<!--  @if (isEOSCReadinessDashboardRoute() ) {-->
+<!--&lt;!&ndash;    <app-top-menu-dashboard></app-top-menu-dashboard>&ndash;&gt;-->
+<!--    &lt;!&ndash;    <div style="margin-top: 80px"></div>&ndash;&gt;-->
+
+<!--    <div style="margin-left: 280px" class="uk-visible@m">-->
+<!--      <app-full-footer></app-full-footer>-->
+<!--    </div>-->
+<!--    <div class="uk-hidden@m">-->
+<!--      <app-full-footer></app-full-footer>-->
+<!--    </div>-->
+<!--  } @else {-->
+
+<!--    &lt;!&ndash;  <div style="margin-top: 90px"></div>&ndash;&gt;-->
+<!--    &lt;!&ndash;    <div style="margin-top: 80px"></div>&ndash;&gt;-->
+<!--    <router-outlet></router-outlet>-->
+<!--    <app-full-footer></app-full-footer>-->
+<!--  }-->
+<!--}-->

@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import {Router} from "@angular/router";
-import {AuthenticationService} from "../survey-tool/app/services/authentication.service";
+import { Component, computed, inject } from '@angular/core';
+import { NavigationEnd, Router } from "@angular/router";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { filter, map, startWith } from "rxjs/operators";
+import { AuthenticationService } from "../survey-tool/app/services/authentication.service";
 import { DashboardSideMenuService } from "../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
 
 @Component({
@@ -9,21 +11,60 @@ import { DashboardSideMenuService } from "../survey-tool/app/shared/dashboard-si
     standalone: false
 })
 export class AppComponent {
-  title = 'observatory-ui';
+  private layoutService = inject(DashboardSideMenuService);
+  private router = inject(Router);
+  private auth = inject(AuthenticationService);
 
-  constructor(private router: Router, private auth: AuthenticationService, private layoutService: DashboardSideMenuService) {
-    this.auth.redirect();
-  }
+  private currentUrl = toSignal(
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(() => this.router.url),
+      startWith(this.router.url)
+    )
+  );
 
-  isContributionsDashboardRoute() {
-    return (this.router.url.startsWith('/contributions'));
-  }
+  isContributionsDashboardRoute = computed(() =>
+    this.currentUrl()?.startsWith('/contributions')
+  );
 
-  isEOSCReadinessDashboardRoute() {
-    return (this.router.url.startsWith('/eoscreadiness')
-      || this.router.url.startsWith('/explore')
-      || this.router.url.startsWith('/country/')
+  isEOSCReadinessDashboardRoute = computed(() => {
+    const url = this.currentUrl() ?? '';
+    return (
+      url.startsWith('/eoscreadiness') ||
+      url.startsWith('/explore') ||
+      url.startsWith('/country/')
     );
+  });
+
+  isFormBuilderRoute = computed(() =>
+    this.currentUrl()?.startsWith('/fb')
+  );
+
+  title = 'observatory-ui';
+  smallScreen= false;
+  isOpen = true;
+
+  constructor() {
+    this.auth.redirect();
+
+    this.layoutService.isMobile.subscribe(isMobile => {
+      this.smallScreen = isMobile;
+    });
+
+    this.layoutService.isOpen.subscribe(open => {
+      this.isOpen = open;
+    });
   }
+
+  // isContributionsDashboardRoute() {
+  //   return (this.router.url.startsWith('/contributions'));
+  // }
+  //
+  // isEOSCReadinessDashboardRoute() {
+  //   return (this.router.url.startsWith('/eoscreadiness')
+  //     || this.router.url.startsWith('/explore')
+  //     || this.router.url.startsWith('/country/')
+  //   );
+  // }
 
 }
