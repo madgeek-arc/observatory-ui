@@ -21,6 +21,8 @@ export class SearchCardComponent {
 
   @Output() onUpdateStatus: EventEmitter<{ id: string, status: 'APPROVED' | 'REJECTED' }> = new EventEmitter<{ id: string, status: 'APPROVED' | 'REJECTED' }>();
 
+  showImage = new Map<string, boolean>();
+
   alertStates: { [id: string]: { message: string; type: 'success' | 'danger' } } = {};
 
   getHighlightForField(doc: any, fieldName: string): string | undefined {
@@ -29,5 +31,9 @@ export class SearchCardComponent {
 
   updateStatus(id: string, status: 'APPROVED' | 'REJECTED') {
     this.onUpdateStatus.emit({id, status});
+  }
+
+  imageError(id: string) {
+    this.showImage.set(id, false);
   }
 }

@@ -1,25 +1,25 @@
-import {Component, DestroyRef, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router, RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
-import {ResourceRegistryService} from '../resource-registry.service';
-import {Document, HighlightedResults} from 'src/app/domain/document';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {fromEvent, Subject} from "rxjs";
-import {debounceTime, distinctUntilChanged, map, takeUntil} from "rxjs/operators";
-import {NgSelectModule} from '@ng-select/ng-select';
-import {SearchCardComponent} from "./card/search-card.component";
-import {URLParameter} from 'src/survey-tool/app/domain/url-parameter';
-import {Facet} from 'src/survey-tool/catalogue-ui/domain/facet';
-import {Paging} from 'src/survey-tool/catalogue-ui/domain/paging';
-import {PageContentComponent} from 'src/survey-tool/app/shared/page-content/page-content.component';
+import { Component, DestroyRef, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ResourceRegistryService } from '../resource-registry.service';
+import { Document, HighlightedResults } from 'src/app/domain/document';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { fromEvent, Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged, map, takeUntil } from "rxjs/operators";
+import { NgSelectModule } from '@ng-select/ng-select';
+import { SearchCardComponent } from "./card/search-card.component";
+import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
+import { Facet } from 'src/survey-tool/catalogue-ui/domain/facet';
+import { Paging } from 'src/survey-tool/catalogue-ui/domain/paging';
+import { PageContentComponent } from 'src/survey-tool/app/shared/page-content/page-content.component';
 import {
   SidebarMobileToggleComponent
 } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
 import * as UIkit from 'uikit';
-import { UserService} from "../../../../../survey-tool/app/services/user.service";
-import { StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
-import { Administrator} from "../../../../../survey-tool/app/domain/userInfo";
+import { UserService } from "../../../../../survey-tool/app/services/user.service";
+import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
+import { Administrator } from "../../../../../survey-tool/app/domain/userInfo";
 
 @Component({
   selector: 'app-resource-registry-search',
@@ -29,11 +29,16 @@ import { Administrator} from "../../../../../survey-tool/app/domain/userInfo";
 })
 
 export class SearchComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private userService = inject(UserService);
+  private stakeholdersService = inject(StakeholdersService);
+  private resourceRegistryService = inject(ResourceRegistryService);
+
   @ViewChild('searchInput', {static: true}) searchInput: ElementRef;
 
   urlParameters: URLParameter[] = []; // Array to hold URL parameters
-  destroyRef = inject(DestroyRef);
-  // documents: Paging<Document> = new Paging<Document>(); // Initialize with an empty Paging object
   documents: Paging<HighlightedResults<Document>> = new Paging<any>(); // Initialize with empty Paging object
 
   // Search properties
@@ -66,15 +71,14 @@ export class SearchComponent implements OnInit {
   error: string = null;
 
   alertStates: { [id: string]: { message: string; type: 'success' | 'danger' } } = {};
-  private _destroyed: Subject<boolean> = new Subject();
 
 
 
-  constructor(private resourceService: ResourceRegistryService, private route: ActivatedRoute, private router: Router, private resourceRegistryService: ResourceRegistryService, private userService: UserService, private stakeholdersService: StakeholdersService) {
+  constructor() {
   }
 
   ngOnInit() {
-    this.route.params.pipe(takeUntil(this._destroyed)).subscribe(params => {
+    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       let id = params['id'] || params['stakeholderId'];
 
       if (id) {
@@ -133,28 +137,13 @@ export class SearchComponent implements OnInit {
     });
   }
 
-// Initializes administrator state to ensure the Side Menu appears on page refresh
-//   initAdminGroup(id: string) {
-//     const sessionItem = JSON.parse(sessionStorage.getItem('currentAdministrator'));
-//     if (sessionItem && sessionItem.id === id) {
-//       this.userService.changeCurrentAdministrator(sessionItem as Administrator);
-//       this.isAdminPage = true;
-//     } else {
-//       this.stakeholdersService.getAdministrators(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
-//         res => {
-//           this.userService.changeCurrentCoordinator(res as Administrator);
-//           this.isAdminPage = true;
-//         },
-//         error => console.error('Failed to load administrator', error));
-//     }
-//   }
+  // Initializes administrator state to ensure the Side Menu appears on page refresh
   initAdminGroup(id: string) {
     this.userService.currentAdministrator.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(next => {
-      const currentGroup = !!next ? next : JSON.parse(sessionStorage.getItem('currentAdministrator'));
-      if (currentGroup !== null && currentGroup.id === id) {
+      const currentGroup = next ?? JSON.parse(sessionStorage.getItem('currentAdministrator'));
+      if (currentGroup) {
         this.isAdminPage = true;
-      }
-      else {
+      } else {
         this.stakeholdersService.getAdministrators(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
           res => {
             this.userService.changeCurrentAdministrator(res as Administrator);
@@ -168,7 +157,7 @@ export class SearchComponent implements OnInit {
 
   // Load documents based on current parameters
   loadDocuments() {
-    this.resourceService.getDocument(this.from, this.pageSize, this.urlParameters, this.isAdminPage)
+    this.resourceRegistryService.getDocument(this.from, this.pageSize, this.urlParameters, this.isAdminPage)
       .pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: (data) => {
 

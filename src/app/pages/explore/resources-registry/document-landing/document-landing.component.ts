@@ -10,14 +10,24 @@ import {
 } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
 import {Model} from "../../../../../survey-tool/catalogue-ui/domain/dynamic-form-model";
 import {SurveyService} from "../../../../../survey-tool/app/services/survey.service";
+import {RecommendationsPage} from "./document-recommendations/document-recommendations";
+import { Administrator } from "../../../../../survey-tool/app/domain/userInfo";
+import { UserService } from "../../../../../survey-tool/app/services/user.service";
+import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 
 @Component({
   selector: 'app-document-landing',
-  imports: [NgOptimizedImage, CommonModule, PageContentComponent, SidebarMobileToggleComponent, RouterLink],
-  templateUrl: './document-landing.component.html'
+  imports: [NgOptimizedImage, CommonModule, PageContentComponent, SidebarMobileToggleComponent, RouterLink, RecommendationsPage],
+  templateUrl: './document-landing.component.html',
 })
 
 export class DocumentLandingComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private documentService = inject(ResourceRegistryService);
+  private surveyService = inject(SurveyService);
+  private userService = inject(UserService);
+  private stakeholdersService = inject(StakeholdersService);
+
   documentId: string = null;
   documentData: Document = null;
   error: string = null;
@@ -32,15 +42,24 @@ export class DocumentLandingComponent implements OnInit {
   fieldPathsMap: { [key: string]: string } = {};
   surveyNames: Map<string, string> = new Map();
 
-  constructor(private route: ActivatedRoute, private documentService: ResourceRegistryService, private surveyService: SurveyService,) {}
+  showImage: boolean = true;
 
-    ngOnInit() {
+  ngOnInit() {
 
-    if(this.route.snapshot.paramMap.get('stakeholderId') && this.route.snapshot.paramMap.get('stakeholderId') === 'admin-eosc-sb') {
+    if (this.route.snapshot.paramMap.get('stakeholderId') && this.route.snapshot.paramMap.get('stakeholderId') === 'admin-eosc-sb') {
         this.isAdminPage = true
-      }
+    }
 
-      this.documentId = this.route.snapshot.paramMap.get('documentId');
+    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
+      let id = params['stakeholderId'];
+
+      if (id === 'admin-eosc-sb') {
+        this.initAdminGroup(id);
+      }
+    })
+
+    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
+      this.documentId = params['documentId'];
       if (this.documentId) {
         this.documentService.getDocumentById(this.documentId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: (data) => {
@@ -53,34 +72,54 @@ export class DocumentLandingComponent implements OnInit {
           },
         });
       }
-    }
+    });
 
-    onUpdateStatus(id: string, status: 'APPROVED' | 'REJECTED') {
-      this.documentService.updateStatus(id, status).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-        next: () => {
-          this.statusMessage = status === 'APPROVED' ? 'Document approved successfully.' : 'Document rejected successfully.';
-          this.statusType = 'success' ;
-          setTimeout(() => this.statusMessage = null, 5000);
+  }
 
-          this.documentService.getDocumentById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-            next: (data) => {
-              this.documentData = data;
-            },
-            error: (err) => {
-              this.error = 'Error fetching document after status update.';
-              this.statusMessage = 'Failed to refresh document data.';
-              this.statusType = 'danger';
-            }
-        });
-        },
-        error: (err) => {
-          this.error = `Error updating document status to ${status}.`;
-          this.statusMessage = 'Failed to update document status.';
-          this.statusType = 'danger';
-          setTimeout(() => this.statusMessage = null, 5000);
-          console.error(err);
-        }
+  // Initializes administrator state to ensure the Side Menu appears on page refresh
+  initAdminGroup(id: string) {
+    this.userService.currentAdministrator.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(next => {
+      const currentGroup = next ?? JSON.parse(sessionStorage.getItem('currentAdministrator'));
+      if (currentGroup) {
+        this.isAdminPage = true;
+      } else {
+        this.stakeholdersService.getAdministrators(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+          res => {
+            this.userService.changeCurrentAdministrator(res as Administrator);
+            this.isAdminPage = true;
+          },
+          error => console.error('Failed to load administrator info', error)
+        );
+      }
+    });
+  }
+
+  onUpdateStatus(id: string, status: 'APPROVED' | 'REJECTED') {
+    this.documentService.updateStatus(id, status).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: () => {
+        this.statusMessage = status === 'APPROVED' ? 'Document approved successfully.' : 'Document rejected successfully.';
+        this.statusType = 'success' ;
+        setTimeout(() => this.statusMessage = null, 5000);
+
+        this.documentService.getDocumentById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+          next: (data) => {
+            this.documentData = data;
+          },
+          error: (err) => {
+            this.error = 'Error fetching document after status update.';
+            this.statusMessage = 'Failed to refresh document data.';
+            this.statusType = 'danger';
+          }
       });
+      },
+      error: (err) => {
+        this.error = `Error updating document status to ${status}.`;
+        this.statusMessage = 'Failed to update document status.';
+        this.statusType = 'danger';
+        setTimeout(() => this.statusMessage = null, 5000);
+        console.error(err);
+      }
+    });
   }
 
   loadSurveyModels() {
@@ -110,7 +149,6 @@ export class DocumentLandingComponent implements OnInit {
     })
   }
 
-
   generateAllPaths() {
     if (!this.documentData.references) return;
 
@@ -136,7 +174,6 @@ export class DocumentLandingComponent implements OnInit {
     }
     return null;
   }
-
 
   searchRecursively(node: any, targetId: string, currentPath: string[]): string | null {
     if (node.name) {
@@ -202,5 +239,10 @@ export class DocumentLandingComponent implements OnInit {
       finalLabel = node.name || node.id;
     }
     return [...currentPath, finalLabel].join(' > ');
+  }
+
+  imageError() {
+    this.showImage = false;
+    console.log(this.showImage);
   }
 }
