@@ -7,6 +7,10 @@ import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
 import {SurveyService} from "../../../../../survey-tool/app/services/survey.service";
 import {Observable, of} from "rxjs";
 import {catchError, filter, map, shareReplay, switchMap, tap} from "rxjs/operators";
+import {PageContentComponent} from "../../../../../survey-tool/app/shared/page-content/page-content.component";
+import {
+  SidebarMobileToggleComponent
+} from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 
 
 
@@ -14,6 +18,10 @@ import {catchError, filter, map, shareReplay, switchMap, tap} from "rxjs/operato
   selector: "app-coordinator-home",
   templateUrl: "coordinator-home.component.html",
   standalone: true,
+  imports: [
+    PageContentComponent,
+    SidebarMobileToggleComponent
+  ]
 })
 
 export class CoordinatorHomeComponent {

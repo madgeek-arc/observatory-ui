@@ -1,18 +1,21 @@
-<div id="page_content">
-  <div id="page_content_inner">
-    <div class="uk-section uk-section-small uk-padding-remove-top">
-      <div class="uk-container uk-container-expand">
+<div page-content [fullWidth]="true">
+  <div actions class="uk-section-primary uk-preserve-color">
+    <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
+  </div>
+  <div inner>
+    <div class="uk-section-default uk-section uk-section-small uk-padding-remove-bottom"
+         style="min-height: calc(100svh - var(--header-height));">
+      <div class="uk-container uk-container-expand uk-margin-left uk-margin-right">
 
         @if (loadingResults()) {
           <div class="uk-flex uk-flex-center uk-margin-medium-top">
             <span data-uk-spinner="ratio: 2"></span>
           </div>
-
         } @else if (surveyStats().activeSurveyName) {
           @let stats = surveyStats();
 
           <div class="uk-margin-medium-bottom">
-            <h4 class="uk-text uk-margin-remove-bottom uk-margin-top">
+            <h4 class="uk-text uk-margin-remove-bottom">
               Welcome to the Survey Tool of the EOSC Open Science Observatory
             </h4>
             <p class="uk-text-meta uk-margin-top">
@@ -24,7 +27,6 @@
             </p>
 
             <div class="uk-grid uk-grid-medium uk-child-width-1-3@m uk-grid-match" data-uk-grid>
-
               <div>
                 <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
                   <div class="uk-flex uk-flex-between uk-flex-top">
@@ -106,3 +108,4 @@
     </div>
   </div>
 </div>
+
