@@ -292,6 +292,37 @@
               </read-more>
             </div>
           </div>
+
+          <div class="uk-margin-medium-top uk-animation-fade">
+            <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
+              <h6 class="uk-margin-bottom">Helpdesk and Support in {{ countryName }}</h6>
+              <div class="uk-margin-medium-top">
+                <read-more [maxHeight]="250">
+                  <div id="helpdesk_support">
+                    <div class="uk-text-secondary">Supporting Structures & Competence Centres</div>
+                    @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']?.['Question22']?.length > 0) {
+                      @for (item of countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question22']; track item) {
+                        <div class="uk-margin-medium-top">
+                          @if (item['Question26-1']) {
+                            <div [innerHTML]="item['Question22-1']"></div>
+                          }
+                          @if (item['Question22-2']) {
+                            <div class="uk-margin-small-top">
+                              <a [href]="item['Question26-2']" target="_blank" class="uk-button uk-button-text">
+                                Visit Support Page
+                              </a>
+                            </div>
+                          }
+                        </div>
+                      }
+                    } @else {
+                      <p class="uk-margin-small-top">N/A</p>
+                    }
+                  </div>
+                </read-more>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

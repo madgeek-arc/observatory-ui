@@ -194,7 +194,7 @@
         <div class="uk-container">
           <div class="uk-margin-medium-top uk-animation-fade">
             <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
-              <h6 class="uk-margin-bottom">Learn more aboutOpen Science Key Actors in {{ countryName }}</h6>
+              <h6 class="uk-margin-bottom">Learn more about Open Science Key Actors in {{ countryName }}</h6>
               <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
               <div class="uk-margin-medium-top">
                 <read-more [maxHeight]="300">
@@ -247,6 +247,155 @@
                         </div>
                       }
                     } @else {
+                      <p>N/A</p>
+                    }
+                  </div>
+                </read-more>
+              </div>
+            </div>
+          </div>
+
+          <div class="uk-margin-medium-top uk-animation-fade">
+            <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
+              <h6 class="uk-margin-bottom">Learn more about Open Science Initiatives in {{ countryName }}</h6>
+              <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
+              <div class="uk-margin-medium-top">
+                <read-more [maxHeight]="300">
+                  <div id="eosc_national">
+                    <div class="uk-text-secondary">EOSC National Initiative</div>
+                    @if (countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']?.['Question5']?.['Question5-1']) {
+                      <div class="uk-margin-medium-top" [innerHTML]="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question5']['Question5-1']"></div>
+                    } @else { <p>N/A</p> }
+                  </div>
+                  <div id="os_fair" class="uk-margin-medium-top">
+                    <div class="uk-text-secondary">Open Science and FAIR National Initiatives</div>
+                    @if (countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']?.['Question6']?.length > 0) {
+                      @for (init of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question6']; track init) {
+                        <div class="uk-margin-small-top" [innerHTML]="init['Question6-1']"></div>
+                      }
+                    } @else { <p>N/A</p> }
+                  </div>
+                  <div id="oa_publishing" class="uk-margin-medium-top">
+                    <div class="uk-text-secondary">Open Access Publishing</div>
+                    @if (countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']?.['Question7']) {
+                      <div class="uk-margin-medium-top" [innerHTML]="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question7']"></div>
+                    } @else { <p>N/A</p> }
+                  </div>
+                  <div id="regional_global" class="uk-margin-medium-top">
+                    <div class="uk-text-secondary">Regional / EC / Global Initiatives</div>
+                    @if (countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']?.['Question8']?.length > 0) {
+                      @for (init of countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question8']; track init) {
+                        <div class="uk-margin-small-top" [innerHTML]="init['Question8-1']"></div>
+                      }
+                    } @else { <p>N/A</p> }
+                  </div>
+                  <div id="miscellaneous" class="uk-margin-medium-top">
+                    <div class="uk-text-secondary">Miscellaneous</div>
+                    @if (countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']?.['Question9']) {
+                      <div class="uk-margin-medium-top" [innerHTML]="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question9']"></div>
+                    } @else { <p>N/A</p> }
+                  </div>
+                </read-more>
+              </div>
+            </div>
+          </div>
+
+          <div class="uk-margin-medium-top uk-animation-fade">
+            <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
+              <h6 class="uk-margin-bottom">Monitoring Infrastructure in {{ countryName }}</h6>
+              <div class="uk-margin-medium-top">
+                <read-more [maxHeight]="300">
+                  <div id="monitoring_mechanisms" class="uk-margin-medium-top">
+                    <div class="uk-text-secondary">Mechanisms to monitor data infrastructure and services</div>
+                    @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']?.['Question21']?.['Question21-1']) {
+                      <div class="uk-margin-medium-top" [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question21']['Question21-1']"></div>
+                    } @else { <p>N/A</p> }
+                  </div>
+                  <div id="pid_services" class="uk-margin-medium-top">
+                    <div class="uk-text-secondary">PID Services and Integration</div>
+                    @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']?.['Question14']?.['Question14-1']) {
+                      <div class="uk-margin-medium-top" [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question14']['Question14-1']"></div>
+                    } @else { <p>N/A</p> }
+                  </div>
+                  <div id="monitoring_policies_legal" class="uk-margin-medium-top">
+                    <div class="uk-text-secondary">Monitoring Open Science Policies</div>
+                    @if (countrySurveyAnswer['OPEN_SCIENCE_POLICY']?.['Question11']?.['Question11-1']) {
+                      <div class="uk-margin-medium-top" [innerHTML]="countrySurveyAnswer['OPEN_SCIENCE_POLICY']['Question11']['Question11-1']"></div>
+                    } @else { <p>N/A</p> }
+                  </div>
+                  <div id="monitoring_policies_initiatives" class="uk-margin-medium-top">
+                    <div class="uk-text-secondary">Monitoring Open Science Policies (Tools & Initiatives)</div>
+                    @if (countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']?.['Question7']) {
+                      <div class="uk-margin-medium-top" [innerHTML]="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question7']"></div>
+                    } @else { <p>N/A</p> }
+                  </div>
+                </read-more>
+              </div>
+            </div>
+          </div>
+
+          <div class="uk-margin-medium-top uk-animation-fade">
+            <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
+              <h6 class="uk-margin-bottom">Links to European and Global Infrastructures</h6>
+              <div class="uk-margin-medium-top">
+                <read-more [maxHeight]="300">
+                  <div id="european_global_links">
+                    @if (countrySurveyAnswer['OPEN_SCIENCE_DIGITAL_INFRASTRUCTURE']?.['Question23']?.['Question23-1']) {
+                      <div [innerHTML]="countrySurveyAnswer['OPEN_SCIENCE_DIGITAL_INFRASTRUCTURE']['Question23']['Question23-1']"></div>
+                    }
+                    @if (countrySurveyAnswer['OPEN_SCIENCE_DIGITAL_INFRASTRUCTURE']?.['Question23']?.['Question23-2']) {
+                      <div class="uk-margin-small-top">
+                        <a [href]="countrySurveyAnswer['OPEN_SCIENCE_DIGITAL_INFRASTRUCTURE']['Question23']['Question23-2']"
+                           target="_blank" class="uk-button uk-button-text">
+                          View Infrastructure
+                        </a>
+                      </div>
+                    }
+                    @if (!countrySurveyAnswer['OPEN_SCIENCE_DIGITAL_INFRASTRUCTURE']?.['Question23']) {
+                      <p>N/A</p>
+                    }
+                  </div>
+                </read-more>
+              </div>
+            </div>
+          </div>
+
+          <div class="uk-margin-medium-top uk-animation-fade">
+            <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
+              <h6 class="uk-margin-bottom">Authentication and Authorization Infrastructure (AAI) and AARC</h6>
+              <div class="uk-margin-medium-top">
+                <read-more [maxHeight]="300">
+                  <div class="uk-margin-bottom">
+                    <div class="uk-text-secondary">National AAI and AARC Framework</div>
+                    @if (countrySurveyAnswer['OPEN_SCIENCE_DIGITAL_INFRASTRUCTURE']?.['Question32']?.['Question32-1']) {
+                      <div class="uk-margin-small-top"
+                           [innerHTML]="countrySurveyAnswer['OPEN_SCIENCE_DIGITAL_INFRASTRUCTURE']['Question32']['Question32-1']">
+                      </div>
+                    } @else { <p>N/A</p> }
+                  </div>
+                  <div class="uk-margin-bottom">
+                    <div class="uk-text-secondary">Primary Authentication and Authorization Services</div>
+                    @if (countrySurveyAnswer['OPEN_SCIENCE_DIGITAL_INFRASTRUCTURE']?.['Question32']?.['Question32-2']) {
+                      <div class="uk-margin-small-top"
+                           [innerHTML]="countrySurveyAnswer['OPEN_SCIENCE_DIGITAL_INFRASTRUCTURE']['Question32']['Question32-2']">
+                      </div>
+                    } @else { <p>N/A</p> }
+                  </div>
+                </read-more>
+              </div>
+            </div>
+          </div>
+
+          <div class="uk-margin-medium-top uk-animation-fade">
+            <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
+              <h6 class="uk-margin-bottom">Cloud Services</h6>
+              <div class="uk-margin-medium-top">
+                <read-more [maxHeight]="400">
+                  <div id="cloud_services_content">
+                    @if (countrySurveyAnswer['OPEN_SCIENCE_DIGITAL_INFRASTRUCTURE']?.['Question33']) {
+                      <div [innerHTML]="countrySurveyAnswer['OPEN_SCIENCE_DIGITAL_INFRASTRUCTURE']['Question33']"></div>
+                    }
+                    @else {
                       <p>N/A</p>
                     }
                   </div>

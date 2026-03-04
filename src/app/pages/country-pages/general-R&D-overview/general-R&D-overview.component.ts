@@ -167,12 +167,18 @@ export class GeneralRDOverviewComponent implements OnInit {
   }
 
   hasSurveyGeneralData(): boolean {
-    const surveyData = this.countrySurveyAnswer?.['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK'];
-    if (!surveyData) {
+    const stiData = this.countrySurveyAnswer?.['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK'];
+    const stiQuestions = ['Question2', 'Question3', 'Question4', 'Question30', 'Question5', 'Question6', 'Question7', 'Question8', 'Question9', 'Question10'];
+
+    const infraData = this.countrySurveyAnswer?.['OPEN_SCIENCE_DIGITAL_INFRASTRUCTURE'];
+    const infraQuestions = ['Question14', 'Question21', 'Question32', 'Question33'];
+
+    if (!stiData && !infraData) {
       return false;
     }
-    const questions = ['Question2', 'Question3', 'Question4', 'Question30'];
-    return this.dataShareService.hasSurveyData(surveyData, questions)
+    const hasSti = stiData ? this.dataShareService.hasSurveyData(stiData, stiQuestions) : false;
+    const hasInfra = infraData ? this.dataShareService.hasSurveyData(infraData, infraQuestions) : false;
+    return hasSti || hasInfra;
   }
 
     /** Export to PDF -----------------------------------------------------------------------------------------------> **/
