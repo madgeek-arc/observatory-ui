@@ -13,7 +13,8 @@ export class InfoCardComponent {
     @Input() titleHtml?: string;
     @Input() value!: number | string | null;
     @Input() unit?: string;
-    @Input() diff?: number | null; 
+    @Input() diff?: number | null;
+    @Input() colorClass: string = '';
 
- 
+
 }

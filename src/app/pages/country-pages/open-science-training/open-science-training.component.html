@@ -81,7 +81,7 @@
 <div class="uk-grid-small" data-uk-grid>
   @if (hasAnyLeftCardData()) {
     <div class="uk-width-1-1 uk-width-expand@m">
-      <div class="uk-card uk-card-default uk-card-body visualisation-card">
+      <div class="uk-card uk-card-default uk-card-body">
         <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-grid-small" data-uk-grid>
           <!-- Card 1 -->
           <!-- <div *ngIf="OpenTrainingPercentage[1] !== null" class="uk-animation-scale-up">
@@ -228,71 +228,62 @@
             <div class="uk-margin-medium-top">
               <read-more [maxHeight]="300">
                 <div id="skills_overview">
-                  <div class="uk-text-secondary">Overview</div>
+                  <div class="uk-text-secondary uk-margin-small-bottom">Overview</div>
                   @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question24']) {
                     <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question24']"
-                    class="uk-margin-medium-top"></div>
-                  } @else {
-                    <p>N/A</p>
+                         class="uk-margin-remove-top"></div> } @else {
+                    <p class="uk-margin-remove-top">N/A</p>
                   }
                 </div>
-                <div id="training_infrastructure">
-                  <div class="uk-text-secondary">Training Infrastructure</div>
+                <div id="training_infrastructure" class="uk-margin-medium-top">
+                  <div class="uk-text-secondary uk-margin-small-bottom">Training Infrastructure</div>
                   @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question25']) {
                     <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question25']"
-                    class="uk-margin-medium-top"></div>
-                  } @else {
-                    <p>N/A</p>
+                         class="uk-margin-remove-top"></div> } @else {
+                    <p class="uk-margin-remove-top">N/A</p>
                   }
                 </div>
-                <div id="competence_centers">
-                  <div class="uk-text-secondary">Open Science/Digital Competence centers</div>
+                <div id="competence_centers" class="uk-margin-medium-top">
+                  <div class="uk-text-secondary uk-margin-small-bottom">Open Science/Digital Competence centers</div>
                   @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question26']?.length > 0) {
                     @for (element of countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question26']; track element) {
-                      <div
-                        class="uk-margin-medium-top">
-                        <div [innerHTML]="element['Question26-1']"></div>
+                      <div class="uk-margin-remove-top"> <div [innerHTML]="element['Question26-1']"></div>
                       </div>
                     }
                   } @else {
-                    <p>N/A</p>
+                    <p class="uk-margin-remove-top">N/A</p>
                   }
                 </div>
-                <div id="open_science_professionals">
-                  <div class="uk-text-secondary">Open Science Professionals</div>
+                <div id="open_science_professionals" class="uk-margin-medium-top">
+                  <div class="uk-text-secondary uk-margin-small-bottom">Open Science Professionals</div>
                   @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question27']) {
                     <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question27']"
-                    class="uk-margin-medium-top"></div>
-                  } @else {
-                    <p>N/A</p>
+                         class="uk-margin-remove-top"></div> } @else {
+                    <p class="uk-margin-remove-top">N/A</p>
                   }
                 </div>
-                <div id="open_science_curricula">
-                  <div class="uk-text-secondary">Open Science Curricula</div>
+                <div id="open_science_curricula" class="uk-margin-medium-top">
+                  <div class="uk-text-secondary uk-margin-small-bottom">Open Science Curricula</div>
                   @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question28']?.length > 0) {
                     @for (element of countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question28']; track element) {
-                      <div
-                        class="uk-margin-medium-top">
-                        <div [innerHTML]="element"></div>
+                      <div class="uk-margin-remove-top"> <div [innerHTML]="element"></div>
                       </div>
                     }
                   } @else {
-                    <p>N/A</p>
+                    <p class="uk-margin-remove-top">N/A</p>
                   }
                 </div>
-                <div id="links">
-                  <div class="uk-text-secondary">Links to national initiatives on Digital Skills</div>
+                <div id="links" class="uk-margin-medium-top">
+                  <div class="uk-text-secondary uk-margin-small-bottom">Links to national initiatives on Digital Skills</div>
                   @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question29']?.['Question29-1']) {
                     <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question29']['Question29-1']"
-                    class="uk-margin-medium-top"></div>
-                  } @else {
-                    <p>N/A</p>
+                         class="uk-margin-remove-top"></div> } @else {
+                    <p class="uk-margin-remove-top">N/A</p>
                   }
                 </div>
               </read-more>
             </div>
           </div>
-
           <div class="uk-margin-medium-top uk-animation-fade">
             <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
               <h6 class="uk-margin-bottom">Helpdesk and Support in {{ countryName }}</h6>
@@ -300,17 +291,16 @@
                 <read-more [maxHeight]="250">
                   <div id="helpdesk_support">
                     @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']?.['Question22']?.['Question22-1']) {
-                      <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question22']['Question22-1']"></div>
+                      <div class="uk-margin-remove-top" [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question22']['Question22-1']"></div>
                     }
                     @if (!countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']?.['Question22']?.['Question22-1']) {
-                      <p>N/A</p>
+                      <p class="uk-margin-remove-top">N/A</p>
                     }
                   </div>
                 </read-more>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

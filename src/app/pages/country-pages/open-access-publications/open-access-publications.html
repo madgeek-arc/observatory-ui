@@ -86,7 +86,7 @@
 
       @if (hasAnyLeftCardData()) {
         <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
-          <div class="uk-card uk-card-default uk-card-body visualisation-card">
+          <div class="uk-card uk-card-default uk-card-body">
             <div class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center" data-uk-grid>
               <!-- Card 1 -->
               @if (OAPubsPercentage[1] !== null) {
@@ -224,11 +224,12 @@
               <h6 class="uk-margin-bottom">Open Access Landscape in {{ countryName }}</h6>
               <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
               <div class="uk-margin-medium-top" id="open_access_publishing">
-                <div class="uk-text-secondary">Open Access Publishing</div>
+                <div class="uk-text-secondary uk-margin-small-bottom">Open Access Publishing</div>
                 @if (countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question7']) {
-                  <div [innerHTML]="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question7']" class="uk-margin-medium-top"></div>
+                  <div [innerHTML]="countrySurveyAnswer['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK']['Question7']"
+                       class="uk-margin-remove-top"></div>
                 } @else {
-                  <p>N/A</p>
+                  <p class="uk-margin-remove-top">N/A</p>
                 }
               </div>
             </read-more>
