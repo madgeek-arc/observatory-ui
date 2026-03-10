@@ -99,7 +99,8 @@
                   [titleHtml]="`Open Data in ${countryName} (OA vs Closed)`"
                   [value]="OpenDataPercentage[1]"
                   [unit]="'%'"
-                  [diff]="OpenDataPercentageDiff">
+                  [diff]="OpenDataPercentageDiff"
+                  colorClass="openaire-graph visualisation-card">
                 </app-info-card>
               }
               @if (rfoOpenDataPercentage[1] !== null) {
@@ -107,7 +108,8 @@
                   [titleHtml]="'RFOs with Policy on Open Data'"
                   [value]="rfoOpenDataPercentage[1]"
                   [unit]="'%'"
-                  [diff]="rfoOpenDataPercentageDiff">
+                  [diff]="rfoOpenDataPercentageDiff"
+                  colorClass="eosc-sb visualisation-card">
                 </app-info-card>
               }
               @if (ODfinancialInvestment[1] !== null && ODfinancialInvestment[1] !== undefined && ODfinancialInvestment[1]) {
@@ -115,7 +117,8 @@
                   [titleHtml]="`Financial investments in <span class='uk-text-bold'>Open Data</span>`"
                   [value]="ODfinancialInvestment[1]"
                   [unit]="'mil Euro'"
-                  [diff]="ODfinancialInvestmentPercentageDiff">
+                  [diff]="ODfinancialInvestmentPercentageDiff"
+                  colorClass="eosc-sb visualisation-card">
                 </app-info-card>
               }
               @if (rpoOpenDataPercentage[1] !== null) {
@@ -123,7 +126,8 @@
                   [titleHtml]="'RPOs with Policy on Open Data'"
                   [value]="rpoOpenDataPercentage[1]"
                   [unit]="'%'"
-                  [diff]="rpoOpenDataPercentageDiff">
+                  [diff]="rpoOpenDataPercentageDiff"
+                  colorClass="eosc-sb visualisation-card">
                 </app-info-card>
               }
             </div>
@@ -133,7 +137,7 @@
 
       <!-- Right Card (2/5) -->
       <div class="uk-child-width-1-1 uk-width-2-5@m uk-animation-fade">
-        <div class="uk-card uk-card-default uk-card-body visualisation-card">
+        <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card">
           <div class="uk-margin-top">
             <h6 class="uk-flex uk-flex-between uk-margin-remove">
               National Policy on Open Data

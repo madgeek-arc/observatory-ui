@@ -91,7 +91,8 @@
                 [value]="OpenRepositoriesPercentage[1]"
                 [unit]="'%'"
                 [diff]="OpenRepositoriesPercentageDiff"
-                colorClass="eosc-sb"> </app-info-card>
+                colorClass="eosc-sb visualisation-card">
+              </app-info-card>
             }
             @if (rfoOpenRepositoriesPercentage[1] !== null) {
               <app-info-card
@@ -99,7 +100,7 @@
                 [value]="rfoOpenRepositoriesPercentage[1]"
                 [unit]="'%'"
                 [diff]="rfoOpenRepositoriesPercentageDiff"
-                colorClass="eosc-sb">
+                colorClass="eosc-sb visualisation-card">
               </app-info-card>
             }
             @if (financialInvestment[1] !== null) {
@@ -108,7 +109,7 @@
                 [value]="financialInvestment[1]"
                 [unit]="'mil Euro'"
                 [diff]="financialInvestmentPercentageDiff"
-                colorClass="eosc-sb">
+                colorClass="eosc-sb visualisation-card">
               </app-info-card>
             }
             @if (rpoOpenRepositoriesPercentage[1] !== null) {
@@ -117,7 +118,7 @@
                 [value]="rpoOpenRepositoriesPercentage[1]"
                 [unit]="'%'"
                 [diff]="rpoOpenRepositoriesPercentageDiff"
-                colorClass="eosc-sb">
+                colorClass="eosc-sb visualisation-card">
               </app-info-card>
             }
           </div>
@@ -127,7 +128,7 @@
 
     <!-- Right Card-->
     <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
-      <div class="uk-card uk-card-default uk-card-body visualisation-card">
+      <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card">
         <div class="uk-margin-top">
           <h5 class="uk-flex uk-flex-between uk-margin-remove">
             National Repository Policy

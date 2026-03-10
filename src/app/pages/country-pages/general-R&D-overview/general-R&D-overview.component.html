@@ -78,28 +78,28 @@
                   @if (OAPubsPercentage[1] !== null) {
                     <app-info-card
                       [titleHtml]="'OA Publication in ' + countryName + ' (OA vs Closed)'" [value]="OAPubsPercentage[1]"
-                      unit="%" [diff]="OAPubsPercentageDiff" colorClass="eosc-sb">
+                      unit="%" [diff]="OAPubsPercentageDiff" colorClass="openaire-graph visualisation-card">
                     </app-info-card>
                   }
                   <!-- Card 2 -->
                   @if (OpenDataPercentage[1] !== null) {
                     <app-info-card
                       [titleHtml]="'Open Data in ' + countryName + ' (OA vs Closed)'" [value]="OpenDataPercentage[1]"
-                      unit="%" [diff]="OpenDataPercentageDiff" colorClass="eosc-sb">
+                      unit="%" [diff]="OpenDataPercentageDiff" colorClass="openaire-graph visualisation-card">
                     </app-info-card>
                   }
                   <!-- Card 3 -->
                   @if (totalInvestment[1] !== null) {
                     <app-info-card titleHtml="Total investment in EOSC and Open Science"
                                    [value]="totalInvestment[1]" unit="mil Euro" [diff]="investmentPercentageDiff"
-                                   colorClass="eosc-sb">
+                                   colorClass="eosc-sb visualisation-card">
                     </app-info-card>
                   }
                   <!-- Card 4 -->
                   @if (openSoftware[1] !== null) {
                     <app-info-card
                       titleHtml="Number of Open Software sets published in {{ countryName }}" [value]="openSoftware[1]"
-                      unit="sets" [diff]="openSoftwarePercentageDiff" colorClass="eosc-sb">
+                      unit="sets" [diff]="openSoftwarePercentageDiff" colorClass="eosc-sb visualisation-card">
                     </app-info-card>
                   }
                 </div>

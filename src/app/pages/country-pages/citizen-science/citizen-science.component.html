@@ -91,7 +91,8 @@
                 [value]="citizenScienceProjects[1]"
                 [unit]="''"
                 [diff]="citizenSciencePercentageDiff"
-                colorClass="eosc-sb"> </app-info-card>
+                colorClass="eosc-sb visualisation-card">
+              </app-info-card>
             }
             @if (financialInvestmentInCS[1] !== null && financialInvestmentInCS[1] !== undefined) {
               <app-info-card
@@ -99,7 +100,7 @@
                 [value]="financialInvestmentInCS[1]"
                 [unit]="'mil Euro'"
                 [diff]="financialInvestmentInCsPercentageDiff"
-                colorClass="eosc-sb">
+                colorClass="eosc-sb visualisation-card">
               </app-info-card>
             }
           </div>
@@ -109,7 +110,7 @@
 
   <!-- Right Card (2/5) -->
   <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade"> <!-- uk-width-1-1 mobile, 2/5@m desktop-->
-    <div class="uk-card uk-card-default uk-card-body visualisation-card">
+    <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card">
       <div class="uk-margin-top">
         <h5 class="uk-flex uk-flex-between uk-margin-remove">
           National Policy on Citizen Science

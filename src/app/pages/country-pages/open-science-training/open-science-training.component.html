@@ -110,22 +110,30 @@
         @if (rfoTrainingPercentage[1] !== null) {
           <app-info-card
             [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Open Science Training</span>`"
-            [value]="rfoTrainingPercentage[1]" [unit]="'%'" [diff]="rfoTrainingPercentageDiff">
+            [value]="rfoTrainingPercentage[1]"
+            [unit]="'%'"
+            [diff]="rfoTrainingPercentageDiff"
+            colorClass="eosc-sb visualisation-card">
           </app-info-card>
         }
         <!--Card 3-->
         @if (trainingFinancialInvestment[1] !== null) {
           <app-info-card
             [titleHtml]="`Total <span class='uk-text-bold'>financial investment in Open Science Training</span>`"
-            [value]="trainingFinancialInvestment[1]" [unit]="'mil Euro'"
-            [diff]="trainingFinancialInvestmentPercentageDiff">
+            [value]="trainingFinancialInvestment[1]"
+            [unit]="'mil Euro'"
+            [diff]="trainingFinancialInvestmentPercentageDiff"
+            colorClass="eosc-sb visualisation-card">
           </app-info-card>
         }
         <!--Card 4-->
         @if (rpoTrainingPercentage[1] !== null) {
           <app-info-card
             [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Open Science Training</span>`"
-            [value]="rpoTrainingPercentage[1]" [unit]="'%'" [diff]="rpoTrainingPercentageDiff">
+            [value]="rpoTrainingPercentage[1]"
+            [unit]="'%'"
+            [diff]="rpoTrainingPercentageDiff"
+            colorClass="eosc-sb visualisation-card">
           </app-info-card>
         }
       </div>
@@ -135,7 +143,7 @@
 
 <!-- Right Card-->
 <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
-  <div class="uk-card uk-card-default uk-card-body visualisation-card">
+  <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card">
     <div class="uk-margin-top">
       <h5 class="uk-flex uk-flex-between uk-margin-remove">
         National Open Science Training Policy

@@ -111,22 +111,30 @@
           @if (rfoSoftwarePercentage[1] !== null && rfoSoftwarePercentage[1] !== undefined) {
             <app-info-card
               [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Open Software</span>`"
-              [value]="rfoSoftwarePercentage[1]" [unit]="'%'" [diff]="rfoSoftwarePercentageDiff">
+              [value]="rfoSoftwarePercentage[1]"
+              [unit]="'%'"
+              [diff]="rfoSoftwarePercentageDiff"
+              colorClass="eosc-sb visualisation-card">
             </app-info-card>
           }
           <!-- Card 3 -->
           @if (softwareFinancialInvestment[1]) {
             <app-info-card
               [titleHtml]="'Total <span class=\'uk-text-bold\'>financial investment in Open Software</span>'"
-              [value]="softwareFinancialInvestment[1]" [unit]="'mil Euro'"
-              [diff]="softwareFinancialInvestmentPercentageDiff">
+              [value]="softwareFinancialInvestment[1]"
+              [unit]="'mil Euro'"
+              [diff]="softwareFinancialInvestmentPercentageDiff"
+              colorClass="eosc-sb visualisation-card">
             </app-info-card>
           }
           <!--Card 4-->
           @if (rpoSoftwarePercentage[1] !== null && rpoSoftwarePercentage[1] !== undefined) {
             <app-info-card
               [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Open Software</span>`"
-              [value]="rpoSoftwarePercentage[1]" [unit]="'%'" [diff]="rpoSoftwarePercentageDiff">
+              [value]="rpoSoftwarePercentage[1]"
+              [unit]="'%'"
+              [diff]="rpoSoftwarePercentageDiff"
+              colorClass="eosc-sb visualisation-card">
             </app-info-card>
           }
         </div>
@@ -136,7 +144,7 @@
 
   <!-- Right Card-->
   <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
-    <div class="uk-card uk-card-default uk-card-body visualisation-card">
+    <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card">
       <div class="uk-margin-top">
         <h5 class="uk-flex uk-flex-between uk-margin-remove">
           National Open Software Policy
