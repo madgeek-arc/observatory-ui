@@ -258,7 +258,7 @@
       <div class="uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
         @if (stackedColumnSeries1[0].data.length) {
           <div>
-            <div class="uk-card uk-card-default visualisation-card uk-card-body">
+            <div class="uk-card uk-card-default eosc-sb visualisation-card uk-card-body">
               <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries1"
                 [yAxis]="yAxisTitle"
                 [title]="'Trend of Policies on FAIR Data among Research Performing Organisations in '+ countryName"
@@ -272,7 +272,7 @@
 }
           @if (stackedColumnSeries2[0].data.length) {
 <div>
-            <div class="uk-card uk-card-default visualisation-card uk-card-body">
+            <div class="uk-card uk-card-default eosc-sb visualisation-card uk-card-body">
               <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries2"
                 [yAxis]="yAxisTitle"
                 [title]="'Trend of Policies on FAIR Data among Research Funding Organisations in '+ countryName"
