@@ -1,33 +1,34 @@
-import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { DataShareService } from "../services/data-share.service";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { OAvsTotalDataPerCountry, OAvsTotalPubsPerCountry } from "../coutry-pages.queries";
-import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
+import {Component, DestroyRef, inject, OnInit} from "@angular/core";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {DataShareService} from "../services/data-share.service";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {OAvsTotalDataPerCountry, OAvsTotalPubsPerCountry} from "../coutry-pages.queries";
+import {EoscReadinessDataService} from "../../services/eosc-readiness-data.service";
 import {
   CatalogueUiReusableComponentsModule
 } from "../../../../survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
-import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
-import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
-import { PdfExportService } from "../../services/pdf-export.service";
+import {
+  SidebarMobileToggleComponent
+} from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import {PageContentComponent} from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import {InfoCardComponent} from "src/app/shared/reusable-components/info-card/info-card.component";
+import {PdfExportService} from "../../services/pdf-export.service";
 import {combineLatest} from "rxjs";
 import {filter} from "rxjs/operators";
-import { ExploreService } from "../../explore/explore.service";
-
+import {ExploreService} from "../../explore/explore.service";
 
 
 @Component({
-    selector: 'app-general-R&D-overview',
-    templateUrl: './general-R&D-overview.component.html',
-    imports: [
-        CommonModule,
-        NgOptimizedImage,
-        CatalogueUiReusableComponentsModule,
-        SidebarMobileToggleComponent,
-        PageContentComponent,
-        InfoCardComponent
-    ]
+  selector: 'app-general-R&D-overview',
+  templateUrl: './general-R&D-overview.component.html',
+  imports: [
+    CommonModule,
+    NgOptimizedImage,
+    CatalogueUiReusableComponentsModule,
+    SidebarMobileToggleComponent,
+    PageContentComponent,
+    InfoCardComponent
+  ]
 })
 
 export class GeneralRDOverviewComponent implements OnInit {
@@ -59,7 +60,8 @@ export class GeneralRDOverviewComponent implements OnInit {
   prevYear: string;
   lastUpdateDate?: string;
 
-  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
+  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {
+  }
 
   ngOnInit() {
 
@@ -71,14 +73,14 @@ export class GeneralRDOverviewComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
         filter(([code, year]) => !!code && !!year)
       )
-    .subscribe(([code, year]) => {
-      this.countryCode = code;
-      this.year = year;
-      const numericYear = +year;
-      this.prevYear = (numericYear - 1).toString();
-      this.getPublicationPercentage();
-      this.getOpenDataPercentage();
-    });
+      .subscribe(([code, year]) => {
+        this.countryCode = code;
+        this.year = year;
+        const numericYear = +year;
+        this.prevYear = (numericYear - 1).toString();
+        this.getPublicationPercentage();
+        this.getOpenDataPercentage();
+      });
 
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => this.lastUpdateDate = value
@@ -157,7 +159,7 @@ export class GeneralRDOverviewComponent implements OnInit {
     this.rposPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.rpos[0], this.rpos[1]);
   }
 
-  hasAnyLeftCardData(){
+  hasAnyLeftCardData() {
     return this.dataShareService.hasAnyValue([
       this.OAPubsPercentage[1],
       this.OpenDataPercentage[1],
@@ -167,29 +169,40 @@ export class GeneralRDOverviewComponent implements OnInit {
   }
 
   hasSurveyGeneralData(): boolean {
-    const surveyData = this.countrySurveyAnswer?.['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK'];
-    if (!surveyData) {
+    const stiData = this.countrySurveyAnswer?.['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK'];
+    const stiQuestions = ['Question2', 'Question3', 'Question4', 'Question30', 'Question5', 'Question6', 'Question7', 'Question8', 'Question9', 'Question10'];
+
+    const infraData = this.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
+    const infraQuestions = ['Question14', 'Question21', 'Question23', 'Question32', 'Question33'];
+
+    const policyData = this.countrySurveyAnswer?.['OPEN_SCIENCE_POLICY'];
+    const policyQuestions = ['Question11'];
+
+    if (!stiData && !infraData && !policyData) {
       return false;
     }
-    const questions = ['Question2', 'Question3', 'Question4', 'Question30'];
-    return this.dataShareService.hasSurveyData(surveyData, questions)
+    const hasSti = stiData ? this.dataShareService.hasSurveyData(stiData, stiQuestions) : false;
+    const hasInfra = infraData ? this.dataShareService.hasSurveyData(infraData, infraQuestions) : false;
+    const hasPolicy = policyData ? this.dataShareService.hasSurveyData(policyData, policyQuestions) : false;
+
+    return hasSti || hasInfra || hasPolicy;
   }
 
-    /** Export to PDF -----------------------------------------------------------------------------------------------> **/
+  /** Export to PDF -----------------------------------------------------------------------------------------------> **/
 
   exportToPDF(contents: HTMLElement[], filename?: string) {
     this.exportActive = true
 
     // Χρόνος για να εφαρμοστούν τα styles
     // setTimeout(() => {
-      this.pdfService.export(contents, filename).then(() => {
-        // this.restoreAnimations(modifiedElements, contents);
-        this.exportActive = false;
-      }).catch((error) => {
-        // this.restoreAnimations(modifiedElements, contents);
-        this.exportActive = false;
-        console.error('Error during PDF generation:', error);
-      });
+    this.pdfService.export(contents, filename).then(() => {
+      // this.restoreAnimations(modifiedElements, contents);
+      this.exportActive = false;
+    }).catch((error) => {
+      // this.restoreAnimations(modifiedElements, contents);
+      this.exportActive = false;
+      console.error('Error during PDF generation:', error);
+    });
     // }, 0);
   }
 }
