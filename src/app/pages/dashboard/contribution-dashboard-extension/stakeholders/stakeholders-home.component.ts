@@ -6,12 +6,16 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SurveyService } from "../../../../../survey-tool/app/services/survey.service";
+import { MonthlyViewsResponse} from "../../../../domain/analytics";
+import { EMPTY} from "rxjs";
+import { switchMap } from "rxjs/operators";
+import {ChartsModule} from "../../../../shared/charts/charts.module";
 
 @Component({
   selector: 'app-stakeholders-home',
   templateUrl: `./stakeholders-home.component.html`,
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, ChartsModule]
 })
 
 export class StakeholdersHomeComponent implements OnInit {
@@ -27,26 +31,65 @@ export class StakeholdersHomeComponent implements OnInit {
   latestAnswerInfo: any = null;
   loading: boolean = false;
 
-  ngOnInit() {
+  tooltipPointFormat: string = '{series.name}: <b>{point.y}</b>';
 
+  // Highchart
+  viewCategories: string[] = [];
+  viewSeries: any[] = [];
+  totalViews: number = 0;
+
+
+  ngOnInit() {
     this.userService.currentStakeholder.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(next => {
-      this.currentGroup = next;
+        this.currentGroup = next;
+      });
+
+    this.route.params.pipe(
+      takeUntilDestroyed(this.destroyRef),
+      switchMap(params => {
+        const id = params['id'];
+        if (!id) return EMPTY;
+        return this.stakeholdersService.getMonthlyViews(id);
+      })
+    ).subscribe({
+      next: (res) => {
+        console.log('--- Analytics Test Success ---');
+
+        const allKeys = Object.keys(res.pageviewsPerMonth);
+        const allValues = Object.values(res.pageviewsPerMonth);
+
+        this.viewCategories = allKeys.slice(-6);
+        const finalValues = allValues.slice(-6);
+
+        this.viewSeries = [{
+          name: 'Page Views',
+          type: 'column',
+          data: finalValues,
+          color: '#11a18d',
+          showInLegend: false
+        }];
+        this.totalViews = finalValues.reduce((a, b) => a + b, 0);
+      },
+      error: (err) => console.error('Analytics Error:', err)
     });
 
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       const id = params['id'];
       if (!id) return;
+
       const storedGroup = this.currentGroup || JSON.parse(sessionStorage.getItem("currentStakeholder"));
 
       if (!storedGroup) {
-        this.stakeholdersService.getStakeholder(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
-            this.userService.changeCurrentStakeholder(res);
-          },
-          error => console.error('Error fetching stakeholder', error));
+        this.stakeholdersService.getStakeholder(id)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe({
+            next: (res) => this.userService.changeCurrentStakeholder(res),
+            error: (err) => console.error('Error fetching stakeholder', err)
+          });
       }
 
       const urlParameters = [
-        {key: 'groupId', values: [id] },
+        { key: 'groupId', values: [id] },
         { key: 'stakeholderId', values: [id] },
         { key: 'sort', values: ['creation_date'] },
         { key: 'order', values: ['desc'] }
@@ -57,7 +100,7 @@ export class StakeholdersHomeComponent implements OnInit {
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (res) => {
-            if ( res && res.results && res.results.length > 0) {
+            if (res && res.results && res.results.length > 0) {
               this.latestAnswerInfo = res.results[0];
             }
             this.loading = false;
@@ -67,7 +110,7 @@ export class StakeholdersHomeComponent implements OnInit {
             this.loading = false;
           }
         });
-    })
+    });
   }
 
   navigateToMySurveys() {

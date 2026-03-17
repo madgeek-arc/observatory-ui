@@ -13,7 +13,7 @@ const PROXY_CONFIG = [
   // normal api endpoints
   {
     context: ["/api/**"],
-    target: "http://localhost:8280/",
+    target: "http://localhost:8281/",
     secure: false,
     changeOrigin: true,
     logLevel: "debug"
