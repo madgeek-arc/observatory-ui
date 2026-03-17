@@ -6,7 +6,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SurveyService } from "../../../../../survey-tool/app/services/survey.service";
-import { MonthlyViewsResponse} from "../../../../domain/analytics";
 import { EMPTY} from "rxjs";
 import { switchMap } from "rxjs/operators";
 import {ChartsModule} from "../../../../shared/charts/charts.module";
