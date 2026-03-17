@@ -116,7 +116,7 @@ export class OpenSoftwareComponent implements OnInit {
 
     this.hasNationalPolicy = this.surveyAnswers[1]?.['Policies']?.['Question22']?.['Question22-0'];
     this.nationalPolicyClarification = this.surveyAnswers[1]?.['Policies']?.['Question22']?.['Question22-3'];
-    this.policyMandatory = this.surveyAnswers[1]?.['Policies']?.['Policies22-1-0']?.['Question22-1'];
+    this.policyMandatory = this.surveyAnswers[1]?.['Policies']?.['Question22-1-0']?.['Question22-1'];
 
     this.hasFinancialStrategy = this.surveyAnswers[1]?.['Policies']?.['Question23']?.['Question23-0'];
     this.financialStrategyClarification = this.surveyAnswers[1]?.['Policies']?.['Question23']?.['Question23-1'];

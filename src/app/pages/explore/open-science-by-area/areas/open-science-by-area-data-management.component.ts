@@ -14,7 +14,7 @@ import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/ch
 import {
   SidebarMobileToggleComponent
 } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import { NgOptimizedImage } from "@angular/common";
+import {NgClass, NgOptimizedImage} from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
@@ -22,10 +22,12 @@ import { PageContentComponent } from "../../../../../survey-tool/app/shared/page
     selector: 'app-open-science-by-area-data-management',
     templateUrl: './open-science-by-area-data-management.component.html',
     styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-    imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent]
+  imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass]
 })
 
 export class OpenScienceByAreaDataManagementComponent {
+
+  protected trendService = inject(ExploreService);
   protected readonly Math = Math;
 
   private destroyRef = inject(DestroyRef);
@@ -305,4 +307,23 @@ export class OpenScienceByAreaDataManagementComponent {
 
   protected readonly policesMapCaptions = policesMapCaptions;
   protected readonly monitoringMapCaptions = monitoringMapCaptions;
+
+  // getTrendMetadata(current: number, previous: number, isPercentage: boolean = true) {
+  //   let diff: number;
+  //
+  //   if (isPercentage) {
+  //     diff = current - previous;
+  //   } else {
+  //     const result = this.calculatePercentageChange([previous, current]);
+  //     diff = typeof result === 'string' ? parseFloat(result) : result;
+  //   }
+  //
+  //   return {
+  //     value: diff,
+  //     icon: diff > 0 ? 'arrow_upward' : (diff < 0 ? 'arrow_downward' : 'commit'),
+  //     colorClass: diff > 0 ? 'up-arrow-color' : (diff < 0 ? 'down-arrow-color' : 'neutral-arrow-color'),
+  //     textClass: diff > 0 ? 'percentage-up-color' : (diff < 0 ? 'percentage-down-color' : 'neutral-color'),
+  //     trendImage: `../assets/images/explore/trend_${diff >= 0 ? 'green' : 'red'}.svg`
+  //   };
+  // }
 }

@@ -14,7 +14,7 @@ import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/ch
 import {
   SidebarMobileToggleComponent
 } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import { NgOptimizedImage } from "@angular/common";
+import {NgClass, NgOptimizedImage} from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
@@ -22,11 +22,12 @@ import { PageContentComponent } from "../../../../../survey-tool/app/shared/page
     selector: 'app-open-science-by-area-fair-data',
     templateUrl: './open-science-by-area-fair-data.component.html',
     styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-    imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent]
+  imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass]
 })
 
 export class OpenScienceByAreaFairDataComponent implements OnInit {
   protected readonly Math = Math;
+  protected  trendService = inject(ExploreService);
 
   protected readonly policesMapCaptions = policesMapCaptions;
   protected readonly monitoringMapCaptions = monitoringMapCaptions;

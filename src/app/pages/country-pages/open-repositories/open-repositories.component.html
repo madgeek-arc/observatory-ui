@@ -80,35 +80,45 @@
 
   <div class="uk-grid-small" data-uk-grid>
     @if (hasAnyLeftCardData()) {
-      <div class="uk-width-1-1 uk-width-expand@m">
-        <div class="uk-card uk-card-default uk-card-body visualisation-card">
-          <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-grid-small uk-grid" data-uk-grid>
-            <!-- Card 1 -->
+      <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
+        <div class="uk-card uk-card-default uk-card-body">
+          <div
+            class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center"
+            data-uk-grid>
             @if (OpenRepositoriesPercentage[1] !== null) {
               <app-info-card
                 [titleHtml]="`Percentage of <span class='uk-text-bold'>Open Repositories in ${countryName}</span>`"
-                [value]="OpenRepositoriesPercentage[1]" [unit]="'%'" [diff]="OpenRepositoriesPercentageDiff">
+                [value]="OpenRepositoriesPercentage[1]"
+                [unit]="'%'"
+                [diff]="OpenRepositoriesPercentageDiff"
+                colorClass="eosc-sb visualisation-card">
               </app-info-card>
             }
-            <!-- Card 2 -->
             @if (rfoOpenRepositoriesPercentage[1] !== null) {
               <app-info-card
                 [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Repositories</span>`"
-                [value]="rfoOpenRepositoriesPercentage[1]" [unit]="'%'" [diff]="rfoOpenRepositoriesPercentageDiff">
+                [value]="rfoOpenRepositoriesPercentage[1]"
+                [unit]="'%'"
+                [diff]="rfoOpenRepositoriesPercentageDiff"
+                colorClass="eosc-sb visualisation-card">
               </app-info-card>
             }
-            <!-- Card 3 -->
             @if (financialInvestment[1] !== null) {
               <app-info-card
                 [titleHtml]="`Total <span class='uk-text-bold'>financial investment in repositories</span>`"
-                [value]="financialInvestment[1]" [unit]="'mil Euro'" [diff]="financialInvestmentPercentageDiff">
+                [value]="financialInvestment[1]"
+                [unit]="'mil Euro'"
+                [diff]="financialInvestmentPercentageDiff"
+                colorClass="eosc-sb visualisation-card">
               </app-info-card>
             }
-            <!-- Card 4 -->
             @if (rpoOpenRepositoriesPercentage[1] !== null) {
               <app-info-card
                 [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy in Repositories</span>`"
-                [value]="rpoOpenRepositoriesPercentage[1]" [unit]="'%'" [diff]="rpoOpenRepositoriesPercentageDiff">
+                [value]="rpoOpenRepositoriesPercentage[1]"
+                [unit]="'%'"
+                [diff]="rpoOpenRepositoriesPercentageDiff"
+                colorClass="eosc-sb visualisation-card">
               </app-info-card>
             }
           </div>
@@ -118,7 +128,7 @@
 
     <!-- Right Card-->
     <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
-      <div class="uk-card uk-card-default uk-card-body visualisation-card">
+      <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card">
         <div class="uk-margin-top">
           <h5 class="uk-flex uk-flex-between uk-margin-remove">
             National Repository Policy
@@ -211,54 +221,54 @@
             <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
             <div class="uk-margin-medium-top">
               <read-more [maxHeight]="300">
-                <div id="networks_&_aggregators">
-                  <div class="uk-text-secondary">Networks & Aggregators of Scientific/Research Content</div>
+                <div id="networks_aggregators">
+                  <div class="uk-text-secondary uk-margin-small-bottom">Networks & Aggregators of Scientific/Research Content</div>
                   @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question16']?.['Question16-1']) {
-                    <div
-                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question16']['Question16-1']"
-                    class="uk-margin-medium-top"></div>
+                    <div class="uk-margin-remove-top"
+                         [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question16']['Question16-1']">
+                    </div>
                   } @else {
-                    <p>N/A</p>
+                    <p class="uk-margin-remove-top">N/A</p>
                   }
                 </div>
-                <div id="literature_repositories">
-                  <div class="uk-text-secondary">Literature repositories</div>
+                <div id="literature_repositories" class="uk-margin-medium-top">
+                  <div class="uk-text-secondary uk-margin-small-bottom">Literature repositories</div>
                   @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question17']?.['Question17-1']) {
-                    <div
-                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question17']['Question17-1']"
-                    class="uk-margin-medium-top"></div>
+                    <div class="uk-margin-remove-top"
+                         [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question17']['Question17-1']">
+                    </div>
                   } @else {
-                    <p>N/A</p>
+                    <p class="uk-margin-remove-top">N/A</p>
                   }
                 </div>
-                <div id="data_repositories">
-                  <div class="uk-text-secondary">Data repositories</div>
+                <div id="data_repositories" class="uk-margin-medium-top">
+                  <div class="uk-text-secondary uk-margin-small-bottom">Data repositories</div>
                   @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']) {
-                    <div
-                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']"
-                    class="uk-margin-medium-top"></div>
+                    <div class="uk-margin-remove-top"
+                         [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']">
+                    </div>
                   } @else {
-                    <p>N/A</p>
+                    <p class="uk-margin-remove-top">N/A</p>
                   }
                 </div>
-                <div id="software_repositories">
-                  <div class="uk-text-secondary">Software repositories</div>
+                <div id="software_repositories" class="uk-margin-medium-top">
+                  <div class="uk-text-secondary uk-margin-small-bottom">Software repositories</div>
                   @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']?.['Question19-1']) {
-                    <div
-                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']['Question19-1']"
-                    class="uk-margin-medium-top"></div>
+                    <div class="uk-margin-remove-top"
+                         [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']['Question19-1']">
+                    </div>
                   } @else {
-                    <p>N/A</p>
+                    <p class="uk-margin-remove-top">N/A</p>
                   }
                 </div>
-                <div id="OA_publishing_platforms">
-                  <div class="uk-text-secondary">OA Publishing Platforms</div>
+                <div id="OA_publishing_platforms" class="uk-margin-medium-top">
+                  <div class="uk-text-secondary uk-margin-small-bottom">OA Publishing Platforms</div>
                   @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question20']?.['Question20-1']) {
-                    <div
-                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question20']['Question20-1']"
-                    class="uk-margin-medium-top"></div>
+                    <div class="uk-margin-remove-top"
+                         [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question20']['Question20-1']">
+                    </div>
                   } @else {
-                    <p>N/A</p>
+                    <p class="uk-margin-remove-top">N/A</p>
                   }
                 </div>
               </read-more>

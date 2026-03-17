@@ -11,7 +11,7 @@ import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts"
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import { NgOptimizedImage } from "@angular/common";
+import {NgClass, NgOptimizedImage} from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import * as Highcharts from "highcharts";
 import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
@@ -19,11 +19,12 @@ import { PageContentComponent } from "../../../../../survey-tool/app/shared/page
 @Component({
     selector: 'app-open-science-by-area-training',
     templateUrl: './open-science-by-area-training.component.html',
-    imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent]
+  imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass]
 })
 
 export class OpenScienceByAreaTrainingComponent implements OnInit {
   protected readonly Math = Math;
+  protected trendService = inject(ExploreService);
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;

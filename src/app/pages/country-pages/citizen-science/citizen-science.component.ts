@@ -113,7 +113,7 @@ export class CitizenScienceComponent implements OnInit {
     this.nationalPolicyClarificationCS = this.surveyAnswers[1]?.['Policies']?.['Question50']?.['Question50-3'] || null;
 
     this.hasFinancialStrategyCS = this.surveyAnswers[1]?.['Policies']?.['Question51']?.['Question51-0'] || null;
-    this.financialStrategyClarificationCS = this.surveyAnswers[1]?.['Policies']?.['Question51-1'] || null;
+    this.financialStrategyClarificationCS = this.surveyAnswers[1]?.['Policies']?.['Question51']?.['Question51-1'] || null;
 
     this.hasMonitoringCS = this.surveyAnswers[1]?.['Practices']?.['Question98']?.['Question98-0'] || null;
     this.monitoringClarificationCS = this.surveyAnswers[1]?.['Practices']?.['Question98']?.['Question98-1'] || null;

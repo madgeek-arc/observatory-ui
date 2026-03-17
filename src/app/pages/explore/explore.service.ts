@@ -454,4 +454,32 @@ export class ExploreService {
       elem => elem.id === code
     );
   }
+
+  /**
+   * Calculates trend metadata between two values.
+   * @param current The value for the current period
+   * @param previous The value for the previous period (baseline)
+   * @param isPercentage If true, calculates a simple difference. If false, calculates percentage change.
+   * @returns An object containing the rounded value, icon, colors, and trend image
+   */
+
+  getTrendMetadata(current: number, previous: number, isPercentage: boolean = true) {
+    let diff: number;
+
+    if (isPercentage) {
+      diff = current - previous;
+    } else {
+      diff = previous !== 0 ? ((current - previous) / previous) * 100 : 0;
+    }
+
+    const finalValue = Math.round(diff);
+
+    return {
+      value: finalValue,
+      icon: finalValue > 0 ? 'arrow_upward' : (finalValue < 0 ? 'arrow_downward' : 'commit'),
+      colorClass: finalValue > 0 ? 'up-arrow-color' : (finalValue < 0 ? 'down-arrow-color' : 'neutral-arrow-color'),
+      textClass: finalValue > 0 ? 'percentage-up-color' : (finalValue < 0 ? 'percentage-down-color' : 'neutral-color'),
+      trendImage: `../assets/images/explore/trend_${finalValue >= 0 ? 'green' : 'red'}.svg`
+    };
+  }
 }
