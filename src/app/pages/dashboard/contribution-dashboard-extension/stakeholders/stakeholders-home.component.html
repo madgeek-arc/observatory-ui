@@ -275,6 +275,71 @@
               </div>
             </div>
           </div>
+          <div class="uk-visible@m"></div>
+
+          <div>
+            <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
+
+              <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
+                <h4 class="uk-card-title uk-text-bold uk-margin-remove">Recent Actions</h4>
+
+                <a class="uk-link-reset uk-flex uk-flex-middle uk-text-muted" style="cursor: pointer;">
+                  <span class="uk-text-small uk-margin-small-right" (click)="navigateToHistory()">View All</span>
+                  <span class="material-symbols-outlined" style="font-size: 20px;">arrow_forward</span>
+                </a>
+              </div>
+
+              <hr class="uk-margin-small-top uk-margin-small-bottom">
+
+              <div class="uk-margin-small-top">
+                @if (loading) {
+                  <div class="uk-text-center uk-padding-small">
+                    <div uk-spinner="ratio: 0.8"></div>
+                  </div>
+                } @else {
+                  @for (entry of recentHistory; track entry.time) {
+                    <div class="uk-padding-small uk-padding-remove-horizontal">
+                      <div class="uk-flex uk-flex-top">
+                        <span class="material-symbols-outlined uk-margin-small-right"
+                              style="color: #3498db; font-size: 26px;">
+                          edit_note
+                        </span>
+
+                        <div class="uk-width-expand">
+                          <div>
+                            <p class="uk-margin-remove" style="font-size: 0.65rem; color: #999;">
+                              Updated on: {{ entry.time | date:'dd/MM/yy' }}
+                            </p>
+                          </div>
+                          <div>
+                            <p class="uk-margin-remove uk-text-small uk-text-bold uk-text-truncate">
+                              {{ entry.editors[0].fullname }} ({{ entry.editors[0].role }})
+                            </p>
+                            <p class="uk-margin-remove uk-text-small uk-text-muted uk-text-italic">
+                              {{ (entry.comment && entry.comment !== "") ? entry.comment : 'No comment provided' }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+
+                  } @empty {
+                    <div class="uk-padding-small uk-text-center uk-text-meta">
+                      No recent actions found.
+                    </div>
+                  }
+                }
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
+              <h4 class="uk-card-title">Messages</h4>
+            </div>
+          </div>
+
         </div>
       </div>
     } @else {
