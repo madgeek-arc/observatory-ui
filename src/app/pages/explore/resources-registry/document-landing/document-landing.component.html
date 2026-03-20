@@ -40,14 +40,15 @@
                   <p><strong>Country:</strong> {{ documentData.docInfo?.country }}</p>
                   <p>
                     <strong>Start date:</strong>
-                    {{ documentData.docInfo?.startDate ? documentData.docInfo?.startDate : '--' }}
+                    {{ (documentData.docInfo?.startDate | date:'dd/MM/yyyy') || documentData.docInfo?.startDate || '--' }}
                   </p>
                   <p>
-                    <strong>End date:</strong> {{ documentData.docInfo?.endDate ? documentData.docInfo?.endDate : '--' }}
+                    <strong>End date:</strong>
+                    {{ (documentData.docInfo?.endDate | date: 'dd/MM/yyyy') || documentData.docInfo?.endDate || '--' }}
                   </p>
                   <p>
                     <strong>Publication date:</strong>
-                    {{ documentData.docInfo?.publicationDate ? documentData.docInfo?.publicationDate : '--' }}
+                    {{ (documentData.docInfo?.publicationDate | date:'yyyy') || documentData.docInfo?.publicationDate || '--' }}
                   </p>
                   <p><strong>Responsible organisation:</strong> {{ documentData.docInfo?.organisations }}</p>
                   <p><strong>Language:</strong> {{ documentData.docInfo?.language }}</p>
@@ -451,7 +452,7 @@
                         <div>
                           <div class="uk-text-meta uk-text-xsmall">Publication date</div>
                           <div class="uk-text-primary uk-text-bold uk-text-default">
-                            {{ (documentData.docInfo?.publicationDate| date: 'dd/MM/yyyy') ?? '--' }}
+                            {{ (documentData.docInfo?.publicationDate| date: 'yyyy') ?? '--' }}
                           </div>
                         </div>
                       </div>
