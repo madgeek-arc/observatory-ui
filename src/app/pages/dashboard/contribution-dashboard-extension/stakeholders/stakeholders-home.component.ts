@@ -10,6 +10,8 @@ import { EMPTY, combineLatest} from "rxjs";
 import { switchMap } from "rxjs/operators";
 import {ChartsModule} from "../../../../shared/charts/charts.module";
 import {DisplayEntries} from "../../../../../survey-tool/app/domain/survey";
+import {MessagingSystemService} from "../../../../../messaging-system-ui/services/messaging-system.service";
+import {TopicThread} from "../../../../../messaging-system-ui/app/domain/messaging";
 
 @Component({
   selector: 'app-stakeholders-home',
@@ -25,12 +27,15 @@ export class StakeholdersHomeComponent implements OnInit {
   private stakeholdersService = inject(StakeholdersService);
   private surveyService = inject(SurveyService);
   private userService = inject(UserService);
+  private messagingService = inject(MessagingSystemService);
 
 
   currentGroup: Stakeholder | null = null;
   latestAnswerInfo: any = null;
   loading: boolean = false;
   recentHistory: DisplayEntries[] = [];
+  recentThreads: TopicThread[] = [];
+  loadingThreads: boolean = false;
 
   tooltipPointFormat: string = '{series.name}: <b>{point.y}</b>';
 
@@ -43,6 +48,9 @@ export class StakeholdersHomeComponent implements OnInit {
   ngOnInit() {
     this.userService.currentStakeholder.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(next => {
         this.currentGroup = next;
+        if (next.id) {
+          this.fetchRecentThreads(next.id);
+        }
       });
 
     this.route.params.pipe(
@@ -103,8 +111,6 @@ export class StakeholdersHomeComponent implements OnInit {
       switchMap(res => {
         if (res?.results?.length > 0) {
           this.latestAnswerInfo = res.results[0];
-          console.log('2. Latest Answer Info Object:', this.latestAnswerInfo);
-          console.log('3. The ID we are looking for:', this.latestAnswerInfo?.surveyAnswerId);
           return this.surveyService.getAnswerHistory(this.latestAnswerInfo.surveyAnswerId);
         }
         this.loading = false;
@@ -112,19 +118,14 @@ export class StakeholdersHomeComponent implements OnInit {
       })
     ).subscribe({
       next: (historyRes) => {
-        console.log('--- TEST: Recent History for ' + (this.currentGroup?.id || 'current stakeholder') + ' ---');
-        console.log('Full History Response:', historyRes);
         if (historyRes?.entries) {
           this.recentHistory = historyRes.entries
             .sort((a, b) => b.time - a.time)
             .slice(0, 3);
-          console.log('Processed 3 most recent entries:', this.recentHistory);
         }
         this.loading = false;
-        console.log('Successfully loaded entries and history!');
       },
       error: (err) => {
-        console.error('Error in Dashboard flow:', err);
         this.loading = false;
       }
     });
@@ -145,6 +146,38 @@ export class StakeholdersHomeComponent implements OnInit {
         { relativeTo: this.route }
       );
     }
+  }
+
+  fetchRecentThreads(groupId: string) {
+    this.loadingThreads = true;
+
+    this.messagingService.getInbox(groupId).subscribe({
+      next: (response: any) => {
+        if (response && response.content) {
+          console.log('Recent Threads:', response.content);
+          this.recentThreads = response.content.slice(0, 3);
+        } else {
+          this.recentThreads = [];
+        }
+        this.loadingThreads = false;
+      },
+      error: (err) => {
+        console.error('API Error:', err);
+        this.loadingThreads = false;
+      }
+    });
+  }
+
+  navigateToMessages() {
+    if (this.currentGroup && this.currentGroup.id) {
+      this.router.navigate(['/contributions', this.currentGroup.id, 'messages']);
+    }
+  }
+
+
+  stripHtml(html: string) {
+    if (!html) return '';
+    return html.replace(/<[^>]*>/g, '');
   }
 
 
