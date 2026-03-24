@@ -23,6 +23,7 @@ import {
 import {
   AdministratorHomeComponent
 } from "./pages/dashboard/contribution-dashboard-extension/administrator/administrator-home.component";
+import { NewsAndStoriesComponent } from "./pages/dashboard/news-and-stories/news-and-stories.component";
 
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: "enabled",
@@ -95,6 +96,11 @@ const routes: Routes = [
   {
     path: 'contributions/:id/stakeholder',
     component: ContributionsHomeExtentionComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'contributions/:id/news-and-stories',
+    component: NewsAndStoriesComponent,
     canActivate: [AuthGuard]
   },
   {
