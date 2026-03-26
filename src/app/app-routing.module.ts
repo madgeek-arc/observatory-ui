@@ -23,7 +23,7 @@ import {
 import {
   AdministratorHomeComponent
 } from "./pages/dashboard/contribution-dashboard-extension/administrator/administrator-home.component";
-import { NewsAndStoriesComponent } from "./pages/dashboard/news-and-stories/news-and-stories.component";
+import { NewsAndStoriesComponent } from "./pages/dashboard/contribution-dashboard-extension/news-and-stories/news-and-stories.component";
 
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: "enabled",

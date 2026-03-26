@@ -6,7 +6,7 @@ export interface NewsResponse {
 }
 
 export interface NewsWrapped {
-  score: number;
+  score: number | null;
   result: NewsItem;
   highlights: any[];
 }

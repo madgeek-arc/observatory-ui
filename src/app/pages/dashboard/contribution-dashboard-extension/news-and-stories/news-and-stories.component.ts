@@ -1,9 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
-import { ObservatoryService} from "../../services/observatory.service";
-import { NewsWrapped, NewsResponse } from './news.model';
+import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
+import { StakeholderNewsService } from "../../../services/stakeholder-news.service";
+import { NewsWrapped, NewsResponse } from '../../../../domain/news';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 
 @Component({
@@ -15,14 +16,15 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 export class NewsAndStoriesComponent implements OnInit {
 
   private route = inject(ActivatedRoute);
-  private observatoryService = inject(ObservatoryService);
+  private stakeholderNewsService = inject(StakeholderNewsService);
+  private destroyRef = inject(DestroyRef);
 
   stakeholderId: string = null;
   newsItems: NewsWrapped[] = [];
   loading: boolean = true;
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       this.stakeholderId = params['id'];
       if (this.stakeholderId) {
         this.fetchNews();
@@ -32,11 +34,10 @@ export class NewsAndStoriesComponent implements OnInit {
 
   fetchNews() {
     this.loading = true;
-    this.observatoryService.getStakeholderNews(this.stakeholderId).subscribe({
+    this.stakeholderNewsService.getStakeholderNews(this.stakeholderId).subscribe({
       next: (res: NewsResponse) => {
         this.newsItems = res.results;
         this.loading = false;
-        console.log('News loaded successfully:', this.newsItems);
       },
       error: (err) => {
         console.error('Error fetching news:', err);
