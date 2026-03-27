@@ -6,14 +6,15 @@
       </div>
     } @else {
       <div class="uk-flex uk-flex-right uk-margin-medium-top uk-margin-medium-left uk-margin-medium-right">
-        <button class="uk-button uk-button-primary uk-button-small uk-border-rounded uk-flex uk-flex-middle" uk-toggle="target: #story-modal"
-        (click)="openAddModal()">
+        <button class="uk-button uk-button-primary uk-button-small uk-border-rounded uk-flex uk-flex-middle"
+                (click)="openAddModal()">
           <span class="material-symbols-outlined uk-margin-small-right">add</span>
           ADD
         </button>
       </div>
 
-      <div class="uk-overflow-auto uk-margin-medium-top uk-margin-medium-left uk-margin-medium-right uk-card uk-card-default uk-border-rounded">
+      <div
+        class="uk-overflow-auto uk-margin-medium-top uk-margin-medium-left uk-margin-medium-right uk-card uk-card-default uk-border-rounded">
         <table class="uk-table uk-table-divider uk-table-middle uk-table-responsive uk-margin-remove">
           <thead>
           <tr>
@@ -35,17 +36,21 @@
                 </td>
                 <td>
                   @if (item.result.image) {
-                    <img [src]="item.result.image" width="45" height="45" class="uk-border-rounded" [alt]="item.result.title">
+                    <img [src]="item.result.image" width="45" height="45" class="uk-border-rounded"
+                         [alt]="item.result.title">
                   } @else {
-                    <div class="uk-background-muted uk-border-rounded uk-flex uk-flex-center uk-flex-middle" style="width: 45px; height: 45px;">
+                    <div class="uk-background-muted uk-border-rounded uk-flex uk-flex-center uk-flex-middle"
+                         style="width: 45px; height: 45px;">
                       <span class="material-symbols-outlined uk-text-muted" style="font-size: 20px;">image</span>
                     </div>
                   }
                 </td>
                 <td>
                   @if (item.result.url) {
-                    <a [href]="item.result.url" target="_blank" class="uk-link-text uk-text-truncate uk-display-block" style="max-width: 200px;" [title]="item.result.url">
-                      <span class="material-symbols-outlined uk-text-middle uk-margin-small-right" style="font-size: 18px;">link</span>
+                    <a [href]="item.result.url" target="_blank" class="uk-link-text uk-text-truncate uk-display-block"
+                       style="max-width: 200px;" [title]="item.result.url">
+                      <span class="material-symbols-outlined uk-text-middle uk-margin-small-right"
+                            style="font-size: 18px;">link</span>
                       {{ item.result.url }}
                     </a>
                   } @else {
@@ -54,19 +59,24 @@
                 </td>
                 <td class="uk-text-nowrap">
                   <div class="uk-text-small">{{ item.result.publishDate | date:'MMM dd, yyyy' }}</div>
-                  <div class="uk-text-meta" style="font-size: 0.7rem;">Expires: {{ item.result.expiryDate | date:'dd/MM/yy' }}</div>
+                  <div class="uk-text-meta" style="font-size: 0.7rem;">
+                    Expires: {{ item.result.expiryDate | date:'dd/MM/yy' }}
+                  </div>
                 </td>
 
                 <td>
                   <div class="uk-flex uk-flex-column">
-                    <button class="uk-button uk-button-primary uk-button-small uk-margin-small-bottom uk-border-rounded uk-flex uk-flex-middle"
-                            uk-toggle="target: #story-modal"
-                            (click)="openUpdateModal(item)">
+                    <button
+                      class="uk-button uk-button-primary uk-button-small uk-margin-small-bottom uk-border-rounded uk-flex uk-flex-middle"
+                      (click)="openUpdateModal(item)">
                       <span class="material-symbols-outlined uk-margin-small-right" style="font-size: 16px;">edit</span>
                       UPDATE
                     </button>
-                    <button class="uk-button uk-button-danger uk-button-small uk-border-rounded uk-flex uk-flex-middle">
-                      <span class="material-symbols-outlined uk-margin-small-right" style="font-size: 16px;">delete</span>
+                    <button class="uk-button uk-button-danger uk-button-small uk-border-rounded uk-flex uk-flex-middle"
+                            (click)="openDeleteModal(item)">
+                      <span class="material-symbols-outlined uk-margin-small-right"
+                            style="font-size: 16px;">delete
+                      </span>
                       DELETE
                     </button>
                   </div>
@@ -80,6 +90,36 @@
           </tbody>
         </table>
       </div>
+
+      @if (totalPages > 1) {
+        <div
+          class="uk-flex uk-flex-middle uk-flex-between uk-margin-medium-top uk-margin-medium-left uk-margin-medium-right uk-margin-medium-bottom">
+          <p class="uk-margin-remove uk-text-small">
+            Results <span class="uk-text-bold">{{ (currentPage - 1) * pageSize + 1 }}</span>–<span
+            class="uk-text-bold">{{ (currentPage - 1) * pageSize + newsItems.length }}</span> of <span
+            class="uk-text-bold">{{ total }}</span>
+          </p>
+          <ul class="uk-pagination uk-margin-remove">
+            @if (currentPage > 2 && totalPages > 5) {
+              <li><a (click)="goToPage(1)"><span data-uk-pagination-previous></span><span
+                data-uk-pagination-previous></span></a></li>
+            }
+            @if (currentPage !== 1) {
+              <li><a (click)="previousPage()"><span data-uk-pagination-previous></span></a></li>
+            }
+            @for (i of pages; track i) {
+              <li [class.uk-active]="i === currentPage"><a (click)="goToPage(i)">{{ i }}</a></li>
+            }
+            @if (currentPage !== totalPages) {
+              <li><a (click)="nextPage()"><span data-uk-pagination-next></span></a></li>
+            }
+            @if (currentPage < totalPages - 1 && totalPages > 5) {
+              <li><a (click)="goToPage(totalPages)"><span data-uk-pagination-next></span><span
+                data-uk-pagination-next></span></a></li>
+            }
+          </ul>
+        </div>
+      }
     }
   </div>
 </div>
@@ -94,19 +134,21 @@
       {{ isUpdateMode ? 'Update Story' : 'Add New Story' }}
     </h2>
 
-    <form [formGroup]="storyForm" class="uk-form-stacked uk-margin-medium-top">
+    <form [formGroup]="storyForm" (ngSubmit)="onSubmit()" class="uk-form-stacked uk-margin-medium-top">
 
       <div class="uk-margin">
         <label class="uk-form-label uk-text-bold">Title *</label>
         <div class="uk-form-controls">
-          <input class="uk-input uk-border-rounded" type="text" formControlName="title" placeholder="Enter story title...">
+          <input class="uk-input uk-border-rounded" type="text" formControlName="title"
+                 placeholder="Enter story title...">
         </div>
       </div>
 
       <div class="uk-margin">
         <label class="uk-form-label uk-text-bold">Description</label>
         <div class="uk-form-controls">
-          <textarea class="uk-textarea uk-border-rounded" rows="3" formControlName="description" placeholder="Briefly describe the story..."></textarea>
+          <textarea class="uk-textarea uk-border-rounded" rows="3" formControlName="description"
+                    placeholder="Describe the story..."></textarea>
         </div>
       </div>
 
@@ -120,7 +162,8 @@
       <div class="uk-margin">
         <label class="uk-form-label uk-text-bold">Image URL</label>
         <div class="uk-form-controls">
-          <input class="uk-input uk-border-rounded" type="text" formControlName="image" placeholder="https://example.com/image.jpg">
+          <input class="uk-input uk-border-rounded" type="text" formControlName="image"
+                 placeholder="https://example.com/image.jpg">
         </div>
       </div>
 
@@ -135,16 +178,46 @@
         </div>
       </div>
 
-      <div class="uk-modal-footer uk-text-right uk-padding-remove-horizontal uk-margin-medium-top uk-background-default">
-        <button class="uk-button uk-button-default uk-modal-close uk-border-rounded uk-margin-small-right" type="button">Cancel</button>
+      <div
+        class="uk-modal-footer uk-text-right uk-padding-remove-horizontal uk-margin-medium-top uk-background-default">
+        <button class="uk-button uk-button-default uk-modal-close uk-border-rounded uk-margin-small-right"
+                type="button">Cancel
+        </button>
 
         <button class="uk-button uk-button-primary uk-border-rounded"
                 type="submit"
-                [disabled]="storyForm.invalid">
-          {{ isUpdateMode ? 'Update Story' : 'Save Story' }}
+                [disabled]="storyForm.invalid || submitting">
+          {{ submitting ? 'Saving...' : (isUpdateMode ? 'Update Story' : 'Save Story') }}
         </button>
       </div>
 
     </form>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div id="delete-modal" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body uk-border-rounded">
+    <h3 class="uk-modal-title">Delete Article</h3>
+    <p>Are you sure you want to delete this article?
+      <br>
+      <span class="uk-text-danger">This action cannot be undone.</span>
+    </p>
+
+    <div class="uk-flex uk-flex-right uk-margin-top">
+      <button class="uk-button uk-button-default uk-modal-close
+               uk-border-rounded uk-margin-small-right">
+        Cancel
+      </button>
+      <button class="uk-button uk-button-danger uk-border-rounded"
+              [disabled]="deleting"
+              (click)="onDelete()">
+        @if (deleting) {
+          Deleting...
+        } @else {
+          Delete
+        }
+      </button>
+    </div>
   </div>
 </div>

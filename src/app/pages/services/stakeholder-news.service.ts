@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment} from "../../../environments/environment";
 import { Observable } from 'rxjs';
-import {NewsResponse} from "../../domain/news";
+import {NewsItem, NewsItemRequest, NewsResponse} from "../../domain/news";
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +22,16 @@ export class StakeholderNewsService {
   }
 
   // Add new story
-  postNews(stakeholderId: string, newsItem: any): Observable<NewsResponse> {
-    return this.http.post<NewsResponse>(`${this.base}/stakeholders/${stakeholderId}/news`, newsItem);
+  postNews(stakeholderId: string, newsItem: NewsItemRequest): Observable<NewsItem> {
+    return this.http.post<NewsItem>(`${this.base}/stakeholders/${stakeholderId}/news`, newsItem);
   }
 
-// Update existing story
-  putNews(stakeholderId: string, newsId: string, newsItem: any): Observable<NewsResponse> {
-    return this.http.put<NewsResponse>(`${this.base}/stakeholders/${stakeholderId}/news/${newsId}`, newsItem);
+  putNews(stakeholderId: string, newsId: string, newsItem: NewsItemRequest): Observable<NewsItem> {
+    return this.http.put<NewsItem>(`${this.base}/stakeholders/${stakeholderId}/news/${newsId}`, newsItem);
+  }
+
+  // Delete story
+  deleteNews(stakeholderId: string, id: string): Observable<void> {
+    return this.http.delete<void>(`${this.base}/stakeholders/${stakeholderId}/news/${id}`)
   }
 }

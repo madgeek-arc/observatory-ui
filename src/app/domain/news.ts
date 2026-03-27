@@ -29,3 +29,12 @@ export interface NewsItem {
     modifiedBy: string;
   };
 }
+
+export interface NewsItemRequest {
+  title: string;
+  description: string;
+  url: string;
+  image: string;
+  publishDate: string;
+  expiryDate: string;
+}
