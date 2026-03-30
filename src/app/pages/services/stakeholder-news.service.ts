@@ -13,10 +13,23 @@ export class StakeholderNewsService {
 
   constructor(private http: HttpClient) { }
 
-  getStakeholderNews(id: string, from: number = 0, quantity: number = 10): Observable<NewsResponse> {
-    const params = new HttpParams()
+  getStakeholderNews(
+    id: string,
+    from: number = 0,
+    quantity: number = 10,
+    keyword: string = '',
+    sort: string = 'creationDate',
+    order: string = 'desc'
+  ): Observable<NewsResponse> {
+    let params = new HttpParams()
       .set('from', from.toString())
-      .set('quantity', quantity.toString());
+      .set('quantity', quantity.toString())
+      .set('sort', sort)
+      .set('order', order);
+
+    if (keyword) {
+      params = params.set('keyword', keyword);
+    }
 
     return this.http.get<NewsResponse>(`${this.base}/stakeholders/${id}/news`, { params });
   }
