@@ -168,11 +168,12 @@
             </div>
             <div class="uk-inline">
               <span class="uk-form-icon" data-uk-icon="icon: search"></span>
-              <input type="text" #searchInput class="uk-input menuSearch" placeholder="Search..."
-                     [(ngModel)]="searchQuery" style="border-radius: 20px;">
+              <input type="text" class="uk-input menuSearch" placeholder="Search..."
+                     [value]="searchQuery"
+                     (input)="keywordSubject.next(getInputValue($event))"
+                     style="border-radius: 20px;">
             </div>
           </div>
-
           <!-- Badges Container-->
           <div class="badge-container uk-margin-bottom uk-flex">
             <div>
