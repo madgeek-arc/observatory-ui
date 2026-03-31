@@ -28,7 +28,6 @@ export class NewsAndStoriesComponent implements OnInit {
 
   stakeholderId: string | null = null;
   newsItems: NewsWrapped[] = [];
-  filteredItems: NewsWrapped[] = [];
   loading: boolean = true;
   searching: boolean = false;
   deleting: boolean = false;
@@ -137,19 +136,21 @@ export class NewsAndStoriesComponent implements OnInit {
   }
 
   fetchNews(from: number = 0) {
-    if (this.loading) {
-      // still in initial load — keep showing the full-page spinner
-    } else {
+    if (!this.loading) {
       this.searching = true;
     }
+
+    const active: boolean | undefined = this.activeFilter.length
+      ? this.activeFilter[0] === 'true'
+      : undefined;
+
     this.stakeholderNewsService.getStakeholderNews(
-      this.stakeholderId, from, this.pageSize, this.keyword, this.sort, this.order
+      this.stakeholderId, from, this.pageSize, this.keyword, this.sort, this.order, active
     ).subscribe({
       next: (res: NewsResponse) => {
         this.newsItems = res.results;
         this.total = res.total;
         this.paginationInit(res.from);
-        this.applyActiveFilter();
         this.loading = false;
         this.searching = false;
       },
@@ -159,15 +160,6 @@ export class NewsAndStoriesComponent implements OnInit {
         this.searching = false;
       }
     });
-  }
-
-  applyActiveFilter() {
-    if (!this.activeFilter.length) {
-      this.filteredItems = [...this.newsItems];
-    } else {
-      const isActive = this.activeFilter[0] === 'true';
-      this.filteredItems = this.newsItems.filter(item => item.result.active === isActive);
-    }
   }
 
   getOptionLabel(options: {label: string; value: string}[], value: string): string {

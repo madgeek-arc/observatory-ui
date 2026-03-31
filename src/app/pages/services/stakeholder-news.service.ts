@@ -19,7 +19,8 @@ export class StakeholderNewsService {
     quantity: number = 10,
     keyword: string = '',
     sort: string = 'creationDate',
-    order: string = 'desc'
+    order: string = 'desc',
+    active?: boolean
   ): Observable<NewsResponse> {
     let params = new HttpParams()
       .set('from', from.toString())
@@ -29,6 +30,10 @@ export class StakeholderNewsService {
 
     if (keyword) {
       params = params.set('keyword', keyword);
+    }
+
+    if (active !== undefined) {
+      params = params.set('active', active.toString());
     }
 
     return this.http.get<NewsResponse>(`${this.base}/stakeholders/${id}/news`, { params });
