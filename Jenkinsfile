@@ -25,9 +25,9 @@ pipeline {
             DOCKER_TAG = 'dev'
             env.BUILD_CONFIGURATION = 'beta'
             echo "Detected develop branch version: ${PROJECT_VERSION}"
-          } else if (env.BRANCH_NAME == 'master') {
+          } else if (env.BRANCH_NAME == 'main') {
             DOCKER_TAG = PROJECT_VERSION
-            echo "Detected master branch version: ${PROJECT_VERSION}"
+            echo "Detected main branch version: ${PROJECT_VERSION}"
           } else {
             def branch = env.BRANCH_NAME.replace('/', '-')
             DOCKER_TAG = "${PROJECT_VERSION}-${branch}"
@@ -46,9 +46,9 @@ pipeline {
       }
     }
     stage('Upload Image') {
-      when { // upload images only from 'develop' or 'master' branches
+      when { // upload images only from 'develop' or 'main' branches
         expression {
-          return env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == 'master'
+          return env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == 'main'
         }
       }
       steps{
@@ -59,7 +59,7 @@ pipeline {
                   echo "$DOCKER_PASS" | docker login ${REGISTRY} -u "$DOCKER_USER" --password-stdin
               """
               DOCKER_IMAGE.push()
-              if (env.BRANCH_NAME == 'master') {
+              if (env.BRANCH_NAME == 'main') {
                 def minorTag = DOCKER_TAG.tokenize('.').take(2).join('.')
                 DOCKER_IMAGE.push(minorTag)
               }
@@ -80,7 +80,7 @@ pipeline {
     stage('Handle Releases') {
       when {
         allOf {
-          branch 'master'
+          branch 'main'
           not { changeRequest() }  // skip PR builds
         }
       }
