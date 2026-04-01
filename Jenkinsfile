@@ -33,7 +33,7 @@ pipeline {
             echo "Detected main branch."
           } else {
             def branch = env.BRANCH_NAME.replace('/', '-')
-            DOCKER_TAG = "${POM_VERSION}-${branch}"
+            DOCKER_TAG = "${PROJECT_VERSION}-${branch}"
           }
 
           currentBuild.displayName = "${currentBuild.displayName}-${DOCKER_TAG}"
