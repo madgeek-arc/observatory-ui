@@ -125,7 +125,7 @@ export class NewsAndStoriesComponent implements OnInit {
 
     // Subject pattern
     this.keywordSubject.pipe(
-      debounceTime(300),
+      debounceTime(400),
       distinctUntilChanged(),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe(text => {

@@ -102,9 +102,9 @@
         <div class="uk-flex uk-flex-middle" style="gap: 8px;">
           <div class="uk-inline">
             <span class="uk-form-icon" data-uk-icon="icon: search"></span>
-            <input type="text" class="uk-input menuSearch" placeholder="Search..."
+            <input #searchInput type="text" class="uk-input menuSearch" placeholder="Search..."
                    [value]="keyword"
-                   (input)="keywordSubject.next($any($event.target).value)"
+                   (input)="keywordSubject.next(searchInput.value)"
                    style="border-radius: 20px;">
           </div>
         </div>
