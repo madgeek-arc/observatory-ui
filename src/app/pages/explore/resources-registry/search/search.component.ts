@@ -1,12 +1,12 @@
-import { Component, DestroyRef, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ResourceRegistryService } from '../resource-registry.service';
 import { Document, HighlightedResults } from 'src/app/domain/document';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { fromEvent, Subject } from "rxjs";
-import { debounceTime, distinctUntilChanged, map, takeUntil } from "rxjs/operators";
+import { Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SearchCardComponent } from "./card/search-card.component";
 import { URLParameter } from 'src/survey-tool/app/domain/url-parameter';
@@ -36,7 +36,7 @@ export class SearchComponent implements OnInit {
   private stakeholdersService = inject(StakeholdersService);
   private resourceRegistryService = inject(ResourceRegistryService);
 
-  @ViewChild('searchInput', {static: true}) searchInput: ElementRef;
+  keywordSubject = new Subject<string>();
 
   urlParameters: URLParameter[] = []; // Array to hold URL parameters
   documents: Paging<HighlightedResults<Document>> = new Paging<any>(); // Initialize with empty Paging object
@@ -131,11 +131,10 @@ export class SearchComponent implements OnInit {
       this.loadDocuments();
 
     });
-    // Initialize search input event listener for real-time search
-    fromEvent(this.searchInput.nativeElement, 'input').pipe(
-      map((event: any) => event.target.value),
+    this.keywordSubject.pipe(
       debounceTime(300),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe((text: string) => {
       this.searchQuery = text;
       this.updateURLParameters('from', '0');
@@ -423,4 +422,9 @@ export class SearchComponent implements OnInit {
     return doc.highlights.find((el: any) => el.field === fieldName)?.value;
   }
 
+  getInputValue(event: Event): string {
+    return (event.target as HTMLInputElement).value;
+  }
+
+  protected readonly HTMLInputElement = HTMLInputElement;
 }
