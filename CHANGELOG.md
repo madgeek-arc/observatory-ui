@@ -88,6 +88,22 @@
 * Various bug fixes for country pages ([19bb7f1](https://github.com/madgeek-arc/observatory-ui/commit/19bb7f15bdb27dde2c028f72b571e04df199b94a))
 * Various changes from recommendations ([e5dc474](https://github.com/madgeek-arc/observatory-ui/commit/e5dc4742d53e0dc6f9f8dfef6a5240fc92ba6b8e))
 
+## [4.3.0](https://github.com/madgeek-arc/observatory-ui/compare/4.2.1...4.3.0) (2026-04-01)
+
+
+### Features
+
+* retain url navigation inside news iframe ([8ace514](https://github.com/madgeek-arc/observatory-ui/commit/8ace514717dd1c7fce42677ec71f5f1f01d1ac49))
+* **stakeholders-home:** Adds history card and pageviews chart to Stakeholder manager dashboard  ([1ca6bde](https://github.com/madgeek-arc/observatory-ui/commit/1ca6bdeb1a04a28fc016ac6be8bb82dad02ef807))
+
+
+### Bug Fixes
+
+* **resources-registry-search:** replace ViewChild with Subject for ke… ([5af1616](https://github.com/madgeek-arc/observatory-ui/commit/5af1616b93936fd3f4cb0d583f6a3677cf155d01))
+* **resources-registry-search:** replace ViewChild with Subject for keyword search. ViewChild crashed because #searchInput was inside [@if](https://github.com/if)(loading) and didn't exist in the DOM on ngOnInit. ([8536661](https://github.com/madgeek-arc/observatory-ui/commit/85366619194cc629337e8ff986013cfab7bf9a6b))
+* swap content between cards in stakeholder-home.component.html ([5772788](https://github.com/madgeek-arc/observatory-ui/commit/5772788289f58b88123dff303e54812f792d1715))
+* Updates submodule to fix missing class issue ([2359071](https://github.com/madgeek-arc/observatory-ui/commit/2359071b564c30af002afe20c2c0ba36cadd61f5))
+
 ## [3.2.0](https://github.com/madgeek-arc/observatory-ui/compare/3.1.0...3.2.0) (2025-07-03)
 
 ### Bug Fixes
@@ -120,4 +136,3 @@
 * incopatible url parameters
 
 *  fix!: change orderField url param to sort ([8b9e086](https://github.com/madgeek-arc/observatory-ui/commit/8b9e086e3a37d4d8b26675b0e4e9164e85faf48f))
-
