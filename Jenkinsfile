@@ -21,17 +21,19 @@ pipeline {
       steps {
         script {
           def PROJECT_VERSION = sh(script: 'awk -F\'"\' \'/"version"/{print $4; exit}\' package.json', returnStdout: true).trim()
-          if (env.BRANCH_NAME == 'develop') {
+          if (env.TAG_NAME) {
+            DOCKER_TAG = env.TAG_NAME.replaceFirst('^v', '')
+            echo "Detected tag: ${env.TAG_NAME}"
+          } else if (env.BRANCH_NAME == 'develop') {
             DOCKER_TAG = 'dev'
-            env.BUILD_CONFIGURATION = 'beta'
+            BUILD_CONFIGURATION = 'beta'
             echo "Detected develop branch version: ${PROJECT_VERSION}"
           } else if (env.BRANCH_NAME == 'main') {
-            DOCKER_TAG = PROJECT_VERSION
-            echo "Detected main branch version: ${PROJECT_VERSION}"
+            DOCKER_TAG = 'latest'
+            echo "Detected main branch."
           } else {
             def branch = env.BRANCH_NAME.replace('/', '-')
-            DOCKER_TAG = "${PROJECT_VERSION}-${branch}"
-            env.BUILD_CONFIGURATION = 'beta'
+            DOCKER_TAG = "${POM_VERSION}-${branch}"
           }
 
           currentBuild.displayName = "${currentBuild.displayName}-${DOCKER_TAG}"
@@ -41,14 +43,14 @@ pipeline {
     stage('Build Image') {
       steps{
         script {
-          DOCKER_IMAGE = docker.build("${REGISTRY}/${IMAGE_NAME}:${DOCKER_TAG}", "--build-arg configuration=${env.BUILD_CONFIGURATION} --label job=${env.JOB_NAME} .")
+          DOCKER_IMAGE = docker.build("${REGISTRY}/${IMAGE_NAME}:${DOCKER_TAG}", "--build-arg configuration=${BUILD_CONFIGURATION} --label job=${env.JOB_NAME} .")
         }
       }
     }
     stage('Upload Image') {
-      when { // upload images only from 'develop' or 'main' branches
+      when { // upload images only from 'develop', 'main' or tags
         expression {
-          return env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == 'main'
+          return env.TAG_NAME != null || env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == 'main'
         }
       }
       steps{
@@ -59,7 +61,7 @@ pipeline {
                   echo "$DOCKER_PASS" | docker login ${REGISTRY} -u "$DOCKER_USER" --password-stdin
               """
               DOCKER_IMAGE.push()
-              if (env.BRANCH_NAME == 'main') {
+              if (env.TAG_NAME) {
                 def minorTag = DOCKER_TAG.tokenize('.').take(2).join('.')
                 DOCKER_IMAGE.push(minorTag)
               }
