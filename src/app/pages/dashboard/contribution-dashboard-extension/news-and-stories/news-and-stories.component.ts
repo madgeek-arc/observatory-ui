@@ -72,7 +72,7 @@ export class NewsAndStoriesComponent implements OnInit {
     title: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     url: new FormControl('', [Validators.required]),
-    image: new FormControl('', [Validators.required]),
+    image: new FormControl(''),
     publishDate: new FormControl('', [Validators.required]),
     expiryDate: new FormControl('', [Validators.required])
   });
@@ -83,6 +83,7 @@ export class NewsAndStoriesComponent implements OnInit {
   selectedNewsItem: NewsItem | null = null;
   selectedDeleteId: string | null = null;
   selectedDeleteStakeholderId: string | null = null;
+  selectedPreviewItem: NewsWrapped | null = null;
 
   ngOnInit(): void {
     this.stakeholderId = this.route.snapshot.params['id'];
@@ -432,5 +433,10 @@ export class NewsAndStoriesComponent implements OnInit {
     this.selectedDeleteId = item.result.id;
     this.selectedDeleteStakeholderId = item.result.stakeholderId;
     UIkit.modal('#delete-modal').show();
+  }
+
+  openPreviewModal(item: NewsWrapped) {
+    this.selectedPreviewItem = item;
+    UIkit.modal('#preview-modal').show();
   }
 }
