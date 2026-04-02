@@ -7,9 +7,10 @@ import {StakeholderNewsService} from "../../../services/stakeholder-news.service
 import {NewsItem, NewsWrapped, NewsResponse, NewsItemRequest} from '../../../../domain/news';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Subject} from 'rxjs';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
 import {URLParameter} from 'src/survey-tool/app/domain/url-parameter';
 import {NgSelectModule} from '@ng-select/ng-select';
+import {subscribe} from "node:diagnostics_channel";
 
 declare var UIkit: any;
 
@@ -86,42 +87,49 @@ export class NewsAndStoriesComponent implements OnInit {
   ngOnInit(): void {
     this.stakeholderId = this.route.snapshot.params['id'];
 
-    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
-      this.stakeholderId = params['id'];
-    });
-
-    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
-      this.keyword = params['keyword'] || '';
-      this.sort = params['sort'] || 'creationDate';
-      this.order = params['order'] || 'desc';
-
-      const activeVal = params['active'] || '';
-      this.activeFilter = activeVal ? [activeVal] : [];
-
-      this.appliedSort = this.sort;
-      this.appliedOrder = this.order;
-      this.appliedActive = activeVal || 'all';
-
-      const from = params['from'] ? +params['from'] : 0;
-
-      this.urlParameters = [];
-      for (const key in params) {
-        if (params.hasOwnProperty(key)) {
-          this.urlParameters.push({key, values: params[key].split(',')});
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef), tap(params => {
+        this.keyword = params['keyword'] || '';
+        this.sort = params['sort'] || 'creationDate';
+        this.order = params['order'] || 'desc';
+        const activeVal = params['active'] || '';
+        this.activeFilter = activeVal ? [activeVal] : [];
+        this.appliedSort = this.sort;
+        this.appliedOrder = this.order;
+        this.appliedActive = activeVal || 'all';
+      }),
+      filter(params => {
+        if (!params['sort'] || !params['order']) {
+          if (!params['sort']) this.updateURLParameters('sort', 'creationDate');
+          if (!params['order']) this.updateURLParameters('order', 'desc');
+          this.navigateUsingURLParameters();
+          return false;
         }
+        return !!this.stakeholderId;
+      }),
+      tap(() => {
+        this.loading ? null : (this.searching = true);
+      }),
+      switchMap(params => {
+        const from = params['from'] ? +params['from'] : 0;
+        const active = this.activeFilter.length ? this.activeFilter[0] === 'true' : undefined;
+        return this.stakeholderNewsService.getStakeholderNews(
+          this.stakeholderId, from, this.pageSize, this.keyword, this.sort, this.order, active
+        );
+      })
+    ).subscribe({
+      next: (res: NewsResponse) => {
+        this.newsItems = res.results;
+        this.total = res.total;
+        this.paginationInit(res.from);
+        this.loading = false;
+        this.searching = false;
+      },
+      error: (err) => {
+        console.error('Error fetching news:', err);
+        this.loading = false;
+        this.searching = false;
       }
-
-      if (!params['sort'] || !params['order']) {
-        if (!params['sort']) this.updateURLParameters('sort', 'creationDate');
-        if (!params['order']) this.updateURLParameters('order', 'desc');
-        this.navigateUsingURLParameters();
-        return;
-      }
-
-      if (this.stakeholderId) {
-        this.fetchNews(from);
-      }
-    });
+    })
 
     // Subject pattern
     this.keywordSubject.pipe(
@@ -146,7 +154,7 @@ export class NewsAndStoriesComponent implements OnInit {
 
     this.stakeholderNewsService.getStakeholderNews(
       this.stakeholderId, from, this.pageSize, this.keyword, this.sort, this.order, active
-    ).subscribe({
+    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (res: NewsResponse) => {
         this.newsItems = res.results;
         this.total = res.total;
@@ -162,7 +170,7 @@ export class NewsAndStoriesComponent implements OnInit {
     });
   }
 
-  getOptionLabel(options: {label: string; value: string}[], value: string): string {
+  getOptionLabel(options: { label: string; value: string }[], value: string): string {
     return options.find(o => o.value === value)?.label ?? value;
   }
 
@@ -173,15 +181,25 @@ export class NewsAndStoriesComponent implements OnInit {
     this.currentPage = Math.floor(from / this.pageSize) + 1;
     this.totalPages = Math.ceil(this.total / this.pageSize);
     for (let i = (this.currentPage - this.offset); i < (this.currentPage + 1 + this.offset); ++i) {
-      if (i < 1) { addToEndCounter++; }
-      if (i > this.totalPages) { addToStartCounter++; }
-      if (i >= 1 && i <= this.totalPages) { this.pages.push(i); }
+      if (i < 1) {
+        addToEndCounter++;
+      }
+      if (i > this.totalPages) {
+        addToStartCounter++;
+      }
+      if (i >= 1 && i <= this.totalPages) {
+        this.pages.push(i);
+      }
     }
     for (let i = 0; i < addToEndCounter; ++i) {
-      if (this.pages.length < this.totalPages) { this.pages.push(this.pages.length + 1); }
+      if (this.pages.length < this.totalPages) {
+        this.pages.push(this.pages.length + 1);
+      }
     }
     for (let i = 0; i < addToStartCounter; ++i) {
-      if (this.pages[0] > 1) { this.pages.unshift(this.pages[0] - 1); }
+      if (this.pages[0] > 1) {
+        this.pages.unshift(this.pages[0] - 1);
+      }
     }
   }
 
@@ -190,8 +208,13 @@ export class NewsAndStoriesComponent implements OnInit {
     this.navigateUsingURLParameters();
   }
 
-  previousPage() { this.goToPage(this.currentPage - 1); }
-  nextPage() { this.goToPage(this.currentPage + 1); }
+  previousPage() {
+    this.goToPage(this.currentPage - 1);
+  }
+
+  nextPage() {
+    this.goToPage(this.currentPage + 1);
+  }
 
   onSortChange() {
     this.updateURLParameters('sort', this.sort);
@@ -286,19 +309,25 @@ export class NewsAndStoriesComponent implements OnInit {
     }
     if (Array.isArray(value)) {
       for (const urlParameter of this.urlParameters) {
-        if (urlParameter.key === key) { urlParameter.values = value; return; }
+        if (urlParameter.key === key) {
+          urlParameter.values = value;
+          return;
+        }
       }
       this.urlParameters.push({key, values: value});
     } else {
       for (const urlParameter of this.urlParameters) {
-        if (urlParameter.key === key) { urlParameter.values = [value]; return; }
+        if (urlParameter.key === key) {
+          urlParameter.values = [value];
+          return;
+        }
       }
       this.urlParameters.push({key, values: [value]});
     }
   }
 
   navigateUsingURLParameters() {
-    const map: {[name: string]: string} = {};
+    const map: { [name: string]: string } = {};
     for (const urlParameter of this.urlParameters) {
       map[urlParameter.key] = urlParameter.values.join(',');
     }
