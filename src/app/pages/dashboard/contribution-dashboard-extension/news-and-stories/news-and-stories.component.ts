@@ -32,6 +32,7 @@ export class NewsAndStoriesComponent implements OnInit {
   loading: boolean = true;
   searching: boolean = false;
   deleting: boolean = false;
+  private skipTotalUpdate = false;
 
   // Filter selections
   urlParameters: URLParameter[] = [];
@@ -72,7 +73,7 @@ export class NewsAndStoriesComponent implements OnInit {
     title: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     url: new FormControl('', [Validators.required]),
-    image: new FormControl(''),
+    image: new FormControl('', [Validators.pattern(/^https?:\/\/.+/)]),
     publishDate: new FormControl('', [Validators.required]),
     expiryDate: new FormControl('', [Validators.required])
   });
@@ -82,7 +83,6 @@ export class NewsAndStoriesComponent implements OnInit {
   selectedNewsId: string | null = null;
   selectedNewsItem: NewsItem | null = null;
   selectedDeleteId: string | null = null;
-  selectedDeleteStakeholderId: string | null = null;
   selectedPreviewItem: NewsWrapped | null = null;
 
   ngOnInit(): void {
@@ -120,7 +120,11 @@ export class NewsAndStoriesComponent implements OnInit {
     ).subscribe({
       next: (res: NewsResponse) => {
         this.newsItems = res.results;
-        this.total = res.total;
+        if (this.skipTotalUpdate) {
+          this.skipTotalUpdate = false;
+        } else {
+          this.total = res.total;
+        }
         this.paginationInit(res.from);
         this.loading = false;
         this.searching = false;
@@ -406,21 +410,27 @@ export class NewsAndStoriesComponent implements OnInit {
   }
 
   onDelete() {
-    if (!this.selectedDeleteId || !this.selectedDeleteStakeholderId) return;
+    if (!this.selectedDeleteId || !this.stakeholderId) return;
     this.deleting = true;
-    this.stakeholderNewsService.deleteNews(this.selectedDeleteStakeholderId, this.selectedDeleteId)
+    this.stakeholderNewsService.deleteNews(this.stakeholderId, this.selectedDeleteId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
           this.deleting = false;
           UIkit.modal('#delete-modal').hide();
-          if (this.newsItems.length === 1 && this.currentPage > 1) {
+          // Remove item locally to avoid Elasticsearch eventual consistency issue
+          this.newsItems = this.newsItems.filter(
+            item => item.result.id !== this.selectedDeleteId
+          );
+          this.total--;
+          this.selectedDeleteId = null;
+          if (this.newsItems.length === 0 && this.currentPage > 1) {
+            this.totalPages = Math.ceil(this.total / this.pageSize);
+            this.skipTotalUpdate = true;
             this.goToPage(this.currentPage - 1);
           } else {
-            this.fetchNews((this.currentPage - 1) * this.pageSize);
+            this.paginationInit((this.currentPage - 1) * this.pageSize);
           }
-          this.selectedDeleteId = null;
-          this.selectedDeleteStakeholderId = null;
         },
         error: (err) => {
           this.deleting = false;
@@ -431,7 +441,6 @@ export class NewsAndStoriesComponent implements OnInit {
 
   openDeleteModal(item: NewsWrapped) {
     this.selectedDeleteId = item.result.id;
-    this.selectedDeleteStakeholderId = item.result.stakeholderId;
     UIkit.modal('#delete-modal').show();
   }
 

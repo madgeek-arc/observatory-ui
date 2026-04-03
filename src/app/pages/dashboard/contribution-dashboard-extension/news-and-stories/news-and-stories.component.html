@@ -174,10 +174,7 @@
                         <img [src]="item.result.image" width="45" height="45" class="uk-border-rounded"
                              [alt]="'No image provided'">
                       } @else {
-                        <div class="uk-background-muted uk-border-rounded uk-flex uk-flex-center uk-flex-middle"
-                             style="width: 45px; height: 45px;">
-                          <span class="material-symbols-outlined uk-text-muted" style="font-size: 20px;">image</span>
-                        </div>
+                        <span class="uk-text-muted" style="font-size: 0.75rem;">No image provided</span>
                       }
                     </td>
                     <td>
@@ -307,6 +304,11 @@
           <textarea class="uk-textarea uk-border-rounded" formControlName="image"
                     name="news-image" autocomplete="off" rows="2"
                     placeholder="https://example.com/image.jpg"></textarea>
+          @if (storyForm.get('image')?.errors?.['pattern'] && storyForm.get('image')?.touched) {
+            <p class="uk-text-danger uk-text-small uk-margin-small-top">
+              Image must be a valid URL starting with http:// or https://
+            </p>
+          }
         </div>
       </div>
       <div class="uk-grid-small uk-child-width-1-2@s" uk-grid>
