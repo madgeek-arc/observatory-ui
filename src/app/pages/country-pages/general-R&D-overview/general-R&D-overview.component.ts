@@ -16,6 +16,8 @@ import {PdfExportService} from "../../services/pdf-export.service";
 import {combineLatest} from "rxjs";
 import {filter} from "rxjs/operators";
 import {ExploreService} from "../../explore/explore.service";
+import {StakeholderNewsService} from "../../services/stakeholder-news.service";
+import {NewsItem} from "../../../domain/news";
 
 
 @Component({
@@ -34,6 +36,7 @@ import {ExploreService} from "../../explore/explore.service";
 export class GeneralRDOverviewComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private exploreService = inject(ExploreService);
+  private newsService = inject(StakeholderNewsService);
 
   protected readonly Math = Math;
   exportActive = false;
@@ -50,6 +53,8 @@ export class GeneralRDOverviewComponent implements OnInit {
   OAPubsPercentageDiff: number | null = null;
   OpenDataPercentage: (number | null)[] = [null, null];
   OpenDataPercentageDiff: number | null = null;
+
+  countryNewsItems: NewsItem[] = [];
 
   countryCode?: string;
   countryName?: string;
@@ -80,6 +85,7 @@ export class GeneralRDOverviewComponent implements OnInit {
         this.prevYear = (numericYear - 1).toString();
         this.getPublicationPercentage();
         this.getOpenDataPercentage();
+        this.loadCountryNews();
       });
 
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -133,6 +139,19 @@ export class GeneralRDOverviewComponent implements OnInit {
         this.OpenDataPercentageDiff = this.dataShareService.calculateDiff(this.OpenDataPercentage[0], this.OpenDataPercentage[1]);
       }
     });
+  }
+
+  /** Fetch public, date-valid news for the current country ----------------------------------------------------> **/
+  loadCountryNews() {
+    if (!this.countryCode) return;
+    const stakeholderId = 'sh-eosc-sb-' + this.countryCode;
+    this.newsService.getPublicNews(stakeholderId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (items) => {
+          this.countryNewsItems = items;
+        }
+      });
   }
 
   /** Gets and initializes data from surveys for open software usage and total investment,

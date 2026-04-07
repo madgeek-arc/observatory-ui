@@ -39,6 +39,10 @@ export class StakeholderNewsService {
     return this.http.get<NewsResponse>(`${this.base}/stakeholders/${id}/news`, { params });
   }
 
+  getPublicNews(stakeholderId: string): Observable<NewsItem[]> {
+    return this.http.get<NewsItem[]>(`${this.base}/stakeholders/${stakeholderId}/news/public`);
+  }
+
   // Add new story
   postNews(stakeholderId: string, newsItem: NewsItemRequest): Observable<NewsItem> {
     return this.http.post<NewsItem>(`${this.base}/stakeholders/${stakeholderId}/news`, newsItem);
