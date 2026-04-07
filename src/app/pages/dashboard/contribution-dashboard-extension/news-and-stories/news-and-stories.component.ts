@@ -72,7 +72,7 @@ export class NewsAndStoriesComponent implements OnInit {
   storyForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
-    url: new FormControl('', [Validators.required]),
+    url: new FormControl('', [Validators.required, Validators.pattern(/^https?:\/\/.+/)]),
     image: new FormControl('', [Validators.pattern(/^https?:\/\/.+/)]),
     publishDate: new FormControl('', [Validators.required]),
     expiryDate: new FormControl('', [Validators.required])
@@ -173,6 +173,10 @@ export class NewsAndStoriesComponent implements OnInit {
         this.searching = false;
       }
     });
+  }
+
+  getHighlightForField(item: NewsWrapped, fieldName: string): string | undefined {
+    return item.highlights?.find((h: any) => h.field === fieldName)?.value;
   }
 
   getOptionLabel(options: { label: string; value: string }[], value: string): string {
