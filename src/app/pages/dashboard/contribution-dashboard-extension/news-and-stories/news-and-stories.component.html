@@ -166,8 +166,8 @@
                 @for (item of newsItems; track item.result.id) {
                   <tr>
                     <td>
-                      <div class="uk-text-bold">{{ item.result.title }}</div>
-                      <div class="uk-text-meta multi-line-ellipsis">{{ item.result.description }}</div>
+                      <div class="uk-text-bold" [innerHTML]="getHighlightForField(item, 'title') ?? item.result.title"></div>
+                      <div class="uk-text-meta multi-line-ellipsis" [innerHTML]="getHighlightForField(item, 'description') ?? item.result.description"></div>
                     </td>
                     <td>
                       @if (item.result.image) {
@@ -296,6 +296,11 @@
         <div class="uk-form-controls">
           <input class="uk-input uk-border-rounded" type="url" formControlName="url"
                  name="news-url" autocomplete="off" placeholder="https://example.com">
+          @if (storyForm.get('url')?.errors?.['pattern'] && storyForm.get('url')?.touched) {
+            <p class="uk-text-danger uk-text-small uk-margin-small-top">
+              URL must be a valid URL starting with http:// or https://
+            </p>
+          }
         </div>
       </div>
       <div class="uk-margin">
