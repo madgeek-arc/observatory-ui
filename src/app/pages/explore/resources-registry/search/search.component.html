@@ -279,7 +279,13 @@
               }
             </div>
           } @else {
-            <p>No results found for these search parameters.</p>
+            @if (searching) {
+              <div class="uk-flex uk-flex-center uk-margin-large-top">
+                <span uk-spinner="ratio: 2"></span>
+              </div>
+            } @else {
+              <p>No results found for these search parameters.</p>
+            }
           }
 
         }
