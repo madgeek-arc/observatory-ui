@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { NgOptimizedImage } from "@angular/common";
+import {NgClass, NgOptimizedImage} from "@angular/common";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { RawData } from "../../../../domain/raw-data";
 import {
@@ -34,11 +34,12 @@ import { PageContentComponent } from "../../../../../survey-tool/app/shared/page
     selector: 'app-open-science-by-area-publications',
     templateUrl: './open-science-by-area-publications.component.html',
     styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-    imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent]
+  imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass]
 })
 
 export class OpenScienceByAreaPublicationsComponent implements OnInit {
   protected readonly Math = Math;
+  protected trendService = inject(ExploreService);
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;

@@ -15,17 +15,18 @@ import {
   SidebarMobileToggleComponent
 } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
-import { NgOptimizedImage } from "@angular/common";
+import {NgClass, NgOptimizedImage} from "@angular/common";
 import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
     selector: 'app-open-science-by-area-software',
     templateUrl: './open-science-by-area-software.component.html',
-    imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent]
+  imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass]
 })
 
 export class OpenScienceByAreaSoftwareComponent implements OnInit {
   protected readonly Math = Math;
+  protected trendService = inject(ExploreService);
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;

@@ -9,7 +9,7 @@ import { LegendOptions, PointOptionsObject, SeriesBarOptions, SeriesBubbleOption
 import { OAPubsPerCountry } from "../OSO-stats-queries/explore-queries";
 import * as Highcharts from 'highcharts';
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import { NgOptimizedImage } from "@angular/common";
+import {NgClass, NgOptimizedImage} from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
 
@@ -18,12 +18,13 @@ type MergedElement = { x: string; y: string; z: string; name: string; country: s
 @Component({
     selector: 'app-investments-in-eosc',
     templateUrl: './investments-in-eosc.component.html',
-    imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent]
+  imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass]
 })
 
 export class InvestmentsInEoscComponent implements OnInit {
 
   private destroyRef = inject(DestroyRef);
+  protected trendService = inject(ExploreService)
   exportActive = false;
 
   smallScreen = false;

@@ -33,22 +33,26 @@
   position: absolute;
   top: 0;
   left: 30px;
+  //background-color: var(--eosc-observatory-secondary-color);
+}
+
+.eosc-sb.visualisation-card::before,
+.card-simple.eosc-sb::before {
   background-color: var(--eosc-observatory-secondary-color);
 }
 
-.eosc-sb.visualisation-card::before {
-  background-color: var(--eosc-observatory-secondary-color);
-}
-
-.noads.visualisation-card::before {
+.noads.visualisation-card::before,
+.card-simple.noads::before {
   background-color: var(--eosc-observatory-noads-color);
 }
 
-.openaire-graph.visualisation-card::before {
+.openaire-graph.visualisation-card::before,
+.card-simple.openaire-graph::before {
   background-color: var(--eosc-observatory-primary-color);
 }
 
-.external-sources.visualisation-card::before {
+.external-sources.visualisation-card::before,
+.card-simple.external-sources::before {
   background-color: var(--eosc-observatory-external-sources-color);
 }
 
@@ -61,7 +65,7 @@
   padding: 8px 0;
 }
 /* ======================================
- Resources Registry 
+ Resources Registry
 ====================================== */
 
 .filter-badge {
@@ -100,5 +104,5 @@
 }
 
 /* ======================================
- Resources Registry 
+ Resources Registry
 ====================================== */

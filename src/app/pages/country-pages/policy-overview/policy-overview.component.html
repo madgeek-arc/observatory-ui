@@ -9,14 +9,15 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m"><!-- Desktop -->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-              class="flag-image" width="42" height="42" alt="rounded flag image">
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
               <h4 class="uk-margin-remove-bottom">{{ countryName }} - Policy Overview for {{ year }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-center"
-            (click)="exportToPDF([exportContent, exportContent1], 'Policy Overview')" style="cursor: pointer">
-            <div class="uk-flex uk-flex-middle uk-text-primary" style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+               (click)="exportToPDF([exportContent, exportContent1], 'Policy Overview')" style="cursor: pointer">
+            <div class="uk-flex uk-flex-middle uk-text-primary"
+                 style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
@@ -32,15 +33,15 @@
         <div class="uk-hidden@m"><!-- Mobile -->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
             <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
-              class="flag-image" width="42" height="42" alt="rounded flag image">
+                 class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
               <h4 class="uk-margin-remove-bottom">{{ countryName }} - Policy Overview for {{ year }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-right"
-            (click)="exportToPDF([exportContent, exportContent1], 'General R&D Overview')" style="cursor: pointer">
+               (click)="exportToPDF([exportContent, exportContent1, exportContent2], 'General R&D Overview')" style="cursor: pointer">
             <div class="uk-flex uk-flex-middle uk-text-primary"
-              style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
+                 style="background-color: #DAEEF3; border-radius: 30px; padding: 5px 7px">
               <span style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
@@ -66,11 +67,11 @@
               <div class="uk-card uk-card-default uk-card-body visualisation-card">
                 <table class="uk-table uk-table-divider uk-table-small uk-table-middle">
                   <thead>
-                    <tr>
-                      <th></th>
-                      <th class="uk-text-center">NATIONAL POLICY</th>
-                      <th class="uk-text-center">FINANCIAL STRATEGY</th>
-                    </tr>
+                  <tr>
+                    <th></th>
+                    <th class="uk-text-center">NATIONAL POLICY</th>
+                    <th class="uk-text-center">FINANCIAL STRATEGY</th>
+                  </tr>
                   </thead>
                   <tbody>
                     @for (row of table; track row) {
@@ -88,87 +89,89 @@
                 </table>
                 <div class="uk-width-1-1 uk-flex uk-flex-center uk-margin-top">
                   <p><span class="uk-text-bold">Data source:</span>
-                  Survey on National Contributions to EOSC and Open Science {{year}}.
-                </p>
+                    Survey on National Contributions to EOSC and Open Science {{ year }}.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        }
+          }
 
-        <!-- right card -->
-        @if (hasSurveyPolicyData()) {
-          <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
-            <div class="uk-card uk-card-default uk-card-body visualisation-card noads">
-              <h6 class="uk-margin-bottom">Policy Landscape in {{ countryName }}</h6>
-              <div class="uk-text-meta">
-                This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}
-              </div>
-              <div class="uk-margin-medium-top" id="policies">
-                <read-more [maxHeight]="300">
-                  <div id="policies_overview">
-                    <div class="uk-text-secondary">Overview</div>
-                    @if (countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']) {
-                      <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']"
-                      class="uk-margin-medium-top"></div>
-                    } @else {
-                      <p>N/A</p>
-                    }
-                  </div>
-                  <div id="national_policy_and_legislation">
-                    <div class="uk-text-secondary">National Policy and Legislation</div>
-                    @if (countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']?.length) {
-                      @for (element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']; track element) {
-                        <div
-                          class="uk-margin-medium-top">
-                          <div [innerHTML]="element['Question11-1']"></div>
-                        </div>
+          <!-- right card -->
+          @if (hasSurveyPolicyData()) {
+            <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
+              <div class="uk-card uk-card-default uk-card-body visualisation-card noads">
+                <h6 class="uk-margin-bottom">Policy Landscape in {{ countryName }}</h6>
+                <div class="uk-text-meta">
+                  This information has been compiled by the National Open Access Desks
+                  on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd' }}
+                </div>
+                <div class="uk-margin-medium-top" id="policies">
+                  <read-more [maxHeight]="300">
+                    <div id="policies_overview">
+                      <div class="uk-text-secondary uk-margin-small-bottom">Overview</div>
+                      @if (countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']) {
+                        <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE POLICY']['Question10']"
+                             class="uk-margin-remove-top"></div>
+                      } @else {
+                        <p class="uk-margin-remove-top">N/A</p>
                       }
-                    } @else {
-                      <p>N/A</p>
-                    }
-                  </div>
-                  <div id="funder_policies">
-                    <div class="uk-text-secondary">Funder Policies</div>
-                    @if (countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']?.length) {
-                      @for (element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']; track element) {
-                        <div
-                          class="uk-margin-medium-top">
-                          <div [innerHTML]="element['Question12-1']"></div>
-                        </div>
+                    </div>
+                    <div id="national_policy_and_legislation" class="uk-margin-medium-top">
+                      <div class="uk-text-secondary uk-margin-small-bottom">National Policy and Legislation</div>
+                      @if (countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']?.length) {
+                        @for (element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question11']; track element) {
+                          <div class="uk-margin-remove-top">
+                            <div [innerHTML]="element['Question11-1']"></div>
+                          </div>
+                        }
+                      } @else {
+                        <p class="uk-margin-remove-top">N/A</p>
                       }
-                    } @else {
-                      <p>N/A</p>
-                    }
-                  </div>
-                  <div id="institutional_policies">
-                    <div class="uk-text-secondary">Institutional policies</div>
-                    @if (countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']?.length) {
-                      @for (element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']; track element) {
-                        <div
-                          class="uk-margin-medium-top">
-                          <div [innerHTML]="element['Question13-1']"></div>
-                        </div>
+                    </div>
+                    <div id="funder_policies" class="uk-margin-medium-top">
+                      <div class="uk-text-secondary uk-margin-small-bottom">Funder Policies</div>
+                      @if (countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']?.length) {
+                        @for (element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question12']; track element) {
+                          <div class="uk-margin-remove-top">
+                            <div [innerHTML]="element['Question12-1']"></div>
+                          </div>
+                        }
+                      } @else {
+                        <p class="uk-margin-remove-top">N/A</p>
                       }
-                    } @else {
-                      <p>N/A</p>
-                    }
-                  </div>
-                </read-more>
+                    </div>
+                    <div id="institutional_policies" class="uk-margin-medium-top">
+                      <div class="uk-text-secondary uk-margin-small-bottom">Institutional policies</div>
+                      @if (countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']?.length) {
+                        @for (element of countrySurveyAnswer['OPEN SCIENCE POLICY']['Question13']; track element) {
+                          <div class="uk-margin-remove-top">
+                            <div [innerHTML]="element['Question13-1']"></div>
+                          </div>
+                        }
+                      } @else {
+                        <p class="uk-margin-remove-top">N/A</p>
+                      }
+                    </div>
+                  </read-more>
+                </div>
               </div>
             </div>
-          </div>
-        }
+          }
+        </div>
 
       </div>
-
     </div>
-  </div>
 
-  <div class="uk-section uk-section-primary uk-preserve-color uk-section-small uk-padding-remove-top" #exportContent1>
-    <div class="uk-container">
-      <app-search-results [documents]="documents"></app-search-results>
-    </div>
-  </div>
+    <ng-container #exportContent2>
+      @if (documents && documents.length > 0) {
+        <div class="uk-section uk-section-primary uk-preserve-color uk-section-small uk-padding-remove-top">
+          <div class="uk-container">
+            <h4>Dive Deeper into Open Science Policies, Strategies and Other Full Text Documents</h4>
+            <app-search-results [documents]="documents"></app-search-results>
+          </div>
+        </div>
+      }
+    </ng-container>
 
-</div>
+  </div>
 </div>

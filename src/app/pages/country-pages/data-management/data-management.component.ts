@@ -203,7 +203,7 @@ export class DataManagementComponent implements OnInit {
       this.stackedColumnSeries2[0].data.push(+rfoWithPolicy[0], +rfoWithPolicy[1]);
 
       if (this.exploreService.isNumeric(rfo[0]) && this.exploreService.isNumeric(rfo[1])) {
-        this.stackedColumnSeries2[1].data.push(+rfo[0] - +rpoWithPolicy[0], +rfo[1] - +rpoWithPolicy[1])
+        this.stackedColumnSeries2[1].data.push(+rfo[0] - +rpoWithPolicy[0], +rfo[1] - +rfoWithPolicy[1])
       }
     }
 

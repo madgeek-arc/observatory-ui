@@ -23,16 +23,19 @@
           <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
             <div class="uk-flex uk-flex-between uk-flex-top">
               <div>
-                <h6 class="uk-text-meta uk-margin-remove uk-text-uppercase" style="font-size: 0.75rem; letter-spacing: 1px;">
+                <h6 class="uk-text-meta uk-margin-remove uk-text-uppercase"
+                    style="font-size: 0.75rem; letter-spacing: 1px;">
                   Completion Rate
                 </h6>
 
-                <h2 class="uk-margin-small-top uk-margin-remove-bottom uk-text-bold" style="color: #1a2b4e; font-size: 1.6rem;">
+                <h2 class="uk-margin-small-top uk-margin-remove-bottom uk-text-bold"
+                    style="color: #1a2b4e; font-size: 1.6rem;">
                   {{ (latestAnswerInfo.progressTotal.current / latestAnswerInfo.progressTotal.total) | percent:'1.0-0' }}
                 </h2>
               </div>
 
-              <div class="uk-flex uk-flex-center uk-flex-middle uk-border-rounded" style="width: 42px; height: 42px; background-color: #2ecc71; color: white;">
+              <div class="uk-flex uk-flex-center uk-flex-middle uk-border-rounded"
+                   style="width: 42px; height: 42px; background-color: #2ecc71; color: white;">
                 <span class="material-symbols-outlined" style="font-size: 24px;">moving</span>
               </div>
             </div>
@@ -58,12 +61,14 @@
                   Deadline
                 </h6>
 
-                <h2 class="uk-margin-small-top uk-margin-remove-bottom uk-text-bold" style="color: #1a2b4e; font-size: 1.6rem;">
+                <h2 class="uk-margin-small-top uk-margin-remove-bottom uk-text-bold"
+                    style="color: #1a2b4e; font-size: 1.6rem;">
                   {{ latestAnswerInfo.submissionCloseAt | date:'dd.MM.yy' }}
                 </h2>
               </div>
 
-              <div class="uk-flex uk-flex-center uk-flex-middle uk-border-rounded" style="width: 42px; height: 42px; background-color: #3498db; color: white;">
+              <div class="uk-flex uk-flex-center uk-flex-middle uk-border-rounded"
+                   style="width: 42px; height: 42px; background-color: #3498db; color: white;">
                 <span class="material-symbols-outlined" style="font-size: 24px;">calendar_today</span>
               </div>
             </div>
@@ -78,12 +83,14 @@
                   Validated
                 </h6>
 
-                <h2 class="uk-margin-small-top uk-margin-remove-bottom uk-text-bold" style="color: #1a2b4e; font-size: 1.6rem;">
+                <h2 class="uk-margin-small-top uk-margin-remove-bottom uk-text-bold"
+                    style="color: #1a2b4e; font-size: 1.6rem;">
                   {{ latestAnswerInfo.validated ? 'Yes' : 'No' }}
                 </h2>
               </div>
 
-              <div class="uk-flex uk-flex-center uk-flex-middle uk-border-rounded" style="width: 42px; height: 42px; background-color: #051650; color: white;">
+              <div class="uk-flex uk-flex-center uk-flex-middle uk-border-rounded"
+                   style="width: 42px; height: 42px; background-color: #051650; color: white;">
                 <span class="material-symbols-outlined">beenhere</span>
               </div>
             </div>
@@ -99,11 +106,13 @@
 
         <div class="uk-grid uk-grid-medium uk-child-width-1-2@m uk-grid-match" uk-grid>
           <div>
-            <div class="uk-card uk-card-default uk-card-body uk-border-rounded uk-card-hover" style="cursor: pointer;" (click)="navigateToMySurveys()">
+            <div class="uk-card uk-card-default uk-card-body uk-border-rounded uk-card-hover" style="cursor: pointer;"
+                 (click)="navigateToMySurveys()">
 
               <div class="uk-flex uk-flex-middle">
 
-                <div class="uk-flex uk-flex-center uk-flex-middle uk-border-rounded uk-margin-right" style="width: 48px; height: 48px; background-color: #e0f7fa; color: #006064; flex-shrink: 0;">
+                <div class="uk-flex uk-flex-center uk-flex-middle uk-border-rounded uk-margin-right"
+                     style="width: 48px; height: 48px; background-color: #e0f7fa; color: #006064; flex-shrink: 0;">
                   <span class="material-symbols-outlined" style="font-size: 28px;">description</span>
                 </div>
 
@@ -176,7 +185,7 @@
                     Export Data
                   </h4>
                   <p class="uk-text-meta uk-margin-remove-top uk-text-small">
-                    Checkout out tutorials and guides. Get in touch with the EOSC Track team for assistance.
+                    Download your current progress and submitted data in various formats.
                   </p>
                 </div>
 
@@ -208,7 +217,7 @@
                     Support
                   </h4>
                   <p class="uk-text-meta uk-margin-remove-top uk-text-small">
-                    Download your current progress and submitted data in various formats.
+                    Checkout out tutorials and guides. Get in touch with the EOSC Track team for assistance.
                   </p>
                 </div>
 
@@ -221,6 +230,140 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="uk-margin-medium-top">
+        <h5 class="uk-text-bold uk-margin-small-bottom">Analytics & Insights</h5>
+
+        <div class="uk-grid uk-grid-medium uk-child-width-1-2@m uk-grid-match" uk-grid>
+
+          <div>
+            <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
+              <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
+                <h4 class="uk-card-title uk-margin-remove uk-text-bold">
+                  Views on Country Pages per Month
+                </h4>
+              </div>
+
+              <div class="uk-margin-top" style="min-height: 400px;">
+                @if (viewSeries.length > 0) {
+                  <app-stacked-column
+                    [series]="viewSeries"
+                    [categories]="viewCategories"
+                    [title]="''"
+                    [yAxis]="'Views'"
+                    [stacking]="'normal'"
+                    [stackLabels]="false"
+                    [dataLabels]="false"
+                    [pointFormat]="tooltipPointFormat"
+                    [height]="400">
+                  </app-stacked-column>
+
+                  <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-top uk-padding-small uk-border-rounded">
+                    <span class="uk-text-muted">
+                      Total views for the last {{ viewCategories.length }} months
+                    </span>
+                    <span class="uk-text-bold">
+                      {{ totalViews | number }}
+                    </span>
+                  </div>
+                } @else {
+                  <div class="uk-flex uk-flex-center uk-flex-middle" style="height: 400px;">
+                    <span data-uk-spinner="ratio: 1.5"></span>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+          <div class="uk-visible@m"></div>
+
+          <div>
+            <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
+              <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
+                <h4 class="uk-card-title uk-text-bold uk-margin-remove">Recent Actions</h4>
+                <a (click)="navigateToHistory()" class="uk-link-reset uk-flex uk-flex-middle uk-text-muted"
+                   style="cursor: pointer;">
+                  <span class="uk-text-small uk-margin-small-right">View All</span>
+                  <span class="material-symbols-outlined">arrow_forward</span>
+                </a>
+              </div>
+
+              <hr class="uk-margin-small-top uk-margin-small-bottom">
+
+              <div class="uk-margin-small-top">
+                @if (loading) {
+                  <div class="uk-text-center uk-padding-small">
+                    <div uk-spinner="ratio: 0.8"></div>
+                  </div>
+                } @else {
+                  @for (entry of recentHistory; track entry.time) {
+                    <div class="uk-padding-small uk-padding-remove-horizontal uk-flex uk-flex-top">
+                      <span class="material-symbols-outlined uk-margin-small-right">
+                        edit_note
+                      </span>
+                      <div class="uk-width-expand">
+                        <p class="uk-margin-remove">
+                          Updated on: {{ entry.time | date:'dd/MM/yy' }}
+                        </p>
+                        <p class="uk-margin-remove uk-text-small uk-text-bold uk-text-truncate">
+                          {{ entry.editors[0]?.fullname }} ({{ entry.editors[0]?.role }})
+                        </p>
+                        <p class="uk-margin-remove uk-text-small uk-text-muted uk-text-italic">
+                          {{ (entry.comment && entry.comment !== "") ? entry.comment : 'No comment provided' }}
+                        </p>
+                      </div>
+                    </div>
+                    <hr>
+                  } @empty {
+                    <div class="uk-padding-small uk-text-center uk-text-meta">No recent actions found.</div>
+                  }
+                }
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
+              <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
+                <h4 class="uk-card-title uk-text-bold uk-margin-remove">Recent Messages</h4>
+                <a (click)="navigateToMessages()" class="uk-link-reset uk-flex uk-flex-middle uk-text-muted"
+                   style="cursor: pointer;">
+                  <span class="uk-text-small uk-margin-small-right">View All</span>
+                  <span class="material-symbols-outlined">arrow_forward</span>
+                </a>
+              </div>
+
+              <hr class="uk-margin-small-top uk-margin-small-bottom">
+
+              <div class="uk-margin-small-top">
+                @if (loadingThreads) {
+                  <div class="uk-text-center uk-padding-small">
+                    <div uk-spinner="ratio: 0.8"></div>
+                  </div>
+                } @else {
+                  @for (thread of recentThreads; track thread.id) {
+                    <div class="uk-padding-small uk-padding-remove-horizontal uk-flex uk-flex-top">
+                      <span class="material-symbols-outlined uk-margin-small-right">
+                        forum
+                      </span>
+                      <div class="uk-width-expand">
+                        <p class="uk-margin-remove uk-text-small uk-text-bold uk-text-truncate">
+                          {{ thread.subject }}
+                        </p>
+                        <p class="uk-margin-remove uk-text-small uk-text-muted uk-text-italic uk-text-truncate">
+                          {{ stripHtml(thread.messages[thread.messages.length - 1]?.body) }}
+                        </p>
+                      </div>
+                    </div>
+                    <hr>
+                  } @empty {
+                    <div class="uk-padding-small uk-text-center uk-text-meta">No recent messages found.</div>
+                  }
+                }
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     } @else {

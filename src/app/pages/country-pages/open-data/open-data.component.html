@@ -89,33 +89,45 @@
 
     <div class="uk-grid-small uk-grid-match" data-uk-grid>
       @if (hasAnyLeftCardData()) {
-        <div class="uk-width-1-1 uk-width-expand@m">
-          <div class="uk-card uk-card-default uk-card-body visualisation-card">
-            <div class="uk-child-width-1-1 uk-child-width-1-2@m uk-grid-small" data-uk-grid>
-              <!-- Card 1 -->
+        <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
+          <div class="uk-card uk-card-default uk-card-body">
+            <div
+              class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center"
+              data-uk-grid>
               @if (OpenDataPercentage[1] !== null) {
                 <app-info-card
-                  [titleHtml]="`Open Data in ${countryName} (OA vs Closed)`" [value]="OpenDataPercentage[1]"
-                  [unit]="'%'" [diff]="OpenDataPercentageDiff">
+                  [titleHtml]="`Open Data in ${countryName} (OA vs Closed)`"
+                  [value]="OpenDataPercentage[1]"
+                  [unit]="'%'"
+                  [diff]="OpenDataPercentageDiff"
+                  colorClass="openaire-graph visualisation-card">
                 </app-info-card>
               }
-              <!-- Card 2 -->
               @if (rfoOpenDataPercentage[1] !== null) {
-                <app-info-card [titleHtml]="'RFOs with Policy on Open Data'"
-                  [value]="rfoOpenDataPercentage[1]" [unit]="'%'" [diff]="rfoOpenDataPercentageDiff">
+                <app-info-card
+                  [titleHtml]="'RFOs with Policy on Open Data'"
+                  [value]="rfoOpenDataPercentage[1]"
+                  [unit]="'%'"
+                  [diff]="rfoOpenDataPercentageDiff"
+                  colorClass="eosc-sb visualisation-card">
                 </app-info-card>
               }
-              <!-- Card 3 -->
               @if (ODfinancialInvestment[1] !== null && ODfinancialInvestment[1] !== undefined && ODfinancialInvestment[1]) {
                 <app-info-card
                   [titleHtml]="`Financial investments in <span class='uk-text-bold'>Open Data</span>`"
-                  [value]="ODfinancialInvestment[1]" [unit]="'mil Euro'" [diff]="ODfinancialInvestmentPercentageDiff">
+                  [value]="ODfinancialInvestment[1]"
+                  [unit]="'mil Euro'"
+                  [diff]="ODfinancialInvestmentPercentageDiff"
+                  colorClass="eosc-sb visualisation-card">
                 </app-info-card>
               }
-              <!-- Card 4 -->
               @if (rpoOpenDataPercentage[1] !== null) {
-                <app-info-card [titleHtml]="'RPOs with Policy on Open Data'"
-                  [value]="rpoOpenDataPercentage[1]" [unit]="'%'" [diff]="rpoOpenDataPercentageDiff">
+                <app-info-card
+                  [titleHtml]="'RPOs with Policy on Open Data'"
+                  [value]="rpoOpenDataPercentage[1]"
+                  [unit]="'%'"
+                  [diff]="rpoOpenDataPercentageDiff"
+                  colorClass="eosc-sb visualisation-card">
                 </app-info-card>
               }
             </div>
@@ -125,7 +137,7 @@
 
       <!-- Right Card (2/5) -->
       <div class="uk-child-width-1-1 uk-width-2-5@m uk-animation-fade">
-        <div class="uk-card uk-card-default uk-card-body visualisation-card">
+        <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card">
           <div class="uk-margin-top">
             <h6 class="uk-flex uk-flex-between uk-margin-remove">
               National Policy on Open Data
@@ -210,23 +222,23 @@
           <div class="uk-margin-medium-top">
             <read-more [maxHeight]="300">
               <div id="national_data_service">
-                <div class="uk-text-secondary">National Data Service</div>
+                <div class="uk-text-secondary uk-margin-small-bottom">National Data Service</div>
                 @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']) {
-                  <div
-                    [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']">
+                  <div class="uk-margin-remove-top"
+                       [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']">
                   </div>
                 } @else {
-                  <p>N/A</p>
+                  <p class="uk-margin-remove-top">N/A</p>
                 }
               </div>
-              <div id="">
-                <div class="uk-text-secondary">Data repositories</div>
+              <div id="data_repositories" class="uk-margin-medium-top">
+                <div class="uk-text-secondary uk-margin-small-bottom">Data repositories</div>
                 @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']) {
-                  <div
-                    [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']">
+                  <div class="uk-margin-remove-top"
+                       [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']">
                   </div>
                 } @else {
-                  <p>N/A</p>
+                  <p class="uk-margin-remove-top">N/A</p>
                 }
               </div>
             </read-more>

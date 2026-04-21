@@ -10,21 +10,23 @@ import { DataHandlerService } from "../../../services/data-handler.service";
 import { ExploreService } from "../../explore.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
-import { NgOptimizedImage } from "@angular/common";
+import {NgClass, NgOptimizedImage} from "@angular/common";
 import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import * as Highcharts from "highcharts";
 import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
 
+
 @Component({
     selector: 'app-open-science-by-area-citizen-science',
     templateUrl: './open-science-by-area-citizen-science.component.html',
     styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-    imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent]
+  imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass]
 })
 
 export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
   protected readonly Math = Math;
+  protected trendService = inject(ExploreService);
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;
