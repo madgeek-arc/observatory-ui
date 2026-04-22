@@ -6,6 +6,7 @@ import {
   ContributionsHomeExtentionComponent
 } from "./pages/dashboard/contribution-dashboard-extension/home/contributions-home-extention.component";
 import { AuthGuard } from "../survey-tool/app/services/auth-guard.service";
+import { StakeholderManagerGuard } from "../survey-tool/app/services/stakeholder-manager-guard.service";
 import { countryPagesRoutes } from "./pages/country-pages/country-pages.routing";
 import { CountrySelectorComponent } from "./pages/dashboard/country-selector/country-selector.component";
 import { ArchiveModule } from "./pages/archive/archive.module";
@@ -101,7 +102,7 @@ const routes: Routes = [
   {
     path: 'contributions/:id/news-and-stories',
     component: NewsAndStoriesComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, StakeholderManagerGuard]
   },
   {
     path: 'contributions/:id/coordinator',
