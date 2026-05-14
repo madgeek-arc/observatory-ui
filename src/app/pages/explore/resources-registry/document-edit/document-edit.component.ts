@@ -7,7 +7,7 @@ import { Model } from "src/survey-tool/catalogue-ui/domain/dynamic-form-model";
 import { CatalogueUiModule } from "src/survey-tool/catalogue-ui/catalogue-ui.module";
 import { SurveyToolModule } from "src/survey-tool/app/survey-tool.module";
 import { SurveyComponent } from "src/survey-tool/catalogue-ui/pages/dynamic-form/survey.component";
-import { WebsocketService } from "../../../../../survey-tool/app/services/websocket.service";
+import { WebsocketService } from "../../../../../survey-tool/catalogue-ui/services/websocket.service";
 import { UntypedFormGroup } from "@angular/forms";
 
 
@@ -18,7 +18,7 @@ import { UntypedFormGroup } from "@angular/forms";
   imports: [
     CatalogueUiModule,
     SurveyToolModule
-],
+  ],
   providers: [WebsocketService]
 })
 
