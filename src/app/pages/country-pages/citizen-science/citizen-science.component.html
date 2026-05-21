@@ -85,15 +85,15 @@
           <div
             class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center"
             data-uk-grid>
-            @if (citizenScienceProjects[1] !== null && citizenScienceProjects[1] !== undefined) {
-              <app-info-card
-                [titleHtml]="`Number of new Citizen Science projects in <span class='uk-text-bold'>${countryName}</span>`"
-                [value]="citizenScienceProjects[1]"
-                [unit]="''"
-                [diff]="citizenSciencePercentageDiff"
-                colorClass="eosc-sb visualisation-card">
-              </app-info-card>
-            }
+<!--            @if (citizenScienceProjects[1] !== null && citizenScienceProjects[1] !== undefined) {-->
+<!--              <app-info-card-->
+<!--                [titleHtml]="`Number of new Citizen Science projects in <span class='uk-text-bold'>${countryName}</span>`"-->
+<!--                [value]="citizenScienceProjects[1]"-->
+<!--                [unit]="''"-->
+<!--                [diff]="citizenSciencePercentageDiff"-->
+<!--                colorClass="eosc-sb visualisation-card">-->
+<!--              </app-info-card>-->
+<!--            }-->
             @if (financialInvestmentInCS[1] !== null && financialInvestmentInCS[1] !== undefined) {
               <app-info-card
                 [titleHtml]="`Total amount of <span class='uk-text-bold'>financial investments</span> in Citizen Science`"
