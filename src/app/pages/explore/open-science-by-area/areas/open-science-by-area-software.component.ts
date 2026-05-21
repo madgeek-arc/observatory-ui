@@ -11,6 +11,7 @@ import * as Highcharts from "highcharts";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
+import { OpenSoftwareVSClosed } from "../../OSO-stats-queries/explore-queries";
 import {
   SidebarMobileToggleComponent
 } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
@@ -36,6 +37,7 @@ export class OpenScienceByAreaSoftwareComponent implements OnInit {
   years = ['2023', '2024'];
   year = this.years[this.years.length-1];
 
+  openSoftware: number[] = [];
   sets: number[] = [];
   countriesWithPolicy: number[] = [];
   countriesWithStrategy: number[] = [];
@@ -81,6 +83,8 @@ export class OpenScienceByAreaSoftwareComponent implements OnInit {
       this.getNationalMonitoring(year, index);
       this.getSets(year, index);
     });
+
+    this.getOpenSoftwarePercentage();
 
     this.getTreeGraphData('Question72');
 
@@ -168,6 +172,16 @@ export class OpenScienceByAreaSoftwareComponent implements OnInit {
     this.queryData.getQuestion(year, 'Question22').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         this.countriesWithPolicy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
+      }
+    });
+  }
+
+  /** Get Open Software VS closed, restricted and embargoed sets -------------------------------------------------> **/
+  getOpenSoftwarePercentage() {
+    this.queryData.getOSOStats(OpenSoftwareVSClosed(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: value => {
+        this.openSoftware[0] = Math.round((+value.data[2] / +value.data[3] + Number.EPSILON) * 100);
+        this.openSoftware[1] = Math.round((+value.data[0] / +value.data[1] + Number.EPSILON) * 100);
       }
     });
   }
