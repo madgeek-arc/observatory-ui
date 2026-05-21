@@ -1,4 +1,5 @@
 import {Component, computed, DestroyRef, inject, OnInit, signal} from "@angular/core";
+import {CommonModule} from "@angular/common";
 import {Coordinator} from "../../../../../survey-tool/app/domain/userInfo";
 import {UserService} from "../../../../../survey-tool/app/services/user.service";
 import {ActivatedRoute} from "@angular/router";
@@ -7,6 +8,9 @@ import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
 import {SurveyService} from "../../../../../survey-tool/app/services/survey.service";
 import {Observable, of} from "rxjs";
 import {catchError, filter, map, shareReplay, switchMap, tap} from "rxjs/operators";
+import {ChartsModule} from "../../../../shared/charts/charts.module";
+import {NgSelectModule} from "@ng-select/ng-select";
+import {FormsModule} from "@angular/forms";
 
 
 
@@ -14,9 +18,10 @@ import {catchError, filter, map, shareReplay, switchMap, tap} from "rxjs/operato
   selector: "app-coordinator-home",
   templateUrl: "coordinator-home.component.html",
   standalone: true,
+  imports: [CommonModule, ChartsModule, NgSelectModule, FormsModule],
 })
 
-export class CoordinatorHomeComponent {
+export class CoordinatorHomeComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private route = inject(ActivatedRoute);
   private userService = inject(UserService);
@@ -24,6 +29,20 @@ export class CoordinatorHomeComponent {
   private stakeholdersService = inject(StakeholdersService);
 
   protected loadingResults = signal(false);
+
+  tooltipPointFormat: string = '{series.name}: <b>{point.y}</b>';
+
+  // Explore page views chart
+  exploreCategories: string[] = [];
+  exploreSeries: any[] = [];
+  totalExploreViews: number = 0;
+
+  // Country page views chart
+  countryCategories: string[] = [];
+  countrySeries: any[] = [];
+  totalCountryViews: number = 0;
+  selectedCountry: string = '';
+  countries: string[] = [];
 
   private coordinator$ = this.route.params.pipe(
     map(params => params['id'] as string),
@@ -98,5 +117,73 @@ export class CoordinatorHomeComponent {
 
   private getEmptyStats(name: string) {
     return { activeSurveyName: name, totalParticipants: 0, hasProgressCount: 0, validatedCount: 0, globalProgress: 0 };
+  }
+
+  ngOnInit() {
+    this.stakeholdersService.getExplorePageViews(6)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          const allKeys = Object.keys(res.pageviewsPerMonth);
+          const allValues = Object.values(res.pageviewsPerMonth) as number[];
+          this.exploreCategories = allKeys.slice(-6);
+          const finalValues = allValues.slice(-6);
+          this.exploreSeries = [{
+            name: 'Page Views',
+            type: 'column',
+            data: finalValues,
+            color: '#11a18d',
+            showInLegend: false
+          }];
+          this.totalExploreViews = finalValues.reduce((a, b) => a + b, 0);
+        },
+        error: (err) => console.error('Explore Analytics Error:', err)
+      });
+
+    this.stakeholdersService.getEOSCSBCountries()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (countries) => {
+          this.countries = countries;
+          if (countries.length > 0) {
+            this.selectedCountry = countries[0];
+            this.fetchCountryViews(countries[0]);
+          }
+        },
+        error: (err) => console.error('Countries Error:', err)
+      });
+  }
+
+  fetchCountryViews(country: string) {
+    this.countrySeries = [];
+    this.stakeholdersService.getCountryPageViews(country, 6)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          const allKeys = Object.keys(res.pageviewsPerMonth);
+          const allValues = Object.values(res.pageviewsPerMonth) as number[];
+          this.countryCategories = allKeys.slice(-6);
+          const finalValues = allValues.slice(-6);
+          this.countrySeries = [{
+            name: 'Page Views',
+            type: 'column',
+            data: finalValues,
+            color: '#3498db',
+            showInLegend: false
+          }];
+          this.totalCountryViews = finalValues.reduce((a, b) => a + b, 0);
+        },
+        error: (err) => console.error('Country Analytics Error:', err)
+      });
+  }
+
+  onCountrySelect(country: string) {
+    if (country) {
+      this.fetchCountryViews(country);
+    }
+  }
+
+  getCountryName(code: string): string {
+    return new Intl.DisplayNames(['en'], { type: 'region' }).of(code) ?? code;
   }
 }

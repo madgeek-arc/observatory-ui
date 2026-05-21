@@ -97,6 +97,98 @@
 
             </div>
           </div>
+
+          <div class="uk-margin-medium-top">
+            <h5 class="uk-text-bold uk-margin-small-bottom">Analytics & Insights</h5>
+
+            <div class="uk-grid uk-grid-medium uk-child-width-1-2@m uk-grid-match" data-uk-grid>
+
+              <div>
+                <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
+                  <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
+                    <h4 class="uk-card-title uk-margin-remove uk-text-bold">Explore Page Views per Month</h4>
+                  </div>
+
+                  <div style="min-height: 400px;">
+                    @if (exploreSeries.length > 0) {
+                      <app-stacked-column
+                        [series]="exploreSeries"
+                        [categories]="exploreCategories"
+                        [title]="''"
+                        [yAxis]="'Views'"
+                        [stacking]="'normal'"
+                        [stackLabels]="false"
+                        [dataLabels]="false"
+                        [pointFormat]="tooltipPointFormat"
+                        [height]="400">
+                      </app-stacked-column>
+
+                      <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-top uk-padding-small uk-border-rounded">
+                        <span class="uk-text-muted">
+                          Total views for the last {{ exploreCategories.length }} months
+                        </span>
+                        <span class="uk-text-bold">{{ totalExploreViews | number }}</span>
+                      </div>
+                    } @else {
+                      <div class="uk-flex uk-flex-center uk-flex-middle" style="height: 400px;">
+                        <span data-uk-spinner="ratio: 1.5"></span>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
+                  <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
+                    <h4 class="uk-card-title uk-margin-remove uk-text-bold">Country Page Views per Month</h4>
+                    <ng-select
+                      [items]="countries"
+                      [(ngModel)]="selectedCountry"
+                      (ngModelChange)="onCountrySelect($event)"
+                      [clearable]="false"
+                      [searchable]="true"
+                      style="min-width: 180px;">
+                      <ng-template ng-label-tmp let-item="item">
+                        {{ getCountryName(item) }}
+                      </ng-template>
+                      <ng-template ng-option-tmp let-item="item">
+                        {{ getCountryName(item) }}
+                      </ng-template>
+                    </ng-select>
+                  </div>
+
+                  <div style="min-height: 400px;">
+                    @if (countrySeries.length > 0) {
+                      <app-stacked-column
+                        [series]="countrySeries"
+                        [categories]="countryCategories"
+                        [title]="''"
+                        [yAxis]="'Views'"
+                        [stacking]="'normal'"
+                        [stackLabels]="false"
+                        [dataLabels]="false"
+                        [pointFormat]="tooltipPointFormat"
+                        [height]="400">
+                      </app-stacked-column>
+
+                      <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-top uk-padding-small uk-border-rounded">
+                        <span class="uk-text-muted">
+                          Total views for the last {{ countryCategories.length }} months
+                        </span>
+                        <span class="uk-text-bold">{{ totalCountryViews | number }}</span>
+                      </div>
+                    } @else {
+                      <div class="uk-flex uk-flex-center uk-flex-middle" style="height: 400px;">
+                        <span data-uk-spinner="ratio: 1.5"></span>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
         } @else {
           <div class="uk-alert uk-alert-primary uk-border-rounded uk-margin-top" uk-alert>
             <p>No active monitoring data available for your group.</p>

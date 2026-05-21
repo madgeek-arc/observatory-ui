@@ -54,6 +54,7 @@ export class SearchComponent implements OnInit {
   selectedTag: string[] = [];
   selectedStatus: string[] = [];
   loading: boolean = true;
+  searching: boolean = false;
 
   // Variables to hold applied filters
   appliedLanguages: string[] = [];
@@ -132,7 +133,7 @@ export class SearchComponent implements OnInit {
 
     });
     this.keywordSubject.pipe(
-      debounceTime(300),
+      debounceTime(700),
       distinctUntilChanged(),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe((text: string) => {
@@ -163,6 +164,9 @@ export class SearchComponent implements OnInit {
 
   // Load documents based on current parameters
   loadDocuments() {
+    if (!this.loading) {
+      this.searching = true;
+    }
     this.resourceRegistryService.getDocument(this.from, this.pageSize, this.urlParameters, this.isAdminPage)
       .pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: (data) => {
@@ -184,6 +188,7 @@ export class SearchComponent implements OnInit {
               }
             });
             this.loading = false;
+            this.searching = false;
             this.paginationInit();
             if (data.facets && data.facets.length > 0) {
               this.languageFacets = data.facets.find(facet => facet.field === 'language');
@@ -193,11 +198,14 @@ export class SearchComponent implements OnInit {
             }
           } else {
             this.documents.results = [];
+            this.loading = false;
+            this.searching = false;
           }
         },
         error: (err) => {
           console.error('API error:', err);
           this.loading = false;
+          this.searching = false;
         }
       });
   }
