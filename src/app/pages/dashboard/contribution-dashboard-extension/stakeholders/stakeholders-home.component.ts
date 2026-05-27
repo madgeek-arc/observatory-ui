@@ -137,6 +137,12 @@ export class StakeholdersHomeComponent implements OnInit {
     }
   }
 
+  navigateToSupportPage() {
+    if ( this.currentGroup && this.currentGroup.id ) {
+      this.router.navigate(['/contributions', this.currentGroup.id, 'support']);
+    }
+  }
+
   navigateToHistory() {
     const surveyId = this.latestAnswerInfo?.surveyId;
     const answerId = this.latestAnswerInfo?.surveyAnswerId;
