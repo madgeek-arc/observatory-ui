@@ -150,10 +150,10 @@
                       [searchable]="true"
                       style="min-width: 180px;">
                       <ng-template ng-label-tmp let-item="item">
-                        {{ getCountryName(item) }}
+                        {{ item === 'all' ? 'All Countries' : getCountryName(item) }}
                       </ng-template>
                       <ng-template ng-option-tmp let-item="item">
-                        {{ getCountryName(item) }}
+                        {{ item === 'all' ? 'All Countries' : getCountryName(item) }}
                       </ng-template>
                     </ng-select>
                   </div>

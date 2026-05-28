@@ -41,7 +41,7 @@ export class CoordinatorHomeComponent implements OnInit {
   countryCategories: string[] = [];
   countrySeries: any[] = [];
   totalCountryViews: number = 0;
-  selectedCountry: string = '';
+  selectedCountry: string = 'all';
   countries: string[] = [];
 
   private coordinator$ = this.route.params.pipe(
@@ -146,15 +146,15 @@ export class CoordinatorHomeComponent implements OnInit {
         next: (countries) => {
           this.countries = countries;
           if (countries.length > 0) {
-            this.selectedCountry = countries[0];
-            this.fetchCountryViews(countries[0]);
+            this.countries = ['all', ...countries];
+            this.fetchCountryViews(null);
           }
         },
         error: (err) => console.error('Countries Error:', err)
       });
   }
 
-  fetchCountryViews(country: string) {
+  fetchCountryViews(country: string | null) {
     this.countrySeries = [];
     this.stakeholdersService.getCountryPageViews(country, 6)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -178,9 +178,7 @@ export class CoordinatorHomeComponent implements OnInit {
   }
 
   onCountrySelect(country: string) {
-    if (country) {
-      this.fetchCountryViews(country);
-    }
+    this.fetchCountryViews(country === 'all' ? null : country);
   }
 
   getCountryName(code: string): string {
