@@ -110,7 +110,7 @@ const routes: Routes = [
   },
   {
     path: 'contributions/:id/administrator',
-    component: ContributionsHomeExtentionComponent,
+    component: AdministratorHomeComponent,
     canActivate: [AuthGuard]
   },
   {
