@@ -252,89 +252,13 @@
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent2>
       <div class="uk-container">
 
-      <div class="uk-card uk-card-default eosc-sb visualisation-card uk-card-body">
-
-          <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="connect:#maps; animation: uk-animation-fade">
-            <li><a class="uk-margin-remove-bottom"
-                   (click)="countryName = countryCode = comment = undefined">Policies</a></li>
-            <li><a class="uk-margin-remove-bottom"
-                   (click)="countryName = countryCode = comment = undefined">Monitoring</a></li>
-          </ul>
-
-          <ul id="maps" class="uk-switcher uk-child-width-1-1 uk-grid-match" data-uk-grid>
-            <li>
-              <div uk-grid>
-                <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
-                  <app-highcharts-category-map
-                    [mapData]="questionsDataArray[0]" [height]="700" [smallScreen]="smallScreen"
-                    [title]="'National policy on Open Access publications'" [backgroundColor]="'#ffffff'"
-                    [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[0] + ' out of '+ total[0] + '</strong> countries have a <br>national policy on OΑ publications</span>'"
-                    [caption]="policesMapCaptions[0] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'"
-                    (mapClick)="showComment(0, $event)">
-                  </app-highcharts-category-map>
-                </div>
-                <div class="uk-width-1-3@m uk-width-1-3@l uk-width-1-1@s">
-                  <div>
-                    <h6>Start Exploring</h6>
-                    <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
-                    <!--                <h6>Click on country for additional information</h6>-->
-                    <div class="uk-flex uk-flex-middle uk-margin-medium-top">
-                      @if (countryCode) {
-                        <img ngSrc="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
-                             width="30" height="30" alt="Rounded flag of the selected country">
-                      }
-                      @if (countryName) {
-                        <span class="uk-margin-small-left">{{ countryName }}</span>
-                      }
-                    </div>
-                    @if (comment) {
-                      <p [innerHTML]="comment"
-                         class="uk-text-justify uk-text-small overflow-wrap-break-word"></p>
-                    } @else {
-                      --
-                    }
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div data-uk-grid>
-                <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
-                  <app-highcharts-category-map
-                    [mapData]="questionsDataArray[1]" [height]="700" [smallScreen]="smallScreen"
-                    [title]="'National monitoring on Open Access publications'" [backgroundColor]="'#ffffff'"
-                    [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>'+participatingCountries[1] + ' out of '+ total[1] + '</strong> countries have a <br>national monitoring on OΑ publications</span>'"
-                    [caption]=" monitoringMapCaptions[0] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science '+year+'.'"
-                    (mapClick)="showComment(1, $event)">
-                  </app-highcharts-category-map>
-                </div>
-                <div class="uk-width-1-3@m uk-width-1-3@l uk-width-1-1@s">
-                  <div>
-                    <h6>Start Exploring</h6>
-                    <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
-                    <!--                <h6>Click on country for additional information</h6>-->
-                    <div class="uk-flex uk-flex-middle uk-margin-medium-top">
-                      @if (countryCode) {
-                        <img ngSrc="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
-                             width="30" height="30" alt="Rounded flag of the selected country">
-                      }
-                      @if (countryName) {
-                        <span class="uk-margin-small-left">{{ countryName }}</span>
-                      }
-                    </div>
-                    @if (comment) {
-                      <p [innerHTML]="comment"
-                         class="uk-text-justify uk-text-small overflow-wrap-break-word"></p>
-                    } @else {
-                      --
-                    }
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-
-        </div>
+      <app-area-maps-card
+          [policyTab]="policyTabConfig"
+          [monitoringTab]="monitoringTabConfig"
+          [financialStrategyTab]="financialStrategyTabConfig"
+          [year]="year"
+          [smallScreen]="smallScreen">
+        </app-area-maps-card>
 
       </div>
     </div>
