@@ -1,15 +1,12 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { zip } from "rxjs/internal/observable/zip";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../domain/raw-data";
 import * as Highcharts from "highcharts/highcharts.src";
-import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { PdfExportService } from "../../../services/pdf-export.service";
-import { CountryTableData } from "../../../../domain/country-table-data";
-import { DataHandlerService } from "../../../services/data-handler.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
+import { AreaMapsCardComponent, AreaMapTabConfig } from "../../area-maps-card/area-maps-card.component";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 import {
   SidebarMobileToggleComponent
@@ -22,15 +19,12 @@ import { PageContentComponent } from "../../../../../survey-tool/app/shared/page
     selector: 'app-open-science-by-area-fair-data',
     templateUrl: './open-science-by-area-fair-data.component.html',
     styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-  imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass]
+  imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass, AreaMapsCardComponent]
 })
 
 export class OpenScienceByAreaFairDataComponent implements OnInit {
   protected readonly Math = Math;
   protected  trendService = inject(ExploreService);
-
-  protected readonly policesMapCaptions = policesMapCaptions;
-  protected readonly monitoringMapCaptions = monitoringMapCaptions;
 
   private destroyRef = inject(DestroyRef);
   exportActive = false;
@@ -85,16 +79,26 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
     verticalAlign: 'top',
   };
 
-  countriesArray: string[] = [];
-  questionsDataArray: any[] = [];
-  tmpQuestionsDataArray: any[] = [];
-  participatingCountries: number[] = [];
-  total: number[] = [];
-  mapPointData: CountryTableData[];
-  toolTipData: Map<string, string>[] = [];
-  comment?: string;
-  countryName?: string;
-  countryCode?: string;
+  policyTabConfig: AreaMapTabConfig = {
+    question: 'Question14',
+    title: 'National policy on FAIR Data',
+    caption: policesMapCaptions[2] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science ' + this.year + '.',
+    labelSuffix: ' countries have a <br>national policy on FAIR Data</span>'
+  };
+
+  monitoringTabConfig: AreaMapTabConfig = {
+    question: 'Question62',
+    title: 'National monitoring on FAIR Data',
+    caption: monitoringMapCaptions[2] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science ' + this.year + '.',
+    labelSuffix: ' countries have a <br>national monitoring on FAIR Data</span>'
+  };
+
+  financialStrategyTabConfig: AreaMapTabConfig = {
+    question: 'Question15',
+    title: 'National financial strategy on FAIR Data',
+    caption: '<p>This map illustrates the status of national financial strategies on FAIR Data across European countries.</p><strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science ' + this.year + '.',
+    labelSuffix: ' countries have a <br>national financial strategy on FAIR Data</span>'
+  };
 
   barChartTitles = {
     title: 'Financial Investments in FAIR Data in '+(+this.year-1),
@@ -102,8 +106,7 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
     yAxis: '',
   };
 
-  constructor(private queryData: EoscReadinessDataService, private stakeholdersService: StakeholdersService,
-              private pdfService: PdfExportService, private dataHandlerService: DataHandlerService,
+  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
               private exploreService: ExploreService) {}
 
   ngOnInit() {
@@ -120,59 +123,10 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
 
     this.smallScreen = this.exploreService.isMobileOrSmallScreen;
 
-    // Maps
-    this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: countries => {
-        this.countriesArray = countries;
-        this.getNationalPolicies('Question14', 0);
-        this.getMonitoring('Question62', 1, 2);
-      },
-      error: error => {console.error(error);}
-    });
-
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => this.lastUpdateDate = value
     });
 
-  }
-
-  /** Get maps data ----------------------------------------------------------------------------------> **/
-  getNationalPolicies(question: string, index: number) {
-    zip(
-      this.queryData.getQuestion(this.years[this.years.length-1], question),
-      this.queryData.getQuestion(this.years[this.years.length-1], question + '.1'),
-      this.queryData.getQuestionComment(this.years[this.years.length-1], question),
-    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: res => {
-        this.tmpQuestionsDataArray[index] = this.dataHandlerService.mergePolicyQuestionData(res[0], res[1]);
-        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(res[0]);
-        this.total[index] = res[0].datasets[0].series.result.length; // Total countries with validated response
-
-        this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.questionsDataArray[index] = this.exploreService.createCategorizedMapDataFromMergedResponse(this.tmpQuestionsDataArray[index], this.countriesArray);
-      },
-      error: err => {console.error(err)}
-    });
-  }
-
-  getMonitoring(question: string, index: number, mapCount: number) {
-    zip(
-      this.queryData.getQuestion(this.years[this.years.length-1], question),
-      this.queryData.getQuestionComment(this.years[this.years.length-1], question),
-    ).subscribe({
-      next: res => {
-        this.tmpQuestionsDataArray[index] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[0]);
-        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(res[0]);
-        this.total[index] = res[0].datasets[0].series.result.length; // Total countries with validated response
-
-        for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
-          this.tmpQuestionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data.map(code => ({ code }));
-        }
-        this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[1]);
-        this.questionsDataArray[index] = this.exploreService.createMapDataFromCategorization(this.tmpQuestionsDataArray[index], this.countriesArray, mapCount);
-      },
-      error: err => {console.error(err)}
-    });
   }
 
   /** Get national monitoring on FAIR Data -------------------------------------------------------------------------> **/
@@ -277,12 +231,6 @@ export class OpenScienceByAreaFairDataComponent implements OnInit {
     });
 
     return Math.round(sum * 100) / 100;
-  }
-
-  showComment(index: number, country: {code: string}) {
-    this.comment = this.toolTipData[index].get(country.code.toLowerCase())?.replace(/\\n/g,'<br>').replace(/\\t/g,'  ') ?? 'N/A';
-    this.countryCode = country.code.toLowerCase();
-    this.countryName = this.exploreService.findCountryName(country.code).name
   }
 
 }

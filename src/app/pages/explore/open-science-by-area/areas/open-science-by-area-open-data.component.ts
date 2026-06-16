@@ -12,11 +12,8 @@ import {
 } from "highcharts";
 import { distributionByDocumentType, OpenDataVSClosed, trendOfOpenData } from "../../OSO-stats-queries/explore-queries";
 import { PdfExportService } from "../../../services/pdf-export.service";
-import { CountryTableData } from "../../../../domain/country-table-data";
-import { zip } from "rxjs/internal/observable/zip";
-import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
-import { DataHandlerService } from "../../../services/data-handler.service";
 import { ExploreService } from "../../explore.service";
+import { AreaMapsCardComponent, AreaMapTabConfig } from "../../area-maps-card/area-maps-card.component";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import {NgClass, NgOptimizedImage} from "@angular/common";
@@ -28,7 +25,7 @@ import { PageContentComponent } from "../../../../../survey-tool/app/shared/page
     selector: 'app-open-science-by-area-open-data',
     templateUrl: './open-science-by-area-open-data.component.html',
     styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-  imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass]
+  imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass, AreaMapsCardComponent]
 })
 
 export class OpenScienceByAreaOpenDataComponent implements OnInit {
@@ -101,16 +98,26 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
     verticalAlign: 'top',
   };
 
-  countriesArray: string[] = [];
-  questionsDataArray: any[] = [];
-  tmpQuestionsDataArray: any[] = [];
-  participatingCountries: number[] = [];
-  total: number[] = [];
-  mapPointData: CountryTableData[];
-  toolTipData: Map<string, string>[] = [];
-  comment?: string;
-  countryName?: string;
-  countryCode?: string;
+  policyTabConfig: AreaMapTabConfig = {
+    question: 'Question18',
+    title: 'National policy on Open Data',
+    caption: policesMapCaptions[3] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science ' + this.year + '.',
+    labelSuffix: ' countries have a <br>national policy on Open Data</span>'
+  };
+
+  monitoringTabConfig: AreaMapTabConfig = {
+    question: 'Question66',
+    title: 'National monitoring on Open Data',
+    caption: monitoringMapCaptions[3] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science ' + this.year + '.',
+    labelSuffix: ' countries have a <br>national monitoring on Open Data</span>'
+  };
+
+  financialStrategyTabConfig: AreaMapTabConfig = {
+    question: 'Question19',
+    title: 'National financial strategy on Open Data',
+    caption: '<p>This map illustrates the status of national financial strategies on Open Data across European countries.</p><strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science ' + this.year + '.',
+    labelSuffix: ' countries have a <br>national financial strategy on Open Data</span>'
+  };
 
   barChartTitles = {
     title: 'Financial Investments in Open Data in '+(+this.year-1),
@@ -119,7 +126,6 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   }
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
-              private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,
               private exploreService: ExploreService) {}
 
   ngOnInit() {
@@ -137,16 +143,6 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
     this.getDistributionByDocumentType();
 
     this.smallScreen = this.exploreService.isMobileOrSmallScreen;
-
-    // Maps
-    this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: countries => {
-        this.countriesArray = countries;
-        this.getNationalPolicies('Question18', 0);
-        this.getMonitoring('Question66', 1, 2);
-      },
-      error: error => {console.error(error);}
-    });
 
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => this.lastUpdateDate = value
@@ -198,45 +194,6 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
         this.openData[0] = (Math.round((+value.data[2]/+value.data[3] + Number.EPSILON) * 100));
         this.openData[1] = (Math.round((+value.data[0]/+value.data[1] + Number.EPSILON) * 100));
       }
-    });
-  }
-
-  /** Get maps data ----------------------------------------------------------------------------------> **/
-  getNationalPolicies(question: string, index: number) {
-    zip(
-      this.queryData.getQuestion(this.year, question),
-      this.queryData.getQuestion(this.year, question + '.1'),
-      this.queryData.getQuestionComment(this.year, question),
-    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: res => {
-        this.tmpQuestionsDataArray[index] = this.dataHandlerService.mergePolicyQuestionData(res[0], res[1]);
-        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(res[0]);
-        this.total[index] = res[0].datasets[0].series.result.length; // Total countries with validated response
-
-        this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.questionsDataArray[index] = this.exploreService.createCategorizedMapDataFromMergedResponse(this.tmpQuestionsDataArray[index], this.countriesArray);
-      },
-      error: err => {console.error(err)}
-    });
-  }
-
-  getMonitoring(question: string, index: number, mapCount: number) {
-    zip(
-      this.queryData.getQuestion(this.year, question),
-      this.queryData.getQuestionComment(this.year, question),
-    ).subscribe({
-      next: res => {
-        this.tmpQuestionsDataArray[index] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[0]);
-        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(res[0]);
-        this.total[index] = res[0].datasets[0].series.result.length; // Total countries with validated response
-
-        for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
-          this.tmpQuestionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data.map(code => ({ code }));
-        }
-        this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[1]);
-        this.questionsDataArray[index] = this.exploreService.createMapDataFromCategorization(this.tmpQuestionsDataArray[index], this.countriesArray, mapCount);
-      },
-      error: err => {console.error(err)}
     });
   }
 
@@ -322,12 +279,4 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
     return Math.round(sum * 100) / 100;
   }
 
-  showComment(index: number, country: {code: string}) {
-    this.comment = this.toolTipData[index].get(country.code.toLowerCase())?.replace(/\\n/g,'<br>').replace(/\\t/g,'  ') ?? 'N/A';
-    this.countryCode = country.code.toLowerCase();
-    this.countryName = this.exploreService.findCountryName(country.code).name
-  }
-
-  protected readonly policesMapCaptions = policesMapCaptions;
-  protected readonly monitoringMapCaptions = monitoringMapCaptions;
 }
