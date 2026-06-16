@@ -146,7 +146,7 @@ export class FairDataComponent implements OnInit {
   hasAnyLeftCardData() {
     return this.dataShareService.hasAnyValue([
       this.rfoFairDataPercentage[1],
-      this.rpoFairDataPercentage[0],
+      this.rpoFairDataPercentage[1],
       this.financialInvestmentInFairData[1]
     ]);
   }
