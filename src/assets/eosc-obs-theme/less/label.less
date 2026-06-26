@@ -13,24 +13,24 @@
 @label-text-transform: uppercase;
 
 /* Success */
-@label-success-background: transparent;
+@label-success-background: @success-background-color;
 @label-success-border: @success-border-color;
 @label-success-color: @success-color;
 
 /* Warning */
-@label-warning-background: transparent;
+@label-warning-background: @warning-background-color;
 @label-warning-border: @warning-border-color;
 @label-warning-color: @warning-color;
 
 /** Danger*/
-@label-danger-background: transparent;
+@label-danger-background: @danger-background-color;
 @label-danger-border: @danger-border-color;
 @label-danger-color: @danger-color;
 
 /** Primary */
-@label-primary-background: transparent;
-@label-primary-color: @global-primary-background;
-@label-primary-border: @label-primary-color;
+@label-primary-background: @primary-color;
+@label-primary-color: @light-color;
+@label-primary-border: @label-primary-background;
 
 /** Secondary */
 @label-secondary-background: transparent;
@@ -41,6 +41,12 @@
   border: @label-border-width solid @label-border;
   border-radius: @label-border-radius;
   text-transform: @label-text-transform;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  line-height: 1;
 
   &.uk-label-small {
     padding: @label-small-padding-vertical @label-small-padding-horizontal;
@@ -52,7 +58,18 @@
 }
 
 .hook-label-warning() {
-  border-color: @label-warning-border;
+  background-color: #f8dd90;
+  color: @warning-strong-color;
+  border-color: @warning-border-color;
+  text-transform: none;
+  padding: 3px 8px !important;
+  font-weight: 600;
+  line-height: 1;
+  align-self: flex-start;
+
+  .material-icons {
+    font-size: 14px;
+  }
 }
 
 .hook-label-danger() {
@@ -60,6 +77,26 @@
 }
 
 .hook-label-misc() {
+  .uk-label-active {
+    background-color: @label-success-background;
+    color: @label-success-color;
+    border-color: @label-success-border;
+
+    &::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+  }
+
+  .uk-label-closed {
+    background-color: #eef1f3;
+    color: @placeholder-color;
+    border-color: #eef1f3;
+  }
+
   .uk-label-primary {
     background-color: @label-primary-background;
     color: @label-primary-color;

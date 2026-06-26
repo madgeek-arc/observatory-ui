@@ -210,6 +210,74 @@
     & .uk-button-primary:extend(.uk-button-primary:hover){};
     & .uk-button-secondary:extend(.uk-button-secondary:hover){};
   }
+
+  .uk-button-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 11px 16px;
+    font-size: @global-small-font-size;
+    font-weight: 600;
+    color: @grey-color;
+    background: transparent;
+    border: none;
+    border-right: 1px solid @muted-color;
+    border-radius: 0;
+    box-shadow: none;
+    text-transform: none;
+
+    .material-icons { font-size: 17px; }
+
+    &:last-child {
+      border-right: none;
+    }
+
+    &:hover {
+      background: @table-color;
+      color: @grey-color;
+      box-shadow: none;
+    }
+
+    &--danger {
+      color: @danger-color;
+
+      &:hover {
+        background: @danger-background-color;
+        color: @danger-color;
+      }
+    }
+
+    &--primary {
+      color: @primary-color;
+
+      &:hover {
+        background: #e7f3f3;
+        color: @primary-color;
+      }
+    }
+  }
+
+  .uk-button-pill {
+    background: @global-inverse-color;
+    color: @eosc-observatory-dark-color;
+    border: 1px solid #cfe6e6;
+    border-radius: 800px;
+    font-size: @global-xsmall-font-size;
+    font-weight: 600;
+    text-transform: none;
+    box-shadow: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+
+    &:hover {
+      background: #e7f3f3;
+      color: @eosc-observatory-dark-color;
+      border-color: #cfe6e6;
+      box-shadow: none;
+    }
+  }
 }
 
 /* Inverse */
@@ -336,15 +404,15 @@
 }
 
 .hook-inverse-misc() {
-  
+
   /* Default */
   .uk-button-default {
     box-shadow: @inverse-button-default-box-shadow;
-    
+
     &:hover {
       box-shadow: @inverse-button-default-hover-box-shadow;
     }
-    
+
     &:active {
       box-shadow: @inverse-button-default-active-box-shadow;
     }
