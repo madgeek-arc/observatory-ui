@@ -111,28 +111,15 @@
     gap: 6px;
     height: 100%;
 
-    .uk-text-bold {
-      font-weight: 700;
-    }
+    .uk-text-bold { font-weight: 700; }
   }
 
   .uk-stat-deadline {
+    .uk-stat();
     background: @warning-background-color;
-    border: 1px solid @warning-border-color;
-    border-radius: @global-border-radius;
-    padding: 10px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    height: 100%;
+    border-color: @warning-border-color;
 
-    .uk-text-muted {
-      color: @warning-color !important;
-    }
-
-    .uk-text-bold {
-      font-weight: 700;
-    }
+    .uk-text-muted { color: @warning-color !important; }
   }
   @media (min-width: @breakpoint-medium) {
     .uk-card {

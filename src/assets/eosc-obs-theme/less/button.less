@@ -211,6 +211,49 @@
     & .uk-button-secondary:extend(.uk-button-secondary:hover){};
   }
 
+  .uk-button-group {
+    .uk-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      .material-symbols-outlined { font-size: 16px; }
+    }
+    .uk-button:first-child { border-radius: @global-border-radius 0 0 @global-border-radius; }
+    .uk-button:last-child  { border-radius: 0 @global-border-radius @global-border-radius 0; }
+  }
+
+  .uk-seg {
+    display: inline-flex;
+    background: @table-color;
+    border: 1px solid @gray-300;
+    border-radius: @global-border-radius;
+    padding: 3px;
+    gap: 2px;
+
+    &__btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 12px;
+      border-radius: @global-border-radius-sm;
+      font-size: @global-small-font-size;
+      font-weight: 700;
+      color: @placeholder-color;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+
+      .material-symbols-outlined,
+      .material-icons { font-size: 15px; }
+
+      &--active {
+        background: @primary-color;
+        color: @light-color;
+        box-shadow: 0 1px 3px rgba(20, 40, 40, .12);
+      }
+    }
+  }
+
   .uk-button-action {
     display: inline-flex;
     align-items: center;
@@ -223,9 +266,8 @@
     border: none;
     border-right: 1px solid @muted-color;
     border-radius: 0;
-    box-shadow: none;
-    text-transform: none;
 
+    .material-symbols-outlined,
     .material-icons { font-size: 17px; }
 
     &:last-child {
@@ -251,33 +293,67 @@
       color: @primary-color;
 
       &:hover {
-        background: #e7f3f3;
+        background: @primary-tint-color;
         color: @primary-color;
       }
+    }
+  }
+
+  .uk-button-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: @global-border-radius;
+    border: 1px solid @line-2-color;
+    background: @light-color;
+    color: @grey-color;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: none;
+    text-transform: none;
+    flex-shrink: 0;
+
+    .material-symbols-outlined,
+    .material-icons { font-size: 16px; }
+
+    &:hover { background: @surface-2-color; color: @dark-color; box-shadow: none; text-decoration: none; }
+
+    &--primary {
+      color: @primary-color;
+      &:hover { background: @primary-tint-hover-color; color: @primary-color; }
+    }
+
+    &--danger {
+      color: @danger-color;
+      &:hover { background: @danger-background-color; color: @danger-color; }
     }
   }
 
   .uk-button-pill {
     background: @global-inverse-color;
     color: @eosc-observatory-dark-color;
-    border: 1px solid #cfe6e6;
-    border-radius: 800px;
+    border: 1px solid @primary-border-light-color;
+    border-radius: @global-border-radius-pill;
     font-size: @global-xsmall-font-size;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: none;
     box-shadow: none;
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    padding: 3px 10px;
+    padding: 1px 10px;
 
     &:hover {
-      background: #e7f3f3;
+      background: @primary-tint-color;
       color: @eosc-observatory-dark-color;
-      border-color: #cfe6e6;
+      border-color: @primary-border-light-color;
       box-shadow: none;
     }
   }
+
 }
 
 /* Inverse */
