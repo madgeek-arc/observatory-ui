@@ -60,6 +60,45 @@
   }
 
   @import (multiple) 'input';
+
+  .uk-toggle-switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+    cursor: pointer;
+
+    input { display: none; }
+  }
+
+  .uk-toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: @disable-color;
+    border-radius: @global-border-radius-pill;
+    transition: .2s ease;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: @light-color;
+      border-radius: 50%;
+      top: 3px;
+      left: 3px;
+      transition: .2s ease;
+    }
+  }
+
+  input:checked + .uk-toggle-slider {
+    background: @primary-color;
+
+    &::before {
+      transform: translateX(20px);
+    }
+  }
 }
 
 /** Inverse */
