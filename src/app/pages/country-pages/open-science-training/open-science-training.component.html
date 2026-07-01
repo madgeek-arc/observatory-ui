@@ -227,7 +227,7 @@
 </div>
 <div #exportContent1>
   @if (hasSurveyTrainingData()) {
-    <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
       <div class="uk-container">
         <div class="uk-animation-fade">
           <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
@@ -292,21 +292,25 @@
               </read-more>
             </div>
           </div>
-          <div class="uk-margin-medium-top uk-animation-fade">
-            <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
-              <h6 class="uk-margin-bottom">Helpdesk and Support in {{ countryName }}</h6>
-              <div class="uk-margin-medium-top">
-                <read-more [maxHeight]="250">
-                  <div id="helpdesk_support">
-                    @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']?.['Question22']?.['Question22-1']) {
-                      <div class="uk-margin-remove-top" [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question22']['Question22-1']"></div>
-                    }
-                    @if (!countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']?.['Question22']?.['Question22-1']) {
-                      <p class="uk-margin-remove-top">N/A</p>
-                    }
-                  </div>
-                </read-more>
-              </div>
+        </div>
+      </div>
+    </div>
+    <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
+      <div class="uk-container">
+        <div class="uk-animation-fade">
+          <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
+            <h6 class="uk-margin-bottom">Helpdesk and Support in {{ countryName }}</h6>
+            <div class="uk-margin-medium-top">
+              <read-more [maxHeight]="250">
+                <div id="helpdesk_support">
+                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']?.['Question22']?.['Question22-1']) {
+                    <div class="uk-margin-remove-top" [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question22']['Question22-1']"></div>
+                  }
+                  @if (!countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']?.['Question22']?.['Question22-1']) {
+                    <p class="uk-margin-remove-top">N/A</p>
+                  }
+                </div>
+              </read-more>
             </div>
           </div>
         </div>
