@@ -5,6 +5,20 @@
   .set-blur-background(@tile-default-background-color, 50%) !important;
 }
 
+// Info box
+.eos-info-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: @primary-tint-color;
+  border-radius: @global-border-radius;
+  padding: 10px 14px;
+  color: @primary-color;
+  font-size: @global-small-font-size;
+
+  .material-symbols-outlined { font-size: 18px; }
+}
+
 // Stat tiles
 .eos-stat {
   padding: 12px;

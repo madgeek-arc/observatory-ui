@@ -225,38 +225,6 @@
     .uk-button:last-child  { border-radius: 0 @global-border-radius @global-border-radius 0; }
   }
 
-  .uk-seg {
-    display: inline-flex;
-    background: @table-color;
-    border: 1px solid @gray-300;
-    border-radius: @global-border-radius;
-    padding: 3px;
-    gap: 2px;
-
-    &__btn {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 7px 12px;
-      border-radius: @global-border-radius-sm;
-      font-size: @global-small-font-size;
-      font-weight: 700;
-      color: @placeholder-color;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-
-      .material-symbols-outlined,
-      .material-icons { font-size: 15px; }
-
-      &--active {
-        background: @primary-color;
-        color: @light-color;
-        box-shadow: 0 1px 3px rgba(20, 40, 40, .12);
-      }
-    }
-  }
-
   .eos-btn--ghost {
     background: transparent;
     color: @grey-color;
@@ -343,28 +311,6 @@
     &--danger {
       color: @danger-color;
       &:hover { background: @danger-background-color; color: @danger-color; }
-    }
-  }
-
-  .uk-button-pill {
-    background: @global-inverse-color;
-    color: @eosc-observatory-dark-color;
-    border: 1px solid @primary-border-light-color;
-    border-radius: @global-border-radius-pill;
-    font-size: @global-xsmall-font-size;
-    font-weight: 700;
-    text-transform: none;
-    box-shadow: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 1px 10px;
-
-    &:hover {
-      background: @primary-tint-color;
-      color: @eosc-observatory-dark-color;
-      border-color: @primary-border-light-color;
-      box-shadow: none;
     }
   }
 
