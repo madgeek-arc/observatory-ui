@@ -1,10 +1,10 @@
 @button-font-size: @global-small-font-size;
 @button-small-font-size: @global-xsmall-font-size;
 @button-large-font-size: @global-font-size;
-@button-font-weight: 600;
+@button-font-weight: 700;
 @button-border-width: @global-border-width;
-@button-text-transform: uppercase;
-@button-border-radius: 500px;
+@button-text-transform: none;
+@button-border-radius: @global-border-radius-md;
 @button-shadow: @global-medium-box-shadow;
 @button-hover-shadow: @global-small-box-shadow;
 @button-active-shadow: @button-hover-shadow;
@@ -29,7 +29,7 @@
 @button-primary-color: @global-inverse-color;
 @button-primary-box-shadow: @button-shadow;
 @button-primary-border: transparent;
-@button-primary-hover-background: @global-secondary-background;
+@button-primary-hover-background: @eosc-observatory-dark-color;
 @button-primary-hover-background-gradient: none;
 @button-primary-hover-color: @global-inverse-color;
 @button-primary-hover-box-shadow: @button-hover-shadow;
@@ -44,16 +44,16 @@
 @button-secondary-background: @global-background;
 @button-secondary-background-gradient: none;
 @button-secondary-color: @global-primary-background;
-@button-secondary-box-shadow: @button-shadow;
-@button-secondary-border: @global-primary-background;
-@button-secondary-hover-background: @global-primary-background;
-@button-secondary-hover-background-gradient: @global-primary-gradient;
-@button-secondary-hover-color: @global-inverse-color;
-@button-secondary-hover-box-shadow: @button-hover-shadow;
-@button-secondary-hover-border: transparent;
-@button-secondary-active-background: @button-secondary-hover-background;
-@button-secondary-active-background-gradient: @button-secondary-hover-background-gradient;
-@button-secondary-active-color: @button-secondary-hover-color;
+@button-secondary-box-shadow: none;
+@button-secondary-border: @primary-color;
+@button-secondary-hover-background: #3fb5ae;
+@button-secondary-hover-background-gradient: none;
+@button-secondary-hover-color: @primary-color;
+@button-secondary-hover-box-shadow: none;
+@button-secondary-hover-border: @primary-color;
+@button-secondary-active-background: #f2fbfb;
+@button-secondary-active-background-gradient: none;
+@button-secondary-active-color: @primary-color;
 @button-secondary-active-box-shadow: @button-active-shadow;
 @button-secondary-active-border: @button-secondary-hover-border;
 
@@ -131,6 +131,7 @@
 
 /* Secondary */
 .hook-button-secondary() {
+  background-color: @light-color;
   box-shadow: @button-secondary-box-shadow;
   border: @button-border-width solid @button-secondary-border;
   background-image: @button-secondary-background-gradient;
@@ -138,12 +139,14 @@
 }
 
 .hook-button-secondary-hover() {
+  background-color: #f2fbfb;
   box-shadow: @button-secondary-hover-box-shadow;
   border: @button-border-width solid @button-secondary-hover-border;
   background-image: @button-secondary-hover-background-gradient;
 }
 
 .hook-button-secondary-active() {
+  background-color: #f2fbfb;
   box-shadow: @button-secondary-active-box-shadow;
   border: @button-border-width solid @button-secondary-active-border;
   background-image: @button-secondary-active-background-gradient;
@@ -222,50 +225,37 @@
     .uk-button:last-child  { border-radius: 0 @global-border-radius @global-border-radius 0; }
   }
 
-  .uk-seg {
+  .eos-btn--ghost {
+    background: transparent;
+    color: @grey-color;
+    border: none;
+    box-shadow: none;
     display: inline-flex;
-    background: @table-color;
-    border: 1px solid @gray-300;
-    border-radius: @global-border-radius;
-    padding: 3px;
-    gap: 2px;
+    align-items: center;
+    gap: 6px;
 
-    &__btn {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 7px 12px;
-      border-radius: @global-border-radius-sm;
-      font-size: @global-small-font-size;
-      font-weight: 700;
-      color: @placeholder-color;
-      background: transparent;
-      border: none;
-      cursor: pointer;
+    .material-symbols-outlined,
+    .material-icons { font-size: 17px; }
 
-      .material-symbols-outlined,
-      .material-icons { font-size: 15px; }
-
-      &--active {
-        background: @primary-color;
-        color: @light-color;
-        box-shadow: 0 1px 3px rgba(20, 40, 40, .12);
-      }
+    &:hover {
+      background: @surface-2-color;
+      color: @dark-color;
+      box-shadow: none;
     }
   }
 
-  .uk-button-action {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 11px 16px;
-    font-size: @global-small-font-size;
-    font-weight: 600;
+  .eos-btn--neutral {
+    background: @light-color;
     color: @grey-color;
-    background: transparent;
     border: none;
     border-right: 1px solid @muted-color;
     border-radius: 0;
+    box-shadow: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    font-size: @global-xsmall-font-size;
 
     .material-symbols-outlined,
     .material-icons { font-size: 17px; }
@@ -275,26 +265,18 @@
     }
 
     &:hover {
-      background: @table-color;
+      background: transparent;
       color: @grey-color;
       box-shadow: none;
     }
 
-    &--danger {
+    &.eos-btn--danger {
       color: @danger-color;
 
       &:hover {
         background: @danger-background-color;
         color: @danger-color;
-      }
-    }
-
-    &--primary {
-      color: @primary-color;
-
-      &:hover {
-        background: @primary-tint-color;
-        color: @primary-color;
+        box-shadow: none;
       }
     }
   }
@@ -329,28 +311,6 @@
     &--danger {
       color: @danger-color;
       &:hover { background: @danger-background-color; color: @danger-color; }
-    }
-  }
-
-  .uk-button-pill {
-    background: @global-inverse-color;
-    color: @eosc-observatory-dark-color;
-    border: 1px solid @primary-border-light-color;
-    border-radius: @global-border-radius-pill;
-    font-size: @global-xsmall-font-size;
-    font-weight: 700;
-    text-transform: none;
-    box-shadow: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 1px 10px;
-
-    &:hover {
-      background: @primary-tint-color;
-      color: @eosc-observatory-dark-color;
-      border-color: @primary-border-light-color;
-      box-shadow: none;
     }
   }
 

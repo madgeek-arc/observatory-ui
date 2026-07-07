@@ -4,3 +4,49 @@
 .hook-tile-default() {
   .set-blur-background(@tile-default-background-color, 50%) !important;
 }
+
+// Info box
+.eos-info-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: @primary-tint-color;
+  border-radius: @global-border-radius;
+  padding: 10px 14px;
+  color: @primary-color;
+  font-size: @global-small-font-size;
+
+  .material-symbols-outlined { font-size: 18px; }
+}
+
+// Stat tiles
+.eos-stat {
+  padding: 12px;
+  border-radius: @global-border-radius-md;
+  background: @surface-2-color;
+  border: 1px solid @global-border;
+  height: 100%;
+  box-sizing: border-box;
+
+  &__label {
+    display: block;
+    font-size: @global-xsmall-font-size;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: @muted-2-color;
+    margin-bottom: 4px;
+  }
+
+  &--amber {
+    background-color: @warning-background-color;
+    border-color: @warning-border-color;
+    .eos-stat__label { color: @warning-strong-color; }
+  }
+
+  &--red {
+    background-color: @danger-background-color;
+    border-color: @danger-border-color;
+    .eos-stat__label { color: @danger-color; }
+  }
+}
