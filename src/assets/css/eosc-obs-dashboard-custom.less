@@ -123,3 +123,15 @@
 svg .a {
   opacity: 1 !important;
 }
+
+/* Country pages configuration: the shared sidebar has an inline height: 100%
+   (= 100vh). Since it is pushed down to top: 144px (80px header + 64px toolbar),
+   a full 100vh sidebar overflows past the viewport bottom and cuts off its footer
+   (Data Source Legend). Constrain it to the space left below the toolbar.
+   Height is hardcoded (100vh - 144px) rather than using var(--header-height) to
+   avoid re-entangling with the self-referential-looking override in
+   explore-sidebar.less (.country-config-content). Must be global (not
+   component-scoped) to reach #sidebar_main in the child app-country-pages. */
+.country-config-content #sidebar_main {
+  height: calc(100vh - 144px) !important;
+}

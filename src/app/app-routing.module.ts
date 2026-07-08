@@ -7,6 +7,7 @@ import {
 } from "./pages/dashboard/contribution-dashboard-extension/home/contributions-home-extention.component";
 import { AuthGuard } from "../survey-tool/app/services/auth-guard.service";
 import { countryPagesRoutes } from "./pages/country-pages/country-pages.routing";
+import { countryPagesConfigurationRoutes } from "./pages/country-pages-configuration/country-pages-configuration.routing";
 import { CountrySelectorComponent } from "./pages/dashboard/country-selector/country-selector.component";
 import { ArchiveModule } from "./pages/archive/archive.module";
 import { ArchiveGuardService } from "./pages/services/archiveGuard.service";
@@ -67,6 +68,10 @@ const routes: Routes = [
   {
     path: 'country/:code',
     children: countryPagesRoutes
+  },
+  {
+    path: 'country/:code/configuration',
+    children: countryPagesConfigurationRoutes
   },
   {
     path: 'explore',

@@ -1,0 +1,57 @@
+@if (checkingAuth) {
+  <div class="uk-flex uk-flex-center uk-margin-large-top">
+    <span data-uk-spinner></span>
+  </div>
+} @else if (authorized) {
+
+  <div class="country-config-toolbar uk-background-default uk-flex uk-flex-between uk-flex-middle uk-border-bottom uk-padding-small">
+
+    <div>
+      <div class="uk-text-meta uk-text-uppercase">
+        Country Pages <span class="uk-margin-small-left uk-margin-small-right"> > </span> Content Configuration
+      </div>
+    </div>
+
+    <div class="uk-flex uk-flex-middle">
+      <span class="uk-text-meta uk-margin-small-right">Editing</span>
+      <select class="uk-select uk-form-width-medium"
+        [ngModel]="selectedCountryCode()" (ngModelChange)="selectedCountryCode.set($event)">
+        @for (country of countries; track country.id) {
+          <option [value]="country.id">{{ country.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="uk-button-group">
+      <button type="button"
+        [class]="viewMode() === 'manage' ? 'uk-button uk-button-primary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+        (click)="viewMode.set('manage')">
+        Manage
+      </button>
+      <button type="button"
+        [class]="viewMode() === 'split' ? 'uk-button uk-button-primary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+        (click)="viewMode.set('split')">
+        Split
+      </button>
+      <button type="button"
+        [class]="viewMode() === 'on-page' ? 'uk-button uk-button-primary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+        (click)="viewMode.set('on-page')">
+        On-page
+      </button>
+    </div>
+
+    <div class="uk-flex uk-flex-middle" style="gap: 8px;">
+      @if (changesSubmitted()) {
+        <span class="uk-label uk-label-active">All changes submitted</span>
+      }
+      <button type="button" class="uk-button uk-button-default uk-button-small" disabled>Discard</button>
+      <button type="button" class="uk-button uk-button-secondary uk-button-small">Preview</button>
+      <button type="button" class="uk-button uk-button-primary uk-button-small" (click)="publish()">Publish</button>
+    </div>
+
+  </div>
+
+  <div class="country-config-content">
+    <router-outlet></router-outlet>
+  </div>
+}

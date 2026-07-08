@@ -40,12 +40,18 @@ export class CountryPagesComponent implements OnInit {
   hasAdminMenu = false;
   menuSections: MenuSection[] = [];
   menuItems: MenuItem[] = [];
-  back: MenuItem = new MenuItem('back', 'Back to country selection', null, '/country-pages', '', null, null, 'uk-text-uppercase back_button uk-margin' );
+  back: MenuItem = null;
+  isConfigMode = false;
 
   constructor(private route: ActivatedRoute, private dataService: DataShareService,
               private surveyAnswer: SurveyPublicAnswer, private layoutService: DashboardSideMenuService) {}
 
   ngOnInit() {
+    this.isConfigMode = this.route.snapshot.pathFromRoot
+      .some(r => r.routeConfig?.path === 'country/:code/configuration');
+
+    this.back = this.isConfigMode ? null : new MenuItem('back', 'Back to country selection', null, '/country-pages', '', null, null, 'uk-text-uppercase back_button uk-margin');
+
     this.route.params.subscribe(params => {
       this.countryCode = params['code'];
       this.dataService.countryCode.next(this.countryCode);
@@ -95,16 +101,20 @@ export class CountryPagesComponent implements OnInit {
     this.menuSections = [];
     this.menuItems = [];
 
-    this.menuItems.push(new MenuItem('0', 'General R&D Overview', null, '/country/' + this.countryCode + '/general', null, {}));
-    this.menuItems.push(new MenuItem('1', 'Policy overview', null, '/country/' + this.countryCode + '/policy', null, {}));
-    this.menuItems.push(new MenuItem('2', 'Open Access Publications', null, '/country/' + this.countryCode + '/publications', null, {}));
-    this.menuItems.push(new MenuItem('3', 'Open Data', null, '/country/' + this.countryCode + '/open-data', null, {}));
-    this.menuItems.push(new MenuItem('4', 'FAIR Data', null, '/country/' + this.countryCode + '/fair-data', null, {}));
-    this.menuItems.push(new MenuItem('5', 'Data Management', null, '/country/' + this.countryCode + '/data-management', null, {}));
-    this.menuItems.push(new MenuItem('6', 'Citizen Science', null, '/country/' + this.countryCode + '/citizen-science', null, {}));
-    this.menuItems.push(new MenuItem('7', 'Repositories', null, '/country/' + this.countryCode + '/repositories', null, {}));
-    this.menuItems.push(new MenuItem('8', 'Open Science Training', null, '/country/' + this.countryCode + '/science-training', null, {}));
-    this.menuItems.push(new MenuItem('9', 'Open Software', null, '/country/' + this.countryCode + '/open-software', null, {}));
+    const base = this.isConfigMode
+      ? '/country/' + this.countryCode + '/configuration'
+      : '/country/' + this.countryCode;
+
+    this.menuItems.push(new MenuItem('0', 'General R&D Overview', null, base + '/general', null, {}));
+    this.menuItems.push(new MenuItem('1', 'Policy overview', null, base + '/policy', null, {}));
+    this.menuItems.push(new MenuItem('2', 'Open Access Publications', null, base + '/publications', null, {}));
+    this.menuItems.push(new MenuItem('3', 'Open Data', null, base + '/open-data', null, {}));
+    this.menuItems.push(new MenuItem('4', 'FAIR Data', null, base + '/fair-data', null, {}));
+    this.menuItems.push(new MenuItem('5', 'Data Management', null, base + '/data-management', null, {}));
+    this.menuItems.push(new MenuItem('6', 'Citizen Science', null, base + '/citizen-science', null, {}));
+    this.menuItems.push(new MenuItem('7', 'Repositories', null, base + '/repositories', null, {}));
+    this.menuItems.push(new MenuItem('8', 'Open Science Training', null, base + '/science-training', null, {}));
+    this.menuItems.push(new MenuItem('9', 'Open Software', null, base + '/open-software', null, {}));
 
     this.menuSections.push({items: this.menuItems});
   }

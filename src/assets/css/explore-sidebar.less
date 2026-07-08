@@ -161,6 +161,26 @@
 
 
 /* ========================================================================
+   Country pages configuration - toolbar above the sidebar
+ ========================================================================== */
+
+/* Fixed (not sticky) avoids the flow->stuck transition that left a sub-pixel
+   gap between the toolbar and the sidebar mid-scroll. */
+.country-config-toolbar {
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  height: 64px;
+  z-index: 985;
+}
+
+.country-config-content {
+  --header-height: 144px;
+  padding-top: 64px;
+}
+
+/* ========================================================================
    Page content
  ========================================================================== */
 
