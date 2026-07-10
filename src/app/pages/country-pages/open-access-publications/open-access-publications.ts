@@ -25,6 +25,8 @@ import { filter } from "rxjs/operators";
 
 
 
+import { CardConfigComponent } from "../card-config/card-config.component";
+
 @Component({
     selector: 'app-open-access-publications',
     imports: [
@@ -34,7 +36,8 @@ import { filter } from "rxjs/operators";
         CatalogueUiReusableComponentsModule,
         SidebarMobileToggleComponent,
         PageContentComponent,
-        InfoCardComponent
+        InfoCardComponent,
+        CardConfigComponent
     ],
     templateUrl: './open-access-publications.html'
 })

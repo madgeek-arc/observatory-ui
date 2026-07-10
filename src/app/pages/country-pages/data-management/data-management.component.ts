@@ -14,6 +14,8 @@ import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/
 import { PdfExportService } from "../../services/pdf-export.service";
 
 
+import { CardConfigComponent } from "../card-config/card-config.component";
+
 @Component({
     selector: 'app-data-management',
     imports: [
@@ -23,7 +25,8 @@ import { PdfExportService } from "../../services/pdf-export.service";
         ChartsModule,
         SidebarMobileToggleComponent,
         PageContentComponent,
-        InfoCardComponent
+        InfoCardComponent,
+        CardConfigComponent
     ],
     templateUrl: './data-management.component.html'
 })

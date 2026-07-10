@@ -107,6 +107,7 @@
           </div>
         </div> -->
         <!--Card 2-->
+        <app-card-config indicatorId="56">
         @if (rfoTrainingPercentage[1] !== null) {
           <app-info-card
             [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Open Science Training</span>`"
@@ -116,7 +117,9 @@
             colorClass="eosc-sb visualisation-card">
           </app-info-card>
         }
+        </app-card-config>
         <!--Card 3-->
+        <app-card-config indicatorId="57">
         @if (trainingFinancialInvestment[1] !== null) {
           <app-info-card
             [titleHtml]="`Total <span class='uk-text-bold'>financial investment in Open Science Training</span>`"
@@ -126,7 +129,9 @@
             colorClass="eosc-sb visualisation-card">
           </app-info-card>
         }
+        </app-card-config>
         <!--Card 4-->
+        <app-card-config indicatorId="58">
         @if (rpoTrainingPercentage[1] !== null) {
           <app-info-card
             [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Open Science Training</span>`"
@@ -136,13 +141,15 @@
             colorClass="eosc-sb visualisation-card">
           </app-info-card>
         }
+        </app-card-config>
       </div>
     </div>
   </div>
 }
 
 <!-- Right Card-->
-<div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+<app-card-config indicatorId="59" class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+<div>
   <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card">
     <div class="uk-margin-top">
       <h5 class="uk-flex uk-flex-between uk-margin-remove">
@@ -212,6 +219,7 @@
     </div>
   </div>
 </div>
+</app-card-config>
 </div>
 <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
 
@@ -227,6 +235,7 @@
 </div>
 <div #exportContent1>
   @if (hasSurveyTrainingData()) {
+    <app-card-config indicatorId="60">
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
       <div class="uk-container">
         <div class="uk-animation-fade">
@@ -295,6 +304,8 @@
         </div>
       </div>
     </div>
+    </app-card-config>
+    <app-card-config indicatorId="61">
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
       <div class="uk-container">
         <div class="uk-animation-fade">
@@ -316,6 +327,7 @@
         </div>
       </div>
     </div>
+    </app-card-config>
   }
 </div>
 </div>

@@ -22,6 +22,8 @@ import { PdfExportService } from "../../services/pdf-export.service";
 import { combineLatest} from "rxjs";
 import { filter } from "rxjs/operators";
 
+import { CardConfigComponent } from "../card-config/card-config.component";
+
 @Component({
     selector: 'app-open-data',
     imports: [
@@ -31,7 +33,8 @@ import { filter } from "rxjs/operators";
         ChartsModule,
         SidebarMobileToggleComponent,
         PageContentComponent,
-        InfoCardComponent
+        InfoCardComponent,
+        CardConfigComponent
     ],
     templateUrl: './open-data.component.html'
 })

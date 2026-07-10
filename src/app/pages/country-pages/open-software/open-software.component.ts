@@ -13,6 +13,8 @@ import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../../explore/explore.service";
 
+import { CardConfigComponent } from "../card-config/card-config.component";
+
 @Component({
   selector: 'app-open-software',
   templateUrl: './open-software.component.html',
@@ -22,7 +24,8 @@ import { ExploreService } from "../../explore/explore.service";
     CatalogueUiReusableComponentsModule,
     SidebarMobileToggleComponent,
     PageContentComponent,
-    InfoCardComponent
+    InfoCardComponent,
+    CardConfigComponent
   ]
 })
 

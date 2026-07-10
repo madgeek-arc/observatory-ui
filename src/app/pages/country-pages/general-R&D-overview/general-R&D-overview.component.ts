@@ -20,6 +20,8 @@ import {StakeholderNewsService} from "../../services/stakeholder-news.service";
 import {NewsItem} from "../../../domain/news";
 
 
+import { CardConfigComponent } from "../card-config/card-config.component";
+
 @Component({
   selector: 'app-general-R&D-overview',
   templateUrl: './general-R&D-overview.component.html',
@@ -29,7 +31,8 @@ import {NewsItem} from "../../../domain/news";
     CatalogueUiReusableComponentsModule,
     SidebarMobileToggleComponent,
     PageContentComponent,
-    InfoCardComponent
+    InfoCardComponent,
+    CardConfigComponent
   ]
 })
 

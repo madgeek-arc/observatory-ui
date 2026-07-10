@@ -12,6 +12,8 @@ import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../../explore/explore.service";
 
 
+import { CardConfigComponent } from "../card-config/card-config.component";
+
 @Component({
     selector: 'app-open-repositories',
     imports: [
@@ -20,7 +22,8 @@ import { ExploreService } from "../../explore/explore.service";
         CatalogueUiReusableComponentsModule,
         SidebarMobileToggleComponent,
         PageContentComponent,
-        InfoCardComponent
+        InfoCardComponent,
+        CardConfigComponent
     ],
     templateUrl: './open-repositories.component.html'
 })

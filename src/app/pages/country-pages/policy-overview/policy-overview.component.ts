@@ -27,6 +27,8 @@ class TableRow {
   }
 }
 
+import { CardConfigComponent } from "../card-config/card-config.component";
+
 @Component({
   selector: 'app-policy-overview',
   templateUrl: './policy-overview.component.html',
@@ -37,7 +39,8 @@ class TableRow {
     CatalogueUiReusableComponentsModule,
     SidebarMobileToggleComponent,
     PageContentComponent,
-    SearchCardComponent
+    SearchCardComponent,
+    CardConfigComponent
   ]
 })
 

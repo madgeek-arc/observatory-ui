@@ -12,6 +12,8 @@ import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../../explore/explore.service";
 
 
+import { CardConfigComponent } from "../card-config/card-config.component";
+
 @Component({
     selector: 'app-citizen-science',
     templateUrl: './citizen-science.component.html',
@@ -21,7 +23,8 @@ import { ExploreService } from "../../explore/explore.service";
         CatalogueUiReusableComponentsModule,
         SidebarMobileToggleComponent,
         PageContentComponent,
-        InfoCardComponent
+        InfoCardComponent,
+        CardConfigComponent
     ]
 })
 export class CitizenScienceComponent implements OnInit {

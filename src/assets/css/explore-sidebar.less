@@ -173,11 +173,117 @@
   right: 0;
   height: 64px;
   z-index: 985;
+
+  /* The warning label ships with `align-self: flex-start` (needed in the survey
+     column layout); in this toolbar row it must center vertically with the buttons. */
+  .uk-label {
+    align-self: center;
+  }
+
+  .uk-label-active {
+    padding: 3px 8px;
+    font-weight: 600;
+    text-transform: none;
+  }
 }
 
 .country-config-content {
   --header-height: 144px;
   padding-top: 64px;
+}
+
+/* app-card-config wraps a single card; keep it a stretching grid/flex child so the
+   card inside still fills the cell (uk-grid-match) exactly like on the public page. */
+app-card-config {
+  display: block;
+  height: 100%;
+}
+
+/* Nothing to show (no data for this country, or toggled off publicly): remove the host
+   entirely so it takes no grid/flex space and leaves no empty shell. */
+app-card-config.card-config-hidden {
+  display: none !important;
+}
+
+.card-config-wrapper {
+  position: relative;
+  height: 100%;
+}
+
+/* Layout-transparent so the projected card behaves as a direct child of the wrapper. */
+.card-config-slot {
+  display: contents;
+}
+
+/* Per-card visibility toggle overlaid on the card's top-right corner in config mode */
+.card-config-controls {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+}
+
+.card-config-btn {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 0.8rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.card-config-btn[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.card-config-btn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* Toggle switch */
+.card-config-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+.card-config-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.card-config-slider {
+  position: absolute;
+  inset: 0;
+  background-color: #ccc;
+  border-radius: 22px;
+  transition: background-color 0.2s ease;
+}
+
+.card-config-slider::before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.card-config-switch input:checked + .card-config-slider {
+  background-color: var(--primary, #008691);
+}
+
+.card-config-switch input:checked + .card-config-slider::before {
+  transform: translateX(18px);
 }
 
 /* ========================================================================

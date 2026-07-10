@@ -75,40 +75,49 @@
                   class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center"
                   data-uk-grid>
                   <!-- Card 1 -->
+                  <app-card-config indicatorId="1">
                   @if (OAPubsPercentage[1] !== null) {
                     <app-info-card
                       [titleHtml]="'OA Publication in ' + countryName + ' (OA vs Closed)'" [value]="OAPubsPercentage[1]"
                       unit="%" [diff]="OAPubsPercentageDiff" colorClass="openaire-graph visualisation-card">
                     </app-info-card>
                   }
+                  </app-card-config>
                   <!-- Card 2 -->
+                  <app-card-config indicatorId="2">
                   @if (OpenDataPercentage[1] !== null) {
                     <app-info-card
                       [titleHtml]="'Open Data in ' + countryName + ' (OA vs Closed)'" [value]="OpenDataPercentage[1]"
                       unit="%" [diff]="OpenDataPercentageDiff" colorClass="openaire-graph visualisation-card">
                     </app-info-card>
                   }
+                  </app-card-config>
                   <!-- Card 3 -->
+                  <app-card-config indicatorId="3">
                   @if (totalInvestment[1] !== null) {
                     <app-info-card titleHtml="Total investment in EOSC and Open Science"
                                    [value]="totalInvestment[1]" unit="mil Euro" [diff]="investmentPercentageDiff"
                                    colorClass="eosc-sb visualisation-card">
                     </app-info-card>
                   }
+                  </app-card-config>
                   <!-- Card 4 -->
+                  <app-card-config indicatorId="4">
                   @if (openSoftware[1] !== null) {
                     <app-info-card
                       titleHtml="Number of Open Software sets published in {{ countryName }}" [value]="openSoftware[1]"
                       unit="sets" [diff]="openSoftwarePercentageDiff" colorClass="eosc-sb visualisation-card">
                     </app-info-card>
                   }
+                  </app-card-config>
                 </div>
               </div>
             </div>
           }
 
           <!-- Right Card (2/5) -->
-          <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+          <app-card-config indicatorId="5" class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+          <div>
             <div class="uk-card uk-card-default uk-card-body external-sources visualisation-card">
               <h5>R&D Information</h5>
 
@@ -179,6 +188,7 @@
               </div>
             </div>
           </div>
+          </app-card-config>
 
           <div>
             <p><span class="uk-text-bold">Data source:</span>
@@ -192,6 +202,7 @@
       </div>
     </div>
 
+    <app-card-config indicatorId="6">
     @if (countryNewsItems.length > 0) {
       <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
         <div class="uk-container">
@@ -273,9 +284,11 @@
         </div>
       </div>
     }
+    </app-card-config>
 
     <div #exportContent2>
       @if (hasSurveyGeneralData()) {
+        <app-card-config indicatorId="7">
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
           <div class="uk-container">
             <div class="uk-animation-fade">
@@ -340,7 +353,9 @@
             </div>
           </div>
         </div>
+        </app-card-config>
 
+        <app-card-config indicatorId="8">
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
           <div class="uk-container">
             <div class="uk-animation-fade">
@@ -404,7 +419,9 @@
             </div>
           </div>
         </div>
+        </app-card-config>
 
+        <app-card-config indicatorId="9">
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
           <div class="uk-container">
             <div class="uk-animation-fade">
@@ -427,7 +444,9 @@
             </div>
           </div>
         </div>
+        </app-card-config>
 
+        <app-card-config indicatorId="10">
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
           <div class="uk-container">
             <div class="uk-animation-fade">
@@ -451,7 +470,9 @@
             </div>
           </div>
         </div>
+        </app-card-config>
 
+        <app-card-config indicatorId="11">
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
           <div class="uk-container">
             <div class="uk-animation-fade">
@@ -485,7 +506,9 @@
             </div>
           </div>
         </div>
+        </app-card-config>
 
+        <app-card-config indicatorId="12">
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
           <div class="uk-container">
             <div class="uk-animation-fade">
@@ -508,6 +531,7 @@
             </div>
           </div>
         </div>
+        </app-card-config>
       }
     </div>
   </div>

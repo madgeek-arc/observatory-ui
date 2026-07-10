@@ -62,8 +62,9 @@
 
         <div class="uk-grid-small" data-uk-grid>
           <!-- left card -->
+          <app-card-config indicatorId="13" class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
           @if (table.length) {
-            <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+            <div>
               <div class="uk-card uk-card-default uk-card-body visualisation-card">
                 <table class="uk-table uk-table-divider uk-table-small uk-table-middle">
                   <thead>
@@ -95,10 +96,12 @@
               </div>
             </div>
           }
+          </app-card-config>
 
           <!-- right card -->
+          <app-card-config indicatorId="14" class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
           @if (hasSurveyPolicyData()) {
-            <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
+            <div>
               <div class="uk-card uk-card-default uk-card-body visualisation-card noads">
                 <h6 class="uk-margin-bottom">Policy Landscape in {{ countryName }}</h6>
                 <div class="uk-text-meta">
@@ -157,12 +160,14 @@
               </div>
             </div>
           }
+          </app-card-config>
         </div>
 
       </div>
     </div>
 
     <ng-container #exportContent2>
+      <app-card-config indicatorId="15">
       @if (documents && documents.length > 0) {
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
           <div class="uk-container">
@@ -171,6 +176,7 @@
           </div>
         </div>
       }
+      </app-card-config>
     </ng-container>
 
   </div>

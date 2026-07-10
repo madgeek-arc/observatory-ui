@@ -89,6 +89,7 @@
           <div class="uk-card uk-card-default uk-card-body">
             <div class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center" data-uk-grid>
               <!-- Card 1 -->
+              <app-card-config indicatorId="16">
               @if (OAPubsPercentage[1] !== null) {
                 <app-info-card
                   [titleHtml]="'OA Publication in ' + countryName + ' (OA vs Closed)'"
@@ -98,7 +99,9 @@
                   colorClass="openaire-graph visualisation-card">
                 </app-info-card>
               }
+              </app-card-config>
               <!-- Card 2 -->
+              <app-card-config indicatorId="17">
               @if (rfoPubsPercentage[1] !== null) {
                 <app-info-card
                   [titleHtml]="'RFOs with Policy on OA Publication'"
@@ -108,7 +111,9 @@
                   colorClass="eosc-sb visualisation-card">
                 </app-info-card>
               }
+              </app-card-config>
               <!-- Card 3 -->
+              <app-card-config indicatorId="18">
               @if (rpoPubsPercentage[1] !== null) {
                 <app-info-card
                   [titleHtml]="'RPOs with Policy on OA Publication'"
@@ -118,7 +123,9 @@
                   colorClass="eosc-sb visualisation-card">
                 </app-info-card>
               }
+              </app-card-config>
               <!-- Card 4 -->
+              <app-card-config indicatorId="19">
               @if (financialInvestment[1] !== null && financialInvestment[1]) {
                 <app-info-card
                   [titleHtml]="'Financial Investments in OA Publications'"
@@ -128,13 +135,15 @@
                   colorClass="eosc-sb visualisation-card">
                 </app-info-card>
               }
+              </app-card-config>
             </div>
           </div>
         </div>
       }
 
       <!-- Right Card (2/5) -->
-      <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+      <app-card-config indicatorId="20" class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+      <div>
         <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card">
           <div class="uk-margin-top">
             <h6 class="uk-flex uk-flex-between uk-margin-remove">
@@ -204,6 +213,7 @@
           </div>
         </div>
       </div>
+      </app-card-config>
 
       <div>
         <p><span class="uk-text-bold">Data source:</span>
@@ -219,6 +229,7 @@
 </div>
 
 <div #exportContent2>
+  <app-card-config indicatorId="21">
   @if (hasSurveyPublicationData()) {
     <div  class="uk-section uk-section-primary uk-preserve-color uk-section-small">
       <div class="uk-container">
@@ -242,8 +253,10 @@
       </div>
     </div>
   }
+  </app-card-config>
 </div>
 
+<app-card-config indicatorId="22">
 <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent3>
   <div class="uk-container">
 
@@ -268,7 +281,9 @@
 
       </div>
     </div>
+    </app-card-config>
 
+    <app-card-config indicatorId="23">
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent4>
       <div class="uk-container">
         <h5></h5>
@@ -293,7 +308,9 @@
 
       </div>
     </div>
+    </app-card-config>
 
+    <app-card-config indicatorId="24">
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent5>
       <div class="uk-container">
 
@@ -315,5 +332,6 @@
 
       </div>
     </div>
+    </app-card-config>
   </div>
 </div>

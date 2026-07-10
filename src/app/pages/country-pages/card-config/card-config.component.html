@@ -1,0 +1,14 @@
+<div #wrapper class="card-config-wrapper">
+  @if (showControls()) {
+    <div class="card-config-controls">
+      <!-- Visibility toggle -->
+      <label class="card-config-switch"
+             [title]="service.isVisible(indicatorId()) ? 'Hide this card' : 'Show this card'">
+        <input type="checkbox" [checked]="service.isVisible(indicatorId())" (change)="toggle()">
+        <span class="card-config-slider"></span>
+      </label>
+    </div>
+  }
+
+  <span #slot class="card-config-slot"><ng-content></ng-content></span>
+</div>

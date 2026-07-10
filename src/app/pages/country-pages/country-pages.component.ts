@@ -11,6 +11,10 @@ import {
 import {
   DashboardSideMenuService
 } from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
+import { Observable } from "rxjs";
+import {
+  CountryPageIndicatorsService, IndicatorsPayload, OverrideDoc
+} from "./services/country-page-indicators.service";
 
 @Component({
     selector: 'app-country-pages',
@@ -44,7 +48,8 @@ export class CountryPagesComponent implements OnInit {
   isConfigMode = false;
 
   constructor(private route: ActivatedRoute, private dataService: DataShareService,
-              private surveyAnswer: SurveyPublicAnswer, private layoutService: DashboardSideMenuService) {}
+              private surveyAnswer: SurveyPublicAnswer, private layoutService: DashboardSideMenuService,
+              private indicatorsService: CountryPageIndicatorsService) {}
 
   ngOnInit() {
     this.isConfigMode = this.route.snapshot.pathFromRoot
@@ -63,6 +68,17 @@ export class CountryPagesComponent implements OnInit {
 
       this.initMenuItems();
       this.layoutService.setOpen(true);
+
+      // Load the card-visibility config for this country. In config mode the admin edits
+      // the per-country override directly; publicly we read the effective/merged result.
+      this.indicatorsService.mode.set(this.isConfigMode ? 'config' : 'public');
+      const indicators$: Observable<OverrideDoc | IndicatorsPayload> = this.isConfigMode
+        ? this.indicatorsService.getOverrides(this.stakeholderId)
+        : this.indicatorsService.getEffective(this.stakeholderId);
+      indicators$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (res) => this.indicatorsService.setState(res?.indicators),
+        error: () => this.indicatorsService.setState([]),
+      });
 
       this.modelsIds.forEach((modelId, index) => {
         this.surveyAnswer.getAnswer(this.stakeholderId, modelId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({

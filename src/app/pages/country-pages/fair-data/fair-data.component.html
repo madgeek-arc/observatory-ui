@@ -100,6 +100,7 @@
                 <div
                   class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center"
                   data-uk-grid>
+                  <app-card-config indicatorId="33">
                   @if (rfoFairDataPercentage[1] !== null) {
                     <app-info-card
                       [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on FAIR Data</span>`"
@@ -109,6 +110,8 @@
                       colorClass="eosc-sb visualisation-card">
                     </app-info-card>
                   }
+                  </app-card-config>
+                  <app-card-config indicatorId="34">
                   @if (rpoFairDataPercentage[1] !== null) {
                     <app-info-card
                       [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on FAIR Data</span>`"
@@ -118,6 +121,8 @@
                       colorClass="eosc-sb visualisation-card">
                     </app-info-card>
                   }
+                  </app-card-config>
+                  <app-card-config indicatorId="35">
                   @if (financialInvestmentInFairData[1] !== null) {
                     <app-info-card
                       [titleHtml]="`Total <span class='uk-text-bold'>financial investment in FAIR Data</span>`"
@@ -127,13 +132,15 @@
                       colorClass="eosc-sb visualisation-card">
                     </app-info-card>
                   }
+                  </app-card-config>
                 </div>
               </div>
             </div>
           }
 
           <!-- Right Card (2/5) -->
-          <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+          <app-card-config indicatorId="36" class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+          <div>
             <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card">
               <div class="uk-margin-top">
                 <h5 class="uk-flex uk-flex-between uk-margin-remove">
@@ -201,6 +208,7 @@
               </div>
             </div>
           </div>
+          </app-card-config>
 
           <div>
             <p><span class="uk-text-bold">Data source:</span>
@@ -215,6 +223,7 @@
   </div>
 
   <div #exportContent4>
+    <app-card-config indicatorId="37">
     @if (hasCountrySurveyAnswerData()) {
       <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
         <div class="uk-container">
@@ -251,11 +260,13 @@
         </div>
       </div>
     }
+    </app-card-config>
   </div>
 
   <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent5>
     <div class="uk-container">
       <div class="uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
+        <app-card-config indicatorId="38">
         @if (stackedColumnSeries1[0].data.length) {
           <div>
             <div class="uk-card uk-card-default eosc-sb visualisation-card uk-card-body">
@@ -270,6 +281,8 @@
             </div>
           </div>
 }
+        </app-card-config>
+          <app-card-config indicatorId="39">
           @if (stackedColumnSeries2[0].data.length) {
 <div>
             <div class="uk-card uk-card-default eosc-sb visualisation-card uk-card-body">
@@ -284,6 +297,7 @@
             </div>
           </div>
 }
+        </app-card-config>
         </div>
       </div>
     </div>

@@ -108,6 +108,7 @@
             </div>
           </div> -->
           <!--Card 2-->
+          <app-card-config indicatorId="62">
           @if (rfoSoftwarePercentage[1] !== null && rfoSoftwarePercentage[1] !== undefined) {
             <app-info-card
               [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Open Software</span>`"
@@ -117,7 +118,9 @@
               colorClass="eosc-sb visualisation-card">
             </app-info-card>
           }
+          </app-card-config>
           <!-- Card 3 -->
+          <app-card-config indicatorId="63">
           @if (softwareFinancialInvestment[1]) {
             <app-info-card
               [titleHtml]="'Total <span class=\'uk-text-bold\'>financial investment in Open Software</span>'"
@@ -127,7 +130,9 @@
               colorClass="eosc-sb visualisation-card">
             </app-info-card>
           }
+          </app-card-config>
           <!--Card 4-->
+          <app-card-config indicatorId="64">
           @if (rpoSoftwarePercentage[1] !== null && rpoSoftwarePercentage[1] !== undefined) {
             <app-info-card
               [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Open Software</span>`"
@@ -137,13 +142,15 @@
               colorClass="eosc-sb visualisation-card">
             </app-info-card>
           }
+          </app-card-config>
         </div>
       </div>
     </div>
   }
 
   <!-- Right Card-->
-  <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+  <app-card-config indicatorId="65" class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+  <div>
     <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card">
       <div class="uk-margin-top">
         <h5 class="uk-flex uk-flex-between uk-margin-remove">
@@ -215,6 +222,7 @@
       </div>
     </div>
   </div>
+  </app-card-config>
 </div>
 <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
 
@@ -232,6 +240,7 @@
 
 <!-- <pre>{{ surveyAnswers[1] | json }}</pre> -->
 <div #exportContent1>
+  <app-card-config indicatorId="66">
   @if (hasSurveySoftwareData()) {
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
       <div class="uk-container">
@@ -258,6 +267,7 @@
       </div>
     </div>
   }
+  </app-card-config>
 </div>
 </div>
 </div>
