@@ -11,9 +11,12 @@ import {
 import {
   DashboardSideMenuService
 } from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
-import { Observable } from "rxjs";
+import { forkJoin, of } from "rxjs";
+import { catchError, map, switchMap } from "rxjs/operators";
+import { IndicatorConfig } from "../../domain/country-page-indicators";
 import {
-  CountryPageIndicatorsService, IndicatorsPayload, OverrideDoc
+  CountryPageIndicatorsService, DefaultsDoc, EditingScope,
+  GLOBAL_DATA_COUNTRY, GLOBAL_SCOPE_CODE, GLOBAL_SCOPE_LABEL, OverrideDoc
 } from "./services/country-page-indicators.service";
 
 @Component({
@@ -55,30 +58,33 @@ export class CountryPagesComponent implements OnInit {
     this.isConfigMode = this.route.snapshot.pathFromRoot
       .some(r => r.routeConfig?.path === 'country/:code/configuration');
 
+    // Whether the shared section/card components render with the admin controls or publicly.
+    this.indicatorsService.mode.set(this.isConfigMode ? 'config' : 'public');
+
     this.back = this.isConfigMode ? null : new MenuItem('back', 'Back to country selection', null, '/country-pages', '', null, null, 'uk-text-uppercase back_button uk-margin');
+
+    // Card-visibility config. The editing scope is encoded in the :code itself
+    // (GLOBAL_SCOPE_CODE === 'EU' vs a real country), so route.params alone re-emits on a switch.
+    this.loadVisibilityConfig();
 
     this.route.params.subscribe(params => {
       this.countryCode = params['code'];
-      this.dataService.countryCode.next(this.countryCode);
-      this.stakeholderId = 'sh-eosc-sb-' + params['code'];
-      this.countryStakeholderId = 'sh-country-' + params['code'];
 
-      this.countryName = this.findCountryByCode(this.countryCode);
+      // The Global default (EU) is not a real stakeholder — it borrows GLOBAL_DATA_COUNTRY's
+      // survey data for its preview. countryCode stays the path segment so the section menu links
+      // remain in /country/EU/..., but all data/stats are fetched under the backing country code.
+      const isGlobal = this.countryCode === GLOBAL_SCOPE_CODE;
+      const dataCode = isGlobal ? GLOBAL_DATA_COUNTRY : this.countryCode;
+
+      this.dataService.countryCode.next(dataCode);
+      this.stakeholderId = 'sh-eosc-sb-' + dataCode;
+      this.countryStakeholderId = 'sh-country-' + dataCode;
+
+      this.countryName = isGlobal ? GLOBAL_SCOPE_LABEL : this.findCountryByCode(this.countryCode);
       this.dataService.countryName.next(this.countryName);
 
       this.initMenuItems();
       this.layoutService.setOpen(true);
-
-      // Load the card-visibility config for this country. In config mode the admin edits
-      // the per-country override directly; publicly we read the effective/merged result.
-      this.indicatorsService.mode.set(this.isConfigMode ? 'config' : 'public');
-      const indicators$: Observable<OverrideDoc | IndicatorsPayload> = this.isConfigMode
-        ? this.indicatorsService.getOverrides(this.stakeholderId)
-        : this.indicatorsService.getEffective(this.stakeholderId);
-      indicators$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-        next: (res) => this.indicatorsService.setState(res?.indicators),
-        error: () => this.indicatorsService.setState([]),
-      });
 
       this.modelsIds.forEach((modelId, index) => {
         this.surveyAnswer.getAnswer(this.stakeholderId, modelId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -102,6 +108,66 @@ export class CountryPagesComponent implements OnInit {
         }
       });
 
+    });
+  }
+
+  /**
+   * Loads the working card-visibility state, reacting to the :code — which encodes both the
+   * country and the editing scope (GLOBAL_SCOPE_CODE === 'EU' is the Global default). A single
+   * switchMap keeps only the latest result — a fast scope/country change cancels the in-flight
+   * request, and there is no nested subscribe.
+   *
+   *  - public page:   effective/merged visibility (nothing locked)
+   *  - config global: the type-wide defaults document (nothing locked)
+   *  - config country: the country's own override + the Global default (the lock floor),
+   *                    fetched in parallel so hidden-in-global indicators can be disabled.
+   */
+  private loadVisibilityConfig(): void {
+    this.route.params.pipe(
+      switchMap(params => {
+        const stakeholderId = 'sh-eosc-sb-' + params['code'];
+
+        if (!this.isConfigMode) {
+          // Public page: apply the country's own override; fall back to the Global default for
+          // countries without one, so type-wide hidden cards stay hidden. No lock floor here —
+          // nothing is editable on the public page.
+          return forkJoin({
+            override: this.indicatorsService.getOverrides(stakeholderId).pipe(catchError(() => of(null as OverrideDoc | null))),
+            defaults: this.indicatorsService.getDefaults('eosc-sb').pipe(catchError(() => of(null as DefaultsDoc | null))),
+          }).pipe(
+            map(({ override, defaults }) => ({
+              indicators: override?.indicators ?? defaults?.indicators,
+              docId: '',
+              floor: null as IndicatorConfig[] | null,
+            }))
+          );
+        }
+
+        const scope: EditingScope = params['code'] === GLOBAL_SCOPE_CODE ? 'global' : 'country';
+        this.indicatorsService.editingScope.set(scope);
+
+        if (scope === 'global') {
+          return this.indicatorsService.getDefaults('eosc-sb').pipe(
+            map(doc => ({ indicators: doc?.indicators, docId: doc?.id ?? '', floor: null as IndicatorConfig[] | null })),
+            catchError(() => of({ indicators: [] as IndicatorConfig[], docId: '', floor: null as IndicatorConfig[] | null }))
+          );
+        }
+
+        return forkJoin({
+          override: this.indicatorsService.getOverrides(stakeholderId).pipe(catchError(() => of(null as OverrideDoc | null))),
+          defaults: this.indicatorsService.getDefaults('eosc-sb').pipe(catchError(() => of(null as DefaultsDoc | null))),
+        }).pipe(
+          map(({ override, defaults }) => ({
+            indicators: override?.indicators,
+            docId: override?.id ?? '',
+            floor: defaults?.indicators ?? null,
+          }))
+        );
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(({ indicators, docId, floor }) => {
+      this.indicatorsService.setGlobalFloor(floor);
+      this.indicatorsService.setState(indicators, docId);
     });
   }
 

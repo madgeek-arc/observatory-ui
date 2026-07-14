@@ -68,14 +68,15 @@
 
         <div class="uk-grid-small uk-grid-match uk-grid" data-uk-grid>
 
-          @if (hasAnyLeftCardData()) {
+          @if (hasAnyLeftCardVisible()) {
             <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
               <div class="uk-card uk-card-default uk-card-body">
                 <div
                   class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center"
-                  data-uk-grid>
+                  data-uk-grid
+                  data-uk-height-match="target: > * .uk-card">
                   <!-- Card 1 -->
-                  <app-card-config indicatorId="1">
+                  <app-card-config indicatorId="1" colorClass="openaire-graph visualisation-card">
                   @if (OAPubsPercentage[1] !== null) {
                     <app-info-card
                       [titleHtml]="'OA Publication in ' + countryName + ' (OA vs Closed)'" [value]="OAPubsPercentage[1]"
@@ -84,7 +85,7 @@
                   }
                   </app-card-config>
                   <!-- Card 2 -->
-                  <app-card-config indicatorId="2">
+                  <app-card-config indicatorId="2" colorClass="openaire-graph visualisation-card">
                   @if (OpenDataPercentage[1] !== null) {
                     <app-info-card
                       [titleHtml]="'Open Data in ' + countryName + ' (OA vs Closed)'" [value]="OpenDataPercentage[1]"
@@ -93,7 +94,7 @@
                   }
                   </app-card-config>
                   <!-- Card 3 -->
-                  <app-card-config indicatorId="3">
+                  <app-card-config indicatorId="3" colorClass="eosc-sb visualisation-card">
                   @if (totalInvestment[1] !== null) {
                     <app-info-card titleHtml="Total investment in EOSC and Open Science"
                                    [value]="totalInvestment[1]" unit="mil Euro" [diff]="investmentPercentageDiff"
@@ -102,7 +103,7 @@
                   }
                   </app-card-config>
                   <!-- Card 4 -->
-                  <app-card-config indicatorId="4">
+                  <app-card-config indicatorId="4" colorClass="eosc-sb visualisation-card">
                   @if (openSoftware[1] !== null) {
                     <app-info-card
                       titleHtml="Number of Open Software sets published in {{ countryName }}" [value]="openSoftware[1]"

@@ -15,7 +15,8 @@
     <div class="uk-flex uk-flex-middle">
       <span class="uk-text-meta uk-margin-small-right">Editing</span>
       <select class="uk-dropdown uk-form-small uk-text-bold"
-        [ngModel]="selectedCountryCode()" (ngModelChange)="onCountryChange($event)">
+        [ngModel]="selectedScope()" (ngModelChange)="onScopeChange($event)">
+        <option value="global">Global default</option>
         @for (country of countries; track country.id) {
           <option [value]="country.id">{{ country.name }} -- override</option>
         }

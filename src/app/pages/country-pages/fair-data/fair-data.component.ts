@@ -2,6 +2,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
+import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
 import {
   CatalogueUiReusableComponentsModule
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
@@ -144,6 +145,17 @@ export class FairDataComponent implements OnInit {
       }
     });
 
+  }
+
+  private readonly indicatorsService = inject(CountryPageIndicatorsService);
+
+  /** Left card block renders only if at least one of its cards will be visible (see service). */
+  hasAnyLeftCardVisible(): boolean {
+    return this.indicatorsService.anyCardVisible([
+      { id: '33', hasData: this.rfoFairDataPercentage[1]         != null },
+      { id: '34', hasData: this.rpoFairDataPercentage[1]         != null },
+      { id: '35', hasData: this.financialInvestmentInFairData[1] != null },
+    ]);
   }
 
   hasAnyLeftCardData() {

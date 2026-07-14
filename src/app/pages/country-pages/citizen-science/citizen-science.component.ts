@@ -2,6 +2,7 @@ import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
+import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
 import {
   CatalogueUiReusableComponentsModule
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
@@ -124,6 +125,15 @@ export class CitizenScienceComponent implements OnInit {
     console.log("Final citizenScienceProjects:", this.citizenScienceProjects);
     console.log("Final financialInvestmentInCS:", this.financialInvestmentInCS);
 
+  }
+
+  private readonly indicatorsService = inject(CountryPageIndicatorsService);
+
+  /** Left card block renders only if its card will be visible (see service). */
+  hasAnyLeftCardVisible(): boolean {
+    return this.indicatorsService.anyCardVisible([
+      { id: '47', hasData: this.financialInvestmentInCS[1] != null },
+    ]);
   }
 
   hasAnyLeftCardData() {

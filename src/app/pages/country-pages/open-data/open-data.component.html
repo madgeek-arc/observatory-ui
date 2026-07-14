@@ -88,13 +88,14 @@
     </div>
 
     <div class="uk-grid-small uk-grid-match" data-uk-grid>
-      @if (hasAnyLeftCardData()) {
+      @if (hasAnyLeftCardVisible()) {
         <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
           <div class="uk-card uk-card-default uk-card-body">
             <div
               class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center"
-              data-uk-grid>
-              <app-card-config indicatorId="25">
+              data-uk-grid
+              data-uk-height-match="target: > * .uk-card">
+              <app-card-config indicatorId="25" colorClass="openaire-graph visualisation-card">
                 @if (OpenDataPercentage[1] !== null) {
                   <app-info-card
                     [titleHtml]="`Open Data in ${countryName} (OA vs Closed)`"
@@ -105,7 +106,7 @@
                   </app-info-card>
                 }
               </app-card-config>
-              <app-card-config indicatorId="26">
+              <app-card-config indicatorId="26" colorClass="eosc-sb visualisation-card">
                 @if (rfoOpenDataPercentage[1] !== null) {
                   <app-info-card
                     [titleHtml]="'RFOs with Policy on Open Data'"
@@ -116,7 +117,7 @@
                   </app-info-card>
                 }
               </app-card-config>
-              <app-card-config indicatorId="27">
+              <app-card-config indicatorId="27" colorClass="eosc-sb visualisation-card">
                 @if (ODfinancialInvestment[1] !== null && ODfinancialInvestment[1] !== undefined && ODfinancialInvestment[1]) {
                   <app-info-card
                     [titleHtml]="`Financial investments in <span class='uk-text-bold'>Open Data</span>`"
@@ -127,7 +128,7 @@
                   </app-info-card>
                 }
               </app-card-config>
-              <app-card-config indicatorId="28">
+              <app-card-config indicatorId="28" colorClass="eosc-sb visualisation-card">
                 @if (rpoOpenDataPercentage[1] !== null) {
                   <app-info-card
                     [titleHtml]="'RPOs with Policy on Open Data'"

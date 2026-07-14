@@ -1,14 +1,33 @@
 <div #wrapper class="card-config-wrapper">
   @if (showControls()) {
     <div class="card-config-controls">
-      <!-- Visibility toggle -->
+      <!-- Visibility toggle. Locked (disabled) when the Global default hides this indicator. -->
       <label class="card-config-switch"
-             [title]="service.isVisible(indicatorId()) ? 'Hide this card' : 'Show this card'">
-        <input type="checkbox" [checked]="service.isVisible(indicatorId())" (change)="toggle()">
+             [class.card-config-switch-locked]="service.isLocked(indicatorId())"
+             [title]="service.isLocked(indicatorId())
+                        ? 'Locked by the Global default'
+                        : (service.isVisible(indicatorId()) ? 'Hide this card' : 'Show this card')">
+        <input type="checkbox"
+               [checked]="!service.isLocked(indicatorId()) && service.isVisible(indicatorId())"
+               [disabled]="service.isLocked(indicatorId())"
+               (change)="toggle()">
         <span class="card-config-slider"></span>
       </label>
     </div>
   }
 
   <span #slot class="card-config-slot"><ng-content></ng-content></span>
+
+  <!-- Global-default scope: keep the indicator togglable even when France (the backing data
+       country) has nothing to preview. Rendered outside the slot so it never counts as content. -->
+  @if (showPlaceholder()) {
+    <div class="uk-animation-scale-up">
+      <div class="uk-card card-simple uk-card-small uk-card-body uk-height-1-1" [class]="colorClass()">
+        <p>{{ service.labelFor(indicatorId()) }}</p>
+        <div class="number big uk-margin-medium-top">
+          <span class="uk-text-muted">No data available</span>
+        </div>
+      </div>
+    </div>
+  }
 </div>

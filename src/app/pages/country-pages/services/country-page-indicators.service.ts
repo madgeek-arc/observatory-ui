@@ -7,6 +7,28 @@ import { COUNTRY_PAGE_INDICATORS, IndicatorConfig } from "../../../domain/countr
 
 export type IndicatorsMode = 'public' | 'config';
 
+/**
+ * Which document the admin is editing:
+ *  - 'country': a specific country's own override (/stakeholders/{id}/indicators/overrides)
+ *  - 'global':  the type-wide default that applies to every country without its own override
+ *               (/indicators/defaults/{type})
+ */
+export type EditingScope = 'global' | 'country';
+
+/**
+ * Reserved path segment for the type-wide Global default editing scope. It is NOT a real country:
+ * `/country/EU/configuration` edits the `eosc-sb` defaults document, while its page preview is
+ * rendered from {@link GLOBAL_DATA_COUNTRY}'s survey data (there is no `sh-eosc-sb-EU` stakeholder).
+ * Kept out of the shared `countries` list on purpose, so "Europe" never leaks into country pickers.
+ */
+export const GLOBAL_SCOPE_CODE = 'EU';
+
+/** Real country whose survey data backs the Global default preview. */
+export const GLOBAL_DATA_COUNTRY = 'FR';
+
+/** Display label for the Global default scope ({@link GLOBAL_SCOPE_CODE} has no `countries` entry). */
+export const GLOBAL_SCOPE_LABEL = 'Europe';
+
 export interface IndicatorsPayload {
   indicators: IndicatorConfig[];
 }
@@ -48,12 +70,26 @@ export class CountryPageIndicatorsService {
   /** Whether the shared section components are rendered on the admin config page or publicly. */
   readonly mode = signal<IndicatorsMode>('public');
 
+  /** Which document the admin is currently editing — drives Publish (overrides vs defaults). */
+  readonly editingScope = signal<EditingScope>('country');
+
   /** Working visibility, keyed by indicator id. */
   private readonly _visibility = signal<Map<string, boolean>>(this.defaultVisibility());
   readonly visibility = this._visibility.asReadonly();
 
+  /**
+   * Global-default visibility floor for the current country scope, keyed by indicator id.
+   * Non-null only while editing a specific country: any indicator whose value here is `false`
+   * is hidden by the Global default and therefore locked (its per-country toggle is disabled).
+   * `null` in Global-default scope and on the public pages (nothing is locked).
+   */
+  private readonly _globalFloor = signal<Map<string, boolean> | null>(null);
+
   /** Snapshot taken at load time, used for dirty-check and Discard. */
   private pristine = new Map<string, boolean>(this.defaultVisibility());
+
+  /** id of the currently loaded override/defaults document, so Publish updates it instead of leaving it blank. */
+  private docId = '';
 
   /** True when the working visibility differs from the last loaded/saved snapshot. */
   readonly dirty = signal(false);
@@ -65,8 +101,11 @@ export class CountryPageIndicatorsService {
   /**
    * Rebuilds the working state from the catalog defaults, overlaying whatever the given
    * scope returned. Resets the dirty flag and the pristine snapshot.
+   *
+   * @param docId id of the document these overrides/defaults came from (empty string if the
+   * scope has no document yet, e.g. a country with no override — Publish will then create one).
    */
-  setState(overrides: IndicatorConfig[] | null | undefined): void {
+  setState(overrides: IndicatorConfig[] | null | undefined, docId: string = ''): void {
     const map = this.defaultVisibility();
     for (const o of overrides ?? []) {
       if (map.has(o.id)) {
@@ -76,13 +115,54 @@ export class CountryPageIndicatorsService {
     this._visibility.set(map);
     this.pristine = new Map(map);
     this.dirty.set(false);
+    this.docId = docId;
   }
 
   isVisible(id: string): boolean {
     return this._visibility().get(id) ?? true;
   }
 
+  /** Admin-facing label for an indicator id (from the catalog). */
+  labelFor(id: string): string {
+    return COUNTRY_PAGE_INDICATORS.find(i => i.id === id)?.label ?? '';
+  }
+
+  /**
+   * Whether a card block (e.g. a section's left "container" card) should render at all, given
+   * its cards' data availability:
+   *  - public: at least one card has data AND is toggled visible;
+   *  - config: always shown (country: any card with data; global: also placeholders), so every
+   *    indicator stays reachable for toggling.
+   * Lets a section drop its wrapper card entirely when all inner cards are hidden.
+   */
+  anyCardVisible(cards: Array<{ id: string; hasData: boolean }>): boolean {
+    if (this.mode() === 'config') {
+      return this.editingScope() === 'global' || cards.some(c => c.hasData);
+    }
+    return cards.some(c => c.hasData && this.isVisible(c.id));
+  }
+
+  /**
+   * Records (country scope) or clears (global/public) the Global-default lock floor.
+   * Pass the Global default's indicators while editing a specific country; pass null otherwise.
+   */
+  setGlobalFloor(indicators: IndicatorConfig[] | null | undefined): void {
+    this._globalFloor.set(indicators ? new Map(indicators.map(i => [i.id, i.visible])) : null);
+  }
+
+  /**
+   * True when the Global default hides this indicator while a specific country is being edited,
+   * i.e. no per-country override may turn it back on from this admin UI.
+   */
+  isLocked(id: string): boolean {
+    const floor = this._globalFloor();
+    return this.editingScope() === 'country' && floor !== null && floor.get(id) === false;
+  }
+
   toggle(id: string): void {
+    if (this.isLocked(id)) {
+      return; // locked by the Global default — ignore attempts to flip it in country scope
+    }
     const map = new Map(this._visibility());
     map.set(id, !(map.get(id) ?? true));
     this._visibility.set(map);
@@ -122,7 +202,7 @@ export class CountryPageIndicatorsService {
   putOverrides(stakeholderId: string, indicators: IndicatorConfig[]): Observable<OverrideDoc> {
     return this.http.put<OverrideDoc>(
       `${this.base}/stakeholders/${stakeholderId}/indicators/overrides`,
-      { id: '', stakeholderId, indicators }
+      { id: this.docId, stakeholderId, indicators }
     );
   }
 
@@ -155,9 +235,18 @@ export class CountryPageIndicatorsService {
     return this.http.post<DefaultsDoc>(`${this.base}/indicators/defaults`, doc);
   }
 
-  /** Save (update) the global default document for a stakeholder type. */
-  putDefaults(type: string, doc: DefaultsDoc): Observable<DefaultsDoc> {
-    return this.http.put<DefaultsDoc>(`${this.base}/indicators/defaults/${type}`, doc);
+  /**
+   * Save (update) the global default document for a stakeholder type.
+   *
+   * The backend rejects the PUT with 409 ("Resource body id different than path id") unless the
+   * body id equals the stored document's id. We echo `docId` — the id captured from the last
+   * getDefaults/setState — rather than guessing it, so the two always match.
+   */
+  putDefaults(type: string, indicators: IndicatorConfig[]): Observable<DefaultsDoc> {
+    return this.http.put<DefaultsDoc>(
+      `${this.base}/indicators/defaults/${type}`,
+      { id: this.docId, type, indicators }
+    );
   }
 
   /** Delete the global default document for a stakeholder type. */

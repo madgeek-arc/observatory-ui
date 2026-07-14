@@ -2,6 +2,7 @@ import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
+import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import {
   distributionOfOAByFieldOfScience,
@@ -236,6 +237,18 @@ export class OpenAccessPublicationsPage implements OnInit {
   /** Check if at least one data value is available for displaying the left card.
    * Uses the generic method of DataCheckService to check for null & undefined values.
    */
+  private readonly indicatorsService = inject(CountryPageIndicatorsService);
+
+  /** Left card block renders only if at least one of its cards will be visible (see service). */
+  hasAnyLeftCardVisible(): boolean {
+    return this.indicatorsService.anyCardVisible([
+      { id: '16', hasData: this.OAPubsPercentage[1]  != null },
+      { id: '17', hasData: this.rfoPubsPercentage[1] != null },
+      { id: '18', hasData: this.rpoPubsPercentage[1] != null },
+      { id: '19', hasData: this.financialInvestment[1] != null },
+    ]);
+  }
+
   hasAnyLeftCardData() {
     return this.dataShareService.hasAnyValue([
       this.rfoPubsPercentage[1],

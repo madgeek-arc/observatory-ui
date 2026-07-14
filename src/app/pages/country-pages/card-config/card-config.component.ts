@@ -32,20 +32,37 @@ export class CardConfigComponent implements AfterViewChecked {
   /** Catalog id of the wrapped card — see COUNTRY_PAGE_INDICATORS. */
   readonly indicatorId = input.required<string>();
 
+  /** Colour class of the wrapped card (e.g. "eosc-sb visualisation-card"), so the no-data
+   *  placeholder matches the real card's colour. */
+  readonly colorClass = input<string>('');
+
   private readonly wrapperRef = viewChild.required<ElementRef<HTMLElement>>('wrapper');
   private readonly slotRef = viewChild.required<ElementRef<HTMLElement>>('slot');
 
   /** Whether the projected card actually rendered anything (i.e. there is data to show). */
   protected readonly hasContent = signal(false);
 
+  /**
+   * Global-default scope only: show a "No data available" placeholder for cards whose backing
+   * country (France) has no data, so every indicator stays togglable. A country override keeps
+   * the old behaviour — a card with no data renders nothing.
+   */
+  protected readonly showPlaceholder = computed(() =>
+    this.service.mode() === 'config'
+    && this.service.editingScope() === 'global'
+    && !this.hasContent()
+  );
+
   /** Shown when there is content and (config mode, or the indicator is toggled visible). */
   protected readonly cardVisible = computed(() =>
-    this.hasContent() && (this.service.mode() === 'config' || this.service.isVisible(this.indicatorId()))
+    this.service.mode() === 'config'
+      ? this.hasContent() || this.showPlaceholder()
+      : this.hasContent() && this.service.isVisible(this.indicatorId())
   );
 
   /** The control cluster only exists in config mode, and only when there is a card to control. */
   protected readonly showControls = computed(() =>
-    this.hasContent() && this.service.mode() === 'config'
+    this.service.mode() === 'config' && (this.hasContent() || this.showPlaceholder())
   );
 
   ngAfterViewChecked(): void {
@@ -66,7 +83,7 @@ export class CardConfigComponent implements AfterViewChecked {
   private positionControls(): void {
     const wrapper = this.wrapperRef().nativeElement;
     const controls = wrapper.querySelector<HTMLElement>('.card-config-controls');
-    const card = this.slotRef().nativeElement.querySelector<HTMLElement>('.uk-card');
+    const card = this.wrapperRef().nativeElement.querySelector<HTMLElement>('.uk-card');
     if (!controls || !card) {
       return;
     }

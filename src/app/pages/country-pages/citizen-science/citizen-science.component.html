@@ -79,7 +79,7 @@
 
   <div class="uk-grid-small uk-grid" data-uk-grid>
 
-    @if (hasAnyLeftCardData()) {
+    @if (hasAnyLeftCardVisible()) {
       <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body">
           <div
@@ -94,7 +94,7 @@
 <!--                colorClass="eosc-sb visualisation-card">-->
 <!--              </app-info-card>-->
 <!--            }-->
-            <app-card-config indicatorId="47">
+            <app-card-config indicatorId="47" colorClass="eosc-sb visualisation-card">
             @if (financialInvestmentInCS[1] !== null && financialInvestmentInCS[1] !== undefined) {
               <app-info-card
                 [titleHtml]="`Total amount of <span class='uk-text-bold'>financial investments</span> in Citizen Science`"

@@ -94,13 +94,14 @@
         </div>
 
         <div class="uk-grid-small" data-uk-grid>
-          @if (hasAnyLeftCardData()) {
+          @if (hasAnyLeftCardVisible()) {
             <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
               <div class="uk-card uk-card-default uk-card-body">
                 <div
                   class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center"
-                  data-uk-grid>
-                  <app-card-config indicatorId="33">
+                  data-uk-grid
+                  data-uk-height-match="target: > * .uk-card">
+                  <app-card-config indicatorId="33" colorClass="eosc-sb visualisation-card">
                   @if (rfoFairDataPercentage[1] !== null) {
                     <app-info-card
                       [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on FAIR Data</span>`"
@@ -111,7 +112,7 @@
                     </app-info-card>
                   }
                   </app-card-config>
-                  <app-card-config indicatorId="34">
+                  <app-card-config indicatorId="34" colorClass="eosc-sb visualisation-card">
                   @if (rpoFairDataPercentage[1] !== null) {
                     <app-info-card
                       [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on FAIR Data</span>`"
@@ -122,7 +123,7 @@
                     </app-info-card>
                   }
                   </app-card-config>
-                  <app-card-config indicatorId="35">
+                  <app-card-config indicatorId="35" colorClass="eosc-sb visualisation-card">
                   @if (financialInvestmentInFairData[1] !== null) {
                     <app-info-card
                       [titleHtml]="`Total <span class='uk-text-bold'>financial investment in FAIR Data</span>`"

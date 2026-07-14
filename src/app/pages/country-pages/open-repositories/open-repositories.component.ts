@@ -2,6 +2,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
+import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
 import {
   CatalogueUiReusableComponentsModule
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
@@ -131,6 +132,18 @@ export class OpenRepositoriesComponent implements OnInit {
   this.monitoringClarificationOR = this.surveyAnswers[1]?.['Practices']?.['Question78']?.['Question78-1'] || null;
 
  }
+
+  private readonly indicatorsService = inject(CountryPageIndicatorsService);
+
+  /** Left card block renders only if at least one of its cards will be visible (see service). */
+  hasAnyLeftCardVisible(): boolean {
+    return this.indicatorsService.anyCardVisible([
+      { id: '50', hasData: this.OpenRepositoriesPercentage[1]    != null },
+      { id: '51', hasData: this.rfoOpenRepositoriesPercentage[1] != null },
+      { id: '52', hasData: this.financialInvestment[1]           != null },
+      { id: '53', hasData: this.rpoOpenRepositoriesPercentage[1] != null },
+    ]);
+  }
 
   hasAnyLeftCardData() {
     return this.dataShareService.hasAnyValue([

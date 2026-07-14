@@ -2,6 +2,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
+import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
 import {
   CatalogueUiReusableComponentsModule
 } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
@@ -212,6 +213,17 @@ export class DataManagementComponent implements OnInit {
 
     this.stackedColumnSeries1 = [...this.stackedColumnSeries1];
     this.stackedColumnSeries2 = [...this.stackedColumnSeries2];
+  }
+
+  private readonly indicatorsService = inject(CountryPageIndicatorsService);
+
+  /** Left card block renders only if at least one of its cards will be visible (see service). */
+  hasAnyLeftCardVisible(): boolean {
+    return this.indicatorsService.anyCardVisible([
+      { id: '40', hasData: this.rfoDataManagementPercentage[1] != null },
+      { id: '41', hasData: this.rpoDataManagementPercentage[1] != null },
+      { id: '42', hasData: this.financialInvestmentDM[1]       != null },
+    ]);
   }
 
   hasAnyLeftCardData() {

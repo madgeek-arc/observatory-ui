@@ -84,12 +84,12 @@
 
     <div class="uk-grid-small uk-grid-match" data-uk-grid>
 
-      @if (hasAnyLeftCardData()) {
+      @if (hasAnyLeftCardVisible()) {
         <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
           <div class="uk-card uk-card-default uk-card-body">
-            <div class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center" data-uk-grid>
+            <div class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center" data-uk-grid data-uk-height-match="target: > * .uk-card">
               <!-- Card 1 -->
-              <app-card-config indicatorId="16">
+              <app-card-config indicatorId="16" colorClass="openaire-graph visualisation-card">
               @if (OAPubsPercentage[1] !== null) {
                 <app-info-card
                   [titleHtml]="'OA Publication in ' + countryName + ' (OA vs Closed)'"
@@ -101,7 +101,7 @@
               }
               </app-card-config>
               <!-- Card 2 -->
-              <app-card-config indicatorId="17">
+              <app-card-config indicatorId="17" colorClass="eosc-sb visualisation-card">
               @if (rfoPubsPercentage[1] !== null) {
                 <app-info-card
                   [titleHtml]="'RFOs with Policy on OA Publication'"
@@ -113,7 +113,7 @@
               }
               </app-card-config>
               <!-- Card 3 -->
-              <app-card-config indicatorId="18">
+              <app-card-config indicatorId="18" colorClass="eosc-sb visualisation-card">
               @if (rpoPubsPercentage[1] !== null) {
                 <app-info-card
                   [titleHtml]="'RPOs with Policy on OA Publication'"
@@ -125,7 +125,7 @@
               }
               </app-card-config>
               <!-- Card 4 -->
-              <app-card-config indicatorId="19">
+              <app-card-config indicatorId="19" colorClass="eosc-sb visualisation-card">
               @if (financialInvestment[1] !== null && financialInvestment[1]) {
                 <app-info-card
                   [titleHtml]="'Financial Investments in OA Publications'"

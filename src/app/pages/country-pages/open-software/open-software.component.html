@@ -80,10 +80,10 @@
   </div>
 
   <div class="uk-grid-small" data-uk-grid>
-    @if (hasAnyLeftCardData()) {
+    @if (hasAnyLeftCardVisible()) {
       <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body">
-          <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-grid-small uk-grid-match uk-flex uk-flex-center" data-uk-grid>
+          <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-grid-small uk-grid-match uk-flex uk-flex-center" data-uk-grid data-uk-height-match="target: > * .uk-card">
             <!-- Card 1 -->
             <!-- <div *ngIf="OpenTrainingPercentage[1] !== null" class="uk-animation-scale-up">
             <div class="uk-card card-simple uk-card-small uk-card-body">
@@ -108,7 +108,7 @@
             </div>
           </div> -->
           <!--Card 2-->
-          <app-card-config indicatorId="62">
+          <app-card-config indicatorId="62" colorClass="eosc-sb visualisation-card">
           @if (rfoSoftwarePercentage[1] !== null && rfoSoftwarePercentage[1] !== undefined) {
             <app-info-card
               [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Open Software</span>`"
@@ -120,7 +120,7 @@
           }
           </app-card-config>
           <!-- Card 3 -->
-          <app-card-config indicatorId="63">
+          <app-card-config indicatorId="63" colorClass="eosc-sb visualisation-card">
           @if (softwareFinancialInvestment[1]) {
             <app-info-card
               [titleHtml]="'Total <span class=\'uk-text-bold\'>financial investment in Open Software</span>'"
@@ -132,7 +132,7 @@
           }
           </app-card-config>
           <!--Card 4-->
-          <app-card-config indicatorId="64">
+          <app-card-config indicatorId="64" colorClass="eosc-sb visualisation-card">
           @if (rpoSoftwarePercentage[1] !== null && rpoSoftwarePercentage[1] !== undefined) {
             <app-info-card
               [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Open Software</span>`"

@@ -200,8 +200,10 @@ app-card-config {
 }
 
 /* Nothing to show (no data for this country, or toggled off publicly): remove the host
-   entirely so it takes no grid/flex space and leaves no empty shell. */
-app-card-config.card-config-hidden {
+   entirely so it takes no grid/flex space and leaves no empty shell.
+   :host() (not `app-card-config`) so the rule reaches the component host under emulated
+   encapsulation — a type selector here gets an [_ngcontent] attr that never matches the host. */
+:host(.card-config-hidden) {
   display: none !important;
 }
 
@@ -284,6 +286,12 @@ app-card-config.card-config-hidden {
 
 .card-config-switch input:checked + .card-config-slider::before {
   transform: translateX(18px);
+}
+
+/* Locked by the Global default: not interactive, visually muted. */
+.card-config-switch-locked {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 /* ========================================================================

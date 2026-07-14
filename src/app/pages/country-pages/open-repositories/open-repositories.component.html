@@ -79,13 +79,14 @@
   National Contributions to EOSC and Open Science.</p>
 
   <div class="uk-grid-small" data-uk-grid>
-    @if (hasAnyLeftCardData()) {
+    @if (hasAnyLeftCardVisible()) {
       <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body">
           <div
             class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center"
-            data-uk-grid>
-            <app-card-config indicatorId="50">
+            data-uk-grid
+            data-uk-height-match="target: > * .uk-card">
+            <app-card-config indicatorId="50" colorClass="eosc-sb visualisation-card">
             @if (OpenRepositoriesPercentage[1] !== null) {
               <app-info-card
                 [titleHtml]="`Percentage of <span class='uk-text-bold'>Open Repositories in ${countryName}</span>`"
@@ -96,7 +97,7 @@
               </app-info-card>
             }
             </app-card-config>
-            <app-card-config indicatorId="51">
+            <app-card-config indicatorId="51" colorClass="eosc-sb visualisation-card">
             @if (rfoOpenRepositoriesPercentage[1] !== null) {
               <app-info-card
                 [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Repositories</span>`"
@@ -107,7 +108,7 @@
               </app-info-card>
             }
             </app-card-config>
-            <app-card-config indicatorId="52">
+            <app-card-config indicatorId="52" colorClass="eosc-sb visualisation-card">
             @if (financialInvestment[1] !== null) {
               <app-info-card
                 [titleHtml]="`Total <span class='uk-text-bold'>financial investment in repositories</span>`"
@@ -118,7 +119,7 @@
               </app-info-card>
             }
             </app-card-config>
-            <app-card-config indicatorId="53">
+            <app-card-config indicatorId="53" colorClass="eosc-sb visualisation-card">
             @if (rpoOpenRepositoriesPercentage[1] !== null) {
               <app-info-card
                 [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy in Repositories</span>`"

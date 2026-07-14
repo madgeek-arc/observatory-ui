@@ -85,13 +85,14 @@
         </div>
 
         <div class="uk-grid-small" data-uk-grid>
-          @if (hasAnyLeftCardData()) {
+          @if (hasAnyLeftCardVisible()) {
             <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
               <div class="uk-card uk-card-default uk-card-body">
                 <div
                   class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center"
-                  data-uk-grid>
-                  <app-card-config indicatorId="40">
+                  data-uk-grid
+                  data-uk-height-match="target: > * .uk-card">
+                  <app-card-config indicatorId="40" colorClass="eosc-sb visualisation-card">
                   @if (rfoDataManagementPercentage[1] !== null && rfoDataManagementPercentage[1] !== undefined) {
                     <app-info-card
                       [titleHtml]="`Percentage of <span class='uk-text-bold'> RFO\'s Policy on Data Management</span>`"
@@ -102,7 +103,7 @@
                     </app-info-card>
                   }
                   </app-card-config>
-                  <app-card-config indicatorId="41">
+                  <app-card-config indicatorId="41" colorClass="eosc-sb visualisation-card">
                   @if (rpoDataManagementPercentage[1] !== null && rpoDataManagementPercentage[1] !== undefined) {
                     <app-info-card
                       [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Data Management</span>`"
@@ -113,7 +114,7 @@
                     </app-info-card>
                   }
                   </app-card-config>
-                  <app-card-config indicatorId="42">
+                  <app-card-config indicatorId="42" colorClass="eosc-sb visualisation-card">
                   @if (financialInvestmentDM[1] !== null && financialInvestmentDM[1] !== undefined) {
                     <app-info-card
                       [titleHtml]="`Total amount of <span class='uk-text-bold'>financial investments</span> in Data Management`"
