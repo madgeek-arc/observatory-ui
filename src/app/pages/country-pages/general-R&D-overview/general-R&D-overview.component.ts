@@ -61,6 +61,8 @@ export class GeneralRDOverviewComponent implements OnInit {
   countryNewsItems: NewsItem[] = [];
 
   countryCode?: string;
+  /** Code used only for the flag/label (EU for the Global default); data still uses countryCode. */
+  flagCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [null, null];
   countrySurveyAnswer?: Object;
@@ -99,6 +101,12 @@ export class GeneralRDOverviewComponent implements OnInit {
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
         this.countryName = name;
+      }
+    });
+
+    this.dataShareService.displayCountryCode$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (code) => {
+        this.flagCode = code;
       }
     });
 

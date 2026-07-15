@@ -46,6 +46,8 @@ export class OpenDataComponent implements OnInit {
   smallScreen: boolean = false;
 
   countryCode?: string;
+  /** Code used only for the flag/label (EU for the Global default); data still uses countryCode. */
+  flagCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
@@ -127,6 +129,12 @@ export class OpenDataComponent implements OnInit {
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
         this.countryName = name;
+      }
+    });
+
+    this.dataShareService.displayCountryCode$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (code) => {
+        this.flagCode = code;
       }
     });
 

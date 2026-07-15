@@ -77,6 +77,8 @@ export class CountryPagesComponent implements OnInit {
       const dataCode = isGlobal ? GLOBAL_DATA_COUNTRY : this.countryCode;
 
       this.dataService.countryCode.next(dataCode);
+      // Flag/label follow the path code (EU for the Global default), while data uses dataCode (FR).
+      this.dataService.displayCountryCode.next(this.countryCode);
       this.stakeholderId = 'sh-eosc-sb-' + dataCode;
       this.countryStakeholderId = 'sh-country-' + dataCode;
 

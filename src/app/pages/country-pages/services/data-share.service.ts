@@ -9,6 +9,12 @@ import { AnswerMetadata } from "./coutry-pages.service";
 
 export class DataShareService {
   countryCode: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  /**
+   * Code used only for display (flag/label), kept separate from `countryCode` (the data code).
+   * They differ for the Global default preview, where data is borrowed from GLOBAL_DATA_COUNTRY
+   * (FR) but the UI must still show GLOBAL_SCOPE_CODE (EU). For real countries the two match.
+   */
+  displayCountryCode: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   countryName: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   surveyAnswers: BehaviorSubject<Object[]> = new BehaviorSubject<Object[]>([null, null]);
   countrySurveyAnswer: BehaviorSubject<Object | null> = new BehaviorSubject<Object | null>(null);
@@ -16,6 +22,7 @@ export class DataShareService {
   year: BehaviorSubject<string> = new BehaviorSubject<string>('2024');
 
   countryCode$ = this.countryCode.asObservable();
+  displayCountryCode$ = this.displayCountryCode.asObservable();
   year$ = this.year.asObservable();
 
   constructor(private exploreService: ExploreService) {}
