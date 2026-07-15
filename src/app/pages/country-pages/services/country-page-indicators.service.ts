@@ -159,6 +159,26 @@ export class CountryPageIndicatorsService {
     return this.editingScope() === 'country' && floor !== null && floor.get(id) === false;
   }
 
+  /**
+   * Effective visibility with the Global default floor applied: any indicator the Global default
+   * hides (false) stays hidden regardless of the country's own value. Mirrors {@link isLocked},
+   * but actually hides the card instead of just disabling a toggle.
+   *
+   * Used by the public pages, which must honour the Global floor that the backend's effective
+   * endpoint does not apply. Pure/read-only — it does not touch the working state, so each
+   * country's own stored choice is preserved (the floor only wins at display time).
+   */
+  applyGlobalFloor(
+    indicators: IndicatorConfig[],
+    defaults: IndicatorConfig[] | null | undefined
+  ): IndicatorConfig[] {
+    const floor = new Map((defaults ?? []).map(i => [i.id, i.visible]));
+    return indicators.map(i => ({
+      ...i,
+      visible: floor.get(i.id) === false ? false : i.visible,
+    }));
+  }
+
   toggle(id: string): void {
     if (this.isLocked(id)) {
       return; // locked by the Global default — ignore attempts to flip it in country scope

@@ -128,15 +128,16 @@ export class CountryPagesComponent implements OnInit {
         const stakeholderId = 'sh-eosc-sb-' + params['code'];
 
         if (!this.isConfigMode) {
-          // Public page: apply the country's own override; fall back to the Global default for
-          // countries without one, so type-wide hidden cards stay hidden. No lock floor here —
-          // nothing is editable on the public page.
+          // Public page: the backend's effective visibility folds in the per-country override but
+          // NOT the Global default floor, so we apply that floor here — a globally hidden indicator
+          // stays hidden even when the country's override marks it visible. The country's own stored
+          // choice is untouched (read-time only). No lock floor — nothing is editable here.
           return forkJoin({
-            override: this.indicatorsService.getOverrides(stakeholderId).pipe(catchError(() => of(null as OverrideDoc | null))),
+            effective: this.indicatorsService.getEffective(stakeholderId).pipe(catchError(() => of({ indicators: [] as IndicatorConfig[] }))),
             defaults: this.indicatorsService.getDefaults('eosc-sb').pipe(catchError(() => of(null as DefaultsDoc | null))),
           }).pipe(
-            map(({ override, defaults }) => ({
-              indicators: override?.indicators ?? defaults?.indicators,
+            map(({ effective, defaults }) => ({
+              indicators: this.indicatorsService.applyGlobalFloor(effective.indicators, defaults?.indicators),
               docId: '',
               floor: null as IndicatorConfig[] | null,
             }))
