@@ -159,39 +159,6 @@
   padding: 8px 25px 8px 65px;
 }
 
-
-/* ========================================================================
-   Country pages configuration - toolbar above the sidebar
- ========================================================================== */
-
-/* Fixed (not sticky) avoids the flow->stuck transition that left a sub-pixel
-   gap between the toolbar and the sidebar mid-scroll. */
-.country-config-toolbar {
-  position: fixed;
-  top: 82px;
-  left: 0;
-  right: 0;
-  height: 64px;
-  z-index: 985;
-
-  /* The warning label ships with `align-self: flex-start` (needed in the survey
-     column layout); in this toolbar row it must center vertically with the buttons. */
-  .uk-label {
-    align-self: center;
-  }
-
-  .uk-label-active {
-    padding: 3px 8px;
-    font-weight: 600;
-    text-transform: none;
-  }
-}
-
-.country-config-content {
-  --header-height: 144px;
-  padding-top: 64px;
-}
-
 /* app-card-config wraps a single card; keep it a stretching grid/flex child so the
    card inside still fills the cell (uk-grid-match) exactly like on the public page. */
 app-card-config {

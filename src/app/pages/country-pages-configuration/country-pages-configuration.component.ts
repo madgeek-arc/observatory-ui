@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, signal } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, computed, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
@@ -35,6 +35,18 @@ export class CountryPagesConfigurationComponent implements OnInit {
 
   /** Current "Editing" dropdown value: 'global' or a real country code. */
   readonly selectedScope = signal<string>(CountryPagesConfigurationComponent.GLOBAL_SCOPE);
+
+  /** True while a specific country is being edited (i.e. not the Global default) — drives the
+   *  override banner's visibility and the content's extra top offset. */
+  readonly isCountryScope = computed(() =>
+    this.selectedScope() !== CountryPagesConfigurationComponent.GLOBAL_SCOPE
+  );
+
+  /** Display name of the country currently being edited (falls back to the raw code). */
+  readonly currentCountryName = computed(() => {
+    const code = this.selectedScope();
+    return this.countries.find(c => c.id === code)?.name ?? code;
+  });
   readonly viewMode = signal<'manage' | 'split' | 'on-page'>('on-page');
   readonly changesSubmitted = signal<boolean>(false);
   readonly publishing = signal<boolean>(false);

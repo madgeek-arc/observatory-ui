@@ -32,3 +32,73 @@
   margin-left: 4px;
   margin-right: 4px;
 }
+
+/* Fixed (not sticky) avoids the flow->stuck transition that left a sub-pixel
+   gap between the toolbar and the sidebar mid-scroll. */
+.country-config-toolbar {
+  position: fixed;
+  top: 82px;
+  left: 0;
+  right: 0;
+  height: 64px;
+  z-index: 985;
+
+  /* The warning label ships with `align-self: flex-start` (needed in the survey
+     column layout); in this toolbar row it must center vertically with the buttons. */
+  .uk-label {
+    align-self: center;
+  }
+
+  .uk-label-active {
+    padding: 3px 8px;
+    font-weight: 600;
+    text-transform: none;
+  }
+}
+
+.country-config-content {
+  --header-height: 144px;
+  padding-top: 64px;
+}
+
+.country-config-override-banner {
+  position: fixed;
+  top: 146px;
+  left: 0;
+  right: 0;
+  z-index: 984;
+  height: 52px;
+  background-color: @danger-background-color;
+
+  .uk-label-override {
+    background: #faddf2;
+    border-color: transparent;
+    padding: 0;
+    color: @secondary-color;
+    border-radius: 6px;
+    padding: 5px 10px;
+  }
+
+  /* Reuse uk-button-secondary's shape/size, only recolour teal -> pink. Every interactive state
+     repeats the resting colours, so hover/focus/active leave the button visually unchanged
+     (uk-button-secondary's own hover is intentionally overridden). */
+  .override-reset-btn {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: @light-color;
+      color: @secondary-color;
+      border-color: @secondary-color;
+      box-shadow: none;
+    }
+  }
+}
+
+/* When the banner is shown, push everything below it down by the banner's height:
+   - `--header-height` drives the fixed sidebar's `top`, so bumping it moves the sidebar too;
+   - `padding-top` keeps the routed page content clear of the fixed banner. */
+.country-config-content.has-override-banner {
+  --header-height: 196px;
+  padding-top: 116px;
+}
