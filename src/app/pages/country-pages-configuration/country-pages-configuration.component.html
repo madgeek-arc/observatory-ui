@@ -63,19 +63,15 @@
   </div>
 
   @if (isCountryScope()) {
-    <div class="country-config-override-banner uk-flex uk-flex-between uk-flex-middle uk-border-bottom uk-padding-small uk-padding-remove-vertical">
-      <div class="uk-flex uk-flex-middle">
-        <span class="uk-label uk-label-override uk-margin-small-right">Override mode</span>
-        <span>You're editing <strong>{{ currentCountryName() }}</strong>. Changes here override the Global default for this country only.</span>
-      </div>
-
-      <button type="button" class="uk-button uk-button-secondary uk-button-small override-reset-btn">
-        Reset {{ currentCountryName() }} to Global default
-      </button>
-    </div>
+    <app-override-mode-banner [countryName]="currentCountryName()"></app-override-mode-banner>
   }
 
-  <div class="country-config-content" [class.has-override-banner]="isCountryScope()">
+  <div class="country-config-content"
+       [class.has-override-banner]="isCountryScope()"
+       [class.country-config-split]="viewMode() === 'split'">
+    @if (viewMode() === 'split') {
+      <app-indicator-list></app-indicator-list>
+    }
     <router-outlet></router-outlet>
   </div>
 }

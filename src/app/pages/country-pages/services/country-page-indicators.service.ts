@@ -16,6 +16,15 @@ export type IndicatorsMode = 'public' | 'config';
 export type EditingScope = 'global' | 'country';
 
 /**
+ * How the admin config page presents the cards:
+ *  - 'on-page': the live preview with a per-card toggle pinned on each card;
+ *  - 'split':   the live preview (no per-card toggle) next to the left indicator list, which
+ *               becomes the sole visibility control;
+ *  - 'manage':  reserved / not implemented yet.
+ */
+export type ConfigViewMode = 'manage' | 'split' | 'on-page';
+
+/**
  * Reserved path segment for the type-wide Global default editing scope. It is NOT a real country:
  * `/country/EU/configuration` edits the `eosc-sb` defaults document, while its page preview is
  * rendered from {@link GLOBAL_DATA_COUNTRY}'s survey data (there is no `sh-eosc-sb-EU` stakeholder).
@@ -73,6 +82,13 @@ export class CountryPageIndicatorsService {
   /** Which document the admin is currently editing — drives Publish (overrides vs defaults). */
   readonly editingScope = signal<EditingScope>('country');
 
+  /**
+   * Current config-page view. Single source of truth so the deeply-nested `app-card-config`
+   * wrappers can react without @Input plumbing: the on-card toggle is hidden in 'split' (the
+   * left indicator list controls visibility there instead).
+   */
+  readonly viewMode = signal<ConfigViewMode>('on-page');
+
   /** Working visibility, keyed by indicator id. */
   private readonly _visibility = signal<Map<string, boolean>>(this.defaultVisibility());
   readonly visibility = this._visibility.asReadonly();
@@ -85,8 +101,19 @@ export class CountryPageIndicatorsService {
    */
   private readonly _globalFloor = signal<Map<string, boolean> | null>(null);
 
+  /**
+   * Sections (catalog `group` labels) hidden as a whole from the live page — a layer above the
+   * per-card visibility. A hidden section drops its cards AND its left-nav entry publicly; in the
+   * admin preview it stays reachable but shows an informational notice.
+   */
+  private readonly _hiddenSections = signal<Set<string>>(new Set());
+  readonly hiddenSections = this._hiddenSections.asReadonly();
+
   /** Snapshot taken at load time, used for dirty-check and Discard. */
   private pristine = new Map<string, boolean>(this.defaultVisibility());
+
+  /** Section snapshot taken at load time, paired with {@link pristine} for dirty-check/Discard. */
+  private pristineSections = new Set<string>();
 
   /** id of the currently loaded override/defaults document, so Publish updates it instead of leaving it blank. */
   private docId = '';
@@ -104,8 +131,13 @@ export class CountryPageIndicatorsService {
    *
    * @param docId id of the document these overrides/defaults came from (empty string if the
    * scope has no document yet, e.g. a country with no override — Publish will then create one).
+   * @param hiddenSections group labels hidden as a whole for this scope (empty if none).
    */
-  setState(overrides: IndicatorConfig[] | null | undefined, docId: string = ''): void {
+  setState(
+    overrides: IndicatorConfig[] | null | undefined,
+    docId: string = '',
+    hiddenSections: string[] = []
+  ): void {
     const map = this.defaultVisibility();
     for (const o of overrides ?? []) {
       if (map.has(o.id)) {
@@ -114,6 +146,11 @@ export class CountryPageIndicatorsService {
     }
     this._visibility.set(map);
     this.pristine = new Map(map);
+
+    const sections = new Set(hiddenSections);
+    this._hiddenSections.set(sections);
+    this.pristineSections = new Set(sections);
+
     this.dirty.set(false);
     this.docId = docId;
   }
@@ -186,12 +223,40 @@ export class CountryPageIndicatorsService {
     const map = new Map(this._visibility());
     map.set(id, !(map.get(id) ?? true));
     this._visibility.set(map);
-    this.recomputeDirty(map);
+    this.recomputeDirty();
+  }
+
+  /** Whether a whole section (catalog `group`) is hidden from the live page. */
+  isSectionHidden(group: string): boolean {
+    return this._hiddenSections().has(group);
+  }
+
+  /** Show/hide an entire section. Independent of the per-card toggles within it. */
+  toggleSection(group: string): void {
+    const set = new Set(this._hiddenSections());
+    if (set.has(group)) {
+      set.delete(group);
+    } else {
+      set.add(group);
+    }
+    this._hiddenSections.set(set);
+    this.recomputeDirty();
+  }
+
+  /** Total number of indicators (cards) in a section. */
+  groupTotal(group: string): number {
+    return COUNTRY_PAGE_INDICATORS.filter(i => i.group === group).length;
+  }
+
+  /** How many of a section's indicators are currently toggled visible (reactive via the signal). */
+  groupVisibleCount(group: string): number {
+    return COUNTRY_PAGE_INDICATORS.filter(i => i.group === group && this.isVisible(i.id)).length;
   }
 
   /** Reverts the working state back to the last loaded/saved snapshot. */
   discard(): void {
     this._visibility.set(new Map(this.pristine));
+    this._hiddenSections.set(new Set(this.pristineSections));
     this.dirty.set(false);
   }
 
@@ -201,14 +266,37 @@ export class CountryPageIndicatorsService {
     return COUNTRY_PAGE_INDICATORS.map(i => ({ ...i, visible: map.get(i.id) ?? i.visible }));
   }
 
-  private recomputeDirty(map: Map<string, boolean>): void {
+  /** Hidden section labels for the Publish payload (persistence-ready; see hiddenSections). */
+  buildHiddenSections(): string[] {
+    return [...this._hiddenSections()];
+  }
+
+  /** Marks dirty when either the per-card visibility or the hidden-sections set has drifted. */
+  private recomputeDirty(): void {
+    this.dirty.set(this.visibilityDirty() || this.sectionsDirty());
+  }
+
+  private visibilityDirty(): boolean {
+    const map = this._visibility();
     for (const [id, value] of map) {
       if ((this.pristine.get(id) ?? true) !== value) {
-        this.dirty.set(true);
-        return;
+        return true;
       }
     }
-    this.dirty.set(false);
+    return false;
+  }
+
+  private sectionsDirty(): boolean {
+    const current = this._hiddenSections();
+    if (current.size !== this.pristineSections.size) {
+      return true;
+    }
+    for (const group of current) {
+      if (!this.pristineSections.has(group)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   // ---------------------------------------------------------------------------

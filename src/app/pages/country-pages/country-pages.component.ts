@@ -52,7 +52,7 @@ export class CountryPagesComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private dataService: DataShareService,
               private surveyAnswer: SurveyPublicAnswer, private layoutService: DashboardSideMenuService,
-              private indicatorsService: CountryPageIndicatorsService) {}
+              protected indicatorsService: CountryPageIndicatorsService) {}
 
   ngOnInit() {
     this.isConfigMode = this.route.snapshot.pathFromRoot

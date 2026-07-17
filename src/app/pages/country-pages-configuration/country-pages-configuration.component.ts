@@ -9,11 +9,13 @@ import { countries } from "../../domain/countries";
 import {
   CountryPageIndicatorsService, DefaultsDoc, GLOBAL_SCOPE_CODE, OverrideDoc
 } from "../country-pages/services/country-page-indicators.service";
+import { OverrideModeBannerComponent } from "./override-mode-banner/override-mode-banner.component";
+import { IndicatorListComponent } from "./indicator-list/indicator-list.component";
 
 @Component({
   selector: 'app-country-pages-configuration',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterOutlet],
+  imports: [CommonModule, FormsModule, RouterOutlet, OverrideModeBannerComponent, IndicatorListComponent],
   templateUrl: './country-pages-configuration.component.html',
   styleUrls: ['../../../assets/css/explore-sidebar.less']
 })
@@ -47,7 +49,8 @@ export class CountryPagesConfigurationComponent implements OnInit {
     const code = this.selectedScope();
     return this.countries.find(c => c.id === code)?.name ?? code;
   });
-  readonly viewMode = signal<'manage' | 'split' | 'on-page'>('on-page');
+  /** View switch, backed by the shared service so the nested card wrappers can react to it. */
+  readonly viewMode = this.indicatorsService.viewMode;
   readonly changesSubmitted = signal<boolean>(false);
   readonly publishing = signal<boolean>(false);
 
@@ -117,9 +120,11 @@ export class CountryPagesConfigurationComponent implements OnInit {
     save$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
-          // Reset the pristine snapshot so the page is no longer marked dirty, and keep the
-          // document id current (a first-time Publish creates the document server-side).
-          this.indicatorsService.setState(res?.indicators ?? payload, res?.id ?? '');
+          this.indicatorsService.setState(
+            res?.indicators ?? payload,
+            res?.id ?? '',
+            this.indicatorsService.buildHiddenSections()
+          );
           this.changesSubmitted.set(true);
           this.publishing.set(false);
         },

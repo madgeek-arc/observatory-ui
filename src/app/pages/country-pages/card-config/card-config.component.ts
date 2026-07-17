@@ -24,6 +24,7 @@ import { CountryPageIndicatorsService } from "../services/country-page-indicator
   styleUrls: ['../../../../assets/css/explore-sidebar.less'],
   host: {
     '[class.card-config-hidden]': '!cardVisible()',
+    '[class.card-config-dimmed]': 'showHidden()',
   },
 })
 export class CardConfigComponent implements AfterViewChecked {
@@ -60,9 +61,25 @@ export class CardConfigComponent implements AfterViewChecked {
       : this.hasContent() && this.service.isVisible(this.indicatorId())
   );
 
-  /** The control cluster only exists in config mode, and only when there is a card to control. */
+  /**
+   * The on-card control cluster only exists in config mode when there is a card to control, and
+   * NOT in 'split' view — there the left indicator list is the sole visibility control.
+   */
   protected readonly showControls = computed(() =>
-    this.service.mode() === 'config' && (this.hasContent() || this.showPlaceholder())
+    this.service.mode() === 'config'
+    && this.service.viewMode() !== 'split'
+    && (this.hasContent() || this.showPlaceholder())
+  );
+
+  /**
+   * In config mode, a card that is toggled off (or locked off by the Global default) stays on the
+   * preview but rendered muted with a "Hidden" overlay, so the admin sees exactly what the public
+   * page drops. Shown in both on-page and split views.
+   */
+  protected readonly showHidden = computed(() =>
+    this.service.mode() === 'config'
+    && this.cardVisible()
+    && (this.service.isLocked(this.indicatorId()) || !this.service.isVisible(this.indicatorId()))
   );
 
   ngAfterViewChecked(): void {
