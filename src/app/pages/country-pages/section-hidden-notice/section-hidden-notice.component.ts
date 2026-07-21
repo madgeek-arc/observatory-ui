@@ -15,27 +15,10 @@ import { CountryPageIndicatorsService } from "../services/country-page-indicator
 @Component({
   selector: 'app-section-hidden-notice',
   standalone: true,
-  template: `
-    @if (show()) {
-      <div class="section-hidden-notice uk-flex uk-flex-between uk-flex-middle">
-        <div class="uk-flex uk-flex-middle">
-          <span class="section-hidden-notice-icon" data-uk-icon="icon: ban; ratio: 1.2"></span>
-          <div class="uk-margin-small-left">
-            <div class="section-hidden-notice-title">This section is hidden from the live page</div>
-            <div class="section-hidden-notice-text">
-              Visitors won't see &ldquo;{{ sectionName() }}&rdquo; or its left-nav entry.
-              Toggle the section on to restore it.
-            </div>
-          </div>
-        </div>
-        <button type="button" class="uk-button section-hidden-restore-btn"
-                (click)="service.toggleSection(sectionName())">
-          Restore section
-        </button>
-      </div>
-    }
-  `,
+  templateUrl: './section-hidden-notice.html',
 })
+
+
 export class SectionHiddenNoticeComponent {
   protected readonly service = inject(CountryPageIndicatorsService);
 

@@ -62,12 +62,11 @@ export class CardConfigComponent implements AfterViewChecked {
   );
 
   /**
-   * The on-card control cluster only exists in config mode when there is a card to control, and
-   * NOT in 'split' view — there the left indicator list is the sole visibility control.
+   * The on-card control cluster exists in config mode whenever there is a card to control, in both
+   * the on-page and split views — the cards render identically across views.
    */
   protected readonly showControls = computed(() =>
     this.service.mode() === 'config'
-    && this.service.viewMode() !== 'split'
     && (this.hasContent() || this.showPlaceholder())
   );
 

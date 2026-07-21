@@ -102,3 +102,26 @@
   --header-height: 196px;
   padding-top: 116px;
 }
+
+/* Split view: two-column layout. A fixed-width indicator rail on the left, the live
+   country-page preview flexing into the remaining width. The rail is a rigid 429px column
+   (flex: 0 0 429px — no grow, no shrink), pinned below the fixed toolbar/banner via
+   --header-height, with its own independent scroll. `align-items: flex-start` keeps the
+   rail at its own height instead of stretching to the (taller) preview. */
+.country-config-split {
+  display: flex;
+  align-items: flex-start;
+
+  app-indicator-list {
+    flex: 0 0 429px;
+    position: sticky;
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+  }
+
+  app-country-pages {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}

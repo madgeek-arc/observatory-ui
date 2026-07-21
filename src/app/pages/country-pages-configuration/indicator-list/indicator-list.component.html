@@ -1,1 +1,74 @@
-<h1>Hellooooooooooooo</h1>
+<div class="uk-padding-small">
+
+  <!-- 1. Search -->
+  <div class="uk-inline uk-width-1-1 uk-margin-small-bottom">
+    <span class="uk-form-icon" data-uk-icon="icon: search"></span>
+    <input class="uk-input uk-border-pill" type="search"
+           placeholder="Find an indicator, chart, text block..."
+           [ngModel]="search()" (ngModelChange)="search.set($event)">
+  </div>
+
+  <!-- Counter -->
+  <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
+    <span class="uk-text-small">
+      <span class="uk-text-bold uk-text-success">{{ visibleCount() }}</span>
+      of {{ totalCount }} items visible
+    </span>
+    <div class="uk-button-group">
+      <button type="button" class="uk-button uk-button-default uk-button-small"
+              (click)="expandAll()">Expand all</button>
+      <button type="button" class="uk-button uk-button-default uk-button-small"
+              (click)="collapseAll()">Collapse</button>
+    </div>
+  </div>
+
+  <!-- 3. Group accordion -->
+  <ul #accordion class="uk-accordion-default" uk-accordion="multiple: true">
+    @for (g of groups(); track g.group) {
+      <li class="uk-card uk-card-default" [class.uk-accordion-active]="isExpanded(g.group)">
+        <a class="uk-accordion-title uk-card-title uk-flex uk-flex-middle"
+           (click)="toggleExpanded(g.group)">
+          <span class="uk-text-small" style="flex: 1 1 auto; min-width: 0;"
+                [class.uk-text-muted]="!groupEnabled(g.group)">{{ g.group }}</span>
+
+          <span class="uk-text-small uk-text-meta uk-margin-small-right">
+            {{ service.groupVisibleCount(g.group) }}/{{ service.groupTotal(g.group) }}
+          </span>
+
+          <label class="card-config-switch" (click)="$event.stopPropagation()">
+            <input type="checkbox" [checked]="groupEnabled(g.group)" (change)="toggleGroup(g.group)">
+            <span class="card-config-slider"></span>
+          </label>
+        </a>
+
+        <div class="uk-accordion-content uk-card-body">
+          <ul class="uk-list uk-margin-remove">
+            @for (ind of g.indicators; track ind.id) {
+              <li class="uk-flex uk-flex-middle" style="gap: 8px;"
+                  [class.uk-text-muted]="!service.isVisible(ind.id)">
+                <span>{{ ind.label }}</span>
+
+                <span class="uk-label uk-label-public">Public</span>
+
+                <label class="card-config-switch"
+                       [class.card-config-switch-locked]="service.isLocked(ind.id)"
+                       [title]="service.isLocked(ind.id) ? 'Locked by the Global default' : ''">
+                  <input type="checkbox"
+                         [checked]="!service.isLocked(ind.id) && service.isVisible(ind.id)"
+                         [disabled]="service.isLocked(ind.id)"
+                         (change)="service.toggle(ind.id)">
+                  <span class="card-config-slider"></span>
+                </label>
+              </li>
+            }
+          </ul>
+        </div>
+      </li>
+    }
+  </ul>
+
+  @if (groups().length === 0) {
+    <p class="uk-text-meta uk-text-center uk-margin-top">No indicators match &ldquo;{{ search() }}&rdquo;.</p>
+  }
+
+</div>
