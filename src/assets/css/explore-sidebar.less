@@ -184,11 +184,10 @@ app-card-config {
   display: contents;
 }
 
-/* Per-card visibility toggle overlaid on the card's top-right corner in config mode */
+/* Per-card visibility toggle overlaid on the card's top-right corner in config mode.
+   Positioning is done in the template with UIkit (uk-position-top-right uk-position-small),
+   anchored to `.card-config-wrapper` (position: relative). */
 .card-config-controls {
-  position: absolute;
-  top: 8px;
-  right: 8px;
   z-index: 2;
 }
 

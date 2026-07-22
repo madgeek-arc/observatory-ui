@@ -1,6 +1,6 @@
-<div #wrapper class="card-config-wrapper">
+<div class="card-config-wrapper">
   @if (showControls()) {
-    <div class="card-config-controls">
+    <div class="card-config-controls uk-position-top-right uk-position-small">
       <!-- Visibility toggle. Locked (disabled) when the Global default hides this indicator. -->
       <label class="card-config-switch"
              [class.card-config-switch-locked]="service.isLocked(indicatorId())"

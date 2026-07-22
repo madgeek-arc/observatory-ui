@@ -132,4 +132,30 @@
     color: @primary-color;
     border-color: @primary-color;
   }
+
+  /* Indicator-type pills: one hue per catalog format, each a soft tint fill matching
+     the "Public" pill's shape (text/border in the hue, a 12% tint as the background). */
+  .uk-label-number {
+    background-color: mix(@journal-color, @light-color, 12%);
+    color: @journal-color;
+    border-color: @journal-color;
+  }
+
+  .uk-label-percentage {
+    background-color: mix(@monitor-dark-color, @light-color, 12%);
+    color: @monitor-dark-color;
+    border-color: @monitor-dark-color;
+  }
+
+  .uk-label-chart {
+    background-color: mix(@publisher-color, @light-color, 12%);
+    color: @publisher-color;
+    border-color: @publisher-color;
+  }
+
+  .uk-label-text {
+    background-color: mix(@secondary-color, @light-color, 12%);
+    color: @secondary-color;
+    border-color: @secondary-color;
+  }
 }

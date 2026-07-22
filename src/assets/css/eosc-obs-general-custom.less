@@ -123,5 +123,100 @@
   app-country-pages {
     flex: 1 1 auto;
     min-width: 0;
+    [data-uk-grid] > * { width: 100%; }
+  }
+}
+
+/* Split-view indicator rail: mint group "cards" (collapsed and expanded) holding white
+   indicator rows. Scoped to the component so it never restyles other accordions. Colours
+   come from color.less; the caret reuses the theme accordion's built-in Material icon. */
+app-indicator-list {
+
+  /* Group card: rounded, no shadow, with a real gap between cards. Neutral (white) by default.
+     Overrides the theme's `.uk-accordion > *` bottom-border/padding with a real card gap. */
+  .uk-accordion > .uk-card {
+    margin-bottom: @global-small-margin;
+    padding-bottom: 0;
+    border: 1px solid @muted-color;
+    border-radius: @global-border-radius-md;
+    background-color: @light-color;
+    box-shadow: none;
+    overflow: hidden;
+  }
+
+  /* Teal treatment (mint fill + teal border) applies only to the open group. */
+  .uk-accordion > .uk-card.uk-accordion-active {
+    border-color: @primary-border-light-color;
+    background-color: @primary-tint-color;
+  }
+
+  .uk-accordion-title {
+    padding: 10px 12px;
+    font-weight: 700;
+  }
+
+  /* The caret is a real Material Symbols span in the template (arrow_right / arrow_drop_down),
+     so hide the theme's built-in ::before caret in every state to avoid a double arrow. */
+  .uk-accordion-title::before,
+  .uk-open > .uk-accordion-title::before,
+  .uk-accordion-active > .uk-accordion-title::before {
+    content: none;
+  }
+
+  /* Our caret: first child (left of the title), inherits the title colour (teal when open). */
+  .indicator-caret {
+    flex: 0 0 auto;
+    margin-right: 4px;
+    font-size: 22px;
+  }
+
+  /* Only the open group's title turns teal; drop the theme's teal left-bar accent. */
+  .uk-accordion > .uk-card.uk-accordion-active .uk-card-title {
+    border-left: none;
+    color: @primary-color;
+  }
+
+  /* Rows sit on a white panel (distinct from the mint header). */
+  .uk-accordion-content {
+    margin: 0;
+    padding: 0 12px;
+    background-color: @light-color;
+  }
+
+  .uk-accordion-content li {
+    padding: 8px 0;
+
+    /* Indicator name flexes and truncates so the pills + switch never wrap. Smaller than the
+       group title (14px) but bold, so the section header still outranks it. */
+    > span:first-child {
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: @grey-color;
+      font-size: @global-xsmall-font-size;
+      font-weight: 700;
+    }
+
+    .uk-label {
+      flex: 0 0 auto;
+      padding: 3px 8px;
+      font-size: @global-xsmall-font-size;
+    }
+  }
+
+  /* Toggled-off row: mute the name AND every pill to a single flat grey. The explicit
+     name colour above out-ranks `uk-text-muted`, so we mute the name here explicitly too. */
+  .uk-accordion-content li.uk-text-muted {
+    > span:first-child {
+      color: @muted-2-color;
+    }
+
+    .uk-label {
+      background-color: @default-color;
+      color: @muted-2-color;
+      border-color: @gray-300;
+    }
   }
 }

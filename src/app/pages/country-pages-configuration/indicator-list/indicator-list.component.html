@@ -28,6 +28,8 @@
       <li class="uk-card uk-card-default" [class.uk-accordion-active]="isExpanded(g.group)">
         <a class="uk-accordion-title uk-card-title uk-flex uk-flex-middle"
            (click)="toggleExpanded(g.group)">
+          <span class="material-symbols-outlined indicator-caret">{{ isExpanded(g.group) ? 'arrow_drop_down' : 'arrow_right' }}</span>
+
           <span class="uk-text-small" style="flex: 1 1 auto; min-width: 0;"
                 [class.uk-text-muted]="!groupEnabled(g.group)">{{ g.group }}</span>
 
@@ -42,11 +44,13 @@
         </a>
 
         <div class="uk-accordion-content uk-card-body">
-          <ul class="uk-list uk-margin-remove">
+          <ul class="uk-list uk-list-divider uk-margin-remove">
             @for (ind of g.indicators; track ind.id) {
               <li class="uk-flex uk-flex-middle" style="gap: 8px;"
                   [class.uk-text-muted]="!service.isVisible(ind.id)">
                 <span>{{ ind.label }}</span>
+
+                <span class="uk-label uk-label-{{ ind.format }}">{{ ind.format }}</span>
 
                 <span class="uk-label uk-label-public">Public</span>
 

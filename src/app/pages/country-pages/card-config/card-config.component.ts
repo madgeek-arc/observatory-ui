@@ -37,7 +37,6 @@ export class CardConfigComponent implements AfterViewChecked {
    *  placeholder matches the real card's colour. */
   readonly colorClass = input<string>('');
 
-  private readonly wrapperRef = viewChild.required<ElementRef<HTMLElement>>('wrapper');
   private readonly slotRef = viewChild.required<ElementRef<HTMLElement>>('slot');
 
   /** Whether the projected card actually rendered anything (i.e. there is data to show). */
@@ -85,33 +84,6 @@ export class CardConfigComponent implements AfterViewChecked {
     const has = this.slotRef().nativeElement.childElementCount > 0;
     if (has !== this.hasContent()) {
       this.hasContent.set(has);
-    }
-    if (this.cardVisible()) {
-      this.positionControls();
-    }
-  }
-
-  /**
-   * Anchor the control cluster to the real `.uk-card` box, not the wrapper — full-width section
-   * cards centre their card inside a narrower container, so wrapper-relative top/right would land
-   * the controls at the section edge instead of on the card.
-   */
-  private positionControls(): void {
-    const wrapper = this.wrapperRef().nativeElement;
-    const controls = wrapper.querySelector<HTMLElement>('.card-config-controls');
-    const card = this.wrapperRef().nativeElement.querySelector<HTMLElement>('.uk-card');
-    if (!controls || !card) {
-      return;
-    }
-    const wrapperRect = wrapper.getBoundingClientRect();
-    const cardRect = card.getBoundingClientRect();
-    const top = `${Math.max(cardRect.top - wrapperRect.top, 0) + 8}px`;
-    const right = `${Math.max(wrapperRect.right - cardRect.right, 0) + 8}px`;
-    if (controls.style.top !== top) {
-      controls.style.top = top;
-    }
-    if (controls.style.right !== right) {
-      controls.style.right = right;
     }
   }
 
