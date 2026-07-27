@@ -8,7 +8,7 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
           <!--          <h4>Open Data</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
               class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
               <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data for {{ year }}</h4>
@@ -33,7 +33,7 @@
         <div class="uk-hidden@m">
           <!--          <h4>Open Data</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
               class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
               <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data for {{ year }}</h4>
@@ -59,13 +59,19 @@
         </div>
 
         <!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
-        <!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
+        <!--          <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"-->
         <!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
         <!--          <div class="uk-margin-small-left">-->
         <!--            <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data</h4>-->
       <!--          </div>-->
     <!--        </div>-->
 
+  </div>
+</div>
+
+<div class="section-hidden-notice-band">
+  <div class="uk-container">
+    <app-section-hidden-notice sectionName="Open Data"></app-section-hidden-notice>
   </div>
 </div>
 
@@ -88,55 +94,65 @@
     </div>
 
     <div class="uk-grid-small uk-grid-match" data-uk-grid>
-      @if (hasAnyLeftCardData()) {
+      @if (hasAnyLeftCardVisible()) {
         <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
           <div class="uk-card uk-card-default uk-card-body">
             <div
               class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small uk-grid-match uk-flex uk-flex-center"
-              data-uk-grid>
-              @if (OpenDataPercentage[1] !== null) {
-                <app-info-card
-                  [titleHtml]="`Open Data in ${countryName} (OA vs Closed)`"
-                  [value]="OpenDataPercentage[1]"
-                  [unit]="'%'"
-                  [diff]="OpenDataPercentageDiff"
-                  colorClass="openaire-graph visualisation-card">
-                </app-info-card>
-              }
-              @if (rfoOpenDataPercentage[1] !== null) {
-                <app-info-card
-                  [titleHtml]="'RFOs with Policy on Open Data'"
-                  [value]="rfoOpenDataPercentage[1]"
-                  [unit]="'%'"
-                  [diff]="rfoOpenDataPercentageDiff"
-                  colorClass="eosc-sb visualisation-card">
-                </app-info-card>
-              }
-              @if (ODfinancialInvestment[1] !== null && ODfinancialInvestment[1] !== undefined && ODfinancialInvestment[1]) {
-                <app-info-card
-                  [titleHtml]="`Financial investments in <span class='uk-text-bold'>Open Data</span>`"
-                  [value]="ODfinancialInvestment[1]"
-                  [unit]="'mil Euro'"
-                  [diff]="ODfinancialInvestmentPercentageDiff"
-                  colorClass="eosc-sb visualisation-card">
-                </app-info-card>
-              }
-              @if (rpoOpenDataPercentage[1] !== null) {
-                <app-info-card
-                  [titleHtml]="'RPOs with Policy on Open Data'"
-                  [value]="rpoOpenDataPercentage[1]"
-                  [unit]="'%'"
-                  [diff]="rpoOpenDataPercentageDiff"
-                  colorClass="eosc-sb visualisation-card">
-                </app-info-card>
-              }
+              data-uk-grid
+              data-uk-height-match="target: > * .uk-card">
+              <app-card-config indicatorId="25" colorClass="openaire-graph visualisation-card">
+                @if (OpenDataPercentage[1] !== null) {
+                  <app-info-card
+                    [titleHtml]="`Open Data in ${countryName} (OA vs Closed)`"
+                    [value]="OpenDataPercentage[1]"
+                    [unit]="'%'"
+                    [diff]="OpenDataPercentageDiff"
+                    colorClass="openaire-graph visualisation-card">
+                  </app-info-card>
+                }
+              </app-card-config>
+              <app-card-config indicatorId="26" colorClass="eosc-sb visualisation-card">
+                @if (rfoOpenDataPercentage[1] !== null) {
+                  <app-info-card
+                    [titleHtml]="'RFOs with Policy on Open Data'"
+                    [value]="rfoOpenDataPercentage[1]"
+                    [unit]="'%'"
+                    [diff]="rfoOpenDataPercentageDiff"
+                    colorClass="eosc-sb visualisation-card">
+                  </app-info-card>
+                }
+              </app-card-config>
+              <app-card-config indicatorId="27" colorClass="eosc-sb visualisation-card">
+                @if (ODfinancialInvestment[1] !== null && ODfinancialInvestment[1] !== undefined && ODfinancialInvestment[1]) {
+                  <app-info-card
+                    [titleHtml]="`Financial investments in <span class='uk-text-bold'>Open Data</span>`"
+                    [value]="ODfinancialInvestment[1]"
+                    [unit]="'mil Euro'"
+                    [diff]="ODfinancialInvestmentPercentageDiff"
+                    colorClass="eosc-sb visualisation-card">
+                  </app-info-card>
+                }
+              </app-card-config>
+              <app-card-config indicatorId="28" colorClass="eosc-sb visualisation-card">
+                @if (rpoOpenDataPercentage[1] !== null) {
+                  <app-info-card
+                    [titleHtml]="'RPOs with Policy on Open Data'"
+                    [value]="rpoOpenDataPercentage[1]"
+                    [unit]="'%'"
+                    [diff]="rpoOpenDataPercentageDiff"
+                    colorClass="eosc-sb visualisation-card">
+                  </app-info-card>
+                }
+              </app-card-config>
             </div>
           </div>
         </div>
       }
 
       <!-- Right Card (2/5) -->
-      <div class="uk-child-width-1-1 uk-width-2-5@m uk-animation-fade">
+      <app-card-config indicatorId="29" class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+      <div class="uk-child-width-1-1">
         <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card">
           <div class="uk-margin-top">
             <h6 class="uk-flex uk-flex-between uk-margin-remove">
@@ -202,6 +218,7 @@
           </div>
         </div>
       </div>
+      </app-card-config>
       <div>
         <p><span class="uk-text-bold">Data source:</span>
         Survey on National Contributions to EOSC and Open Science {{year}} -
@@ -213,9 +230,11 @@
 </div>
 </div>
 
+
 @if (hasSurveyOpenData()) {
   <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
     <div class="uk-container">
+      <app-card-config indicatorId="30">
       <div class="uk-animation-fade">
         <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
           <h6 class="uk-margin-bottom">Learn more about Open Data Landscape in {{ countryName }}</h6>
@@ -246,12 +265,15 @@
           </div>
         </div>
       </div>
+      </app-card-config>
     </div>
   </div>
 }
 
+
 <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent2>
   <div class="uk-container">
+  <app-card-config indicatorId="31">
 
     <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body">
 
@@ -269,11 +291,13 @@
           </div>
         </div>
 
+    </app-card-config>
       </div>
     </div>
 
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent3>
       <div class="uk-container">
+      <app-card-config indicatorId="32">
 
         <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body">
 
@@ -288,6 +312,7 @@
 
         </div>
 
+    </app-card-config>
       </div>
     </div>
   </div>

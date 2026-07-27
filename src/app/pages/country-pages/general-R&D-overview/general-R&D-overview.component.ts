@@ -1,6 +1,7 @@
 import {Component, DestroyRef, inject, OnInit} from "@angular/core";
 import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {DataShareService} from "../services/data-share.service";
+import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {OAvsTotalDataPerCountry, OAvsTotalPubsPerCountry} from "../coutry-pages.queries";
 import {EoscReadinessDataService} from "../../services/eosc-readiness-data.service";
@@ -20,6 +21,9 @@ import {StakeholderNewsService} from "../../services/stakeholder-news.service";
 import {NewsItem} from "../../../domain/news";
 
 
+import { CardConfigComponent } from "../card-config/card-config.component";
+import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
+
 @Component({
   selector: 'app-general-R&D-overview',
   templateUrl: './general-R&D-overview.component.html',
@@ -29,7 +33,9 @@ import {NewsItem} from "../../../domain/news";
     CatalogueUiReusableComponentsModule,
     SidebarMobileToggleComponent,
     PageContentComponent,
-    InfoCardComponent
+    InfoCardComponent,
+    CardConfigComponent,
+    SectionHiddenNoticeComponent
   ]
 })
 
@@ -57,6 +63,8 @@ export class GeneralRDOverviewComponent implements OnInit {
   countryNewsItems: NewsItem[] = [];
 
   countryCode?: string;
+  /** Code used only for the flag/label (EU for the Global default); data still uses countryCode. */
+  flagCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [null, null];
   countrySurveyAnswer?: Object;
@@ -95,6 +103,12 @@ export class GeneralRDOverviewComponent implements OnInit {
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
         this.countryName = name;
+      }
+    });
+
+    this.dataShareService.displayCountryCode$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (code) => {
+        this.flagCode = code;
       }
     });
 
@@ -176,6 +190,18 @@ export class GeneralRDOverviewComponent implements OnInit {
     this.rpos[0] = this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0'] || null;
     this.rpos[1] = this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0'] || null;
     this.rposPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.rpos[0], this.rpos[1]);
+  }
+
+  private readonly indicatorsService = inject(CountryPageIndicatorsService);
+
+  /** Left card block renders only if at least one of its cards will be visible (see service). */
+  hasAnyLeftCardVisible(): boolean {
+    return this.indicatorsService.anyCardVisible([
+      { id: '1', hasData: this.OAPubsPercentage[1]  != null },
+      { id: '2', hasData: this.OpenDataPercentage[1] != null },
+      { id: '3', hasData: this.totalInvestment[1]    != null },
+      { id: '4', hasData: this.openSoftware[1]       != null },
+    ]);
   }
 
   hasAnyLeftCardData() {

@@ -2,6 +2,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
+import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
 import {
   CatalogueUiReusableComponentsModule
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
@@ -22,6 +23,9 @@ import { PdfExportService } from "../../services/pdf-export.service";
 import { combineLatest} from "rxjs";
 import { filter } from "rxjs/operators";
 
+import { CardConfigComponent } from "../card-config/card-config.component";
+import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
+
 @Component({
     selector: 'app-open-data',
     imports: [
@@ -31,7 +35,9 @@ import { filter } from "rxjs/operators";
         ChartsModule,
         SidebarMobileToggleComponent,
         PageContentComponent,
-        InfoCardComponent
+        InfoCardComponent,
+        CardConfigComponent,
+        SectionHiddenNoticeComponent
     ],
     templateUrl: './open-data.component.html'
 })
@@ -42,6 +48,8 @@ export class OpenDataComponent implements OnInit {
   smallScreen: boolean = false;
 
   countryCode?: string;
+  /** Code used only for the flag/label (EU for the Global default); data still uses countryCode. */
+  flagCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
@@ -123,6 +131,12 @@ export class OpenDataComponent implements OnInit {
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
         this.countryName = name;
+      }
+    });
+
+    this.dataShareService.displayCountryCode$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (code) => {
+        this.flagCode = code;
       }
     });
 
@@ -221,6 +235,18 @@ export class OpenDataComponent implements OnInit {
   /** Check if at least one data value is available for displaying the left card.
    * Uses the generic method of DataCheckService to check for null & undefined values.
    */
+  private readonly indicatorsService = inject(CountryPageIndicatorsService);
+
+  /** Left card block renders only if at least one of its cards will be visible (see service). */
+  hasAnyLeftCardVisible(): boolean {
+    return this.indicatorsService.anyCardVisible([
+      { id: '25', hasData: this.OpenDataPercentage[1]    != null },
+      { id: '26', hasData: this.rfoOpenDataPercentage[1] != null },
+      { id: '27', hasData: this.ODfinancialInvestment[1] != null },
+      { id: '28', hasData: this.rpoOpenDataPercentage[1] != null },
+    ]);
+  }
+
   hasAnyLeftCardData() {
     return this.dataShareService.hasAnyValue([
       this.OpenDataPercentage[1],

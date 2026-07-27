@@ -1,0 +1,75 @@
+@if (checkingAuth) {
+  <div class="uk-flex uk-flex-center uk-margin-large-top">
+    <span data-uk-spinner></span>
+  </div>
+} @else if (authorized) {
+
+  <div class="country-config-toolbar uk-background-default uk-flex uk-flex-between uk-flex-middle uk-border-bottom uk-padding-small uk-padding-remove-vertical">
+
+    <div>
+      <div class="uk-text-meta uk-text-uppercase uk-text-xsmall">
+        Country Pages <span class="uk-margin-small-left uk-margin-small-right"> > </span> Content Configuration
+      </div>
+      <div class="uk-text-bold uk-text-large">Dashboard Content Manager</div>
+    </div>
+
+    <div class="uk-flex uk-flex-middle">
+      <span class="uk-text-meta uk-margin-small-right">Editing</span>
+      <select class="uk-dropdown uk-form-small uk-text-bold"
+        [ngModel]="selectedScope()" (ngModelChange)="onScopeChange($event)">
+        <option value="global">Global default</option>
+        @for (country of countries; track country.id) {
+          <option [value]="country.id">{{ country.name }} -- override</option>
+        }
+      </select>
+    </div>
+
+    <div class="uk-button-group">
+      <button type="button"
+        [class]="viewMode() === 'split' ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+        (click)="viewMode.set('split')">
+        Split
+      </button>
+      <button type="button"
+        [class]="viewMode() === 'on-page' ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+        (click)="viewMode.set('on-page')">
+        On-page
+      </button>
+    </div>
+
+    <div class="uk-flex uk-flex-middle" style="gap: 8px;">
+      @if (indicatorsService.dirty()) {
+        <span class="uk-label uk-label-warning">Unsaved changes</span>
+      } @else {
+        <span class="uk-label uk-label-active">All changes published</span>
+      }
+      <button type="button" class="uk-button uk-button-default uk-button-small"
+        [disabled]="!indicatorsService.dirty() || publishing()" (click)="discard()">Discard</button>
+      <button type="button" class="uk-button uk-button-secondary uk-button-small" hidden>Preview</button>
+      <button type="button" class="uk-button uk-button-primary uk-button-small"
+        [disabled]="!indicatorsService.dirty() || publishing()" (click)="publish()">
+        @if (publishing()) {
+          <span data-uk-spinner="ratio: 0.5"></span>
+        } @else {
+          Publish
+        }
+      </button>
+    </div>
+
+  </div>
+
+  @if (isCountryScope()) {
+    <app-override-mode-banner [countryName]="currentCountryName()"
+                              [disabled]="resetting()"
+                              (reset)="resetToGlobal()"></app-override-mode-banner>
+  }
+
+  <div class="country-config-content"
+       [class.has-override-banner]="isCountryScope()"
+       [class.country-config-split]="viewMode() === 'split'">
+    @if (viewMode() === 'split') {
+      <app-indicator-list></app-indicator-list>
+    }
+    <router-outlet></router-outlet>
+  </div>
+}

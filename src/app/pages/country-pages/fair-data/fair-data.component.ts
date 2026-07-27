@@ -2,6 +2,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
+import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
 import {
   CatalogueUiReusableComponentsModule
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
@@ -14,6 +15,9 @@ import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/
 import { PdfExportService } from "../../services/pdf-export.service";
 
 
+import { CardConfigComponent } from "../card-config/card-config.component";
+import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
+
 @Component({
     selector: 'app-fair-data',
     imports: [
@@ -23,7 +27,9 @@ import { PdfExportService } from "../../services/pdf-export.service";
         ChartsModule,
         SidebarMobileToggleComponent,
         PageContentComponent,
-        InfoCardComponent
+        InfoCardComponent,
+        CardConfigComponent,
+        SectionHiddenNoticeComponent
     ],
     templateUrl: './fair-data.component.html'
 })
@@ -33,6 +39,8 @@ export class FairDataComponent implements OnInit {
   exportActive = false;
 
   countryCode?: string;
+  /** Code used only for the flag/label (EU for the Global default); data still uses countryCode. */
+  flagCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
@@ -118,6 +126,12 @@ export class FairDataComponent implements OnInit {
       }
     });
 
+    this.dataShareService.displayCountryCode$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (code) => {
+        this.flagCode = code;
+      }
+    });
+
     this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answers) => {
         this.surveyAnswers = answers;
@@ -141,6 +155,17 @@ export class FairDataComponent implements OnInit {
       }
     });
 
+  }
+
+  private readonly indicatorsService = inject(CountryPageIndicatorsService);
+
+  /** Left card block renders only if at least one of its cards will be visible (see service). */
+  hasAnyLeftCardVisible(): boolean {
+    return this.indicatorsService.anyCardVisible([
+      { id: '33', hasData: this.rfoFairDataPercentage[1]         != null },
+      { id: '34', hasData: this.rpoFairDataPercentage[1]         != null },
+      { id: '35', hasData: this.financialInvestmentInFairData[1] != null },
+    ]);
   }
 
   hasAnyLeftCardData() {

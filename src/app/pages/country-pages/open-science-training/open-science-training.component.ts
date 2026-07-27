@@ -2,6 +2,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
+import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
 import {
   CatalogueUiReusableComponentsModule
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
@@ -13,6 +14,9 @@ import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../../explore/explore.service";
 
+import { CardConfigComponent } from "../card-config/card-config.component";
+import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
+
 @Component({
     selector: 'app-open-science-training',
     templateUrl: './open-science-training.component.html',
@@ -22,7 +26,9 @@ import { ExploreService } from "../../explore/explore.service";
         CatalogueUiReusableComponentsModule,
         SidebarMobileToggleComponent,
         PageContentComponent,
-        InfoCardComponent
+        InfoCardComponent,
+        CardConfigComponent,
+        SectionHiddenNoticeComponent
     ]
 })
 export class OpenScienceTrainingComponent  implements OnInit {
@@ -33,6 +39,8 @@ export class OpenScienceTrainingComponent  implements OnInit {
   exportActive = false;
 
   countryCode?: string;
+  /** Code used only for the flag/label (EU for the Global default); data still uses countryCode. */
+  flagCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
@@ -73,6 +81,12 @@ export class OpenScienceTrainingComponent  implements OnInit {
       this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: (name) => {
           this.countryName = name;
+        }
+      });
+
+      this.dataShareService.displayCountryCode$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        next: (code) => {
+          this.flagCode = code;
         }
       });
 
@@ -127,6 +141,17 @@ export class OpenScienceTrainingComponent  implements OnInit {
     this.monitoringClarification = this.surveyAnswers[1]?.['Practices']?.['Question90']?.['Question90-1'];
 
 
+  }
+
+  private readonly indicatorsService = inject(CountryPageIndicatorsService);
+
+  /** Left card block renders only if at least one of its cards will be visible (see service). */
+  hasAnyLeftCardVisible(): boolean {
+    return this.indicatorsService.anyCardVisible([
+      { id: '56', hasData: this.rfoTrainingPercentage[1]       != null },
+      { id: '57', hasData: this.trainingFinancialInvestment[1] != null },
+      { id: '58', hasData: this.rpoTrainingPercentage[1]       != null },
+    ]);
   }
 
   hasAnyLeftCardData() {

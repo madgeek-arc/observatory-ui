@@ -8,7 +8,7 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
           <!--          <h4>Citizen Science</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
               class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
               <h4 class="uk-margin-remove-bottom">{{ countryName }} - Citizen Science for {{ year }}</h4>
@@ -32,7 +32,7 @@
         <div class="uk-hidden@m">
           <!--          <h4>Citizen Science</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
               class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
               <h4 class="uk-margin-remove-bottom">{{ countryName }} - Citizen Science for {{ year }}</h4>
@@ -56,7 +56,7 @@
           </div>
         </div>
         <!--        <div class="uk-flex uk-flex-middle uk-margin-bottom">-->
-        <!--          <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"-->
+        <!--          <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"-->
         <!--            class="flag-image" width="42" height="42" alt="rounded flag image">-->
         <!--          <div class="uk-margin-small-left">-->
         <!--            <h3 class="uk-margin-remove-bottom">{{ countryName }}</h3>-->
@@ -65,6 +65,10 @@
     <!--        <div class="uk-flex uk-flex-between uk-flex-middle">-->
     <!--          <h4>Citizen Science</h4>-->
   <!--        </div>-->
+
+  <div class="section-hidden-notice-band">
+    <app-section-hidden-notice sectionName="Citizen Science"></app-section-hidden-notice>
+  </div>
 
   <p class="uk-margin-medium-bottom">Citizen Science involves public participation and collaboration in scientific research to increase the
     accessibility, transparency, and democratization of knowledge creation. The aim is to foster innovative
@@ -79,7 +83,7 @@
 
   <div class="uk-grid-small uk-grid" data-uk-grid>
 
-    @if (hasAnyLeftCardData()) {
+    @if (hasAnyLeftCardVisible()) {
       <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
         <div class="uk-card uk-card-default uk-card-body">
           <div
@@ -94,6 +98,7 @@
 <!--                colorClass="eosc-sb visualisation-card">-->
 <!--              </app-info-card>-->
 <!--            }-->
+            <app-card-config indicatorId="47" colorClass="eosc-sb visualisation-card">
             @if (financialInvestmentInCS[1] !== null && financialInvestmentInCS[1] !== undefined) {
               <app-info-card
                 [titleHtml]="`Total amount of <span class='uk-text-bold'>financial investments</span> in Citizen Science`"
@@ -103,13 +108,15 @@
                 colorClass="eosc-sb visualisation-card">
               </app-info-card>
             }
+            </app-card-config>
           </div>
         </div>
       </div>
     }
 
   <!-- Right Card (2/5) -->
-  <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade"> <!-- uk-width-1-1 mobile, 2/5@m desktop-->
+  <app-card-config indicatorId="48" class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+  <div> <!-- uk-width-1-1 mobile, 2/5@m desktop-->
     <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card">
       <div class="uk-margin-top">
         <h5 class="uk-flex uk-flex-between uk-margin-remove">
@@ -177,6 +184,7 @@
       </div>
     </div>
   </div>
+  </app-card-config>
 </div>
 <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
   <div>
@@ -190,9 +198,11 @@
 </div>
 </div>
 <div #exportContent1>
+
   @if (hasSurveyCitizenScienceData()) {
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
       <div class="uk-container">
+        <app-card-config indicatorId="49">
         <div class="uk-animation-fade">
           <div class="uk-card uk-card-body uk-card-default noads visualisation-card">
             <h6 class="uk-margin-bottom">Learn more about Citizen Science Landscape in {{ countryName }}</h6>
@@ -233,9 +243,11 @@
             </div>
           </div>
         </div>
+        </app-card-config>
       </div>
     </div>
   }
+
 </div>
 </div>
 </div>

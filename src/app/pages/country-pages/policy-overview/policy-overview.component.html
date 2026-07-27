@@ -8,7 +8,7 @@
 
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m"><!-- Desktop -->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
                  class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
               <h4 class="uk-margin-remove-bottom">{{ countryName }} - Policy Overview for {{ year }}</h4>
@@ -32,7 +32,7 @@
 
         <div class="uk-hidden@m"><!-- Mobile -->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
                  class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
               <h4 class="uk-margin-remove-bottom">{{ countryName }} - Policy Overview for {{ year }}</h4>
@@ -57,13 +57,20 @@
       </div>
     </div>
 
+    <div class="section-hidden-notice-band">
+      <div class="uk-container">
+        <app-section-hidden-notice sectionName="Policy overview"></app-section-hidden-notice>
+      </div>
+    </div>
+
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent1>
       <div class="uk-container">
 
         <div class="uk-grid-small" data-uk-grid>
           <!-- left card -->
+          <app-card-config indicatorId="13" class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
           @if (table.length) {
-            <div class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
+            <div>
               <div class="uk-card uk-card-default uk-card-body visualisation-card">
                 <table class="uk-table uk-table-divider uk-table-small uk-table-middle">
                   <thead>
@@ -95,10 +102,12 @@
               </div>
             </div>
           }
+          </app-card-config>
 
           <!-- right card -->
+          <app-card-config indicatorId="14" class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
           @if (hasSurveyPolicyData()) {
-            <div class="uk-width-1-1 uk-width-3-5@m uk-animation-fade">
+            <div>
               <div class="uk-card uk-card-default uk-card-body visualisation-card noads">
                 <h6 class="uk-margin-bottom">Policy Landscape in {{ countryName }}</h6>
                 <div class="uk-text-meta">
@@ -157,6 +166,7 @@
               </div>
             </div>
           }
+          </app-card-config>
         </div>
 
       </div>
@@ -166,8 +176,10 @@
       @if (documents && documents.length > 0) {
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
           <div class="uk-container">
+            <app-card-config indicatorId="15">
             <h4>Dive Deeper into Open Science Policies, Strategies and Other Full Text Documents</h4>
             <app-search-results [documents]="documents"></app-search-results>
+            </app-card-config>
           </div>
         </div>
       }

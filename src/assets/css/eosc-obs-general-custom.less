@@ -32,3 +32,228 @@
   margin-left: 4px;
   margin-right: 4px;
 }
+
+/* Fixed (not sticky) avoids the flow->stuck transition that left a sub-pixel
+   gap between the toolbar and the sidebar mid-scroll. */
+.country-config-toolbar {
+  position: fixed;
+  top: 82px;
+  left: 0;
+  right: 0;
+  height: 64px;
+  z-index: 985;
+
+  /* The warning label ships with `align-self: flex-start` (needed in the survey
+     column layout); in this toolbar row it must center vertically with the buttons. */
+  .uk-label {
+    align-self: center;
+  }
+
+  .uk-label-active {
+    padding: 3px 8px;
+    font-weight: 600;
+    text-transform: none;
+  }
+}
+
+.country-config-content {
+  --header-height: 144px;
+  padding-top: 64px;
+}
+
+.country-config-override-banner {
+  position: fixed;
+  top: 146px;
+  left: 0;
+  right: 0;
+  z-index: 984;
+  height: 52px;
+  background-color: @danger-background-color;
+
+  .uk-label-override {
+    background: #faddf2;
+    border-color: transparent;
+    padding: 0;
+    color: @secondary-color;
+    border-radius: 6px;
+    padding: 5px 10px;
+  }
+
+  /* Reuse uk-button-secondary's shape/size, only recolour teal -> pink. Every interactive state
+     repeats the resting colours, so hover/focus/active leave the button visually unchanged
+     (uk-button-secondary's own hover is intentionally overridden). */
+  .override-reset-btn {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: @light-color;
+      color: @secondary-color;
+      border-color: @secondary-color;
+      box-shadow: none;
+    }
+  }
+}
+
+
+.section-hidden-notice-band {
+  background-color: @light-color;
+  padding: 16px 0;
+}
+
+
+.section-hidden-notice {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 80px;
+  background-color: mix(@eosc-observatory-secondary-color, @light-color, 12%);
+  border: 1px dotted @eosc-observatory-secondary-color;
+  border-radius: 8px;
+  padding: 16px 20px;
+
+  /* The block icon and the heading share the theme pink (@eosc-observatory-secondary-color). */
+  .material-symbols-outlined,
+  .section-hidden-notice__title {
+    color: @eosc-observatory-secondary-color;
+  }
+}
+
+/* Left-nav entry for a section whose group is fully hidden in the config preview: strike the label
+   so the sidebar mirrors the in-page "section is hidden" notice. Set on the label span because the
+   nav anchor resets text-decoration. Driven by MenuItem.customClass = 'menu-item-hidden'. */
+.menu-item-hidden a span {
+  text-decoration: line-through;
+}
+
+/* When the banner is shown, push everything below it down by the banner's height:
+   - `--header-height` drives the fixed sidebar's `top`, so bumping it moves the sidebar too;
+   - `padding-top` keeps the routed page content clear of the fixed banner. */
+.country-config-content.has-override-banner {
+  --header-height: 196px;
+  padding-top: 116px;
+}
+
+/* Split view: two-column layout. A fixed-width indicator rail on the left, the live
+   country-page preview flexing into the remaining width. The rail is a rigid 429px column
+   (flex: 0 0 429px — no grow, no shrink), pinned below the fixed toolbar/banner via
+   --header-height, with its own independent scroll. `align-items: flex-start` keeps the
+   rail at its own height instead of stretching to the (taller) preview. */
+.country-config-split {
+  display: flex;
+  align-items: flex-start;
+
+  app-indicator-list {
+    flex: 0 0 429px;
+    position: sticky;
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+  }
+
+  app-country-pages {
+    flex: 1 1 auto;
+    min-width: 0;
+    [data-uk-grid] > * { width: 100%; }
+    [data-uk-grid][class*=uk-child-width-1-2] > * { width: 50%; }
+  }
+}
+
+
+.country-config-content.country-config-split #sidebar_main {
+  position: sticky !important;
+  height: calc(100vh - var(--header-height)) !important;
+}
+
+/* Split-view indicator rail: mint group "cards" (collapsed and expanded) holding white
+   indicator rows. Scoped to the component so it never restyles other accordions. Colours
+   come from color.less; the caret reuses the theme accordion's built-in Material icon. */
+app-indicator-list {
+
+  /* Group card: rounded, no shadow, with a real gap between cards. Neutral (white) by default.
+     Overrides the theme's `.uk-accordion > *` bottom-border/padding with a real card gap. */
+  .uk-accordion > .uk-card {
+    margin-bottom: @global-small-margin;
+    padding-bottom: 0;
+    border: 1px solid @muted-color;
+    border-radius: @global-border-radius-md;
+    background-color: @light-color;
+    box-shadow: none;
+    overflow: hidden;
+  }
+
+  /* Teal treatment (mint fill + teal border) applies only to the open group. */
+  .uk-accordion > .uk-card.uk-accordion-active {
+    border-color: @primary-border-light-color;
+    background-color: @primary-tint-color;
+  }
+
+  .uk-accordion-title {
+    padding: 10px 12px;
+    font-weight: 700;
+  }
+
+  /* The caret is a real Material Symbols span in the template (arrow_right / arrow_drop_down),
+     so hide the theme's built-in ::before caret in every state to avoid a double arrow. */
+  .uk-accordion-title::before,
+  .uk-open > .uk-accordion-title::before,
+  .uk-accordion-active > .uk-accordion-title::before {
+    content: none;
+  }
+
+  /* Our caret: first child (left of the title), inherits the title colour (teal when open). */
+  .indicator-caret {
+    flex: 0 0 auto;
+    margin-right: 4px;
+    font-size: 22px;
+  }
+
+  /* Only the open group's title turns teal; drop the theme's teal left-bar accent. */
+  .uk-accordion > .uk-card.uk-accordion-active .uk-card-title {
+    border-left: none;
+    color: @primary-color;
+  }
+
+  /* Rows sit on a white panel (distinct from the mint header). */
+  .uk-accordion-content {
+    margin: 0;
+    padding: 0 12px;
+    background-color: @light-color;
+  }
+
+  .uk-accordion-content li {
+    padding: 8px 0;
+
+    /* Indicator name flexes and truncates so the pills + switch never wrap. Smaller than the
+       group title (14px) but bold, so the section header still outranks it. */
+    > span:first-child {
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: @grey-color;
+      font-size: @global-xsmall-font-size;
+      font-weight: 700;
+    }
+
+    .uk-label {
+      flex: 0 0 auto;
+      padding: 3px 8px;
+      font-size: @global-xsmall-font-size;
+    }
+  }
+
+  /* Toggled-off row: mute the name AND every pill to a single flat grey. The explicit
+     name colour above out-ranks `uk-text-muted`, so we mute the name here explicitly too. */
+  .uk-accordion-content li.uk-text-muted {
+    > span:first-child {
+      color: @muted-2-color;
+    }
+
+    .uk-label {
+      background-color: @default-color;
+      color: @muted-2-color;
+      border-color: @gray-300;
+    }
+  }
+}

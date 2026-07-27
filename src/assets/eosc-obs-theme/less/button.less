@@ -214,6 +214,14 @@
     & .uk-button-secondary:extend(.uk-button-secondary:hover){};
   }
 
+  /* Pink variant of the primary button — colour-only override, scoped to this modifier so it
+     never leaks onto other primary buttons. Reuses the theme's rose (@eosc-observatory-secondary-color). */
+  .uk-button-primary--pink {
+    background-color: @eosc-observatory-secondary-color;
+    border-color: @eosc-observatory-secondary-color;
+    color: @primary-tint-color;
+  }
+
   .uk-button-group {
     .uk-button {
       display: inline-flex;
