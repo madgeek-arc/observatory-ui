@@ -1,17 +1,18 @@
 @if (show()) {
   <div class="section-hidden-notice uk-flex uk-flex-between uk-flex-middle">
     <div class="uk-flex uk-flex-middle">
-      <span class="section-hidden-notice-icon" data-uk-icon="icon: ban; ratio: 1.2"></span>
+      <span class="material-symbols-outlined">block</span>
       <div class="uk-margin-small-left">
-        <div class="section-hidden-notice-title">This section is hidden from the live page</div>
-        <div class="section-hidden-notice-text">
-          Visitors won't see &ldquo;{{ sectionName() }}&rdquo; or its left-nav entry.
+        <div class="section-hidden-notice__title uk-text-bold">This section is hidden from the live page</div>
+        <div>
+          Visitors won't see this section or its left-nav entry.
           Toggle the section on to restore it.
         </div>
       </div>
     </div>
-    <button type="button" class="uk-button section-hidden-restore-btn"
-            (click)="service.toggleSection(sectionName())">
+    <button
+            class="uk-button uk-button-primary--pink uk-flex-none uk-text-nowrap"
+            (click)="service.showGroup(sectionName())">
       Restore section
     </button>
   </div>

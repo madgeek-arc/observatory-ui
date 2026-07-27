@@ -28,6 +28,7 @@ class TableRow {
 }
 
 import { CardConfigComponent } from "../card-config/card-config.component";
+import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
 
 @Component({
   selector: 'app-policy-overview',
@@ -40,7 +41,8 @@ import { CardConfigComponent } from "../card-config/card-config.component";
     SidebarMobileToggleComponent,
     PageContentComponent,
     SearchCardComponent,
-    CardConfigComponent
+    CardConfigComponent,
+    SectionHiddenNoticeComponent
   ]
 })
 

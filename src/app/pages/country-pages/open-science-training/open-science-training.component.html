@@ -66,6 +66,10 @@
     <!--          <h4>Training for Open Science</h4>-->
   <!--        </div>-->
 
+  <div class="section-hidden-notice-band">
+    <app-section-hidden-notice sectionName="Open Science Training"></app-section-hidden-notice>
+  </div>
+
   <p class="uk-margin-medium-bottom">Training is essential for the succesful adoption of Open Science, equipping key stakeholders with the skills
     to implement open practices, share research outputs, and foster global collaboration.
     This page offers an overview of skills and training initiatives in Europe, including policies, financial
@@ -235,9 +239,9 @@
 </div>
 <div #exportContent1>
   @if (hasSurveyTrainingData()) {
-    <app-card-config indicatorId="60">
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
       <div class="uk-container">
+        <app-card-config indicatorId="60">
         <div class="uk-animation-fade">
           <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
             <h6 class="uk-margin-bottom">Learn more about Open Science Training in {{ countryName }}</h6>
@@ -302,12 +306,12 @@
             </div>
           </div>
         </div>
+        </app-card-config>
       </div>
     </div>
-    </app-card-config>
-    <app-card-config indicatorId="61">
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
       <div class="uk-container">
+        <app-card-config indicatorId="61">
         <div class="uk-animation-fade">
           <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
             <h6 class="uk-margin-bottom">Helpdesk and Support in {{ countryName }}</h6>
@@ -325,9 +329,9 @@
             </div>
           </div>
         </div>
+        </app-card-config>
       </div>
     </div>
-    </app-card-config>
   }
 </div>
 </div>

@@ -95,6 +95,36 @@
   }
 }
 
+
+.section-hidden-notice-band {
+  background-color: @light-color;
+  padding: 16px 0;
+}
+
+
+.section-hidden-notice {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 80px;
+  background-color: mix(@eosc-observatory-secondary-color, @light-color, 12%);
+  border: 1px dotted @eosc-observatory-secondary-color;
+  border-radius: 8px;
+  padding: 16px 20px;
+
+  /* The block icon and the heading share the theme pink (@eosc-observatory-secondary-color). */
+  .material-symbols-outlined,
+  .section-hidden-notice__title {
+    color: @eosc-observatory-secondary-color;
+  }
+}
+
+/* Left-nav entry for a section whose group is fully hidden in the config preview: strike the label
+   so the sidebar mirrors the in-page "section is hidden" notice. Set on the label span because the
+   nav anchor resets text-decoration. Driven by MenuItem.customClass = 'menu-item-hidden'. */
+.menu-item-hidden a span {
+  text-decoration: line-through;
+}
+
 /* When the banner is shown, push everything below it down by the banner's height:
    - `--header-height` drives the fixed sidebar's `top`, so bumping it moves the sidebar too;
    - `padding-top` keeps the routed page content clear of the fixed banner. */
@@ -124,7 +154,14 @@
     flex: 1 1 auto;
     min-width: 0;
     [data-uk-grid] > * { width: 100%; }
+    [data-uk-grid][class*=uk-child-width-1-2] > * { width: 50%; }
   }
+}
+
+
+.country-config-content.country-config-split #sidebar_main {
+  position: sticky !important;
+  height: calc(100vh - var(--header-height)) !important;
 }
 
 /* Split-view indicator rail: mint group "cards" (collapsed and expanded) holding white

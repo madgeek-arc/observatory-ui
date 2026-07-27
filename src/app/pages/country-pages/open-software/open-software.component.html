@@ -69,6 +69,10 @@
     <!--          <h4>Open Software</h4>-->
   <!--        </div>-->
 
+  <div class="section-hidden-notice-band">
+    <app-section-hidden-notice sectionName="Open Software"></app-section-hidden-notice>
+  </div>
+
   <p class="uk-margin-medium-bottom">Open software is a vital component of Open Science, enabling key stakeholders to access, modify, and share
     tools that drive innovation and collaboration in research.
     It fosters transparency, reproducibility, and interoperability across scientific disciplines.
@@ -240,10 +244,10 @@
 
 <!-- <pre>{{ surveyAnswers[1] | json }}</pre> -->
 <div #exportContent1>
-  <app-card-config indicatorId="66">
   @if (hasSurveySoftwareData()) {
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
       <div class="uk-container">
+        <app-card-config indicatorId="66">
         <div class="uk-animation-fade">
           <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
             <h6 class="uk-margin-bottom">Learn more about Open Software Landscape in {{ countryName }}</h6>
@@ -264,10 +268,11 @@
             </div>
           </div>
         </div>
+        </app-card-config>
       </div>
     </div>
   }
-  </app-card-config>
+
 </div>
 </div>
 </div>

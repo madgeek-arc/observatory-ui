@@ -16,6 +16,7 @@ import { PdfExportService } from "../../services/pdf-export.service";
 
 
 import { CardConfigComponent } from "../card-config/card-config.component";
+import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
 
 @Component({
     selector: 'app-data-management',
@@ -27,7 +28,8 @@ import { CardConfigComponent } from "../card-config/card-config.component";
         SidebarMobileToggleComponent,
         PageContentComponent,
         InfoCardComponent,
-        CardConfigComponent
+        CardConfigComponent,
+        SectionHiddenNoticeComponent
     ],
     templateUrl: './data-management.component.html'
 })

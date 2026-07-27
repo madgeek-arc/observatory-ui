@@ -27,6 +27,7 @@ import { filter } from "rxjs/operators";
 
 
 import { CardConfigComponent } from "../card-config/card-config.component";
+import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
 
 @Component({
     selector: 'app-open-access-publications',
@@ -38,7 +39,8 @@ import { CardConfigComponent } from "../card-config/card-config.component";
         SidebarMobileToggleComponent,
         PageContentComponent,
         InfoCardComponent,
-        CardConfigComponent
+        CardConfigComponent,
+        SectionHiddenNoticeComponent
     ],
     templateUrl: './open-access-publications.html'
 })

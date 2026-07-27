@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from "@angular/core";
+import { Component, DestroyRef, effect, inject, OnInit } from "@angular/core";
 import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { LowerCasePipe, NgOptimizedImage } from "@angular/common";
 import { countries } from "../../domain/countries";
@@ -52,7 +52,15 @@ export class CountryPagesComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private dataService: DataShareService,
               private surveyAnswer: SurveyPublicAnswer, private layoutService: DashboardSideMenuService,
-              protected indicatorsService: CountryPageIndicatorsService) {}
+              protected indicatorsService: CountryPageIndicatorsService) {
+    // Config preview: keep the left-nav in step with the card toggles — a section whose whole group
+    // is switched off gets its menu entry struck through (see applyMenuHiddenState). Reading the
+    // visibility signal makes this re-run on every toggle; Zone CD then refreshes the shared sidebar.
+    effect(() => {
+      this.indicatorsService.visibility();
+      this.applyMenuHiddenState();
+    });
+  }
 
   ngOnInit() {
     this.isConfigMode = this.route.snapshot.pathFromRoot
@@ -202,6 +210,24 @@ export class CountryPagesComponent implements OnInit {
     this.menuItems.push(new MenuItem('9', 'Open Software', null, base + '/open-software', null, {}));
 
     this.menuSections.push({items: this.menuItems});
+    this.applyMenuHiddenState();
+  }
+
+  /**
+   * Config preview only: flag each section's menu item when its group has no visible card left, so
+   * the shared sidebar strikes the label (`.menu-item-hidden`). Mirrors the in-page hidden notice —
+   * both derive from `groupVisibleCount === 0`. Public pages don't strike (hidden sections are
+   * dropped there instead). The menu item titles match the catalog `group` labels 1:1.
+   */
+  private applyMenuHiddenState(): void {
+    if (!this.isConfigMode) {
+      return;
+    }
+    for (const item of this.menuItems) {
+      const hidden = this.indicatorsService.groupTotal(item.title) > 0
+        && this.indicatorsService.groupVisibleCount(item.title) === 0;
+      item.customClass = hidden ? 'menu-item-hidden' : null;
+    }
   }
 
   public get open() {

@@ -59,6 +59,12 @@
       </div>
     </div>
 
+    <div class="section-hidden-notice-band">
+      <div class="uk-container">
+        <app-section-hidden-notice sectionName="General R&D Overview"></app-section-hidden-notice>
+      </div>
+    </div>
+
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent1>
       <div class="uk-container">
 
@@ -205,9 +211,9 @@
 
 
     @if (countryNewsItems.length > 0) {
-      <app-card-config indicatorId="6">
       <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
         <div class="uk-container">
+          <app-card-config indicatorId="6">
           <h5>Latest News</h5>
 
           @if (countryNewsItems.length <= 3) {
@@ -283,17 +289,17 @@
                  data-uk-slider-item="next"></a>
             </div>
           }
+        </app-card-config>
         </div>
       </div>
-      </app-card-config>
     }
 
 
     <div #exportContent2>
       @if (hasSurveyGeneralData()) {
-        <app-card-config indicatorId="7">
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
           <div class="uk-container">
+            <app-card-config indicatorId="7">
             <div class="uk-animation-fade">
               <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
                 <h6 class="uk-margin-bottom">Learn more about Open Science Key Actors in {{ countryName }}</h6>
@@ -354,13 +360,14 @@
                 </div>
               </div>
             </div>
+            </app-card-config>
           </div>
         </div>
-        </app-card-config>
 
-        <app-card-config indicatorId="8">
+
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
           <div class="uk-container">
+            <app-card-config indicatorId="8">
             <div class="uk-animation-fade">
               <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
                 <h6 class="uk-margin-bottom">Learn more about Open Science Initiatives in {{ countryName }}</h6>
@@ -420,13 +427,15 @@
                 </div>
               </div>
             </div>
+            </app-card-config>
           </div>
         </div>
-        </app-card-config>
 
-        <app-card-config indicatorId="9">
+
+
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
           <div class="uk-container">
+            <app-card-config indicatorId="9">
             <div class="uk-animation-fade">
               <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
                 <h6 class="uk-margin-bottom">Monitoring Infrastructure in {{ countryName }}</h6>
@@ -445,13 +454,14 @@
                 </div>
               </div>
             </div>
+            </app-card-config>
           </div>
         </div>
-        </app-card-config>
 
-        <app-card-config indicatorId="10">
+
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
           <div class="uk-container">
+            <app-card-config indicatorId="10">
             <div class="uk-animation-fade">
               <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
                 <h6 class="uk-margin-bottom">Links to European and Global Infrastructures</h6>
@@ -471,13 +481,13 @@
                 </div>
               </div>
             </div>
+            </app-card-config>
           </div>
         </div>
-        </app-card-config>
 
-        <app-card-config indicatorId="11">
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
           <div class="uk-container">
+            <app-card-config indicatorId="11">
             <div class="uk-animation-fade">
               <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
                 <h6 class="uk-margin-bottom">Authentication and Authorization Infrastructure (AAI) and AARC</h6>
@@ -507,13 +517,13 @@
                 </div>
               </div>
             </div>
+            </app-card-config>
           </div>
         </div>
-        </app-card-config>
 
-        <app-card-config indicatorId="12">
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-xsmall">
           <div class="uk-container">
+            <app-card-config indicatorId="12">
             <div class="uk-animation-fade">
               <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
                 <h6 class="uk-margin-bottom">Cloud Services</h6>
@@ -532,9 +542,9 @@
                 </div>
               </div>
             </div>
+            </app-card-config>
           </div>
         </div>
-        </app-card-config>
       }
     </div>
   </div>

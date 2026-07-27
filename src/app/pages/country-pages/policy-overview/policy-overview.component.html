@@ -57,6 +57,12 @@
       </div>
     </div>
 
+    <div class="section-hidden-notice-band">
+      <div class="uk-container">
+        <app-section-hidden-notice sectionName="Policy overview"></app-section-hidden-notice>
+      </div>
+    </div>
+
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent1>
       <div class="uk-container">
 
@@ -167,16 +173,16 @@
     </div>
 
     <ng-container #exportContent2>
-      <app-card-config indicatorId="15">
       @if (documents && documents.length > 0) {
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
           <div class="uk-container">
+            <app-card-config indicatorId="15">
             <h4>Dive Deeper into Open Science Policies, Strategies and Other Full Text Documents</h4>
             <app-search-results [documents]="documents"></app-search-results>
+            </app-card-config>
           </div>
         </div>
       }
-      </app-card-config>
     </ng-container>
 
   </div>

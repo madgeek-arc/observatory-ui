@@ -24,6 +24,7 @@ import { combineLatest} from "rxjs";
 import { filter } from "rxjs/operators";
 
 import { CardConfigComponent } from "../card-config/card-config.component";
+import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
 
 @Component({
     selector: 'app-open-data',
@@ -35,7 +36,8 @@ import { CardConfigComponent } from "../card-config/card-config.component";
         SidebarMobileToggleComponent,
         PageContentComponent,
         InfoCardComponent,
-        CardConfigComponent
+        CardConfigComponent,
+        SectionHiddenNoticeComponent
     ],
     templateUrl: './open-data.component.html'
 })

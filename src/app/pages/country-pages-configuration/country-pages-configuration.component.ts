@@ -11,6 +11,7 @@ import {
 } from "../country-pages/services/country-page-indicators.service";
 import { OverrideModeBannerComponent } from "./override-mode-banner/override-mode-banner.component";
 import { IndicatorListComponent } from "./indicator-list/indicator-list.component";
+import * as UIkit from "uikit";
 
 @Component({
   selector: 'app-country-pages-configuration',
@@ -53,6 +54,9 @@ export class CountryPagesConfigurationComponent implements OnInit {
   readonly viewMode = this.indicatorsService.viewMode;
   readonly changesSubmitted = signal<boolean>(false);
   readonly publishing = signal<boolean>(false);
+
+  /** True while a reset is in flight (or its notification is still showing) — disables Reset. */
+  readonly resetting = signal<boolean>(false);
 
   private get stakeholderId(): string {
     return 'sh-eosc-sb-' + this.countryCode;
@@ -105,6 +109,46 @@ export class CountryPagesConfigurationComponent implements OnInit {
   discard() {
     this.indicatorsService.discard();
     this.changesSubmitted.set(false);
+  }
+
+  /**
+   * Reset the current country to the Global default. If the country never had an override it already
+   * follows the Global default — there is nothing to delete (the backend would 404) — so we just show
+   * a notification and stop. Otherwise we delete the override and drop the working state back to "no
+   * override" in place; signals refresh the preview and the left-nav, so no reload is needed.
+   */
+  resetToGlobal() {
+    if (this.resetting()) {
+      return;
+    }
+
+    if (!this.indicatorsService.hasOverride()) {
+      this.resetting.set(true);
+      UIkit.notification({
+        message: `${this.currentCountryName()} already uses the Global defaults.`,
+        status: 'primary',
+        pos: 'top-center',
+        timeout: 4000
+      });
+      // Re-enable once the notification has gone, so a stray double-click can't stack messages.
+      setTimeout(() => this.resetting.set(false), 4000);
+      return;
+    }
+
+    this.resetting.set(true);
+    this.indicatorsService.deleteOverrides(this.stakeholderId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.indicatorsService.setState(undefined, '');
+          this.changesSubmitted.set(false);
+          this.resetting.set(false);
+        },
+        error: (err) => {
+          console.error('Failed to reset country to Global default:', err);
+          this.resetting.set(false);
+        }
+      });
   }
 
   publish() {

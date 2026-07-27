@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from "@angular/core";
+import { computed, inject, Injectable, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
@@ -116,7 +116,16 @@ export class CountryPageIndicatorsService {
   private pristineSections = new Set<string>();
 
   /** id of the currently loaded override/defaults document, so Publish updates it instead of leaving it blank. */
-  private docId = '';
+  private readonly _docId = signal('');
+
+  /**
+   * Whether a persisted document is currently loaded (its id is non-empty). In country scope this is
+   * true only when the country has its own override — i.e. it deviates from the Global default — so
+   * the override banner can offer the Reset action only when there is actually one to delete
+   * (deleting a non-existent override returns 404); otherwise it just notes the country is already
+   * on the Global default.
+   */
+  readonly hasOverride = computed(() => this._docId() !== '');
 
   /** True when the working visibility differs from the last loaded/saved snapshot. */
   readonly dirty = signal(false);
@@ -152,7 +161,7 @@ export class CountryPageIndicatorsService {
     this.pristineSections = new Set(sections);
 
     this.dirty.set(false);
-    this.docId = docId;
+    this._docId.set(docId);
   }
 
   isVisible(id: string): boolean {
@@ -253,6 +262,15 @@ export class CountryPageIndicatorsService {
     return COUNTRY_PAGE_INDICATORS.filter(i => i.group === group && this.isVisible(i.id)).length;
   }
 
+  /** Restore a whole section: turn every unlocked, currently-hidden card in it back on. */
+  showGroup(group: string): void {
+    for (const ind of COUNTRY_PAGE_INDICATORS) {
+      if (ind.group === group && !this.isVisible(ind.id) && !this.isLocked(ind.id)) {
+        this.toggle(ind.id);
+      }
+    }
+  }
+
   /** Reverts the working state back to the last loaded/saved snapshot. */
   discard(): void {
     this._visibility.set(new Map(this.pristine));
@@ -310,7 +328,7 @@ export class CountryPageIndicatorsService {
   putOverrides(stakeholderId: string, indicators: IndicatorConfig[]): Observable<OverrideDoc> {
     return this.http.put<OverrideDoc>(
       `${this.base}/stakeholders/${stakeholderId}/indicators/overrides`,
-      { id: this.docId, stakeholderId, indicators }
+      { id: this._docId(), stakeholderId, indicators }
     );
   }
 
@@ -353,7 +371,7 @@ export class CountryPageIndicatorsService {
   putDefaults(type: string, indicators: IndicatorConfig[]): Observable<DefaultsDoc> {
     return this.http.put<DefaultsDoc>(
       `${this.base}/indicators/defaults/${type}`,
-      { id: this.docId, type, indicators }
+      { id: this._docId(), type, indicators }
     );
   }
 

@@ -66,6 +66,10 @@
     <!--          <h4>Citizen Science</h4>-->
   <!--        </div>-->
 
+  <div class="section-hidden-notice-band">
+    <app-section-hidden-notice sectionName="Citizen Science"></app-section-hidden-notice>
+  </div>
+
   <p class="uk-margin-medium-bottom">Citizen Science involves public participation and collaboration in scientific research to increase the
     accessibility, transparency, and democratization of knowledge creation. The aim is to foster innovative
     discoveries by combining the efforts of scientists with contributions from citizens. This page provides an
@@ -194,10 +198,11 @@
 </div>
 </div>
 <div #exportContent1>
-  <app-card-config indicatorId="49">
+
   @if (hasSurveyCitizenScienceData()) {
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
       <div class="uk-container">
+        <app-card-config indicatorId="49">
         <div class="uk-animation-fade">
           <div class="uk-card uk-card-body uk-card-default noads visualisation-card">
             <h6 class="uk-margin-bottom">Learn more about Citizen Science Landscape in {{ countryName }}</h6>
@@ -238,10 +243,11 @@
             </div>
           </div>
         </div>
+        </app-card-config>
       </div>
     </div>
   }
-  </app-card-config>
+
 </div>
 </div>
 </div>

@@ -14,6 +14,7 @@ import { ExploreService } from "../../explore/explore.service";
 
 
 import { CardConfigComponent } from "../card-config/card-config.component";
+import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
 
 @Component({
     selector: 'app-open-repositories',
@@ -24,7 +25,8 @@ import { CardConfigComponent } from "../card-config/card-config.component";
         SidebarMobileToggleComponent,
         PageContentComponent,
         InfoCardComponent,
-        CardConfigComponent
+        CardConfigComponent,
+        SectionHiddenNoticeComponent
     ],
     templateUrl: './open-repositories.component.html'
 })

@@ -22,6 +22,7 @@ import {NewsItem} from "../../../domain/news";
 
 
 import { CardConfigComponent } from "../card-config/card-config.component";
+import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
 
 @Component({
   selector: 'app-general-R&D-overview',
@@ -33,7 +34,8 @@ import { CardConfigComponent } from "../card-config/card-config.component";
     SidebarMobileToggleComponent,
     PageContentComponent,
     InfoCardComponent,
-    CardConfigComponent
+    CardConfigComponent,
+    SectionHiddenNoticeComponent
   ]
 })
 

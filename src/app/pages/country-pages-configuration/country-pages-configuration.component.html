@@ -7,9 +7,10 @@
   <div class="country-config-toolbar uk-background-default uk-flex uk-flex-between uk-flex-middle uk-border-bottom uk-padding-small uk-padding-remove-vertical">
 
     <div>
-      <div class="uk-text-meta uk-text-uppercase">
+      <div class="uk-text-meta uk-text-uppercase uk-text-xsmall">
         Country Pages <span class="uk-margin-small-left uk-margin-small-right"> > </span> Content Configuration
       </div>
+      <div class="uk-text-bold uk-text-large">Dashboard Content Manager</div>
     </div>
 
     <div class="uk-flex uk-flex-middle">
@@ -24,11 +25,6 @@
     </div>
 
     <div class="uk-button-group">
-      <button type="button"
-        [class]="viewMode() === 'manage' ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
-        (click)="viewMode.set('manage')">
-        Manage
-      </button>
       <button type="button"
         [class]="viewMode() === 'split' ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
         (click)="viewMode.set('split')">
@@ -49,7 +45,7 @@
       }
       <button type="button" class="uk-button uk-button-default uk-button-small"
         [disabled]="!indicatorsService.dirty() || publishing()" (click)="discard()">Discard</button>
-      <button type="button" class="uk-button uk-button-secondary uk-button-small">Preview</button>
+      <button type="button" class="uk-button uk-button-secondary uk-button-small" hidden>Preview</button>
       <button type="button" class="uk-button uk-button-primary uk-button-small"
         [disabled]="!indicatorsService.dirty() || publishing()" (click)="publish()">
         @if (publishing()) {
@@ -63,7 +59,9 @@
   </div>
 
   @if (isCountryScope()) {
-    <app-override-mode-banner [countryName]="currentCountryName()"></app-override-mode-banner>
+    <app-override-mode-banner [countryName]="currentCountryName()"
+                              [disabled]="resetting()"
+                              (reset)="resetToGlobal()"></app-override-mode-banner>
   }
 
   <div class="country-config-content"

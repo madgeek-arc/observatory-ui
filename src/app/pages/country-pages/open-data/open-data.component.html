@@ -69,6 +69,12 @@
   </div>
 </div>
 
+<div class="section-hidden-notice-band">
+  <div class="uk-container">
+    <app-section-hidden-notice sectionName="Open Data"></app-section-hidden-notice>
+  </div>
+</div>
+
 <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent1>
   <div class="uk-container">
 
@@ -224,10 +230,11 @@
 </div>
 </div>
 
-<app-card-config indicatorId="30">
+
 @if (hasSurveyOpenData()) {
   <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
     <div class="uk-container">
+      <app-card-config indicatorId="30">
       <div class="uk-animation-fade">
         <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
           <h6 class="uk-margin-bottom">Learn more about Open Data Landscape in {{ countryName }}</h6>
@@ -258,14 +265,15 @@
           </div>
         </div>
       </div>
+      </app-card-config>
     </div>
   </div>
 }
-</app-card-config>
 
-<app-card-config indicatorId="31">
+
 <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent2>
   <div class="uk-container">
+  <app-card-config indicatorId="31">
 
     <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body">
 
@@ -283,13 +291,13 @@
           </div>
         </div>
 
+    </app-card-config>
       </div>
     </div>
-    </app-card-config>
 
-    <app-card-config indicatorId="32">
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent3>
       <div class="uk-container">
+      <app-card-config indicatorId="32">
 
         <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body">
 
@@ -304,8 +312,8 @@
 
         </div>
 
+    </app-card-config>
       </div>
     </div>
-    </app-card-config>
   </div>
 </div>

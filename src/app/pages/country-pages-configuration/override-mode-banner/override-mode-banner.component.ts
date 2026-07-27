@@ -9,19 +9,7 @@ import { Component, input, output } from "@angular/core";
 @Component({
   selector: 'app-override-mode-banner',
   standalone: true,
-  template: `
-    <div class="country-config-override-banner uk-flex uk-flex-between uk-flex-middle uk-border-bottom uk-padding-small uk-padding-remove-vertical">
-      <div class="uk-flex uk-flex-middle">
-        <span class="uk-label uk-label-override uk-margin-small-right">Override mode</span>
-        <span>You're editing <strong>{{ countryName() }}</strong>. Changes here override the Global default for this country only.</span>
-      </div>
-
-      <button type="button" class="uk-button uk-button-secondary uk-button-small override-reset-btn"
-              (click)="reset.emit()">
-        Reset {{ countryName() }} to Global default
-      </button>
-    </div>
-  `,
+  templateUrl: './override-mode-banner.component.html',
 })
 export class OverrideModeBannerComponent {
   /** Display name of the country being edited. */
@@ -29,4 +17,7 @@ export class OverrideModeBannerComponent {
 
   /** Emitted when the admin clicks "Reset … to Global default". */
   readonly reset = output<void>();
+
+  /** Disables the Reset button while a reset is in flight, so it can't be clicked repeatedly. */
+  readonly disabled = input<boolean>(false);
 }

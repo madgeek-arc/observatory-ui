@@ -15,6 +15,7 @@ import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../../explore/explore.service";
 
 import { CardConfigComponent } from "../card-config/card-config.component";
+import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
 
 @Component({
     selector: 'app-open-science-training',
@@ -26,7 +27,8 @@ import { CardConfigComponent } from "../card-config/card-config.component";
         SidebarMobileToggleComponent,
         PageContentComponent,
         InfoCardComponent,
-        CardConfigComponent
+        CardConfigComponent,
+        SectionHiddenNoticeComponent
     ]
 })
 export class OpenScienceTrainingComponent  implements OnInit {

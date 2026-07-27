@@ -10,7 +10,12 @@ import { CountryPageIndicatorsService } from "../services/country-page-indicator
  * Self-gating: it reads the shared service directly, so a section only needs to drop
  * `<app-section-hidden-notice sectionName="…">` in — no visibility or restore wiring per section.
  * Renders nothing outside config mode or when the section is visible. Shown identically in the
- * on-page and split views. Styling reuses the global classes in eosc-obs-general-custom.less.
+ * on-page and split views.
+ *
+ * The component renders only the notice box; the host wraps it in `.section-hidden-notice-band`
+ * (white strip that covers the grey page background), plus a `.uk-container` when the host itself is
+ * full-width (the separate-header pages) so the box lands in exactly one container and comes out the
+ * same size on every page. Styling lives in the global classes in eosc-obs-general-custom.less.
  */
 @Component({
   selector: 'app-section-hidden-notice',
@@ -25,8 +30,10 @@ export class SectionHiddenNoticeComponent {
   /** This section's catalog `group` label. */
   readonly sectionName = input.required<string>();
 
-  /** Only in the admin config preview, and only while this section is toggled off. */
+  /** Only in the admin config preview, and only while every card in this section is toggled off. */
   protected readonly show = computed(() =>
-    this.service.mode() === 'config' && this.service.isSectionHidden(this.sectionName())
+    this.service.mode() === 'config'
+    && this.service.groupTotal(this.sectionName()) > 0
+    && this.service.groupVisibleCount(this.sectionName()) === 0
   );
 }

@@ -70,6 +70,10 @@
         <!--          <h4>Data Management</h4>-->
         <!--        </div>-->
 
+        <div class="section-hidden-notice-band">
+          <app-section-hidden-notice sectionName="Data Management"></app-section-hidden-notice>
+        </div>
+
         <p class="uk-margin-medium-bottom">Data management refers to the process of collecting, organizing, storing, and
           maintaining data throughout its
           lifecycle. It involves ensuring that data is accessible, secure, and usable, facilitating effective
@@ -93,37 +97,37 @@
                   data-uk-grid
                   data-uk-height-match="target: > * .uk-card">
                   <app-card-config indicatorId="40" colorClass="eosc-sb visualisation-card">
-                  @if (rfoDataManagementPercentage[1] !== null && rfoDataManagementPercentage[1] !== undefined) {
-                    <app-info-card
-                      [titleHtml]="`Percentage of <span class='uk-text-bold'> RFO\'s Policy on Data Management</span>`"
-                      [value]="rfoDataManagementPercentage[1]"
-                      [unit]="'%'"
-                      [diff]="rfoDataManagementPercentageDiff"
-                      colorClass="eosc-sb visualisation-card">
-                    </app-info-card>
-                  }
+                    @if (rfoDataManagementPercentage[1] !== null && rfoDataManagementPercentage[1] !== undefined) {
+                      <app-info-card
+                        [titleHtml]="`Percentage of <span class='uk-text-bold'> RFO\'s Policy on Data Management</span>`"
+                        [value]="rfoDataManagementPercentage[1]"
+                        [unit]="'%'"
+                        [diff]="rfoDataManagementPercentageDiff"
+                        colorClass="eosc-sb visualisation-card">
+                      </app-info-card>
+                    }
                   </app-card-config>
                   <app-card-config indicatorId="41" colorClass="eosc-sb visualisation-card">
-                  @if (rpoDataManagementPercentage[1] !== null && rpoDataManagementPercentage[1] !== undefined) {
-                    <app-info-card
-                      [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Data Management</span>`"
-                      [value]="rpoDataManagementPercentage[1]"
-                      [unit]="'%'"
-                      [diff]="rpoDataManagementPercentageDiff"
-                      colorClass="eosc-sb visualisation-card">
-                    </app-info-card>
-                  }
+                    @if (rpoDataManagementPercentage[1] !== null && rpoDataManagementPercentage[1] !== undefined) {
+                      <app-info-card
+                        [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Data Management</span>`"
+                        [value]="rpoDataManagementPercentage[1]"
+                        [unit]="'%'"
+                        [diff]="rpoDataManagementPercentageDiff"
+                        colorClass="eosc-sb visualisation-card">
+                      </app-info-card>
+                    }
                   </app-card-config>
                   <app-card-config indicatorId="42" colorClass="eosc-sb visualisation-card">
-                  @if (financialInvestmentDM[1] !== null && financialInvestmentDM[1] !== undefined) {
-                    <app-info-card
-                      [titleHtml]="`Total amount of <span class='uk-text-bold'>financial investments</span> in Data Management`"
-                      [value]="financialInvestmentDM[1]"
-                      [unit]="'mil Euro'"
-                      [diff]="financialInvestmentDMPercentageDiff"
-                      colorClass="eosc-sb visualisation-card">
-                    </app-info-card>
-                  }
+                    @if (financialInvestmentDM[1] !== null && financialInvestmentDM[1] !== undefined) {
+                      <app-info-card
+                        [titleHtml]="`Total amount of <span class='uk-text-bold'>financial investments</span> in Data Management`"
+                        [value]="financialInvestmentDM[1]"
+                        [unit]="'mil Euro'"
+                        [diff]="financialInvestmentDMPercentageDiff"
+                        colorClass="eosc-sb visualisation-card">
+                      </app-info-card>
+                    }
                   </app-card-config>
                 </div>
               </div>
@@ -132,68 +136,68 @@
 
           <!-- Right Card (2/5) -->
           <app-card-config indicatorId="43" class="uk-width-1-1 uk-width-2-5@m uk-animation-fade">
-          <div>
-            <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card">
-              <div class="uk-margin-top">
-                <h5 class="uk-flex uk-flex-between uk-margin-remove">
-                  National Policy on Data Management
-                  <span class="material-symbols-outlined" [ngClass]="{
+            <div>
+              <div class="uk-card uk-card-default uk-card-body eosc-sb visualisation-card">
+                <div class="uk-margin-top">
+                  <h5 class="uk-flex uk-flex-between uk-margin-remove">
+                    National Policy on Data Management
+                    <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': nationalPolicyResponse === 'Yes',
                   'down-arrow-color': nationalPolicyResponse === 'No',
                   'unanswered-color': nationalPolicyResponse === null || nationalPolicyResponse === undefined
                 }">{{
-                      nationalPolicyResponse === 'Yes' ? 'check' : nationalPolicyResponse === 'No' ? 'close' : 'question_mark'
-                    }}
+                        nationalPolicyResponse === 'Yes' ? 'check' : nationalPolicyResponse === 'No' ? 'close' : 'question_mark'
+                      }}
             </span>
-                </h5>
-                @if (policyMandatory === 'Yes') {
-                  <p class="uk-text-primary uk-text-bolder uk-margin-remove-top">
-                    Mandatory policy</p>
-                }
-                @if (nationalPolicyClarification !== null) {
-                  <read-more-text [maxHeight]="68"
-                                  [text]="nationalPolicyClarification"></read-more-text>
-                }
-              </div>
-              <div class="uk-margin-top">
-                <h5 class="uk-flex uk-flex-between">
-                  Financial Strategy on Data Management
-                  <span class="material-symbols-outlined" [ngClass]="{
+                  </h5>
+                  @if (policyMandatory === 'Yes') {
+                    <p class="uk-text-primary uk-text-bolder uk-margin-remove-top">
+                      Mandatory policy</p>
+                  }
+                  @if (nationalPolicyClarification !== null) {
+                    <read-more-text [maxHeight]="68"
+                                    [text]="nationalPolicyClarification"></read-more-text>
+                  }
+                </div>
+                <div class="uk-margin-top">
+                  <h5 class="uk-flex uk-flex-between">
+                    Financial Strategy on Data Management
+                    <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': financialStrategyResponse === 'Yes',
                   'down-arrow-color': financialStrategyResponse === 'No',
                   'unanswered-color': financialStrategyResponse === null || financialStrategyResponse === undefined
                 }">{{
-                      financialStrategyResponse === 'Yes' ? 'check' : financialStrategyResponse === 'No' ? 'close' : 'question_mark'
-                    }}
+                        financialStrategyResponse === 'Yes' ? 'check' : financialStrategyResponse === 'No' ? 'close' : 'question_mark'
+                      }}
             </span>
-                </h5>
-                @if (financialStrategyClarification) {
-                  <read-more-text [maxHeight]="68"
-                                  [text]="financialStrategyClarification"></read-more-text>
-                }
-              </div>
-              <div class="uk-margin-top">
-                <h5 class="uk-flex uk-flex-between">
-                  Monitoring on Data Management
-                  <span class="material-symbols-outlined" [ngClass]="{
+                  </h5>
+                  @if (financialStrategyClarification) {
+                    <read-more-text [maxHeight]="68"
+                                    [text]="financialStrategyClarification"></read-more-text>
+                  }
+                </div>
+                <div class="uk-margin-top">
+                  <h5 class="uk-flex uk-flex-between">
+                    Monitoring on Data Management
+                    <span class="material-symbols-outlined" [ngClass]="{
                   'up-arrow-color': monitoringResponse === 'Yes',
                   'down-arrow-color': monitoringResponse === 'No',
                   'unanswered-color': monitoringResponse === null || monitoringResponse === undefined
                 }">
               {{
-                      monitoringResponse === 'Yes' ? 'check' :
-                        monitoringResponse === 'No' ? 'close' :
-                          'question_mark'
-                    }}
+                        monitoringResponse === 'Yes' ? 'check' :
+                          monitoringResponse === 'No' ? 'close' :
+                            'question_mark'
+                      }}
             </span>
-                </h5>
-                @if (monitoringClarification) {
-                  <read-more-text [maxHeight]="68"
-                                  [text]="monitoringClarification"></read-more-text>
-                }
+                  </h5>
+                  @if (monitoringClarification) {
+                    <read-more-text [maxHeight]="68"
+                                    [text]="monitoringClarification"></read-more-text>
+                  }
+                </div>
               </div>
             </div>
-          </div>
           </app-card-config>
           <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
 
@@ -212,74 +216,79 @@
     </div>
 
     <div #exportContent1>
-      <app-card-config indicatorId="44">
+
       @if (hasSurveyDataManagementData()) {
         <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
           <div class="uk-container">
-            <div class="uk-animation-fade">
-              <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-                <h6 class="uk-margin-bottom">Learn More about National Data Service in {{ countryName }}</h6>
-                <div class="uk-text-meta">This information has been compiled by the National Open Access Desks
-                  on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd' }}
-                </div>
-                <div class="uk-margin-medium-top">
-                  <read-more [maxHeight]="300">
-                    <div id="national_data_service_detail">
-                      <div class="uk-text-secondary uk-margin-small-bottom">National Data Service</div>
-                      @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']) {
-                        <div
-                          [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']"
-                          class="uk-margin-remove-top"></div>
-                      } @else {
-                        <p class="uk-margin-remove-top">N/A</p>
-                      }
-                    </div>
-                  </read-more>
+            <app-card-config indicatorId="44">
+              <div class="uk-animation-fade">
+                <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
+                  <h6 class="uk-margin-bottom">Learn More about National Data Service in {{ countryName }}</h6>
+                  <div class="uk-text-meta">This information has been compiled by the National Open Access Desks
+                    on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd' }}
+                  </div>
+                  <div class="uk-margin-medium-top">
+                    <read-more [maxHeight]="300">
+                      <div id="national_data_service_detail">
+                        <div class="uk-text-secondary uk-margin-small-bottom">National Data Service</div>
+                        @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']) {
+                          <div
+                            [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']"
+                            class="uk-margin-remove-top"></div>
+                        } @else {
+                          <p class="uk-margin-remove-top">N/A</p>
+                        }
+                      </div>
+                    </read-more>
+                  </div>
                 </div>
               </div>
-            </div>
+            </app-card-config>
           </div>
         </div>
       }
-      </app-card-config>
+
     </div>
 
     <div class="uk-section uk-section-primary uk-preserve-color uk-section-small" #exportContent2>
       <div class="uk-container">
         <div class="uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
-          <app-card-config indicatorId="45">
-          @if (stackedColumnSeries1[0].data.length) {
-            <div>
-              <div class="uk-card uk-card-default visualisation-card eosc-sb uk-card-body">
-                <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries1"
-                                    [yAxis]="yAxisTitle"
-                                    [title]="'Trend of Policies on Data Management among Research Performing Organisations in '+ countryName"
-                                    [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
-                                    [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle"
-                                    [height]="700"
-                                    [caption]="'<p class=\'uk-text-justify\'>The presented graph shows the adoption of Data Management policies among Research Performing Organisations (RPOs). It highlights the percentage of RPOs that have implemented policies mentioning Data Management, compared to those without such policies.</p>' +
+            @if (stackedColumnSeries1[0].data.length) {
+              <app-card-config indicatorId="45">
+              <div>
+                <div class="uk-card uk-card-default visualisation-card eosc-sb uk-card-body">
+                  <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries1"
+                                      [yAxis]="yAxisTitle"
+                                      [title]="'Trend of Policies on Data Management among Research Performing Organisations in '+ countryName"
+                                      [stacking]="'percent'" [plotFormat]="plotFormat"
+                                      [pointFormat]="tooltipPointFormat"
+                                      [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle"
+                                      [height]="700"
+                                      [caption]="'<p class=\'uk-text-justify\'>The presented graph shows the adoption of Data Management policies among Research Performing Organisations (RPOs). It highlights the percentage of RPOs that have implemented policies mentioning Data Management, compared to those without such policies.</p>' +
                                 '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science for year '+year+'.</p>'">
-                </app-stacked-column>
+                  </app-stacked-column>
+                </div>
               </div>
-            </div>
-          }
-          </app-card-config>
+              </app-card-config>
+            }
+
           <app-card-config indicatorId="46">
-          @if (stackedColumnSeries2[0].data.length) {
-            <div>
-              <div class="uk-card uk-card-default visualisation-card eosc-sb uk-card-body">
-                <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries2"
-                                    [yAxis]="yAxisTitle"
-                                    [title]="'Trend of Policies on Data Management among Research Funding Organisations in '+ countryName"
-                                    [stacking]="'percent'" [plotFormat]="plotFormat" [pointFormat]="tooltipPointFormat"
-                                    [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle"
-                                    [height]="700"
-                                    [caption]="'<p class=\'uk-text-justify\'>The presented graph shows Research Funding Organisations (RFOs) and their commitment to Data Management policies. It illustrates the percentage of RFOs that have implemented policies on Data Management, alongside those that have not.</p>' +
+            @if (stackedColumnSeries2[0].data.length) {
+              <div>
+                <div class="uk-card uk-card-default visualisation-card eosc-sb uk-card-body">
+                  <app-stacked-column [categories]="stackedColumnCategories" [series]="stackedColumnSeries2"
+                                      [yAxis]="yAxisTitle"
+                                      [title]="'Trend of Policies on Data Management among Research Funding Organisations in '+ countryName"
+                                      [stacking]="'percent'" [plotFormat]="plotFormat"
+                                      [pointFormat]="tooltipPointFormat"
+                                      [stackLabels]="false" [yAxisLabelsFormat]="labelFormat" [xAxis]="xAxisTitle"
+                                      [height]="700"
+                                      [caption]="'<p class=\'uk-text-justify\'>The presented graph shows Research Funding Organisations (RFOs) and their commitment to Data Management policies. It illustrates the percentage of RFOs that have implemented policies on Data Management, alongside those that have not.</p>' +
                                 '<p><strong>Data Source: </strong> Survey on National Contributions to EOSC and Open Science for year '+year+'.</p>'">
-                </app-stacked-column>
+                  </app-stacked-column>
+                </div>
               </div>
-            </div>
-          }
+            }
           </app-card-config>
         </div>
       </div>
