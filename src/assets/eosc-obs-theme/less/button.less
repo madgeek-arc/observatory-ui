@@ -233,6 +233,20 @@
     .uk-button:last-child  { border-radius: 0 @global-border-radius @global-border-radius 0; }
   }
 
+  /* Country-config view toggle (Split / On-page): the group is a grey "segmented" box.
+     The active button stays uk-button-secondary — teal text is kept — but its teal border
+     is dropped so it reads as a selected segment floating on the grey box. Scoped to the
+     toolbar so no other uk-button-group in the app inherits the grey fill. */
+  .country-config-toolbar .uk-button-group {
+    background: @muted-color;
+    border-radius: @global-border-radius;
+    padding: 3px;
+
+    .uk-button-secondary {
+      border-color: transparent;
+    }
+  }
+
   .eos-btn--ghost {
     background: transparent;
     color: @grey-color;
