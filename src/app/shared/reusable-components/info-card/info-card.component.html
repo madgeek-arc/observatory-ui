@@ -14,7 +14,7 @@
           {{ diff > 0 ? 'arrow_upward' : diff < 0 ? 'arrow_downward' : 'commit' }} </span>
           <span
             [ngClass]="diff > 0 ? 'percentage-up-color' : diff < 0 ? 'percentage-down-color' : 'percentage-neutral-color'">
-            {{ Math.abs(diff) }}%
+            {{ Math.abs(diff) }}{{ unit === '%' ? ' pp' : '%' }}
           </span>&nbsp; vs last year
         </div>
         <div>
