@@ -40,8 +40,12 @@ export class DataShareService {
 
 
   calculateDiff(previous: number | null, next: number | null): number | null {
-    // Check empty values
-    if (previous === null || next === null || previous === undefined || next === undefined) {
+    // Check empty or non-computable values
+    if (
+      previous === null || next === null ||
+      previous === undefined || next === undefined ||
+      Number.isNaN(previous) || Number.isNaN(next)
+    ) {
       return null;
     }
 
@@ -56,7 +60,7 @@ export class DataShareService {
    */
   calculatePercentage(value: string, total: string): number | null {
 
-    if ((!this.exploreService.isNumeric(value) && !this.exploreService.isNumeric(total)) || +total === 0) {
+    if (!this.exploreService.isNumeric(value) || !this.exploreService.isNumeric(total) || +total === 0) {
       return null;
     }
 

@@ -6,7 +6,7 @@
       <span class="uk-text-bold">{{ value }}{{ unit ? ' ' + unit : '' }}</span>
     </div>
 
-    @if (diff != null) {
+    @if (diff != null && !Number.isNaN(diff)) {
       <div class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
         <div class="uk-flex uk-flex-middle">
           <span class="material-symbols-outlined"
@@ -22,6 +22,8 @@
           alt="trend image" height="50" width="99">
         </div>
       </div>
+    } @else {
+      <p>No trend available</p>
     }
   </div>
 </div>
