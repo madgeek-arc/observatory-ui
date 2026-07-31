@@ -10,6 +10,7 @@ import { CommonModule, NgClass, NgOptimizedImage } from "@angular/common";
 
 export class InfoCardComponent {
   protected readonly Math = Math;
+  protected readonly Number = Number;
     @Input() titleHtml?: string;
     @Input() value!: number | string | null;
     @Input() unit?: string;

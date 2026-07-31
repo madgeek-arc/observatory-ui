@@ -42,6 +42,7 @@
   right: 0;
   height: 64px;
   z-index: 985;
+  background-color: @light-color;
 
   /* The warning label ships with `align-self: flex-start` (needed in the survey
      column layout); in this toolbar row it must center vertically with the buttons. */
@@ -168,6 +169,7 @@
    indicator rows. Scoped to the component so it never restyles other accordions. Colours
    come from color.less; the caret reuses the theme accordion's built-in Material icon. */
 app-indicator-list {
+  background-color: @light-color;
 
   /* Group card: rounded, no shadow, with a real gap between cards. Neutral (white) by default.
      Overrides the theme's `.uk-accordion > *` bottom-border/padding with a real card gap. */

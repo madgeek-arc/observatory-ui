@@ -6,7 +6,7 @@
       <span class="uk-text-bold">{{ value }}{{ unit ? ' ' + unit : '' }}</span>
     </div>
 
-    @if (diff != null) {
+    @if (diff != null && !Number.isNaN(diff)) {
       <div class="uk-flex uk-flex-between uk-flex-bottom uk-width-1-1">
         <div class="uk-flex uk-flex-middle">
           <span class="material-symbols-outlined"
@@ -14,7 +14,7 @@
           {{ diff > 0 ? 'arrow_upward' : diff < 0 ? 'arrow_downward' : 'commit' }} </span>
           <span
             [ngClass]="diff > 0 ? 'percentage-up-color' : diff < 0 ? 'percentage-down-color' : 'percentage-neutral-color'">
-            {{ Math.abs(diff) }}%
+            {{ Math.abs(diff) }}{{ unit === '%' ? ' pp' : '%' }}
           </span>&nbsp; vs last year
         </div>
         <div>
@@ -22,6 +22,8 @@
           alt="trend image" height="50" width="99">
         </div>
       </div>
+    } @else {
+      <p>No trend available</p>
     }
   </div>
 </div>
