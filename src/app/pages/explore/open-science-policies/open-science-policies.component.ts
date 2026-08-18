@@ -280,11 +280,11 @@ export class OpenSciencePoliciesComponent implements OnInit {
         break;
       case 1:
         if (!this.questionsDataArray[index])
-          this.getNationalPolicies('Question14', index); // National Policy on FAIR Data
+          this.getNationalPolicies('Question10', index); // National Policy on Data Management
         break;
       case 2:
         if (!this.questionsDataArray[index])
-          this.getNationalPolicies('Question18', index); // National Policy on Data Management
+          this.getNationalPolicies('Question14', index); // National Policy on FAIR Data
         break;
       case 3:
         if (!this.questionsDataArray[index])
