@@ -259,3 +259,28 @@ app-indicator-list {
     }
   }
 }
+
+/* Custom Search topics accordion. */
+app-custom-search {
+  .uk-accordion-title::before,
+  .uk-open > .uk-accordion-title::before,
+  .uk-accordion-active > .uk-accordion-title::before {
+    content: none;
+  }
+
+  .uk-accordion-title > .material-symbols-outlined {
+    flex: 0 0 auto;
+    margin-right: 4px;
+    font-size: 22px;
+  }
+
+  .uk-accordion > .uk-card.uk-accordion-active .uk-card-title {
+    border-left: none;
+    color: @primary-color;
+  }
+
+  .uk-accordion-content {
+    margin: 0;
+    padding: 0 12px;
+  }
+}

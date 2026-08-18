@@ -1,6 +1,174 @@
-<div class="uk-section uk-section-small">
-  <div class="uk-container uk-container-expand">
-    Custom Search.....
+<div page-content [fullWidth]="true">
+
+  <div actions class="uk-section-primary">
+    <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
+
+  <div inner class="uk-tile-default">
+
+    <div class="uk-flex uk-flex-between uk-flex-middle uk-border-bottom uk-padding-small uk-padding-remove-vertical">
+
+      <div>
+        <div class="uk-text-meta uk-text-small">
+          Explore
+          <span class="uk-margin-small-left uk-margin-small-right">›</span>
+          Custom Search
+        </div>
+      </div>
+
+      <div class="uk-flex uk-flex-middle" style="gap: 8px;">
+        <div class="uk-button-group">
+          <button type="button"
+                  [class]="viewMode() === 'dashboard' ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+                  (click)="viewMode.set('dashboard')">
+            Dashboard
+          </button>
+          <button type="button"
+                  [class]="viewMode() === 'matrix' ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+                  (click)="viewMode.set('matrix')">
+            Matrix
+          </button>
+        </div>
+
+        <button type="button" class="uk-button uk-button-secondary uk-button-small">
+          Saved views
+          @if (savedViews().length > 0) {
+            <span class="uk-label">{{ savedViews().length }}</span>
+          }
+        </button>
+        <button type="button" class="uk-button uk-button-default uk-button-small">Save view</button>
+        <button type="button" class="uk-button uk-button-default uk-button-small">Share link</button>
+        <button type="button" class="uk-button uk-button-primary uk-button-small">Export report</button>
+      </div>
+
+    </div>
+
+    <div class="uk-flex uk-flex-top">
+
+      <div class="uk-width-1-4 uk-padding-small">
+
+        <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
+          <span class="uk-badge">1</span>
+          <span class="uk-text-bold uk-text-small">Topics &amp; indicators</span>
+          <span class="uk-text-meta uk-text-xsmall uk-margin-auto-left">expand to pick</span>
+        </div>
+
+        <ul class="uk-accordion-default">
+          @for (topic of topics; track topic.id) {
+            <li class="uk-card uk-card-default" [class.uk-accordion-active]="isTopicExpanded(topic.id)">
+              <a class="uk-accordion-title uk-card-title uk-flex uk-flex-middle" (click)="toggleTopic(topic.id)">
+                <span class="material-symbols-outlined">{{ isTopicExpanded(topic.id) ? 'arrow_drop_down' : 'arrow_right' }}</span>
+                <span class="uk-text-small" style="flex: 1 1 auto; min-width: 0;">{{ topic.name }}</span>
+                @if (selectedCountForTopic(topic) > 0) {
+                  <span class="uk-text-small uk-text-primary uk-text-bold uk-margin-small-right">{{ selectedCountForTopic(topic) }} of {{ topic.indicators.length }} selected</span>
+                } @else {
+                  <span class="uk-text-small uk-text-meta uk-margin-small-right">{{ topic.indicators.length }} indicators</span>
+                }
+              </a>
+              <div class="uk-accordion-content uk-card-body" [hidden]="!isTopicExpanded(topic.id)">
+                <ul class="uk-list uk-list-divider uk-margin-remove">
+                  @for (indicator of topic.indicators; track indicator.id) {
+                    <li>
+                      <label class="uk-flex uk-flex-middle" style="gap: 8px;">
+                        <input class="uk-checkbox" type="checkbox" style="flex-shrink: 0;"
+                               [checked]="isIndicatorSelected(indicator.id)"
+                               (change)="toggleIndicator(indicator.id)">
+                        <span class="uk-text-small" style="flex: 1 1 auto; min-width: 0;" [class.uk-text-primary]="isIndicatorSelected(indicator.id)">{{ indicator.label }}</span>
+                      </label>
+                    </li>
+                  }
+                </ul>
+              </div>
+            </li>
+          }
+        </ul>
+
+      </div>
+
+      <div class="uk-width-expand uk-padding-small">
+
+      <div class="uk-text-small uk-text-meta uk-margin-small-bottom">
+        Live view · <b>{{ summary().indicators }}</b> indicators across <b>{{ summary().topics }}</b> topics
+        · {{ summary().yearsLabel }}
+      </div>
+
+      <div class="uk-grid-small uk-margin-small-bottom" uk-grid>
+        <div class="uk-width-1-4@m">
+          <div class="uk-card uk-card-default uk-card-small uk-card-body">
+            <div class="uk-text-meta uk-text-small uk-text-bold">Indicators</div>
+            <div class="uk-text-bold uk-text-large">{{ summary().indicators }}</div>
+            <div class="uk-text-meta uk-text-xsmall">in this view</div>
+          </div>
+        </div>
+        <div class="uk-width-1-4@m">
+          <div class="uk-card uk-card-default uk-card-small uk-card-body">
+            <div class="uk-text-meta uk-text-small uk-text-bold">Topics</div>
+            <div class="uk-text-bold uk-text-large">{{ summary().topics }}</div>
+            <div class="uk-text-meta uk-text-xsmall">covered</div>
+          </div>
+        </div>
+        <div class="uk-width-1-4@m">
+          <div class="uk-card uk-card-default uk-card-small uk-card-body">
+            <div class="uk-text-meta uk-text-small uk-text-bold">Countries</div>
+            <div class="uk-text-bold uk-text-large">{{ summary().countries }}</div>
+            <div class="uk-text-meta uk-text-xsmall">in scope</div>
+          </div>
+        </div>
+        <div class="uk-width-1-4@m">
+          <div class="uk-card uk-card-default uk-card-small uk-card-body">
+            <div class="uk-text-meta uk-text-small uk-text-bold">Data Points</div>
+            <div class="uk-text-bold uk-text-large">{{ summary().dataPoints }}</div>
+            <div class="uk-text-meta uk-text-xsmall">in this view</div>
+          </div>
+        </div>
+      </div>
+
+      @if (summary().indicators === 0) {
+        <div class="uk-card uk-card-default uk-card-small uk-card-body">
+          <div class="uk-text-large uk-text-bold">Start a custom search</div>
+          <p class="uk-text-small uk-text-meta">
+            Expand a topic in the left rail and tick the indicators you want — or pick up a view you saved earlier.
+          </p>
+          <div class="uk-flex uk-flex-middle" style="gap: 10px;">
+            <button type="button" class="uk-button uk-button-primary">Open a saved view</button>
+            <span class="uk-text-small uk-text-meta">or tick indicators on the left to start fresh</span>
+          </div>
+
+          @if (savedViews().length > 0) {
+            <div>
+              <div class="uk-text-meta uk-text-xsmall uk-text-uppercase uk-text-bold">Pick up where you left off</div>
+              <div class="uk-grid-small" uk-grid>
+                @for (view of savedViews(); track view.id) {
+                  <div class="uk-width-1-2@m">
+                    <div class="uk-card uk-card-default uk-card-small uk-card-body">
+                      <div class="uk-flex uk-flex-between">
+                        <span class="uk-text-bold">{{ view.name }}</span>
+                        <span class="uk-label">{{ view.shared ? 'SHARED' : 'PRIVATE' }}</span>
+                      </div>
+                      <div class="uk-text-meta uk-text-small">
+                        {{ view.indicatorsCount }} indicators · {{ view.topicsCount }} topics
+                        · {{ view.countriesLabel }}
+                      </div>
+                      <div class="uk-text-meta uk-text-xsmall">Updated {{ view.updated }}</div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      <div class="uk-text-meta uk-text-xsmall uk-margin-top">
+        Mock data for prototyping purposes · the view updates the instant you tick an indicator or touch a control on
+        the left.
+      </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
 </div>
 

@@ -8,7 +8,6 @@ import { DataHandlerService } from "../services/data-handler.service";
 import { StakeholdersService } from "../../../survey-tool/app/services/stakeholders.service";
 import { EoscReadinessDataService } from "../services/eosc-readiness-data.service";
 import { ExploreRouting } from "./explore.routing";
-import { CustomSearchComponent } from "./custom-search/custom-search.component";
 import { OpenScienceImpactComponent } from "./open-science-impact/open-science-impact.component";
 import { OpenScienceUseCasesComponent } from "./open-science-use-cases/open-science-use-cases.component";
 import { ExploreService } from "./explore.service";
@@ -21,7 +20,6 @@ import {
 
 @NgModule({
   declarations: [
-    CustomSearchComponent,
     OpenScienceImpactComponent,
     OpenScienceUseCasesComponent,
   ],
