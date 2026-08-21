@@ -6,7 +6,7 @@
 
   <div inner class="uk-tile-default">
 
-    <div class="uk-flex uk-flex-between uk-flex-middle uk-border-bottom uk-padding-small uk-padding-remove-vertical">
+    <div class="uk-flex uk-flex-between uk-flex-middle uk-border-bottom uk-padding-small">
 
       <div>
         <div class="uk-text-meta uk-text-small">
@@ -36,7 +36,7 @@
             <span class="uk-label">{{ savedViews().length }}</span>
           }
         </button>
-        <button type="button" class="uk-button uk-button-default uk-button-small">Save view</button>
+        <button type="button" class="uk-button uk-button-default uk-button-small" (click)="saveView()">Save view</button>
         <button type="button" class="uk-button uk-button-default uk-button-small">Share link</button>
         <button type="button" class="uk-button uk-button-primary uk-button-small">Export report</button>
       </div>
@@ -54,7 +54,7 @@
         </div>
 
         <ul class="uk-accordion-default">
-          @for (topic of topics; track topic.id) {
+          @for (topic of topics(); track topic.id) {
             <li class="uk-card uk-card-default" [class.uk-accordion-active]="isTopicExpanded(topic.id)">
               <a class="uk-accordion-title uk-card-title uk-flex uk-flex-middle" (click)="toggleTopic(topic.id)">
                 <span class="material-symbols-outlined">{{ isTopicExpanded(topic.id) ? 'arrow_drop_down' : 'arrow_right' }}</span>
@@ -65,6 +65,11 @@
                   <span class="uk-text-small uk-text-meta uk-margin-small-right">{{ topic.indicators.length }} indicators</span>
                 }
               </a>
+              <div class="uk-padding-small uk-padding-remove-vertical uk-margin-small-top" [hidden]="!isTopicExpanded(topic.id)">
+                <a class="uk-text-small uk-text-primary uk-text-bold" (click)="toggleSelectAllInTopic(topic)">
+                  {{ isTopicFullySelected(topic) ? 'Clear all' : 'Select all' }}
+                </a>
+              </div>
               <div class="uk-accordion-content uk-card-body" [hidden]="!isTopicExpanded(topic.id)">
                 <ul class="uk-list uk-list-divider uk-margin-remove">
                   @for (indicator of topic.indicators; track indicator.id) {
@@ -82,6 +87,71 @@
             </li>
           }
         </ul>
+
+        <hr class="uk-margin-medium-top">
+
+        <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
+          <span class="uk-badge">2</span>
+          <span class="uk-text-bold uk-text-small">Geography</span>
+        </div>
+
+        <div class="uk-button-group uk-margin-small-bottom">
+          <button type="button"
+                  [class]="geographyScope() === 'all' ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+                  (click)="geographyScope.set('all')">
+            All EU
+          </button>
+          <button type="button"
+                  [class]="geographyScope() === 'select' ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+                  (click)="geographyScope.set('select')">
+            Select
+          </button>
+        </div>
+
+        @if (geographyScope() === 'select') {
+          <div class="uk-inline uk-width-1-1">
+            <button type="button" class="uk-button uk-button-default uk-width-1-1 uk-flex uk-flex-between uk-flex-middle">
+              {{ selectedCountryIds().size }} countries selected
+              <span class="material-symbols-outlined">arrow_drop_down</span>
+            </button>
+            <div uk-dropdown="mode: click; pos: bottom-justify">
+              <input class="uk-input uk-margin-small-bottom" type="search" placeholder="Search..."
+                     [ngModel]="countrySearchTerm()" (ngModelChange)="countrySearchTerm.set($event)">
+              <div class="uk-flex uk-flex-between uk-margin-small-bottom">
+                <a class="uk-text-small uk-text-primary uk-text-bold" (click)="selectAllFilteredCountries()">Select all</a>
+                <a class="uk-text-small uk-text-meta uk-text-bold" (click)="clearSelectedCountries()">Clear</a>
+              </div>
+              <div style="max-height: 220px; overflow-y: auto;">
+                @for (country of filteredCountries(); track country.id) {
+                  <label class="uk-flex uk-flex-middle" style="gap: 8px;">
+                    <input class="uk-checkbox" type="checkbox" style="flex-shrink: 0;"
+                           [checked]="isCountrySelected(country.id)"
+                           (change)="toggleCountry(country.id)">
+                    <span class="uk-text-small" style="flex: 1 1 auto; min-width: 0;">{{ country.name }}</span>
+                  </label>
+                }
+              </div>
+            </div>
+          </div>
+        }
+
+        <hr class="uk-margin-medium-top">
+
+        <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
+          <span class="uk-badge">3</span>
+          <span class="uk-text-bold uk-text-small">Time period</span>
+        </div>
+
+        <div class="uk-flex uk-flex-middle" style="gap: 8px;">
+          <input class="uk-input uk-form-width-small" type="number"
+                 [ngModel]="startYear()" (ngModelChange)="setStartYear($event)">
+          <span class="uk-text-meta">–</span>
+          <input class="uk-input uk-form-width-small" type="number"
+                 [ngModel]="endYear()" (ngModelChange)="setEndYear($event)">
+        </div>
+        <div class="uk-text-meta uk-text-xsmall uk-margin-small-top">
+          Same year = a snapshot number; a range draws trend lines.
+        </div>
 
       </div>
 
@@ -121,6 +191,16 @@
             <div class="uk-text-meta uk-text-xsmall">in this view</div>
           </div>
         </div>
+      </div>
+
+      <div class="uk-grid-small uk-margin-small-bottom uk-grid-match" uk-grid>
+        @for (indicator of selectedIndicatorCards(); track indicator.id) {
+          <div class="uk-width-1-2@m">
+            <div class="uk-card uk-card-default uk-card-small uk-card-body">
+              <div class="uk-text-bold">{{ indicator.label }}</div>
+            </div>
+          </div>
+        }
       </div>
 
       @if (summary().indicators === 0) {

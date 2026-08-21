@@ -274,7 +274,18 @@ app-custom-search {
     font-size: 22px;
   }
 
-  .uk-accordion > .uk-card.uk-accordion-active .uk-card-title {
+  /* !important is a deliberate, last-resort escape hatch here, not a habit: this selector
+     (tag + 2 classes) is provably higher specificity than the competing .uk-card-default
+     (1 class) rule, appears later in source order too, yet loses without !important — verified
+     via the browser's own computed styles and full stylesheet rule dump, with no @layer,
+     inline style, or other !important found to explain it. Scoped to a single property on a
+     single component-scoped selector, so the blast radius is contained. */
+  .uk-card.uk-accordion-active {
+    border-color: @primary-border-light-color !important;
+    background-color: @primary-tint-color !important;
+  }
+
+  .uk-card.uk-accordion-active .uk-card-title {
     border-left: none;
     color: @primary-color;
   }
@@ -282,5 +293,6 @@ app-custom-search {
   .uk-accordion-content {
     margin: 0;
     padding: 0 12px;
+    background-color: @light-color;
   }
 }
