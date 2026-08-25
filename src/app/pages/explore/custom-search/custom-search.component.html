@@ -196,9 +196,13 @@
       <div class="uk-grid-small uk-margin-small-bottom uk-grid-match" uk-grid>
         @for (indicator of selectedIndicatorCards(); track indicator.id) {
           <div class="uk-width-1-2@m">
-            <div class="uk-card uk-card-default uk-card-small uk-card-body">
-              <div class="uk-text-bold">{{ indicator.label }}</div>
-            </div>
+            <app-indicator-card
+              [indicator]="indicator"
+              [geographyScope]="geographyScope()"
+              [startYear]="startYear()"
+              [endYear]="endYear()"
+              [selectedCountryIds]="selectedCountryIds()">
+            </app-indicator-card>
           </div>
         }
       </div>

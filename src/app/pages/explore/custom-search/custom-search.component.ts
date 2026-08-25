@@ -9,6 +9,7 @@ import { StakeholdersService } from "../../../../survey-tool/app/services/stakeh
 import { ExploreIndicatorConfig } from "../../../domain/explore-indicators";
 import { countries } from "../../../domain/countries";
 import { CustomSearchService, DashboardItem } from "./services/custom-search.service";
+import { IndicatorCard} from "../indicator-card/indicator-card";
 
 interface SavedViewCard {
   id: string;
@@ -38,7 +39,8 @@ interface Country {
   imports: [
     FormsModule,
     SidebarMobileToggleComponent,
-    PageContentComponent
+    PageContentComponent,
+    IndicatorCard
   ]
 })
 
@@ -128,8 +130,15 @@ export class CustomSearchComponent {
   });
 
   saveView() {
-    const selected = this.selectedIndicatorIds();
-    const itemsToSave = this.dashboardItems().filter(item => selected.has(item.id));
+    const savedById = new Map(this.dashboardItems().map(item => [item.id, item]));
+    const itemsToSave: DashboardItem[] = this.selectedIndicatorCards()
+      .map(indicator => {
+        const saved = savedById.get(indicator.id);
+        return saved
+          ? { ...saved, chartType: saved.chartType ?? indicator.chartType }
+          : { id: indicator.id, title: indicator.label, chartType: indicator.chartType };
+      });
+
     this.customSearchService.saveDashboard(itemsToSave).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import {environment} from "../../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {ExploreIndicatorConfig} from "../../../../domain/explore-indicators";
+import {DashboardChartType, ExploreIndicatorConfig} from "../../../../domain/explore-indicators";
 import {map} from "rxjs/operators";
 
 interface PreDefinedIndicatorsResponse {
@@ -12,6 +12,7 @@ interface PreDefinedIndicatorsResponse {
 export interface DashboardItem {
   id: string;
   title: string;
+  chartType: DashboardChartType;
 }
 
 interface UserDashboardResponse {
