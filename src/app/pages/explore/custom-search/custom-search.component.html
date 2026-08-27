@@ -10,7 +10,7 @@
 
       <div>
         <div class="uk-text-meta uk-text-small">
-          Explore
+          <a routerLink="/explore" class="uk-link-reset">Explore</a>
           <span class="uk-margin-small-left uk-margin-small-right">›</span>
           Custom Search
         </div>
@@ -51,6 +51,7 @@
           <span class="uk-badge">1</span>
           <span class="uk-text-bold uk-text-small">Topics &amp; indicators</span>
           <span class="uk-text-meta uk-text-xsmall uk-margin-auto-left">expand to pick</span>
+          <a class="uk-text-small uk-text-primary uk-link-reset" (click)="clearAllIndicators()">Clear all</a>
         </div>
 
         <ul class="uk-accordion-default">
@@ -201,7 +202,8 @@
               [geographyScope]="geographyScope()"
               [startYear]="startYear()"
               [endYear]="endYear()"
-              [selectedCountryIds]="selectedCountryIds()">
+              [selectedCountryIds]="selectedCountryIds()"
+              (closeCard)="toggleIndicator($event)">
             </app-indicator-card>
           </div>
         }

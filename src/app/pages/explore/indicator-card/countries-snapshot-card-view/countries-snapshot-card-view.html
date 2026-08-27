@@ -1,0 +1,7 @@
+@for (item of mockCountryValues(); track item.id) {
+  <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
+    <span class="uk-text-small">{{ item.name }}</span>
+    <progress class="uk-progress uk-width-expand" [value]="item.value" max="100"></progress>
+    <span class="uk-text-bold uk-text-small">{{ item.value }}%</span>
+  </div>
+}

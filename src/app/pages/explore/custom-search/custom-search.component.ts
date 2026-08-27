@@ -10,6 +10,7 @@ import { ExploreIndicatorConfig } from "../../../domain/explore-indicators";
 import { countries } from "../../../domain/countries";
 import { CustomSearchService, DashboardItem } from "./services/custom-search.service";
 import { IndicatorCard} from "../indicator-card/indicator-card";
+import {RouterLink} from "@angular/router";
 
 interface SavedViewCard {
   id: string;
@@ -40,7 +41,8 @@ interface Country {
     FormsModule,
     SidebarMobileToggleComponent,
     PageContentComponent,
-    IndicatorCard
+    IndicatorCard,
+    RouterLink
   ]
 })
 
@@ -231,5 +233,8 @@ export class CustomSearchComponent {
 
   clearSelectedCountries() {
     this.selectedCountryIds.set(new Set());
+  }
+  clearAllIndicators() {
+    this.selectedIndicatorIds.set(new Set());
   }
 }

@@ -1,0 +1,15 @@
+@for (item of mockCountryPolicyStatus(); track item.id) {
+  <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
+    <span class="uk-text-small">{{ item.name }}</span>
+    @if (!isSnapshot()) {
+      <span class="uk-text-meta uk-text-xsmall">since {{ item.since }}</span>
+    }
+    <span class="uk-label uk-label-success">Yes</span>
+  </div>
+}
+
+@if (!isSnapshot()) {
+  <div class="uk-text-meta uk-text-small uk-margin-small-top">
+    {{ mockCountryPolicyStatus().length }} of {{ mockCountryPolicyStatus().length }} selected countries have a policy
+  </div>
+}

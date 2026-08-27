@@ -1,8 +1,10 @@
 <div id="sidebar" class="sidebar_main_swipe uk-flex uk-background-default"
-     [class.sidebar_main_active]="open && (hasSidebar || hasAdminMenu)"
-     [class.sidebar_mini]="!open &&  (hasSidebar || hasAdminMenu)"
+     [class.sidebar_main_active]="open && (hasSidebar() || hasAdminMenu)"
+     [class.sidebar_mini]="!open &&  (hasSidebar() || hasAdminMenu)"
      [class.sidebar_hover]="hover">
-  <dashboard-sidebar [menuSections]="menuSections"></dashboard-sidebar>
+  @if (hasSidebar()) {
+    <dashboard-sidebar [menuSections]="menuSections"></dashboard-sidebar>
+  }
   <main class="uk-width-1-1">
     <router-outlet></router-outlet>
   </main>

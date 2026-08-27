@@ -1,4 +1,10 @@
 <div class="uk-card uk-card-default uk-card-small uk-card-body">
+  <a
+    class="uk-link-reset uk-position-top-right"
+    (click)="closeCard.emit(indicator().id)">
+    <span class="material-icons">close</span>
+  </a>
+
   <div class="uk-flex uk-flex-between uk-flex-middle">
     <div class="uk-text-bold">{{ indicator().label }}</div>
     <span class="uk-text-meta uk-text-xsmall uk-text-uppercase">{{ indicator().group }}</span>
@@ -6,11 +12,7 @@
 
   @switch (cardViewKind()) {
     @case ('eu-snapshot') {
-      <div class="uk-flex uk-flex-middle" style="gap: 8px;">
-        <span class="uk-text-large uk-text-bold">{{ mockScalarValue }}%</span>
-        <span class="uk-text-meta uk-text-small">EU-wide</span>
-        <span class="uk-text-danger uk-text-bold uk-text-small">{{ mockScalarDelta }}%</span>
-      </div>
+      <app-eu-snapshot-card-view></app-eu-snapshot-card-view>
     }
     @case ('eu-trend') {
       <app-eu-trend-card-view [startYear]="startYear()" [endYear]="endYear()"></app-eu-trend-card-view>
@@ -23,7 +25,17 @@
       </app-countries-trend-card-view>
     }
     @case ('countries-snapshot') {
-      <div class="uk-text-meta">[countries-snapshot placeholder]</div>
+      <app-countries-snapshot-card-view [selectedCountryIds]="selectedCountryIds()"></app-countries-snapshot-card-view>
+    }
+    @case ('policy-map') {
+      <app-policy-map-card-view [startYear]="startYear()" [endYear]="endYear()"></app-policy-map-card-view>
+    }
+    @case ('policy-countries') {
+      <app-policy-countries-card-view
+        [startYear]="startYear()"
+        [endYear]="endYear()"
+        [selectedCountryIds]="selectedCountryIds()">
+      </app-policy-countries-card-view>
     }
   }
 </div>

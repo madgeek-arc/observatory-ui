@@ -1,5 +1,7 @@
-import { Component, OnInit } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
+import { Component, OnInit, computed, inject } from "@angular/core";
+import { NavigationEnd, Router, RouterOutlet } from "@angular/router";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { filter, map, startWith } from "rxjs/operators";
 import {
   DashboardSideMenuComponent,
   MenuItem, MenuSection
@@ -21,10 +23,20 @@ import { exploreIcons } from "./explore.icons";
 
 export class ExploreComponent implements OnInit {
 
+  private router = inject(Router);
+
   menuItems: MenuItem[] = [];
   menuSections: MenuSection[] = [];
 
-  hasSidebar = true;
+  private currentUrl = toSignal(
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(() => this.router.url),
+      startWith(this.router.url)
+    )
+  );
+
+  readonly hasSidebar = computed(() => !this.currentUrl()?.startsWith('/explore/custom-search'));
   hasAdminMenu = false;
 
   constructor(private layoutService: DashboardSideMenuService, private iconService: IconsService) {}
