@@ -2,17 +2,16 @@ import { Injectable } from "@angular/core";
 import {environment} from "../../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {DashboardChartType, ExploreIndicatorConfig} from "../../../../domain/explore-indicators";
+import { ExploreIndicatorConfig} from "../../../../domain/explore-indicators";
 import {map} from "rxjs/operators";
 
 interface PreDefinedIndicatorsResponse {
-  indicators: ExploreIndicatorConfig[];
+  indicatorPresets: ExploreIndicatorConfig[];
 }
 
 export interface DashboardItem {
   id: string;
   title: string;
-  chartType: DashboardChartType;
 }
 
 interface UserDashboardResponse {
@@ -28,8 +27,8 @@ export class CustomSearchService {
 
   getPreDefinedIndicators(): Observable<ExploreIndicatorConfig[]> {
     return this.httpClient
-      .get<PreDefinedIndicatorsResponse>(this.base + '/indicators/pre-defined')
-      .pipe(map(response => response.indicators));
+      .get<PreDefinedIndicatorsResponse>(this.base + '/indicators/presets')
+      .pipe(map(response => response.indicatorPresets));
   }
 
   getDashboard(): Observable<DashboardItem[]> {

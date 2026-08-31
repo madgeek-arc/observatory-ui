@@ -137,8 +137,7 @@ export class CustomSearchComponent {
       .map(indicator => {
         const saved = savedById.get(indicator.id);
         return saved
-          ? { ...saved, chartType: saved.chartType ?? indicator.chartType }
-          : { id: indicator.id, title: indicator.label, chartType: indicator.chartType };
+
       });
 
     this.customSearchService.saveDashboard(itemsToSave).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
