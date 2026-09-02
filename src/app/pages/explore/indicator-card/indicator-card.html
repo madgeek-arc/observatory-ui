@@ -30,6 +30,15 @@
     @case ('policy-map') {
       <app-policy-map-card-view [startYear]="startYear()" [endYear]="endYear()"></app-policy-map-card-view>
     }
+    @case ('stacked-column') {
+      <app-stacked-column-view [startYear]="startYear()" [endYear]="endYear()"></app-stacked-column-view>
+    }
+    @case ('access-type-trend') {
+      <app-selector-trend-card-view [startYear]="startYear()" [endYear]="endYear()"></app-selector-trend-card-view>
+    }
+    @case ('access-type-dot-plot') {
+      <app-selector-dot-plot-card-view [startYear]="startYear()" [selectedCountryIds]="selectedCountryIds()"></app-selector-dot-plot-card-view>
+    }
     @case ('policy-countries') {
       <app-policy-countries-card-view
         [startYear]="startYear()"

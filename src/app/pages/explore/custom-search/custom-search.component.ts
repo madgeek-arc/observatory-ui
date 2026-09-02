@@ -9,7 +9,7 @@ import { StakeholdersService } from "../../../../survey-tool/app/services/stakeh
 import { ExploreIndicatorConfig } from "../../../domain/explore-indicators";
 import { countries } from "../../../domain/countries";
 import { CustomSearchService, DashboardItem } from "./services/custom-search.service";
-import { IndicatorCard} from "../indicator-card/indicator-card";
+import { IndicatorCard } from "../indicator-card/indicator-card";
 import {RouterLink} from "@angular/router";
 
 interface SavedViewCard {

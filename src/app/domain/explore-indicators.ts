@@ -19,19 +19,22 @@ export type RenderStyle =
   | 'MAP'
   /** All EU, year range — choropleth plus a count of countries that changed since the start year. */
   | 'MAP_WITH_CHANGE_COUNT'
-  // Δεν έχουν ακόμα δικό τους component — αφήνονται εκτός scope προς το παρόν.
+  /** All EU, year range — one column per year, split into stacked breakdown categories. */
   | 'STACKED_COLUMN'
-  | 'PROGRESS_LINE_CHART'
-  | 'MULTI_LINE_CHARTS'
-  | 'CHOROPLETH_MAP'
-  | 'CHOROPLETH_MAP_WITH_TOP_5'
-  | 'COLUMN_CHART'
-  | 'MULTI_SERIES_COLUMN_CHART';
+  /** Selected countries, single year — one row per country, one dot per category on a 0–100 scale. */
+  | 'PROGRESS_LINE_CHART';
+
+export interface IndicatorViewSelector {
+  dimension: string;
+  label: string;
+  members: string[];
+}
 
 export interface IndicatorView {
   countryScope: CountryScope;
   timeScope: TimeScope;
   renderStyle: RenderStyle;
+  selector?: IndicatorViewSelector;
 }
 
 export interface ExploreIndicatorConfig {
@@ -39,6 +42,7 @@ export interface ExploreIndicatorConfig {
   label: string;
   group: string;
   views: IndicatorView[];
+  fullWidth: boolean;
   format: IndicatorFormat;
   allowedSeriesAggregations: string[];
 }

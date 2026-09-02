@@ -1,0 +1,22 @@
+<div class="uk-flex uk-flex-middle uk-flex-wrap uk-margin-small-bottom" style="gap: 6px;">
+  <span class="uk-text-meta uk-text-xsmall uk-text-uppercase uk-margin-small-right">Access Type</span>
+  @for (type of accessTypes; track type) {
+    <button type="button"
+            [class]="selectedAccessType() === type ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+            (click)="selectAccessType(type)">
+      {{ type }}
+    </button>
+  }
+</div>
+
+<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions()" [oneToOne]="true"
+                  style="width: 100%; display: block;"></highcharts-chart>
+
+<div class="uk-flex uk-flex-wrap uk-margin-small-top" style="gap: 16px;">
+  @for (item of latestShares(); track item.label; let i = $index) {
+    <div class="uk-flex uk-flex-middle" style="gap: 6px;">
+      <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%;" [style.background]="colors[i]"></span>
+      <span class="uk-text-small">{{ item.label }} <b>{{ item.value }}%</b></span>
+    </div>
+  }
+</div>

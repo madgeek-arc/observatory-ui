@@ -1,0 +1,11 @@
+<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions()" [oneToOne]="true"
+                  style="width: 100%; display: block;"></highcharts-chart>
+
+<div class="uk-flex uk-flex-center uk-flex-wrap uk-margin-small-top" style="gap: 16px;">
+  @for (type of accessTypes; track type; let i = $index) {
+    <div class="uk-flex uk-flex-middle" style="gap: 6px;">
+      <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%;" [style.background]="colors[i]"></span>
+      <span class="uk-text-small uk-text-muted">{{ type }}</span>
+    </div>
+  }
+</div>

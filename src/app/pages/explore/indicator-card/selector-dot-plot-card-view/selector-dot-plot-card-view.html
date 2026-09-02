@@ -1,0 +1,40 @@
+<div class="uk-flex uk-flex-middle uk-flex-wrap uk-margin-small-bottom" style="gap: 6px;">
+  <span class="uk-text-meta uk-text-xsmall uk-text-uppercase uk-margin-small-right">Access Type</span>
+  @for (type of accessTypes; track type) {
+    <button type="button"
+            [class]="selectedAccessType() === type ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+            (click)="selectAccessType(type)">
+      {{ type }}
+    </button>
+  }
+</div>
+
+@for (row of rows(); track row.id) {
+  <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 12px;">
+    <span class="uk-text-small" style="width: 150px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ row.name }}</span>
+    <highcharts-chart [Highcharts]="Highcharts" [options]="row.options" [oneToOne]="true"
+                      style="flex: 1 1 auto; min-width: 0; display: block;"></highcharts-chart>
+    <span class="uk-text-meta uk-text-xsmall" style="width: 64px; flex-shrink: 0; text-align: right;">{{ row.min }}–{{ row.max }}%</span>
+  </div>
+}
+
+<div class="uk-flex uk-flex-middle" style="gap: 12px;">
+  <span style="width: 150px; flex-shrink: 0;"></span>
+  <div class="uk-flex uk-flex-between uk-text-meta uk-text-xsmall" style="flex: 1 1 auto; min-width: 0;">
+    <span>0%</span>
+    <span>50%</span>
+    <span>100%</span>
+  </div>
+  <span style="width: 64px; flex-shrink: 0;"></span>
+</div>
+
+<div class="uk-flex uk-flex-wrap uk-margin-small-top" style="gap: 16px;">
+  @for (label of docTypeLabels; track label; let i = $index) {
+    <div class="uk-flex uk-flex-middle" style="gap: 6px;">
+      <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%;" [style.background]="docTypeColors[i]"></span>
+      <span class="uk-text-small uk-text-muted">{{ label }}</span>
+    </div>
+  }
+</div>
+
+<div class="uk-text-meta uk-text-xsmall uk-margin-small-top">{{ captionText() }}</div>
