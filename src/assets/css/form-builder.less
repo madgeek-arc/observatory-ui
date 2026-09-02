@@ -1,0 +1,169 @@
+/* ============================================================================
+   Form Builder page overrides. Layout with no UIkit equivalent (header, meta
+   bar, tabs, side columns) lives in the form-builder submodule's own
+   stylesheet instead, themed via the --fb-* custom properties below — the
+   submodule reads them with a fallback, so any host project can theme it the
+   same way without knowing this project's LESS variables.
+   ========================================================================== */
+
+@fb-radius: 10px;
+
+app-form-builder {
+
+  // Layout-shell theming (consumed by the submodule's own form-builder.component.less)
+  --fb-primary:        @primary-color;
+  --fb-primary-strong: @primary-dark-color;
+  --fb-primary-bright: @primary-light-color;
+  --fb-primary-tint:   @primary-tint-color;
+  --fb-ink:     @ink-color;
+  --fb-text:    @grey-color;
+  --fb-muted:   @placeholder-color;
+  --fb-muted-2: @muted-2-color;
+  --fb-faint:   @disable-color;
+  --fb-line:    @muted-color;
+  --fb-line-2:  @line-2-color;
+  --fb-bg:      @default-color;
+  --fb-surface: @light-color;
+  --fb-surface-3: @table-color;
+
+  // Buttons
+  .uk-button {
+    font-family: inherit;
+    font-weight: 700;
+    border-radius: @fb-radius;
+    text-transform: none;
+    font-size: 13px;
+    padding: 0 14px;
+    height: 34px;
+  }
+  .uk-button-primary {
+    background: @primary-color;
+    box-shadow: 0 2px 8px rgba(12, 138, 138, .28);
+
+    &:hover { background: @primary-dark-color; }
+  }
+  .uk-button-secondary, .uk-button-default {
+    background: @light-color;
+    color: @grey-color;
+    border: 1px solid @gray-300;
+
+    &:hover { background: @table-color; }
+  }
+  .uk-button-danger { background: @danger-color; }
+
+  // Cards (field / option / add-field cards)
+  .uk-card.card-simple {
+    background: @light-color;
+    border: 1px solid @muted-color;
+    border-radius: @global-border-radius-lg;
+    box-shadow: 0 1px 2px rgba(20, 40, 40, .04);
+    transition: border-color .15s ease, box-shadow .15s ease;
+
+    &.highlight-field {
+      border-color: @primary-color;
+      box-shadow: @global-focus-shadow;
+    }
+    .uk-card-title { font-size: 13px; }
+  }
+  .uk-border-rounded.border-dashed {
+    border: 1.5px dashed @gray-300;
+    border-radius: @global-border-radius-lg;
+    color: @placeholder-color;
+    font-weight: 700;
+    font-size: 13.5px;
+
+    &:hover {
+      border-color: @primary-color;
+      color: @primary-dark-color;
+      background: @primary-tint-color;
+    }
+  }
+
+  // Inputs
+  .uk-input, .uk-select, .uk-textarea {
+    border-radius: @global-border-radius-sm;
+    border: 1px solid @gray-300;
+    font-size: 13.5px;
+    color: @grey-color;
+    background: @light-color;
+
+    &:focus {
+      border-color: @primary-color;
+      box-shadow: @global-focus-shadow;
+    }
+  }
+  .uk-form-label {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    color: @muted-2-color;
+  }
+
+  // Checkboxes -> switches for boolean toggles inside the settings panel
+  .fb-settings-col .uk-checkbox {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 34px;
+    height: 20px;
+    border-radius: @global-border-radius-pill;
+    background: @gray-300;
+    border: none;
+    position: relative;
+    cursor: pointer;
+    vertical-align: middle;
+    flex: 0 0 auto;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: @light-color;
+      transition: transform .15s ease;
+    }
+    &:checked {
+      background: @primary-color;
+
+      &::after { transform: translateX(14px); }
+    }
+  }
+  .fb-settings-col .uk-checkbox-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: @grey-color;
+  }
+
+  // Accordion -> settings section groups
+  .uk-accordion-title {
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: @disable-color !important;
+    padding: 10px 0;
+  }
+  .uk-accordion-content { padding-top: 4px; }
+
+  // Tables (option rows)
+  .uk-table {
+    th {
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: @disable-color;
+      border-bottom: none;
+      padding-bottom: 6px;
+    }
+    td { border-top: none; padding: 4px 6px; }
+  }
+
+  // Badges / pills
+  .uk-badge { border-radius: @global-border-radius-pill; font-weight: 800; }
+
+  h5, h6 { color: @ink-color; font-weight: 800; }
+}
