@@ -64,8 +64,8 @@ export class CustomSearchComponent {
   readonly availableCountries = signal<Country[]>([]);
   readonly selectedCountryIds = signal<Set<string>>(new Set());
   readonly countrySearchTerm = signal('');
-  readonly showEuAverage = signal(false);
-  readonly showMedianValues = signal(false);
+  readonly showEuAverage = this.customSearchService.showEuAverage;
+  readonly showMedianValues = this.customSearchService.showMedianValues;
   readonly indicators = toSignal(
     this.customSearchService.getPreDefinedIndicators(),
     { initialValue: [] as ExploreIndicatorConfig[] }

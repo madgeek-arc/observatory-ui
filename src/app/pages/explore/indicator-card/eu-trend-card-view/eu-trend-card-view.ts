@@ -25,7 +25,10 @@ export class EuTrendCardView {
       countries: [],
       yearFrom: this.startYear(),
       yearTo: this.endYear(),
-      seriesAggregations: []
+      seriesAggregations: [
+        ...(this.customSearchService.showEuAverage() ? ['AVG'] : []),
+        ...(this.customSearchService.showMedianValues() ? ['MEDIAN'] : [])
+      ]
     } as IndicatorPresetQueryRequest
   }));
 
@@ -53,6 +56,21 @@ export class EuTrendCardView {
       xAxis: { categories: sorted.map(point => point.dimensions['period']) },
       yAxis: { title: { text: undefined } },
       series: [{ type: 'line', name: 'EU average', data: sorted.map(point => point.value) }]
+    };
+  });
+
+  readonly summaryRow = computed(() => {
+    const response = this.response();
+    if (!response) {
+      return undefined;
+    }
+    return {
+      euAverage: this.customSearchService.showEuAverage()
+        ? response.summary.find(s => s.dimensions.aggregation === 'AVG')?.value
+        : undefined,
+      median: this.customSearchService.showMedianValues()
+        ? response.summary.find(s => s.dimensions.aggregation === 'MEDIAN')?.value
+        : undefined
     };
   });
 }

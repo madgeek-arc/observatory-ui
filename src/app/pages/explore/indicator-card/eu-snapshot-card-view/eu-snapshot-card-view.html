@@ -1,5 +1,8 @@
-<div class="uk-flex uk-flex-middle" style="gap: 8px;">
-  <span class="uk-text-large uk-text-bold">{{ mockScalarValue }}%</span>
-  <span class="uk-text-meta uk-text-small">EU-wide</span>
-  <span class="uk-text-danger uk-text-bold uk-text-small">{{ mockScalarDelta }}%</span>
-</div>
+@if (scalarValue() !== undefined) {
+  <div class="uk-flex uk-flex-middle" style="gap: 8px;">
+    <span class="uk-text-large uk-text-bold">{{ scalarValue() }}%</span>
+    <span class="uk-text-meta uk-text-small">EU-wide</span>
+  </div>
+} @else {
+  <div class="uk-text-meta uk-text-small">Loading…</div>
+}

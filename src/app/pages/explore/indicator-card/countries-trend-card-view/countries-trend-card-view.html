@@ -1,2 +1,6 @@
-<highcharts-chart [Highcharts]="Highcharts" [options]="mockTrendChartOptions()" [oneToOne]="true"
-                  style="width: 100%; display: block;"></highcharts-chart>
+@if (trendChartOptions(); as options) {
+  <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
+                    style="width: 100%; display: block;"></highcharts-chart>
+} @else {
+  <div class="uk-text-meta uk-text-small">Loading…</div>
+}

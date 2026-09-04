@@ -1,5 +1,18 @@
 @if (trendChartOptions(); as options) {
   <highcharts-chart [Highcharts]="Highcharts" [options]="options" style="width: 100%; display: block;"></highcharts-chart>
+
+  @if (summaryRow(); as summary) {
+    @if (summary.euAverage !== undefined || summary.median !== undefined) {
+      <div class="uk-flex uk-flex-middle uk-margin-small-top" style="gap: 12px;">
+        @if (summary.euAverage !== undefined) {
+          <span class="uk-text-small"><span class="uk-text-meta">EU average:</span> <span class="uk-text-bold">{{ summary.euAverage }}%</span></span>
+        }
+        @if (summary.median !== undefined) {
+          <span class="uk-text-small"><span class="uk-text-meta">Median:</span> <span class="uk-text-bold">{{ summary.median }}%</span></span>
+        }
+      </div>
+    }
+  }
 } @else {
   <div class="uk-text-meta uk-text-small">Loading…</div>
 }

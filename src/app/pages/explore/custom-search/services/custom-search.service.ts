@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import {environment} from "../../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
@@ -36,6 +36,9 @@ interface UserDashboardResponse {
 @Injectable({providedIn: 'root'})
 export class CustomSearchService {
   private readonly base = environment.API_ENDPOINT;
+
+  readonly showEuAverage = signal(false);
+  readonly showMedianValues = signal(false);
 
   constructor(private httpClient: HttpClient) {}
 

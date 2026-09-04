@@ -12,13 +12,14 @@
 
   @switch (cardViewKind()) {
     @case ('eu-snapshot') {
-      <app-eu-snapshot-card-view></app-eu-snapshot-card-view>
+      <app-eu-snapshot-card-view [indicatorId]="indicator().id" [startYear]="startYear()"></app-eu-snapshot-card-view>
     }
     @case ('eu-trend') {
       <app-eu-trend-card-view [indicatorId]="indicator().id" [startYear]="startYear()" [endYear]="endYear()"></app-eu-trend-card-view>
     }
     @case ('countries-trend') {
       <app-countries-trend-card-view
+        [indicatorId]="indicator().id"
         [startYear]="startYear()"
         [endYear]="endYear()"
         [selectedCountryIds]="selectedCountryIds()">
