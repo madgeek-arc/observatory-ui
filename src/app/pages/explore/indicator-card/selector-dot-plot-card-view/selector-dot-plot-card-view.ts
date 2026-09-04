@@ -98,10 +98,6 @@ export class SelectorDotPlotCardView {
         height: 32,
         spacing: [0, 4, 0, 4],
         events: {
-          // Three nested elements clip their content by default once our 46px-tall
-          // tooltip extends past this 32px-tall chart: the <svg> itself (browser default
-          // for SVG), Highcharts' own .highcharts-container div, and the <highcharts-chart>
-          // host element the Angular wrapper renders as. All three need opting out.
           load(): void {
             const container = this.container as HTMLElement;
             container.style.overflow = 'visible';
@@ -132,23 +128,14 @@ export class SelectorDotPlotCardView {
         min: -1,
         max: 1,
         title: { text: undefined },
-        // Disabled piece by piece instead of `visible: false` — that blanket flag
-        // was also swallowing the plotLine below, not just the axis chrome.
         labels: { enabled: false },
         lineWidth: 0,
         tickWidth: 0,
         gridLineWidth: 0,
-        // the actual visible "track" — drawn exactly at y=0, where every point sits,
-        // instead of relying on xAxis's own line (which renders at yAxis.min, not at 0).
-        // No zIndex — Highcharts paints plotLines below series by default, which is what
-        // lets the dots fully cover the line where they overlap it.
         plotLines: [{ value: 0, width: 1, color: '#B8B8B8' }]
       },
       tooltip: {
         pointFormat: '{series.name}: {point.x}%',
-        // The chart itself is only 32px tall. By default the tooltip is SVG content
-        // drawn inside that same tiny canvas, so it gets clipped. useHTML draws it as
-        // a normal floating <div> instead, escaping the SVG's own bounds.
         useHTML: true,
         hideDelay: 0
       },

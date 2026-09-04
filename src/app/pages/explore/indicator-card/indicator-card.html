@@ -15,7 +15,7 @@
       <app-eu-snapshot-card-view></app-eu-snapshot-card-view>
     }
     @case ('eu-trend') {
-      <app-eu-trend-card-view [startYear]="startYear()" [endYear]="endYear()"></app-eu-trend-card-view>
+      <app-eu-trend-card-view [indicatorId]="indicator().id" [startYear]="startYear()" [endYear]="endYear()"></app-eu-trend-card-view>
     }
     @case ('countries-trend') {
       <app-countries-trend-card-view

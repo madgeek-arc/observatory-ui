@@ -14,6 +14,20 @@ export interface DashboardItem {
   title: string;
 }
 
+
+export interface IndicatorPresetQueryRequest {
+  countries: string[];
+  yearFrom: number;
+  yearTo: number;
+  seriesAggregations: string[];
+}
+
+export interface IndicatorQueryResponse {
+  dimensions: string[];
+  data: { dimensions: Record<string, string>; value: number }[];
+  summary: { dimensions: { aggregation: string }; value: number }[];
+}
+
 interface UserDashboardResponse {
   id: string;
   items: DashboardItem[];
@@ -39,6 +53,10 @@ export class CustomSearchService {
 
   saveDashboard(items: DashboardItem[]): Observable<UserDashboardResponse> {
     return this.httpClient.put<UserDashboardResponse>(this.base + '/dashboard', items);
+  }
+
+  queryIndicator(id: string, request: IndicatorPresetQueryRequest): Observable<IndicatorQueryResponse> {
+    return this.httpClient.post<IndicatorQueryResponse>(this.base + `/indicators/presets/${id}/query`, request);
   }
 
 }

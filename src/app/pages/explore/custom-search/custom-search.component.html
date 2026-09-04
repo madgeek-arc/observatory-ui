@@ -154,6 +154,22 @@
           Same year = a snapshot number; a range draws trend lines.
         </div>
 
+        <hr class="uk-margin-medium-top">
+
+        <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
+          <span style="width: 3px; height: 16px; background: var(--eosc-observatory-primary-color); display: inline-block; border-radius: 2px;"></span>
+          <span class="uk-text-bold uk-text-small">Advanced analytics</span>
+        </div>
+
+        <label class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
+          <input class="uk-checkbox" type="checkbox" [checked]="showEuAverage()" (change)="showEuAverage.set(!showEuAverage())">
+          <span class="uk-text-small">Show EU Average</span>
+        </label>
+        <label class="uk-flex uk-flex-middle" style="gap: 8px;">
+          <input class="uk-checkbox" type="checkbox" [checked]="showMedianValues()" (change)="showMedianValues.set(!showMedianValues())">
+          <span class="uk-text-small">Show Median Values</span>
+        </label>
+
       </div>
 
       <div class="uk-width-expand uk-padding-small">
