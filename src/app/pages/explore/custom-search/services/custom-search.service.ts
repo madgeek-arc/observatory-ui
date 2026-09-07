@@ -24,7 +24,7 @@ export interface IndicatorPresetQueryRequest {
 
 export interface IndicatorQueryResponse {
   dimensions: string[];
-  data: { dimensions: Record<string, string>; value: number }[];
+  data: { dimensions: Record<string, string>; value: number | string }[];
   summary: { dimensions: { aggregation: string }; value: number }[];
 }
 

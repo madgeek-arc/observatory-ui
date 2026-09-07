@@ -12,7 +12,7 @@
 
   @switch (cardViewKind()) {
     @case ('eu-snapshot') {
-      <app-eu-snapshot-card-view [indicatorId]="indicator().id" [startYear]="startYear()"></app-eu-snapshot-card-view>
+      <app-eu-snapshot-card-view [indicatorId]="indicator().id" [startYear]="startYear()" [format]="indicator().format"></app-eu-snapshot-card-view>
     }
     @case ('eu-trend') {
       <app-eu-trend-card-view [indicatorId]="indicator().id" [startYear]="startYear()" [endYear]="endYear()"></app-eu-trend-card-view>
@@ -26,7 +26,12 @@
       </app-countries-trend-card-view>
     }
     @case ('countries-snapshot') {
-      <app-countries-snapshot-card-view [selectedCountryIds]="selectedCountryIds()"></app-countries-snapshot-card-view>
+      <app-countries-snapshot-card-view
+        [indicatorId]="indicator().id"
+        [startYear]="startYear()"
+        [format]="indicator().format"
+        [selectedCountryIds]="selectedCountryIds()">
+      </app-countries-snapshot-card-view>
     }
     @case ('policy-map') {
       <app-policy-map-card-view [startYear]="startYear()" [endYear]="endYear()"></app-policy-map-card-view>

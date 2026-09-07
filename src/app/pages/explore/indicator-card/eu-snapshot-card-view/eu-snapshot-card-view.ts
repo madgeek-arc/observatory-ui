@@ -2,6 +2,8 @@ import {Component, computed, inject, input} from "@angular/core";
 import {CustomSearchService, IndicatorPresetQueryRequest} from "../../custom-search/services/custom-search.service";
 import {toObservable, toSignal} from "@angular/core/rxjs-interop";
 import {switchMap} from "rxjs/operators";
+import {IndicatorFormat} from "../../../../domain/explore-indicators";
+import {formatIndicatorValue} from "../../../../domain/format-indicator-value";
 
 @Component({
   selector: 'app-eu-snapshot-card-view',
@@ -14,6 +16,7 @@ export class EuSnapshotCardView {
 
   indicatorId = input.required<string>();
   startYear = input.required<number>();
+  format = input.required<IndicatorFormat>();
 
   private readonly queryParams = computed (() => ({
     id: this.indicatorId(),
@@ -27,4 +30,9 @@ export class EuSnapshotCardView {
   )
 
   readonly scalarValue = computed(() => this.response()?.data[0]?.value);
+
+  readonly formattedValue = computed(() => {
+    const value = this.scalarValue();
+    return typeof value === 'number' ? formatIndicatorValue(value, this.format()) : undefined;
+  });
 }

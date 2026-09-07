@@ -55,7 +55,7 @@ export class CountriesTrendCardView {
       const valueByYear = new Map(
         response.data
           .filter(point => point.dimensions['country'] === country.id)
-          .map(point => [point.dimensions['period'], point.value])
+          .map(point => [point.dimensions['period'], typeof point.value === 'number' ? point.value : null])
       );
       return {
         type: 'line' as const,
