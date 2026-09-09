@@ -1,21 +1,18 @@
 import { Component, computed, inject, input } from "@angular/core";
-import { toObservable, toSignal } from "@angular/core/rxjs-interop";
-import { switchMap } from "rxjs/operators";
 import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
 
 @Component({
   selector: 'app-eu-trend-card-view',
   templateUrl: './eu-trend-card-view.html',
-  imports: [HighchartsChartModule]
+  imports: [HighchartsChartModule, LoadingPlaceholder]
 })
 export class EuTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
 
   indicatorId = input.required<string>();
-  startYear = input.required<number>();
-  endYear = input.required<number>();
 
   Highcharts: typeof Highcharts = Highcharts;
 
@@ -23,8 +20,8 @@ export class EuTrendCardView {
     id: this.indicatorId(),
     request: {
       countries: [],
-      yearFrom: this.startYear(),
-      yearTo: this.endYear(),
+      yearFrom: this.customSearchService.startYear(),
+      yearTo: this.customSearchService.endYear(),
       seriesAggregations: [
         ...(this.customSearchService.showEuAverage() ? ['AVG'] : []),
         ...(this.customSearchService.showMedianValues() ? ['MEDIAN'] : [])
@@ -32,13 +29,7 @@ export class EuTrendCardView {
     } as IndicatorPresetQueryRequest
   }));
 
-  /** Re-fires the HTTP call whenever indicatorId/startYear/endYear change.
-   *  undefined while the very first request is still in flight (no initialValue). */
-  private readonly response = toSignal(
-    toObservable(this.queryParams).pipe(
-      switchMap(({ id, request }) => this.customSearchService.queryIndicator(id, request))
-    )
-  );
+  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
 
   readonly trendChartOptions = computed<Highcharts.Options | undefined>(() => {
     const response = this.response();

@@ -1,4 +1,9 @@
-export const countries = [
+export interface Country {
+  id: string;
+  name: string;
+}
+
+export const countries: Country[] = [
   {id : 'AD', name : 'Andorra'},
   {id : 'AL', name : 'Albania'},
   {id : 'AM', name : 'Armenia'},
@@ -57,3 +62,11 @@ export const countries = [
   {id : 'GB', name : 'United Kingdom'},
   // {id : 'AX', name : 'Åland Islands'}
 ];
+
+/** Resolves a set of selected country ids to Country objects, dropping any id
+ *  with no match (e.g. a stale id from an older country list). */
+export function resolveSelectedCountries(selectedIds: Set<string>): Country[] {
+  return [...selectedIds]
+    .map(id => countries.find(c => c.id === id))
+    .filter((c): c is Country => !!c);
+}

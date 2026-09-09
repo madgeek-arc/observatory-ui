@@ -1,9 +1,10 @@
-import { Injectable, signal } from "@angular/core";
+import { Injectable, Signal, signal } from "@angular/core";
+import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import {environment} from "../../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import { ExploreIndicatorConfig} from "../../../../domain/explore-indicators";
-import {map} from "rxjs/operators";
+import {catchError, map, switchMap} from "rxjs/operators";
 
 interface PreDefinedIndicatorsResponse {
   indicatorPresets: ExploreIndicatorConfig[];
@@ -40,6 +41,11 @@ export class CustomSearchService {
   readonly showEuAverage = signal(false);
   readonly showMedianValues = signal(false);
 
+  readonly startYear = signal(2018);
+  readonly endYear = signal(2024);
+  readonly geographyScope = signal<'all' | 'select'>('all');
+  readonly selectedCountryIds = signal<Set<string>>(new Set());
+
   constructor(private httpClient: HttpClient) {}
 
   getPreDefinedIndicators(): Observable<ExploreIndicatorConfig[]> {
@@ -62,4 +68,18 @@ export class CustomSearchService {
     return this.httpClient.post<IndicatorQueryResponse>(this.base + `/indicators/presets/${id}/query`, request);
   }
 
+  /** Re-fires queryIndicator whenever `params` changes, cancelling any in-flight request
+   *  for stale params (switchMap). A failed request resolves to undefined instead of
+   *  erroring the pipe — otherwise one HTTP error would permanently stop future updates. */
+  queryIndicatorSignal(
+    params: Signal<{ id: string; request: IndicatorPresetQueryRequest }>
+  ): Signal<IndicatorQueryResponse | undefined> {
+    return toSignal(
+      toObservable(params).pipe(
+        switchMap(({ id, request }) =>
+          this.queryIndicator(id, request).pipe(catchError(() => of(undefined)))
+        )
+      )
+    );
+  }
 }

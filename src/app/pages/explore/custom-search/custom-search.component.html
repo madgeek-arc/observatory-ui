@@ -215,10 +215,6 @@
           <div [class]="indicator.fullWidth ? 'uk-width-1-1@m' : 'uk-width-1-2@m'">
             <app-indicator-card
               [indicator]="indicator"
-              [geographyScope]="geographyScope()"
-              [startYear]="startYear()"
-              [endYear]="endYear()"
-              [selectedCountryIds]="selectedCountryIds()"
               (closeCard)="toggleIndicator($event)">
             </app-indicator-card>
           </div>

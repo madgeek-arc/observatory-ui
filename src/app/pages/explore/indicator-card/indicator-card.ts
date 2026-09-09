@@ -1,5 +1,6 @@
-import { Component, computed, input, output } from "@angular/core";
+import { Component, computed, inject, input, output } from "@angular/core";
 import { CountryScope, ExploreIndicatorConfig, RenderStyle, TimeScope } from "../../../domain/explore-indicators";
+import { CustomSearchService } from "../custom-search/services/custom-search.service";
 import { EuSnapshotCardView } from "./eu-snapshot-card-view/eu-snapshot-card-view";
 import { EuTrendCardView } from "./eu-trend-card-view/eu-trend-card-view";
 import { CountriesTrendCardView } from "./countries-trend-card-view/countries-trend-card-view";
@@ -66,15 +67,18 @@ export function resolveCardViewKind(
   ]
 })
 export class IndicatorCard {
+  private readonly customSearchService = inject(CustomSearchService);
+
   indicator = input.required<ExploreIndicatorConfig>();
-  geographyScope = input.required<'all' | 'select'>();
-  startYear = input.required<number>();
-  endYear = input.required<number>();
-  selectedCountryIds = input.required<Set<string>>();
 
   readonly closeCard = output<string>();
 
   readonly cardViewKind = computed<CardViewKind | undefined>(() =>
-    resolveCardViewKind(this.indicator(), this.geographyScope(), this.startYear(), this.endYear())
+    resolveCardViewKind(
+      this.indicator(),
+      this.customSearchService.geographyScope(),
+      this.customSearchService.startYear(),
+      this.customSearchService.endYear()
+    )
   );
 }

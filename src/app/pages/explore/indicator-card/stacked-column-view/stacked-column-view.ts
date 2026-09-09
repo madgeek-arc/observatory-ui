@@ -1,4 +1,4 @@
-import { Component, computed, input } from "@angular/core";
+import { Component, computed } from "@angular/core";
 import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { colors } from "../../../../domain/chart-color-palette";
@@ -28,11 +28,6 @@ const MOCK_BREAKDOWN: DocumentTypeBreakdown[] = [
   imports: [HighchartsChartModule]
 })
 export class StackedColumnView {
-  // Bound by indicator-card for every TIME_RANGE view, but this breakdown-by-document-type
-  // mock doesn't vary by year — kept only to satisfy the shared parent template contract.
-  startYear = input.required<number>();
-  endYear = input.required<number>();
-
   Highcharts: typeof Highcharts = Highcharts;
   readonly accessTypes = ACCESS_TYPES;
   readonly colors = colors;

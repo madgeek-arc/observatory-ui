@@ -1,16 +1,17 @@
-<div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
-  <span class="uk-text-large uk-text-bold">{{ mockPolicyCount() }}</span>
-  <span class="uk-text-meta uk-text-small">of {{ mockTotalCountries }} countries</span>
-</div>
-<app-highcharts-category-map
-  [mapData]="mockMapData()"
-  [height]="300"
-  [title]="''"
-  [backgroundColor]="'#ffffff'">
-</app-highcharts-category-map>
-<div class="uk-text-meta uk-text-small uk-margin-small-top">
-  {{ mockPolicyCount() }} of {{ mockTotalCountries }} EU countries have a policy
-  @if (!isSnapshot()) {
-    · +8 since {{ startYear() }}
-  }
-</div>
+@if (mapData(); as data) {
+  <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
+    <span class="uk-text-large uk-text-bold">{{ positiveCount() }}</span>
+    <span class="uk-text-meta uk-text-small">of {{ totalCount() }} countries</span>
+  </div>
+  <app-highcharts-category-map
+    [mapData]="data"
+    [height]="300"
+    [title]="''"
+    [backgroundColor]="'#ffffff'">
+  </app-highcharts-category-map>
+  <div class="uk-text-meta uk-text-small uk-margin-small-top">
+    {{ positiveCount() }} of {{ totalCount() }} EU countries
+  </div>
+} @else {
+  <app-loading-placeholder [height]="300" />
+}

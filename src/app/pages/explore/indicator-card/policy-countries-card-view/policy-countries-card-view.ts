@@ -1,5 +1,6 @@
-import { Component, computed, input } from "@angular/core";
-import { countries } from "../../../../domain/countries";
+import { Component, computed, inject } from "@angular/core";
+import { resolveSelectedCountries } from "../../../../domain/countries";
+import { CustomSearchService } from "../../custom-search/services/custom-search.service";
 
 @Component({
   selector: 'app-policy-countries-card-view',
@@ -7,20 +8,18 @@ import { countries } from "../../../../domain/countries";
   imports: []
 })
 export class PolicyCountriesCardView {
-  startYear = input.required<number>();
-  endYear = input.required<number>();
-  selectedCountryIds = input.required<Set<string>>();
+  private readonly customSearchService = inject(CustomSearchService);
 
-  readonly isSnapshot = computed(() => this.startYear() === this.endYear());
+  readonly isSnapshot = computed(() => this.customSearchService.startYear() === this.customSearchService.endYear());
 
   readonly mockCountryPolicyStatus = computed(() =>
-    [...this.selectedCountryIds()]
-      .map(id => countries.find(c => c.id === id))
-      .filter((c): c is { id: string; name: string } => !!c)
+    resolveSelectedCountries(this.customSearchService.selectedCountryIds())
       .map((country, idx) => ({ ...country, since: 2024 - idx * 10 }))
   );
 
   readonly periodLabel = computed(() =>
-    this.isSnapshot() ? `${this.startYear()}` : `${this.startYear()}–${this.endYear()}`
+    this.isSnapshot()
+      ? `${this.customSearchService.startYear()}`
+      : `${this.customSearchService.startYear()}–${this.customSearchService.endYear()}`
   );
 }

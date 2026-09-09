@@ -7,7 +7,7 @@ import {
 import {PageContentComponent} from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { ExploreIndicatorConfig } from "../../../domain/explore-indicators";
-import { countries } from "../../../domain/countries";
+import { Country, countries } from "../../../domain/countries";
 import { CustomSearchService, DashboardItem } from "./services/custom-search.service";
 import { IndicatorCard } from "../indicator-card/indicator-card";
 import {RouterLink} from "@angular/router";
@@ -26,11 +26,6 @@ interface Topic {
   id: string;
   name: string;
   indicators: ExploreIndicatorConfig[];
-}
-
-interface Country {
-  id: string;
-  name: string;
 }
 
 
@@ -54,15 +49,15 @@ export class CustomSearchComponent {
   readonly viewName = signal('Untitled search');
   readonly viewMode = signal<'dashboard' | 'matrix'>('dashboard');
 
-  readonly startYear = signal(2018);
-  readonly endYear = signal(2024);
+  readonly startYear = this.customSearchService.startYear;
+  readonly endYear = this.customSearchService.endYear;
 
   readonly selectedIndicatorIds = signal<Set<string>>(new Set());
   private readonly expandedTopicIds = signal<Set<string>>(new Set());
 
-  readonly geographyScope = signal<'all' | 'select'>('all');
+  readonly geographyScope = this.customSearchService.geographyScope;
   readonly availableCountries = signal<Country[]>([]);
-  readonly selectedCountryIds = signal<Set<string>>(new Set());
+  readonly selectedCountryIds = this.customSearchService.selectedCountryIds;
   readonly countrySearchTerm = signal('');
   readonly showEuAverage = this.customSearchService.showEuAverage;
   readonly showMedianValues = this.customSearchService.showMedianValues;

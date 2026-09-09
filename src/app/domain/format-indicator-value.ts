@@ -10,3 +10,9 @@ export function formatIndicatorValue(value: number, format: IndicatorFormat): st
       return `${value}`;
   }
 }
+
+/** formatIndicatorValue, but tolerant of the non-numeric values a query response
+ *  can carry (e.g. a policy status string) — those simply have no formatted display. */
+export function formatIfNumber(value: number | string | undefined, format: IndicatorFormat): string | undefined {
+  return typeof value === 'number' ? formatIndicatorValue(value, format) : undefined;
+}

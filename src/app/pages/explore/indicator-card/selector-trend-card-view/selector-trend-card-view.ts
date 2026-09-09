@@ -1,7 +1,8 @@
-import { Component, computed, input, signal } from "@angular/core";
+import { Component, computed, inject, signal } from "@angular/core";
 import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { colors } from "../../../../domain/chart-color-palette";
+import { CustomSearchService } from "../../custom-search/services/custom-search.service";
 
 /** Access-type breakdown categories. Order matches the chart-color-palette so each
  *  category's pill/legend swatch is its actual chart color. */
@@ -27,8 +28,7 @@ const MOCK_BREAKDOWN: DocumentTypeBreakdown[] = [
   imports: [HighchartsChartModule]
 })
 export class SelectorTrendCardView {
-  startYear = input.required<number>();
-  endYear = input.required<number>();
+  private readonly customSearchService = inject(CustomSearchService);
 
   Highcharts: typeof Highcharts = Highcharts;
   readonly accessTypes = ACCESS_TYPES;
@@ -37,7 +37,7 @@ export class SelectorTrendCardView {
 
   private readonly years = computed(() => {
     const years: number[] = [];
-    for (let y = this.startYear(); y <= this.endYear(); y++) {
+    for (let y = this.customSearchService.startYear(); y <= this.customSearchService.endYear(); y++) {
       years.push(y);
     }
     return years;

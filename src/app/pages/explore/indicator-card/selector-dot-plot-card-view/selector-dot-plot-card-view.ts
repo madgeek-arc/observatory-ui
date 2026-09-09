@@ -1,8 +1,9 @@
-import { Component, computed, input, signal } from "@angular/core";
+import { Component, computed, inject, signal } from "@angular/core";
 import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
-import { countries } from "../../../../domain/countries";
+import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
+import { CustomSearchService } from "../../custom-search/services/custom-search.service";
 
 const ACCESS_TYPES = ['Open Access with licence', 'Open Access without licence', 'Embargo', 'Restricted', 'Closed Access'];
 const DOC_TYPE_COLORS = [colors[0], colors[1], colors[2], colors[4]];
@@ -27,8 +28,7 @@ const MOCK_BREAKDOWN: DocumentTypeBreakdown[] = [
   imports: [HighchartsChartModule]
 })
 export class SelectorDotPlotCardView {
-  startYear = input.required<number>();
-  selectedCountryIds = input.required<Set<string>>();
+  private readonly customSearchService = inject(CustomSearchService);
 
   Highcharts: typeof Highcharts = Highcharts;
   readonly accessTypes = ACCESS_TYPES;
@@ -37,9 +37,7 @@ export class SelectorDotPlotCardView {
   readonly docTypeColors = DOC_TYPE_COLORS;
 
   readonly selectedCountries = computed(() =>
-    [...this.selectedCountryIds()]
-      .map(id => countries.find(c => c.id === id))
-      .filter((c): c is { id: string; name: string } => !!c)
+    resolveSelectedCountries(this.customSearchService.selectedCountryIds())
   );
 
   /** One row per selected country: each document type's share for the currently
@@ -71,7 +69,7 @@ export class SelectorDotPlotCardView {
   );
 
   readonly captionText = computed(() =>
-    `Share of each output that is "${this.selectedAccessType()}" · ${this.startYear()} · percentage of publications`
+    `Share of each output that is "${this.selectedAccessType()}" · ${this.customSearchService.startYear()} · percentage of publications`
   );
 
   selectAccessType(type: string) {

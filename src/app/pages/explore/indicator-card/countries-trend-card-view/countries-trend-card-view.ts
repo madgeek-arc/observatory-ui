@@ -1,47 +1,37 @@
 import { Component, computed, inject, input } from "@angular/core";
-import { toObservable, toSignal } from "@angular/core/rxjs-interop";
-import { switchMap } from "rxjs/operators";
 import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
-import { countries } from "../../../../domain/countries";
+import { resolveSelectedCountries } from "../../../../domain/countries";
+import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
 
 @Component({
   selector: 'app-countries-trend-card-view',
   templateUrl: './countries-trend-card-view.html',
-  imports: [HighchartsChartModule]
+  imports: [HighchartsChartModule, LoadingPlaceholder]
 })
 export class CountriesTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
 
   indicatorId = input.required<string>();
-  startYear = input.required<number>();
-  endYear = input.required<number>();
-  selectedCountryIds = input.required<Set<string>>();
 
   Highcharts: typeof Highcharts = Highcharts;
 
   readonly selectedCountries = computed(() =>
-    [...this.selectedCountryIds()]
-      .map(id => countries.find(c => c.id === id))
-      .filter((c): c is { id: string; name: string } => !!c)
+    resolveSelectedCountries(this.customSearchService.selectedCountryIds())
   );
 
   private readonly queryParams = computed(() => ({
     id: this.indicatorId(),
     request: {
-      countries: [...this.selectedCountryIds()],
-      yearFrom: this.startYear(),
-      yearTo: this.endYear(),
+      countries: [...this.customSearchService.selectedCountryIds()],
+      yearFrom: this.customSearchService.startYear(),
+      yearTo: this.customSearchService.endYear(),
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
 
-  private readonly response = toSignal(
-    toObservable(this.queryParams).pipe(
-      switchMap(({ id, request }) => this.customSearchService.queryIndicator(id, request))
-    )
-  );
+  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
 
   readonly trendChartOptions = computed<Highcharts.Options | undefined>(() => {
     const response = this.response();

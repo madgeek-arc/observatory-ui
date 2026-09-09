@@ -1,45 +1,36 @@
 import { Component, computed, inject, input } from "@angular/core";
-import { toObservable, toSignal } from "@angular/core/rxjs-interop";
-import { switchMap } from "rxjs/operators";
 import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
-import { countries } from "../../../../domain/countries";
+import { resolveSelectedCountries } from "../../../../domain/countries";
 import { IndicatorFormat } from "../../../../domain/explore-indicators";
-import { formatIndicatorValue } from "../../../../domain/format-indicator-value";
+import { formatIfNumber } from "../../../../domain/format-indicator-value";
+import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
 
 @Component({
   selector: 'app-countries-snapshot-card-view',
   templateUrl: './countries-snapshot-card-view.html',
-  imports: []
+  imports: [LoadingPlaceholder]
 })
 export class CountriesSnapshotCardView {
   private readonly customSearchService = inject(CustomSearchService);
 
   indicatorId = input.required<string>();
-  startYear = input.required<number>();
   format = input.required<IndicatorFormat>();
-  selectedCountryIds = input.required<Set<string>>();
 
   readonly selectedCountries = computed(() =>
-    [...this.selectedCountryIds()]
-      .map(id => countries.find(c => c.id === id))
-      .filter((c): c is { id: string; name: string } => !!c)
+    resolveSelectedCountries(this.customSearchService.selectedCountryIds())
   );
 
   private readonly queryParams = computed(() => ({
     id: this.indicatorId(),
     request: {
-      countries: [...this.selectedCountryIds()],
-      yearFrom: this.startYear(),
-      yearTo: this.startYear(),
+      countries: [...this.customSearchService.selectedCountryIds()],
+      yearFrom: this.customSearchService.startYear(),
+      yearTo: this.customSearchService.startYear(),
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
 
-  private readonly response = toSignal(
-    toObservable(this.queryParams).pipe(
-      switchMap(({ id, request }) => this.customSearchService.queryIndicator(id, request))
-    )
-  );
+  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
 
   readonly countryValues = computed(() => {
     const response = this.response();
@@ -52,7 +43,7 @@ export class CountriesSnapshotCardView {
         id: country.id,
         name: country.name,
         value,
-        formattedValue: typeof value === 'number' ? formatIndicatorValue(value, this.format()) : undefined
+        formattedValue: formatIfNumber(value, this.format())
       };
     });
   });
