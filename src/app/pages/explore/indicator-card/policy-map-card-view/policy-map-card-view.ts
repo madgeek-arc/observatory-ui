@@ -3,17 +3,7 @@ import { ChartsModule } from "../../../../shared/charts/charts.module";
 import { CategorizedAreaData, Series } from "../../../../domain/categorizedAreaData";
 import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
-
-const CATEGORY_STYLES: Record<string, { label: string; color: string }> = {
-  'Mandatory policy': { label: 'Has mandatory national policy', color: '#0B1D51' },
-  'Policy but not mandatory': { label: 'Has national policy but not mandatory', color: '#4CE0B3' },
-  'No policy': { label: 'Does not have national policy', color: '#EB5C80' },
-  'Awaiting data': { label: 'Awaiting Data', color: '#9AA5B1' },
-  'YES': { label: 'Yes', color: '#0B1D51' },
-  'NO': { label: 'No', color: '#EB5C80' },
-};
-
-const POSITIVE_VALUES = ['Mandatory policy', 'Policy but not mandatory', 'YES'];
+import { colorForStatus, isPositiveStatus } from "../../../../domain/policy-status";
 
 @Component({
   selector: 'app-policy-map-card-view',
@@ -29,8 +19,8 @@ export class PolicyMapCardView {
     id: this.indicatorId(),
     request: {
       countries: [],
-      yearFrom: this.customSearchService.startYear(),
-      yearTo: this.customSearchService.startYear(),
+      yearFrom: this.customSearchService.endYear(),
+      yearTo: this.customSearchService.endYear(),
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
@@ -55,10 +45,9 @@ export class PolicyMapCardView {
 
     const data = new CategorizedAreaData();
     data.series = [...groups.entries()].map(([rawValue, countryCodes], index) => {
-      const style = CATEGORY_STYLES[rawValue] ?? { label: rawValue, color: '#9AA5B1' };
-      const series = new Series(style.label, index === 0);
+      const series = new Series(rawValue, index === 0);
       series.showInLegend = true;
-      series.color = style.color;
+      series.color = colorForStatus(rawValue);
       series.data = countryCodes.map(code => ({ code }));
       return series;
     });
@@ -68,6 +57,6 @@ export class PolicyMapCardView {
   readonly totalCount = computed(() => this.response()?.data.length);
 
   readonly positiveCount = computed(() =>
-    this.response()?.data.filter(point => POSITIVE_VALUES.includes(String(point.value))).length
+    this.response()?.data.filter(point => isPositiveStatus(String(point.value))).length
   );
 }

@@ -1,25 +1,49 @@
-import { Component, computed, inject } from "@angular/core";
+import { Component, computed, inject, input } from "@angular/core";
+import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
-import { CustomSearchService } from "../../custom-search/services/custom-search.service";
+import { countryStatusBadge } from "../../../../domain/policy-status";
+import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
 
 @Component({
   selector: 'app-policy-countries-card-view',
   templateUrl: './policy-countries-card-view.html',
-  imports: []
+  imports: [LoadingPlaceholder]
 })
 export class PolicyCountriesCardView {
   private readonly customSearchService = inject(CustomSearchService);
 
-  readonly isSnapshot = computed(() => this.customSearchService.startYear() === this.customSearchService.endYear());
+  indicatorId = input.required<string>();
 
-  readonly mockCountryPolicyStatus = computed(() =>
-    resolveSelectedCountries(this.customSearchService.selectedCountryIds())
-      .map((country, idx) => ({ ...country, since: 2024 - idx * 10 }))
+  private readonly queryParams = computed(() => ({
+    id: this.indicatorId(),
+    request: {
+      countries: [...this.customSearchService.selectedCountryIds()],
+      yearFrom: this.customSearchService.endYear(),
+      yearTo: this.customSearchService.endYear(),
+      seriesAggregations: []
+    } as IndicatorPresetQueryRequest
+  }));
+
+  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+
+  readonly countryStatuses = computed(() => {
+    const response = this.response();
+    if (!response) {
+      return undefined;
+    }
+    return resolveSelectedCountries(this.customSearchService.selectedCountryIds()).map(country => {
+      const value = response.data.find(point => point.dimensions['country'] === country.id)?.value;
+      return {
+        id: country.id,
+        name: country.name,
+        badge: countryStatusBadge(value)
+      };
+    });
+  });
+
+  readonly positiveCount = computed(() =>
+    this.countryStatuses()?.filter(row => row.badge.text === 'Yes').length
   );
 
-  readonly periodLabel = computed(() =>
-    this.isSnapshot()
-      ? `${this.customSearchService.startYear()}`
-      : `${this.customSearchService.startYear()}–${this.customSearchService.endYear()}`
-  );
+  readonly totalCount = computed(() => this.countryStatuses()?.length);
 }

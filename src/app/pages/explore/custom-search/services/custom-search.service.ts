@@ -41,8 +41,8 @@ export class CustomSearchService {
   readonly showEuAverage = signal(false);
   readonly showMedianValues = signal(false);
 
-  readonly startYear = signal(2018);
-  readonly endYear = signal(2024);
+  readonly startYear = signal(2021);
+  readonly endYear = signal(2025);
   readonly geographyScope = signal<'all' | 'select'>('all');
   readonly selectedCountryIds = signal<Set<string>>(new Set());
 

@@ -1,90 +1,101 @@
-import { Component, computed, inject, signal } from "@angular/core";
+import { Component, computed, inject, input, signal } from "@angular/core";
 import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
-import { CustomSearchService } from "../../custom-search/services/custom-search.service";
+import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { ACCESS_TYPE_LABELS, ACCESS_TYPES, CLASSIFICATION_LABELS, CLASSIFICATIONS } from "../../../../domain/oa-license-status";
+import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
 
-const ACCESS_TYPES = ['Open Access with licence', 'Open Access without licence', 'Embargo', 'Restricted', 'Closed Access'];
 const DOC_TYPE_COLORS = [colors[0], colors[1], colors[2], colors[4]];
-
-interface DocumentTypeBreakdown {
-  label: string;
-
-  shares: number[];
-}
-
-/** Same base numbers as the indicator's other views — see stacked-column-view.ts. */
-const MOCK_BREAKDOWN: DocumentTypeBreakdown[] = [
-  { label: 'Article', shares: [58, 15, 1, 1, 25] },
-  { label: 'Conference', shares: [41, 14, 3, 3, 39] },
-  { label: 'Book chapter', shares: [18, 9, 9, 1, 63] },
-  { label: 'Book', shares: [36, 19, 3, 6, 36] },
-];
 
 @Component({
   selector: 'app-selector-dot-plot-card-view',
   templateUrl: './selector-dot-plot-card-view.html',
-  imports: [HighchartsChartModule]
+  imports: [HighchartsChartModule, LoadingPlaceholder]
 })
 export class SelectorDotPlotCardView {
   private readonly customSearchService = inject(CustomSearchService);
 
+  indicatorId = input.required<string>();
+
   Highcharts: typeof Highcharts = Highcharts;
   readonly accessTypes = ACCESS_TYPES;
+  readonly accessTypeLabels = ACCESS_TYPE_LABELS;
   readonly selectedAccessType = signal(ACCESS_TYPES[0]);
-  readonly docTypeLabels = MOCK_BREAKDOWN.map(d => d.label);
+  readonly docTypeLabels = CLASSIFICATIONS.map(c => CLASSIFICATION_LABELS[c]);
   readonly docTypeColors = DOC_TYPE_COLORS;
 
   readonly selectedCountries = computed(() =>
     resolveSelectedCountries(this.customSearchService.selectedCountryIds())
   );
 
-  /** One row per selected country: each document type's share for the currently
+  private readonly queryParams = computed(() => ({
+    id: this.indicatorId(),
+    request: {
+      countries: [...this.customSearchService.selectedCountryIds()],
+      yearFrom: this.customSearchService.startYear(),
+      yearTo: this.customSearchService.startYear(),
+      seriesAggregations: []
+    } as IndicatorPresetQueryRequest
+  }));
+
+  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+
+  /** value(accessType, classification, country) via one O(1)-lookup map, built once
+   *  per response instead of re-scanning response.data for every lookup. */
+  private readonly valueByKey = computed(() => {
+    const response = this.response();
+    if (!response) {
+      return undefined;
+    }
+    const map = new Map<string, number>();
+    for (const point of response.data) {
+      const key = `${point.dimensions['oaLicenseStatus']}|${point.dimensions['classification']}|${point.dimensions['country']}`;
+      map.set(key, point.value as number);
+    }
+    return map;
+  });
+
+  /** One row per selected country: each document type's share of the currently
    *  selected access type, plus the min/max that drives the range printed on the right. */
   readonly countryRows = computed(() => {
-    const accessIdx = ACCESS_TYPES.indexOf(this.selectedAccessType());
-    return this.selectedCountries().map((country, countryIdx) => {
-      const values = MOCK_BREAKDOWN.map((docType, docIdx) => ({
-        label: docType.label,
-        value: this.mockValue(countryIdx, docIdx, accessIdx)
-      }));
+    const valueByKey = this.valueByKey();
+    if (!valueByKey) {
+      return undefined;
+    }
+    const accessType = this.selectedAccessType();
+
+    return this.selectedCountries().map(country => {
+      const values = CLASSIFICATIONS.map(classification => {
+        const total = ACCESS_TYPES.reduce(
+          (sum, type) => sum + (valueByKey.get(`${type}|${classification}|${country.id}`) ?? 0), 0
+        );
+        const value = valueByKey.get(`${accessType}|${classification}|${country.id}`) ?? 0;
+        return { label: CLASSIFICATION_LABELS[classification], value: total > 0 ? Math.round((value / total) * 100) : 0 };
+      });
       const nums = values.map(v => v.value);
-      return {
-        id: country.id,
-        name: country.name,
-        values,
-        min: Math.min(...nums),
-        max: Math.max(...nums)
-      };
+      return { id: country.id, name: country.name, values, min: Math.min(...nums), max: Math.max(...nums) };
     });
   });
 
   /** countryRows() plus a per-row Highcharts config — kept separate from countryRows
-   *  so the plain data (used for the range label) stays independent of chart concerns.
-   *  Every row's chart is now identical (see buildChartOptions) — the shared 0/50/100
-   *  scale is a plain HTML row in the template, not drawn by any one chart's axis. */
-  readonly rows = computed(() =>
-    this.countryRows().map(row => ({ ...row, options: this.buildChartOptions(row.values) }))
-  );
+   *  so the plain data (used for the range label) stays independent of chart concerns. */
+  readonly rows = computed(() => {
+    const countryRows = this.countryRows();
+    return countryRows?.map(row => ({ ...row, options: this.buildChartOptions(row.values) }));
+  });
 
   readonly captionText = computed(() =>
-    `Share of each output that is "${this.selectedAccessType()}" · ${this.customSearchService.startYear()} · percentage of publications`
+    `Share of each output that is "${this.accessTypeLabels[this.selectedAccessType()]}" · ${this.customSearchService.startYear()} · percentage of publications`
   );
 
   selectAccessType(type: string) {
     this.selectedAccessType.set(type);
   }
 
-  /** Deterministic per-country variation on top of the shared mock breakdown. */
-  private mockValue(countryIdx: number, docIdx: number, accessIdx: number): number {
-    const base = MOCK_BREAKDOWN[docIdx].shares[accessIdx];
-    const jitter = ((countryIdx + 1) * (docIdx + 2) * (accessIdx + 1)) % 15 - 7;
-    return Math.min(100, Math.max(0, base + jitter));
-  }
-
   /** One country = one flat 0–100% scatter "row". No y-axis categories needed —
-   *  every point sits at y=0. Every row's chart is now identical: no axis labels are
+   *  every point sits at y=0. Every row's chart is identical: no axis labels are
    *  drawn by Highcharts at all (the shared 0/50/100 scale is plain HTML in the
    *  template) — that removes the need to guess how much extra space Highcharts
    *  reserves internally for label text, which is what made the last row's plot

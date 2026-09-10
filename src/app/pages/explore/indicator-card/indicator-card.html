@@ -27,16 +27,19 @@
       <app-policy-map-card-view [indicatorId]="indicator().id"></app-policy-map-card-view>
     }
     @case ('stacked-column') {
-      <app-stacked-column-view></app-stacked-column-view>
+      <app-stacked-column-view [indicatorId]="indicator().id"></app-stacked-column-view>
     }
     @case ('access-type-trend') {
-      <app-selector-trend-card-view></app-selector-trend-card-view>
+      <app-selector-trend-card-view [indicatorId]="indicator().id"></app-selector-trend-card-view>
     }
     @case ('access-type-dot-plot') {
-      <app-selector-dot-plot-card-view></app-selector-dot-plot-card-view>
+      <app-selector-dot-plot-card-view [indicatorId]="indicator().id"></app-selector-dot-plot-card-view>
+    }
+    @case ('access-type-countries-trend') {
+      <app-selector-countries-trend-card-view [indicatorId]="indicator().id"></app-selector-countries-trend-card-view>
     }
     @case ('policy-countries') {
-      <app-policy-countries-card-view></app-policy-countries-card-view>
+      <app-policy-countries-card-view [indicatorId]="indicator().id"></app-policy-countries-card-view>
     }
   }
 </div>

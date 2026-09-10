@@ -22,7 +22,10 @@ export type RenderStyle =
   /** All EU, year range — one column per year, split into stacked breakdown categories. */
   | 'STACKED_COLUMN'
   /** Selected countries, single year — one row per country, one dot per category on a 0–100 scale. */
-  | 'PROGRESS_LINE_CHART';
+  | 'PROGRESS_LINE_CHART'
+  /** Selected countries, year range, with a selector — one mini line chart per selector
+   *  category, one line per selected country inside each. */
+  | 'MULTI_LINE_CHARTS';
 
 export interface IndicatorViewSelector {
   dimension: string;

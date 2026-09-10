@@ -10,9 +10,10 @@ import { PolicyCountriesCardView } from "./policy-countries-card-view/policy-cou
 import { StackedColumnView } from "./stacked-column-view/stacked-column-view";
 import { SelectorTrendCardView } from "./selector-trend-card-view/selector-trend-card-view";
 import { SelectorDotPlotCardView } from "./selector-dot-plot-card-view/selector-dot-plot-card-view";
+import { SelectorCountriesTrendCardView } from "./selector-countries-trend-card-view/selector-countries-trend-card-view";
 
 export type CardViewKind = 'eu-snapshot' | 'eu-trend' | 'countries-trend' | 'countries-snapshot' | 'policy-map'
-  | 'policy-countries' | 'stacked-column' | 'access-type-trend' | 'access-type-dot-plot';
+  | 'policy-countries' | 'stacked-column' | 'access-type-trend' | 'access-type-dot-plot' | 'access-type-countries-trend';
 
 const RENDER_STYLE_TO_VIEW: Partial<Record<RenderStyle, CardViewKind>> = {
   SCALAR: 'eu-snapshot',
@@ -25,6 +26,7 @@ const RENDER_STYLE_TO_VIEW: Partial<Record<RenderStyle, CardViewKind>> = {
   MAP_WITH_CHANGE_COUNT: 'policy-map',
   STACKED_COLUMN: 'stacked-column',
   PROGRESS_LINE_CHART: 'access-type-dot-plot',
+  MULTI_LINE_CHARTS: 'access-type-countries-trend',
 };
 
 /** Same lookup indicator-card uses to pick its child view — exported so the dashboard
@@ -63,7 +65,8 @@ export function resolveCardViewKind(
     PolicyCountriesCardView,
     StackedColumnView,
     SelectorTrendCardView,
-    SelectorDotPlotCardView
+    SelectorDotPlotCardView,
+    SelectorCountriesTrendCardView
   ]
 })
 export class IndicatorCard {

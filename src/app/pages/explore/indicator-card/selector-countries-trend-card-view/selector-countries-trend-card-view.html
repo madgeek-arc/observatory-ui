@@ -1,0 +1,32 @@
+<div class="uk-flex uk-flex-middle uk-flex-wrap uk-margin-small-bottom" style="gap: 6px;">
+  <span class="uk-text-meta uk-text-xsmall uk-text-uppercase uk-margin-small-right">Access Type</span>
+  @for (type of accessTypes; track type) {
+    <button type="button"
+            [class]="selectedAccessType() === type ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+            (click)="selectAccessType(type)">
+      {{ accessTypeLabels[type] }}
+    </button>
+  }
+</div>
+
+@if (panels(); as panels) {
+  <div class="uk-grid-small uk-grid-match" uk-grid>
+    @for (panel of panels; track panel.classification) {
+      <div class="uk-width-1-4@m uk-card card-simple">
+        <highcharts-chart [Highcharts]="Highcharts" [options]="panel.options" [oneToOne]="true"
+                          style="width: 100%; display: block;"></highcharts-chart>
+      </div>
+    }
+  </div>
+
+  <div class="uk-flex uk-flex-wrap uk-margin-small-top" style="gap: 16px;">
+    @for (country of selectedCountries(); track country.id) {
+      <div class="uk-flex uk-flex-middle" style="gap: 6px;">
+        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%;" [style.background]="country.color"></span>
+        <span class="uk-text-small uk-text-muted">{{ country.name }}</span>
+      </div>
+    }
+  </div>
+} @else {
+  <app-loading-placeholder [height]="180" />
+}

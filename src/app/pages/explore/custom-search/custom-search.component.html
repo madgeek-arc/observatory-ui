@@ -181,28 +181,28 @@
 
       <div class="uk-grid-small uk-margin-small-bottom" uk-grid>
         <div class="uk-width-1-4@m">
-          <div class="uk-card uk-card-default uk-card-small uk-card-body">
+          <div class="uk-card card-simple uk-card-small uk-card-body">
             <div class="uk-text-meta uk-text-small uk-text-bold">Indicators</div>
             <div class="uk-text-bold uk-text-large">{{ summary().indicators }}</div>
             <div class="uk-text-meta uk-text-xsmall">in this view</div>
           </div>
         </div>
         <div class="uk-width-1-4@m">
-          <div class="uk-card uk-card-default uk-card-small uk-card-body">
+          <div class="uk-card card-simple uk-card-small uk-card-body">
             <div class="uk-text-meta uk-text-small uk-text-bold">Topics</div>
             <div class="uk-text-bold uk-text-large">{{ summary().topics }}</div>
             <div class="uk-text-meta uk-text-xsmall">covered</div>
           </div>
         </div>
         <div class="uk-width-1-4@m">
-          <div class="uk-card uk-card-default uk-card-small uk-card-body">
+          <div class="uk-card card-simple uk-card-small uk-card-body">
             <div class="uk-text-meta uk-text-small uk-text-bold">Countries</div>
             <div class="uk-text-bold uk-text-large">{{ summary().countries }}</div>
             <div class="uk-text-meta uk-text-xsmall">in scope</div>
           </div>
         </div>
         <div class="uk-width-1-4@m">
-          <div class="uk-card uk-card-default uk-card-small uk-card-body">
+          <div class="uk-card card-simple uk-card-small uk-card-body">
             <div class="uk-text-meta uk-text-small uk-text-bold">Data Points</div>
             <div class="uk-text-bold uk-text-large">{{ summary().dataPoints }}</div>
             <div class="uk-text-meta uk-text-xsmall">in this view</div>
@@ -222,7 +222,7 @@
       </div>
 
       @if (summary().indicators === 0) {
-        <div class="uk-card uk-card-default uk-card-small uk-card-body">
+        <div class="uk-card card-simple uk-card-small uk-card-body">
           <div class="uk-text-large uk-text-bold">Start a custom search</div>
           <p class="uk-text-small uk-text-meta">
             Expand a topic in the left rail and tick the indicators you want — or pick up a view you saved earlier.
