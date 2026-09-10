@@ -1,4 +1,4 @@
-@if (!isFormBuilderRoute()) {
+@if (!isFormBuilderRoute() && hasHeader) {
   <app-top-menu-dashboard></app-top-menu-dashboard>
 }
 @if (isContributionsDashboardRoute()) {

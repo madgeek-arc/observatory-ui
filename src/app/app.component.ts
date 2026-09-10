@@ -43,6 +43,7 @@ export class AppComponent {
   title = 'observatory-ui';
   smallScreen= false;
   isOpen = true;
+  hasHeader = true;
 
   constructor() {
     this.auth.redirect();
@@ -53,6 +54,10 @@ export class AppComponent {
 
     this.layoutService.isOpen.subscribe(open => {
       this.isOpen = open;
+    });
+
+    this.layoutService.hasHeader.subscribe(hasHeader => {
+      this.hasHeader = hasHeader;
     });
   }
 
