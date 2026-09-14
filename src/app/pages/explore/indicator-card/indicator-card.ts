@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, output } from "@angular/core";
-import { CountryScope, ExploreIndicatorConfig, RenderStyle, TimeScope } from "../../../domain/explore-indicators";
+import { CountryScope, ExploreIndicatorConfig, IndicatorView, RenderStyle, TimeScope } from "../../../domain/explore-indicators";
 import { CustomSearchService } from "../custom-search/services/custom-search.service";
 import { EuSnapshotCardView } from "./eu-snapshot-card-view/eu-snapshot-card-view";
 import { EuTrendCardView } from "./eu-trend-card-view/eu-trend-card-view";
@@ -29,6 +29,21 @@ const RENDER_STYLE_TO_VIEW: Partial<Record<RenderStyle, CardViewKind>> = {
   MULTI_LINE_CHARTS: 'access-type-countries-trend',
 };
 
+/** Finds the one view matching the current countryScope/timeScope — shared by
+ *  resolveCardViewKind() below and by IndicatorCard's own currentView(), which also
+ *  needs the view's selector (dimension name), not just its renderStyle. */
+export function resolveCurrentView(
+  indicator: ExploreIndicatorConfig,
+  geographyScope: 'all' | 'select',
+  startYear: number,
+  endYear: number
+): IndicatorView | undefined {
+  const countryScope: CountryScope = geographyScope === 'all' ? 'ALL_COUNTRIES' : 'SELECTED_COUNTRIES';
+  const timeScope: TimeScope = startYear === endYear ? 'SINGLE_YEAR' : 'TIME_RANGE';
+
+  return indicator.views.find(v => v.countryScope === countryScope && v.timeScope === timeScope);
+}
+
 /** Same lookup indicator-card uses to pick its child view — exported so the dashboard
  *  grid (custom-search.component.ts) can size a card's grid cell without duplicating
  *  the countryScope/timeScope → renderStyle → view matching logic. */
@@ -38,10 +53,7 @@ export function resolveCardViewKind(
   startYear: number,
   endYear: number
 ): CardViewKind | undefined {
-  const countryScope: CountryScope = geographyScope === 'all' ? 'ALL_COUNTRIES' : 'SELECTED_COUNTRIES';
-  const timeScope: TimeScope = startYear === endYear ? 'SINGLE_YEAR' : 'TIME_RANGE';
-
-  const view = indicator.views.find(v => v.countryScope === countryScope && v.timeScope === timeScope);
+  const view = resolveCurrentView(indicator, geographyScope, startYear, endYear);
   if (!view) {
     return undefined;
   }
@@ -78,6 +90,15 @@ export class IndicatorCard {
 
   readonly cardViewKind = computed<CardViewKind | undefined>(() =>
     resolveCardViewKind(
+      this.indicator(),
+      this.customSearchService.geographyScope(),
+      this.customSearchService.startYear(),
+      this.customSearchService.endYear()
+    )
+  );
+
+  readonly currentView = computed<IndicatorView | undefined>(() =>
+    resolveCurrentView(
       this.indicator(),
       this.customSearchService.geographyScope(),
       this.customSearchService.startYear(),

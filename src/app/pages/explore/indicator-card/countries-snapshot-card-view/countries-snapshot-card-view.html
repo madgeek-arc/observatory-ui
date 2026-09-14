@@ -1,14 +1,12 @@
 @if (countryValues(); as items) {
   @for (item of items; track item.id) {
-    @if (item.value !== undefined) {
-      <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
-        <span class="uk-text-small">{{ item.name }}</span>
-        @if (format() === 'percentage') {
-          <progress class="uk-progress uk-width-expand" [value]="item.value" max="100"></progress>
-        }
-        <span class="uk-text-bold uk-text-small uk-margin-auto-left">{{ item.formattedValue }}</span>
-      </div>
-    }
+    <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
+      <span class="uk-text-small">{{ item.name }}</span>
+      @if (format() === 'percentage' && item.formattedValue !== undefined) {
+        <progress class="uk-progress uk-width-expand" [value]="item.value" max="100"></progress>
+      }
+      <span class="uk-text-bold uk-text-small uk-margin-auto-left">{{ item.formattedValue ?? 'N/A' }}</span>
+    </div>
   }
 } @else {
   <app-loading-placeholder [height]="60" />

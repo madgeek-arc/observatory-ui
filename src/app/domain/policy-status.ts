@@ -18,10 +18,13 @@ const STATUS_COLORS: Record<string, string> = {
   'AWAITING_DATA': AWAITING_COLOR,
   'YES': POSITIVE_COLOR,
   'NO': NEGATIVE_COLOR,
+  'Has national monitoring': POSITIVE_COLOR,
+  'Does not have national monitoring': NEGATIVE_COLOR,
+  'N/A': AWAITING_COLOR,
 };
 
-const POSITIVE_VALUES = ['Mandatory policy', 'Policy but not mandatory', 'YES'];
-const AWAITING_DATA_VALUES = ['Awaiting data', 'AWAITING_DATA'];
+const POSITIVE_VALUES = ['Mandatory policy', 'Policy but not mandatory', 'YES', 'Has national monitoring'];
+const AWAITING_DATA_VALUES = ['Awaiting data', 'AWAITING_DATA', 'N/A'];
 
 /** True for a "has the policy" status. A percentage-format indicator encodes yes/no
  *  per-country as 100/0 rather than as a string, so a plain 100 counts as positive too. */

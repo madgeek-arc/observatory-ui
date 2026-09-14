@@ -29,6 +29,15 @@ export interface IndicatorQueryResponse {
   summary: { dimensions: { aggregation: string }; value: number }[];
 }
 
+export interface DimensionMember {
+  code: string;
+  label: string;
+}
+
+interface DimensionMembersResponse {
+  members: DimensionMember[];
+}
+
 interface UserDashboardResponse {
   id: string;
   items: DashboardItem[];
@@ -78,6 +87,29 @@ export class CustomSearchService {
       toObservable(params).pipe(
         switchMap(({ id, request }) =>
           this.queryIndicator(id, request).pipe(catchError(() => of(undefined)))
+        )
+      )
+    );
+  }
+
+  getDimensionMembers(indicatorCode: string, dimension: string): Observable<DimensionMember[]> {
+    return this.httpClient
+      .get<DimensionMembersResponse>(this.base + `/indicators/${indicatorCode}/dimensions/${dimension}/members`, {
+        params: { limit: 100 }
+      })
+      .pipe(map(response => response.members));
+  }
+
+  /** Same switchMap+catchError shape as queryIndicatorSignal — re-fetches whenever
+   *  indicatorCode/dimension changes, and a failed request resolves to undefined
+   *  instead of killing the signal for good. */
+  dimensionMembersSignal(
+    params: Signal<{ indicatorCode: string; dimension: string }>
+  ): Signal<DimensionMember[] | undefined> {
+    return toSignal(
+      toObservable(params).pipe(
+        switchMap(({ indicatorCode, dimension }) =>
+          this.getDimensionMembers(indicatorCode, dimension).pipe(catchError(() => of(undefined)))
         )
       )
     );

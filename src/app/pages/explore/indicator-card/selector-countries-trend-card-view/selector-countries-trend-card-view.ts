@@ -4,7 +4,6 @@ import * as Highcharts from "highcharts";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
-import { ACCESS_TYPE_LABELS, ACCESS_TYPES, CLASSIFICATION_LABELS, CLASSIFICATIONS } from "../../../../domain/oa-license-status";
 import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
 
 interface ChartPanel {
@@ -21,11 +20,26 @@ export class SelectorCountriesTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
 
   indicatorId = input.required<string>();
+  indicatorCode = input.required<string>();
+  dimension = input.required<string>();
 
   Highcharts: typeof Highcharts = Highcharts;
-  readonly accessTypes = ACCESS_TYPES;
-  readonly accessTypeLabels = ACCESS_TYPE_LABELS;
-  readonly selectedAccessType = signal(ACCESS_TYPES[0]);
+
+  private readonly membersParams = computed(() => ({
+    indicatorCode: this.indicatorCode(),
+    dimension: this.dimension()
+  }));
+  private readonly members = this.customSearchService.dimensionMembersSignal(this.membersParams);
+
+  readonly accessTypes = computed(() => this.members()?.map(m => m.code) ?? []);
+  readonly accessTypeLabels = computed(() =>
+    Object.fromEntries((this.members() ?? []).map(m => [m.code, m.label]))
+  );
+
+  /** undefined = "nothing picked yet"; effectiveAccessType() below fills in the first
+   *  fetched access type once /members resolves, without needing an effect(). */
+  readonly selectedAccessType = signal<string | undefined>(undefined);
+  readonly effectiveAccessType = computed(() => this.selectedAccessType() ?? this.accessTypes()[0]);
 
   /** Selected countries, each given a stable color (by position) shared across
    *  every panel's lines and the legend below the panels. */
@@ -53,6 +67,14 @@ export class SelectorCountriesTrendCardView {
     return response ? [...new Set(response.data.map(point => point.dimensions['period']))].sort() : undefined;
   });
 
+  /** Document types actually present in the response, alphabetical — not from /members,
+   *  since /members returns the whole universal vocabulary for this indicatorCode, not
+   *  just the classifications this indicator's data actually uses. */
+  private readonly classifications = computed(() => {
+    const response = this.response();
+    return response ? [...new Set(response.data.map(p => p.dimensions['classification']))].sort() : [];
+  });
+
   /** value(accessType, classification, country, year) via one O(1)-lookup map, built
    *  once per response instead of re-scanning response.data for every lookup. */
   private readonly valueByKey = computed(() => {
@@ -60,9 +82,10 @@ export class SelectorCountriesTrendCardView {
     if (!response) {
       return undefined;
     }
+    const dimension = this.dimension();
     const map = new Map<string, number>();
     for (const point of response.data) {
-      const key = `${point.dimensions['oaLicenseStatus']}|${point.dimensions['classification']}|${point.dimensions['country']}|${point.dimensions['period']}`;
+      const key = `${point.dimensions[dimension]}|${point.dimensions['classification']}|${point.dimensions['country']}|${point.dimensions['period']}`;
       map.set(key, point.value as number);
     }
     return map;
@@ -74,16 +97,17 @@ export class SelectorCountriesTrendCardView {
     const valueByKey = this.valueByKey();
     const years = this.years();
     const countries = this.selectedCountries();
+    const accessTypes = this.accessTypes();
     if (!valueByKey || !years) {
       return undefined;
     }
-    const accessType = this.selectedAccessType();
+    const accessType = this.effectiveAccessType();
 
-    return CLASSIFICATIONS.map(classification => ({
+    return this.classifications().map(classification => ({
       classification,
       options: {
         chart: { type: 'line', height: 180 },
-        title: { text: CLASSIFICATION_LABELS[classification], style: { fontSize: '12px', fontWeight: 'bold' } },
+        title: { text: classification, style: { fontSize: '12px', fontWeight: 'bold' } },
         credits: { enabled: false },
         exporting: { enabled: false },
         xAxis: { categories: years },
@@ -96,7 +120,7 @@ export class SelectorCountriesTrendCardView {
           name: country.name,
           color: country.color,
           data: years.map(year => {
-            const total = ACCESS_TYPES.reduce(
+            const total = accessTypes.reduce(
               (sum, type) => sum + (valueByKey.get(`${type}|${classification}|${country.id}|${year}`) ?? 0), 0
             );
             const value = valueByKey.get(`${accessType}|${classification}|${country.id}|${year}`) ?? 0;

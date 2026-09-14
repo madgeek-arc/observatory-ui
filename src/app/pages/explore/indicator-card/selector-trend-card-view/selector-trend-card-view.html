@@ -1,10 +1,10 @@
 <div class="uk-flex uk-flex-middle uk-flex-wrap uk-margin-small-bottom" style="gap: 6px;">
   <span class="uk-text-meta uk-text-xsmall uk-text-uppercase uk-margin-small-right">Access Type</span>
-  @for (type of accessTypes; track type) {
+  @for (type of accessTypes(); track type) {
     <button type="button"
-            [class]="selectedAccessType() === type ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+            [class]="effectiveAccessType() === type ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
             (click)="selectAccessType(type)">
-      {{ accessTypeLabels[type] }}
+      {{ accessTypeLabels()[type] }}
     </button>
   }
 </div>

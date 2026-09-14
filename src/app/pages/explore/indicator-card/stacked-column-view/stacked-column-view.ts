@@ -3,7 +3,6 @@ import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
-import { ACCESS_TYPE_LABELS, ACCESS_TYPES, CLASSIFICATION_LABELS, CLASSIFICATIONS } from "../../../../domain/oa-license-status";
 import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
 
 @Component({
@@ -15,10 +14,24 @@ export class StackedColumnView {
   private readonly customSearchService = inject(CustomSearchService);
 
   indicatorId = input.required<string>();
+  indicatorCode = input.required<string>();
+  dimension = input.required<string>();
 
   Highcharts: typeof Highcharts = Highcharts;
-  readonly accessTypes = ACCESS_TYPES.map(type => ACCESS_TYPE_LABELS[type]);
   readonly colors = colors;
+
+  private readonly membersParams = computed(() => ({
+    indicatorCode: this.indicatorCode(),
+    dimension: this.dimension()
+  }));
+  private readonly members = this.customSearchService.dimensionMembersSignal(this.membersParams);
+
+  private readonly accessTypeCodes = computed(() => this.members()?.map(m => m.code) ?? []);
+  private readonly accessTypeLabels = computed(() =>
+    Object.fromEntries((this.members() ?? []).map(m => [m.code, m.label]))
+  );
+  /** Labels only, for the legend in the template — it just prints these against colors[i]. */
+  readonly accessTypes = computed(() => this.members()?.map(m => m.label) ?? []);
 
   private readonly queryParams = computed(() => ({
     id: this.indicatorId(),
@@ -32,16 +45,28 @@ export class StackedColumnView {
 
   private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
 
+  /** Document types actually present in the response, alphabetical — not from /members,
+   *  since /members returns the whole universal vocabulary for this indicatorCode, not
+   *  just the classifications this indicator's data actually uses. */
+  private readonly classifications = computed(() => {
+    const response = this.response();
+    return response ? [...new Set(response.data.map(p => p.dimensions['classification']))].sort() : [];
+  });
+
   /** One chart, one category per document type — each category is its own stacked column. */
   readonly chartOptions = computed<Highcharts.Options | undefined>(() => {
     const response = this.response();
-    if (!response) {
+    const accessTypeCodes = this.accessTypeCodes();
+    const accessTypeLabels = this.accessTypeLabels();
+    const classifications = this.classifications();
+    if (!response || accessTypeCodes.length === 0) {
       return undefined;
     }
+    const dimension = this.dimension();
 
     const valueOf = (accessType: string, classification: string) =>
       response.data.find(point =>
-        point.dimensions['oaLicenseStatus'] === accessType && point.dimensions['classification'] === classification
+        point.dimensions[dimension] === accessType && point.dimensions['classification'] === classification
       )?.value ?? 0;
 
     return {
@@ -51,7 +76,7 @@ export class StackedColumnView {
       credits: { enabled: false },
       exporting: { enabled: false },
       xAxis: {
-        categories: CLASSIFICATIONS.map(c => CLASSIFICATION_LABELS[c]),
+        categories: classifications,
         reversedStacks: true,
         lineWidth: 0,
         tickLength: 0,
@@ -79,10 +104,10 @@ export class StackedColumnView {
         }
       },
       legend: { enabled: false },
-      series: ACCESS_TYPES.map(accessType => ({
+      series: accessTypeCodes.map(accessType => ({
         type: 'column' as const,
-        name: ACCESS_TYPE_LABELS[accessType],
-        data: CLASSIFICATIONS.map(classification => valueOf(accessType, classification))
+        name: accessTypeLabels[accessType],
+        data: classifications.map(classification => valueOf(accessType, classification))
       }))
     };
   });

@@ -3,7 +3,6 @@ import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
-import { ACCESS_TYPE_LABELS, ACCESS_TYPES, CLASSIFICATION_LABELS, CLASSIFICATIONS } from "../../../../domain/oa-license-status";
 import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
 
 @Component({
@@ -15,12 +14,26 @@ export class SelectorTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
 
   indicatorId = input.required<string>();
+  indicatorCode = input.required<string>();
+  dimension = input.required<string>();
 
   Highcharts: typeof Highcharts = Highcharts;
-  readonly accessTypes = ACCESS_TYPES;
-  readonly accessTypeLabels = ACCESS_TYPE_LABELS;
   readonly colors = colors;
-  readonly selectedAccessType = signal(ACCESS_TYPES[0]);
+
+  private readonly membersParams = computed(() => ({
+    indicatorCode: this.indicatorCode(),
+    dimension: this.dimension()
+  }));
+  private readonly members = this.customSearchService.dimensionMembersSignal(this.membersParams);
+
+  readonly accessTypes = computed(() => this.members()?.map(m => m.code) ?? []);
+  readonly accessTypeLabels = computed(() =>
+    Object.fromEntries((this.members() ?? []).map(m => [m.code, m.label]))
+  );
+
+
+  readonly selectedAccessType = signal<string | undefined>(undefined);
+  readonly effectiveAccessType = computed(() => this.selectedAccessType() ?? this.accessTypes()[0]);
 
   private readonly queryParams = computed(() => ({
     id: this.indicatorId(),
@@ -39,15 +52,20 @@ export class SelectorTrendCardView {
     return response ? [...new Set(response.data.map(point => point.dimensions['period']))].sort() : undefined;
   });
 
+  private readonly classifications = computed(() => {
+    const response = this.response();
+    return response ? [...new Set(response.data.map(p => p.dimensions['classification']))].sort() : [];
+  });
 
   private readonly valueByKey = computed(() => {
     const response = this.response();
     if (!response) {
       return undefined;
     }
+    const dimension = this.dimension();
     const map = new Map<string, number>();
     for (const point of response.data) {
-      const key = `${point.dimensions['oaLicenseStatus']}|${point.dimensions['classification']}|${point.dimensions['period']}`;
+      const key = `${point.dimensions[dimension]}|${point.dimensions['classification']}|${point.dimensions['period']}`;
       map.set(key, point.value as number);
     }
     return map;
@@ -57,15 +75,16 @@ export class SelectorTrendCardView {
   private readonly shareSeries = computed(() => {
     const valueByKey = this.valueByKey();
     const years = this.years();
+    const accessTypes = this.accessTypes();
     if (!valueByKey || !years) {
       return undefined;
     }
-    const accessType = this.selectedAccessType();
+    const accessType = this.effectiveAccessType();
 
-    return CLASSIFICATIONS.map(classification => ({
+    return this.classifications().map(classification => ({
       classification,
       data: years.map(year => {
-        const total = ACCESS_TYPES.reduce(
+        const total = accessTypes.reduce(
           (sum, type) => sum + (valueByKey.get(`${type}|${classification}|${year}`) ?? 0), 0
         );
         const value = valueByKey.get(`${accessType}|${classification}|${year}`) ?? 0;
@@ -80,7 +99,7 @@ export class SelectorTrendCardView {
     if (!series) {
       return undefined;
     }
-    return series.map(s => ({ label: CLASSIFICATION_LABELS[s.classification], value: s.data[s.data.length - 1] }));
+    return series.map(s => ({ label: s.classification, value: s.data[s.data.length - 1] }));
   });
 
   readonly chartOptions = computed<Highcharts.Options | undefined>(() => {
@@ -105,7 +124,7 @@ export class SelectorTrendCardView {
       legend: { enabled: false },
       series: series.map(s => ({
         type: 'line' as const,
-        name: CLASSIFICATION_LABELS[s.classification],
+        name: s.classification,
         data: s.data
       }))
     };

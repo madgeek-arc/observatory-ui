@@ -42,6 +42,7 @@ export interface IndicatorView {
 
 export interface ExploreIndicatorConfig {
   id: string;
+  indicatorCode: string;
   label: string;
   group: string;
   views: IndicatorView[];

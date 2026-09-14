@@ -4,10 +4,7 @@ import * as Highcharts from "highcharts";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
-import { ACCESS_TYPE_LABELS, ACCESS_TYPES, CLASSIFICATION_LABELS, CLASSIFICATIONS } from "../../../../domain/oa-license-status";
 import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
-
-const DOC_TYPE_COLORS = [colors[0], colors[1], colors[2], colors[4]];
 
 @Component({
   selector: 'app-selector-dot-plot-card-view',
@@ -18,13 +15,27 @@ export class SelectorDotPlotCardView {
   private readonly customSearchService = inject(CustomSearchService);
 
   indicatorId = input.required<string>();
+  indicatorCode = input.required<string>();
+  dimension = input.required<string>();
 
   Highcharts: typeof Highcharts = Highcharts;
-  readonly accessTypes = ACCESS_TYPES;
-  readonly accessTypeLabels = ACCESS_TYPE_LABELS;
-  readonly selectedAccessType = signal(ACCESS_TYPES[0]);
-  readonly docTypeLabels = CLASSIFICATIONS.map(c => CLASSIFICATION_LABELS[c]);
-  readonly docTypeColors = DOC_TYPE_COLORS;
+  readonly docTypeColors = colors;
+
+  private readonly membersParams = computed(() => ({
+    indicatorCode: this.indicatorCode(),
+    dimension: this.dimension()
+  }));
+  private readonly members = this.customSearchService.dimensionMembersSignal(this.membersParams);
+
+  readonly accessTypes = computed(() => this.members()?.map(m => m.code) ?? []);
+  readonly accessTypeLabels = computed(() =>
+    Object.fromEntries((this.members() ?? []).map(m => [m.code, m.label]))
+  );
+
+  /** undefined = "nothing picked yet"; effectiveAccessType() below fills in the first
+   *  fetched access type once /members resolves, without needing an effect(). */
+  readonly selectedAccessType = signal<string | undefined>(undefined);
+  readonly effectiveAccessType = computed(() => this.selectedAccessType() ?? this.accessTypes()[0]);
 
   readonly selectedCountries = computed(() =>
     resolveSelectedCountries(this.customSearchService.selectedCountryIds())
@@ -42,6 +53,15 @@ export class SelectorDotPlotCardView {
 
   private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
 
+  /** Document types actually present in the response, alphabetical — not from /members,
+   *  since /members returns the whole universal vocabulary for this indicatorCode, not
+   *  just the classifications this indicator's data actually uses. */
+  private readonly classifications = computed(() => {
+    const response = this.response();
+    return response ? [...new Set(response.data.map(p => p.dimensions['classification']))].sort() : [];
+  });
+  readonly docTypeLabels = computed(() => this.classifications());
+
   /** value(accessType, classification, country) via one O(1)-lookup map, built once
    *  per response instead of re-scanning response.data for every lookup. */
   private readonly valueByKey = computed(() => {
@@ -49,9 +69,10 @@ export class SelectorDotPlotCardView {
     if (!response) {
       return undefined;
     }
+    const dimension = this.dimension();
     const map = new Map<string, number>();
     for (const point of response.data) {
-      const key = `${point.dimensions['oaLicenseStatus']}|${point.dimensions['classification']}|${point.dimensions['country']}`;
+      const key = `${point.dimensions[dimension]}|${point.dimensions['classification']}|${point.dimensions['country']}`;
       map.set(key, point.value as number);
     }
     return map;
@@ -64,15 +85,16 @@ export class SelectorDotPlotCardView {
     if (!valueByKey) {
       return undefined;
     }
-    const accessType = this.selectedAccessType();
+    const accessType = this.effectiveAccessType();
+    const accessTypes = this.accessTypes();
 
     return this.selectedCountries().map(country => {
-      const values = CLASSIFICATIONS.map(classification => {
-        const total = ACCESS_TYPES.reduce(
+      const values = this.classifications().map(classification => {
+        const total = accessTypes.reduce(
           (sum, type) => sum + (valueByKey.get(`${type}|${classification}|${country.id}`) ?? 0), 0
         );
         const value = valueByKey.get(`${accessType}|${classification}|${country.id}`) ?? 0;
-        return { label: CLASSIFICATION_LABELS[classification], value: total > 0 ? Math.round((value / total) * 100) : 0 };
+        return { label: classification, value: total > 0 ? Math.round((value / total) * 100) : 0 };
       });
       const nums = values.map(v => v.value);
       return { id: country.id, name: country.name, values, min: Math.min(...nums), max: Math.max(...nums) };
@@ -86,9 +108,11 @@ export class SelectorDotPlotCardView {
     return countryRows?.map(row => ({ ...row, options: this.buildChartOptions(row.values) }));
   });
 
-  readonly captionText = computed(() =>
-    `Share of each output that is "${this.accessTypeLabels[this.selectedAccessType()]}" · ${this.customSearchService.startYear()} · percentage of publications`
-  );
+  readonly captionText = computed(() => {
+    const accessType = this.effectiveAccessType();
+    const label = accessType ? this.accessTypeLabels()[accessType] : undefined;
+    return `Share of each output that is "${label}" · ${this.customSearchService.startYear()} · percentage of publications`;
+  });
 
   selectAccessType(type: string) {
     this.selectedAccessType.set(type);
@@ -121,7 +145,7 @@ export class SelectorDotPlotCardView {
           }
         }
       },
-      colors: DOC_TYPE_COLORS,
+      colors,
       title: { text: undefined },
       credits: { enabled: false },
       exporting: { enabled: false },
