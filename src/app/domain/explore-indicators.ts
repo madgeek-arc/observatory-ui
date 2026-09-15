@@ -25,7 +25,14 @@ export type RenderStyle =
   | 'PROGRESS_LINE_CHART'
   /** Selected countries, year range, with a selector — one mini line chart per selector
    *  category, one line per selected country inside each. */
-  | 'MULTI_LINE_CHARTS';
+  | 'MULTI_LINE_CHARTS'
+  /** All EU, single year — graduated (numeric) choropleth plus a ranked top-5 countries list. */
+  | 'CHOROPLETH_MAP_WITH_TOP_5'
+  /** All EU, year range — one column per year, summed across all countries. */
+  | 'COLUMN_CHART'
+  /** Selected countries, year range — one column series per selected country,
+   *  clustered by year. */
+  | 'MULTI_SERIES_COLUMN_CHART';
 
 export interface IndicatorViewSelector {
   dimension: string;

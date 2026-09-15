@@ -3,6 +3,7 @@ import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
+import { colors } from "../../../../domain/chart-color-palette";
 import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
 
 @Component({
@@ -17,8 +18,13 @@ export class CountriesTrendCardView {
 
   Highcharts: typeof Highcharts = Highcharts;
 
+  /** Selected countries, each given a stable color (by position) — same
+   *  colors[index % colors.length] convention every other country-series chart uses. */
   readonly selectedCountries = computed(() =>
-    resolveSelectedCountries(this.customSearchService.selectedCountryIds())
+    resolveSelectedCountries(this.customSearchService.selectedCountryIds()).map((country, index) => ({
+      ...country,
+      color: colors[index % colors.length]
+    }))
   );
 
   private readonly queryParams = computed(() => ({
@@ -50,6 +56,7 @@ export class CountriesTrendCardView {
       return {
         type: 'line' as const,
         name: country.name,
+        color: country.color,
         data: years.map(year => valueByYear.get(year) ?? null)
       };
     });

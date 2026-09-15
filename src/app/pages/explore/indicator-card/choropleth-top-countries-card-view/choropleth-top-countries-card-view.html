@@ -1,0 +1,31 @@
+@if (topCountries(); as top) {
+  <div class="uk-flex uk-flex-middle" style="gap: 8px;">
+    <span class="uk-text-large uk-text-bold">{{ formattedTotal() }}</span>
+    <span class="uk-text-meta uk-text-small">across the EU in {{ year() }}</span>
+  </div>
+
+  <div class="uk-grid-small uk-margin-small-top" uk-grid>
+    <div class="uk-width-3-4@m" style="height: 500px;">
+      <app-highcharts-color-axis
+        [mapData]="mapData()"
+        [colorAxis]="colorAxis()"
+        [dataSeriesSuffix]="''">
+      </app-highcharts-color-axis>
+    </div>
+    <div class="uk-width-1-4@m">
+      <div class="uk-text-meta uk-text-xsmall uk-text-uppercase uk-margin-small-bottom">Most active countries</div>
+      @for (country of top; track country.id; let i = $index) {
+        <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
+          <span class="uk-text-meta uk-text-small">{{ i + 1 }}</span>
+          <span class="uk-text-small" style="width: 90px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ country.name }}</span>
+          <div style="flex: 1 1 auto; background: #eef1f3; border-radius: 2px; height: 8px; overflow: hidden;">
+            <div [style.width.%]="country.barWidth" [style.background]="topBarColor"></div>
+          </div>
+          <span class="uk-text-bold uk-text-small">{{ country.value }}</span>
+        </div>
+      }
+    </div>
+  </div>
+} @else {
+  <app-loading-placeholder [height]="500" />
+}

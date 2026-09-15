@@ -70,3 +70,9 @@ export function resolveSelectedCountries(selectedIds: Set<string>): Country[] {
     .map(id => countries.find(c => c.id === id))
     .filter((c): c is Country => !!c);
 }
+
+/** Resolves a single country id to its display name, falling back to the raw id
+ *  itself if it isn't in our list (better an unfamiliar code than blank text). */
+export function resolveCountryName(id: string): string {
+  return countries.find(c => c.id === id)?.name ?? id;
+}

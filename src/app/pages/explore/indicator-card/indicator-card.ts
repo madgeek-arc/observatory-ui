@@ -11,9 +11,13 @@ import { StackedColumnView } from "./stacked-column-view/stacked-column-view";
 import { SelectorTrendCardView } from "./selector-trend-card-view/selector-trend-card-view";
 import { SelectorDotPlotCardView } from "./selector-dot-plot-card-view/selector-dot-plot-card-view";
 import { SelectorCountriesTrendCardView } from "./selector-countries-trend-card-view/selector-countries-trend-card-view";
+import { ChoroplethTopCountriesCardView } from "./choropleth-top-countries-card-view/choropleth-top-countries-card-view";
+import { EuColumnTrendCardView } from "./eu-column-trend-card-view/eu-column-trend-card-view";
+import { CountriesColumnTrendCardView } from "./countries-column-trend-card-view/countries-column-trend-card-view";
 
 export type CardViewKind = 'eu-snapshot' | 'eu-trend' | 'countries-trend' | 'countries-snapshot' | 'policy-map'
-  | 'policy-countries' | 'stacked-column' | 'access-type-trend' | 'access-type-dot-plot' | 'access-type-countries-trend';
+  | 'policy-countries' | 'stacked-column' | 'access-type-trend' | 'access-type-dot-plot' | 'access-type-countries-trend'
+  | 'choropleth-top-countries' | 'eu-column-trend' | 'countries-column-trend';
 
 const RENDER_STYLE_TO_VIEW: Partial<Record<RenderStyle, CardViewKind>> = {
   SCALAR: 'eu-snapshot',
@@ -27,6 +31,9 @@ const RENDER_STYLE_TO_VIEW: Partial<Record<RenderStyle, CardViewKind>> = {
   STACKED_COLUMN: 'stacked-column',
   PROGRESS_LINE_CHART: 'access-type-dot-plot',
   MULTI_LINE_CHARTS: 'access-type-countries-trend',
+  CHOROPLETH_MAP_WITH_TOP_5: 'choropleth-top-countries',
+  COLUMN_CHART: 'eu-column-trend',
+  MULTI_SERIES_COLUMN_CHART: 'countries-column-trend',
 };
 
 /** Finds the one view matching the current countryScope/timeScope — shared by
@@ -78,7 +85,10 @@ export function resolveCardViewKind(
     StackedColumnView,
     SelectorTrendCardView,
     SelectorDotPlotCardView,
-    SelectorCountriesTrendCardView
+    SelectorCountriesTrendCardView,
+    ChoroplethTopCountriesCardView,
+    EuColumnTrendCardView,
+    CountriesColumnTrendCardView
   ]
 })
 export class IndicatorCard {
@@ -104,5 +114,10 @@ export class IndicatorCard {
       this.customSearchService.startYear(),
       this.customSearchService.endYear()
     )
+  );
+
+  readonly needsCountrySelection = computed(() =>
+    this.customSearchService.geographyScope() === 'select' &&
+    this.customSearchService.selectedCountryIds().size === 0
   );
 }
