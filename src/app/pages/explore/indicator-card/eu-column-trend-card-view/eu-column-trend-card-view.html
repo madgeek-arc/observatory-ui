@@ -1,5 +1,6 @@
 @if (chartOptions(); as options) {
-  <highcharts-chart [Highcharts]="Highcharts" [options]="options" style="width: 100%; display: block;"></highcharts-chart>
+  <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
+                    style="width: 100%; display: block;"></highcharts-chart>
 } @else {
   <app-loading-placeholder [height]="200" />
 }

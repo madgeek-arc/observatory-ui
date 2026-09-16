@@ -1,5 +1,6 @@
 @if (chartOptions(); as options) {
-  <highcharts-chart [Highcharts]="Highcharts" [options]="options" style="width: 100%; display: block;"></highcharts-chart>
+  <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
+                    style="width: 100%; display: block;"></highcharts-chart>
 
   <div class="uk-flex uk-flex-center uk-flex-wrap uk-margin-small-top" style="gap: 16px;">
     @for (country of selectedCountries(); track country.id) {

@@ -45,6 +45,7 @@ export interface IndicatorView {
   timeScope: TimeScope;
   renderStyle: RenderStyle;
   selector?: IndicatorViewSelector;
+  fullWidth: boolean;
 }
 
 export interface ExploreIndicatorConfig {
@@ -53,7 +54,6 @@ export interface ExploreIndicatorConfig {
   label: string;
   group: string;
   views: IndicatorView[];
-  fullWidth: boolean;
   format: IndicatorFormat;
   allowedSeriesAggregations: string[];
 }

@@ -19,7 +19,7 @@
           <span class="uk-text-meta uk-text-small">{{ i + 1 }}</span>
           <span class="uk-text-small" style="width: 90px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ country.name }}</span>
           <div style="flex: 1 1 auto; background: #eef1f3; border-radius: 2px; height: 8px; overflow: hidden;">
-            <div [style.width.%]="country.barWidth" [style.background]="topBarColor"></div>
+            <div [style.width.%]="country.barWidth" [style.background]="topBarColor" style="height: 100%;"></div>
           </div>
           <span class="uk-text-bold uk-text-small">{{ country.value }}</span>
         </div>

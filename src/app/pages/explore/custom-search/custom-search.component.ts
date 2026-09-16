@@ -9,7 +9,7 @@ import { StakeholdersService } from "../../../../survey-tool/app/services/stakeh
 import { ExploreIndicatorConfig } from "../../../domain/explore-indicators";
 import { Country, countries } from "../../../domain/countries";
 import { CustomSearchService, DashboardItem } from "./services/custom-search.service";
-import { IndicatorCard } from "../indicator-card/indicator-card";
+import { IndicatorCard, resolveCurrentView } from "../indicator-card/indicator-card";
 import {RouterLink} from "@angular/router";
 
 interface SavedViewCard {
@@ -152,6 +152,11 @@ export class CustomSearchComponent {
     return this.selectedIndicatorIds().has(id);
   }
 
+  /** fullWidth lives on each view, not on the indicator as a whole */
+  isFullWidthCard(indicator: ExploreIndicatorConfig): boolean {
+    return resolveCurrentView(indicator, this.geographyScope(), this.startYear(), this.endYear())?.fullWidth ?? false;
+  }
+
   selectedCountForTopic(topic: Topic): number {
     const selected = this.selectedIndicatorIds();
     return topic.indicators.filter(indicator => selected.has(indicator.id)).length;
@@ -189,14 +194,20 @@ export class CustomSearchComponent {
     if (Number.isNaN(value)) {
       return;
     }
-    this.startYear.set(Math.min(value, this.endYear()));
+    this.startYear.set(value);
+    if (value > this.endYear()) {
+      this.endYear.set(value);
+    }
   }
 
   setEndYear(value: number) {
     if (Number.isNaN(value)) {
       return;
     }
-    this.endYear.set(Math.max(value, this.startYear()));
+    this.endYear.set(value);
+    if (value < this.startYear()) {
+      this.startYear.set(value);
+    }
   }
 
   filteredCountries(): Country[] {
