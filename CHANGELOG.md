@@ -88,6 +88,32 @@
 * Various bug fixes for country pages ([19bb7f1](https://github.com/madgeek-arc/observatory-ui/commit/19bb7f15bdb27dde2c028f72b571e04df199b94a))
 * Various changes from recommendations ([e5dc474](https://github.com/madgeek-arc/observatory-ui/commit/e5dc4742d53e0dc6f9f8dfef6a5240fc92ba6b8e))
 
+## [4.4.0](https://github.com/madgeek-arc/observatory-ui/compare/4.3.0...4.4.0) (2026-05-21)
+
+
+### Features
+
+* add support of mentions in comments by updating the submodules ([#115](https://github.com/madgeek-arc/observatory-ui/issues/115)) ([f6b1ea4](https://github.com/madgeek-arc/observatory-ui/commit/f6b1ea4e470806038f70ecfb9ca34299430493f2))
+* **coordinator-home:** add analytics section with explore and country page views charts ([fb8a88e](https://github.com/madgeek-arc/observatory-ui/commit/fb8a88e709f4ce3b09864654a8e17b40ec3dfd71))
+* **general-R&D-overview:** add news section with grid and slider ([43ad085](https://github.com/madgeek-arc/observatory-ui/commit/43ad0850172ed5f040bea0b10380cc8d80b089f6))
+* **general-R&D-overview:** add uk-grid-match to align card and border for better visual ([30ef99d](https://github.com/madgeek-arc/observatory-ui/commit/30ef99d31768d1adc603e8c079bc8dd418397dff))
+* **news-and-stories:** add preview modal for news items in actions column ([e112426](https://github.com/madgeek-arc/observatory-ui/commit/e1124261a76836be510abca81e03b0cd1ad2b890))
+* **news-and-stories:** add url url and image validator and keyword s… ([3386d94](https://github.com/madgeek-arc/observatory-ui/commit/3386d94fe6d35a5d0e4f8250c1fa1c58d8edd7ea))
+* **news-and-stories:** add url url and image validator and keyword search highlights ([c36ac17](https://github.com/madgeek-arc/observatory-ui/commit/c36ac17ade7356d301dd584d7fb0076b61e5e11d))
+* **support-page:** add navigation link, pdf assets and bullet color override ([8ac57fa](https://github.com/madgeek-arc/observatory-ui/commit/8ac57fadcf6452ba448fc6574a11ff08ef508f71))
+
+
+### Bug Fixes
+
+* comment out the first card ([0956674](https://github.com/madgeek-arc/observatory-ui/commit/09566747ba0876d3cf7a89fa1283ef06bd093e62))
+* **explore:** add OpenSoftwareVSClosed query and fix open software card, remove broken UI elements ([a288d25](https://github.com/madgeek-arc/observatory-ui/commit/a288d2558fe78d2b651d1f2a6129f134609efc47))
+* **explore:** update survey-tool submodule ([94aa04d](https://github.com/madgeek-arc/observatory-ui/commit/94aa04dca19a23702e4eb41bc5cf7488a1f668a4))
+* **explore:** update survey-tool submodule ([4917de8](https://github.com/madgeek-arc/observatory-ui/commit/4917de8b371ea7e8b64ad8898bf8de0fcf42d6f8))
+* **news-and-stories:** correct pagination after deleting last item on page ([8e38f68](https://github.com/madgeek-arc/observatory-ui/commit/8e38f68bd521174b07bf0e186d9fe05b3e72fd28))
+* remove duplicate import - already imported in survey-tool ([c842305](https://github.com/madgeek-arc/observatory-ui/commit/c84230523e907d45a5dbd62dfa24adc7eb0c3cd4))
+* **search:** improve search UX with increased debounce and loading sp… ([51ff4bc](https://github.com/madgeek-arc/observatory-ui/commit/51ff4bc7e171af0bbeffc5747204d8cead7c5fba))
+* **search:** improve search UX with increased debounce and loading spinner ([7596743](https://github.com/madgeek-arc/observatory-ui/commit/75967434c7e682d03f2aca3c871004d0f0fd82b2))
+
 ## [4.3.0](https://github.com/madgeek-arc/observatory-ui/compare/4.2.1...4.3.0) (2026-04-01)
 
 
