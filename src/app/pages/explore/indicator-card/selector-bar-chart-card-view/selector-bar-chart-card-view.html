@@ -1,0 +1,6 @@
+@if (ready()) {
+  <app-multi-chart chartType="bar" [series]="chartSeries()" [categories]="categories()"
+                    valueSuffix="%" [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15" [height]="600" />
+} @else {
+  <app-loading-placeholder [height]="200" />
+}

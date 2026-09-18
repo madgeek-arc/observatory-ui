@@ -1,0 +1,40 @@
+@if (ready()) {
+  <div class="uk-overflow-auto">
+    <table class="uk-table uk-table-small uk-table-middle" style="table-layout: fixed;">
+      <thead>
+        <tr>
+          <th style="width: 220px;">Country</th>
+          @for (country of countries(); track country.id) {
+            <th style="width: 90px; padding: 4px 6px; text-align: center">{{ country.name }}</th>
+          }
+          <th style="width: 70px; padding: 4px 6px;">EU</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of rows(); track row.label) {
+          <tr>
+            <td class="uk-text-small" style="padding: 2px 12px;">{{ row.label }}</td>
+            @for (cell of row.cells; track $index) {
+              <td style="padding: 2px;">
+                <div style="height: 20px; width: 100%; border-radius: 2px;" [style.background]="cell ? positiveColor : negativeColor"></div>
+              </td>
+            }
+            <td class="uk-text-meta uk-text-small" style="padding: 2px 6px;">{{ row.euValue }}%</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="uk-flex uk-flex-left uk-margin-small-top" style="gap: 16px;">
+    <div class="uk-flex uk-flex-middle" style="gap: 6px;">
+      <span style="display: inline-block; width: 12px; height: 12px; border-radius: 2px;" [style.background]="positiveColor"></span>
+      <span class="uk-text-small uk-text-muted">National policy in place</span>
+    </div>
+    <div class="uk-flex uk-flex-middle" style="gap: 6px;">
+      <span style="display: inline-block; width: 12px; height: 12px; border-radius: 2px;" [style.background]="negativeColor"></span>
+      <span class="uk-text-small uk-text-muted">No national policy</span>
+    </div>
+  </div>
+} @else {
+  <app-loading-placeholder [height]="300" />
+}

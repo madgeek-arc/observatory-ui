@@ -74,6 +74,22 @@
       @case ('countries-column-trend') {
         <app-countries-column-trend-card-view [indicatorId]="indicator().id"></app-countries-column-trend-card-view>
       }
+      @case ('selector-bar-chart') {
+        <app-selector-bar-chart-card-view
+          [indicatorId]="indicator().id"
+          [indicatorCode]="indicator().indicatorCode"
+          [dimension]="currentView()?.selector?.dimension ?? ''"
+          [presetCodes]="indicator().presetFilters?.[currentView()?.selector?.dimension ?? ''] ?? []">
+        </app-selector-bar-chart-card-view>
+      }
+      @case ('selector-yes-no-table') {
+        <app-selector-yes-no-table-card-view
+          [indicatorId]="indicator().id"
+          [indicatorCode]="indicator().indicatorCode"
+          [dimension]="currentView()?.selector?.dimension ?? ''"
+          [presetCodes]="indicator().presetFilters?.[currentView()?.selector?.dimension ?? ''] ?? []">
+        </app-selector-yes-no-table-card-view>
+      }
     }
   }
 </div>

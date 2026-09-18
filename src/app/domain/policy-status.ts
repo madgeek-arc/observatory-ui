@@ -28,8 +28,11 @@ const AWAITING_DATA_VALUES = ['Awaiting data', 'AWAITING_DATA', 'N/A'];
 
 /** True for a "has the policy" status. A percentage-format indicator encodes yes/no
  *  per-country as 100/0 rather than as a string, so a plain 100 counts as positive too. */
-export function isPositiveStatus(value: number | string): boolean {
-  return typeof value === 'number' ? value === 100 : POSITIVE_VALUES.includes(value);
+export function isPositiveStatus(value: number | string, unit?: string): boolean {
+  if (typeof value === 'number') {
+    return unit === 'PERCENT' && value === 100;
+  }
+  return POSITIVE_VALUES.includes(value);
 }
 
 /** True when the country's status simply hasn't been collected yet — distinct from a

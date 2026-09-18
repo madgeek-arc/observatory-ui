@@ -32,7 +32,15 @@ export type RenderStyle =
   | 'COLUMN_CHART'
   /** Selected countries, year range — one column series per selected country,
    *  clustered by year. */
-  | 'MULTI_SERIES_COLUMN_CHART';
+  | 'MULTI_SERIES_COLUMN_CHART'
+  /** All EU, single year, with a selector — one bar per selector category. */
+  | 'BAR_CHART'
+  /** All EU, year range, with a selector — one bar per selector category,
+   *  clustered by year. */
+  | 'MULTI_SERIES_BAR_CHART'
+  /** Selected countries, single year, with a selector — one row per selector
+   *  category, one yes/no cell per country, plus an EU reference column. */
+  | 'YES_NO_TABLE';
 
 export interface IndicatorViewSelector {
   dimension: string;
@@ -56,4 +64,5 @@ export interface ExploreIndicatorConfig {
   views: IndicatorView[];
   format: IndicatorFormat;
   allowedSeriesAggregations: string[];
+  presetFilters?: Record<string, string[]>;
 }

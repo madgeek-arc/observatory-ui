@@ -145,10 +145,10 @@
 
         <div class="uk-flex uk-flex-middle" style="gap: 8px;">
           <input class="uk-input uk-form-width-small" type="number"
-                 [ngModel]="startYear()" (ngModelChange)="setStartYear($event)">
+                 [ngModel]="startYear()" (ngModelChange)="setStartYear($event)" [max]="maxYear">
           <span class="uk-text-meta">–</span>
           <input class="uk-input uk-form-width-small" type="number"
-                 [ngModel]="endYear()" (ngModelChange)="setEndYear($event)">
+                 [ngModel]="endYear()" (ngModelChange)="setEndYear($event)" [max]="maxYear">
         </div>
         <div class="uk-text-meta uk-text-xsmall uk-margin-small-top">
           Same year = a snapshot number; a range draws trend lines.

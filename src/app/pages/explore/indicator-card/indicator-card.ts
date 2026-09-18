@@ -14,10 +14,13 @@ import { SelectorCountriesTrendCardView } from "./selector-countries-trend-card-
 import { ChoroplethTopCountriesCardView } from "./choropleth-top-countries-card-view/choropleth-top-countries-card-view";
 import { EuColumnTrendCardView } from "./eu-column-trend-card-view/eu-column-trend-card-view";
 import { CountriesColumnTrendCardView } from "./countries-column-trend-card-view/countries-column-trend-card-view";
+import { SelectorBarChartCardView } from "./selector-bar-chart-card-view/selector-bar-chart-card-view";
+import { SelectorYesNoTableCardView } from "./selector-yes-no-table-card-view/selector-yes-no-table-card-view";
 
 export type CardViewKind = 'eu-snapshot' | 'eu-trend' | 'countries-trend' | 'countries-snapshot' | 'policy-map'
   | 'policy-countries' | 'stacked-column' | 'access-type-trend' | 'access-type-dot-plot' | 'access-type-countries-trend'
-  | 'choropleth-top-countries' | 'eu-column-trend' | 'countries-column-trend';
+  | 'choropleth-top-countries' | 'eu-column-trend' | 'countries-column-trend' | 'selector-bar-chart'
+  | 'selector-yes-no-table';
 
 const RENDER_STYLE_TO_VIEW: Partial<Record<RenderStyle, CardViewKind>> = {
   SCALAR: 'eu-snapshot',
@@ -34,6 +37,9 @@ const RENDER_STYLE_TO_VIEW: Partial<Record<RenderStyle, CardViewKind>> = {
   CHOROPLETH_MAP_WITH_TOP_5: 'choropleth-top-countries',
   COLUMN_CHART: 'eu-column-trend',
   MULTI_SERIES_COLUMN_CHART: 'countries-column-trend',
+  BAR_CHART: 'selector-bar-chart',
+  MULTI_SERIES_BAR_CHART: 'selector-bar-chart',
+  YES_NO_TABLE: 'selector-yes-no-table',
 };
 
 /** Finds the one view matching the current countryScope/timeScope — shared by
@@ -88,7 +94,9 @@ export function resolveCardViewKind(
     SelectorCountriesTrendCardView,
     ChoroplethTopCountriesCardView,
     EuColumnTrendCardView,
-    CountriesColumnTrendCardView
+    CountriesColumnTrendCardView,
+    SelectorBarChartCardView,
+    SelectorYesNoTableCardView
   ]
 })
 export class IndicatorCard {

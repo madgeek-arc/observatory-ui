@@ -51,6 +51,7 @@ export class CustomSearchComponent {
 
   readonly startYear = this.customSearchService.startYear;
   readonly endYear = this.customSearchService.endYear;
+  protected readonly maxYear = new Date().getFullYear();
 
   readonly selectedIndicatorIds = signal<Set<string>>(new Set());
   private readonly expandedTopicIds = signal<Set<string>>(new Set());
