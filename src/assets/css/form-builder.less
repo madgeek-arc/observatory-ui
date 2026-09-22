@@ -1,16 +1,27 @@
 /* ============================================================================
-   Form Builder page overrides. Layout with no UIkit equivalent (header, meta
-   bar, tabs, side columns) lives in the form-builder submodule's own
-   stylesheet instead, themed via the --fb-* custom properties below — the
-   submodule reads them with a fallback, so any host project can theme it the
-   same way without knowing this project's LESS variables.
+   Form Builder + Dynamic Form page overrides. Layout with no UIkit
+   equivalent (header, meta bar, tabs, side columns) lives in the
+   form-builder submodule's own stylesheet instead, themed via the --fb-*
+   custom properties below — the submodule reads them with a fallback, so
+   any host project can theme it the same way without knowing this
+   project's LESS variables.
+
+   app-survey and app-compare-surveys (dynamic-form / survey answer &
+   compare pages) also declare the --fb-* tokens below, because their
+   chapter tabs reuse the same submodule stylesheet (see
+   assets/theme/form-builder.component.less in the submodule) and are
+   meant to render identically to form-builder's own tabs. They do NOT
+   get the generic UIkit re-skin further down (buttons, cards, inputs,
+   checkboxes, accordion, tables) — that's specific to the form-builder
+   editing chrome, not the survey-answering pages.
    ========================================================================== */
 
 @fb-radius: 10px;
 
-app-form-builder {
-
-  // Layout-shell theming (consumed by the submodule's own form-builder.component.less)
+app-form-builder, app-survey, app-compare-surveys {
+  // Layout-shell theming (consumed by the submodule's own form-builder.component.less
+  // and, for app-survey/app-compare-surveys, its dynamic-form-tabs-theme()/
+  // dynamic-form-tab-left-theme() mixins)
   --fb-primary:        @primary-color;
   --fb-primary-strong: @primary-dark-color;
   --fb-primary-bright: @primary-light-color;
@@ -25,6 +36,9 @@ app-form-builder {
   --fb-bg:      @default-color;
   --fb-surface: @light-color;
   --fb-surface-3: @table-color;
+}
+
+app-form-builder {
 
   // Buttons
   .uk-button {
