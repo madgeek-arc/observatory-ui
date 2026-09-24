@@ -1,0 +1,11 @@
+@if (ready()) {
+  @if (chartOptions(); as options) {
+    <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
+                      style="width: 100%; display: block;"></highcharts-chart>
+  }
+  <div class="uk-text-meta uk-text-small uk-margin-small-top">
+    0 = no areas covered · {{ totalAreas() }} = all areas covered
+  </div>
+} @else {
+  <app-loading-placeholder [height]="260" />
+}

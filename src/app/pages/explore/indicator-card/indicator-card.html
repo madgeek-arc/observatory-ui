@@ -18,6 +18,17 @@
       </p>
     </div>
   } @else {
+    @if (renderStyles().length > 1) {
+      <div class="uk-flex uk-flex-middle uk-flex-wrap uk-margin-small-bottom" style="gap: 6px;">
+        @for (rs of renderStyles(); track rs.style) {
+          <button type="button"
+                  [class]="effectiveRenderStyle() === rs.style ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+                  (click)="selectRenderStyle(rs.style)">
+            {{ rs.label }}
+          </button>
+        }
+      </div>
+    }
     @switch (cardViewKind()) {
       @case ('eu-snapshot') {
         <app-eu-snapshot-card-view [indicatorId]="indicator().id" [format]="indicator().format"></app-eu-snapshot-card-view>
@@ -89,6 +100,35 @@
           [dimension]="currentView()?.selector?.dimension ?? ''"
           [presetCodes]="indicator().presetFilters?.[currentView()?.selector?.dimension ?? ''] ?? []">
         </app-selector-yes-no-table-card-view>
+      }
+      @case ('stacked-bar-with-progress') {
+        <app-stacked-bar-with-progress-card-view
+          [indicatorId]="indicator().id"
+          [indicatorCode]="indicator().indicatorCode">
+        </app-stacked-bar-with-progress-card-view>
+      }
+      @case ('stacked-column-with-totals') {
+        <app-stacked-column-with-totals-card-view
+          [indicatorId]="indicator().id"
+          [indicatorCode]="indicator().indicatorCode"
+          [dimension]="currentView()?.selector?.dimension ?? ''">
+        </app-stacked-column-with-totals-card-view>
+      }
+      @case ('year-adopted-table') {
+        <app-year-adopted-table-card-view
+          [indicatorId]="indicator().id"
+          [indicatorCode]="indicator().indicatorCode"
+          [dimension]="currentView()?.selector?.dimension ?? ''"
+          [presetCodes]="indicator().presetFilters?.[currentView()?.selector?.dimension ?? ''] ?? []">
+        </app-year-adopted-table-card-view>
+      }
+      @case ('coverage-trend') {
+        <app-coverage-trend-card-view
+          [indicatorId]="indicator().id"
+          [indicatorCode]="indicator().indicatorCode"
+          [dimension]="currentView()?.selector?.dimension ?? ''"
+          [presetCodes]="indicator().presetFilters?.[currentView()?.selector?.dimension ?? ''] ?? []">
+        </app-coverage-trend-card-view>
       }
     }
   }

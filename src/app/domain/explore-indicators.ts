@@ -40,7 +40,20 @@ export type RenderStyle =
   | 'MULTI_SERIES_BAR_CHART'
   /** Selected countries, single year, with a selector — one row per selector
    *  category, one yes/no cell per country, plus an EU reference column. */
-  | 'YES_NO_TABLE';
+  | 'YES_NO_TABLE'
+  /** All EU, single year, no selector — one stacked bar across a fixed breakdown
+   *  dimension, plus a headline % for its first category and a progress-bar list below. */
+  | 'STACKED_BAR_WITH_PROGRESS'
+  /** All EU, time range — same breakdown dimension as STACKED_BAR_WITH_PROGRESS,
+   *  but one stacked column per period plus a headline % for the latest period. */
+  | 'COLUMN_CHART_WITH_VALUE_LABELS'
+  /** Selected countries, time range, with a selector — one row per selector category,
+   *  one cell per country showing the first year it went positive within the selected
+   *  range, colored by whether that was at the start, the end, or in between. */
+  | 'YEAR_ADOPTED_TABLE'
+  /** Selected countries, time range, with a selector — one line per country, value =
+   *  count of that selector's categories positive that year (not a percentage). */
+  | 'COVERAGE_TREND';
 
 export interface IndicatorViewSelector {
   dimension: string;
@@ -48,10 +61,16 @@ export interface IndicatorViewSelector {
   members: string[];
 }
 
+export interface IndicatorRenderStyle {
+  style: RenderStyle;
+  /** Only meaningful when the view has more than one renderStyles entry — used as the switch-badge label. */
+  label?: string;
+}
+
 export interface IndicatorView {
   countryScope: CountryScope;
   timeScope: TimeScope;
-  renderStyle: RenderStyle;
+  renderStyles: IndicatorRenderStyle[];
   selector?: IndicatorViewSelector;
   fullWidth: boolean;
 }

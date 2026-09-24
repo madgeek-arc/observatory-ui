@@ -4,7 +4,7 @@ import {environment} from "../../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import { ExploreIndicatorConfig} from "../../../../domain/explore-indicators";
-import {catchError, map, switchMap} from "rxjs/operators";
+import {catchError, filter, map, startWith, switchMap} from "rxjs/operators";
 
 interface PreDefinedIndicatorsResponse {
   indicatorPresets: ExploreIndicatorConfig[];
@@ -87,7 +87,8 @@ export class CustomSearchService {
     return toSignal(
       toObservable(params).pipe(
         switchMap(({ id, request }) =>
-          this.queryIndicator(id, request).pipe(catchError(() => of(undefined)))
+          this.queryIndicator(id, request).pipe(catchError(() => of(undefined)),
+            startWith(undefined)),
         )
       )
     );
@@ -103,12 +104,15 @@ export class CustomSearchService {
 
   /** Same switchMap+catchError shape as queryIndicatorSignal — re-fetches whenever
    *  indicatorCode/dimension changes, and a failed request resolves to undefined
-   *  instead of killing the signal for good. */
+   *  instead of killing the signal for good. The `filter` skips a not-yet-known
+   *  dimension (e.g. one derived from another response that hasn't arrived yet)
+   *  instead of firing a request with an empty dimension segment in the URL. */
   dimensionMembersSignal(
     params: Signal<{ indicatorCode: string; dimension: string }>
   ): Signal<DimensionMember[] | undefined> {
     return toSignal(
       toObservable(params).pipe(
+        filter(({ dimension }) => dimension !== ''),
         switchMap(({ indicatorCode, dimension }) =>
           this.getDimensionMembers(indicatorCode, dimension).pipe(catchError(() => of(undefined)))
         )

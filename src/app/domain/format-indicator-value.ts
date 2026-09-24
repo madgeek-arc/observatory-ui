@@ -16,3 +16,14 @@ export function formatIndicatorValue(value: number, format: IndicatorFormat): st
 export function formatIfNumber(value: number | string | undefined, format: IndicatorFormat): string | undefined {
   return typeof value === 'number' ? formatIndicatorValue(value, format) : undefined;
 }
+
+/** Abbreviates a raw count for compact display — 1651818 -> "1.65M", 86837 -> "87k". */
+export function formatCount(value: number): string {
+  if (Math.abs(value) >= 1_000_000) {
+    return `${(value / 1_000_000).toFixed(2)}M`;
+  }
+  if (Math.abs(value) >= 1_000) {
+    return `${Math.round(value / 1_000)}k`;
+  }
+  return `${value}`;
+}

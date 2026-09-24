@@ -1,0 +1,27 @@
+@if (ready()) {
+  <div class="uk-text-bold" style="font-size: 20px;">
+    {{ headlinePercent() }}% of {{ formattedTotal() }} publications are open access
+  </div>
+
+  @if (chartOptions(); as options) {
+    <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
+                      class="uk-margin-small-top" style="width: 100%; display: block;"></highcharts-chart>
+  }
+
+  <div class="uk-margin-small-top">
+    @for (segment of segments(); track segment.code) {
+      <div class="uk-flex uk-flex-middle uk-flex-center" style="gap: 8px; padding: 3px 0;">
+        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;"
+              [style.background]="segment.color"></span>
+        <span class="uk-text-small" style="width: 170px; flex-shrink: 0;">{{ segment.label }}</span>
+        <progress class="uk-progress uk-width-expand uk-margin-remove" [value]="segment.percent" max="100"
+                  style="height: 8px;"
+                  [style.--progress-fill-color]="segment.color"></progress>
+        <span class="uk-text-bold uk-text-small" style="width: 40px; flex-shrink: 0; text-align: right;">{{ segment.percent }}%</span>
+        <span class="uk-text-meta uk-text-small" style="width: 55px; flex-shrink: 0; text-align: right;">{{ segment.formattedValue }}</span>
+      </div>
+    }
+  </div>
+} @else {
+  <app-loading-placeholder [height]="200" />
+}
