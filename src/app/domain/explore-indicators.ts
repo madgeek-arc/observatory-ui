@@ -53,7 +53,14 @@ export type RenderStyle =
   | 'YEAR_ADOPTED_TABLE'
   /** Selected countries, time range, with a selector — one line per country, value =
    *  count of that selector's categories positive that year (not a percentage). */
-  | 'COVERAGE_TREND';
+  | 'COVERAGE_TREND'
+  /** Same view as YES_NO_TABLE, offered as the endYear snapshot alongside
+   *  YEAR_ADOPTED_TABLE/COVERAGE_TREND — its badge label shows the selected end year. */
+  | 'LATEST_YEAR_YES_NO_TABLE'
+  /** Selected countries, single year, no selector — same breakdown dimension as
+   *  STACKED_BAR_WITH_PROGRESS, but one stacked bar per selected country (ranked by
+   *  the first category's share) plus a muted EU-average bar at the bottom. */
+  | 'MULTI_STACKED_BARS';
 
 export interface IndicatorViewSelector {
   dimension: string;

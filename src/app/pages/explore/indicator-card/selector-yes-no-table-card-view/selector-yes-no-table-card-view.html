@@ -16,7 +16,11 @@
             <td class="uk-text-small" style="padding: 2px 12px;">{{ row.label }}</td>
             @for (cell of row.cells; track $index) {
               <td style="padding: 2px;">
-                <div style="height: 20px; width: 100%; border-radius: 2px;" [style.background]="cell ? positiveColor : negativeColor"></div>
+                <div class="uk-text-bold uk-flex uk-flex-center uk-flex-middle"
+                     style="height: 20px; width: 100%; border-radius: 2px; color: #FFFFFF;"
+                     [style.background]="cell.color">
+                  {{ cell.symbol }}
+                </div>
               </td>
             }
             <td class="uk-text-meta uk-text-small" style="padding: 2px 6px;">{{ row.euValue != null ? row.euValue + '%' : 'N/A' }}</td>
@@ -28,11 +32,15 @@
   <div class="uk-flex uk-flex-left uk-margin-small-top" style="gap: 16px;">
     <div class="uk-flex uk-flex-middle" style="gap: 6px;">
       <span style="display: inline-block; width: 12px; height: 12px; border-radius: 2px;" [style.background]="positiveColor"></span>
-      <span class="uk-text-small uk-text-muted">National policy in place</span>
+      <span class="uk-text-small uk-text-muted">Monitored</span>
+    </div>
+    <div class="uk-flex uk-flex-middle" style="gap: 6px;">
+      <span style="display: inline-block; width: 12px; height: 12px; border-radius: 2px;" [style.background]="awaitingColor"></span>
+      <span class="uk-text-small uk-text-muted">Awaiting data</span>
     </div>
     <div class="uk-flex uk-flex-middle" style="gap: 6px;">
       <span style="display: inline-block; width: 12px; height: 12px; border-radius: 2px;" [style.background]="negativeColor"></span>
-      <span class="uk-text-small uk-text-muted">No national policy</span>
+      <span class="uk-text-small uk-text-muted">Not monitored</span>
     </div>
   </div>
 } @else {

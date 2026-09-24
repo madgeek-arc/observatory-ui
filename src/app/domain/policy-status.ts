@@ -46,6 +46,18 @@ export function colorForStatus(value: string): string {
   return STATUS_COLORS[value] ?? AWAITING_COLOR;
 }
 
+export type TriStateStatus = 'positive' | 'negative' | 'awaiting';
+
+/** Classifies a cell's raw value into 3 UI states — positive (confirmed yes), negative
+ *  (confirmed no), or awaiting (no data collected yet: a null numeric value, or one of
+ *  the existing awaiting-data string categories). */
+export function triStateStatus(value: number | string | null | undefined, unit?: string): TriStateStatus {
+  if (value === null || value === undefined || isAwaitingData(value)) {
+    return 'awaiting';
+  }
+  return isPositiveStatus(value, unit) ? 'positive' : 'negative';
+}
+
 export interface CountryStatusBadge {
   text: string;
   color: string;

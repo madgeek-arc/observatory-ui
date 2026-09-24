@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from "@angular/core";
 import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
-import { isPositiveStatus } from "../../../../domain/policy-status";
+import { triStateStatus } from "../../../../domain/policy-status";
 import { colors } from "../../../../domain/chart-color-palette";
 import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
 
@@ -20,6 +20,7 @@ export class SelectorYesNoTableCardView {
 
   readonly positiveColor = colors[0];
   readonly negativeColor = '#eef1f3';
+  readonly awaitingColor = colors[7];
 
   private readonly membersParams = computed(() => ({
     indicatorCode: this.indicatorCode(),
@@ -79,7 +80,12 @@ export class SelectorYesNoTableCardView {
         const value = countriesResponse.data.find(point =>
           point.dimensions['country'] === country.id && point.dimensions[dimension] === area.code
         )?.value;
-        return value !== undefined && isPositiveStatus(value, unit);
+        const status = triStateStatus(value, unit);
+        return {
+          status,
+          color: status === 'positive' ? this.positiveColor : status === 'awaiting' ? this.awaitingColor : this.negativeColor,
+          symbol: status === 'positive' ? '✓' : status === 'awaiting' ? '–' : ''
+        };
       }),
       euValue: euResponse.data.find(point => point.dimensions[dimension] === area.code)?.value
     }));

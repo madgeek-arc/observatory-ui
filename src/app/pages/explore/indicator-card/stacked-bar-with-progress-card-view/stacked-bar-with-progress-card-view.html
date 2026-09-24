@@ -1,7 +1,7 @@
 @if (ready()) {
-  <div class="uk-text-bold" style="font-size: 20px;">
-    {{ headlinePercent() }}% of {{ formattedTotal() }} publications are open access
-  </div>
+  <span class="uk-text-bold" style="font-size: 20px;">
+    {{ headlinePercent() }}% </span> of {{ formattedTotal() }} publications are open access
+
 
   @if (chartOptions(); as options) {
     <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"

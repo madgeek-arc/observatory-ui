@@ -130,6 +130,12 @@
           [presetCodes]="indicator().presetFilters?.[currentView()?.selector?.dimension ?? ''] ?? []">
         </app-coverage-trend-card-view>
       }
+      @case ('multi-stacked-bars') {
+        <app-multi-stacked-bars-card-view
+          [indicatorId]="indicator().id"
+          [indicatorCode]="indicator().indicatorCode">
+        </app-multi-stacked-bars-card-view>
+      }
     }
   }
 </div>

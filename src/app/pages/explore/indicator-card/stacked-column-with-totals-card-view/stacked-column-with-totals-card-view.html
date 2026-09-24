@@ -1,12 +1,13 @@
 @if (ready()) {
-  <div class="uk-text-bold" style="font-size: 20px;">
-    {{ latestPercent() }}% open access in {{ latestYear() }}
+  <span class="uk-text-bold" style="font-size: 20px;">
+    {{ latestPercent() }}%  </span><span class="uk-text-muted">open access in {{ latestYear() }}</span>
+
     @if (deltaVsFirstYear(); as delta) {
       <span class="uk-text-small uk-text-meta">
         {{ delta >= 0 ? '+' : '' }}{{ delta }} pts vs {{ firstYear() }}
       </span>
     }
-  </div>
+
 
   <div class="uk-margin-small-top" style="height: 280px;">
     <app-stacked-column
