@@ -21,12 +21,14 @@ import { StackedColumnWithTotalsCardView } from "./stacked-column-with-totals-ca
 import { YearAdoptedTableCardView } from "./year-adopted-table-card-view/year-adopted-table-card-view";
 import { CoverageTrendCardView } from "./coverage-trend-card-view/coverage-trend-card-view";
 import { MultiStackedBarsCardView } from "./multi-stacked-bars-card-view/multi-stacked-bars-card-view";
+import { CompositeColumnsLineCardView } from "./composite-columns-line-card-view/composite-columns-line-card-view";
+import { SelectorShareTrendCardView } from "./selector-share-trend-card-view/selector-share-trend-card-view";
 
 export type CardViewKind = 'eu-snapshot' | 'eu-trend' | 'countries-trend' | 'countries-snapshot' | 'policy-map'
   | 'policy-countries' | 'stacked-column' | 'access-type-trend' | 'access-type-dot-plot' | 'access-type-countries-trend'
   | 'choropleth-top-countries' | 'eu-column-trend' | 'countries-column-trend' | 'selector-bar-chart'
   | 'selector-yes-no-table' | 'stacked-bar-with-progress' | 'stacked-column-with-totals' | 'year-adopted-table'
-  | 'coverage-trend' | 'multi-stacked-bars';
+  | 'coverage-trend' | 'multi-stacked-bars'  | 'composite-column' | 'composite-columns-line' | 'selector-share-trend';
 
 const RENDER_STYLE_TO_VIEW: Partial<Record<RenderStyle, CardViewKind>> = {
   SCALAR: 'eu-snapshot',
@@ -52,6 +54,7 @@ const RENDER_STYLE_TO_VIEW: Partial<Record<RenderStyle, CardViewKind>> = {
   YEAR_ADOPTED_TABLE: 'year-adopted-table',
   COVERAGE_TREND: 'coverage-trend',
   MULTI_STACKED_BARS: 'multi-stacked-bars',
+  MULTI_STACKED_COLUMNS: 'composite-columns-line',
 };
 
 /** Finds the one view matching the current countryScope/timeScope — shared by
@@ -81,10 +84,11 @@ export function resolveCardViewKind(
   if (!view || !renderStyle) {
     return undefined;
   }
-  // Same renderStyle, two different views: a selector means "one line per category
-  // (e.g. Access Type), user picks which" instead of "one line per selected country".
+  // SELECTED_COUNTRIES is a further split: that ALL_COUNTRIES case ignores country
+  // scope entirely (queries countries: [] regardless), so it can't serve a view whose
+  // whole point is "one line per selected country" — that gets its own component.
   if (renderStyle === 'MULTI_SERIES_LINE_CHART' && view.selector) {
-    return 'access-type-trend';
+    return view.countryScope === 'SELECTED_COUNTRIES' ? 'selector-share-trend' : 'access-type-trend';
   }
   return RENDER_STYLE_TO_VIEW[renderStyle];
 }
@@ -112,7 +116,9 @@ export function resolveCardViewKind(
     StackedColumnWithTotalsCardView,
     YearAdoptedTableCardView,
     CoverageTrendCardView,
-    MultiStackedBarsCardView
+    MultiStackedBarsCardView,
+    CompositeColumnsLineCardView,
+    SelectorShareTrendCardView
   ]
 })
 export class IndicatorCard {

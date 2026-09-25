@@ -60,7 +60,12 @@ export type RenderStyle =
   /** Selected countries, single year, no selector — same breakdown dimension as
    *  STACKED_BAR_WITH_PROGRESS, but one stacked bar per selected country (ranked by
    *  the first category's share) plus a muted EU-average bar at the bottom. */
-  | 'MULTI_STACKED_BARS';
+  | 'MULTI_STACKED_BARS'
+  /** Selected countries, time range, with a selector — the "By access type" badge
+   *  alongside MULTI_SERIES_LINE_CHART's "Open Access share". Same breakdown dimension
+   *  as STACKED_BAR_WITH_PROGRESS/COLUMN_CHART_WITH_VALUE_LABELS, but one stacked-column
+   *  chart per selected country, arranged in a grid with a shared legend below. */
+  | 'MULTI_STACKED_COLUMNS';
 
 export interface IndicatorViewSelector {
   dimension: string;

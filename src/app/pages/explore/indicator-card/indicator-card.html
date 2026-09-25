@@ -136,6 +136,19 @@
           [indicatorCode]="indicator().indicatorCode">
         </app-multi-stacked-bars-card-view>
       }
+      @case ('composite-columns-line') {
+        <app-composite-columns-line-card-view
+          [indicatorId]="indicator().id"
+          [indicatorCode]="indicator().indicatorCode"
+          [dimension]="currentView()?.selector?.dimension ?? ''">
+        </app-composite-columns-line-card-view>
+      }
+      @case ('selector-share-trend') {
+        <app-selector-share-trend-card-view
+          [indicatorId]="indicator().id"
+          [dimension]="currentView()?.selector?.dimension ?? ''">
+        </app-selector-share-trend-card-view>
+      }
     }
   }
 </div>
