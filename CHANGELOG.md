@@ -88,6 +88,37 @@
 * Various bug fixes for country pages ([19bb7f1](https://github.com/madgeek-arc/observatory-ui/commit/19bb7f15bdb27dde2c028f72b571e04df199b94a))
 * Various changes from recommendations ([e5dc474](https://github.com/madgeek-arc/observatory-ui/commit/e5dc4742d53e0dc6f9f8dfef6a5240fc92ba6b8e))
 
+## [4.5.0](https://github.com/madgeek-arc/observatory-ui/compare/4.4.0...4.5.0) (2026-09-28)
+
+
+### Features
+
+* (administrator-home): create same functionality as the coordinator's one ([e695635](https://github.com/madgeek-arc/observatory-ui/commit/e6956357a13caa78a5a918beba92c81e27b1fdf0))
+* add UIKit hook variants for card, label, and button components ([bb643a9](https://github.com/madgeek-arc/observatory-ui/commit/bb643a918b293358fec302ef56c5e0d255afffed))
+* **country-pages-configuration:** add override-mode banner when editing a country ([9fa9cd7](https://github.com/madgeek-arc/observatory-ui/commit/9fa9cd78ab70615a4bf501b0296e62049c18ff96))
+* **country-pages-configuration:** add split-view indicator card ([5aafed6](https://github.com/madgeek-arc/observatory-ui/commit/5aafed61512ed596fadf868696dbb537eb025f9f))
+* **country-pages-configuration:** scaffold split view and section-level hiding ([9c77900](https://github.com/madgeek-arc/observatory-ui/commit/9c77900200ae27190baf48883645ef1feaea5197))
+* **country-pages:** add per-card visibility configuration ([c6de479](https://github.com/madgeek-arc/observatory-ui/commit/c6de479ae4f50ff2e5be7a2332fbd916db8d4008))
+* **country-pages:** hide globally-disables indicators on public country pages ([191f722](https://github.com/madgeek-arc/observatory-ui/commit/191f72212852657523a951fa64857fbdfa17720b))
+* **explore/country-pages:** add feedback button and fix trend calc/units ([1f41b26](https://github.com/madgeek-arc/observatory-ui/commit/1f41b266cd2d44d2181b9222e117641748379509))
+* **explore:** add financial strategy map tab to all open science by area components ([376c953](https://github.com/madgeek-arc/observatory-ui/commit/376c9530a3baa2f0fe76d7818dfd4975a7005e90))
+* redesign cards, table, modals and notifications with UIkit classes and update submodules ([d4f46bf](https://github.com/madgeek-arc/observatory-ui/commit/d4f46bf6a9d5a2a483c8c51381d666f3d193b87c))
+* replace custom classes with uikit classes ([a01231b](https://github.com/madgeek-arc/observatory-ui/commit/a01231bbee6221bb590b91a304e53ebcb7f20b88))
+* **survey-form:** hide chrome on dynamic form routes and add back navigation ([6b1532d](https://github.com/madgeek-arc/observatory-ui/commit/6b1532d24c2e6fa0562697cc0a0e2b5941e4f29d))
+* **theme:** expand EOSC observatory theme ([a71ec95](https://github.com/madgeek-arc/observatory-ui/commit/a71ec955173f2a99b8023c901753cbba1a58ef3d))
+
+
+### Bug Fixes
+
+* **country-page-configuration:** fix toolbar position ([a85a67f](https://github.com/madgeek-arc/observatory-ui/commit/a85a67f2883b1247afa6dd6f3b745cc9072b3577))
+* **country-pages:** correct year index in fair-data left card visibility check ([12f7a0f](https://github.com/madgeek-arc/observatory-ui/commit/12f7a0fe875073fa0ac9ec295078c1441948b572))
+* **country-pages:** normalize section spacing across all country page tabs ([96aa843](https://github.com/madgeek-arc/observatory-ui/commit/96aa843f6185048a09032b289299cf915203e0d7))
+* **country-pages:** show Europe flag in Global default preview ([ee311ae](https://github.com/madgeek-arc/observatory-ui/commit/ee311ae8d77070ad016d75427834b7223f42504c))
+* **http:** redirect to home on 403 responses ([ae5dd6f](https://github.com/madgeek-arc/observatory-ui/commit/ae5dd6f3340001c17e7d37a121740d5251814fa2))
+* **layout:** hide top header on routes that opt out via hasHeader ([72f63c5](https://github.com/madgeek-arc/observatory-ui/commit/72f63c51af97e85bad63cbf2406b19deea710a4c))
+* **messaging-system-ui:** bump submodule for Dashboard Improvement recipient fix ([ff1d51e](https://github.com/madgeek-arc/observatory-ui/commit/ff1d51e3b18e8244f3ee17551bdf7919445bd2c0))
+* **observatory:** correct trend calculations and adjust config UI styling ([d43467e](https://github.com/madgeek-arc/observatory-ui/commit/d43467e4a7214128b22ca4e28223cadc385cb942))
+
 ## [4.4.0](https://github.com/madgeek-arc/observatory-ui/compare/4.3.0...4.4.0) (2026-05-21)
 
 
