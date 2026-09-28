@@ -16,7 +16,7 @@
 
 //@import "../assets/css/explore-sidebar";
 @import "../assets/css/explore-dashboard";
-
+@import "../assets/css/form-builder";
 
 
 /* ========================================================================
@@ -35,6 +35,37 @@
   border-radius: 50px;
   border: 1px solid #008691;
   padding: 4px 10px
+}
+
+/* ========================================================================
+   Feedback button
+ ========================================================================== */
+
+/* Fixed wrapper — owns positioning + stacking */
+.feedback-button-wrapper {
+  position: fixed;
+  bottom: 10%;
+  right: 20px;
+  z-index: 991;
+}
+
+/* On small screens pin it to the bottom-right so it never overlaps page content */
+@media (max-width: 639px) {
+  .feedback-button-wrapper {
+    top: auto;
+    bottom: 12px;
+    transform: none;
+  }
+}
+
+
+.feedback-button {
+  border-radius: 4px;
+  padding: 6px 16px;
+}
+
+.feedback-button:hover {
+  text-decoration: none;
 }
 
 .highcharts-container {

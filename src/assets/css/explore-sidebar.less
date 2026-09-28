@@ -159,6 +159,106 @@
   padding: 8px 25px 8px 65px;
 }
 
+/* app-card-config wraps a single card; keep it a stretching grid/flex child so the
+   card inside still fills the cell (uk-grid-match) exactly like on the public page. */
+app-card-config {
+  display: block;
+  height: 100%;
+}
+
+/* Nothing to show (no data for this country, or toggled off publicly): remove the host
+   entirely so it takes no grid/flex space and leaves no empty shell.
+   :host() (not `app-card-config`) so the rule reaches the component host under emulated
+   encapsulation — a type selector here gets an [_ngcontent] attr that never matches the host. */
+:host(.card-config-hidden) {
+  display: none !important;
+}
+
+.card-config-wrapper {
+  position: relative;
+  height: 100%;
+}
+
+/* Layout-transparent so the projected card behaves as a direct child of the wrapper. */
+.card-config-slot {
+  display: contents;
+}
+
+/* Per-card visibility toggle overlaid on the card's top-right corner in config mode.
+   Positioning is done in the template with UIkit (uk-position-top-right uk-position-small),
+   anchored to `.card-config-wrapper` (position: relative). */
+.card-config-controls {
+  z-index: 2;
+}
+
+.card-config-btn {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 0.8rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.card-config-btn[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.card-config-btn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* Toggle switch */
+.card-config-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+.card-config-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.card-config-slider {
+  position: absolute;
+  inset: 0;
+  background-color: #ccc;
+  border-radius: 22px;
+  transition: background-color 0.2s ease;
+}
+
+.card-config-slider::before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.card-config-switch input:checked + .card-config-slider {
+  background-color: var(--primary, #008691);
+}
+
+.card-config-switch input:checked + .card-config-slider::before {
+  transform: translateX(18px);
+}
+
+/* Locked by the Global default: not interactive, visually muted. */
+.card-config-switch-locked {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
 
 /* ========================================================================
    Page content

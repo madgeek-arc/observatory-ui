@@ -2,6 +2,7 @@ import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
+import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
 import {
   CatalogueUiReusableComponentsModule
 } from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
@@ -12,6 +13,9 @@ import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../../explore/explore.service";
 
 
+import { CardConfigComponent } from "../card-config/card-config.component";
+import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
+
 @Component({
     selector: 'app-citizen-science',
     templateUrl: './citizen-science.component.html',
@@ -21,7 +25,9 @@ import { ExploreService } from "../../explore/explore.service";
         CatalogueUiReusableComponentsModule,
         SidebarMobileToggleComponent,
         PageContentComponent,
-        InfoCardComponent
+        InfoCardComponent,
+        CardConfigComponent,
+        SectionHiddenNoticeComponent
     ]
 })
 export class CitizenScienceComponent implements OnInit {
@@ -32,6 +38,8 @@ export class CitizenScienceComponent implements OnInit {
   exportActive = false;
 
   countryCode?: string;
+  /** Code used only for the flag/label (EU for the Global default); data still uses countryCode. */
+  flagCode?: string;
   countryName?: string;
   surveyAnswers: Object[] = [];
   countrySurveyAnswer?: Object;
@@ -73,6 +81,12 @@ export class CitizenScienceComponent implements OnInit {
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
         this.countryName = name;
+      }
+    });
+
+    this.dataShareService.displayCountryCode$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (code) => {
+        this.flagCode = code;
       }
     });
 
@@ -121,6 +135,15 @@ export class CitizenScienceComponent implements OnInit {
     console.log("Final citizenScienceProjects:", this.citizenScienceProjects);
     console.log("Final financialInvestmentInCS:", this.financialInvestmentInCS);
 
+  }
+
+  private readonly indicatorsService = inject(CountryPageIndicatorsService);
+
+  /** Left card block renders only if its card will be visible (see service). */
+  hasAnyLeftCardVisible(): boolean {
+    return this.indicatorsService.anyCardVisible([
+      { id: '47', hasData: this.financialInvestmentInCS[1] != null },
+    ]);
   }
 
   hasAnyLeftCardData() {

@@ -9,6 +9,12 @@ import { AnswerMetadata } from "./coutry-pages.service";
 
 export class DataShareService {
   countryCode: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  /**
+   * Code used only for display (flag/label), kept separate from `countryCode` (the data code).
+   * They differ for the Global default preview, where data is borrowed from GLOBAL_DATA_COUNTRY
+   * (FR) but the UI must still show GLOBAL_SCOPE_CODE (EU). For real countries the two match.
+   */
+  displayCountryCode: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   countryName: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   surveyAnswers: BehaviorSubject<Object[]> = new BehaviorSubject<Object[]>([null, null]);
   countrySurveyAnswer: BehaviorSubject<Object | null> = new BehaviorSubject<Object | null>(null);
@@ -16,6 +22,7 @@ export class DataShareService {
   year: BehaviorSubject<string> = new BehaviorSubject<string>('2024');
 
   countryCode$ = this.countryCode.asObservable();
+  displayCountryCode$ = this.displayCountryCode.asObservable();
   year$ = this.year.asObservable();
 
   constructor(private exploreService: ExploreService) {}
@@ -33,8 +40,12 @@ export class DataShareService {
 
 
   calculateDiff(previous: number | null, next: number | null): number | null {
-    // Check empty values
-    if (previous === null || next === null || previous === undefined || next === undefined) {
+    // Check empty or non-computable values
+    if (
+      previous === null || next === null ||
+      previous === undefined || next === undefined ||
+      Number.isNaN(previous) || Number.isNaN(next)
+    ) {
       return null;
     }
 
@@ -49,7 +60,7 @@ export class DataShareService {
    */
   calculatePercentage(value: string, total: string): number | null {
 
-    if ((!this.exploreService.isNumeric(value) && !this.exploreService.isNumeric(total)) || +total === 0) {
+    if (!this.exploreService.isNumeric(value) || !this.exploreService.isNumeric(total) || +total === 0) {
       return null;
     }
 
@@ -57,10 +68,11 @@ export class DataShareService {
   }
 
   /**
-   * Calculates the percentage difference between two values relative to their average
-   * @param previous - The first value to compare (as string)
-   * @param next - The second value to compare (as string)
-   * @returns Rounded percentage difference or null if inputs are invalid or average is zero
+   * Calculates the year-over-year percentage change of `next` relative to `previous`
+   * (standard percent change: (next - previous) / previous).
+   * @param previous - The previous year's value (as string)
+   * @param next - The current year's value (as string)
+   * @returns Rounded percentage change, or null if inputs are invalid or previous is zero
    */
   calculateDiffAsPercentage(previous: string | null, next: string | null): number | null {
 
@@ -68,16 +80,15 @@ export class DataShareService {
       return null;
     }
 
-    if (previous === next) {
-      return 0;
-    }
+    const prev = +previous;
+    const curr = +next;
 
-    const average = (+previous + +next) / 2;
-    if (average === 0) {
+    // Percentage change is undefined when the base (previous) is zero.
+    if (prev === 0) {
       return null;
     }
 
-    return Math.round(((+next - +previous) / average + Number.EPSILON) * 100);
+    return Math.round(((curr - prev) / prev) * 100);
   }
 
 

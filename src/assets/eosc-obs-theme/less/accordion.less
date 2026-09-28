@@ -41,6 +41,16 @@
 
 }
 
+.uk-card.uk-accordion-active {
+  border: @global-border-width solid @primary-border-light-color;
+  background-color: @primary-tint-color;
+
+  .uk-card-title {
+    border-left: 4px solid @eosc-observatory-light-color;
+    color: @eosc-observatory-light-color;
+  }
+}
+
 .hook-accordion-content() {
   font-size: @accordion-content-font-size;
   margin-right: 1.5*@accordion-title-font-size;

@@ -4,6 +4,7 @@ import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { UserService } from "../../../survey-tool/app/services/user.service";
+import * as UIkit from 'uikit';
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
@@ -23,6 +24,9 @@ export class HttpInterceptorService implements HttpInterceptor {
             // this.authenticationService.tryLogin();
             this.userService.clearUserInfo();
             // this.router.navigate(['/']);
+          } else if (response.status === 403) {
+            UIkit.notification({ message: 'You do not have access to this resource.', status: 'danger', pos: 'top-center', timeout: 5000 });
+            this.router.navigate(['/home']);
           }
         }
         return throwError(response.error);

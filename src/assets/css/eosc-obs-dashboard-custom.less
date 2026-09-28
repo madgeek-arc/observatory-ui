@@ -68,12 +68,12 @@
 @banner-tab-button-background: @eosc-observatory-color;
 
 /* Breadcrumbs inside banner */
-.uk-banner .uk-breadcrumb span {
-  text-decoration: none;
-  background-color: @eosc-observatory-color;
-  padding: 5px;
-  border-radius: @global-border-radius;
-}
+//.uk-banner .uk-breadcrumb span {
+//  text-decoration: none;
+//  background-color: @eosc-observatory-color;
+//  padding: 5px;
+//  border-radius: @global-border-radius;
+//}
 
 & #filters_icon .start {
   stop-color: @eosc-observatory-light-color;
@@ -83,34 +83,34 @@
   stop-color: @eosc-observatory-dark-color;
 }
 
-.private-data {
-  //background-image: url("private-overlay.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  min-height: 100vh;
-}
+//.private-data {
+//  //background-image: url("private-overlay.png");
+//  background-repeat: no-repeat;
+//  background-size: cover;
+//  min-height: 100vh;
+//}
 
-.preview {
-  position: fixed;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: @global-inverse-color;
-  border: 2px solid @background-primary-background;
-  border-radius: @global-border-radius;
-  box-shadow: @global-large-box-shadow;
-  padding: 20px 25px;
-  z-index: @global-z-index;
-}
+//.preview {
+//  position: fixed;
+//  bottom: 40px;
+//  left: 50%;
+//  transform: translateX(-50%);
+//  background: @global-inverse-color;
+//  border: 2px solid @background-primary-background;
+//  border-radius: @global-border-radius;
+//  box-shadow: @global-large-box-shadow;
+//  padding: 20px 25px;
+//  z-index: @global-z-index;
+//}
 
 
-#print_toggle {
-  top: 320px !important;
-}
-
-#filters_switcher_toggle {
-  top: 400px !important;
-}
+//#print_toggle {
+//  top: 320px !important;
+//}
+//
+//#filters_switcher_toggle {
+//  top: 400px !important;
+//}
 
 @media (max-width: @breakpoint-small-max) {
   #filters_switcher_toggle {
@@ -122,4 +122,16 @@
 /* Quick fix for svgs with a class that makes their opacity: 0.5*/
 svg .a {
   opacity: 1 !important;
+}
+
+/* Country pages configuration: the shared sidebar has an inline height: 100%
+   (= 100vh). Since it is pushed down to top: 144px (80px header + 64px toolbar),
+   a full 100vh sidebar overflows past the viewport bottom and cuts off its footer
+   (Data Source Legend). Constrain it to the space left below the toolbar.
+   Height is hardcoded (100vh - 144px) rather than using var(--header-height) to
+   avoid re-entangling with the self-referential-looking override in
+   explore-sidebar.less (.country-config-content). Must be global (not
+   component-scoped) to reach #sidebar_main in the child app-country-pages. */
+.country-config-content #sidebar_main {
+  height: calc(100vh - 144px) !important;
 }

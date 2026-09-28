@@ -44,6 +44,10 @@
   transition: .1s ease-in-out;
   transition-property: color,background-color,background-size,border-color,box-shadow,transform,top;
   border-radius: @card-border-radius;
+  display: flex;
+  flex-direction: column;
+
+  .uk-card-body { flex: 1; }
 
   &.uk-disabled {
     box-shadow: @card-disabled-box-shadow;
@@ -93,6 +97,18 @@
 }
 
 .hook-card-misc() {
+  .uk-card {
+    margin-bottom: 20px;
+  }
+
+  .uk-card-footer {
+    padding: 4px 16px !important;
+  }
+
+  .uk-card-active {
+    border-top: 4px solid @primary-color;
+  }
+
   @media (min-width: @breakpoint-medium) {
     .uk-card {
       &.uk-disabled {
@@ -113,6 +129,10 @@
 
     .uk-card-secondary {
       box-shadow: @card-secondary-box-shadow-m;
+    }
+
+    .uk-card-active {
+      border-top: 4px solid @primary-color;
     }
   }
 }

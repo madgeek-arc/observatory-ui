@@ -103,42 +103,6 @@ export class ReportCreationService {
     }
   }
 
-  // SVG conversion method
-  // public async svgToArrayBuffer(svgString: string, width: number, height: number): Promise<ArrayBuffer> {
-  //   return new Promise((resolve, reject) => {
-  //     const canvas = document.createElement('canvas');
-  //     const ctx = canvas.getContext('2d');
-  //     const img = new Image();
-  //
-  //     canvas.width = width;
-  //     canvas.height = height;
-  //
-  //     img.onload = () => {
-  //       if (ctx) {
-  //         ctx.fillStyle = 'white';
-  //         ctx.fillRect(0, 0, width, height);
-  //         ctx.drawImage(img, 0, 0, width, height);
-  //
-  //         canvas.toBlob((blob) => {
-  //           if (blob) {
-  //             const reader = new FileReader();
-  //             reader.onload = () => resolve(reader.result as ArrayBuffer);
-  //             reader.readAsArrayBuffer(blob);
-  //           } else {
-  //             reject(new Error('Failed to create blob from canvas'));
-  //           }
-  //         }, 'image/png');
-  //       } else {
-  //         reject(new Error('Canvas context not available'));
-  //       }
-  //     };
-  //
-  //     img.onerror = () => reject(new Error('Failed to load SVG'));
-  //
-  //     const blob = new Blob([svgString], { type: 'image/svg+xml' });
-  //     img.src = URL.createObjectURL(blob);
-  //   });
-  // }
 
   // SVG conversion method with cleanup
   public async svgToArrayBuffer(svgString: string, width: number, height: number): Promise<ArrayBuffer> {
@@ -167,8 +131,7 @@ export class ReportCreationService {
           if (!blob) return reject(new Error('Canvas toBlob failed'));
           const reader = new FileReader();
           reader.onload = () => {
-            // 6) Clean up canvas element
-            // > 2. Clean up a canvas element to free the DOM node so no element‑count limits are hit.
+            // 6) Clean up canvas element to free the DOM node so no element‑count limits are hit.
             canvas.remove(); // frees the DOM node so you don’t hit element‑count limits.
             resolve(reader.result as ArrayBuffer);
           };

@@ -1,15 +1,12 @@
 import { Component, DestroyRef, inject } from "@angular/core";
 import * as Highcharts from "highcharts/highcharts.src";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
-import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../domain/raw-data";
-import { zip } from "rxjs/internal/observable/zip";
 import { PdfExportService } from "../../../services/pdf-export.service";
-import { CountryTableData } from "../../../../domain/country-table-data";
-import { DataHandlerService } from "../../../services/data-handler.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
+import { AreaMapsCardComponent, AreaMapTabConfig } from "../../area-maps-card/area-maps-card.component";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 import {
   SidebarMobileToggleComponent
@@ -22,7 +19,7 @@ import { PageContentComponent } from "../../../../../survey-tool/app/shared/page
     selector: 'app-open-science-by-area-data-management',
     templateUrl: './open-science-by-area-data-management.component.html',
     styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-  imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass]
+  imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass, AreaMapsCardComponent]
 })
 
 export class OpenScienceByAreaDataManagementComponent {
@@ -89,16 +86,26 @@ export class OpenScienceByAreaDataManagementComponent {
     borderWidth: 1,
   };
 
-  countriesArray: string[] = [];
-  questionsDataArray: any[] = [];
-  tmpQuestionsDataArray: any[] = [];
-  participatingCountries: number[] = [];
-  total: number[] = [];
-  mapPointData: CountryTableData[];
-  toolTipData: Map<string, string>[] = [];
-  comment?: string;
-  countryName?: string;
-  countryCode?: string;
+  policyTabConfig: AreaMapTabConfig = {
+    question: 'Question10',
+    title: 'National policy on Data Management',
+    caption: policesMapCaptions[1] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science ' + this.year + '.',
+    labelSuffix: ' countries have a <br>national policy on Data Management</span>'
+  };
+
+  monitoringTabConfig: AreaMapTabConfig = {
+    question: 'Question58',
+    title: 'National monitoring on Data Management',
+    caption: monitoringMapCaptions[1] + '<strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science ' + this.year + '.',
+    labelSuffix: ' countries have a <br>national monitoring on Data Management</span>'
+  };
+
+  financialStrategyTabConfig: AreaMapTabConfig = {
+    question: 'Question11',
+    title: 'National financial strategy on Data Management',
+    caption: '<p>This map illustrates the status of national financial strategies on Data Management across European countries.</p><strong>Data source:</strong> Survey on National Contributions to EOSC and Open Science ' + this.year + '.',
+    labelSuffix: ' countries have a <br>national financial strategy on Data Management</span>'
+  };
 
   barChartTitles = {
     title: 'Financial Investments in Data Management in '+(+this.year-1),
@@ -107,7 +114,6 @@ export class OpenScienceByAreaDataManagementComponent {
   }
 
   constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
-              private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService,
               private exploreService: ExploreService) {}
 
   ngOnInit() {
@@ -126,57 +132,8 @@ export class OpenScienceByAreaDataManagementComponent {
 
     this.getTreeGraphData();
 
-    // Maps
-    this.stakeholdersService.getEOSCSBCountries().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: countries => {
-        this.countriesArray = countries;
-        this.getNationalPolicies('Question10', 0);
-        this.getMonitoring('Question58', 1, 2);
-      },
-      error: error => {console.error(error);}
-    });
-
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => this.lastUpdateDate = value
-    });
-  }
-
-  /** Get maps data ----------------------------------------------------------------------------------> **/
-  getNationalPolicies(question: string, index: number) {
-    zip(
-      this.queryData.getQuestion(this.years[this.years.length-1], question),
-      this.queryData.getQuestion(this.years[this.years.length-1], question + '.1'),
-      this.queryData.getQuestionComment(this.years[this.years.length-1], question),
-    ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: res => {
-        this.tmpQuestionsDataArray[index] = this.dataHandlerService.mergePolicyQuestionData(res[0], res[1]);
-        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(res[0]);
-        this.total[index] = res[0].datasets[0].series.result.length; // Total countries with validated response
-
-        this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.questionsDataArray[index] = this.exploreService.createCategorizedMapDataFromMergedResponse(this.tmpQuestionsDataArray[index], this.countriesArray);
-      },
-      error: err => {console.error(err)}
-    });
-  }
-
-  getMonitoring(question: string, index: number, mapCount: number) {
-    zip(
-      this.queryData.getQuestion(this.years[this.years.length-1], question),
-      this.queryData.getQuestionComment(this.years[this.years.length-1], question),
-    ).subscribe({
-      next: res => {
-        this.tmpQuestionsDataArray[index] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[0]);
-        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(res[0]);
-        this.total[index] = res[0].datasets[0].series.result.length; // Total countries with validated response
-
-        for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
-          this.tmpQuestionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data.map(code => ({ code }));
-        }
-        this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[1]);
-        this.questionsDataArray[index] = this.exploreService.createMapDataFromCategorization(this.tmpQuestionsDataArray[index], this.countriesArray, mapCount);
-      },
-      error: err => {console.error(err)}
     });
   }
 
@@ -299,31 +256,4 @@ export class OpenScienceByAreaDataManagementComponent {
     return Math.round(sum * 100) / 100;
   }
 
-  showComment(index: number, country: {code: string}) {
-    this.comment = this.toolTipData[index].get(country.code.toLowerCase())?.replace(/\\n/g,'<br>').replace(/\\t/g,'  ') ?? 'N/A';
-    this.countryCode = country.code.toLowerCase();
-    this.countryName = this.exploreService.findCountryName(country.code).name
-  }
-
-  protected readonly policesMapCaptions = policesMapCaptions;
-  protected readonly monitoringMapCaptions = monitoringMapCaptions;
-
-  // getTrendMetadata(current: number, previous: number, isPercentage: boolean = true) {
-  //   let diff: number;
-  //
-  //   if (isPercentage) {
-  //     diff = current - previous;
-  //   } else {
-  //     const result = this.calculatePercentageChange([previous, current]);
-  //     diff = typeof result === 'string' ? parseFloat(result) : result;
-  //   }
-  //
-  //   return {
-  //     value: diff,
-  //     icon: diff > 0 ? 'arrow_upward' : (diff < 0 ? 'arrow_downward' : 'commit'),
-  //     colorClass: diff > 0 ? 'up-arrow-color' : (diff < 0 ? 'down-arrow-color' : 'neutral-arrow-color'),
-  //     textClass: diff > 0 ? 'percentage-up-color' : (diff < 0 ? 'percentage-down-color' : 'neutral-color'),
-  //     trendImage: `../assets/images/explore/trend_${diff >= 0 ? 'green' : 'red'}.svg`
-  //   };
-  // }
 }
