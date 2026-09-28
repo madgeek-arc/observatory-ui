@@ -23,12 +23,14 @@ import { CoverageTrendCardView } from "./coverage-trend-card-view/coverage-trend
 import { MultiStackedBarsCardView } from "./multi-stacked-bars-card-view/multi-stacked-bars-card-view";
 import { CompositeColumnsLineCardView } from "./composite-columns-line-card-view/composite-columns-line-card-view";
 import { SelectorShareTrendCardView } from "./selector-share-trend-card-view/selector-share-trend-card-view";
+import { PieWithProgressCardView} from "./pie-with-progress-card-view/pie-with-progress-card-view";
 
 export type CardViewKind = 'eu-snapshot' | 'eu-trend' | 'countries-trend' | 'countries-snapshot' | 'policy-map'
   | 'policy-countries' | 'stacked-column' | 'access-type-trend' | 'access-type-dot-plot' | 'access-type-countries-trend'
   | 'choropleth-top-countries' | 'eu-column-trend' | 'countries-column-trend' | 'selector-bar-chart'
   | 'selector-yes-no-table' | 'stacked-bar-with-progress' | 'stacked-column-with-totals' | 'year-adopted-table'
-  | 'coverage-trend' | 'multi-stacked-bars'  | 'composite-column' | 'composite-columns-line' | 'selector-share-trend';
+  | 'coverage-trend' | 'multi-stacked-bars'  | 'composite-column' | 'composite-columns-line' | 'selector-share-trend'
+  | 'pie-with-progress';
 
 const RENDER_STYLE_TO_VIEW: Partial<Record<RenderStyle, CardViewKind>> = {
   SCALAR: 'eu-snapshot',
@@ -55,6 +57,7 @@ const RENDER_STYLE_TO_VIEW: Partial<Record<RenderStyle, CardViewKind>> = {
   COVERAGE_TREND: 'coverage-trend',
   MULTI_STACKED_BARS: 'multi-stacked-bars',
   MULTI_STACKED_COLUMNS: 'composite-columns-line',
+  PIE_WITH_PROGRESS_BARS: 'pie-with-progress',
 };
 
 /** Finds the one view matching the current countryScope/timeScope — shared by
@@ -118,7 +121,8 @@ export function resolveCardViewKind(
     CoverageTrendCardView,
     MultiStackedBarsCardView,
     CompositeColumnsLineCardView,
-    SelectorShareTrendCardView
+    SelectorShareTrendCardView,
+    PieWithProgressCardView
   ]
 })
 export class IndicatorCard {
@@ -137,8 +141,7 @@ export class IndicatorCard {
     )
   );
 
-  /** LATEST_YEAR_YES_NO_TABLE's backend label ("Latest year") is replaced with
-   *  "Status in <endYear>" so the badge names the year the table actually shows. */
+
   readonly renderStyles = computed<IndicatorRenderStyle[]>(() => {
     const endYear = this.customSearchService.endYear();
     return (this.currentView()?.renderStyles ?? []).map(rs =>
@@ -146,9 +149,7 @@ export class IndicatorCard {
     );
   });
 
-  /** undefined, or a style that no longer belongs to the current view (e.g. after a
-   *  scope/year change resolves a different view) = "fall back to the first entry",
-   *  without needing an effect() to reset it. */
+
   readonly selectedRenderStyle = signal<RenderStyle | undefined>(undefined);
   readonly effectiveRenderStyle = computed<RenderStyle | undefined>(() => {
     const styles = this.renderStyles();

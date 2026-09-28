@@ -149,6 +149,13 @@
           [dimension]="currentView()?.selector?.dimension ?? ''">
         </app-selector-share-trend-card-view>
       }
+      @case ('pie-with-progress') {
+        <app-pie-with-progress-card-view
+          [indicatorId]="indicator().id"
+          [indicatorCode]="indicator().indicatorCode"
+          [dimension]="currentView()?.selector?.dimension ?? ''">
+        </app-pie-with-progress-card-view>
+      }
     }
   }
 </div>

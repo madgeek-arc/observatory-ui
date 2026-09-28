@@ -65,7 +65,11 @@ export type RenderStyle =
    *  alongside MULTI_SERIES_LINE_CHART's "Open Access share". Same breakdown dimension
    *  as STACKED_BAR_WITH_PROGRESS/COLUMN_CHART_WITH_VALUE_LABELS, but one stacked-column
    *  chart per selected country, arranged in a grid with a shared legend below. */
-  | 'MULTI_STACKED_COLUMNS';
+  | 'MULTI_STACKED_COLUMNS'
+  /** All EU, single year, with a selector — one donut segment per selector category,
+   *  ranked-by-size list beside it with a progress bar, percentage and formatted value
+   *  per row, and a total figure in the donut's center. */
+| 'PIE_WITH_PROGRESS_BARS';
 
 export interface IndicatorViewSelector {
   dimension: string;

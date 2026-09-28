@@ -1,0 +1,32 @@
+@if (chartOptions(); as options) {
+  <div class="uk-flex uk-gap-xlarge">
+    <div class="uk-flex-none" style="position: relative; width: 280px;">
+      <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
+                        style="width: 100%; display: block;"></highcharts-chart>
+      <div class="uk-flex uk-flex-column uk-flex-middle"
+           style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none;">
+        <span class="uk-text-bold uk-text-large">{{ formattedTotal() }}</span>
+        <span class="uk-text-meta uk-text-small">total</span>
+      </div>
+    </div>
+    <div class="uk-width-expand">
+      @for (area of areas(); track area.code) {
+        <div class="uk-flex uk-flex-middle uk-gap-small uk-margin-small-bottom">
+          <span class="uk-dot" [style.background]="area.color"></span>
+          <span class="uk-text-small uk-text-truncate uk-width-expand">{{ area.label }}</span>
+          <progress class="uk-progress uk-margin-remove" [value]="area.percent" max="100"
+                     style="width: 220px; flex-shrink: 0; height: 8px;"
+                     [style.--progress-fill-color]="area.color"></progress>
+          <span class="uk-text-bold uk-text-small uk-text-right" style="width: 36px; flex-shrink: 0;">
+            {{ area.percent }}%
+          </span>
+          <span class="uk-text-meta uk-text-small uk-text-right" style="width: 60px; flex-shrink: 0;">
+            {{ area.formattedValue }}
+          </span>
+        </div>
+      }
+    </div>
+  </div>
+} @else {
+  <app-loading-placeholder [height]="280" />
+}
