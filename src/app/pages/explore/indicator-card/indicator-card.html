@@ -80,7 +80,7 @@
         <app-choropleth-top-countries-card-view [indicatorId]="indicator().id" [format]="indicator().format"></app-choropleth-top-countries-card-view>
       }
       @case ('eu-column-trend') {
-        <app-eu-column-trend-card-view [indicatorId]="indicator().id"></app-eu-column-trend-card-view>
+        <app-eu-column-trend-card-view [indicatorId]="indicator().id" [format]="indicator().format"></app-eu-column-trend-card-view>
       }
       @case ('countries-column-trend') {
         <app-countries-column-trend-card-view [indicatorId]="indicator().id"></app-countries-column-trend-card-view>

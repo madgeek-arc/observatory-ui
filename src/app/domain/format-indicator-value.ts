@@ -5,7 +5,7 @@ export function formatIndicatorValue(value: number, format: IndicatorFormat): st
     case 'percentage':
       return `${value.toFixed(1)}%`;
     case 'currency':
-      return `€${(value / 1_000_000).toFixed(1)}M`;
+      return `€${(value / 1_000_000).toFixed(2)}M`;
     default:
       return `${value}`;
   }

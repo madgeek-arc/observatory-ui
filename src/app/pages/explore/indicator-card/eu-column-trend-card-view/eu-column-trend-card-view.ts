@@ -4,6 +4,8 @@ import * as Highcharts from "highcharts";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { IndicatorFormat } from "../../../../domain/explore-indicators";
+import { formatIndicatorValue } from "../../../../domain/format-indicator-value";
 
 @Component({
   selector: 'app-eu-column-trend-card-view',
@@ -14,6 +16,7 @@ export class EuColumnTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
 
   indicatorId = input.required<string>();
+  format = input.required<IndicatorFormat>();
 
   Highcharts: typeof Highcharts = Highcharts;
 
@@ -52,6 +55,7 @@ export class EuColumnTrendCardView {
     if (!totals) {
       return undefined;
     }
+    const format = this.format();
     return {
       chart: { type: 'column', height: 200 },
       title: { text: undefined },
@@ -59,15 +63,19 @@ export class EuColumnTrendCardView {
       exporting: { enabled: false },
       xAxis: { categories: totals.map(([year]) => year) },
       yAxis: { min: 0, title: { text: undefined } },
-      tooltip: { pointFormat: '{point.y}' },
+      tooltip: { enabled: false },
       plotOptions: {
         column: {
           color: colors[0],
-          dataLabels: { enabled: true }
+          dataLabels: { enabled: true, format: '{point.formattedValue}' }
         }
       },
       legend: { enabled: false },
-      series: [{ type: 'column', name: 'Total', data: totals.map(([, value]) => value) }]
+      series: [{
+        type: 'column',
+        name: 'Total',
+        data: totals.map(([, value]) => ({ y: value, formattedValue: formatIndicatorValue(value, format) }))
+      }]
     };
   });
 }
