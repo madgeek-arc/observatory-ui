@@ -3,17 +3,20 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
-import { COUNTRY_PAGE_INDICATORS, IndicatorConfig } from "../../../domain/country-page-indicators";
+import { COUNTRY_PAGE_WIDGETS, WidgetConfig } from "../../../domain/country-page-indicators";
 
 export type IndicatorsMode = 'public' | 'config';
 
 /**
  * Which document the admin is editing:
- *  - 'country': a specific country's own override (/stakeholders/{id}/indicators/overrides)
+ *  - 'country': a specific country's own override (/dashboards/{code}/types/{type}/groups/{group}/widgets/overrides)
  *  - 'global':  the type-wide default that applies to every country without its own override
- *               (/indicators/defaults/{type})
+ *               (/dashboards/{code}/types/{type})
  */
 export type EditingScope = 'global' | 'country';
+
+/** Dashboard code for the Country Pages widget catalog. */
+export const COUNTRY_PAGES_DASHBOARD_CODE = 'country-pages';
 
 /**
  * How the admin config page presents the cards:
@@ -38,28 +41,28 @@ export const GLOBAL_DATA_COUNTRY = 'FR';
 /** Display label for the Global default scope ({@link GLOBAL_SCOPE_CODE} has no `countries` entry). */
 export const GLOBAL_SCOPE_LABEL = 'Europe';
 
-export interface IndicatorsPayload {
-  indicators: IndicatorConfig[];
+export interface WidgetsPayload {
+  widgets: WidgetConfig[];
 }
 
-/** Per-country override document (/stakeholders/{id}/indicators/overrides). */
+/** Per-country override document (/dashboards/{code}/types/{type}/groups/{group}/widgets/overrides). */
 export interface OverrideDoc {
   id: string;
-  stakeholderId: string;
-  indicators: IndicatorConfig[];
+  groupId: string;
+  widgets: WidgetConfig[];
 }
 
-/** Global default document (/indicators/defaults/{type}). */
+/** Global default document (/dashboards/{code}/types/{type}). */
 export interface DefaultsDoc {
   id: string;
   type: string;
-  indicators: IndicatorConfig[];
+  widgets: WidgetConfig[];
 }
 
-/** Lightweight summary row: which countries of a type have an override. */
+/** Lightweight summary row: which groups of a type have an override. */
 export interface OverrideSummary {
-  stakeholderId: string;
-  country: string;
+  groupId: string;
+  name: string;
   hasOverrides: boolean;
 }
 
@@ -131,7 +134,7 @@ export class CountryPageIndicatorsService {
   readonly dirty = signal(false);
 
   private defaultVisibility(): Map<string, boolean> {
-    return new Map(COUNTRY_PAGE_INDICATORS.map(i => [i.id, i.visible]));
+    return new Map(COUNTRY_PAGE_WIDGETS.map(i => [i.id, i.visible]));
   }
 
   /**
@@ -143,7 +146,7 @@ export class CountryPageIndicatorsService {
    * @param hiddenSections group labels hidden as a whole for this scope (empty if none).
    */
   setState(
-    overrides: IndicatorConfig[] | null | undefined,
+    overrides: WidgetConfig[] | null | undefined,
     docId: string = '',
     hiddenSections: string[] = []
   ): void {
@@ -170,7 +173,7 @@ export class CountryPageIndicatorsService {
 
   /** Admin-facing label for an indicator id (from the catalog). */
   labelFor(id: string): string {
-    return COUNTRY_PAGE_INDICATORS.find(i => i.id === id)?.label ?? '';
+    return COUNTRY_PAGE_WIDGETS.find(i => i.id === id)?.label ?? '';
   }
 
   /**
@@ -192,8 +195,8 @@ export class CountryPageIndicatorsService {
    * Records (country scope) or clears (global/public) the Global-default lock floor.
    * Pass the Global default's indicators while editing a specific country; pass null otherwise.
    */
-  setGlobalFloor(indicators: IndicatorConfig[] | null | undefined): void {
-    this._globalFloor.set(indicators ? new Map(indicators.map(i => [i.id, i.visible])) : null);
+  setGlobalFloor(widgets: WidgetConfig[] | null | undefined): void {
+    this._globalFloor.set(widgets ? new Map(widgets.map(i => [i.id, i.visible])) : null);
   }
 
   /**
@@ -215,11 +218,11 @@ export class CountryPageIndicatorsService {
    * country's own stored choice is preserved (the floor only wins at display time).
    */
   applyGlobalFloor(
-    indicators: IndicatorConfig[],
-    defaults: IndicatorConfig[] | null | undefined
-  ): IndicatorConfig[] {
+    widgets: WidgetConfig[],
+    defaults: WidgetConfig[] | null | undefined
+  ): WidgetConfig[] {
     const floor = new Map((defaults ?? []).map(i => [i.id, i.visible]));
-    return indicators.map(i => ({
+    return widgets.map(i => ({
       ...i,
       visible: floor.get(i.id) === false ? false : i.visible,
     }));
@@ -252,19 +255,19 @@ export class CountryPageIndicatorsService {
     this.recomputeDirty();
   }
 
-  /** Total number of indicators (cards) in a section. */
+  /** Total number of widgets (cards) in a section. */
   groupTotal(group: string): number {
-    return COUNTRY_PAGE_INDICATORS.filter(i => i.group === group).length;
+    return COUNTRY_PAGE_WIDGETS.filter(i => i.group === group).length;
   }
 
-  /** How many of a section's indicators are currently toggled visible (reactive via the signal). */
+  /** How many of a section's widgets are currently toggled visible (reactive via the signal). */
   groupVisibleCount(group: string): number {
-    return COUNTRY_PAGE_INDICATORS.filter(i => i.group === group && this.isVisible(i.id)).length;
+    return COUNTRY_PAGE_WIDGETS.filter(i => i.group === group && this.isVisible(i.id)).length;
   }
 
   /** Restore a whole section: turn every unlocked, currently-hidden card in it back on. */
   showGroup(group: string): void {
-    for (const ind of COUNTRY_PAGE_INDICATORS) {
+    for (const ind of COUNTRY_PAGE_WIDGETS) {
       if (ind.group === group && !this.isVisible(ind.id) && !this.isLocked(ind.id)) {
         this.toggle(ind.id);
       }
@@ -279,9 +282,9 @@ export class CountryPageIndicatorsService {
   }
 
   /** Full catalog with the current working visibility applied — the Publish payload. */
-  buildPayload(): IndicatorConfig[] {
+  buildPayload(): WidgetConfig[] {
     const map = this._visibility();
-    return COUNTRY_PAGE_INDICATORS.map(i => ({ ...i, visible: map.get(i.id) ?? i.visible }));
+    return COUNTRY_PAGE_WIDGETS.map(i => ({ ...i, visible: map.get(i.id) ?? i.visible }));
   }
 
   /** Hidden section labels for the Publish payload (persistence-ready; see hiddenSections). */
@@ -321,44 +324,52 @@ export class CountryPageIndicatorsService {
   // HTTP — per-country override (admin editing scope)
   // ---------------------------------------------------------------------------
 
-  getOverrides(stakeholderId: string): Observable<OverrideDoc> {
-    return this.http.get<OverrideDoc>(`${this.base}/stakeholders/${stakeholderId}/indicators/overrides`);
+  private groupsBase(type: string): string {
+    return `${this.base}/dashboards/${COUNTRY_PAGES_DASHBOARD_CODE}/types/${type}/groups`;
   }
 
-  putOverrides(stakeholderId: string, indicators: IndicatorConfig[]): Observable<OverrideDoc> {
+  getOverrides(type: string, groupId: string): Observable<OverrideDoc> {
+    return this.http.get<OverrideDoc>(`${this.groupsBase(type)}/${groupId}/widgets/overrides`);
+  }
+
+  putOverrides(type: string, groupId: string, widgets: WidgetConfig[]): Observable<OverrideDoc> {
     return this.http.put<OverrideDoc>(
-      `${this.base}/stakeholders/${stakeholderId}/indicators/overrides`,
-      { id: this._docId(), stakeholderId, indicators }
+      `${this.groupsBase(type)}/${groupId}/widgets/overrides`,
+      { id: this._docId(), groupId, widgets }
     );
   }
 
-  getEffective(stakeholderId: string): Observable<IndicatorsPayload> {
-    return this.http.get<IndicatorConfig[]>(`${this.base}/stakeholders/${stakeholderId}/indicators`)
-      .pipe(map(indicators => ({ indicators })));
+  getEffective(type: string, groupId: string): Observable<WidgetsPayload> {
+    return this.http.get<WidgetConfig[]>(`${this.groupsBase(type)}/${groupId}/widgets`)
+      .pipe(map(widgets => ({ widgets })));
   }
 
   /** Remove a country's override entirely, reverting it to the global default. */
-  deleteOverrides(stakeholderId: string): Observable<OverrideDoc> {
-    return this.http.delete<OverrideDoc>(`${this.base}/stakeholders/${stakeholderId}/indicators/overrides`);
+  deleteOverrides(type: string, groupId: string): Observable<OverrideDoc> {
+    return this.http.delete<OverrideDoc>(`${this.groupsBase(type)}/${groupId}/widgets/overrides`);
   }
 
-  /** Summary of all stakeholders of a type and whether each has an override. */
+  /** Summary of all groups of a type and whether each has an override. */
   getOverridesSummary(type: string): Observable<OverrideSummary[]> {
-    return this.http.get<OverrideSummary[]>(`${this.base}/stakeholders/types/${type}/indicators/overrides`);
+    return this.http.get<OverrideSummary[]>(this.groupsBase(type));
   }
 
   // ---------------------------------------------------------------------------
   // HTTP — global default (per stakeholder type, e.g. 'eosc-sb')
   // ---------------------------------------------------------------------------
 
+  private typesBase(): string {
+    return `${this.base}/dashboards/${COUNTRY_PAGES_DASHBOARD_CODE}/types`;
+  }
+
   /** Load the global default document for a stakeholder type. */
   getDefaults(type: string): Observable<DefaultsDoc> {
-    return this.http.get<DefaultsDoc>(`${this.base}/indicators/defaults/${type}`);
+    return this.http.get<DefaultsDoc>(`${this.typesBase()}/${type}`);
   }
 
   /** Create the global default document — first-time seed. */
   postDefaults(doc: DefaultsDoc): Observable<DefaultsDoc> {
-    return this.http.post<DefaultsDoc>(`${this.base}/indicators/defaults`, doc);
+    return this.http.post<DefaultsDoc>(this.typesBase(), doc);
   }
 
   /**
@@ -368,15 +379,15 @@ export class CountryPageIndicatorsService {
    * body id equals the stored document's id. We echo `docId` — the id captured from the last
    * getDefaults/setState — rather than guessing it, so the two always match.
    */
-  putDefaults(type: string, indicators: IndicatorConfig[]): Observable<DefaultsDoc> {
+  putDefaults(type: string, widgets: WidgetConfig[]): Observable<DefaultsDoc> {
     return this.http.put<DefaultsDoc>(
-      `${this.base}/indicators/defaults/${type}`,
-      { id: this._docId(), type, indicators }
+      `${this.typesBase()}/${type}`,
+      { id: this._docId(), type, widgets }
     );
   }
 
   /** Delete the global default document for a stakeholder type. */
   deleteDefaults(type: string): Observable<DefaultsDoc> {
-    return this.http.delete<DefaultsDoc>(`${this.base}/indicators/defaults/${type}`);
+    return this.http.delete<DefaultsDoc>(`${this.typesBase()}/${type}`);
   }
 }

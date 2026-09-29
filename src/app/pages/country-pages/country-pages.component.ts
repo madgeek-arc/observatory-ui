@@ -13,7 +13,7 @@ import {
 } from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
 import { forkJoin, of } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
-import { IndicatorConfig } from "../../domain/country-page-indicators";
+import { WidgetConfig } from "../../domain/country-page-indicators";
 import {
   CountryPageIndicatorsService, DefaultsDoc, EditingScope,
   GLOBAL_DATA_COUNTRY, GLOBAL_SCOPE_CODE, GLOBAL_SCOPE_LABEL, OverrideDoc
@@ -135,7 +135,7 @@ export class CountryPagesComponent implements OnInit {
   private loadVisibilityConfig(): void {
     this.route.params.pipe(
       switchMap(params => {
-        const stakeholderId = 'sh-eosc-sb-' + params['code'];
+        const groupId = 'sh-eosc-sb-' + params['code'];
 
         if (!this.isConfigMode) {
           // Public page: the backend's effective visibility folds in the per-country override but
@@ -143,13 +143,13 @@ export class CountryPagesComponent implements OnInit {
           // stays hidden even when the country's override marks it visible. The country's own stored
           // choice is untouched (read-time only). No lock floor — nothing is editable here.
           return forkJoin({
-            effective: this.indicatorsService.getEffective(stakeholderId).pipe(catchError(() => of({ indicators: [] as IndicatorConfig[] }))),
+            effective: this.indicatorsService.getEffective('eosc-sb', groupId).pipe(catchError(() => of({ widgets: [] as WidgetConfig[] }))),
             defaults: this.indicatorsService.getDefaults('eosc-sb').pipe(catchError(() => of(null as DefaultsDoc | null))),
           }).pipe(
             map(({ effective, defaults }) => ({
-              indicators: this.indicatorsService.applyGlobalFloor(effective.indicators, defaults?.indicators),
+              widgets: this.indicatorsService.applyGlobalFloor(effective.widgets, defaults?.widgets),
               docId: '',
-              floor: null as IndicatorConfig[] | null,
+              floor: null as WidgetConfig[] | null,
             }))
           );
         }
@@ -159,26 +159,26 @@ export class CountryPagesComponent implements OnInit {
 
         if (scope === 'global') {
           return this.indicatorsService.getDefaults('eosc-sb').pipe(
-            map(doc => ({ indicators: doc?.indicators, docId: doc?.id ?? '', floor: null as IndicatorConfig[] | null })),
-            catchError(() => of({ indicators: [] as IndicatorConfig[], docId: '', floor: null as IndicatorConfig[] | null }))
+            map(doc => ({ widgets: doc?.widgets, docId: doc?.id ?? '', floor: null as WidgetConfig[] | null })),
+            catchError(() => of({ widgets: [] as WidgetConfig[], docId: '', floor: null as WidgetConfig[] | null }))
           );
         }
 
         return forkJoin({
-          override: this.indicatorsService.getOverrides(stakeholderId).pipe(catchError(() => of(null as OverrideDoc | null))),
+          override: this.indicatorsService.getOverrides('eosc-sb', groupId).pipe(catchError(() => of(null as OverrideDoc | null))),
           defaults: this.indicatorsService.getDefaults('eosc-sb').pipe(catchError(() => of(null as DefaultsDoc | null))),
         }).pipe(
           map(({ override, defaults }) => ({
-            indicators: override?.indicators,
+            widgets: override?.widgets,
             docId: override?.id ?? '',
-            floor: defaults?.indicators ?? null,
+            floor: defaults?.widgets ?? null,
           }))
         );
       }),
       takeUntilDestroyed(this.destroyRef)
-    ).subscribe(({ indicators, docId, floor }) => {
+    ).subscribe(({ widgets, docId, floor }) => {
       this.indicatorsService.setGlobalFloor(floor);
-      this.indicatorsService.setState(indicators, docId);
+      this.indicatorsService.setState(widgets, docId);
     });
   }
 

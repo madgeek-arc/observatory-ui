@@ -58,7 +58,7 @@ export class CountryPagesConfigurationComponent implements OnInit {
   /** True while a reset is in flight (or its notification is still showing) — disables Reset. */
   readonly resetting = signal<boolean>(false);
 
-  private get stakeholderId(): string {
+  private get groupId(): string {
     return 'sh-eosc-sb-' + this.countryCode;
   }
 
@@ -136,7 +136,7 @@ export class CountryPagesConfigurationComponent implements OnInit {
     }
 
     this.resetting.set(true);
-    this.indicatorsService.deleteOverrides(this.stakeholderId)
+    this.indicatorsService.deleteOverrides('eosc-sb', this.groupId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
@@ -159,13 +159,13 @@ export class CountryPagesConfigurationComponent implements OnInit {
     const save$: Observable<OverrideDoc | DefaultsDoc> =
       this.selectedScope() === CountryPagesConfigurationComponent.GLOBAL_SCOPE
         ? this.indicatorsService.putDefaults('eosc-sb', payload)
-        : this.indicatorsService.putOverrides(this.stakeholderId, payload);
+        : this.indicatorsService.putOverrides('eosc-sb', this.groupId, payload);
 
     save$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
           this.indicatorsService.setState(
-            res?.indicators ?? payload,
+            res?.widgets ?? payload,
             res?.id ?? '',
             this.indicatorsService.buildHiddenSections()
           );

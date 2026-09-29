@@ -30,7 +30,7 @@ import { CountryPageIndicatorsService } from "../services/country-page-indicator
 export class CardConfigComponent implements AfterViewChecked {
   protected readonly service = inject(CountryPageIndicatorsService);
 
-  /** Catalog id of the wrapped card — see COUNTRY_PAGE_INDICATORS. */
+  /** Catalog id of the wrapped card — see COUNTRY_PAGE_WIDGETS. */
   readonly indicatorId = input.required<string>();
 
   /** Colour class of the wrapped card (e.g. "eosc-sb visualisation-card"), so the no-data

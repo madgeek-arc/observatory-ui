@@ -2,16 +2,16 @@ import { Component, computed, ElementRef, inject, signal, viewChild } from "@ang
 import { FormsModule } from "@angular/forms";
 import * as UIkit from "uikit";
 import {
-  COUNTRY_PAGE_INDICATORS, IndicatorConfig
+  COUNTRY_PAGE_WIDGETS, WidgetConfig
 } from "../../../domain/country-page-indicators";
 import { CountryPageIndicatorsService } from "../../country-pages/services/country-page-indicators.service";
 
 /** Section labels in catalog order (dedup preserves first-seen order). */
-const GROUP_ORDER: string[] = [...new Set(COUNTRY_PAGE_INDICATORS.map(i => i.group))];
+const GROUP_ORDER: string[] = [...new Set(COUNTRY_PAGE_WIDGETS.map(i => i.group))];
 
 interface IndicatorGroupView {
   group: string;
-  indicators: IndicatorConfig[];
+  indicators: WidgetConfig[];
 }
 
 /**
@@ -38,9 +38,9 @@ export class IndicatorListComponent {
 
   protected readonly search = signal('');
   private readonly expanded = signal<Set<string>>(new Set());
-  protected readonly totalCount = COUNTRY_PAGE_INDICATORS.length;
+  protected readonly totalCount = COUNTRY_PAGE_WIDGETS.length;
   protected readonly visibleCount = computed(() =>
-    COUNTRY_PAGE_INDICATORS.filter(i => this.service.isVisible(i.id)).length
+    COUNTRY_PAGE_WIDGETS.filter(i => this.service.isVisible(i.id)).length
   );
 
   /**
@@ -51,7 +51,7 @@ export class IndicatorListComponent {
     const term = this.search().trim().toLowerCase();
     return GROUP_ORDER
       .map(group => {
-        const all = COUNTRY_PAGE_INDICATORS.filter(i => i.group === group);
+        const all = COUNTRY_PAGE_WIDGETS.filter(i => i.group === group);
         if (!term || group.toLowerCase().includes(term)) {
           return { group, indicators: all };
         }
@@ -112,7 +112,7 @@ export class IndicatorListComponent {
    */
   protected toggleGroup(group: string): void {
     const target = !this.groupEnabled(group);
-    for (const ind of COUNTRY_PAGE_INDICATORS) {
+    for (const ind of COUNTRY_PAGE_WIDGETS) {
       if (ind.group === group
           && this.service.isVisible(ind.id) !== target
           && !this.service.isLocked(ind.id)) {

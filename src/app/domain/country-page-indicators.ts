@@ -11,17 +11,17 @@
  * section labels. `label` is an admin-facing description of the card (not the public title).
  */
 
-export type IndicatorFormat = 'percentage' | 'number' | 'chart' | 'text';
+export type WidgetFormat = 'percentage' | 'number' | 'chart' | 'text';
 
-export interface IndicatorConfig {
+export interface WidgetConfig {
   id: string;
   label: string;
   visible: boolean;
-  format: IndicatorFormat;
+  format: WidgetFormat;
   group: string;
 }
 
-export const COUNTRY_PAGE_INDICATORS: IndicatorConfig[] = [
+export const COUNTRY_PAGE_WIDGETS: WidgetConfig[] = [
   { id: '1',  label: 'OA Publications (OA vs Closed)',                                       visible: true, format: 'percentage', group: 'General R&D Overview' },
   { id: '2',  label: 'Open Data (OA vs Closed)',                                             visible: true, format: 'percentage', group: 'General R&D Overview' },
   { id: '3',  label: 'Total investment in EOSC and Open Science',                            visible: true, format: 'number',     group: 'General R&D Overview' },
@@ -100,6 +100,6 @@ export const COUNTRY_PAGE_INDICATORS: IndicatorConfig[] = [
 ];
 
 /** Convenience lookup: catalog entries grouped by their section label. */
-export function indicatorsByGroup(group: string): IndicatorConfig[] {
-  return COUNTRY_PAGE_INDICATORS.filter(i => i.group === group);
+export function widgetsByGroup(group: string): WidgetConfig[] {
+  return COUNTRY_PAGE_WIDGETS.filter(i => i.group === group);
 }
