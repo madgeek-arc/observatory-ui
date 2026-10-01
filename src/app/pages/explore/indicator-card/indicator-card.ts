@@ -24,13 +24,14 @@ import { MultiStackedBarsCardView } from "./multi-stacked-bars-card-view/multi-s
 import { CompositeColumnsLineCardView } from "./composite-columns-line-card-view/composite-columns-line-card-view";
 import { SelectorShareTrendCardView } from "./selector-share-trend-card-view/selector-share-trend-card-view";
 import { PieWithProgressCardView} from "./pie-with-progress-card-view/pie-with-progress-card-view";
+import { ProgressBarsNumPercentageCardView} from "./progress-bars-num-percentage-card-view/progress-bars-num-percentage-card-view";
 
 export type CardViewKind = 'eu-snapshot' | 'eu-trend' | 'countries-trend' | 'countries-snapshot' | 'policy-map'
   | 'policy-countries' | 'stacked-column' | 'access-type-trend' | 'access-type-dot-plot' | 'access-type-countries-trend'
   | 'choropleth-top-countries' | 'eu-column-trend' | 'countries-column-trend' | 'selector-bar-chart'
   | 'selector-yes-no-table' | 'stacked-bar-with-progress' | 'stacked-column-with-totals' | 'year-adopted-table'
   | 'coverage-trend' | 'multi-stacked-bars'  | 'composite-column' | 'composite-columns-line' | 'selector-share-trend'
-  | 'pie-with-progress';
+  | 'pie-with-progress' | 'progress-bars-num-percentage';
 
 const RENDER_STYLE_TO_VIEW: Partial<Record<RenderStyle, CardViewKind>> = {
   SCALAR: 'eu-snapshot',
@@ -58,6 +59,7 @@ const RENDER_STYLE_TO_VIEW: Partial<Record<RenderStyle, CardViewKind>> = {
   MULTI_STACKED_BARS: 'multi-stacked-bars',
   MULTI_STACKED_COLUMNS: 'composite-columns-line',
   PIE_WITH_PROGRESS_BARS: 'pie-with-progress',
+  PROGRESS_BARS_NUM_PERCENTAGE: 'progress-bars-num-percentage'
 };
 
 /** Finds the one view matching the current countryScope/timeScope — shared by
@@ -122,7 +124,8 @@ export function resolveCardViewKind(
     MultiStackedBarsCardView,
     CompositeColumnsLineCardView,
     SelectorShareTrendCardView,
-    PieWithProgressCardView
+    PieWithProgressCardView,
+    ProgressBarsNumPercentageCardView
   ]
 })
 export class IndicatorCard {

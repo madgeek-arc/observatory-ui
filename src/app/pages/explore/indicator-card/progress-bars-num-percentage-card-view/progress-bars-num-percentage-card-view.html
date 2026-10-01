@@ -1,0 +1,28 @@
+@if (ready()) {
+  <ol class="uk-list uk-list-decimal uk-margin-remove">
+    @for (row of rows(); track row.id) {
+      <li>
+        <div class="uk-flex uk-flex-middle" style="gap: 12px;">
+          <span class="uk-text-small" style="width: 100px;">{{ row.name }}</span>
+          <progress class="uk-progress uk-width-expand uk-margin-remove" style="height: 8px;" [value]="row.percent" max="100"></progress>
+          <span class="uk-text-bold uk-text-small" style="width: 70px;">{{ row.formattedValue }}</span>
+          <span class="uk-text-meta uk-text-small" style="width: 50px;">{{ row.percent | number:'1.0-1' }}%</span>
+        </div>
+      </li>
+    }
+  </ol>
+
+  <div class="uk-margin-small-top" style="border-top: 1px solid #eef1f3; padding: 8px 0 0 30px;">
+    <div class="uk-flex uk-flex-middle" style="gap: 12px;">
+      <span class="uk-text-small uk-text-bold uk-text-nowrap">{{ totalRow().label }}</span>
+      <span class="uk-width-expand"></span>
+      <span class="uk-text-bold uk-text-small" style="width: 70px; ">{{ totalRow().formattedValue }}</span>
+      <span class="uk-text-meta uk-text-small" style="min-width: 50px; white-space: nowrap;">
+        {{ totalRow().percent | number:'1.0-1' }}%@if (format() === 'currency') { of EU}
+      </span>
+    </div>
+  </div>
+} @else {
+  <app-loading-placeholder [height]="60" />
+}
+

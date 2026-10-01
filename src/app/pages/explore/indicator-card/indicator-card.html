@@ -156,6 +156,13 @@
           [dimension]="currentView()?.selector?.dimension ?? ''">
         </app-pie-with-progress-card-view>
       }
+      @case ('progress-bars-num-percentage') {
+        <app-progress-bars-num-percentage-card-view
+          [indicatorId]="indicator().id"
+          [indicatorCode]="indicator().indicatorCode"
+          [format]="indicator().format">
+        </app-progress-bars-num-percentage-card-view>
+      }
     }
   }
 </div>

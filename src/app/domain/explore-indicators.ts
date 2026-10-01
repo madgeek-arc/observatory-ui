@@ -3,7 +3,7 @@ export type CountryScope = 'ALL_COUNTRIES' | 'SELECTED_COUNTRIES';
 export type TimeScope = 'SINGLE_YEAR' | 'TIME_RANGE';
 
 export type RenderStyle =
-  /** All EU, single year — a single aggregate value; the unit (%, € millions, plain count) comes from `format`, not from this style. */
+/** All EU, single year — a single aggregate value; the unit (%, € millions, plain count) comes from `format`, not from this style. */
   | 'SCALAR'
   /** All EU, year range — single-series line chart. */
   | 'LINE_CHART'
@@ -69,7 +69,9 @@ export type RenderStyle =
   /** All EU, single year, with a selector — one donut segment per selector category,
    *  ranked-by-size list beside it with a progress bar, percentage and formatted value
    *  per row, and a total figure in the donut's center. */
-| 'PIE_WITH_PROGRESS_BARS';
+  | 'PIE_WITH_PROGRESS_BARS'
+
+  | 'PROGRESS_BARS_NUM_PERCENTAGE'
 
 export interface IndicatorViewSelector {
   dimension: string;
