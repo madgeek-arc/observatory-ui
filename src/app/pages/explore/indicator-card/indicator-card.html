@@ -37,7 +37,7 @@
         <app-eu-trend-card-view [indicatorId]="indicator().id"></app-eu-trend-card-view>
       }
       @case ('countries-trend') {
-        <app-countries-trend-card-view [indicatorId]="indicator().id"></app-countries-trend-card-view>
+        <app-countries-trend-card-view [indicatorId]="indicator().id" [format]="indicator().format" [mode]="trendMode()"></app-countries-trend-card-view>
       }
       @case ('countries-snapshot') {
         <app-countries-snapshot-card-view [indicatorId]="indicator().id" [format]="indicator().format"></app-countries-snapshot-card-view>

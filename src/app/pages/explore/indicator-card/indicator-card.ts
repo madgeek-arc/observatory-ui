@@ -3,7 +3,7 @@ import { CountryScope, ExploreIndicatorConfig, IndicatorRenderStyle, IndicatorVi
 import { CustomSearchService } from "../custom-search/services/custom-search.service";
 import { EuSnapshotCardView } from "./eu-snapshot-card-view/eu-snapshot-card-view";
 import { EuTrendCardView } from "./eu-trend-card-view/eu-trend-card-view";
-import { CountriesTrendCardView } from "./countries-trend-card-view/countries-trend-card-view";
+import { CountriesTrendCardView, TrendMode } from "./countries-trend-card-view/countries-trend-card-view";
 import { CountriesSnapshotCardView } from "./countries-snapshot-card-view/countries-snapshot-card-view";
 import { PolicyMapCardView } from "./policy-map-card-view/policy-map-card-view";
 import { PolicyCountriesCardView } from "./policy-countries-card-view/policy-countries-card-view";
@@ -33,7 +33,7 @@ export type CardViewKind = 'eu-snapshot' | 'eu-trend' | 'countries-trend' | 'cou
   | 'coverage-trend' | 'multi-stacked-bars'  | 'composite-column' | 'composite-columns-line' | 'selector-share-trend'
   | 'pie-with-progress' | 'progress-bars-num-percentage';
 
-const RENDER_STYLE_TO_VIEW: Partial<Record<RenderStyle, CardViewKind>> = {
+const RENDER_STYLE_TO_VIEW: Record<RenderStyle, CardViewKind> = {
   SCALAR: 'eu-snapshot',
   LINE_CHART: 'eu-trend',
   PROGRESS_BARS: 'countries-snapshot',
@@ -59,7 +59,8 @@ const RENDER_STYLE_TO_VIEW: Partial<Record<RenderStyle, CardViewKind>> = {
   MULTI_STACKED_BARS: 'multi-stacked-bars',
   MULTI_STACKED_COLUMNS: 'composite-columns-line',
   PIE_WITH_PROGRESS_BARS: 'pie-with-progress',
-  PROGRESS_BARS_NUM_PERCENTAGE: 'progress-bars-num-percentage'
+  PROGRESS_BARS_NUM_PERCENTAGE: 'progress-bars-num-percentage',
+  CUMULATIVE_MULTI_SERIES_LINE_CHART: 'countries-trend'
 };
 
 /** Finds the one view matching the current countryScope/timeScope — shared by
@@ -159,6 +160,11 @@ export class IndicatorCard {
     const selected = this.selectedRenderStyle();
     return styles.some(s => s.style === selected) ? selected : styles[0]?.style;
   });
+
+  /** Which half of a Per Year / Cumulative toggle is selected — passed to the child as [mode]. */
+  readonly trendMode = computed<TrendMode>(() =>
+    this.effectiveRenderStyle() === 'CUMULATIVE_MULTI_SERIES_LINE_CHART' ? 'cumulative' : 'per-year'
+  );
 
   readonly cardViewKind = computed<CardViewKind | undefined>(() =>
     resolveCardViewKind(this.currentView(), this.effectiveRenderStyle())

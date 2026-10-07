@@ -5,6 +5,21 @@ import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-s
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
 import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { IndicatorFormat } from "../../../../domain/explore-indicators";
+import { formatIfNumber, formatIndicatorValue } from "../../../../domain/format-indicator-value";
+
+export type TrendMode = 'per-year' | 'cumulative';
+
+/** Running total — nothing before the first reported year; after it, a null year adds 0. */
+function toCumulative(values: (number | null)[]): (number | null)[] {
+  let running: number | null = null;
+  return values.map(value => {
+    if (value !== null) {
+      running = (running ?? 0) + value;
+    }
+    return running;
+  });
+}
 
 @Component({
   selector: 'app-countries-trend-card-view',
@@ -15,6 +30,9 @@ export class CountriesTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
 
   indicatorId = input.required<string>();
+  /** 'cumulative' turns each country's line into a running total from the range's first year. */
+  mode = input<TrendMode>('per-year');
+  format = input.required<IndicatorFormat>();
 
   Highcharts: typeof Highcharts = Highcharts;
 
@@ -46,6 +64,7 @@ export class CountriesTrendCardView {
     }
 
     const years = [...new Set(response.data.map(point => point.dimensions['period']))].sort();
+    const format = this.format();
 
     const series = this.selectedCountries().map(country => {
       const valueByYear = new Map(
@@ -53,11 +72,13 @@ export class CountriesTrendCardView {
           .filter(point => point.dimensions['country'] === country.id)
           .map(point => [point.dimensions['period'], typeof point.value === 'number' ? point.value : null])
       );
+      const values = years.map(year => valueByYear.get(year) ?? null);
+      const finalValues = this.mode() === 'cumulative' ? toCumulative(values) : values;
       return {
         type: 'line' as const,
         name: country.name,
         color: country.color,
-        data: years.map(year => valueByYear.get(year) ?? null)
+        data: finalValues.map(value => ({ y: value, formattedValue: formatIfNumber(value ?? undefined, format) }))
       };
     });
 
@@ -68,7 +89,15 @@ export class CountriesTrendCardView {
       exporting: { enabled: false },
       plotOptions: { line: { marker: { enabled: false } } },
       xAxis: { categories: years },
-      yAxis: { title: { text: undefined } },
+      yAxis: {
+        title: { text: undefined },
+        labels: {
+          formatter: function (): string {
+            return formatIndicatorValue(Number(this.value), format);
+          }
+        }
+      },
+      tooltip: { pointFormat: '<span style="color:{point.color}">●</span> {series.name}: <b>{point.formattedValue}</b><br/>' },
       series
     };
   });

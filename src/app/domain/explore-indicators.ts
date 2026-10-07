@@ -73,6 +73,11 @@ export type RenderStyle =
 
   | 'PROGRESS_BARS_NUM_PERCENTAGE'
 
+  /** Selected countries, time range — the "Cumulative" half of a Per Year / Cumulative toggle;
+   *  each point is the running total from the range's first year. Both halves render through
+   *  the countries-trend view; only its mode input differs. */
+  | 'CUMULATIVE_MULTI_SERIES_LINE_CHART'
+
 export interface IndicatorViewSelector {
   dimension: string;
   label: string;
