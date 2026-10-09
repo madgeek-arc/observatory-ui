@@ -163,6 +163,17 @@
           [format]="indicator().format">
         </app-progress-bars-num-percentage-card-view>
       }
+      @case ('eu-average-column-trend') {
+        <app-eu-average-column-trend-card-view [indicatorId]="indicator().id"></app-eu-average-column-trend-card-view>
+      }
+      @case ('stacked-column-amount-share') {
+        <app-stacked-column-amount-share-card-view
+          [indicatorId]="indicator().id"
+          [indicatorCode]="indicator().indicatorCode"
+          [dimension]="currentView()?.selector?.dimension ?? ''"
+          [mode]="stackedMode()">
+        </app-stacked-column-amount-share-card-view>
+      }
     }
   }
 </div>

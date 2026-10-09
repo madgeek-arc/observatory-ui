@@ -1,0 +1,16 @@
+@if (chartOptions(); as options) {
+  @let average = latestAverage();
+  @if (average !== undefined) {
+    <div class="uk-margin-bottom">
+      <span class="uk-text-bold uk-text-large">{{ average }}</span>
+      <span>
+        @if (totalAreas(); as total) { <span class="uk-text-bold uk-text-large"> / {{ total }}</span> }<span class="uk-text-muted"> {{ unitLabel() }} on average in {{ latestYear() }}</span>
+      </span>
+    </div>
+  }
+
+  <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
+                    style="width: 100%; display: block;"></highcharts-chart>
+} @else {
+  <app-loading-placeholder [height]="220" />
+}

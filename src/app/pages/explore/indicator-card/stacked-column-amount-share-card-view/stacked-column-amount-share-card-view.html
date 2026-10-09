@@ -1,0 +1,16 @@
+@if (chartOptions(); as options) {
+  @if (headline(); as h) {
+    <div class="uk-margin-bottom">
+      <span class="uk-text-bold uk-text-large">{{ h.formattedTotal }}</span>
+      <span class="uk-text-muted"> total in {{ h.year }}</span>
+      @if (h.delta; as delta) {
+        <span class="uk-text-small uk-text-meta"> {{ delta.text }} vs {{ delta.baselineYear }}</span>
+      }
+    </div>
+  }
+
+  <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
+                    style="width: 100%; display: block;"></highcharts-chart>
+} @else {
+  <app-loading-placeholder [height]="280" />
+}

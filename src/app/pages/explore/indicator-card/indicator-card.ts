@@ -25,13 +25,15 @@ import { CompositeColumnsLineCardView } from "./composite-columns-line-card-view
 import { SelectorShareTrendCardView } from "./selector-share-trend-card-view/selector-share-trend-card-view";
 import { PieWithProgressCardView} from "./pie-with-progress-card-view/pie-with-progress-card-view";
 import { ProgressBarsNumPercentageCardView} from "./progress-bars-num-percentage-card-view/progress-bars-num-percentage-card-view";
+import { EuAverageColumnTrendCardView } from "./eu-average-column-trend-card-view/eu-average-column-trend-card-view";
+import { StackedColumnAmountShareCardView, StackedMode } from "./stacked-column-amount-share-card-view/stacked-column-amount-share-card-view";
 
 export type CardViewKind = 'eu-snapshot' | 'eu-trend' | 'countries-trend' | 'countries-snapshot' | 'policy-map'
   | 'policy-countries' | 'stacked-column' | 'access-type-trend' | 'access-type-dot-plot' | 'access-type-countries-trend'
   | 'choropleth-top-countries' | 'eu-column-trend' | 'countries-column-trend' | 'selector-bar-chart'
   | 'selector-yes-no-table' | 'stacked-bar-with-progress' | 'stacked-column-with-totals' | 'year-adopted-table'
   | 'coverage-trend' | 'multi-stacked-bars'  | 'composite-column' | 'composite-columns-line' | 'selector-share-trend'
-  | 'pie-with-progress' | 'progress-bars-num-percentage';
+  | 'pie-with-progress' | 'progress-bars-num-percentage' | 'eu-average-column-trend' | 'stacked-column-amount-share';
 
 const RENDER_STYLE_TO_VIEW: Record<RenderStyle, CardViewKind> = {
   SCALAR: 'eu-snapshot',
@@ -60,7 +62,9 @@ const RENDER_STYLE_TO_VIEW: Record<RenderStyle, CardViewKind> = {
   MULTI_STACKED_COLUMNS: 'composite-columns-line',
   PIE_WITH_PROGRESS_BARS: 'pie-with-progress',
   PROGRESS_BARS_NUM_PERCENTAGE: 'progress-bars-num-percentage',
-  CUMULATIVE_MULTI_SERIES_LINE_CHART: 'countries-trend'
+  CUMULATIVE_MULTI_SERIES_LINE_CHART: 'countries-trend',
+  STACKED_COLUMN_CHART: 'stacked-column-amount-share',
+  SHARE_STACKED_COLUMN_CHART: 'stacked-column-amount-share'
 };
 
 /** Finds the one view matching the current countryScope/timeScope — shared by
@@ -96,6 +100,11 @@ export function resolveCardViewKind(
   if (renderStyle === 'MULTI_SERIES_LINE_CHART' && view.selector) {
     return view.countryScope === 'SELECTED_COUNTRIES' ? 'selector-share-trend' : 'access-type-trend';
   }
+  // Same style, two views: a selector means "stacked by category" (ost-3, ost-4),
+  // no selector means one value per country, shown as the EU average per year (nm-2, osp-3).
+  if (renderStyle === 'COLUMN_CHART_WITH_VALUE_LABELS' && !view.selector) {
+    return 'eu-average-column-trend';
+  }
   return RENDER_STYLE_TO_VIEW[renderStyle];
 }
 
@@ -126,7 +135,9 @@ export function resolveCardViewKind(
     CompositeColumnsLineCardView,
     SelectorShareTrendCardView,
     PieWithProgressCardView,
-    ProgressBarsNumPercentageCardView
+    ProgressBarsNumPercentageCardView,
+    EuAverageColumnTrendCardView,
+    StackedColumnAmountShareCardView
   ]
 })
 export class IndicatorCard {
@@ -148,9 +159,14 @@ export class IndicatorCard {
 
   readonly renderStyles = computed<IndicatorRenderStyle[]>(() => {
     const endYear = this.customSearchService.endYear();
-    return (this.currentView()?.renderStyles ?? []).map(rs =>
-      rs.style === 'LATEST_YEAR_YES_NO_TABLE' ? { ...rs, label: `Status in ${endYear}` } : rs
-    );
+    return (this.currentView()?.renderStyles ?? []).map(rs => {
+      switch (rs.style) {
+        case 'LATEST_YEAR_YES_NO_TABLE': return { ...rs, label: `Status in ${endYear}` };
+        case 'STACKED_COLUMN_CHART': return { ...rs, label: `${rs.label} (€)` };
+        case 'SHARE_STACKED_COLUMN_CHART': return { ...rs, label: `${rs.label} (%)` };
+        default: return rs;
+      }
+    });
   });
 
 
@@ -161,9 +177,13 @@ export class IndicatorCard {
     return styles.some(s => s.style === selected) ? selected : styles[0]?.style;
   });
 
-  /** Which half of a Per Year / Cumulative toggle is selected — passed to the child as [mode]. */
+
   readonly trendMode = computed<TrendMode>(() =>
     this.effectiveRenderStyle() === 'CUMULATIVE_MULTI_SERIES_LINE_CHART' ? 'cumulative' : 'per-year'
+  );
+
+  readonly stackedMode = computed<StackedMode>(() =>
+    this.effectiveRenderStyle() === 'SHARE_STACKED_COLUMN_CHART' ? 'share' : 'amount'
   );
 
   readonly cardViewKind = computed<CardViewKind | undefined>(() =>

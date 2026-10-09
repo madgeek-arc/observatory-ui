@@ -21,7 +21,8 @@ const compactCurrencyFormatter = new Intl.NumberFormat('en', {
   style: 'currency',
   currency: 'EUR',
   notation: 'compact',
-  maximumFractionDigits: 1
+  maximumFractionDigits: 1,
+  minimumFractionDigits: 0
 });
 
 /** Euro amount with an auto-picked unit — 12100000 -> "€12.1M", 2425586800000 -> "€2.4T". */

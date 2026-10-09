@@ -44,8 +44,6 @@ export class StackedColumnWithTotalsCardView {
     return response ? [...new Set(response.data.map(point => point.dimensions['period']))].sort() : [];
   });
 
-  /** Category codes in first-seen order — matches the order StackedBarWithProgressCardView
-   *  assigns colors in for the same indicator's single-year view, so the two views stay visually consistent. */
   private readonly codes = computed(() => {
     const response = this.response();
     const dimension = this.dimension();

@@ -78,6 +78,13 @@ export type RenderStyle =
    *  the countries-trend view; only its mode input differs. */
   | 'CUMULATIVE_MULTI_SERIES_LINE_CHART'
 
+  /** All EU, time range, with a selector — one stacked column per year, one segment per selector
+   *  category, in absolute amounts. The "Amount" half of an Amount / Share toggle. */
+  | 'STACKED_COLUMN_CHART'
+  /** Same rows and layout as STACKED_COLUMN_CHART, but each column is scaled to 100% so a segment
+   *  is that category's share of the year's total. The "Share" half of the same toggle. */
+  | 'SHARE_STACKED_COLUMN_CHART'
+
 export interface IndicatorViewSelector {
   dimension: string;
   label: string;
