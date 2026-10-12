@@ -27,13 +27,15 @@ import { PieWithProgressCardView} from "./pie-with-progress-card-view/pie-with-p
 import { ProgressBarsNumPercentageCardView} from "./progress-bars-num-percentage-card-view/progress-bars-num-percentage-card-view";
 import { EuAverageColumnTrendCardView } from "./eu-average-column-trend-card-view/eu-average-column-trend-card-view";
 import { StackedColumnAmountShareCardView, StackedMode } from "./stacked-column-amount-share-card-view/stacked-column-amount-share-card-view";
+import { TabbedCountriesTrendCardView } from "./tabbed-countries-trend-card-view/tabbed-countries-trend-card-view";
 
 export type CardViewKind = 'eu-snapshot' | 'eu-trend' | 'countries-trend' | 'countries-snapshot' | 'policy-map'
   | 'policy-countries' | 'stacked-column' | 'access-type-trend' | 'access-type-dot-plot' | 'access-type-countries-trend'
   | 'choropleth-top-countries' | 'eu-column-trend' | 'countries-column-trend' | 'selector-bar-chart'
   | 'selector-yes-no-table' | 'stacked-bar-with-progress' | 'stacked-column-with-totals' | 'year-adopted-table'
   | 'coverage-trend' | 'multi-stacked-bars'  | 'composite-column' | 'composite-columns-line' | 'selector-share-trend'
-  | 'pie-with-progress' | 'progress-bars-num-percentage' | 'eu-average-column-trend' | 'stacked-column-amount-share';
+  | 'pie-with-progress' | 'progress-bars-num-percentage' | 'eu-average-column-trend' | 'stacked-column-amount-share'
+  | 'tabbed-countries-trend';
 
 const RENDER_STYLE_TO_VIEW: Record<RenderStyle, CardViewKind> = {
   SCALAR: 'eu-snapshot',
@@ -44,7 +46,6 @@ const RENDER_STYLE_TO_VIEW: Record<RenderStyle, CardViewKind> = {
   YES_NO_TIMELINE: 'policy-countries',
   MAP: 'policy-map',
   MAP_WITH_CHANGE_COUNT: 'policy-map',
-  STACKED_COLUMN: 'stacked-column',
   PROGRESS_LINE_CHART: 'access-type-dot-plot',
   MULTI_LINE_CHARTS: 'access-type-countries-trend',
   CHOROPLETH_MAP_WITH_TOP_5: 'choropleth-top-countries',
@@ -54,17 +55,18 @@ const RENDER_STYLE_TO_VIEW: Record<RenderStyle, CardViewKind> = {
   MULTI_SERIES_BAR_CHART: 'selector-bar-chart',
   YES_NO_TABLE: 'selector-yes-no-table',
   LATEST_YEAR_YES_NO_TABLE: 'selector-yes-no-table',
-  STACKED_BAR_WITH_PROGRESS: 'stacked-bar-with-progress',
+  STACKED_BAR_CHART_WITH_PROGRESS_BARS: 'stacked-bar-with-progress',
   COLUMN_CHART_WITH_VALUE_LABELS: 'stacked-column-with-totals',
   YEAR_ADOPTED_TABLE: 'year-adopted-table',
   COVERAGE_TREND: 'coverage-trend',
-  MULTI_STACKED_BARS: 'multi-stacked-bars',
-  MULTI_STACKED_COLUMNS: 'composite-columns-line',
-  PIE_WITH_PROGRESS_BARS: 'pie-with-progress',
+  MULTI_STACKED_BAR_CHARTS: 'multi-stacked-bars',
+  SHARE_MULTI_STACKED_COLUMN_CHARTS: 'composite-columns-line',
+  PIE_CHART_WITH_PROGRESS_BARS: 'pie-with-progress',
   PROGRESS_BARS_NUM_PERCENTAGE: 'progress-bars-num-percentage',
   CUMULATIVE_MULTI_SERIES_LINE_CHART: 'countries-trend',
   STACKED_COLUMN_CHART: 'stacked-column-amount-share',
-  SHARE_STACKED_COLUMN_CHART: 'stacked-column-amount-share'
+  SHARE_STACKED_COLUMN_CHART: 'stacked-column-amount-share',
+  TABBED_MULTI_SERIES_LINE_CHARTS: 'tabbed-countries-trend'
 };
 
 /** Finds the one view matching the current countryScope/timeScope — shared by
@@ -105,6 +107,12 @@ export function resolveCardViewKind(
   if (renderStyle === 'COLUMN_CHART_WITH_VALUE_LABELS' && !view.selector) {
     return 'eu-average-column-trend';
   }
+  // Same style, two views: with a single year it is the document-type distribution (oa-9, od-8:
+  // one 100% column per document type, stacked by access type); over a range it is the Share
+  // half of inv-2's Amount / Share toggle.
+  if (renderStyle === 'SHARE_STACKED_COLUMN_CHART' && view.timeScope === 'SINGLE_YEAR') {
+    return 'stacked-column';
+  }
   return RENDER_STYLE_TO_VIEW[renderStyle];
 }
 
@@ -137,7 +145,8 @@ export function resolveCardViewKind(
     PieWithProgressCardView,
     ProgressBarsNumPercentageCardView,
     EuAverageColumnTrendCardView,
-    StackedColumnAmountShareCardView
+    StackedColumnAmountShareCardView,
+    TabbedCountriesTrendCardView
   ]
 })
 export class IndicatorCard {

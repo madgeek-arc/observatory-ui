@@ -19,8 +19,6 @@ export type RenderStyle =
   | 'MAP'
   /** All EU, year range — choropleth plus a count of countries that changed since the start year. */
   | 'MAP_WITH_CHANGE_COUNT'
-  /** All EU, year range — one column per year, split into stacked breakdown categories. */
-  | 'STACKED_COLUMN'
   /** Selected countries, single year — one row per country, one dot per category on a 0–100 scale. */
   | 'PROGRESS_LINE_CHART'
   /** Selected countries, year range, with a selector — one mini line chart per selector
@@ -43,8 +41,8 @@ export type RenderStyle =
   | 'YES_NO_TABLE'
   /** All EU, single year, no selector — one stacked bar across a fixed breakdown
    *  dimension, plus a headline % for its first category and a progress-bar list below. */
-  | 'STACKED_BAR_WITH_PROGRESS'
-  /** All EU, time range — same breakdown dimension as STACKED_BAR_WITH_PROGRESS,
+  | 'STACKED_BAR_CHART_WITH_PROGRESS_BARS'
+  /** All EU, time range — same breakdown dimension as STACKED_BAR_CHART_WITH_PROGRESS_BARS,
    *  but one stacked column per period plus a headline % for the latest period. */
   | 'COLUMN_CHART_WITH_VALUE_LABELS'
   /** Selected countries, time range, with a selector — one row per selector category,
@@ -58,18 +56,18 @@ export type RenderStyle =
    *  YEAR_ADOPTED_TABLE/COVERAGE_TREND — its badge label shows the selected end year. */
   | 'LATEST_YEAR_YES_NO_TABLE'
   /** Selected countries, single year, no selector — same breakdown dimension as
-   *  STACKED_BAR_WITH_PROGRESS, but one stacked bar per selected country (ranked by
+   *  STACKED_BAR_CHART_WITH_PROGRESS_BARS, but one stacked bar per selected country (ranked by
    *  the first category's share) plus a muted EU-average bar at the bottom. */
-  | 'MULTI_STACKED_BARS'
+  | 'MULTI_STACKED_BAR_CHARTS'
   /** Selected countries, time range, with a selector — the "By access type" badge
    *  alongside MULTI_SERIES_LINE_CHART's "Open Access share". Same breakdown dimension
-   *  as STACKED_BAR_WITH_PROGRESS/COLUMN_CHART_WITH_VALUE_LABELS, but one stacked-column
+   *  as STACKED_BAR_CHART_WITH_PROGRESS_BARS/COLUMN_CHART_WITH_VALUE_LABELS, but one stacked-column
    *  chart per selected country, arranged in a grid with a shared legend below. */
-  | 'MULTI_STACKED_COLUMNS'
+  | 'SHARE_MULTI_STACKED_COLUMN_CHARTS'
   /** All EU, single year, with a selector — one donut segment per selector category,
    *  ranked-by-size list beside it with a progress bar, percentage and formatted value
    *  per row, and a total figure in the donut's center. */
-  | 'PIE_WITH_PROGRESS_BARS'
+  | 'PIE_CHART_WITH_PROGRESS_BARS'
 
   | 'PROGRESS_BARS_NUM_PERCENTAGE'
 
@@ -82,8 +80,14 @@ export type RenderStyle =
    *  category, in absolute amounts. The "Amount" half of an Amount / Share toggle. */
   | 'STACKED_COLUMN_CHART'
   /** Same rows and layout as STACKED_COLUMN_CHART, but each column is scaled to 100% so a segment
-   *  is that category's share of the year's total. The "Share" half of the same toggle. */
+   *  is that category's share of the year's total. The "Share" half of the same toggle.
+   *  Also sent for the single-year all-countries view (oa-9, od-8): one 100% column per document
+   *  type, stacked by access type. resolveCardViewKind() tells the two apart by timeScope. */
   | 'SHARE_STACKED_COLUMN_CHART'
+
+  /** Selected countries, time range, with a selector — a row of chips, one per selector category;
+   *  the chosen category is drawn as one line per selected country. */
+  | 'TABBED_MULTI_SERIES_LINE_CHARTS'
 
 export interface IndicatorViewSelector {
   dimension: string;
