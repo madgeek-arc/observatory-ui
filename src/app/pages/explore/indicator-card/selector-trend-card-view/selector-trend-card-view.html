@@ -9,18 +9,20 @@
   }
 </div>
 
-@if (chartOptions(); as options) {
-  <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
-                    style="width: 100%; display: block;"></highcharts-chart>
+<app-card-state [state]="state()" [height]="260" [empty]="isEmpty()">
+  <ng-template>
+    @if (chartOptions(); as options) {
+      <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
+                        style="width: 100%; display: block;"></highcharts-chart>
 
-  <div class="uk-flex uk-flex-wrap uk-margin-small-top" style="gap: 16px;">
-    @for (item of latestShares(); track item.label; let i = $index) {
-      <div class="uk-flex uk-flex-middle" style="gap: 6px;">
-        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%;" [style.background]="colors[i]"></span>
-        <span class="uk-text-small">{{ item.label }} <b>{{ item.value }}%</b></span>
+      <div class="uk-flex uk-flex-wrap uk-margin-small-top" style="gap: 16px;">
+        @for (item of latestShares(); track item.label; let i = $index) {
+          <div class="uk-flex uk-flex-middle" style="gap: 6px;">
+            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%;" [style.background]="colors[i]"></span>
+            <span class="uk-text-small">{{ item.label }} <b>{{ item.value }}%</b></span>
+          </div>
+        }
       </div>
     }
-  </div>
-} @else {
-  <app-loading-placeholder [height]="260" />
-}
+  </ng-template>
+</app-card-state>

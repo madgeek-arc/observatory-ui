@@ -1,8 +1,8 @@
-@if (formattedValue() !== undefined) {
-  <div class="uk-flex uk-flex-middle" style="gap: 8px;">
-    <span class="uk-text-large uk-text-bold">{{ formattedValue() }}</span>
-    <span class="uk-text-meta uk-text-small">EU-wide</span>
-  </div>
-} @else {
-  <app-loading-placeholder [height]="60" />
-}
+<app-card-state [state]="state()" [height]="60" [empty]="isEmpty()">
+  <ng-template>
+    <div class="uk-flex uk-flex-middle" style="gap: 8px;">
+      <span class="uk-text-large uk-text-bold">{{ formattedValue() }}</span>
+      <span class="uk-text-meta uk-text-small">EU-wide</span>
+    </div>
+  </ng-template>
+</app-card-state>

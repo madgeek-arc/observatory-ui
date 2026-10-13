@@ -1,13 +1,14 @@
 import { Component, computed, inject, input } from "@angular/core";
 import { SeriesOptionsType } from "highcharts";
 import { ChartsModule } from "../../../../shared/charts/charts.module";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
   selector: 'app-selector-bar-chart-card-view',
   templateUrl: './selector-bar-chart-card-view.html',
-  imports: [ChartsModule, LoadingPlaceholder]
+  imports: [ChartsModule, LoadingPlaceholder, CardState]
 })
 export class SelectorBarChartCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -43,7 +44,8 @@ export class SelectorBarChartCardView {
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+  private readonly response = computed(() => dataOf(this.state()));
 
   private readonly years = computed(() => {
     const response = this.response();
@@ -73,4 +75,6 @@ export class SelectorBarChartCardView {
   });
 
   readonly ready = computed(() => this.response() !== undefined && this.categoryCodes().length > 0);
+
+  readonly isEmpty = computed(() => !hasNumericValue(this.response()));
 }

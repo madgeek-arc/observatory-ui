@@ -1,11 +1,11 @@
 import { Component, computed, inject, input } from "@angular/core";
 import * as Highcharts from "highcharts";
 import { HighchartsChartModule } from "highcharts-angular";
-import { CustomSearchService, IndicatorPresetQueryRequest, IndicatorQueryResponse } from "../../custom-search/services/custom-search.service";
+import { combineStates, CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest, IndicatorQueryResponse } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
 import { formatCount } from "../../../../domain/format-indicator-value";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CardState } from "../../../../shared/card-state/card-state";
 
 interface BarSegment {
   code: string;
@@ -19,7 +19,7 @@ interface BarSegment {
 @Component({
   selector: 'app-multi-stacked-bars-card-view',
   templateUrl: './multi-stacked-bars-card-view.html',
-  imports: [HighchartsChartModule, LoadingPlaceholder]
+  imports: [HighchartsChartModule, CardState]
 })
 export class MultiStackedBarsCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -41,7 +41,8 @@ export class MultiStackedBarsCardView {
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
-  private readonly countriesResponse = this.customSearchService.queryIndicatorSignal(this.countriesQueryParams);
+  private readonly countriesState = this.customSearchService.queryIndicatorState(this.countriesQueryParams);
+  private readonly countriesResponse = computed(() => dataOf(this.countriesState()));
 
   /** ALL_COUNTRIES, one year — drives the muted "EU average" bar only. */
   private readonly euQueryParams = computed(() => ({
@@ -53,7 +54,11 @@ export class MultiStackedBarsCardView {
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
-  private readonly euResponse = this.customSearchService.queryIndicatorSignal(this.euQueryParams);
+  private readonly euState = this.customSearchService.queryIndicatorState(this.euQueryParams);
+  private readonly euResponse = computed(() => dataOf(this.euState()));
+
+  /** The card waits for both requests — see combineStates. */
+  readonly state = computed(() => combineStates(this.countriesState(), this.euState()));
 
   /** No selector on this view (same as StackedBarWithProgressCardView) — the breakdown
    *  dimension is derived from whichever response resolves first. `country` is excluded
@@ -171,5 +176,5 @@ export class MultiStackedBarsCardView {
 
   readonly legendItems = computed(() => this.buildSegments(this.euResponse()?.data ?? []).segments);
 
-  readonly ready = computed(() => this.countriesResponse() !== undefined && this.euResponse() !== undefined);
+  readonly isEmpty = computed(() => !hasNumericValue(this.countriesResponse()));
 }

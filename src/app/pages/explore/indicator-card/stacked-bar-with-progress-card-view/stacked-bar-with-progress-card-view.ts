@@ -1,15 +1,15 @@
 import { Component, computed, inject, input } from "@angular/core";
 import * as Highcharts from "highcharts";
 import { HighchartsChartModule } from "highcharts-angular";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { colors } from "../../../../domain/chart-color-palette";
 import { formatCount } from "../../../../domain/format-indicator-value";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
   selector: 'app-stacked-bar-with-progress-card-view',
   templateUrl: './stacked-bar-with-progress-card-view.html',
-  imports: [HighchartsChartModule, LoadingPlaceholder]
+  imports: [HighchartsChartModule, CardState]
 })
 export class StackedBarWithProgressCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -28,7 +28,8 @@ export class StackedBarWithProgressCardView {
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+  private readonly response = computed(() => dataOf(this.state()));
 
   private readonly dimension = computed(() => this.response()?.dimensions.find(d => d !== 'period') ?? '');
 
@@ -115,5 +116,5 @@ export class StackedBarWithProgressCardView {
     };
   });
 
-  readonly ready = computed(() => this.response() !== undefined);
+  readonly isEmpty = computed(() => this.segments().length === 0);
 }

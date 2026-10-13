@@ -3,13 +3,13 @@ import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
   selector: 'app-selector-dot-plot-card-view',
   templateUrl: './selector-dot-plot-card-view.html',
-  imports: [HighchartsChartModule, LoadingPlaceholder]
+  imports: [HighchartsChartModule, CardState]
 })
 export class SelectorDotPlotCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -51,7 +51,9 @@ export class SelectorDotPlotCardView {
     } as IndicatorPresetQueryRequest
   }));
 
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+
+  private readonly response = computed(() => dataOf(this.state()));
 
   /** Document types actually present in the response, alphabetical — not from /members,
    *  since /members returns the whole universal vocabulary for this indicatorCode, not
@@ -185,4 +187,6 @@ export class SelectorDotPlotCardView {
       }))
     };
   }
+
+  readonly isEmpty = computed(() => !hasNumericValue(this.response()));
 }

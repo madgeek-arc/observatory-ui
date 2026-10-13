@@ -2,8 +2,8 @@ import { Component, computed, inject, input } from "@angular/core";
 import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { colors } from "../../../../domain/chart-color-palette";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CardState } from "../../../../shared/card-state/card-state";
 import { formatCompactCurrency } from "../../../../domain/format-indicator-value";
 
 
@@ -12,7 +12,7 @@ export type StackedMode = 'amount' | 'share';
 @Component({
   selector: 'app-stacked-column-amount-share-card-view',
   templateUrl: './stacked-column-amount-share-card-view.html',
-  imports: [HighchartsChartModule, LoadingPlaceholder]
+  imports: [HighchartsChartModule, CardState]
 })
 export class StackedColumnAmountShareCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -33,7 +33,8 @@ export class StackedColumnAmountShareCardView {
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+  private readonly response = computed(() => dataOf(this.state()));
 
   private readonly membersParams = computed(() => ({
     indicatorCode: this.indicatorCode(),
@@ -150,4 +151,6 @@ export class StackedColumnAmountShareCardView {
       series: this.series()
     };
   });
+
+  readonly isEmpty = computed(() => this.headline() === undefined);
 }

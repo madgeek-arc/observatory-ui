@@ -2,15 +2,15 @@ import { Component, computed, inject, input } from "@angular/core";
 import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { colors } from "../../../../domain/chart-color-palette";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CardState } from "../../../../shared/card-state/card-state";
 import { IndicatorFormat } from "../../../../domain/explore-indicators";
 import { formatIndicatorValue } from "../../../../domain/format-indicator-value";
 
 @Component({
   selector: 'app-eu-column-trend-card-view',
   templateUrl: './eu-column-trend-card-view.html',
-  imports: [HighchartsChartModule, LoadingPlaceholder]
+  imports: [HighchartsChartModule, CardState]
 })
 export class EuColumnTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -30,7 +30,9 @@ export class EuColumnTrendCardView {
     } as IndicatorPresetQueryRequest
   }));
 
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+
+  private readonly response = computed(() => dataOf(this.state()));
 
   /** One total per year, summed across every country — the response gives us
    *  per-country per-year points, not a pre-aggregated EU total. */
@@ -78,4 +80,6 @@ export class EuColumnTrendCardView {
       }]
     };
   });
+
+  readonly isEmpty = computed(() => (this.yearlyTotals() ?? []).length === 0);
 }

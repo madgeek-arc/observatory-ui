@@ -1,9 +1,9 @@
 import { Component, computed, inject, input } from "@angular/core";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { combineStates, CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { isPositiveStatus } from "../../../../domain/policy-status";
 import { colors } from "../../../../domain/chart-color-palette";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CardState } from "../../../../shared/card-state/card-state";
 
 interface YearAdoptedCell {
   year: string | undefined;
@@ -14,7 +14,7 @@ interface YearAdoptedCell {
 @Component({
   selector: 'app-year-adopted-table-card-view',
   templateUrl: './year-adopted-table-card-view.html',
-  imports: [LoadingPlaceholder]
+  imports: [CardState]
 })
 export class YearAdoptedTableCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -62,7 +62,8 @@ export class YearAdoptedTableCardView {
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
-  private readonly countriesResponse = this.customSearchService.queryIndicatorSignal(this.countriesQueryParams);
+  private readonly countriesState = this.customSearchService.queryIndicatorState(this.countriesQueryParams);
+  private readonly countriesResponse = computed(() => dataOf(this.countriesState()));
 
   /** ALL_COUNTRIES, endYear only — drives the EU reference column (a plain % snapshot,
    *  same as SelectorYesNoTableCardView, not a "year adopted" computation). */
@@ -75,7 +76,11 @@ export class YearAdoptedTableCardView {
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
-  private readonly euResponse = this.customSearchService.queryIndicatorSignal(this.euQueryParams);
+  private readonly euState = this.customSearchService.queryIndicatorState(this.euQueryParams);
+  private readonly euResponse = computed(() => dataOf(this.euState()));
+
+  /** The card waits for both requests — see combineStates. */
+  readonly state = computed(() => combineStates(this.countriesState(), this.euState()));
 
   readonly rows = computed(() => {
     const countriesResponse = this.countriesResponse();
@@ -114,5 +119,5 @@ export class YearAdoptedTableCardView {
     }));
   });
 
-  readonly ready = computed(() => this.countriesResponse() !== undefined && this.euResponse() !== undefined);
+  readonly isEmpty = computed(() => (this.countriesResponse()?.data.length ?? 0) === 0);
 }

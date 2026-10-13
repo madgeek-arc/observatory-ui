@@ -1,15 +1,17 @@
-@if (countryStatuses(); as rows) {
-  @for (row of rows; track row.id) {
-    <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
-      <span class="uk-text-small">{{ row.name }}</span>
-      <span class="uk-label" style="color: #fff;" [style.background-color]="row.badge.color">
-        {{ row.badge.text }}
-      </span>
-    </div>
-  }
-  <div class="uk-text-meta uk-text-small uk-margin-small-top">
-    {{ positiveCount() }} of {{ totalCount() }} selected countries
-  </div>
-} @else {
-  <app-loading-placeholder [height]="60" />
-}
+<app-card-state [state]="state()" [height]="60" [empty]="isEmpty()">
+  <ng-template>
+    @if (countryStatuses(); as rows) {
+      @for (row of rows; track row.id) {
+        <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
+          <span class="uk-text-small">{{ row.name }}</span>
+          <span class="uk-label" style="color: #fff;" [style.background-color]="row.badge.color">
+            {{ row.badge.text }}
+          </span>
+        </div>
+      }
+      <div class="uk-text-meta uk-text-small uk-margin-small-top">
+        {{ positiveCount() }} of {{ totalCount() }} selected countries
+      </div>
+    }
+  </ng-template>
+</app-card-state>

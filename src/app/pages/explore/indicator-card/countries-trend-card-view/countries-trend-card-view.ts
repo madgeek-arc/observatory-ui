@@ -1,10 +1,10 @@
 import { Component, computed, inject, input } from "@angular/core";
 import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CardState } from "../../../../shared/card-state/card-state";
 import { IndicatorFormat } from "../../../../domain/explore-indicators";
 import { formatIfNumber, formatIndicatorValue } from "../../../../domain/format-indicator-value";
 
@@ -24,7 +24,7 @@ function toCumulative(values: (number | null)[]): (number | null)[] {
 @Component({
   selector: 'app-countries-trend-card-view',
   templateUrl: './countries-trend-card-view.html',
-  imports: [HighchartsChartModule, LoadingPlaceholder]
+  imports: [HighchartsChartModule, CardState]
 })
 export class CountriesTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -55,7 +55,9 @@ export class CountriesTrendCardView {
     } as IndicatorPresetQueryRequest
   }));
 
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+
+  private readonly response = computed(() => dataOf(this.state()));
 
   readonly trendChartOptions = computed<Highcharts.Options | undefined>(() => {
     const response = this.response();
@@ -101,4 +103,6 @@ export class CountriesTrendCardView {
       series
     };
   });
+
+  readonly isEmpty = computed(() => !hasNumericValue(this.response()));
 }

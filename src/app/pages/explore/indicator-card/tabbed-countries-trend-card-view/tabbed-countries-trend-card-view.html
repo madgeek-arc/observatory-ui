@@ -1,34 +1,36 @@
-@if (chartOptions(); as options) {
-  <div class="uk-flex uk-flex-wrap uk-flex-middle">
-    @if (dimensionLabel()) {
-      <span class="uk-text-meta uk-text-small uk-text-uppercase uk-margin-small-right uk-margin-small-bottom">{{ dimensionLabel() }}</span>
-    }
-    @for (area of areas(); track area.code) {
-      <button type="button"
-              class="uk-button uk-button-small uk-margin-small-right uk-margin-small-bottom"
-              [class.uk-button-secondary]="activeCode() === area.code"
-              [class.eos-btn--ghost]="activeCode() !== area.code"
-              (click)="selectArea(area.code)">
-        {{ area.label }}
-      </button>
-    }
-  </div>
-
-  <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
-                    style="width: 100%; display: block;"></highcharts-chart>
-
-  <div class="uk-flex uk-flex-wrap uk-margin-small-top">
-    @for (country of countrySeries(); track country.id) {
-      <div class="uk-flex uk-flex-middle uk-margin-right">
-        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%;" [style.background]="country.color"></span>
-        <span class="uk-text-small uk-margin-small-left">{{ country.name }} <b>{{ country.formattedLatest }}</b></span>
+<app-card-state [state]="state()" [height]="260" [empty]="isEmpty()">
+  <ng-template>
+    @if (chartOptions(); as options) {
+      <div class="uk-flex uk-flex-wrap uk-flex-middle">
+        @if (dimensionLabel()) {
+          <span class="uk-text-meta uk-text-small uk-text-uppercase uk-margin-small-right uk-margin-small-bottom">{{ dimensionLabel() }}</span>
+        }
+        @for (area of areas(); track area.code) {
+          <button type="button"
+                  class="uk-button uk-button-small uk-margin-small-right uk-margin-small-bottom"
+                  [class.uk-button-secondary]="activeCode() === area.code"
+                  [class.eos-btn--ghost]="activeCode() !== area.code"
+                  (click)="selectArea(area.code)">
+            {{ area.label }}
+          </button>
+        }
       </div>
-    }
-  </div>
 
-  @if (caption(); as text) {
-    <div class="uk-text-meta uk-text-small uk-margin-small-top">{{ text }}</div>
-  }
-} @else {
-  <app-loading-placeholder [height]="260" />
-}
+      <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
+                        style="width: 100%; display: block;"></highcharts-chart>
+
+      <div class="uk-flex uk-flex-wrap uk-margin-small-top">
+        @for (country of countrySeries(); track country.id) {
+          <div class="uk-flex uk-flex-middle uk-margin-right">
+            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%;" [style.background]="country.color"></span>
+            <span class="uk-text-small uk-margin-small-left">{{ country.name }} <b>{{ country.formattedLatest }}</b></span>
+          </div>
+        }
+      </div>
+
+      @if (caption(); as text) {
+        <div class="uk-text-meta uk-text-small uk-margin-small-top">{{ text }}</div>
+      }
+    }
+  </ng-template>
+</app-card-state>

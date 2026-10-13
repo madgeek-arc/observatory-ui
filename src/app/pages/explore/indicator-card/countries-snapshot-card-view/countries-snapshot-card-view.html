@@ -1,13 +1,15 @@
-@if (countryValues(); as items) {
-  @for (item of items; track item.id) {
-    <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
-      <span class="uk-text-small">{{ item.name }}</span>
-      @if (format() === 'percentage' && item.formattedValue !== undefined) {
-        <progress class="uk-progress uk-width-expand" [value]="item.value" max="100"></progress>
+<app-card-state [state]="state()" [height]="60" [empty]="isEmpty()">
+  <ng-template>
+    @if (countryValues(); as items) {
+      @for (item of items; track item.id) {
+        <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
+          <span class="uk-text-small">{{ item.name }}</span>
+          @if (format() === 'percentage' && item.formattedValue !== undefined) {
+            <progress class="uk-progress uk-width-expand" [value]="item.value" max="100"></progress>
+          }
+          <span class="uk-text-bold uk-text-small uk-margin-auto-left">{{ item.formattedValue ?? 'N/A' }}</span>
+        </div>
       }
-      <span class="uk-text-bold uk-text-small uk-margin-auto-left">{{ item.formattedValue ?? 'N/A' }}</span>
-    </div>
-  }
-} @else {
-  <app-loading-placeholder [height]="60" />
-}
+    }
+  </ng-template>
+</app-card-state>

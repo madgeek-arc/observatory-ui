@@ -9,24 +9,26 @@
   }
 </div>
 
-@if (panels(); as panels) {
-  <div class="uk-grid-small uk-grid-match" uk-grid>
-    @for (panel of panels; track panel.classification) {
-      <div class="uk-width-1-4@m uk-card card-simple">
-        <highcharts-chart [Highcharts]="Highcharts" [options]="panel.options" [oneToOne]="true"
-                          style="width: 100%; display: block;"></highcharts-chart>
+<app-card-state [state]="state()" [height]="180" [empty]="isEmpty()">
+  <ng-template>
+    @if (panels(); as panels) {
+      <div class="uk-grid-small uk-grid-match" uk-grid>
+        @for (panel of panels; track panel.classification) {
+          <div class="uk-width-1-4@m uk-card card-simple">
+            <highcharts-chart [Highcharts]="Highcharts" [options]="panel.options" [oneToOne]="true"
+                              style="width: 100%; display: block;"></highcharts-chart>
+          </div>
+        }
       </div>
-    }
-  </div>
 
-  <div class="uk-flex uk-flex-wrap uk-margin-small-top" style="gap: 16px;">
-    @for (country of selectedCountries(); track country.id) {
-      <div class="uk-flex uk-flex-middle" style="gap: 6px;">
-        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%;" [style.background]="country.color"></span>
-        <span class="uk-text-small uk-text-muted">{{ country.name }}</span>
+      <div class="uk-flex uk-flex-wrap uk-margin-small-top" style="gap: 16px;">
+        @for (country of selectedCountries(); track country.id) {
+          <div class="uk-flex uk-flex-middle" style="gap: 6px;">
+            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%;" [style.background]="country.color"></span>
+            <span class="uk-text-small uk-text-muted">{{ country.name }}</span>
+          </div>
+        }
       </div>
     }
-  </div>
-} @else {
-  <app-loading-placeholder [height]="180" />
-}
+  </ng-template>
+</app-card-state>

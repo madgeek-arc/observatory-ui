@@ -1,14 +1,14 @@
 import {Component, computed, inject, input} from '@angular/core';
-import {CustomSearchService, IndicatorPresetQueryRequest} from "../../custom-search/services/custom-search.service";
+import { combineStates, CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import {IndicatorFormat} from "../../../../domain/explore-indicators";
 import {resolveSelectedCountries} from "../../../../domain/countries";
 import {formatCompactCurrency} from "../../../../domain/format-indicator-value";
-import {LoadingPlaceholder} from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CardState } from "../../../../shared/card-state/card-state";
 import {DecimalPipe} from "@angular/common";
 
 @Component({
   selector: 'app-progress-bars-num-percentage-card-view',
-  imports: [LoadingPlaceholder, DecimalPipe],
+  imports: [CardState, DecimalPipe],
   templateUrl: './progress-bars-num-percentage-card-view.html',
 })
 export class ProgressBarsNumPercentageCardView {
@@ -31,7 +31,8 @@ export class ProgressBarsNumPercentageCardView {
     } as IndicatorPresetQueryRequest
   }));
 
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  private readonly countriesState = this.customSearchService.queryIndicatorState(this.queryParams);
+  private readonly response = computed(() => dataOf(this.countriesState()));
 
   private readonly euQueryParams = computed(() => ({
     id: this.indicatorId(),
@@ -43,7 +44,11 @@ export class ProgressBarsNumPercentageCardView {
     } as IndicatorPresetQueryRequest
   }))
 
-  private readonly euResponse = this.customSearchService.queryIndicatorSignal(this.euQueryParams);
+  private readonly euState = this.customSearchService.queryIndicatorState(this.euQueryParams);
+  private readonly euResponse = computed(() => dataOf(this.euState()));
+
+  /** The card waits for both requests — see combineStates. */
+  readonly state = computed(() => combineStates(this.countriesState(), this.euState()));
 
   readonly euTotal = computed(() =>
     (this.euResponse()?.data ?? [])
@@ -121,5 +126,5 @@ export class ProgressBarsNumPercentageCardView {
     };
   });
 
-  readonly ready = computed(() => this.response() !== undefined && this.euResponse() !== undefined);
+  readonly isEmpty = computed(() => !hasNumericValue(this.response()));
 }

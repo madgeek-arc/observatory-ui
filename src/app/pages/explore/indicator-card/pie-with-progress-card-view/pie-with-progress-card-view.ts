@@ -1,10 +1,10 @@
 import {Component, computed, inject, input} from "@angular/core";
 import * as Highcharts from "highcharts";
 import { HighchartsChartModule } from "highcharts-angular";
-import {CustomSearchService, IndicatorPresetQueryRequest} from "../../custom-search/services/custom-search.service";
+import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { colors } from "../../../../domain/chart-color-palette";
 import { formatIndicatorValue } from "../../../../domain/format-indicator-value";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CardState } from "../../../../shared/card-state/card-state";
 
 interface AreaShare {
   code: string;
@@ -18,7 +18,7 @@ interface AreaShare {
 @Component({
   selector: 'app-pie-with-progress-card-view',
   templateUrl: './pie-with-progress-card-view.html',
-  imports: [HighchartsChartModule, LoadingPlaceholder]
+  imports: [HighchartsChartModule, CardState]
 })
 export class PieWithProgressCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -43,7 +43,9 @@ export class PieWithProgressCardView {
     } as IndicatorPresetQueryRequest
   }));
 
-  private response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+
+  private readonly response = computed(() => dataOf(this.state()));
 
   /** query for labels */
   private readonly membersParams = computed(() => ({
@@ -120,4 +122,6 @@ export class PieWithProgressCardView {
       }]
     };
   });
+
+  readonly isEmpty = computed(() => this.areas().length === 0);
 }

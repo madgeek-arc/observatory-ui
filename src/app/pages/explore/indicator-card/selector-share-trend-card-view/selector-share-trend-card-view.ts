@@ -1,15 +1,15 @@
 import { Component, computed, inject, input } from "@angular/core";
 import * as Highcharts from "highcharts";
 import { HighchartsChartModule } from "highcharts-angular";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
   selector: 'app-selector-share-trend-card-view',
   templateUrl: './selector-share-trend-card-view.html',
-  imports: [HighchartsChartModule, LoadingPlaceholder]
+  imports: [HighchartsChartModule, CardState]
 })
 export class SelectorShareTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -28,7 +28,8 @@ export class SelectorShareTrendCardView {
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+  private readonly response = computed(() => dataOf(this.state()));
 
   private readonly years = computed(() => {
     const response = this.response();
@@ -111,4 +112,6 @@ export class SelectorShareTrendCardView {
       })
     };
   });
+
+  readonly isEmpty = computed(() => !hasNumericValue(this.response()));
 }

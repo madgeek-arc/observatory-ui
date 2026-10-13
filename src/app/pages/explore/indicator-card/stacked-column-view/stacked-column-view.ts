@@ -2,13 +2,14 @@ import { Component, computed, inject, input } from "@angular/core";
 import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { colors } from "../../../../domain/chart-color-palette";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
   selector: 'app-stacked-column-view',
   templateUrl: './stacked-column-view.html',
-  imports: [HighchartsChartModule, LoadingPlaceholder]
+  imports: [HighchartsChartModule, LoadingPlaceholder, CardState]
 })
 export class StackedColumnView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -43,7 +44,9 @@ export class StackedColumnView {
     } as IndicatorPresetQueryRequest
   }));
 
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+
+  private readonly response = computed(() => dataOf(this.state()));
 
   /** Document types actually present in the response, alphabetical — not from /members,
    *  since /members returns the whole universal vocabulary for this indicatorCode, not
@@ -111,4 +114,6 @@ export class StackedColumnView {
       }))
     };
   });
+
+  readonly isEmpty = computed(() => !hasNumericValue(this.response()));
 }

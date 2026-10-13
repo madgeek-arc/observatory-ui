@@ -1,0 +1,19 @@
+@switch (state().status) {
+  @case ('loading') {
+    <app-loading-placeholder [height]="height()" />
+  }
+  @case ('error') {
+    <div class="uk-flex uk-flex-center uk-flex-middle uk-text-meta uk-text-small" [style.height.px]="height()">
+      <span class="uk-text-bold">Couldn't load data.</span>
+    </div>
+  }
+  @case ('success') {
+    @if (empty()) {
+      <div class="uk-flex uk-flex-center uk-flex-middle uk-text-meta uk-text-small" [style.height.px]="height()">
+        {{ emptyText() }}
+      </div>
+    } @else {
+      <ng-container [ngTemplateOutlet]="content()" />
+    }
+  }
+}

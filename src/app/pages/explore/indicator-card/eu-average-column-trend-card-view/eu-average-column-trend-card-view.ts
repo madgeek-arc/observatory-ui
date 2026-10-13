@@ -2,13 +2,13 @@ import { Component, computed, inject, input } from "@angular/core";
 import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { colors } from "../../../../domain/chart-color-palette";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
   selector: 'app-eu-average-column-trend-card-view',
   templateUrl: './eu-average-column-trend-card-view.html',
-  imports: [HighchartsChartModule, LoadingPlaceholder]
+  imports: [HighchartsChartModule, CardState]
 })
 export class EuAverageColumnTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -27,7 +27,8 @@ export class EuAverageColumnTrendCardView {
     } as IndicatorPresetQueryRequest
   }));
 
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+  private readonly response = computed(() => dataOf(this.state()));
 
   /** Average per year over the countries that have a value that year. A country without
    *  a value is left out, not counted as 0; a year where no country has one stays with a null average. */
@@ -109,4 +110,6 @@ export class EuAverageColumnTrendCardView {
       }]
     };
   });
+
+  readonly isEmpty = computed(() => !(this.yearlyAverages() ?? []).some(item => item.average !== null));
 }

@@ -1,13 +1,13 @@
 import { Component, computed, inject, input } from "@angular/core";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { countryStatusBadge } from "../../../../domain/policy-status";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
   selector: 'app-policy-countries-card-view',
   templateUrl: './policy-countries-card-view.html',
-  imports: [LoadingPlaceholder]
+  imports: [CardState]
 })
 export class PolicyCountriesCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -24,7 +24,9 @@ export class PolicyCountriesCardView {
     } as IndicatorPresetQueryRequest
   }));
 
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+
+  private readonly response = computed(() => dataOf(this.state()));
 
   readonly countryStatuses = computed(() => {
     const response = this.response();
@@ -46,4 +48,6 @@ export class PolicyCountriesCardView {
   );
 
   readonly totalCount = computed(() => this.countryStatuses()?.length);
+
+  readonly isEmpty = computed(() => (this.response()?.data.length ?? 0) === 0);
 }

@@ -1,14 +1,14 @@
 import { Component, computed, inject, input } from "@angular/core";
 import { ChartsModule } from "../../../../shared/charts/charts.module";
 import { CategorizedAreaData, Series } from "../../../../domain/categorizedAreaData";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CardState } from "../../../../shared/card-state/card-state";
 import { colorForStatus, isPositiveStatus } from "../../../../domain/policy-status";
 
 @Component({
   selector: 'app-policy-map-card-view',
   templateUrl: './policy-map-card-view.html',
-  imports: [ChartsModule, LoadingPlaceholder]
+  imports: [ChartsModule, CardState]
 })
 export class PolicyMapCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -25,7 +25,9 @@ export class PolicyMapCardView {
     } as IndicatorPresetQueryRequest
   }));
 
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+
+  private readonly response = computed(() => dataOf(this.state()));
 
   readonly mapData = computed<CategorizedAreaData | undefined>(() => {
     const response = this.response();
@@ -59,4 +61,6 @@ export class PolicyMapCardView {
   readonly positiveCount = computed(() =>
     this.response()?.data.filter(point => isPositiveStatus(String(point.value))).length
   );
+
+  readonly isEmpty = computed(() => (this.response()?.data.length ?? 0) === 0);
 }

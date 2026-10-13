@@ -1,16 +1,16 @@
 import { Component, computed, inject, input } from "@angular/core";
 import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { isPositiveStatus } from "../../../../domain/policy-status";
 import { colors } from "../../../../domain/chart-color-palette";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
   selector: 'app-coverage-trend-card-view',
   templateUrl: './coverage-trend-card-view.html',
-  imports: [HighchartsChartModule, LoadingPlaceholder]
+  imports: [HighchartsChartModule, CardState]
 })
 export class CoverageTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -56,7 +56,8 @@ export class CoverageTrendCardView {
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+  private readonly response = computed(() => dataOf(this.state()));
 
   private readonly years = computed(() => {
     const response = this.response();
@@ -107,5 +108,5 @@ export class CoverageTrendCardView {
     };
   });
 
-  readonly ready = computed(() => this.response() !== undefined);
+  readonly isEmpty = computed(() => (this.response()?.data.length ?? 0) === 0);
 }

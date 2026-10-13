@@ -1,14 +1,14 @@
 import { Component, computed, inject, input } from "@angular/core";
 import * as Highcharts from "highcharts";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { colors } from "../../../../domain/chart-color-palette";
 import { ChartsModule } from "../../../../shared/charts/charts.module";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
   selector: 'app-stacked-column-with-totals-card-view',
   templateUrl: './stacked-column-with-totals-card-view.html',
-  imports: [ChartsModule, LoadingPlaceholder]
+  imports: [ChartsModule, CardState]
 })
 export class StackedColumnWithTotalsCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -28,7 +28,8 @@ export class StackedColumnWithTotalsCardView {
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+  private readonly response = computed(() => dataOf(this.state()));
 
   private readonly membersParams = computed(() => ({
     indicatorCode: this.indicatorCode(),
@@ -107,5 +108,5 @@ export class StackedColumnWithTotalsCardView {
     return this.latestPercent() - this.percentOpenAccessFor(this.firstYear());
   });
 
-  readonly ready = computed(() => this.response() !== undefined);
+  readonly isEmpty = computed(() => !hasNumericValue(this.response()));
 }

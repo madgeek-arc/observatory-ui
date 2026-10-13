@@ -1,6 +1,8 @@
-@if (chartOptions(); as options) {
-  <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
-                    style="width: 100%; display: block;"></highcharts-chart>
-} @else {
-  <app-loading-placeholder [height]="200" />
-}
+<app-card-state [state]="state()" [height]="200" [empty]="isEmpty()">
+  <ng-template>
+    @if (chartOptions(); as options) {
+      <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
+                        style="width: 100%; display: block;"></highcharts-chart>
+    }
+  </ng-template>
+</app-card-state>

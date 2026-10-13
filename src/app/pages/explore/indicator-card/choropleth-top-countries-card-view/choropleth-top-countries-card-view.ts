@@ -1,11 +1,11 @@
 import { Component, computed, inject, input } from "@angular/core";
 import { ChartsModule } from "../../../../shared/charts/charts.module";
 import { colors } from "../../../../domain/chart-color-palette";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { IndicatorFormat } from "../../../../domain/explore-indicators";
 import { formatIfNumber } from "../../../../domain/format-indicator-value";
 import { resolveCountryName } from "../../../../domain/countries";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CardState } from "../../../../shared/card-state/card-state";
 
 interface RankedCountry {
   id: string;
@@ -17,7 +17,7 @@ interface RankedCountry {
 @Component({
   selector: 'app-choropleth-top-countries-card-view',
   templateUrl: './choropleth-top-countries-card-view.html',
-  imports: [ChartsModule, LoadingPlaceholder]
+  imports: [ChartsModule, CardState]
 })
 export class ChoroplethTopCountriesCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -38,7 +38,9 @@ export class ChoroplethTopCountriesCardView {
     } as IndicatorPresetQueryRequest
   }));
 
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+
+  private readonly response = computed(() => dataOf(this.state()));
 
   private readonly countryValues = computed(() => {
     const response = this.response();
@@ -87,4 +89,6 @@ export class ChoroplethTopCountriesCardView {
       barWidth: maxValue > 0 ? Math.round((c.value / maxValue) * 100) : 0
     }));
   });
+
+  readonly isEmpty = computed(() => (this.countryValues() ?? []).length === 0);
 }

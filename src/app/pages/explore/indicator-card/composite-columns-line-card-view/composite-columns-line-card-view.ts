@@ -1,10 +1,10 @@
 import { Component, computed, inject, input } from "@angular/core";
 import * as Highcharts from "highcharts";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
 import { ChartsModule } from "../../../../shared/charts/charts.module";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CardState } from "../../../../shared/card-state/card-state";
 
 interface CountryColumnChart {
   id: string;
@@ -16,7 +16,7 @@ interface CountryColumnChart {
 @Component({
   selector: 'app-composite-columns-line-card-view',
   templateUrl: 'composite-columns-line-card-view.html',
-  imports: [ChartsModule, LoadingPlaceholder]
+  imports: [ChartsModule, CardState]
 })
 export class CompositeColumnsLineCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -37,7 +37,8 @@ export class CompositeColumnsLineCardView {
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+  private readonly response = computed(() => dataOf(this.state()));
 
   private readonly membersParams = computed(() => ({
     indicatorCode: this.indicatorCode(),
@@ -132,5 +133,5 @@ export class CompositeColumnsLineCardView {
     }))
   );
 
-  readonly ready = computed(() => this.response() !== undefined);
+  readonly isEmpty = computed(() => !hasNumericValue(this.response()));
 }

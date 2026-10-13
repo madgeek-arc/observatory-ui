@@ -44,6 +44,31 @@ interface UserDashboardResponse {
   items: DashboardItem[];
 }
 
+export type QueryState<T> =
+  | { status: 'loading' }
+  | { status: 'success'; data: T }
+  | { status: 'error'};
+
+export const dataOf = <T>(s: QueryState<T>): T | undefined =>
+  s.status === 'success' ? s.data : undefined;
+
+/** One state for a card that waits on several requests: error if any of them failed,
+ *  loading while any is still pending, success once all have answered. */
+export function combineStates(...states: QueryState<unknown>[]): QueryState<unknown> {
+  if (states.some(s => s.status === 'error')) {
+    return { status: 'error' };
+  }
+  if (states.some(s => s.status === 'loading')) {
+    return { status: 'loading' };
+  }
+  return { status: 'success', data: undefined };
+}
+
+/** True when the response holds at least one numeric value — the "is there anything
+ *  to plot" check most card views use for their empty state. */
+export const hasNumericValue = (response: IndicatorQueryResponse | undefined): boolean =>
+  !!response?.data.some(point => typeof point.value === 'number');
+
 @Injectable({providedIn: 'root'})
 export class CustomSearchService {
   private readonly base = environment.API_ENDPOINT;
@@ -91,6 +116,22 @@ export class CustomSearchService {
             startWith(undefined)),
         )
       )
+    );
+  }
+
+  queryIndicatorState(params: Signal<{id: string; request: IndicatorPresetQueryRequest }>
+  ): Signal<QueryState<IndicatorQueryResponse>> {
+    return toSignal(
+      toObservable(params).pipe(
+        switchMap(({ id, request }) =>
+          this.queryIndicator(id, request).pipe(
+            map(data => ({ status: 'success', data }) as const),
+            catchError(() => of({ status: 'error' } as const)),
+            startWith({ status: 'loading' } as const)
+          )
+        )
+      ),
+      { initialValue: { status: 'loading' } as const }
     );
   }
 

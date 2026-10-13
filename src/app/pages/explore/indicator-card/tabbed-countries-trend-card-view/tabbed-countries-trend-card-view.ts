@@ -3,14 +3,14 @@ import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { colors } from "../../../../domain/chart-color-palette";
 import { resolveSelectedCountries } from "../../../../domain/countries";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CardState } from "../../../../shared/card-state/card-state";
 import { formatCompactCurrency } from "../../../../domain/format-indicator-value";
 
 @Component({
   selector: 'app-tabbed-countries-trend-card-view',
   templateUrl: './tabbed-countries-trend-card-view.html',
-  imports: [HighchartsChartModule, LoadingPlaceholder]
+  imports: [HighchartsChartModule, CardState]
 })
 export class TabbedCountriesTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -32,7 +32,8 @@ export class TabbedCountriesTrendCardView {
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+  private readonly response = computed(() => dataOf(this.state()));
 
   private readonly membersParams = computed(() => ({
     indicatorCode: this.indicatorCode(),
@@ -165,4 +166,6 @@ export class TabbedCountriesTrendCardView {
       }))
     };
   });
+
+  readonly isEmpty = computed(() => !hasNumericValue(this.response()));
 }

@@ -1,13 +1,13 @@
 import { Component, computed, inject, input } from "@angular/core";
 import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
-import { CustomSearchService, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
-import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
+import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
+import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
   selector: 'app-eu-trend-card-view',
   templateUrl: './eu-trend-card-view.html',
-  imports: [HighchartsChartModule, LoadingPlaceholder]
+  imports: [HighchartsChartModule, CardState]
 })
 export class EuTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -29,7 +29,9 @@ export class EuTrendCardView {
     } as IndicatorPresetQueryRequest
   }));
 
-  private readonly response = this.customSearchService.queryIndicatorSignal(this.queryParams);
+  readonly state = this.customSearchService.queryIndicatorState(this.queryParams);
+
+  private readonly response = computed(() => dataOf(this.state()));
 
   readonly trendChartOptions = computed<Highcharts.Options | undefined>(() => {
     const response = this.response();
@@ -64,4 +66,6 @@ export class EuTrendCardView {
         : undefined
     };
   });
+
+  readonly isEmpty = computed(() => !hasNumericValue(this.response()));
 }
