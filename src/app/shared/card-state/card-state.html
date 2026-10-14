@@ -1,19 +1,17 @@
-@switch (state().status) {
-  @case ('loading') {
-    <app-loading-placeholder [height]="height()" />
-  }
-  @case ('error') {
-    <div class="uk-flex uk-flex-center uk-flex-middle uk-text-meta uk-text-small" [style.height.px]="height()">
-      <span class="uk-text-bold">Couldn't load data.</span>
-    </div>
-  }
-  @case ('success') {
-    @if (empty()) {
-      <div class="uk-flex uk-flex-center uk-flex-middle uk-text-meta uk-text-small" [style.height.px]="height()">
-        {{ emptyText() }}
-      </div>
-    } @else {
-      <ng-container [ngTemplateOutlet]="content()" />
-    }
-  }
+@if (hasError()) {
+  <div class="uk-flex uk-flex-center uk-flex-middle uk-text-meta uk-text-small" [style.height.px]="height()">
+    <span class="uk-text-bold">Couldn't load data.</span>
+  </div>
+} @else if (showSpinner()) {
+  <app-loading-placeholder [height]="height()"/>
+} @else if (empty()) {
+  <div class="uk-flex uk-flex-center uk-flex-middle uk-text-meta uk-text-small" [style.height.px]="height()">
+    {{ emptyText() }}
+  </div>
+} @else {
+  <div [class.uk-disabled]="isReloading()"
+       [style.opacity]="isReloading() ? 0.5 : 1"
+       style="transition: opacity 0.2s">
+    <ng-container [ngTemplateOutlet]="content()"/>
+  </div>
 }

@@ -4,7 +4,7 @@ import {environment} from "../../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import { ExploreIndicatorConfig} from "../../../../domain/explore-indicators";
-import {catchError, filter, map, startWith, switchMap} from "rxjs/operators";
+import {catchError, filter, map, startWith, switchMap, scan} from "rxjs/operators";
 
 interface PreDefinedIndicatorsResponse {
   indicatorPresets: ExploreIndicatorConfig[];
@@ -45,12 +45,12 @@ interface UserDashboardResponse {
 }
 
 export type QueryState<T> =
-  | { status: 'loading' }
+  | { status: 'loading'; previous?: T }
   | { status: 'success'; data: T }
   | { status: 'error'};
 
 export const dataOf = <T>(s: QueryState<T>): T | undefined =>
-  s.status === 'success' ? s.data : undefined;
+  s.status === 'success' ? s.data : s.status === 'loading' ? s.previous : undefined;
 
 /** One state for a card that waits on several requests: error if any of them failed,
  *  loading while any is still pending, success once all have answered. */
@@ -59,7 +59,10 @@ export function combineStates(...states: QueryState<unknown>[]): QueryState<unkn
     return { status: 'error' };
   }
   if (states.some(s => s.status === 'loading')) {
-    return { status: 'loading' };
+    const hasContentToKeep = states.every(s => dataOf(s) !== undefined);
+    return hasContentToKeep
+      ? { status: 'loading', previous: states.map(s => dataOf(s)) }
+      : { status: 'loading' };
   }
   return { status: 'success', data: undefined };
 }
@@ -103,22 +106,6 @@ export class CustomSearchService {
     return this.httpClient.post<IndicatorQueryResponse>(this.base + `/indicators/presets/${id}/query`, request);
   }
 
-  /** Re-fires queryIndicator whenever `params` changes, cancelling any in-flight request
-   *  for stale params (switchMap). A failed request resolves to undefined instead of
-   *  erroring the pipe — otherwise one HTTP error would permanently stop future updates. */
-  queryIndicatorSignal(
-    params: Signal<{ id: string; request: IndicatorPresetQueryRequest }>
-  ): Signal<IndicatorQueryResponse | undefined> {
-    return toSignal(
-      toObservable(params).pipe(
-        switchMap(({ id, request }) =>
-          this.queryIndicator(id, request).pipe(catchError(() => of(undefined)),
-            startWith(undefined)),
-        )
-      )
-    );
-  }
-
   queryIndicatorState(params: Signal<{id: string; request: IndicatorPresetQueryRequest }>
   ): Signal<QueryState<IndicatorQueryResponse>> {
     return toSignal(
@@ -129,9 +116,16 @@ export class CustomSearchService {
             catchError(() => of({ status: 'error' } as const)),
             startWith({ status: 'loading' } as const)
           )
+        ),
+        scan<QueryState<IndicatorQueryResponse>, QueryState<IndicatorQueryResponse>>(
+          (previousState, nextState) =>
+            nextState.status === 'loading'
+              ? { status: 'loading', previous: dataOf(previousState) }
+              : nextState,
+          { status: 'loading' }
         )
       ),
-      { initialValue: { status: 'loading' } as const }
+      { initialValue: { status: 'loading' } as QueryState<IndicatorQueryResponse> }
     );
   }
 

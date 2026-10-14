@@ -1,4 +1,4 @@
-import { Component, contentChild, input, TemplateRef } from "@angular/core";
+import {Component, computed, contentChild, input, TemplateRef} from "@angular/core";
 import { NgTemplateOutlet } from "@angular/common";
 import { LoadingPlaceholder } from "../loading-placeholder/loading-placeholder";
 import { QueryState } from "../../pages/explore/custom-search/services/custom-search.service";
@@ -15,6 +15,14 @@ export class CardState {
   height = input.required<number>();
   empty = input(false);
   emptyText = input('No data for the selected period.');
+
+  showSpinner = computed(() => {
+    const state = this.state();
+    return state.status === 'loading' && (state.previous === undefined || this.empty());
+  });
+
+  hasError = computed(() => this.state().status === 'error');
+  readonly isReloading = computed(() => this.state().status === 'loading' && !this.showSpinner());
 
   readonly content = contentChild.required(TemplateRef);
 }
