@@ -44,6 +44,7 @@ export class AppComponent {
   smallScreen= false;
   isOpen = true;
   hasHeader = true;
+  showFooter = true;
 
   constructor() {
     this.auth.redirect();
@@ -58,6 +59,10 @@ export class AppComponent {
 
     this.layoutService.hasHeader.subscribe(hasHeader => {
       this.hasHeader = hasHeader;
+    });
+
+    this.layoutService.showFooter.subscribe(showFooter => {
+      this.showFooter = showFooter;
     });
   }
 
