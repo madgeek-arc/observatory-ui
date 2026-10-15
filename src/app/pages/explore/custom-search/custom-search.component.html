@@ -45,20 +45,22 @@
 
     <div class="uk-flex uk-flex-top">
 
-      <div class="uk-width-1-4 uk-padding-small">
+      <div class="uk-width-1-4 uk-padding-small" style="background: #faf9f9">
 
         <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
           <span class="uk-badge">1</span>
           <span class="uk-text-bold uk-text-small">Topics &amp; indicators</span>
-          <span class="uk-text-meta uk-text-xsmall uk-margin-auto-left">expand to pick</span>
-          <a class="uk-text-small uk-text-primary uk-link-reset" (click)="clearAllIndicators()">Clear all</a>
+          <a class="uk-text-meta uk-text-small uk-margin-auto-left uk-link-reset uk-text-nowrap" (click)="toggleAllTopics()">
+            {{ allTopicsExpanded() ? 'collapse all' : 'expand to pick' }}
+          </a>
+          <a class="uk-text-small uk-text-primary uk-link-reset uk-text-nowrap" (click)="clearAllIndicators()">Clear all</a>
         </div>
 
-        <ul class="uk-accordion-default">
+        <ul #accordion class="uk-accordion-default" uk-accordion="multiple: true">
           @for (topic of topics(); track topic.id) {
             <li class="uk-card uk-card-default" [class.uk-accordion-active]="isTopicExpanded(topic.id)">
               <a class="uk-accordion-title uk-card-title uk-flex uk-flex-middle" (click)="toggleTopic(topic.id)">
-                <span class="material-symbols-outlined">{{ isTopicExpanded(topic.id) ? 'arrow_drop_down' : 'arrow_right' }}</span>
+                <span class="material-symbols-outlined indicator-caret">{{ isTopicExpanded(topic.id) ? 'arrow_drop_down' : 'arrow_right' }}</span>
                 <span class="uk-text-small" style="flex: 1 1 auto; min-width: 0;">{{ topic.name }}</span>
                 @if (selectedCountForTopic(topic) > 0) {
                   <span class="uk-text-small uk-text-primary uk-text-bold uk-margin-small-right">{{ selectedCountForTopic(topic) }} of {{ topic.indicators.length }} selected</span>
@@ -66,12 +68,12 @@
                   <span class="uk-text-small uk-text-meta uk-margin-small-right">{{ topic.indicators.length }} indicators</span>
                 }
               </a>
-              <div class="uk-padding-small uk-padding-remove-vertical uk-margin-small-top" [hidden]="!isTopicExpanded(topic.id)">
-                <a class="uk-text-small uk-text-primary uk-text-bold" (click)="toggleSelectAllInTopic(topic)">
-                  {{ isTopicFullySelected(topic) ? 'Clear all' : 'Select all' }}
-                </a>
-              </div>
-              <div class="uk-accordion-content uk-card-body" [hidden]="!isTopicExpanded(topic.id)">
+              <div class="uk-accordion-content uk-card-body">
+                <div class="uk-margin-small-top uk-margin-small-bottom">
+                  <a class="uk-text-small uk-text-primary uk-text-bold" (click)="toggleSelectAllInTopic(topic)">
+                    {{ isTopicFullySelected(topic) ? 'Clear all' : 'Select all' }}
+                  </a>
+                </div>
                 <ul class="uk-list uk-list-divider uk-margin-remove">
                   @for (indicator of topic.indicators; track indicator.id) {
                     <li>
@@ -96,14 +98,14 @@
           <span class="uk-text-bold uk-text-small">Geography</span>
         </div>
 
-        <div class="uk-button-group uk-margin-small-bottom">
+        <div class="uk-flex-inline uk-background-muted uk-border-rounded uk-margin-small-bottom" style="padding: 3px;">
           <button type="button"
-                  [class]="geographyScope() === 'all' ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+                  [class]="geographyScope() === 'all' ? 'uk-button uk-button-default uk-button-small uk-text-primary uk-text-bold' : 'uk-button eos-btn--ghost uk-button-small uk-text-muted uk-text-bold'"
                   (click)="geographyScope.set('all')">
             All EU
           </button>
           <button type="button"
-                  [class]="geographyScope() === 'select' ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+                  [class]="geographyScope() === 'select' ? 'uk-button uk-button-default uk-button-small uk-text-primary uk-text-bold' : 'uk-button eos-btn--ghost uk-button-small uk-text-muted uk-text-bold'"
                   (click)="geographyScope.set('select')">
             Select
           </button>

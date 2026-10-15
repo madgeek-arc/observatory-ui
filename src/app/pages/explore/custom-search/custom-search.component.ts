@@ -1,4 +1,4 @@
-import { Component, DestroyRef, computed, effect, inject, signal } from "@angular/core";
+import {Component, DestroyRef, computed, effect, inject, signal, viewChild, ElementRef} from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
 import {
@@ -11,6 +11,7 @@ import { Country, countries } from "../../../domain/countries";
 import { CustomSearchService, DashboardItem } from "./services/custom-search.service";
 import { IndicatorCard, resolveCurrentView } from "../indicator-card/indicator-card";
 import {RouterLink} from "@angular/router";
+import * as UIkit from "uikit";
 
 interface SavedViewCard {
   id: string;
@@ -94,6 +95,7 @@ export class CustomSearchComponent {
   /** Empty until the saved-views feature lands — keeps the "pick up where you
    *  left off" block ready without showing anything in the meantime. */
   readonly savedViews = signal<SavedViewCard[]>([]);
+  private readonly accordionRef = viewChild<ElementRef<HTMLElement>>('accordion');
 
   constructor() {
     this.stakeholdersService.getEOSCSBCountries()
@@ -244,5 +246,38 @@ export class CustomSearchComponent {
   }
   clearAllIndicators() {
     this.selectedIndicatorIds.set(new Set());
+  }
+
+  /** Drive every accordion items to the desired open state */
+
+  private setAllOpen(open: boolean): void {
+    const ul = this.accordionRef()?.nativeElement;
+    if(!ul) {
+      return;
+    }
+    const accordion = UIkit.accordion(ul);
+    Array.from(ul.children).forEach((li, index) => {
+      if (li.classList.contains('uk-open') !== open) {
+        accordion.toggle(index, false);
+      }
+    });
+  }
+
+  protected readonly allTopicsExpanded = computed(() =>
+    this.topics().length > 0 && this.expandedTopicIds().size === this.topics().length
+  );
+
+  protected expandAll(): void {
+    this.setAllOpen(true);
+    this.expandedTopicIds.set(new Set(this.topics().map(t => t.id)));
+  }
+
+  protected collapseAll(): void {
+    this.setAllOpen(false);
+    this.expandedTopicIds.set(new Set());
+  }
+
+  protected toggleAllTopics(): void {
+    this.allTopicsExpanded() ? this.collapseAll() : this.expandAll();
   }
 }
