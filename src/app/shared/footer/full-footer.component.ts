@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {CookieConsentService} from '../cookies/cookie-consent.service';
 
 @Component({
     selector: 'app-full-footer',
@@ -7,8 +8,14 @@ import {Component} from '@angular/core';
     standalone: false
 })
 export class FullFooterComponent {
+  private cookieConsent = inject(CookieConsentService);
 
   constructor() {
+  }
+
+  openCookieSettings(event: Event) {
+    event.preventDefault();
+    this.cookieConsent.open();
   }
 
   scrollToTop(){

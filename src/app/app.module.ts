@@ -51,6 +51,7 @@ import {
   StakeholdersHomeComponent
 } from "./pages/dashboard/contribution-dashboard-extension/stakeholders/stakeholders-home.component";
 import { APP_ENV } from "../survey-tool/catalogue-ui/config/app-env.token";
+import { CookieConsentComponent } from "./shared/cookies/cookie-consent.component";
 
 
 @NgModule({
@@ -81,6 +82,7 @@ import { APP_ENV } from "../survey-tool/catalogue-ui/config/app-env.token";
     PageContentComponent,
     SidebarMobileToggleComponent,
     StakeholdersHomeComponent,
+    CookieConsentComponent,
   ],
   providers: [
     {
@@ -121,6 +123,8 @@ import { APP_ENV } from "../survey-tool/catalogue-ui/config/app-env.token";
       {
         trackerUrl: environment.matomoTrackerUrl,
         siteId: environment.matomoSiteId,
+        // Nothing is sent and no Matomo cookie is set until the visitor accepts analytics (see CookieConsentService)
+        requireConsent: 'tracking',
       },
     ),
   ],
