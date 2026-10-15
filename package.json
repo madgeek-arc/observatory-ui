@@ -65,5 +65,8 @@
     "less": "^4.3.0",
     "less-loader": "^12.3.0",
     "typescript": "~5.8.3"
+  },
+  "overrides": {
+    "xmldom": "npm:@xmldom/xmldom@^0.8.15"
   }
 }
