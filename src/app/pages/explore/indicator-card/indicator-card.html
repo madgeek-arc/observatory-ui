@@ -182,6 +182,12 @@
           [dimensionLabel]="currentView()?.selector?.label ?? ''">
         </app-tabbed-countries-trend-card-view>
       }
+      @case ('count-by-area-with-average') {
+        <app-count-by-area-with-average-card-view
+        [indicatorId]="indicator().id"
+        [indicatorCode]="indicator().indicatorCode">
+        </app-count-by-area-with-average-card-view>
+      }
     }
   }
 </div>

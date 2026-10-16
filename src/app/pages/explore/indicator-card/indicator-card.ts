@@ -28,6 +28,9 @@ import { ProgressBarsNumPercentageCardView} from "./progress-bars-num-percentage
 import { EuAverageColumnTrendCardView } from "./eu-average-column-trend-card-view/eu-average-column-trend-card-view";
 import { StackedColumnAmountShareCardView, StackedMode } from "./stacked-column-amount-share-card-view/stacked-column-amount-share-card-view";
 import { TabbedCountriesTrendCardView } from "./tabbed-countries-trend-card-view/tabbed-countries-trend-card-view";
+import {
+  CountByAreaWithAverageCardView
+} from "./count-by-area-with-average-card-view/count-by-area-with-average-card-view";
 
 export type CardViewKind = 'eu-snapshot' | 'eu-trend' | 'countries-trend' | 'countries-snapshot' | 'policy-map'
   | 'policy-countries' | 'stacked-column' | 'access-type-trend' | 'access-type-dot-plot' | 'access-type-countries-trend'
@@ -35,7 +38,7 @@ export type CardViewKind = 'eu-snapshot' | 'eu-trend' | 'countries-trend' | 'cou
   | 'selector-yes-no-table' | 'stacked-bar-with-progress' | 'stacked-column-with-totals' | 'year-adopted-table'
   | 'coverage-trend' | 'multi-stacked-bars'  | 'composite-column' | 'composite-columns-line' | 'selector-share-trend'
   | 'pie-with-progress' | 'progress-bars-num-percentage' | 'eu-average-column-trend' | 'stacked-column-amount-share'
-  | 'tabbed-countries-trend';
+  | 'tabbed-countries-trend' | 'count-by-area-with-average';
 
 const RENDER_STYLE_TO_VIEW: Record<RenderStyle, CardViewKind> = {
   SCALAR: 'eu-snapshot',
@@ -66,7 +69,8 @@ const RENDER_STYLE_TO_VIEW: Record<RenderStyle, CardViewKind> = {
   CUMULATIVE_MULTI_SERIES_LINE_CHART: 'countries-trend',
   STACKED_COLUMN_CHART: 'stacked-column-amount-share',
   SHARE_STACKED_COLUMN_CHART: 'stacked-column-amount-share',
-  TABBED_MULTI_SERIES_LINE_CHARTS: 'tabbed-countries-trend'
+  TABBED_MULTI_SERIES_LINE_CHARTS: 'tabbed-countries-trend',
+  COUNT_BY_AREA_WITH_AVERAGE: 'count-by-area-with-average'
 };
 
 /** Finds the one view matching the current countryScope/timeScope — shared by
@@ -146,7 +150,8 @@ export function resolveCardViewKind(
     ProgressBarsNumPercentageCardView,
     EuAverageColumnTrendCardView,
     StackedColumnAmountShareCardView,
-    TabbedCountriesTrendCardView
+    TabbedCountriesTrendCardView,
+    CountByAreaWithAverageCardView
   ]
 })
 export class IndicatorCard {

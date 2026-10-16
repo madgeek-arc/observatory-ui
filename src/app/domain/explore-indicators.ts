@@ -89,6 +89,10 @@ export type RenderStyle =
    *  the chosen category is drawn as one line per selected country. */
   | 'TABBED_MULTI_SERIES_LINE_CHARTS'
 
+  /** All EU, single year, no selector one row per area with how many countries cover it (‘12 of 29’), plus the
+   * average number of areas per country */
+  | 'COUNT_BY_AREA_WITH_AVERAGE'
+
 export interface IndicatorViewSelector {
   dimension: string;
   label: string;
