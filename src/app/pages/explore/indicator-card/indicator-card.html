@@ -1,25 +1,20 @@
-<div class="uk-card card-simple uk-card-small uk-card-body">
-  <a
-    class="uk-link-reset uk-position-top-right"
-    (click)="closeCard.emit(indicator().id)">
-    <span class="material-icons">close</span>
-  </a>
-
-  <div class="uk-flex uk-flex-between uk-flex-middle">
-    <div class="uk-text-bold uk-margin-small-bottom">{{ indicator().label }}</div>
-    <span class="uk-text-meta uk-text-xsmall uk-text-uppercase uk-margin-medium-bottom">{{ indicator().group }}</span>
-  </div>
-
-  @if (needsCountrySelection()) {
-    <div class="uk-flex uk-flex-column uk-flex-middle uk-text-center" style="padding: 32px 16px; gap: 8px;">
-      <div class="uk-text-bold">Select countries to see this view</div>
-      <p class="uk-text-small uk-text-meta" style="margin: 0;">
-        Use the Geography panel on the left to pick one or more countries.
-      </p>
+<div class="uk-card card-simple uk-card-small uk-height-1-1">
+  <div class="uk-card-header">
+    <div class="uk-flex uk-flex-right">
+      <button type="button" class="uk-icon uk-close"
+              aria-label="Remove indicator"
+              (click)="closeCard.emit(indicator().id)">
+        <span class="material-icons" style="font-size: 20px;">close</span>
+      </button>
     </div>
-  } @else {
-    @if (renderStyles().length > 1) {
-      <div class="uk-flex uk-flex-middle uk-flex-wrap uk-margin-small-bottom" style="gap: 6px;">
+
+    <div class="uk-flex uk-flex-middle" style="gap: 12px;">
+      <h3 class="uk-card-title uk-text-small uk-text-meta uk-margin-remove uk-width-expand">{{ indicator().label }}</h3>
+      <span class="uk-text-muted uk-text-xsmall uk-text-uppercase indicator-card-group">{{ indicator().group }}</span>
+    </div>
+
+    @if (!needsCountrySelection() && renderStyles().length > 1) {
+      <div class="uk-flex uk-flex-middle uk-flex-wrap uk-margin-small-top" style="gap: 6px;">
         @for (rs of renderStyles(); track rs.style) {
           <button type="button"
                   [class]="effectiveRenderStyle() === rs.style ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
@@ -29,165 +24,182 @@
         }
       </div>
     }
-    @switch (cardViewKind()) {
-      @case ('eu-snapshot') {
-        <app-eu-snapshot-card-view [indicatorId]="indicator().id" [format]="indicator().format"></app-eu-snapshot-card-view>
-      }
-      @case ('eu-trend') {
-        <app-eu-trend-card-view [indicatorId]="indicator().id"></app-eu-trend-card-view>
-      }
-      @case ('countries-trend') {
-        <app-countries-trend-card-view [indicatorId]="indicator().id" [format]="indicator().format" [mode]="trendMode()"></app-countries-trend-card-view>
-      }
-      @case ('countries-snapshot') {
-        <app-countries-snapshot-card-view [indicatorId]="indicator().id" [format]="indicator().format"></app-countries-snapshot-card-view>
-      }
-      @case ('policy-map') {
-        <app-policy-map-card-view [indicatorId]="indicator().id"></app-policy-map-card-view>
-      }
-      @case ('stacked-column') {
-        <app-stacked-column-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode"
-          [dimension]="currentView()?.selector?.dimension ?? ''">
-        </app-stacked-column-view>
-      }
-      @case ('access-type-trend') {
-        <app-selector-trend-card-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode"
-          [dimension]="currentView()?.selector?.dimension ?? ''">
-        </app-selector-trend-card-view>
-      }
-      @case ('access-type-dot-plot') {
-        <app-selector-dot-plot-card-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode"
-          [dimension]="currentView()?.selector?.dimension ?? ''">
-        </app-selector-dot-plot-card-view>
-      }
-      @case ('access-type-countries-trend') {
-        <app-selector-countries-trend-card-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode"
-          [dimension]="currentView()?.selector?.dimension ?? ''">
-        </app-selector-countries-trend-card-view>
-      }
-      @case ('policy-countries') {
-        <app-policy-countries-card-view [indicatorId]="indicator().id"></app-policy-countries-card-view>
-      }
-      @case ('choropleth-top-countries') {
-        <app-choropleth-top-countries-card-view [indicatorId]="indicator().id" [format]="indicator().format"></app-choropleth-top-countries-card-view>
-      }
-      @case ('eu-column-trend') {
-        <app-eu-column-trend-card-view [indicatorId]="indicator().id" [format]="indicator().format"></app-eu-column-trend-card-view>
-      }
-      @case ('countries-column-trend') {
-        <app-countries-column-trend-card-view [indicatorId]="indicator().id"></app-countries-column-trend-card-view>
-      }
-      @case ('selector-bar-chart') {
-        <app-selector-bar-chart-card-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode"
-          [dimension]="currentView()?.selector?.dimension ?? ''"
-          [presetCodes]="indicator().presetFilters?.[currentView()?.selector?.dimension ?? ''] ?? []">
-        </app-selector-bar-chart-card-view>
-      }
-      @case ('selector-yes-no-table') {
-        <app-selector-yes-no-table-card-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode"
-          [dimension]="currentView()?.selector?.dimension ?? ''"
-          [presetCodes]="indicator().presetFilters?.[currentView()?.selector?.dimension ?? ''] ?? []">
-        </app-selector-yes-no-table-card-view>
-      }
-      @case ('stacked-bar-with-progress') {
-        <app-stacked-bar-with-progress-card-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode">
-        </app-stacked-bar-with-progress-card-view>
-      }
-      @case ('stacked-column-with-totals') {
-        <app-stacked-column-with-totals-card-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode"
-          [dimension]="currentView()?.selector?.dimension ?? ''">
-        </app-stacked-column-with-totals-card-view>
-      }
-      @case ('year-adopted-table') {
-        <app-year-adopted-table-card-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode"
-          [dimension]="currentView()?.selector?.dimension ?? ''"
-          [presetCodes]="indicator().presetFilters?.[currentView()?.selector?.dimension ?? ''] ?? []">
-        </app-year-adopted-table-card-view>
-      }
-      @case ('coverage-trend') {
-        <app-coverage-trend-card-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode"
-          [dimension]="currentView()?.selector?.dimension ?? ''"
-          [presetCodes]="indicator().presetFilters?.[currentView()?.selector?.dimension ?? ''] ?? []">
-        </app-coverage-trend-card-view>
-      }
-      @case ('multi-stacked-bars') {
-        <app-multi-stacked-bars-card-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode">
-        </app-multi-stacked-bars-card-view>
-      }
-      @case ('composite-columns-line') {
-        <app-composite-columns-line-card-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode"
-          [dimension]="currentView()?.selector?.dimension ?? ''">
-        </app-composite-columns-line-card-view>
-      }
-      @case ('selector-share-trend') {
-        <app-selector-share-trend-card-view
-          [indicatorId]="indicator().id"
-          [dimension]="currentView()?.selector?.dimension ?? ''">
-        </app-selector-share-trend-card-view>
-      }
-      @case ('pie-with-progress') {
-        <app-pie-with-progress-card-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode"
-          [dimension]="currentView()?.selector?.dimension ?? ''">
-        </app-pie-with-progress-card-view>
-      }
-      @case ('progress-bars-num-percentage') {
-        <app-progress-bars-num-percentage-card-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode"
-          [format]="indicator().format">
-        </app-progress-bars-num-percentage-card-view>
-      }
-      @case ('eu-average-column-trend') {
-        <app-eu-average-column-trend-card-view [indicatorId]="indicator().id"></app-eu-average-column-trend-card-view>
-      }
-      @case ('stacked-column-amount-share') {
-        <app-stacked-column-amount-share-card-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode"
-          [dimension]="currentView()?.selector?.dimension ?? ''"
-          [mode]="stackedMode()">
-        </app-stacked-column-amount-share-card-view>
-      }
-      @case ('tabbed-countries-trend') {
-        <app-tabbed-countries-trend-card-view
-          [indicatorId]="indicator().id"
-          [indicatorCode]="indicator().indicatorCode"
-          [dimension]="currentView()?.selector?.dimension ?? ''"
-          [dimensionLabel]="currentView()?.selector?.label ?? ''">
-        </app-tabbed-countries-trend-card-view>
-      }
-      @case ('count-by-area-with-average') {
-        <app-count-by-area-with-average-card-view
-        [indicatorId]="indicator().id"
-        [indicatorCode]="indicator().indicatorCode">
-        </app-count-by-area-with-average-card-view>
+  </div>
+
+  <div class="uk-card-body">
+    @if (needsCountrySelection()) {
+      <div class="uk-flex uk-flex-column uk-flex-middle uk-text-center" style="padding: 32px 16px; gap: 8px;">
+        <div class="uk-text-bold">Select countries to see this view</div>
+        <p class="uk-text-small uk-text-meta" style="margin: 0;">
+          Use the Geography panel on the left to pick one or more countries.
+        </p>
+      </div>
+    } @else {
+      @switch (cardViewKind()) {
+        @case ('eu-snapshot') {
+          <app-eu-snapshot-card-view [indicatorId]="indicator().id"
+                                     [format]="indicator().format"></app-eu-snapshot-card-view>
+        }
+        @case ('eu-trend') {
+          <app-eu-trend-card-view [indicatorId]="indicator().id"></app-eu-trend-card-view>
+        }
+        @case ('countries-trend') {
+          <app-countries-trend-card-view [indicatorId]="indicator().id" [format]="indicator().format"
+                                         [mode]="trendMode()"></app-countries-trend-card-view>
+        }
+        @case ('countries-snapshot') {
+          <app-countries-snapshot-card-view [indicatorId]="indicator().id"
+                                            [format]="indicator().format"></app-countries-snapshot-card-view>
+        }
+        @case ('policy-map') {
+          <app-policy-map-card-view [indicatorId]="indicator().id"></app-policy-map-card-view>
+        }
+        @case ('stacked-column') {
+          <app-stacked-column-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode"
+            [dimension]="currentView()?.selector?.dimension ?? ''">
+          </app-stacked-column-view>
+        }
+        @case ('access-type-trend') {
+          <app-selector-trend-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode"
+            [dimension]="currentView()?.selector?.dimension ?? ''">
+          </app-selector-trend-card-view>
+        }
+        @case ('access-type-dot-plot') {
+          <app-selector-dot-plot-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode"
+            [dimension]="currentView()?.selector?.dimension ?? ''">
+          </app-selector-dot-plot-card-view>
+        }
+        @case ('access-type-countries-trend') {
+          <app-selector-countries-trend-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode"
+            [dimension]="currentView()?.selector?.dimension ?? ''">
+          </app-selector-countries-trend-card-view>
+        }
+        @case ('policy-countries') {
+          <app-policy-countries-card-view [indicatorId]="indicator().id"></app-policy-countries-card-view>
+        }
+        @case ('choropleth-top-countries') {
+          <app-choropleth-top-countries-card-view [indicatorId]="indicator().id"
+                                                  [format]="indicator().format"></app-choropleth-top-countries-card-view>
+        }
+        @case ('eu-column-trend') {
+          <app-eu-column-trend-card-view [indicatorId]="indicator().id"
+                                         [format]="indicator().format"></app-eu-column-trend-card-view>
+        }
+        @case ('countries-column-trend') {
+          <app-countries-column-trend-card-view [indicatorId]="indicator().id"></app-countries-column-trend-card-view>
+        }
+        @case ('selector-bar-chart') {
+          <app-selector-bar-chart-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode"
+            [dimension]="currentView()?.selector?.dimension ?? ''"
+            [presetCodes]="indicator().presetFilters?.[currentView()?.selector?.dimension ?? ''] ?? []">
+          </app-selector-bar-chart-card-view>
+        }
+        @case ('selector-yes-no-table') {
+          <app-selector-yes-no-table-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode"
+            [dimension]="currentView()?.selector?.dimension ?? ''"
+            [presetCodes]="indicator().presetFilters?.[currentView()?.selector?.dimension ?? ''] ?? []">
+          </app-selector-yes-no-table-card-view>
+        }
+        @case ('stacked-bar-with-progress') {
+          <app-stacked-bar-with-progress-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode">
+          </app-stacked-bar-with-progress-card-view>
+        }
+        @case ('stacked-column-with-totals') {
+          <app-stacked-column-with-totals-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode"
+            [dimension]="currentView()?.selector?.dimension ?? ''">
+          </app-stacked-column-with-totals-card-view>
+        }
+        @case ('year-adopted-table') {
+          <app-year-adopted-table-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode"
+            [dimension]="currentView()?.selector?.dimension ?? ''"
+            [presetCodes]="indicator().presetFilters?.[currentView()?.selector?.dimension ?? ''] ?? []">
+          </app-year-adopted-table-card-view>
+        }
+        @case ('coverage-trend') {
+          <app-coverage-trend-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode"
+            [dimension]="currentView()?.selector?.dimension ?? ''"
+            [presetCodes]="indicator().presetFilters?.[currentView()?.selector?.dimension ?? ''] ?? []">
+          </app-coverage-trend-card-view>
+        }
+        @case ('multi-stacked-bars') {
+          <app-multi-stacked-bars-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode">
+          </app-multi-stacked-bars-card-view>
+        }
+        @case ('composite-columns-line') {
+          <app-composite-columns-line-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode"
+            [dimension]="currentView()?.selector?.dimension ?? ''">
+          </app-composite-columns-line-card-view>
+        }
+        @case ('selector-share-trend') {
+          <app-selector-share-trend-card-view
+            [indicatorId]="indicator().id"
+            [dimension]="currentView()?.selector?.dimension ?? ''">
+          </app-selector-share-trend-card-view>
+        }
+        @case ('pie-with-progress') {
+          <app-pie-with-progress-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode"
+            [dimension]="currentView()?.selector?.dimension ?? ''">
+          </app-pie-with-progress-card-view>
+        }
+        @case ('progress-bars-num-percentage') {
+          <app-progress-bars-num-percentage-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode"
+            [format]="indicator().format">
+          </app-progress-bars-num-percentage-card-view>
+        }
+        @case ('eu-average-column-trend') {
+          <app-eu-average-column-trend-card-view [indicatorId]="indicator().id"></app-eu-average-column-trend-card-view>
+        }
+        @case ('stacked-column-amount-share') {
+          <app-stacked-column-amount-share-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode"
+            [dimension]="currentView()?.selector?.dimension ?? ''"
+            [mode]="stackedMode()">
+          </app-stacked-column-amount-share-card-view>
+        }
+        @case ('tabbed-countries-trend') {
+          <app-tabbed-countries-trend-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode"
+            [dimension]="currentView()?.selector?.dimension ?? ''"
+            [dimensionLabel]="currentView()?.selector?.label ?? ''">
+          </app-tabbed-countries-trend-card-view>
+        }
+        @case ('count-by-area-with-average') {
+          <app-count-by-area-with-average-card-view
+            [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode">
+          </app-count-by-area-with-average-card-view>
+        }
       }
     }
-  }
+  </div>
 </div>
