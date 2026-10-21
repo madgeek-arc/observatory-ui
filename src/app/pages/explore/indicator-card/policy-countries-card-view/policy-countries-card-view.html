@@ -4,7 +4,7 @@
       @for (row of rows; track row.id) {
         <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
           <span class="uk-text-small">{{ row.name }}</span>
-          <span class="uk-label" style="color: #fff;" [style.background-color]="row.badge.color">
+          <span class="uk-label uk-label-small status-badge" [class]="row.badge.cssClass">
             {{ row.badge.text }}
           </span>
         </div>

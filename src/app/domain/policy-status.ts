@@ -46,30 +46,30 @@ export function colorForStatus(value: string): string {
   return STATUS_COLORS[value] ?? AWAITING_COLOR;
 }
 
-export type TriStateStatus = 'positive' | 'negative' | 'awaiting';
+export type StatusCategory = 'positive' | 'negative' | 'awaiting';
 
 /** Classifies a cell's raw value into 3 UI states — positive (confirmed yes), negative
  *  (confirmed no), or awaiting (no data collected yet: a null numeric value, or one of
  *  the existing awaiting-data string categories). */
-export function triStateStatus(value: number | string | null | undefined, unit?: string): TriStateStatus {
+export function statusCategory(value: number | string | null | undefined, unit?: string): StatusCategory {
   if (value === null || value === undefined || isAwaitingData(value)) {
     return 'awaiting';
   }
   return isPositiveStatus(value, unit) ? 'positive' : 'negative';
 }
 
-export interface CountryStatusBadge {
+export interface StatusBadge {
   text: string;
-  color: string;
+  cssClass: string;
 }
 
-/** Simplified Yes/No/N-A badge for a per-country list — collapses every "has some form
- *  of policy" category into one Yes, colored to match the map's positive color. */
-export function countryStatusBadge(value: number | string | undefined): CountryStatusBadge {
-  if (value === undefined || isAwaitingData(value)) {
-    return { text: 'N/A', color: AWAITING_COLOR };
+export function statusBadge(value: number | string | null | undefined, unit?: string): StatusBadge {
+  const category = statusCategory(value, unit);
+  if (category === 'positive') {
+    return { text: 'Yes', cssClass: 'uk-label-success' };
   }
-  return isPositiveStatus(value)
-    ? { text: 'Yes', color: POSITIVE_COLOR }
-    : { text: 'No', color: NEGATIVE_COLOR };
+  if (category === 'negative') {
+    return { text: 'No', cssClass: 'uk-label-closed' };
+  }
+  return { text: 'N/A', cssClass: 'uk-label-text' };
 }

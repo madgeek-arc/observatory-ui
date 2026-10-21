@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from "@angular/core";
 import { combineStates, CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
-import { triStateStatus } from "../../../../domain/policy-status";
+import { statusCategory } from "../../../../domain/policy-status";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CardState } from "../../../../shared/card-state/card-state";
 
@@ -85,7 +85,7 @@ export class SelectorYesNoTableCardView {
         const value = countriesResponse.data.find(point =>
           point.dimensions['country'] === country.id && point.dimensions[dimension] === area.code
         )?.value;
-        const status = triStateStatus(value, unit);
+        const status = statusCategory(value, unit);
         return {
           status,
           color: status === 'positive' ? this.positiveColor : status === 'awaiting' ? this.awaitingColor : this.negativeColor,

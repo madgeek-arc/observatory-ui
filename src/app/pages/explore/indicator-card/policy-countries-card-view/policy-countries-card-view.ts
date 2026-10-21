@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from "@angular/core";
 import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
-import { countryStatusBadge } from "../../../../domain/policy-status";
+import { statusBadge } from "../../../../domain/policy-status";
 import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
@@ -38,7 +38,7 @@ export class PolicyCountriesCardView {
       return {
         id: country.id,
         name: country.name,
-        badge: countryStatusBadge(value)
+        badge: statusBadge(value)
       };
     });
   });
