@@ -45,15 +45,17 @@
 
     <div class="uk-flex uk-flex-top">
 
-      <div class="uk-width-1-4 uk-padding-small" style="background: #faf9f9">
+      <div class="uk-width-1-5 uk-padding-small" style="background: #faf9f9">
 
-        <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
+        <div class="uk-flex uk-flex-middle uk-flex-wrap uk-margin-small-bottom" style="gap: 8px;">
           <span class="uk-badge">1</span>
-          <span class="uk-text-bold uk-text-small">Topics &amp; indicators</span>
-          <a class="uk-text-meta uk-text-small uk-margin-auto-left uk-link-reset uk-text-nowrap" (click)="toggleAllTopics()">
-            {{ allTopicsExpanded() ? 'collapse all' : 'expand to pick' }}
-          </a>
-          <a class="uk-text-small uk-text-primary uk-link-reset uk-text-nowrap" (click)="clearAllIndicators()">Clear all</a>
+          <span class="uk-text-bold uk-text-small uk-text-nowrap">Topics &amp; indicators</span>
+          <div class="uk-width-1-1 uk-flex uk-flex-right" style="gap: 8px;">
+            <a class="uk-text-meta uk-text-small uk-link-reset uk-text-nowrap" (click)="toggleAllTopics()">
+              {{ allTopicsExpanded() ? 'collapse all' : 'expand all' }}
+            </a>
+            <a class="uk-text-small uk-text-primary uk-link-reset uk-text-nowrap" (click)="clearAllIndicators()">Clear all</a>
+          </div>
         </div>
 
         <ul #accordion class="uk-accordion-default" uk-accordion="multiple: true">
@@ -61,16 +63,16 @@
             <li class="uk-card uk-card-default" [class.uk-accordion-active]="isTopicExpanded(topic.id)">
               <a class="uk-accordion-title uk-card-title uk-flex uk-flex-middle" (click)="toggleTopic(topic.id)">
                 <span class="material-symbols-outlined indicator-caret">{{ isTopicExpanded(topic.id) ? 'arrow_drop_down' : 'arrow_right' }}</span>
-                <span class="uk-text-small" style="flex: 1 1 auto; min-width: 0;">{{ topic.name }}</span>
+                <span class="uk-text-xsmall" style="flex: 1 1 auto; min-width: 0;">{{ topic.name }}</span>
                 @if (selectedCountForTopic(topic) > 0) {
-                  <span class="uk-text-small uk-text-primary uk-text-bold uk-margin-small-right">{{ selectedCountForTopic(topic) }} of {{ topic.indicators.length }} selected</span>
+                  <span class="uk-text-xsmall uk-text-primary uk-text-bold uk-text-nowrap uk-margin-small-right">{{ selectedCountForTopic(topic) }} of {{ topic.indicators.length }} selected</span>
                 } @else {
-                  <span class="uk-text-small uk-text-meta uk-margin-small-right">{{ topic.indicators.length }} indicators</span>
+                  <span class="uk-text-xsmall uk-text-meta uk-text-nowrap uk-margin-small-right">{{ topic.indicators.length }} indicators</span>
                 }
               </a>
               <div class="uk-accordion-content uk-card-body">
                 <div class="uk-margin-small-top uk-margin-small-bottom">
-                  <a class="uk-text-small uk-text-primary uk-text-bold" (click)="toggleSelectAllInTopic(topic)">
+                  <a class="uk-text-xsmall uk-text-primary uk-text-bold" (click)="toggleSelectAllInTopic(topic)">
                     {{ isTopicFullySelected(topic) ? 'Clear all' : 'Select all' }}
                   </a>
                 </div>
@@ -81,7 +83,7 @@
                         <input class="uk-checkbox" type="checkbox" style="flex-shrink: 0;"
                                [checked]="isIndicatorSelected(indicator.id)"
                                (change)="toggleIndicator(indicator.id)">
-                        <span class="uk-text-small" style="flex: 1 1 auto; min-width: 0;" [class.uk-text-primary]="isIndicatorSelected(indicator.id)">{{ indicator.label }}</span>
+                        <span class="uk-text-xsmall" style="flex: 1 1 auto; min-width: 0;" [class.uk-text-primary]="isIndicatorSelected(indicator.id)">{{ indicator.label }}</span>
                       </label>
                     </li>
                   }
@@ -117,7 +119,7 @@
               {{ selectedCountryIds().size }} countries selected
               <span class="material-symbols-outlined">arrow_drop_down</span>
             </button>
-            <div uk-dropdown="mode: click; pos: bottom-justify">
+            <div uk-dropdown="mode: click; pos: bottom-left; flip: false;">
               <input class="uk-input uk-margin-small-bottom" type="search" placeholder="Search..."
                      [ngModel]="countrySearchTerm()" (ngModelChange)="countrySearchTerm.set($event)">
               <div class="uk-flex uk-flex-between uk-margin-small-bottom">

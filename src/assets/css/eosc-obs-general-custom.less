@@ -272,7 +272,8 @@ app-custom-search {
 
   /* Topic card: rounded, no shadow, with a real gap between cards (same as the split-view rail). */
   .uk-accordion > .uk-card {
-    margin-bottom: @global-small-margin;
+    margin-top: 0;
+    margin-bottom: 4px;
     padding-bottom: 0;
     border: 1px solid @muted-color;
     border-radius: @global-border-radius-md;
@@ -282,7 +283,7 @@ app-custom-search {
   }
 
   .uk-accordion-title {
-    padding: 10px 12px;
+    padding: 5px 0px;
     font-weight: 700;
   }
 
@@ -318,5 +319,12 @@ app-custom-search {
     margin: 0;
     padding: 0 12px;
     background-color: @light-color;
+  }
+
+  .uk-inline > .uk-dropdown {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding: 5px 10px;
   }
 }
