@@ -73,6 +73,9 @@ export class CoverageTrendCardView {
       return undefined;
     }
     const unit = response.metadata.unit;
+    // Without a selector dimension the backend already counted the areas per country and year
+    // (`value` = count, `total` = number of areas); with one, the points are per area.
+    const preAggregated = !dimension;
 
     return {
       chart: { type: 'line', height: 260 },
@@ -82,7 +85,7 @@ export class CoverageTrendCardView {
       xAxis: { categories: years, title: { text: 'Year' } },
       yAxis: {
         min: 0,
-        max: this.totalAreas(),
+        max: preAggregated ? response.data[0]?.total : this.totalAreas(),
         title: { text: 'Areas with a policy in place' }
       },
       tooltip: { pointFormat: '{series.name}: {point.y}' },
@@ -94,15 +97,19 @@ export class CoverageTrendCardView {
         type: 'line' as const,
         name: country.name,
         color: country.color,
-        data: years.map(year =>
-          areas.filter(areaCode =>
-            response.data.some(point =>
+        data: years.map(year => preAggregated
+          ? Number(response.data.find(point =>
               point.dimensions['country'] === country.id &&
-              point.dimensions[dimension] === areaCode &&
-              point.dimensions['period'] === year &&
-              isPositiveStatus(point.value, unit)
-            )
-          ).length
+              point.dimensions['period'] === year
+            )?.value ?? 0)
+          : areas.filter(areaCode =>
+              response.data.some(point =>
+                point.dimensions['country'] === country.id &&
+                point.dimensions[dimension] === areaCode &&
+                point.dimensions['period'] === year &&
+                isPositiveStatus(point.value, unit)
+              )
+            ).length
         )
       }))
     };
