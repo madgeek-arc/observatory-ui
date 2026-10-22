@@ -71,4 +71,4 @@ flowchart LR
   accepts `postMessage` events only from the origins listed in `iframe-loader.component.ts`.
 - **Matomo or Sentry blocked** (for example by an ad blocker): no effect on functionality.
 - **reCAPTCHA unavailable:** the contact form still posts, but without the `g-recaptcha-response` header; the backend
-  decides whether to accept it. A failed submission is only logged to the console; the user sees no error message.
+  decides whether to accept it. A failed submission shows an error message above the Send button and is logged to the console.

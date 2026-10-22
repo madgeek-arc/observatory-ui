@@ -42,7 +42,7 @@ show "You do not have access to this resource" and navigate to `/home`.
 | `XSRF-TOKEN` cookie → `X-XSRF-TOKEN` header | Angular `withXsrfConfiguration` in `app.module.ts` | Added by Angular to state-changing requests to the same origin; also sent in the STOMP CONNECT headers |
 | `userInfo`, `currentStakeholder`, `currentCoordinator`, `currentAdministrator`, `redirectUrl` | `sessionStorage` | Per tab; cleared on logout. `userInfo` contains the user's name, e-mail and profile |
 | `consent` cookie | First-party | Cookie-consent choice, `SameSite=Lax`, `Secure` on HTTPS, 395 days |
-| `AccessToken` cookie | Browser cookie | Not created by this application. It is deleted on logout, and messaging-system-ui sends its value as `Authorization: Bearer` on some calls (`null` when absent); see its [security notes](../src/messaging-system-ui/docs/security.md) |
+| `AccessToken` cookie | Browser cookie | Not created by this application. It is only deleted on logout; messaging-system-ui no longer sends it as an `Authorization` header (see its [security notes](../src/messaging-system-ui/docs/security.md)) |
 
 ## CORS and CSRF
 
