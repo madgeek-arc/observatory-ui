@@ -153,8 +153,14 @@ up to the selected year.
   against the previous survey, so a report year always needs an earlier one.
 - On init the page probes each selectable year (`Question1`) and only enables the ones the stats API
   has data for (`availableYears`); others show as "(no data)". It starts on the latest available
-  year. The API answers `200` with an empty body for a year it doesn't have, which `HttpClient`
-  delivers as `null`. Any single chart whose response is missing is skipped with a console warning.
+  year. A year with no data comes back either as a `200` with an empty body (which `HttpClient`
+  delivers as `null`) or as a valid response with zero rows. Any single chart whose response is
+  missing is skipped with a console warning.
+- The report queries `EoscReadinessDataService.getQuestionEU(year, name)`. For years after 2021 the
+  service sends `{"name": "eosc.sb.eu.<Question>", "namedParameters": {"year": <year>}}`; earlier
+  years keep the per-year name `eosc.sb.eu.<year>.<Question>`. `getQuestion`, `getQuestions` and
+  `getQuestionComment` follow the same rule (`eosc.sb.<Question>[.comment]`), through one private
+  helper, `questionQuery`.
 - Changing the year calls `loadReport(year)`, which cancels in-flight requests (`reload$`), resets
   `chartsCfg`'s `data`/`chartSeries`/`pieSeries`, the ready counters, `reportData` and the cached
   `chartImages`, then reloads every chart. `generateReport()` reuses `chartImages` when non-empty, so

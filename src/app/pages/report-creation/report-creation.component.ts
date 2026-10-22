@@ -110,7 +110,7 @@ export class ReportCreationComponent implements OnInit {
   private findAvailableYears(): Observable<string[]> {
     return forkJoin(this.selectableYears.map(year =>
       this.queryData.getQuestionEU(year, 'Question1').pipe(
-        map(result => this.hasData(result)),
+        map(result => this.hasRows(result)),
         catchError(() => of(false))
       )
     )).pipe(map(found => this.selectableYears.filter((_, i) => found[i])));
@@ -119,6 +119,11 @@ export class ReportCreationComponent implements OnInit {
   // The stats API answers 200 with an empty body (null) for a query that has no data
   private hasData(result: RawData | null): boolean {
     return Array.isArray(result?.datasets?.[0]?.series?.result);
+  }
+
+  // A year the survey hasn't been loaded for can also come back as a valid response with no rows
+  private hasRows(result: RawData | null): boolean {
+    return this.hasData(result) && result!.datasets[0].series.result.length > 0;
   }
 
   loadReport(year: string) {

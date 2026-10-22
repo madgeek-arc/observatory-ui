@@ -20,26 +20,35 @@ export class EoscReadinessDataService {
 
   constructor(private httpClient: HttpClient) {}
 
+  // Surveys after 2021 share one named query per question, selected with the year parameter;
+  // earlier surveys keep a named query per year
+  private questionQuery(scope: string, year: string, name: string, suffix = ''): string {
+    const queryName = Number(year) > 2021
+      ? `"name":"${scope}.${name}${suffix}","namedParameters":{"year":${Number(year)}}`
+      : `"name":"${scope}.${year}.${name}${suffix}"`;
+    return `{"query":{${queryName},"profile":"${this.profileName}"}}`;
+  }
+
   // ======= DYNAMIC ========
   getQuestion(year: string, name: string): Observable<RawData> {
-    const query: string = `{"series":[{"query":{"name":"eosc.sb.${year}.${name}","profile":"${this.profileName}"}}],"verbose":true}`
+    const query: string = `{"series":[${this.questionQuery('eosc.sb', year, name)}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   getQuestions(year: string, names: string[]): Observable<RawData> {
-    const series = names.map(name => `{"query":{"name":"eosc.sb.${year}.${name}","profile":"${this.profileName}"}}`);
+    const series = names.map(name => this.questionQuery('eosc.sb', year, name));
     const query: string = `{"series":[${series.toString()}],"verbose":true}`;
 
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   getQuestionEU(year: string, name: string): Observable<RawData> {
-    const query: string = `{"series":[{"query":{"name":"eosc.sb.eu.${year}.${name}","profile":"${this.profileName}"}}],"verbose":true}`
+    const query: string = `{"series":[${this.questionQuery('eosc.sb.eu', year, name)}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   getQuestionComment(year: string, name: string): Observable<RawData> {
-    const query: string = `{"series":[{"query":{"name":"eosc.sb.${year}.${name}.comment","profile":"${this.profileName}"}}],"verbose":true}`
+    const query: string = `{"series":[${this.questionQuery('eosc.sb', year, name, '.comment')}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
