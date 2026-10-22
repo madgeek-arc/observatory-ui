@@ -68,7 +68,9 @@ calls. Font files are served with `Access-Control-Allow-Origin: *`. CSRF protect
   form-model descriptions in catalogue-ui. Such a value must come from a fixed list or a trusted source; do not add a
   bypass for a string a visitor can influence, and review these sites whenever their inputs change.
 - The Joomla iframe loader accepts `postMessage` events only from a fixed list of origins and only for the
-  `joomla-navigate` message type.
+  `joomla-navigate` message type. Its `path` query parameter is used only when it resolves to an http(s) URL on the
+  application's own origin (`safeIframePath` in `pages/iframe-loader/iframe-path.ts`, which returns the normalised
+  path); any other value is ignored and the default page is shown.
 - Rich text entered by users is produced by the TipTap editor in catalogue-ui, which limits what users can create
   but is not a sanitizer (see its [security notes](../src/survey-tool/catalogue-ui/docs/security.md)).
 
