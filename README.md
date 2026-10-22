@@ -10,7 +10,7 @@ Type:          Frontend application
 Status:        Production
 Technology:    Angular 20 / TypeScript 5.8 / RxJS / Less, UIkit, Angular Material, Highcharts
 API:           Consumes the EOSC Observatory API (/api); exposes none
-Swagger:       n/a (frontend). The backend's Swagger UI is linked from its own repository: TODO(backend maintainers)
+Swagger:       n/a (frontend)
 Deployment:    Docker (Node build stage, nginx runtime)
 Documentation: /docs
 ```
@@ -67,6 +67,9 @@ Other scripts: `npm run build:prod`, `npm run build:beta`, `npm test` (Karma/Jas
 
 Feature-level notes: [report creation](src/app/pages/report-creation/README.md).
 
-## Licence and contact
+## Licence
 
-Apache License 2.0, see [LICENSE](LICENSE). Maintainer/contact: TODO(maintainers).
+Apache License 2.0, see [LICENSE](LICENSE). [NOTICE](NOTICE) lists the third-party scripts bundled with the
+application. The npm packages it is built with keep their own licences; every production build writes their texts to
+`3rdpartylicenses.txt`, which is served at `/3rdpartylicenses.txt`. Highcharts and `@highcharts/map-collection` are
+proprietary-licensed (see <https://www.highcharts.com/license>) and are not covered by Apache-2.0.

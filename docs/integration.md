@@ -1,8 +1,8 @@
 # Integration
 
 The UI only calls out; nothing calls the UI except browsers (and the embedded Joomla pages, which send it
-`postMessage` events). Endpoint paths, parameters and schemas are owned by the backend's Swagger/OpenAPI documentation
-(TODO(backend maintainers): add the link); this document lists the endpoint **groups** the UI depends on.
+`postMessage` events). Endpoint paths, parameters and schemas are owned by the backend's Swagger/OpenAPI documentation;
+this document lists the endpoint **groups** the UI depends on.
 
 ```mermaid
 flowchart LR
