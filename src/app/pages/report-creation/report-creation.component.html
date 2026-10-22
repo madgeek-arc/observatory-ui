@@ -1,12 +1,25 @@
 <div class="uk-section uk-section-primary uk-preserve-color uk-section-small">
   <div class="uk-container uk-container-expand">
-    <div class="uk-flex uk-flex-right">
+    <div class="uk-flex uk-flex-between">
+      <div class="uk-flex uk-flex-middle uk-margin-right">
+        <label class="uk-form-label uk-margin-small-right" for="report-year">Survey year</label>
+        <select id="report-year" class="uk-select uk-form-large uk-form-width-small" [formControl]="yearControl">
+          @for (y of selectableYears; track y) {
+            <option [value]="y" [disabled]="!availableYears().includes(y)">
+              {{ y }}{{ availableYears().includes(y) ? '' : ' (no data)' }}
+            </option>
+          }
+        </select>
+      </div>
       <div>
-        <button class="uk-button uk-button-primary uk-button-large" [ngClass]="{'uk-disabled': exporting}"
+        <button class="uk-button uk-button-primary uk-button-large" [class.uk-disabled]="exporting || loading()"
                 (click)="generateReport()">
           Generate Complete Report
-          <span class="uk-margin-small-left" [ngClass]="{'uk-hidden': !exporting}" data-uk-spinner="ratio: 0.7"></span>
+          <span class="uk-margin-small-left" [class.uk-hidden]="!exporting" data-uk-spinner="ratio: 0.7"></span>
         </button>
+        @if (!loading() && availableYears().length === 0) {
+          <p class="uk-text-danger uk-margin-small-top">No survey data could be loaded for any year.</p>
+        }
         <p class="uk-text-meta uk-margin-small-top">
           Charts ready: {{ chartsReadyCount }}/{{ chartsCfg.length }} <br>
           Pies ready: {{ pieChartsReadyCount }} / {{ totalPieChartsCount }}
