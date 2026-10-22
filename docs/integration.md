@@ -41,8 +41,11 @@ flowchart LR
 
 > **Note on statistics.** The Angular `STATS_API_ENDPOINT` key (row 3) points at `/api/statistics/`, i.e. the backend
 > through the `/api` proxy. The nginx `/stats/api` location and the container variable of the same name are not
-> referenced by any current environment file, so the diagram's `/stats/api` edge is configuration the image still
-> requires but the application does not use today. TODO(maintainers): confirm whether it can be removed.
+> referenced by any environment file or source file: the application does not use them. They are kept on purpose, so that
+> anything outside the application that still calls `/stats/api` keeps working. In the production deployment that route
+> reaches the same backend statistics endpoint as `/api/statistics/`, so it is a second path to the same service. The cost
+> is that the container variable stays required (see [configuration.md](configuration.md)). The route can be removed once
+> the web server's access logs show no calls to `/stats/api`.
 
 ## Backend endpoint groups used
 
@@ -61,7 +64,8 @@ flowchart LR
 ## Failure behaviour
 
 - **No retries or timeouts on HTTP calls.** The UI does not retry REST requests and sets no client-side timeout;
-  nginx's 300 s (`/api`) and 90 s (`/stats/api`) limits are the effective ones. Failures reach the calling component.
+  nginx's 300 s limit on `/api` is the effective one for the application, including its statistics calls
+  (`/api/statistics/`). The 90 s limit on `/stats/api` applies only to callers of that route. Failures reach the calling component.
 - **Global interceptor** (`src/app/pages/services/http-interceptor.service.ts`): `401` clears the cached user (the next guarded
   route triggers login); `403` shows a "no access" notification and navigates to `/home`; other errors are rethrown to the caller.
 - **WebSockets** reconnect automatically: the messaging sockets retry every second for roughly two minutes and then

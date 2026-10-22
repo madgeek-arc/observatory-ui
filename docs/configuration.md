@@ -65,7 +65,7 @@ Set these with `docker run -e ...` or the orchestrator's equivalent.
 | Variable | Required | Default | Effect |
 |---|---|---|---|
 | `PLATFORM_API_ENDPOINT` | **Yes** | none | Upstream URL for nginx `location /api` (`proxy_pass`), e.g. the backend's base URL. Empty makes `nginx -t` fail |
-| `STATS_API_ENDPOINT` | **Yes** | none | Upstream URL for nginx `location /stats/api`. Rendered into the template, so it must be non-empty for nginx to start. Note this is a different thing from the `STATS_API_ENDPOINT` key in the Angular environment file |
+| `STATS_API_ENDPOINT` | **Yes** | none | Upstream URL for nginx `location /stats/api`. Rendered into the template, so it must be non-empty for nginx to start. Note this is a different thing from the `STATS_API_ENDPOINT` key in the Angular environment file. The application does not call this route (its statistics calls go through `/api/statistics/`); it is kept for existing external callers, see the note on statistics in [integration.md](integration.md) |
 | `ENABLE_SSL` | Recommended | unset | Set to `TRUE` to install `certbot-nginx` at start-up and obtain/install a certificate. Set it explicitly (`FALSE` otherwise): when unset, bash prints `[: ==: unary operator expected` and continues without SSL |
 | `SERVER_NAME` | With SSL | unset | Adds `server_name` to nginx; the certificate is requested for this name |
 | `SSL_EMAIL` | No | unset | Contact e-mail for certbot. Without it certbot registers without an e-mail |

@@ -63,7 +63,7 @@ nginx routes (`nginx.conf.txt`):
 |---|---|
 | `/` | SPA fallback to `index.html`, `Cache-Control: no-cache` |
 | `/api` | Proxy to `PLATFORM_API_ENDPOINT`, WebSocket upgrade enabled, 300 s timeouts, 200 MB request body limit |
-| `/stats/api` | Proxy to `STATS_API_ENDPOINT`, 90 s timeouts |
+| `/stats/api` | Proxy to `STATS_API_ENDPOINT`, 90 s timeouts. Not used by the application; kept for existing external callers (see [integration.md](integration.md)) |
 | `/pages`, `/(templates\|component\|media\|files)/` | Proxy to the Joomla host |
 | `*.eot`, `*.ttf`, `*.woff` | `Access-Control-Allow-Origin: *` |
 
