@@ -69,7 +69,7 @@ export function statusBadge(value: number | string | null | undefined, unit?: st
     return { text: 'Yes', cssClass: 'uk-label-success' };
   }
   if (category === 'negative') {
-    return { text: 'No', cssClass: 'uk-label-closed' };
+    return { text: 'No', cssClass: 'uk-label-text' };
   }
-  return { text: 'N/A', cssClass: 'uk-label-text' };
+  return { text: 'N/A', cssClass: 'uk-label-closed' };
 }

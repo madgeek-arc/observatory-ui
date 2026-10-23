@@ -5,6 +5,17 @@ import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../
 import { CardState } from "../../../../shared/card-state/card-state";
 import { colorForStatus, isPositiveStatus } from "../../../../domain/policy-status";
 
+/** Legend order */
+const LEGEND_ORDER = [
+  'Mandatory policy',
+  'Policy but not mandatory',
+  'Has national monitoring',
+  'No policy',
+  'Does not have national monitoring',
+  'Awaiting data',
+  'N/A'
+];
+
 @Component({
   selector: 'app-policy-map-card-view',
   templateUrl: './policy-map-card-view.html',
@@ -35,7 +46,7 @@ export class PolicyMapCardView {
       return undefined;
     }
 
-    const groups = new Map<string, string[]>();
+    const groups = new Map<string, string[]>(LEGEND_ORDER.map(status => [status, []]));
     for (const point of response.data) {
       const rawValue = String(point.value);
       const countryCode = point.dimensions['country'];
@@ -46,13 +57,15 @@ export class PolicyMapCardView {
     }
 
     const data = new CategorizedAreaData();
-    data.series = [...groups.entries()].map(([rawValue, countryCodes], index) => {
-      const series = new Series(rawValue, index === 0);
-      series.showInLegend = true;
-      series.color = colorForStatus(rawValue);
-      series.data = countryCodes.map(code => ({ code }));
-      return series;
-    });
+    data.series = [...groups.entries()]
+      .filter(([, countryCodes]) => countryCodes.length > 0)
+      .map(([rawValue, countryCodes], index) => {
+        const series = new Series(rawValue, index === 0);
+        series.showInLegend = true;
+        series.color = colorForStatus(rawValue);
+        series.data = countryCodes.map(code => ({ code }));
+        return series;
+      });
     return data;
   });
 

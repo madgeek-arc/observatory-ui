@@ -7,10 +7,10 @@
         @if (summary.euAverage !== undefined || summary.median !== undefined) {
           <div class="uk-flex uk-flex-middle uk-margin-small-top" style="gap: 12px;">
             @if (summary.euAverage !== undefined) {
-              <span class="uk-text-small"><span class="uk-text-meta">EU average:</span> <span class="uk-text-bold">{{ summary.euAverage }}%</span></span>
+              <span class="uk-text-small"><span class="uk-text-meta">EU average:</span> <span class="uk-text-bold">{{ summary.euAverage }}</span></span>
             }
             @if (summary.median !== undefined) {
-              <span class="uk-text-small"><span class="uk-text-meta">Median:</span> <span class="uk-text-bold">{{ summary.median }}%</span></span>
+              <span class="uk-text-small"><span class="uk-text-meta">Median:</span> <span class="uk-text-bold">{{ summary.median }}</span></span>
             }
           </div>
         }

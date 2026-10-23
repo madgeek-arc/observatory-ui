@@ -47,15 +47,16 @@
 
       <div class="uk-width-1-5 uk-padding-small" style="background: #faf9f9">
 
-        <div class="uk-flex uk-flex-middle uk-flex-wrap uk-margin-small-bottom" style="gap: 8px;">
-          <span class="uk-badge">1</span>
-          <span class="uk-text-bold uk-text-small uk-text-nowrap">Topics &amp; indicators</span>
-          <div class="uk-width-1-1 uk-flex uk-flex-right" style="gap: 8px;">
-            <a class="uk-text-meta uk-text-small uk-link-reset uk-text-nowrap" (click)="toggleAllTopics()">
+        <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
+          <span class="uk-badge uk-padding-remove">1</span>
+          <div class="uk-width-expand uk-flex uk-flex-between uk-flex-middle">
+            <div class="uk-text-bold uk-text-small uk-text-nowrap">Topics &amp; indicators</div>
+            <a class="uk-text-meta uk-text-xsmall uk-link-reset uk-text-nowrap" (click)="toggleAllTopics()">
               {{ allTopicsExpanded() ? 'collapse all' : 'expand all' }}
             </a>
-            <a class="uk-text-small uk-text-primary uk-link-reset uk-text-nowrap" (click)="clearAllIndicators()">Clear all</a>
+            <!--<a class="uk-text-small uk-text-primary uk-link-reset uk-text-nowrap" (click)="clearAllIndicators()">Clear all</a>-->
           </div>
+
         </div>
 
         <ul #accordion class="uk-accordion-default" uk-accordion="multiple: true">
@@ -72,7 +73,7 @@
               </a>
               <div class="uk-accordion-content uk-card-body">
                 <div class="uk-margin-small-top uk-margin-small-bottom">
-                  <a class="uk-text-xsmall uk-text-primary uk-text-bold" (click)="toggleSelectAllInTopic(topic)">
+                  <a class="uk-text-xsmall uk-text-primary uk-text-bold uk-link-reset" (click)="toggleSelectAllInTopic(topic)">
                     {{ isTopicFullySelected(topic) ? 'Clear all' : 'Select all' }}
                   </a>
                 </div>
@@ -96,7 +97,7 @@
         <hr class="uk-margin-medium-top">
 
         <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
-          <span class="uk-badge">2</span>
+          <span class="uk-badge uk-padding-remove">2</span>
           <span class="uk-text-bold uk-text-small">Geography</span>
         </div>
 
@@ -122,11 +123,11 @@
             <div uk-dropdown="mode: click; pos: bottom-left; flip: false;">
               <input class="uk-input uk-margin-small-bottom" type="search" placeholder="Search..."
                      [ngModel]="countrySearchTerm()" (ngModelChange)="countrySearchTerm.set($event)">
-              <div class="uk-flex uk-flex-between uk-margin-small-bottom">
-                <a class="uk-text-small uk-text-primary uk-text-bold" (click)="selectAllFilteredCountries()">Select all</a>
-                <a class="uk-text-small uk-text-meta uk-text-bold" (click)="clearSelectedCountries()">Clear</a>
+              <div class="uk-flex uk-flex-between uk-margin-small-bottom uk-border-top uk-border-bottom">
+                <a class="uk-link-reset uk-text-small uk-text-bold" (click)="selectAllFilteredCountries()"><span class="uk-text-primary">Select all</span></a>
+                <a class="uk-link-reset uk-text-small uk-text-bold" (click)="clearSelectedCountries()"><span class="uk-text-meta">Clear</span></a>
               </div>
-              <div style="max-height: 220px; overflow-y: auto;">
+              <div style="max-height: 200px; overflow-y: auto;">
                 @for (country of filteredCountries(); track country.id) {
                   <label class="uk-flex uk-flex-middle" style="gap: 8px;">
                     <input class="uk-checkbox" type="checkbox" style="flex-shrink: 0;"
@@ -143,15 +144,15 @@
         <hr class="uk-margin-medium-top">
 
         <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
-          <span class="uk-badge">3</span>
+          <span class="uk-badge uk-padding-remove">3</span>
           <span class="uk-text-bold uk-text-small">Time period</span>
         </div>
 
         <div class="uk-flex uk-flex-middle" style="gap: 8px;">
-          <input class="uk-input uk-form-width-small" type="number"
+          <input class="uk-input uk-width-expand" type="number"
                  [ngModel]="startYear()" (ngModelChange)="setStartYear($event)" [max]="maxYear">
           <span class="uk-text-meta">–</span>
-          <input class="uk-input uk-form-width-small" type="number"
+          <input class="uk-input uk-width-expand" type="number"
                  [ngModel]="endYear()" (ngModelChange)="setEndYear($event)" [max]="maxYear">
         </div>
         <div class="uk-text-meta uk-text-xsmall uk-margin-small-top">

@@ -307,18 +307,19 @@ app-custom-search {
      single component-scoped selector, so the blast radius is contained. */
   .uk-card.uk-accordion-active {
     border-color: @primary-border-light-color !important;
-    background-color: @primary-tint-color !important;
+    //background-color: @primary-tint-color !important;
   }
 
   .uk-card.uk-accordion-active .uk-card-title {
     border-left: none;
     color: @primary-color;
+    background-color: @primary-tint-color;
   }
 
   .uk-accordion-content {
     margin: 0;
-    padding: 0 12px;
-    background-color: @light-color;
+    padding: 0 12px 12px;
+    //background-color: @light-color;
   }
 
   .indicator-card-group {
