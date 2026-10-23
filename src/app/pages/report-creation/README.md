@@ -98,6 +98,11 @@ interface ChartImageData {
    and repeated paragraphs work with loop tags if the template uses them).
 7. `doc.setData(data)` then `doc.render()` — this is where template tags in the `.docx` are
    substituted; a tag present in the template but missing from `data` will throw here.
+   Right after, `preserveWhitespace()` adds `xml:space="preserve"` to every `<w:t>` in
+   `document.xml` and the headers/footers. `docxtemplater@3.1` leaves the run where a tag ends
+   (e.g. `<w:t> in financial strategies…</w:t>` after `{Question11[0]}`) without it, and Word
+   then drops the leading space, producing "decreasein". Don't remove it, and no double spaces
+   are needed in the template.
 8. Generate the output as a `blob` (`application/vnd.openxmlformats-officedocument.wordprocessingml.document`)
    and save it via `file-saver`'s `saveAs(...)` as `report_<ISO-timestamp>.docx`
    (colons stripped, e.g. `report_2026-08-27T10-15-30.docx`).
