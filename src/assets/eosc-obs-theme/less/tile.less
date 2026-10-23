@@ -19,6 +19,36 @@
   .material-symbols-outlined { font-size: 18px; }
 }
 
+// UIkit override attempted: uk-card-default / uk-card-hover for a selectable row, but the theme card is a shadow-only
+// flex column with a 20px bottom margin and no flat border. Layout, padding and radius stay on uk-* utilities in the
+// markup; UIkit has no border utility and no selected or keyboard-focus state for a visually hidden radio.
+.eos-option {
+  border: 1px solid @global-border;
+  background: @light-color;
+  transition: border-color .15s ease-in-out, background-color .15s ease-in-out;
+
+  &:hover {
+    border-color: @primary-border-light-color;
+    background: @surface-2-color;
+  }
+
+  &--selected,
+  &--selected:hover {
+    border-color: @primary-color;
+    background: @primary-tint-color;
+    box-shadow: 0 0 0 1px @primary-color;
+  }
+
+  &:has(input:focus-visible) {
+    outline: 2px solid @primary-color;
+    outline-offset: 2px;
+  }
+
+  // UIkit override attempted: @progress-height is global (the survey cards use the same 18px bar) and uk-progress has
+  // no size modifier, so the slim 6px bar is scoped to the option row.
+  .uk-progress { height: 6px; }
+}
+
 // Stat tiles
 .eos-stat {
   padding: 12px;
