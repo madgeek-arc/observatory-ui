@@ -1,19 +1,24 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit, signal } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { ReportCreationService } from "../services/report-creation.service";
 import { EoscReadinessDataService } from "../services/eosc-readiness-data.service";
 import { StakeholdersService } from "../../../survey-tool/app/services/stakeholders.service";
 import { CustomSeriesMapOptions, WorldMapComponent } from "../../shared/charts/report-charts/world-map.component";
-import { forkJoin, Observable } from "rxjs";
+import { forkJoin, Observable, of, Subject } from "rxjs";
+import { catchError, finalize, map, takeUntil } from "rxjs/operators";
 import { RawData, Row } from "../../domain/raw-data";
 import { SeriesMappointOptions, SeriesPieOptions } from 'highcharts';
 import { latlong } from "../../domain/countries-lat-lon";
-import { JsonPipe, NgClass } from "@angular/common";
+import { JsonPipe } from "@angular/common";
 import { Chart, chartsCfg } from "./report-chart.configuration";
 import { BarColumnsComponent } from "../../shared/charts/report-charts/bar-columns.component";
 import { isNumeric } from "../../../survey-tool/app/utils/utils";
 import { ReportPieChartComponent } from "../../shared/charts/report-charts/report-pie-chart.component";
 import * as Highcharts from 'highcharts';
 
+
+const FIRST_SURVEY_YEAR = 2022;
 
 interface ChartImageData {
   buffer: ArrayBuffer;
@@ -28,7 +33,7 @@ interface ChartImageData {
   imports: [
     JsonPipe,
     BarColumnsComponent,
-    NgClass,
+    ReactiveFormsModule,
     WorldMapComponent,
     ReportPieChartComponent
   ],
@@ -40,6 +45,11 @@ export class ReportCreationComponent implements OnInit {
   private queryData = inject(EoscReadinessDataService);
   private reportService =  inject(ReportCreationService);
   private cdr = inject(ChangeDetectorRef);
+  private destroyRef = inject(DestroyRef);
+
+  // Emits when a new report year is loaded, to cancel the previous year's in-flight requests
+  private reload$ = new Subject<void>();
+  private pendingLoads = 0;
 
   charts: Highcharts.Chart[] = [];
   pieCharts: Highcharts.Chart[][] = [];
@@ -48,8 +58,24 @@ export class ReportCreationComponent implements OnInit {
   pieChartsReadyCount = 0;
   totalPieChartsCount = 0;
 
-  years = ['2022', '2023', '2024'];
-  categories = ['Survey 2022', 'Survey 2023', 'Survey 2024'];
+  // Every survey year from the first full survey up to last year; a survey runs the year after its reference year,
+  // so the current year's survey doesn't exist yet. Years the stats API has no data for are filtered out on init.
+  readonly allYears = Array.from(
+    {length: new Date().getFullYear() - FIRST_SURVEY_YEAR},
+    (_, i) => String(FIRST_SURVEY_YEAR + i)
+  );
+  // The trend charts compare against the previous survey, so the first year can't be the report year, also document is
+  // structured to report for at least three years so skip the first two years
+  readonly selectableYears = this.allYears.slice(2);
+  // The subset of selectableYears the stats API has data for, found on init
+  availableYears = signal<string[]>([]);
+  yearControl = new FormControl<string>(this.selectableYears[this.selectableYears.length - 1], {nonNullable: true});
+
+  // Survey years up to and including the selected report year
+  years: string[] = [];
+  categories: string[] = [];
+
+  loading = signal(false);
 
   reportData: Record<string, string> = {};
   chartImages: { [key: string]: ChartImageData } = {};
@@ -60,15 +86,73 @@ export class ReportCreationComponent implements OnInit {
   exporting = false;
 
   ngOnInit() {
-    // this.pieCharts = this.chartsCfg.map(c => new Array(c.namedQueries.length).fill(null));
-    // this.worldCharts = new Array(this.chartsCfg.length).fill(null);
+    this.loading.set(true);
+    this.yearControl.disable({emitEvent: false});
+
+    this.findAvailableYears().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(available => {
+      this.availableYears.set(available);
+      this.yearControl.enable({emitEvent: false});
+      if (available.length === 0) {
+        this.loading.set(false);
+        return;
+      }
+
+      // Start from the latest survey that has data
+      this.yearControl.setValue(available[available.length - 1], {emitEvent: false});
+      this.loadReport(this.yearControl.value);
+      this.yearControl.valueChanges
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(year => this.loadReport(year));
+    });
+  }
+
+  // Question1 (researchers in FTEs) feeds most charts, so a year without it has no usable survey data
+  private findAvailableYears(): Observable<string[]> {
+    return forkJoin(this.selectableYears.map(year =>
+      this.queryData.getQuestionEU(year, 'Question1').pipe(
+        map(result => this.hasRows(result)),
+        catchError(() => of(false))
+      )
+    )).pipe(map(found => this.selectableYears.filter((_, i) => found[i])));
+  }
+
+  // The stats API answers 200 with an empty body (null) for a query that has no data
+  private hasData(result: RawData | null): boolean {
+    return Array.isArray(result?.datasets?.[0]?.series?.result);
+  }
+
+  // A year the survey hasn't been loaded for can also come back as a valid response with no rows
+  private hasRows(result: RawData | null): boolean {
+    return this.hasData(result) && result!.datasets[0].series.result.length > 0;
+  }
+
+  loadReport(year: string) {
+    // Cancel the previous year's requests first, so a late response can't overwrite the new state
+    this.reload$.next();
+
+    this.years = this.allYears.slice(0, this.allYears.indexOf(year) + 1);
+    this.categories = this.years.map(y => `Survey ${y}`);
+
+    // chartsCfg is shared module state, so reset what loadChart fills in
+    this.chartsCfg.forEach(chart => {
+      chart.data = [];
+      chart.chartSeries = [];
+      chart.pieSeries = [];
+    });
     this.charts = [];
     this.pieCharts = [];
     this.chartsReadyCount = 0;
     this.pieChartsReadyCount = 0;
     this.totalPieChartsCount = this.countAllPieSeries();
-    this.reportData['Year'] = this.years[this.years.length-1];
-    this.reportData['FiscalYear'] = this.years[this.years.length-2];
+    // generateReport() reuses these when non-empty, so they must not outlive the year they were rendered for
+    this.chartImages = {};
+    this.reportData = {
+      Year: this.years[this.years.length-1],
+      FiscalYear: this.years[this.years.length-2]
+    };
+
+    this.pendingLoads = this.chartsCfg.length;
+    this.loading.set(true);
     this.chartsCfg.forEach(chart => this.loadChart(chart));
   }
 
@@ -87,8 +171,17 @@ export class ReportCreationComponent implements OnInit {
 
 
     // run them all in parallel
-    forkJoin(calls).subscribe({
+    forkJoin(calls).pipe(
+      takeUntil(this.reload$),
+      takeUntilDestroyed(this.destroyRef),
+      finalize(() => this.onChartLoaded())
+    ).subscribe({
       next: results => {
+        if (!results.every(result => this.hasData(result))) {
+          console.warn(`No survey data for ${chart.title} (${chart.namedQueries.join(', ')}), skipping`);
+          return;
+        }
+
         // the results is an array in the same order as namedQueries
         chart.data = results;
         // console.log(`Loaded ${chart.title}:`, results);
@@ -140,8 +233,19 @@ export class ReportCreationComponent implements OnInit {
     });
   }
 
+  // Counts finished (or cancelled) chart loads, to know when the whole report has loaded
+  private onChartLoaded() {
+    this.pendingLoads = Math.max(0, this.pendingLoads - 1);
+    this.loading.set(this.pendingLoads > 0);
+  }
+
   async generateReport() {
+    if (this.exporting || this.loading())
+      return;
+
     this.exporting = true;
+    // The report year must not change while its charts are being exported
+    this.yearControl.disable({emitEvent: false});
     // const before = this.pieCharts.map(r => r ? r.map(c => Object.keys(c||{}).length) : []);
     // console.log('before keysCount: ', before);
     try {
@@ -198,13 +302,15 @@ export class ReportCreationComponent implements OnInit {
       await this.reportService.exportDocWithMultipleImages(this.reportData, this.chartImages, this.staticImages);
 
       console.log('Report generated successfully!');
-      this.exporting = false;
 
       // const after = this.pieCharts.map(r => r ? r.map(c => Object.keys(c||{}).length) : []);
       // console.log('after keysCount: ', after);
 
     } catch (error) {
       console.error('Error generating report:', error);
+    } finally {
+      this.exporting = false;
+      this.yearControl.enable({emitEvent: false});
     }
 
   }

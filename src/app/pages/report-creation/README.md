@@ -105,8 +105,8 @@ interface ChartImageData {
 **Errors**: any failure (network, malformed template, missing/invalid tag, canvas/image
 failure upstream) is logged with `console.error('Export error:', err)` and rethrown — callers
 must catch it themselves to update UI state. (`ReportCreationComponent.generateReport()` does
-this; note that on failure it currently does not reset its own `exporting` flag — see caveat
-below.)
+this and resets its `exporting` flag in a `finally`, so a failed export doesn't leave the
+button disabled.)
 
 ### Usage (as done in `ReportCreationComponent.generateReport()`)
 
@@ -138,6 +138,39 @@ Text tag keys are the survey `namedQueries` question IDs from `report-chart.conf
 derived from the same question, or `_trend`/`_total` for investment charts — see the various
 `*Series(...)` methods in `report-creation.component.ts` for exactly which suffixes each chart
 `type` writes.
+
+## Report year selection
+
+The page has a **Survey year** select. The selected year becomes the report year (`{Year}` in the
+template, and the only year queried for the map/pie/range charts); `{FiscalYear}` is the survey
+before it. Trend charts (`stackedBars`, `barChart`, `totalInvestments`) cover every survey from 2022
+up to the selected year.
+
+- `allYears` in `report-creation.component.ts` is built from `FIRST_SURVEY_YEAR` (2022) up to the
+  current year minus one, so a new year appears on 1 January with no code change. (A survey runs the
+  year after its reference year.)
+- `selectableYears` is `allYears.slice(2)`, i.e. report years from 2024 on. Trend sentences compare
+  against the previous survey, so a report year always needs an earlier one.
+- On init the page probes each selectable year (`Question1`) and only enables the ones the stats API
+  has data for (`availableYears`); others show as "(no data)". It starts on the latest available
+  year. A year with no data comes back either as a `200` with an empty body (which `HttpClient`
+  delivers as `null`) or as a valid response with zero rows. Any single chart whose response is
+  missing is skipped with a console warning.
+- The report queries `EoscReadinessDataService.getQuestionEU(year, name)`. For years after 2021 the
+  service sends `{"name": "eosc.sb.eu.<Question>", "namedParameters": {"year": <year>}}`; earlier
+  years keep the per-year name `eosc.sb.eu.<year>.<Question>`. `getQuestion`, `getQuestions` and
+  `getQuestionComment` follow the same rule (`eosc.sb.<Question>[.comment]`), through one private
+  helper, `questionQuery`.
+- Changing the year calls `loadReport(year)`, which cancels in-flight requests (`reload$`), resets
+  `chartsCfg`'s `data`/`chartSeries`/`pieSeries`, the ready counters, `reportData` and the cached
+  `chartImages`, then reloads every chart. `generateReport()` reuses `chartImages` when non-empty, so
+  any new state that depends on the year must be reset there too.
+- The button is disabled while charts load (`loading`), and the select is disabled while exporting.
+
+**The year does not change literal text in `report_template.docx`.** Anything typed directly into the
+template (survey open/close dates, number of responding countries, the survey reference list, a
+literal "in 2023" for the fiscal year) has to be edited in Word, or turned into a `{tag}` and added
+to `reportData`.
 
 ## Packages used
 
