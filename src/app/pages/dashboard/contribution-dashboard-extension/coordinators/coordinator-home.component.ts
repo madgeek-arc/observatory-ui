@@ -1,4 +1,4 @@
-import {Component, computed, DestroyRef, inject, OnInit, signal} from "@angular/core";
+import {Component, computed, DestroyRef, inject, OnInit, signal, ChangeDetectionStrategy} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {Coordinator} from "../../../../../survey-tool/app/domain/userInfo";
 import {UserService} from "../../../../../survey-tool/app/services/user.service";
@@ -18,6 +18,7 @@ import {FormsModule} from "@angular/forms";
   selector: "app-coordinator-home",
   templateUrl: "coordinator-home.component.html",
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, ChartsModule, NgSelectModule, FormsModule],
 })
 

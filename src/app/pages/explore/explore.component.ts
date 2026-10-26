@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import {
   DashboardSideMenuComponent,
@@ -16,6 +16,7 @@ import { exploreIcons } from "./explore.icons";
         DashboardSideMenuComponent,
         RouterOutlet,
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './explore.component.html'
 })
 

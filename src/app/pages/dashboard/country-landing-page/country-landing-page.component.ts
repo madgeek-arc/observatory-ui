@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
 import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
@@ -11,6 +11,7 @@ import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
     templateUrl: 'country-landing-page.component.html',
     styleUrls: ['./country-landing-page.component.css'],
     providers: [SurveyService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

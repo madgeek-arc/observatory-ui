@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, computed, signal } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, computed, signal, ChangeDetectionStrategy } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
@@ -17,6 +17,7 @@ import * as UIkit from "uikit";
   standalone: true,
   imports: [FormsModule, RouterOutlet, OverrideModeBannerComponent, IndicatorListComponent],
   templateUrl: './country-pages-configuration.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['../../../assets/css/explore-sidebar.less']
 })
 export class CountryPagesConfigurationComponent implements OnInit {

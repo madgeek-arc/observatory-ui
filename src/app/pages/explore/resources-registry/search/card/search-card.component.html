@@ -27,7 +27,7 @@
           <div class="uk-flex uk-flex-middle uk-flex-between uk-margin-small-bottom">
             <div class="uk-flex uk-flex-middle">
               @if (!(showImage.get(doc.result.id) === false)) {
-                <img ngSrc="../../survey-tool/assets/images/flags/{{doc.result.docInfo?.country | lowercase}}-flag-round.png"
+                <img ngSrc="../../survey-tool/assets/images/flags/{{$safeNavigationMigration(doc.result.docInfo?.country) | lowercase}}-flag-round.png"
                      class="flag-image uk-margin-small-right" width="30" height="20"
                      alt="{{doc.result.docInfo?.country}} flag" (error)="imageError(doc.result.id)">
               }

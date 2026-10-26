@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit, signal } from "@angular/core";
+import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit, signal, ChangeDetectionStrategy } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { ReportCreationService } from "../services/report-creation.service";
@@ -38,6 +38,7 @@ interface ChartImageData {
     ReportPieChartComponent
   ],
   providers: [StakeholdersService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './report-creation.component.html'
 })
 

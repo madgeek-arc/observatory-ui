@@ -1,5 +1,6 @@
 import {
-  AfterViewChecked, Component, ElementRef, computed, inject, input, signal, viewChild
+  AfterViewChecked, Component, ElementRef, computed, inject, input, signal, viewChild,
+  ChangeDetectionStrategy
 } from "@angular/core";
 import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
 
@@ -22,6 +23,7 @@ import { CountryPageIndicatorsService } from "../services/country-page-indicator
   standalone: true,
   templateUrl: './card-config.component.html',
   styleUrls: ['../../../../assets/css/explore-sidebar.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     '[class.card-config-hidden]': '!cardVisible()',
     '[class.card-config-dimmed]': 'showHidden()',

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy } from "@angular/core";
 import * as Highcharts from "highcharts/highmaps";
 import HC_exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
@@ -14,6 +14,7 @@ const worldMap = require('@highcharts/map-collection/custom/world-highres3.topo.
     selector: 'app-highcharts-bubble-map',
     templateUrl: 'highcharts-bubble-map.component.html',
     styleUrls: ['highcharts-bubble-map.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

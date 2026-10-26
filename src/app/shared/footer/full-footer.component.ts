@@ -1,10 +1,11 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, ChangeDetectionStrategy} from '@angular/core';
 import {CookieConsentService} from '../cookies/cookie-consent.service';
 
 @Component({
     selector: 'app-full-footer',
     templateUrl: './full-footer.component.html',
     styleUrls: ['./footer.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FullFooterComponent {

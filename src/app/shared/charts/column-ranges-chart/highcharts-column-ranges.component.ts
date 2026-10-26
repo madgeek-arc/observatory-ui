@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
+import {Component, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy} from "@angular/core";
 import * as Highcharts from "highcharts";
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
@@ -12,6 +12,7 @@ ExportData(Highcharts);
     selector: 'app-column-ranges-chart',
     template: '@if (chartId) {<div [id]="chartId" class="container"></div>}',
     styles: [`.container {display: block; width: 100%; height: 100%; }`],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

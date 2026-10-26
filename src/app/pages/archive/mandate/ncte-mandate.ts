@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { environment } from "../../../../environments/environment";
 import { CountryTableData } from "../../../domain/country-table-data";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
@@ -10,6 +10,7 @@ import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 @Component({
     selector: 'app-mandate',
     templateUrl: 'ncte-mandate.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

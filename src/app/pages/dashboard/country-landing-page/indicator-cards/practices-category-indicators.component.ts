@@ -1,9 +1,10 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
 
 @Component({
     selector: 'practices-category-indicators',
     templateUrl: 'practices-category-indicators.component.html',
     styleUrls: ['../country-landing-page.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

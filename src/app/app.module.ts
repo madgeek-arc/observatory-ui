@@ -2,7 +2,7 @@ import { ErrorHandler, inject, NgModule, provideAppInitializer } from "@angular/
 import { Router, RouterModule } from "@angular/router";
 import * as Sentry from "@sentry/angular";
 import { BrowserModule } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS, provideHttpClient, withXsrfConfiguration } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, provideHttpClient, withXsrfConfiguration, withXhr } from "@angular/common/http";
 import { environment } from "../environments/environment";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -114,6 +114,7 @@ import { CookieConsentComponent } from "./shared/cookies/cookie-consent.componen
       return initializerFn();
     }),
     provideHttpClient(
+      withXhr(),
       withXsrfConfiguration({
         cookieName: 'XSRF-TOKEN',
         headerName: 'X-XSRF-TOKEN',

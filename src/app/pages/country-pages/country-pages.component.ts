@@ -1,4 +1,4 @@
-import { Component, DestroyRef, effect, inject, OnInit } from "@angular/core";
+import { Component, DestroyRef, effect, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { LowerCasePipe, NgOptimizedImage } from "@angular/common";
 import { countries } from "../../domain/countries";
@@ -28,6 +28,7 @@ import {
         DashboardSideMenuComponent
     ],
     templateUrl: './country-pages.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['../../../assets/css/explore-sidebar.less', '../../../assets/css/explore-dashboard.less']
 })
 

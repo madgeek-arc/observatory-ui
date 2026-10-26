@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ColorPallet, EoscReadinessMapSubtitles } from "../../../eosc-readiness-map-subtitles";
 import { CountryTableData } from "../../../../../../domain/country-table-data";
@@ -12,6 +12,7 @@ import * as UIkit from 'uikit';
 @Component({
     selector: 'app-financial-strategy-subcategories',
     templateUrl: 'financial-strategy-subcategories.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from "@angular/core";
 import { DatePipe, LowerCasePipe, NgClass, NgOptimizedImage } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { Document, HighlightedResults } from "../../../../../domain/document";
@@ -12,6 +12,7 @@ import { Document, HighlightedResults } from "../../../../../domain/document";
     NgClass,
     NgOptimizedImage
 ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: 'search-card.component.html'
 })
 

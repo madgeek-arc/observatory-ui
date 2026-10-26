@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { zip } from "rxjs/internal/observable/zip";
 import { RawData, Row, Data } from "../../../domain/raw-data";
@@ -18,6 +18,7 @@ type MergedElement = { x: string; y: string; z: string; name: string; country: s
 @Component({
     selector: 'app-investments-in-eosc',
     templateUrl: './investments-in-eosc.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass]
 })
 

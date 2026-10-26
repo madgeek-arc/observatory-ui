@@ -1,8 +1,9 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
 
 @Component({
     selector: 'cumulative-data-table',
     templateUrl: 'cumulative-data-table.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

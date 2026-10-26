@@ -1,5 +1,5 @@
 import * as Highcharts from "highcharts/highmaps";
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ChangeDetectionStrategy } from "@angular/core";
 import { SeriesOptionsType } from "highcharts/highmaps";
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 import { PremiumSortPipe } from "../../pipes/premium-sort.pipe";
@@ -18,6 +18,7 @@ const worldMap = require('@highcharts/map-collection/custom/world-highres3.topo.
     selector: 'app-highcharts-custom-highlighted-map',
     templateUrl: './highcharts-custom-highlighted-map.component.html',
     styles: ['#container { display: block; width: 100%; height: 100%; }'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

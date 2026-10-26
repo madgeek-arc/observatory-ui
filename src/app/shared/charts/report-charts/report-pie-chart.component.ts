@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { SeriesPieOptions } from 'highcharts';
 import Exporting from 'highcharts/modules/exporting';
@@ -15,6 +15,7 @@ ExportData(Highcharts);
   imports: [
     HighchartsChartModule
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" style="width: 100%; display: block;"></highcharts-chart>`
 })
 

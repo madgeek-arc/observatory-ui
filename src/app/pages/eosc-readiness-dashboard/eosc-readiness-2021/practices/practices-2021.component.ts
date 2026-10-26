@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { zip } from "rxjs/internal/observable/zip";
 import { DataService } from "../../../services/data.service";
@@ -12,6 +12,7 @@ import * as UIkit from 'uikit';
 @Component({
     selector: 'app-practices-2021',
     templateUrl: './practices-2021.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

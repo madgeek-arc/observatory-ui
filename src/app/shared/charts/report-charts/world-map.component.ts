@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, ChangeDetectionStrategy } from '@angular/core';
 import { SeriesOptionsType } from 'highcharts/highmaps';
 import { HighchartsChartModule } from 'highcharts-angular';
 import worldMapData from '@highcharts/map-collection/custom/world-highres3.topo.json';
@@ -24,6 +24,7 @@ export type CustomSeriesMapOptions = Omit<Highcharts.SeriesMapOptions, 'data'> &
   imports: [
     HighchartsChartModule
 ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `@if (ready) {<highcharts-chart [Highcharts]="Highcharts" [constructorType]="'mapChart'" [options]="chartOptions" style="width: 100%; display: block;"></highcharts-chart>}`
 })
 
