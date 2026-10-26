@@ -8,7 +8,7 @@ fill in surveys and exchange messages, and generates the country-readiness repor
 Component:     EOSC Observatory UI (observatory-ui)
 Type:          Frontend application
 Status:        Production
-Technology:    Angular 20 / TypeScript 5.8 / RxJS / Less, UIkit, Angular Material, Highcharts
+Technology:    Angular 22 / TypeScript 6.0 / RxJS 7 / Less, UIkit, Angular Material, Highcharts
 API:           Consumes the EOSC Observatory API (/api); exposes none
 Swagger:       n/a (frontend)
 Deployment:    Docker (Node build stage, nginx runtime)
@@ -43,7 +43,7 @@ See [docs/integration.md](docs/integration.md) for details.
 
 ## Prerequisites and local start
 
-- Node.js 20.19+ (the Docker build uses `node:20`) and npm
+- Node.js 22.22.3+ (the Docker build uses `node:22`) and npm
 - The submodules checked out: `git clone --recurse-submodules <repo-url>`, or `git submodule update --init --recursive` in an existing clone
 - A running Observatory backend on `http://localhost:8280` (the dev proxy target in `proxy.conf.js`)
 
