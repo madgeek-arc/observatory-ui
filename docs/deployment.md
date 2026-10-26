@@ -27,6 +27,7 @@ docker build --build-arg configuration=prod -t observatory-ui:<version> .
 | Stage | What happens |
 |---|---|
 | `build` (`node:22`) | `npm ci`, then `npm run build:<configuration>` (`prod` or `beta`) with a 4 GB heap; output `dist/observatory-ui`. If `sentry_token` and `sentry_endpoint` are given, source maps are injected and uploaded to Sentry, otherwise that step is skipped |
+| `test` (from `build`) | Only built with `docker build --target test` (needs BuildKit, which skips it for the image build). Installs Chromium, then runs `npm run test:ci` and `npm run test:scripts`. Jenkins uses it; the image does not contain it |
 | runtime (`nginx:alpine`) | Copies `dist/observatory-ui` to `/usr/share/nginx/html`, `nginx.conf.txt` to `/etc/nginx/nginx.conf.txt` and `init.sh` to `/` |
 
 The artefact is the image. Exposed port: `80`. No volumes are declared. Configuration is described in
@@ -95,7 +96,7 @@ nginx routes (`nginx.conf.txt`):
 | Image | `docker-registry.openaire.eu/eoscobservatory/observatory-ui:<version>` |
 | Pushed tags | Tag build: `x.y.z`, `x.y` and `latest`. `main`: `latest`. `develop`: `dev`. Other branches build but do not push |
 | Releases | On `main` (not PRs), `release-please` creates the GitHub release and the release PR; it bumps `package.json`/`CHANGELOG.md` according to conventional commits |
-| Tests | The pipeline does not run `npm test` |
+| Tests | The `Test` stage runs `npm run test:ci` (Karma in headless Chromium) and `npm run test:scripts` through the Dockerfile `test` stage, after `Build Image` and before `Upload Image`. A failing spec fails the build and nothing is pushed. It runs on every branch and PR build |
 | Notifications | E-mail to developers on failure and on recovery |
 
 ## Post-deployment verification

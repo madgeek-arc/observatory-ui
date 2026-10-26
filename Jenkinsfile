@@ -52,6 +52,13 @@ pipeline {
       }
     }
 
+    stage('Test') {
+      steps {
+        // Builds the Dockerfile 'test' stage (Karma specs and script tests). It reuses the layers of 'Build Image'.
+        sh "docker build --target test --progress=plain --build-arg configuration=${BUILD_CONFIGURATION} --label job=${env.JOB_NAME} ."
+      }
+    }
+
     stage('Upload Image') {
       when { // upload images only from 'develop', 'main' or tags
         expression {

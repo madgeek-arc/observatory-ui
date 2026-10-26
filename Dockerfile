@@ -17,6 +17,15 @@ ARG sentry_endpoint=''
 RUN ./node_modules/.bin/sentry-cli sourcemaps inject --org madgeek --project observatory-ui ./dist/observatory-ui && SENTRY_AUTH_TOKEN=$sentry_token ./node_modules/.bin/sentry-cli --url $sentry_endpoint sourcemaps upload --org madgeek --project observatory-ui ./dist/observatory-ui || echo "Skipping sending sourcemaps to Sentry.."
 
 
+### Run Tests ###
+# Not part of the image: BuildKit skips this stage unless it is asked for with `docker build --target test`.
+FROM build AS test
+
+RUN apt-get update && apt-get install -y --no-install-recommends chromium && rm -rf /var/lib/apt/lists/*
+ENV CHROME_BIN=/usr/bin/chromium
+RUN npm run test:ci && npm run test:scripts
+
+
 ### Create Container ###
 FROM nginx:alpine
 
