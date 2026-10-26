@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, inject, signal, viewChild } from "@angular/core";
+import { Component, computed, ElementRef, inject, signal, viewChild, ChangeDetectionStrategy } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import * as UIkit from "uikit";
 import {
@@ -28,6 +28,7 @@ interface IndicatorGroupView {
   standalone: true,
   imports: [FormsModule],
   templateUrl: './indicator-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['../../../../assets/css/explore-sidebar.less'],
 })
 export class IndicatorListComponent {

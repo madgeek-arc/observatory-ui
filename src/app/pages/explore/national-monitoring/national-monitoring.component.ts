@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import * as Highcharts from "highcharts";
 import { LegendOptions, SeriesOptionsType } from "highcharts";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
@@ -21,6 +21,7 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
     selector: 'app-national-monitoring',
     templateUrl: './national-monitoring.component.html',
     styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, PageContentComponent]
 })
 

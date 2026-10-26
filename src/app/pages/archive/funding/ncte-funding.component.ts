@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { DataService } from "../../services/data.service";
 import { CountryTableData } from "../../../domain/country-table-data";
@@ -9,6 +9,7 @@ import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 @Component({
     selector: 'app-ncte-funding',
     templateUrl: './ncte-funding.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

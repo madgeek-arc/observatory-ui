@@ -1,4 +1,4 @@
-import { Component, input, output } from "@angular/core";
+import { Component, input, output, ChangeDetectionStrategy } from "@angular/core";
 
 /**
  * Fixed banner shown while a specific country's override is being edited (not the Global default).
@@ -9,6 +9,7 @@ import { Component, input, output } from "@angular/core";
 @Component({
   selector: 'app-override-mode-banner',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './override-mode-banner.component.html',
 })
 export class OverrideModeBannerComponent {

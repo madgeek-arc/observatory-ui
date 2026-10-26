@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { zip } from "rxjs/internal/observable/zip";
 import { CountryTableData } from "../../../domain/country-table-data";
 import {
@@ -18,6 +18,7 @@ import { CategorizedAreaData, Series } from "../../../domain/categorizedAreaData
 @Component({
     selector: 'app-open-science-impact',
     templateUrl: './open-science-impact.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

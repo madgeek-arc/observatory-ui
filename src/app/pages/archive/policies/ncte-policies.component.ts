@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { CountryTableData } from "../../../domain/country-table-data";
 import { DataService } from "../../services/data.service";
 import { DataHandlerService } from "../../services/data-handler.service";
@@ -10,6 +10,7 @@ import { zip } from "rxjs";
 @Component({
     selector: 'app-ncte-policies',
     templateUrl: './ncte-policies.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

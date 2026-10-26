@@ -1,4 +1,4 @@
-import {Component, DestroyRef, OnInit, inject} from '@angular/core';
+import {Component, DestroyRef, OnInit, inject, ChangeDetectionStrategy} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -18,6 +18,7 @@ declare var UIkit: any;
   selector: 'app-news-and-stories',
   standalone: true,
   imports: [CommonModule, PageContentComponent, ReactiveFormsModule, FormsModule, NgSelectModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './news-and-stories.component.html'
 })
 export class NewsAndStoriesComponent implements OnInit {

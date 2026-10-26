@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy } from "@angular/core";
 import * as Highcharts from "highcharts";
 import { LegendOptions, OptionsStackingValue } from "highcharts";
 import { colors } from "../../../domain/chart-color-palette";
@@ -12,6 +12,7 @@ ExportData(Highcharts);
 @Component({
     selector: 'app-stacked-column',
     template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

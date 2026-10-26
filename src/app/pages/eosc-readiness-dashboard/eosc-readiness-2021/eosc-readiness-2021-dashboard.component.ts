@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute, RouterLink, RouterOutlet } from "@angular/router";
 import {
   DashboardSideMenuService
@@ -15,6 +15,7 @@ import { exploreIcons } from "../../explore/explore.icons";
 @Component({
   selector: 'app-readiness-2021',
   templateUrl: 'eosc-readiness-2021-dashboard.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     DashboardSideMenuComponent,
     RouterOutlet,

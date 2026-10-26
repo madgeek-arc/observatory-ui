@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
@@ -20,6 +20,7 @@ import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-h
 @Component({
     selector: 'app-open-science-training',
     templateUrl: './open-science-training.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         CommonModule,
         NgOptimizedImage,

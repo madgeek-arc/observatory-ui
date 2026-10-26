@@ -21,14 +21,14 @@
             <div class="uk-flex uk-flex-middle">
 
               @if (!(showImage.get(doc.id) === false)) {
-                <img ngSrc="../../survey-tool/assets/images/flags/{{doc.docInfo?.country | lowercase}}-flag-round.png"
+                <img ngSrc="../../survey-tool/assets/images/flags/{{$safeNavigationMigration(doc.docInfo?.country) | lowercase}}-flag-round.png"
                      class="flag-image uk-margin-small-right" width="30" height="20" alt="{{doc.docInfo?.country}} flag"
                      (error)="imageError(doc.id)">
               }
               <strong>
                 <a [routerLink]="['../', doc.id]">
                   @if (doc.docInfo?.title) {
-                    <span [innerHTML]="doc.docInfo?.title"></span>
+                    <span [innerHTML]="$safeNavigationMigration(doc.docInfo?.title)"></span>
                   }
                 </a>
               </strong>

@@ -1,4 +1,4 @@
-import { Component, DestroyRef, effect, ElementRef, inject, OnInit, untracked, ViewChild } from '@angular/core';
+import { Component, DestroyRef, effect, ElementRef, inject, OnInit, untracked, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { CookieConsentService } from './cookie-consent.service';
 import { COOKIE_CATALOG } from './cookie-consent.model';
@@ -30,6 +30,7 @@ declare var UIkit: any;
       cursor: pointer;
     }
   `],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     @if (!service.hasChoice()) {
       <div class="cookie-banner uk-position-fixed uk-position-bottom-left uk-margin-left uk-margin-bottom"

@@ -1,10 +1,11 @@
-import { Component, Input, HostBinding } from "@angular/core";
+import { Component, Input, HostBinding, ChangeDetectionStrategy } from "@angular/core";
 import { CommonModule, NgClass, NgOptimizedImage } from "@angular/common";
 
 @Component({
     selector: 'app-info-card',
     standalone: true,
     templateUrl: './info-card.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgClass, CommonModule, NgOptimizedImage],
 })
 

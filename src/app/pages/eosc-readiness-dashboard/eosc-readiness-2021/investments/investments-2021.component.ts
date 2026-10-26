@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { DataService } from "../../../services/data.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
@@ -13,6 +13,7 @@ import * as UIkit from 'uikit';
 @Component({
     selector: 'app-investments-2021',
     templateUrl: 'investments-2021.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

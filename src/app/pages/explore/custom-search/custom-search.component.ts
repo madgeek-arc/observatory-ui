@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 
 
 // declare var UIkit;
@@ -6,6 +6,7 @@ import { Component, OnInit } from "@angular/core";
 @Component({
     selector: 'app-custom-search',
     templateUrl: './custom-search.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

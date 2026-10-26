@@ -1,5 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, computed, signal } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { Component, DestroyRef, inject, OnInit, computed, signal, ChangeDetectionStrategy } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
@@ -16,8 +15,9 @@ import * as UIkit from "uikit";
 @Component({
   selector: 'app-country-pages-configuration',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterOutlet, OverrideModeBannerComponent, IndicatorListComponent],
+  imports: [FormsModule, RouterOutlet, OverrideModeBannerComponent, IndicatorListComponent],
   templateUrl: './country-pages-configuration.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['../../../assets/css/explore-sidebar.less']
 })
 export class CountryPagesConfigurationComponent implements OnInit {

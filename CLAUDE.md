@@ -4,7 +4,7 @@ apply: always
 
 # Project: EOSC Observatory – Angular
 ## Stack
-- Frontend: Angular 20, TypeScript strict, Signals, LESS
+- Frontend: Angular 22, TypeScript strict, Signals, LESS
 ## [CRITICAL] Rules
 - Use signal() for local component state
 - Use computed() for derived state. 

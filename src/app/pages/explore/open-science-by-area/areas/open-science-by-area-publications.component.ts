@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {NgClass, NgOptimizedImage} from "@angular/common";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
@@ -31,6 +31,7 @@ import { PageContentComponent } from "../../../../../survey-tool/app/shared/page
     selector: 'app-open-science-by-area-publications',
     templateUrl: './open-science-by-area-publications.component.html',
     styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass, AreaMapsCardComponent]
 })
 

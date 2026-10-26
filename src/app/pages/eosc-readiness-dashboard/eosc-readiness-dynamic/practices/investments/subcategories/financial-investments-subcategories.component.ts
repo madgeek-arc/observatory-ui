@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { CountryTableData } from "../../../../../../domain/country-table-data";
 import { countriesNumbers, EoscReadinessMapSubtitles } from "../../../eosc-readiness-map-subtitles";
@@ -7,12 +7,13 @@ import { StakeholdersService } from "../../../../../../../survey-tool/app/servic
 import { DataHandlerService } from "../../../../../services/data-handler.service";
 import { RawData } from "../../../../../../domain/raw-data";
 import { zip } from "rxjs/internal/observable/zip";
-import { isNumeric } from "rxjs/internal-compatibility";
+import { isNumeric } from "src/app/shared/utils/is-numeric";
 import * as UIkit from 'uikit';
 
 @Component({
     selector: 'app-financial-investments-subcategories',
     templateUrl: 'financial-investments-subcategories.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

@@ -10,7 +10,7 @@ migration step.
 |---|---|
 | Build host | Docker (BuildKit enabled in CI), network access to the npm registry |
 | Source tree | **Submodules checked out** (`git submodule update --init --recursive`). The Dockerfile copies the whole tree, and the app does not compile without `src/survey-tool`, `src/survey-tool/catalogue-ui` and `src/messaging-system-ui` |
-| Build image | `node:20` (Angular 20 needs Node 20.19+) |
+| Build image | `node:22` (Angular 22 needs Node 22.22.3+) |
 | Runtime image | `nginx:alpine` plus `bash`; the entrypoint is `init.sh` |
 | Runtime network | Container can reach the Observatory backend (`PLATFORM_API_ENDPOINT`), the statistics upstream (`STATS_API_ENDPOINT`) and `https://dl001.madgik.di.uoa.gr` (Joomla pages) |
 | Visitor network | Browsers must reach the OpenAIRE stats-tool and OS-Europe API, Matomo, Sentry, Google Fonts, jsDelivr and Google reCAPTCHA (see [integration.md](integration.md)) |
@@ -26,7 +26,7 @@ docker build --build-arg configuration=prod -t observatory-ui:<version> .
 
 | Stage | What happens |
 |---|---|
-| `build` (`node:20`) | `npm ci`, then `npm run build:<configuration>` (`prod` or `beta`) with a 4 GB heap; output `dist/observatory-ui`. If `sentry_token` and `sentry_endpoint` are given, source maps are injected and uploaded to Sentry, otherwise that step is skipped |
+| `build` (`node:22`) | `npm ci`, then `npm run build:<configuration>` (`prod` or `beta`) with a 4 GB heap; output `dist/observatory-ui`. If `sentry_token` and `sentry_endpoint` are given, source maps are injected and uploaded to Sentry, otherwise that step is skipped |
 | runtime (`nginx:alpine`) | Copies `dist/observatory-ui` to `/usr/share/nginx/html`, `nginx.conf.txt` to `/etc/nginx/nginx.conf.txt` and `init.sh` to `/` |
 
 The artefact is the image. Exposed port: `80`. No volumes are declared. Configuration is described in

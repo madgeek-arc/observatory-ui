@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { registerLocaleData } from "@angular/common";
 import localeEL from '@angular/common/locales/el';
 import { ActivatedRoute } from "@angular/router";
@@ -9,7 +9,7 @@ import { StakeholdersService } from "../../../../../../../survey-tool/app/servic
 import { DataHandlerService } from "../../../../../services/data-handler.service";
 import { RawData } from "../../../../../../domain/raw-data";
 import { zip } from "rxjs/internal/observable/zip";
-import { isNumeric } from "rxjs/internal-compatibility";
+import { isNumeric } from "src/app/shared/utils/is-numeric";
 import * as UIkit from 'uikit';
 
 registerLocaleData(localeEL); // Register Greek locale
@@ -17,6 +17,7 @@ registerLocaleData(localeEL); // Register Greek locale
 @Component({
     selector: 'app-outputs-subcategories',
     templateUrl: 'outputs-subcategories.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

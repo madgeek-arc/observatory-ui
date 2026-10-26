@@ -81,7 +81,7 @@
               <span class="comment-title">Number of RPOs</span>
             </a>
             <div class="uk-accordion-content">
-              <div [innerHTML]="surveyAnswer['General']?.['Question2']?.['Question2-1']"></div>
+              <div [innerHTML]="$safeNavigationMigration(surveyAnswer['General']?.['Question2']?.['Question2-1'])"></div>
             </div>
           </li>
         }

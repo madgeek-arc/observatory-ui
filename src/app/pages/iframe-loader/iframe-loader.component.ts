@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 
 import { SafeUrlPipe } from "../../../survey-tool/catalogue-ui/shared/pipes/safeUrlPipe";
@@ -8,6 +8,7 @@ import { safeIframePath } from "./iframe-path";
 @Component({
     selector: 'app-iframe-loader',
     templateUrl: './iframe-loader.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: []
 })
 

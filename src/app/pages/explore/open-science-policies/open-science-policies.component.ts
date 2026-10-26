@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import * as Highcharts from "highcharts";
 import { LegendOptions, SeriesBubbleOptions, SeriesOptionsType } from "highcharts";
 import { zip } from "rxjs/internal/observable/zip";
@@ -24,6 +24,7 @@ import { PageContentComponent } from "../../../../survey-tool/app/shared/page-co
     selector: 'app-open-science-policies',
     templateUrl: './open-science-policies.component.html',
     styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, PageContentComponent]
 })
 

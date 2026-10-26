@@ -1,10 +1,11 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
 import {CommonModule} from "@angular/common";
 
 @Component({
     selector: 'country-landing-page-practices',
     templateUrl: 'practices-section.component.html',
     styleUrls: ['./country-landing-page.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 
