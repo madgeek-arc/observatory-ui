@@ -8,7 +8,10 @@
     "build:prod": "ng build --configuration production",
     "build:beta": "ng build --configuration beta",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:scripts": "node --test \"scripts/**/*.test.mjs\"",
+    "docx:figures": "node scripts/renumber-docx-figures.mjs",
+    "docx:figures:check": "node scripts/renumber-docx-figures.mjs --check"
   },
   "private": true,
   "dependencies": {

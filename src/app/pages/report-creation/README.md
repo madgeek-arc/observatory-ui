@@ -144,6 +144,32 @@ derived from the same question, or `_trend`/`_total` for investment charts — s
 `*Series(...)` methods in `report-creation.component.ts` for exactly which suffixes each chart
 `type` writes.
 
+## Figure numbering in the template
+
+The figure captions (`Figure 12: Map of EU Countries ...`) and the references to them
+(`as shown in Figure 12.`, `as shown in Figures 5 and 6.`) in `report_template.docx` are plain text,
+not Word fields, and `ReportCreationService` does not renumber anything at export time. After you
+add or remove sections in the template, run
+
+```bash
+npm run docx:figures          # renumber the captions in document order and update every reference
+npm run docx:figures:check    # report gaps and bad references without writing (exit 1 if a rewrite is needed)
+```
+
+The script (`scripts/renumber-docx-figures.mjs`) rewrites only the digits in those labels and replaces
+only `word/document.xml` in the `.docx`; it is safe to run twice. It stops with a list of problems,
+and writes nothing, when it cannot renumber safely:
+
+- two captions have the same number;
+- a reference points at a figure that has no caption (the figure was removed but its text stayed);
+- a caption or reference is split over several runs in Word (retype it in one go so the label stays
+  in one piece);
+- a reference uses a form other than `Figure N` or `Figures N and M`, such as `Figures 3, 4 and 5` or
+  `Figures 3-5`, which it would otherwise only half-update (reword it, or extend the script).
+
+It also warns when a reference is not followed by the caption it names, which usually means a
+reference was moved away from its figure. `npm run test:scripts` runs its unit tests.
+
 ## Report year selection
 
 The page has a **Survey year** select. The selected year becomes the report year (`{Year}` in the
