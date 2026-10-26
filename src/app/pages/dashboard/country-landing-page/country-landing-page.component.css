@@ -183,7 +183,7 @@
 
 .valueFalse {
   /* background-color: #f8c9c3; */
-  background-color: var(----eosc-observatory-secondary-color-lighter);
+  background-color: var(--eosc-observatory-secondary-color-lighter);
 }
 
 .valueNotAvailable {
