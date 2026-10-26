@@ -3,7 +3,7 @@ import { ChartsModule } from "../../../../shared/charts/charts.module";
 import { CategorizedAreaData, Series } from "../../../../domain/categorizedAreaData";
 import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { CardState } from "../../../../shared/card-state/card-state";
-import { colorForStatus, isPositiveStatus } from "../../../../domain/policy-status";
+import { colorForStatus } from "../../../../domain/policy-status";
 
 /** Legend order */
 const LEGEND_ORDER = [
@@ -15,6 +15,12 @@ const LEGEND_ORDER = [
   'Awaiting data',
   'N/A'
 ];
+
+interface StatusSegment {
+  label: string;
+  count: number;
+  color: string;
+}
 
 @Component({
   selector: 'app-policy-map-card-view',
@@ -71,9 +77,16 @@ export class PolicyMapCardView {
 
   readonly totalCount = computed(() => this.response()?.data.length);
 
-  readonly positiveCount = computed(() =>
-    this.response()?.data.filter(point => isPositiveStatus(String(point.value))).length
+  readonly statusSummary = computed<StatusSegment[]>(() =>
+    (this.mapData()?.series ?? []).map(series => ({
+      label: series.name,
+      count: series.data.length,
+      color: series.color
+    }))
   );
+
+  /** The first status in legend order (e.g. "Mandatory policy"): the one the big number counts. */
+  readonly leadStatus = computed(() => this.statusSummary()[0]);
 
   readonly isEmpty = computed(() => (this.response()?.data.length ?? 0) === 0);
 }

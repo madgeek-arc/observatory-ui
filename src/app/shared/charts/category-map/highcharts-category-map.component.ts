@@ -35,6 +35,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   @Input() caption?: string = undefined;
   @Input() height?: number = 400;
   @Input() smallScreen = false;
+  @Input() showLegend = true;
 
   @Output() mapClick = new EventEmitter<any>();
 
@@ -170,7 +171,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
       },
 
       legend: {
-        enabled: true,
+        enabled: this.showLegend,
         layout: 'horizontal',
         // verticalAlign: 'top',
         verticalAlign: 'bottom',

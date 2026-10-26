@@ -270,6 +270,16 @@ app-custom-search {
     border-color: @primary-color;
   }
 
+  /* Keep inputs white on focus (UIkit darkens @form-background by 5% by default). */
+  .uk-input:focus {
+    background-color: #fff;
+  }
+
+  /* Indicator card: smaller group label above the title. */
+  app-indicator-card .uk-card-header .uk-label {
+    font-size: 10px;
+  }
+
   /* Topic card: rounded, no shadow, with a real gap between cards (same as the split-view rail). */
   .uk-accordion > .uk-card {
     margin-top: 0;
@@ -322,12 +332,6 @@ app-custom-search {
     //background-color: @light-color;
   }
 
-  .indicator-card-group {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .03em;
-  }
-
   .status-badge {
     box-sizing: border-box;
     min-width: 48px;
@@ -338,5 +342,6 @@ app-custom-search {
     width: 100%;
     min-width: 0;
     padding: 5px 10px;
+    background: #fff;
   }
 }

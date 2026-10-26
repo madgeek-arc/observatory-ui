@@ -116,9 +116,13 @@
 
         @if (geographyScope() === 'select') {
           <div class="uk-inline uk-width-1-1">
-            <button type="button" class="uk-button uk-button-default uk-width-1-1 uk-flex uk-flex-between uk-flex-middle">
-              {{ selectedCountryIds().size }} countries selected
-              <span class="material-symbols-outlined">arrow_drop_down</span>
+            <button type="button" class="uk-input uk-form-small uk-flex uk-flex-between uk-flex-middle">
+              @if ( selectedCountryIds().size > 0) {
+                {{ selectedCountryIds().size }} {{ selectedCountryIds().size === 1 ? 'country' : 'countries' }} selected
+              } @else {
+                Select countries
+              }
+            <span class="material-symbols-outlined indicator-caret">arrow_drop_down</span>
             </button>
             <div uk-dropdown="mode: click; pos: bottom-left; flip: false;">
               <input class="uk-input uk-margin-small-bottom" type="search" placeholder="Search..."

@@ -1,17 +1,15 @@
 <div class="uk-card card-simple uk-card-small uk-height-1-1">
   <div class="uk-card-header">
-    <div class="uk-flex uk-flex-right">
+    <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
+      <span class="uk-label uk-label-small">{{ indicator().group }}</span>
       <button type="button" class="uk-icon uk-close"
               aria-label="Remove indicator"
               (click)="closeCard.emit(indicator().id)">
-        <span class="material-icons" style="font-size: 20px;">close</span>
+        <span class="material-icons" style="font-size: 15px;">close</span>
       </button>
     </div>
 
-    <div class="uk-flex uk-flex-middle" style="gap: 12px;">
-      <h3 class="uk-card-title uk-text-small uk-text-meta uk-margin-remove uk-width-expand">{{ indicator().label }}</h3>
-      <span class="uk-text-muted uk-text-xsmall uk-text-uppercase indicator-card-group">{{ indicator().group }}</span>
-    </div>
+    <h3 class="uk-card-title uk-text-small uk-text-meta uk-margin-remove">{{ indicator().label }}</h3>
 
     @if (!needsCountrySelection() && renderStyles().length > 1) {
       <div class="uk-flex uk-flex-middle uk-flex-wrap uk-margin-small-top" style="gap: 6px;">
