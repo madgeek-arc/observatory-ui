@@ -9,8 +9,9 @@
     "build:beta": "ng build --configuration beta",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessCI --reporters=dots",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessCI --reporters=dots --reporters=junit",
     "test:scripts": "node --test \"scripts/**/*.test.mjs\"",
+    "test:scripts:ci": "node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=reports/scripts-junit.xml \"scripts/**/*.test.mjs\"",
     "docx:figures": "node scripts/renumber-docx-figures.mjs",
     "docx:figures:check": "node scripts/renumber-docx-figures.mjs --check"
   },
@@ -70,6 +71,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "karma-junit-reporter": "~2.0.1",
     "less": "^4.3.0",
     "less-loader": "^12.3.0",
     "typescript": "~6.0.3"

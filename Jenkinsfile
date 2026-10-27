@@ -7,7 +7,7 @@ pipeline {
 
   options {
     buildDiscarder(logRotator(numToKeepStr: '20'))
-    timeout(time: 30, unit: 'MINUTES')
+    timeout(time: 1, unit: 'HOURS')
     timestamps()
   }
 
@@ -54,8 +54,16 @@ pipeline {
 
     stage('Test') {
       steps {
-        // Builds the Dockerfile 'test' stage (Karma specs and script tests). It reuses the layers of 'Build Image'.
-        sh "docker build --target test --progress=plain --build-arg configuration=${BUILD_CONFIGURATION} --label job=${env.JOB_NAME} ."
+        // Builds the Dockerfile 'test' stage (Karma specs and script tests) and exports its reports. It reuses the layers of 'Build Image'.
+        sh 'rm -rf reports'
+        sh "docker build --target test-reports --output type=local,dest=reports --progress=plain --build-arg configuration=${BUILD_CONFIGURATION} ."
+        sh 'for f in reports/*.exit; do [ "$(cat "$f")" = 0 ] || { echo "Tests failed: $f"; exit 1; }; done'
+      }
+      post {
+        always {
+          junit testResults: 'reports/**/*.xml', allowEmptyResults: true
+          archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
+        }
       }
     }
 

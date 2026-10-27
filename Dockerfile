@@ -23,7 +23,16 @@ FROM build AS test
 
 RUN apt-get update && apt-get install -y --no-install-recommends chromium && rm -rf /var/lib/apt/lists/*
 ENV CHROME_BIN=/usr/bin/chromium
-RUN npm run test:ci && npm run test:scripts
+# Exit codes are recorded instead of failing the build, so the reports can still be exported
+RUN mkdir -p reports \
+ && { npm run test:ci; echo $? > reports/karma.exit; } \
+ && { npm run test:scripts:ci; echo $? > reports/scripts.exit; }
+
+
+### Export Test Reports ###
+# Used with `docker build --target test-reports --output type=local,dest=<dir>`
+FROM scratch AS test-reports
+COPY --from=test /usr/src/app/reports /
 
 
 ### Create Container ###
