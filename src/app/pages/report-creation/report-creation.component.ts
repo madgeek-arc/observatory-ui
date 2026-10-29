@@ -13,7 +13,7 @@ import { latlong } from "../../domain/countries-lat-lon";
 import { JsonPipe } from "@angular/common";
 import { Chart, chartsCfg } from "./report-chart.configuration";
 import { BarColumnsComponent } from "../../shared/charts/report-charts/bar-columns.component";
-import { isNumeric } from "../../../survey-tool/app/utils/utils";
+import { isNumeric } from "../../shared/utils/is-numeric";
 import { roundedPercentage } from "../../shared/utils/rounded-percentage";
 import { ReportPieChartComponent } from "../../shared/charts/report-charts/report-pie-chart.component";
 import * as Highcharts from 'highcharts';
@@ -517,7 +517,11 @@ export class ReportCreationComponent implements OnInit {
     const seriesData = [0, 0, 0, 0, 0, 0];
 
     const investments: {code: string, value: number | null}[] = [];
+    let totalInvested = 0; // in millions of euros
     data[0].datasets[0].series.result.map((element) => {
+
+      if (isNumeric(element.row[1]))
+        totalInvested += parseFloat(element.row[1]);
 
       // * 1000 in order to ser value in €K
       return investments.push({
@@ -525,6 +529,7 @@ export class ReportCreationComponent implements OnInit {
         value: isNumeric(element.row[1]) ? (parseFloat(element.row[1]) * 1000) : null
       });
     });
+    this.reportData[query+'_invested'] = totalInvested.toLocaleString('en-GB', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
     const tmpData = data[1].datasets[0].series.result;
     investments.forEach((element, index) => {
