@@ -1,12 +1,15 @@
 #!/bin/bash
 
-# Substitute Matomo Properties
-MAIN_PROXY_CONF_FILE=$(echo "/usr/share/nginx/html/$(ls /usr/share/nginx/html/ | grep -e '^main.*.js$')")
-MAIN_TMP=$(echo "$MAIN_PROXY_CONF_FILE.tmp")
-echo "main.js = $MAIN_PROXY_CONF_FILE | main-tmp: $MAIN_TMP"
-cp $MAIN_PROXY_CONF_FILE $MAIN_TMP
-envsubst '${MATOMO_URL} ${MATOMO_SITE_ID} ${RECAPTCHA_V3_SITE_KEY} ${SENTRY_DSN} ${SENTRY_ENV}' < $MAIN_TMP > $MAIN_PROXY_CONF_FILE
-rm $MAIN_TMP
+# Substitute Matomo, reCAPTCHA and Sentry properties
+# The environment placeholders can end up in a shared chunk-*.js and not only in main-*.js, so every bundle containing one is substituted
+PROPERTY_FILES=$(find /usr/share/nginx/html -name '*.js' -exec grep -lF -e '$MATOMO_URL' -e '$MATOMO_SITE_ID' -e '$RECAPTCHA_V3_SITE_KEY' -e '$SENTRY_DSN' -e '$SENTRY_ENV' {} +)
+for PROPERTY_FILE in $PROPERTY_FILES; do
+  PROPERTY_TMP="$PROPERTY_FILE.tmp"
+  echo "Substituting properties in $PROPERTY_FILE"
+  cp $PROPERTY_FILE $PROPERTY_TMP
+  envsubst '${MATOMO_URL} ${MATOMO_SITE_ID} ${RECAPTCHA_V3_SITE_KEY} ${SENTRY_DSN} ${SENTRY_ENV}' < $PROPERTY_TMP > $PROPERTY_FILE
+  rm $PROPERTY_TMP
+done
 
 # Create Nginx configuration
 CONF_TMPL=/etc/nginx/nginx.conf.txt

@@ -3,14 +3,14 @@ import HC_exporting from 'highcharts/modules/exporting';
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
 import ExportData from 'highcharts/modules/export-data';
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ChangeDetectionStrategy } from "@angular/core";
+import worldMapJson from '@highcharts/map-collection/custom/world-highres3.topo.json';
 
 
 HC_exporting(Highcharts);
 HC_ExportingOffline(Highcharts);
 ExportData(Highcharts);
 
-declare var require: any;
-const worldMap = require('@highcharts/map-collection/custom/world-highres3.topo.json');
+const worldMap: any = worldMapJson;
 const data = [
   {
     code: "AW",

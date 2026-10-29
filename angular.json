@@ -18,14 +18,34 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/observatory-ui",
+            "outputPath": {
+              "base": "dist/observatory-ui",
+              "browser": ""
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "less",
+            "allowedCommonJsDependencies": [
+              "core-js",
+              "docxtemplater",
+              "docxtemplater-image-module",
+              "file-saver",
+              "highcharts",
+              "html2canvas",
+              "lodash",
+              "pdfmake",
+              "pizzip",
+              "raf",
+              "rgbcolor",
+              "seedrandom",
+              "uikit"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets",
@@ -39,6 +59,7 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
+                ".",
                 "src/styles",
                 "src/survey-tool/styles",
                 "./node_modules/uikit/src/less"
@@ -101,18 +122,26 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "test": {
+              "aot": false,
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "styles": [
+                "@angular/material/prebuilt-themes/azure-blue.css"
+              ],
+              "scripts": []
             }
           },
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "observatory-ui:build:production"
@@ -124,27 +153,18 @@
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular/build:extract-i18n",
           "options": {
             "buildTarget": "observatory-ui:build"
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "runner": "karma",
+            "runnerConfig": "karma.conf.js",
             "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "inlineStyleLanguage": "less",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "@angular/material/prebuilt-themes/azure-blue.css"
-            ],
-            "scripts": []
+            "buildTarget": "observatory-ui:build:test"
           }
         }
       }
