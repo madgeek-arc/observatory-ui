@@ -46,6 +46,20 @@ export function colorForStatus(value: string): string {
   return STATUS_COLORS[value] ?? AWAITING_COLOR;
 }
 
+interface MapHeadline {
+  status: string;
+  text: string;
+}
+
+const MAP_HEADLINES: Record<string, MapHeadline> = {
+  'oa.country_policy_status': { status: 'Mandatory policy', text: 'Countries with a mandatory policy' },
+  'oa.country_initiative_status': { status: 'Has national monitoring', text: 'Countries with national monitoring' },
+};
+
+export function mapHeadlineFor(indicatorCode: string): MapHeadline | undefined {
+  return MAP_HEADLINES[indicatorCode];
+}
+
 export type StatusCategory = 'positive' | 'negative' | 'awaiting';
 
 /** Classifies a cell's raw value into 3 UI states — positive (confirmed yes), negative

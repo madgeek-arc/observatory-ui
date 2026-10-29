@@ -13,8 +13,20 @@
         </div>
 
         <div class="uk-width-1-3@m">
+          @if (years().length > 1) {
+            <div class="uk-flex uk-flex-wrap uk-margin-small-bottom" style="gap: 6px;">
+              @for (year of years(); track year) {
+                <button type="button"
+                        [class]="year === selectedYear() ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+                        (click)="selectYear(year)">
+                  {{ year }}
+                </button>
+              }
+            </div>
+          }
+
           @if (leadStatus(); as lead) {
-            <div class="uk-text-meta uk-text-small">{{ lead.label }}</div>
+            <div class="uk-text-meta uk-text-small">{{ lead.text }}</div>
             <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
               <span class="uk-text-large uk-text-bold">{{ lead.count }}</span>
               <span class="uk-text-meta uk-text-small">of {{ totalCount() }} countries</span>
@@ -27,16 +39,17 @@
             }
           </div>
 
+          <div class="uk-margin-top">
           @for (status of statusSummary(); track status.label) {
-            <div class="uk-flex uk-flex-between uk-flex-middle uk-text-small uk-margin-small-top">
-              <span class="uk-flex uk-flex-middle" style="gap: 8px;">
-                <span class="uk-border-circle uk-flex-none" style="width: 8px; height: 8px;"
-                      [style.background-color]="status.color"></span>
-                {{ status.label }}
+            <div class="uk-flex uk-flex-middle uk-text-small">
+              <span class="uk-border-circle uk-margin-small-right"  style="width: 8px; height: 8px;"
+                [style.background-color]= "status.color">
               </span>
-              <span class="uk-text-bold">{{ status.count }}</span>
+              <span class="uk-width-expand">{{ status.label}}</span>
+              <span class="uk-text-bold"> {{ status.count }}</span>
             </div>
           }
+          </div>
         </div>
       </div>
     }

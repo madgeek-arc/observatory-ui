@@ -1,7 +1,7 @@
 <div class="uk-card card-simple uk-card-small uk-height-1-1">
   <div class="uk-card-header">
     <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
-      <span class="uk-label uk-label-small">{{ indicator().group }}</span>
+      <span class="uk-label uk-label-small uk-text-muted">{{ indicator().group }}</span>
       <button type="button" class="uk-icon uk-close"
               aria-label="Remove indicator"
               (click)="closeCard.emit(indicator().id)">

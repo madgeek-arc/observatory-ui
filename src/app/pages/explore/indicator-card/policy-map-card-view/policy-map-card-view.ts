@@ -1,9 +1,9 @@
-import { Component, computed, inject, input } from "@angular/core";
+import {Component, computed, inject, input, linkedSignal} from "@angular/core";
 import { ChartsModule } from "../../../../shared/charts/charts.module";
 import { CategorizedAreaData, Series } from "../../../../domain/categorizedAreaData";
 import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { CardState } from "../../../../shared/card-state/card-state";
-import { colorForStatus } from "../../../../domain/policy-status";
+import { colorForStatus, mapHeadlineFor } from "../../../../domain/policy-status";
 
 /** Legend order */
 const LEGEND_ORDER = [
@@ -32,12 +32,23 @@ export class PolicyMapCardView {
 
   indicatorId = input.required<string>();
 
+  years = computed(() => {
+    const start = this.customSearchService.startYear();
+    const end = this.customSearchService.endYear();
+    return Array.from({length: end - start + 1}, (_, index) => start + index);
+  });
+
+  readonly selectedYear = linkedSignal({
+    source: this.years,
+    computation: years => years[years.length - 1]
+  });
+
   private readonly queryParams = computed(() => ({
     id: this.indicatorId(),
     request: {
       countries: [],
-      yearFrom: this.customSearchService.endYear(),
-      yearTo: this.customSearchService.endYear(),
+      yearFrom: this.selectedYear(),
+      yearTo: this.selectedYear(),
       seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
@@ -85,8 +96,21 @@ export class PolicyMapCardView {
     }))
   );
 
-  /** The first status in legend order (e.g. "Mandatory policy"): the one the big number counts. */
-  readonly leadStatus = computed(() => this.statusSummary()[0]);
+  readonly leadStatus = computed(() => {
+    const indicatorCode = this.response()?.metadata.indicatorCode;
+    const headline = indicatorCode ? mapHeadlineFor(indicatorCode) : undefined;
+    if (!headline) {
+      return undefined;
+    }
+    const count = this.statusSummary()
+      .find(status => status.label === headline.status)?.count ?? 0;
+    return { text: headline.text, count };
+  });
 
   readonly isEmpty = computed(() => (this.response()?.data.length ?? 0) === 0);
+
+  selectYear(year: number) {
+    this.selectedYear.set(year);
+  }
+
 }
