@@ -97,7 +97,9 @@ interface ChartImageData {
    `{ paragraphLoop: true, linebreaks: true }` (so `\n` in text data renders as a line break,
    and repeated paragraphs work with loop tags if the template uses them).
 7. `doc.setData(data)` then `doc.render()` — this is where template tags in the `.docx` are
-   substituted; a tag present in the template but missing from `data` will throw here.
+   substituted. A text tag missing from `data` does **not** throw: `docxtemplater@3.1`'s default `nullGetter`
+   renders it as the word `undefined`. An image tag missing from `data` does throw (`getImage` reads
+   `byteLength` of `undefined`). `npm run docx:tags:check` (below) finds both before an export does.
    Right after, `preserveWhitespace()` adds `xml:space="preserve"` to every `<w:t>` in
    `document.xml` and the headers/footers. `docxtemplater@3.1` leaves the run where a tag ends
    (e.g. `<w:t> in financial strategies…</w:t>` after `{Question11[0]}`) without it, and Word
@@ -169,6 +171,40 @@ and writes nothing, when it cannot renumber safely:
 
 It also warns when a reference is not followed by the caption it names, which usually means a
 reference was moved away from its figure. `npm run test:scripts` runs its unit tests.
+
+## Checking the tags in the template
+
+Nothing at runtime tells you when `report_template.docx` and the component disagree: a `{Question6[4]}` that no
+chart sets prints `undefined` in the report, and a `{%chartImage105}` or `{%pieChartImage_1_0}` that has no chart
+behind it fails the export (or shows nothing). After every template edit, and after changing `chartsCfg` or a
+`*Series` method, run
+
+```bash
+npm run docx:tags:check       # exit 0: every tag is filled in (warnings allowed), 1: tags without data, 2: file unreadable
+```
+
+It joins the runs of each paragraph (so a tag Word split into pieces is still found) and checks each `{tag}`
+against `report-chart.configuration.ts`:
+
+- a text tag has to be one that a chart sets, or `Year`/`FiscalYear`: `Question6` for a map, `Question6[0..3]` for a
+  `stackedBars` trend, `Question7[0..1]` for a `barChart`, `Question56[0..6]` and `Question56_invested` for a
+  `rangeColumns`, `Question56_trend[0..1]` for a `totalInvestments` and `Question5_total[0..6]` for the
+  `totalInvestmentsRangeColumns`. `reportKeys(chart)` in the configuration file is the list.
+- `{%chartImageN}` has to be one of the `chartsCfg.length` charts, counted from 1; `{%pieChartImage_i_j}` has to be
+  a chart that `buildsPies` (the maps), with `j` below its number of `namedQueries`, both counted from 0;
+  `{%logoImage}` is the only other image.
+- loops, conditions and anything else that is not a plain tag (`{#x}`, `{Question6 [0]}`) are rejected, because
+  the export gives them no data.
+
+Charts that the template does not show are only **warnings**: they are still loaded, rendered and turned into
+images on every export. After removing a section from the template, expect one warning per chart that was only
+there for it (17 at the time of writing). Removing them from `chartsCfg` shifts the `chartImageN` numbers of the
+charts after them, so it needs a stable key per chart first.
+
+The keys in `reportKeys` have to match what the `*Series` methods write; `report-creation.component.spec.ts` loads
+a chart of each type and compares. When you add a key to a method or a new chart `type`, change `reportKeys` (and
+`buildsPies` if it builds pie charts) in the same commit, or that spec fails. `npm run test:scripts` also runs the
+check against the committed template, so CI fails when a saved template has a tag the report does not fill in.
 
 ## Report year selection
 

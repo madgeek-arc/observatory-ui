@@ -966,3 +966,41 @@ export const chartsCfg: Chart[] = [
     stats: ['Question5'],
   }
 ]
+
+// What report_template.docx can reference: the tags below plus the keys of every chart. Keep it in step with
+// loadChart and the *Series methods of report-creation.component.ts (the component spec checks them against it);
+// `npm run docx:tags:check` reads this file with Node, so it may only use syntax that is erased as is.
+
+/** Text tags that are set whatever the charts. */
+export const reportGlobalKeys = ['Year', 'FiscalYear'];
+
+/** Image tags that do not come from a chart (staticImages in generateReport). */
+export const staticImageKeys = ['logoImage'];
+
+const indexed = (stat: string, count: number) => Array.from({length: count}, (_, i) => `${stat}[${i}]`);
+
+/** The text tags a chart sets in reportData once it has data. */
+export function reportKeys(chart: Chart): string[] {
+  const stats = chart.stats ?? [];
+  if (stats.length === 0)
+    return [];
+
+  switch (chart.type) {
+    case 'rangeColumns':
+      return [...indexed(stats[0], 7), `${stats[0]}_invested`];
+    case 'totalInvestmentsRangeColumns':
+      return indexed(stats[0], 7);
+    case 'stackedBars':
+      return indexed(stats[0], 4);
+    case 'barChart':
+    case 'totalInvestments':
+      return indexed(stats[0], 2);
+    default: // a map counts the answers of every stat
+      return stats;
+  }
+}
+
+/** Whether the chart also builds one pie chart per query (pieChartImage_<chart>_<query>), which the others don't. */
+export function buildsPies(chart: Chart): boolean {
+  return !['rangeColumns', 'totalInvestmentsRangeColumns', 'stackedBars', 'barChart', 'totalInvestments'].includes(chart.type ?? '');
+}

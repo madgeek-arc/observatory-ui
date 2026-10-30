@@ -1,8 +1,10 @@
 import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { RawData } from '../../domain/raw-data';
 import { EoscReadinessDataService } from '../services/eosc-readiness-data.service';
 import { ReportCreationService } from '../services/report-creation.service';
 import { ReportCreationComponent } from './report-creation.component';
+import { buildsPies, Chart, chartsCfg, reportKeys } from './report-chart.configuration';
 
 /** The shape of a stats API answer: one row per country, `[countryCode, value]`. */
 function rawData(...rows: (string | null)[][]): RawData {
@@ -57,5 +59,62 @@ describe('ReportCreationComponent', () => {
 
       expect(component.reportData['Question64_invested']).toBe('0.00');
     });
+  });
+});
+
+// report_template.docx is checked against reportKeys and buildsPies (npm run docx:tags:check), so what the charts
+// really set has to be what those say
+describe('report-chart.configuration contract', () => {
+  const answers = rawData(['AT', 'Yes'], ['BE', 'No']);
+  const amounts = rawData(['AT', '5'], ['BE', '7']);
+
+  const cases: [string, string[], string[], RawData][] = [
+    ['mapWithPoints', ['Question6', 'Question6.1'], ['Question6', 'Question6.1'], answers],
+    ['stackedBars', ['Question6', 'Question6.1'], ['Question6'], answers],
+    ['barChart', ['Question7'], ['Question7'], answers],
+    ['rangeColumns', ['Question56', 'Question1'], ['Question56'], amounts],
+    ['totalInvestments', ['Question56', 'Question1'], ['Question56_trend'], amounts],
+    ['totalInvestmentsRangeColumns', ['Question5', 'Question1'], ['Question5_total'], amounts],
+  ];
+
+  let component: ReportCreationComponent;
+  let getQuestionEU: jasmine.Spy;
+
+  beforeEach(() => {
+    getQuestionEU = jasmine.createSpy('getQuestionEU');
+    TestBed.configureTestingModule({
+      providers: [
+        {provide: EoscReadinessDataService, useValue: {getQuestionEU}},
+        {provide: ReportCreationService, useValue: {}}
+      ]
+    });
+    component = TestBed.createComponent(ReportCreationComponent).componentInstance;
+    // The trend charts need a previous survey and the first one to compare with
+    component.years = ['2022', '2023', '2024'];
+  });
+
+  function load(type: string, namedQueries: string[], stats: string[], answer: RawData): Chart {
+    getQuestionEU.and.returnValue(of(answer));
+    const chart: Chart = {title: type, namedQueries, stats, type, data: [], chartSeries: [], pieSeries: []};
+    component.loadChart(chart);
+    return chart;
+  }
+
+  cases.forEach(([type, namedQueries, stats, answer]) => {
+    it(`sets the text tags of a ${type} chart that reportKeys lists, no more and no fewer`, () => {
+      const chart = load(type, namedQueries, stats, answer);
+
+      expect(Object.keys(component.reportData).sort()).toEqual(reportKeys(chart).sort());
+    });
+
+    it(`builds the pie charts of a ${type} chart that buildsPies says`, () => {
+      const chart = load(type, namedQueries, stats, answer);
+
+      expect(chart.pieSeries!.length).toBe(buildsPies(chart) ? namedQueries.length : 0);
+    });
+  });
+
+  it('is checked for every chart type of chartsCfg', () => {
+    expect(new Set(chartsCfg.map(chart => chart.type))).toEqual(new Set(cases.map(([type]) => type)));
   });
 });
