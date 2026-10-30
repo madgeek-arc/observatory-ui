@@ -13,7 +13,8 @@ import { latlong } from "../../domain/countries-lat-lon";
 import { JsonPipe } from "@angular/common";
 import { Chart, chartsCfg } from "./report-chart.configuration";
 import { BarColumnsComponent } from "../../shared/charts/report-charts/bar-columns.component";
-import { isNumeric } from "../../../survey-tool/app/utils/utils";
+import { isNumeric } from "../../shared/utils/is-numeric";
+import { roundedPercentage } from "../../shared/utils/rounded-percentage";
 import { ReportPieChartComponent } from "../../shared/charts/report-charts/report-pie-chart.component";
 import * as Highcharts from 'highcharts';
 
@@ -516,7 +517,11 @@ export class ReportCreationComponent implements OnInit {
     const seriesData = [0, 0, 0, 0, 0, 0];
 
     const investments: {code: string, value: number | null}[] = [];
+    let totalInvested = 0; // in millions of euros
     data[0].datasets[0].series.result.map((element) => {
+
+      if (isNumeric(element.row[1]))
+        totalInvested += parseFloat(element.row[1]);
 
       // * 1000 in order to ser value in €K
       return investments.push({
@@ -524,6 +529,7 @@ export class ReportCreationComponent implements OnInit {
         value: isNumeric(element.row[1]) ? (parseFloat(element.row[1]) * 1000) : null
       });
     });
+    this.reportData[query+'_invested'] = totalInvested.toLocaleString('en-GB', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
     const tmpData = data[1].datasets[0].series.result;
     investments.forEach((element, index) => {
@@ -603,6 +609,12 @@ export class ReportCreationComponent implements OnInit {
       else if (entry.row[1] === 'No') noCount++;
     });
 
+    // Rounding each slice on its own can total 101 (52.5% + 47.5% -> 53% + 48%), so the labels are fixed here:
+    // "Yes" is rounded like the report text, "No" takes the rest.
+    const total = yesCount + noCount;
+    const yesPercentage = roundedPercentage(yesCount, total);
+    const noPercentage = total > 0 ? 100 - yesPercentage : 0;
+
     let series: SeriesPieOptions[] = [{
       // name: 'Policy',
       type: 'pie',
@@ -611,13 +623,15 @@ export class ReportCreationComponent implements OnInit {
           name: index > 0 ? 'Policy is not mandatory' : `Does not have ${legendWording}`,
           y: noCount,
           color: '#EB5C80',
-          legendIndex: 1
+          legendIndex: 1,
+          custom: {percentage: noPercentage}
         },
         {
           name: index > 0 ? 'Policy is mandatory' : `Has ${legendWording}`,
           y: yesCount,
           color: '#008792',
-          legendIndex: 0
+          legendIndex: 0,
+          custom: {percentage: yesPercentage}
         }
       ]
     }];
@@ -752,7 +766,6 @@ export class ReportCreationComponent implements OnInit {
   countAnswer(data: RawData) {
     let count = 0;
     let total = 0;
-    let percentage: number;
     data.datasets[0].series.result.forEach(element => {
       if (element.row[1] && element.row[1] !== null && element.row[1] !== 'null' && element.row[1].trim() !== '')
         total++;
@@ -761,9 +774,7 @@ export class ReportCreationComponent implements OnInit {
         count++;
     });
 
-    percentage = Math.round((count / total + Number.EPSILON) * 100);
-
-    return `${percentage}% (${count}/${total})`
+    return `${roundedPercentage(count, total)}% (${count}/${total})`
   }
 
   countAllPieSeries() {

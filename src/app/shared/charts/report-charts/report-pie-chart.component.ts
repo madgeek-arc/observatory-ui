@@ -9,6 +9,14 @@ import { HighchartsChartModule } from "highcharts-angular";
 Exporting(Highcharts);
 ExportData(Highcharts);
 
+/**
+ * The percentage shown for a slice. Slices rounded one by one can total 101%, so the series can supply its own
+ * `custom.percentage` per point; without it the slice's own percentage is rounded.
+ */
+function slicePercentage(point: Highcharts.Point): number {
+  return point.options.custom?.['percentage'] ?? Math.round(point.percentage ?? 0);
+}
+
 @Component({
   selector: 'app-report-pie-chart',
   standalone: true,
@@ -59,7 +67,9 @@ export class ReportPieChartComponent implements OnInit, OnChanges {
         enabled: false
       },
       tooltip: {
-        pointFormat: '{series.name}: <b>{point.y}</b> ({point.percentage:.0f}%)'
+        pointFormatter(this: Highcharts.Point) {
+          return `${this.series.name}: <b>${this.y}</b> (${slicePercentage(this)}%)`;
+        }
       },
       plotOptions: {
         pie: {
@@ -70,7 +80,9 @@ export class ReportPieChartComponent implements OnInit, OnChanges {
           showInLegend: true,
           dataLabels: {
             enabled: true,
-            format: '{point.percentage:.0f}%',
+            formatter(this: Highcharts.PointLabelObject) {
+              return `${slicePercentage(this.point)}%`;
+            },
             distance: -30,
             style: {
               fontSize: '18px',
