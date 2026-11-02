@@ -25,11 +25,15 @@
             </div>
           }
 
-          @if (leadStatus(); as lead) {
-            <div class="uk-text-meta uk-text-small">{{ lead.text }}</div>
-            <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
-              <span class="uk-text-large uk-text-bold">{{ lead.count }}</span>
-              <span class="uk-text-meta uk-text-small">of {{ totalCount() }} countries</span>
+          @if (positiveSummary(); as summary) {
+            <div class="uk-flex uk-flex-wrap uk-flex-middle uk-margin-small-bottom" style="column-gap: 8px;">
+              <span class="uk-text-large uk-text-bold">{{ summary.count }}</span>
+              @if (changeSinceStart(); as change) {
+                <span class="uk-label uk-label-small uk-text-nowrap" style="font-size: 10px; padding: 2px 8px;" [class]="change.cssClass">
+                  <span class="material-symbols-outlined" style="font-size: 14px;">{{ change.icon }}</span>{{ change.text }}
+                </span>
+              }
+              <div class="uk-text-small" [class.uk-width-1-1]="changeSinceStart()">of {{ summary.total }} countries {{ summary.label }} in {{ selectedYear() }}</div>
             </div>
           }
 

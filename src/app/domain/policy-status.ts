@@ -47,13 +47,17 @@ export function colorForStatus(value: string): string {
 }
 
 interface MapHeadline {
-  status: string;
-  text: string;
+  /** Wording that follows "N of M countries" in the headline — counts every positive status. */
+  changeText: string;
 }
 
 const MAP_HEADLINES: Record<string, MapHeadline> = {
-  'oa.country_policy_status': { status: 'Mandatory policy', text: 'Countries with a mandatory policy' },
-  'oa.country_initiative_status': { status: 'Has national monitoring', text: 'Countries with national monitoring' },
+  'oa.country_policy_status': {
+    changeText: 'have a policy'
+  },
+  'oa.country_initiative_status': {
+    changeText: 'have national monitoring'
+  },
 };
 
 export function mapHeadlineFor(indicatorCode: string): MapHeadline | undefined {
@@ -86,4 +90,22 @@ export function statusBadge(value: number | string | null | undefined, unit?: st
     return { text: 'No', cssClass: 'uk-label-text' };
   }
   return { text: 'N/A', cssClass: 'uk-label-closed' };
+}
+
+export interface TrendBadge extends StatusBadge {
+  /** Material Symbols name, shown in front of the text. */
+  icon: string;
+}
+
+/** The "4 since 2022" chip: more countries with the status is good news (green, arrow up),
+ *  fewer is bad news (red, arrow down), no difference stays neutral (grey, flat arrow).
+ *  The direction lives in the icon, so the number is always printed without a sign. */
+export function trendBadge(difference: number, sinceYear: number): TrendBadge {
+  if (difference > 0) {
+    return { text: `${difference} since ${sinceYear}`, cssClass: 'uk-label-success', icon: 'trending_up' };
+  }
+  if (difference < 0) {
+    return { text: `${Math.abs(difference)} since ${sinceYear}`, cssClass: 'uk-label-danger', icon: 'trending_down' };
+  }
+  return { text: `No change since ${sinceYear}`, cssClass: 'uk-label-closed', icon: 'trending_flat' };
 }

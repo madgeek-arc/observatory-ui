@@ -50,7 +50,8 @@
                                             [format]="indicator().format"></app-countries-snapshot-card-view>
         }
         @case ('policy-map') {
-          <app-policy-map-card-view [indicatorId]="indicator().id"></app-policy-map-card-view>
+          <app-policy-map-card-view [indicatorId]="indicator().id"
+                                    [showChangeCount]="showChangeCount()"></app-policy-map-card-view>
         }
         @case ('stacked-column') {
           <app-stacked-column-view

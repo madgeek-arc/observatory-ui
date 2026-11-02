@@ -204,6 +204,10 @@ export class IndicatorCard {
     resolveCardViewKind(this.currentView(), this.effectiveRenderStyle())
   );
 
+  readonly showChangeCount = computed(() =>
+    this.effectiveRenderStyle() === 'MAP_WITH_CHANGE_COUNT'
+  );
+
   readonly needsCountrySelection = computed(() =>
     this.customSearchService.geographyScope() === 'select' &&
     this.customSearchService.selectedCountryIds().size === 0
