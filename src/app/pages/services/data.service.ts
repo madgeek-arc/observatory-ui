@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { RawData } from "../../domain/raw-data";
+import { forkJoin, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { mergeRawData, RawData } from "../../domain/raw-data";
+import { map } from "rxjs/operators";
 
 
 const headerOptions = {
@@ -31,19 +32,41 @@ export class DataService {
   }
 
 
+  // The stats backend cannot handle several queries per request: one request per named query,
+  // merged back in `names` order so callers can keep indexing datasets[i]
+  private getNamedQueries(names: string[]): Observable<RawData> {
+    const requests = names.map(name => {
+      const query = `{"series":[{"query":{"name":"${name}","profile":"${this.profileName}"}}],"verbose":true}`;
+      return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+    });
+    return forkJoin(requests).pipe(map(mergeRawData));
+  }
+
   public getFundingForEOSCSums(): Observable<RawData> {
-    const totalFundingForEOSCQuery = `{"series":[{"query":{"name":"eosc.sb.2021.Question6.sum","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question7.sum","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question8.sum","profile":"${this.profileName}"}}],"verbose":true}`;
-    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(totalFundingForEOSCQuery), headerOptions);
+    return this.getNamedQueries([
+      'eosc.sb.2021.Question6.sum',
+      'eosc.sb.2021.Question7.sum',
+      'eosc.sb.2021.Question8.sum',
+    ]);
   }
 
   public getFundingForEOSC(): Observable<RawData> {
-    const totalFundingForEOSCQuery = `{"series":[{"query":{"name":"eosc.sb.2021.Question6","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question7","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question8","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question11","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question12","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question13","profile":"${this.profileName}"}}],"verbose":true}`;
-    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(totalFundingForEOSCQuery), headerOptions);
+    return this.getNamedQueries([
+      'eosc.sb.2021.Question6',
+      'eosc.sb.2021.Question7',
+      'eosc.sb.2021.Question8',
+      'eosc.sb.2021.Question11',
+      'eosc.sb.2021.Question12',
+      'eosc.sb.2021.Question13',
+    ]);
   }
 
   public getFundingForEOSCBubbleSeries(): Observable<RawData> {
-    const totalFundingForEOSCQuery = `{"series":[{"query":{"name":"eosc.sb.2021.Question11","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question12","profile":"${this.profileName}"}},{"query":{"name":"eosc.sb.2021.Question13","profile":"${this.profileName}"}}],"verbose":true}`;
-    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(totalFundingForEOSCQuery), headerOptions);
+    return this.getNamedQueries([
+      'eosc.sb.2021.Question11',
+      'eosc.sb.2021.Question12',
+      'eosc.sb.2021.Question13',
+    ]);
   }
 
   public getEOSCRelevantPolicies(): Observable<RawData> {

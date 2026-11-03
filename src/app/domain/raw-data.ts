@@ -42,6 +42,17 @@ export class Row {
   row: string[] = [];
 }
 
+/**
+ * Combines the responses of single-query requests into one RawData, keeping the order of `parts`
+ * so that datasets[i] still belongs to the i-th query.
+ */
+export function mergeRawData(parts: RawData[]): RawData {
+  const merged = new RawData();
+  // An empty response keeps its slot, so the indexes of the other datasets don't shift
+  merged.datasets = parts.map(part => part.datasets[0] ?? new Dataset());
+  return merged;
+}
+
 export class Data {
   data: string[][] = [];
 }
