@@ -120,7 +120,7 @@
 //     }
 //   }
 // }
-import { Component, OnInit} from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import {ActivatedRoute, Router, RouterLink, RouterOutlet} from "@angular/router";
 import { DashboardSideMenuComponent, MenuItem, MenuSection} from "../../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
 import { DashboardSideMenuService} from "../../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
@@ -138,6 +138,7 @@ import {exploreIcons} from "../../explore/explore.icons";
     FormsModule,
     RouterLink,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './eosc-readiness-dashboard.component.html'
 })
 

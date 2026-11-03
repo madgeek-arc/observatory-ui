@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
 import { StakeholdersService } from "../../../../../../survey-tool/app/services/stakeholders.service";
@@ -9,12 +9,13 @@ import { CountryTableData } from "../../../../../domain/country-table-data";
 import { countries } from "../../../../../domain/countries";
 import { RawData } from "../../../../../domain/raw-data";
 import { zip } from "rxjs/internal/observable/zip";
-import { isNumeric } from "rxjs/internal-compatibility";
+import { isNumeric } from "src/app/shared/utils/is-numeric";
 import * as UIkit from 'uikit';
 
 @Component({
     selector: 'app-national-policy',
     templateUrl: 'RFOs.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

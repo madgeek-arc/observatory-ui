@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment";
-import { Observable } from "rxjs";
-import { ChartData, Data, RawData } from "../../domain/raw-data";
+import { forkJoin, map, Observable } from "rxjs";
+import { ChartData, Data, mergeRawData, RawData } from "../../domain/raw-data";
 
 
 const headerOptions = {
@@ -20,26 +20,34 @@ export class EoscReadinessDataService {
 
   constructor(private httpClient: HttpClient) {}
 
+  // Surveys after 2021 share one named query per question, selected with the year parameter;
+  // earlier surveys keep a named query per year
+  private questionQuery(scope: string, year: string, name: string, suffix = ''): string {
+    const queryName = Number(year) > 2021
+      ? `"name":"${scope}.${name}${suffix}","namedParameters":{"year":${Number(year)}}`
+      : `"name":"${scope}.${year}.${name}${suffix}"`;
+    return `{"query":{${queryName},"profile":"${this.profileName}"}}`;
+  }
+
   // ======= DYNAMIC ========
   getQuestion(year: string, name: string): Observable<RawData> {
-    const query: string = `{"series":[{"query":{"name":"eosc.sb.${year}.${name}","profile":"${this.profileName}"}}],"verbose":true}`
+    const query: string = `{"series":[${this.questionQuery('eosc.sb', year, name)}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
+  // The stats backend cannot handle several queries per request: one request per question,
+  // merged back in `names` order so callers can keep indexing datasets[i]
   getQuestions(year: string, names: string[]): Observable<RawData> {
-    const series = names.map(name => `{"query":{"name":"eosc.sb.${year}.${name}","profile":"${this.profileName}"}}`);
-    const query: string = `{"series":[${series.toString()}],"verbose":true}`;
-
-    return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
+    return forkJoin(names.map(name => this.getQuestion(year, name))).pipe(map(mergeRawData));
   }
 
   getQuestionEU(year: string, name: string): Observable<RawData> {
-    const query: string = `{"series":[{"query":{"name":"eosc.sb.eu.${year}.${name}","profile":"${this.profileName}"}}],"verbose":true}`
+    const query: string = `{"series":[${this.questionQuery('eosc.sb.eu', year, name)}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 
   getQuestionComment(year: string, name: string): Observable<RawData> {
-    const query: string = `{"series":[{"query":{"name":"eosc.sb.${year}.${name}.comment","profile":"${this.profileName}"}}],"verbose":true}`
+    const query: string = `{"series":[${this.questionQuery('eosc.sb', year, name, '.comment')}],"verbose":true}`
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(query), headerOptions);
   }
 

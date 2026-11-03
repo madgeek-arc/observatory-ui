@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Input, OnChanges, OnInit } from "@angular/core";
+import { Component, DestroyRef, inject, Input, OnChanges, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
@@ -9,6 +9,7 @@ import { ResourceRegistryService } from "../../resource-registry.service";
   selector: 'app-document-recommendations',
   templateUrl: './document-recommendations.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, NgOptimizedImage, RouterLink],
 })
 

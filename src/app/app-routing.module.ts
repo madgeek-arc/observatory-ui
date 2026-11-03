@@ -29,6 +29,8 @@ import { NewsAndStoriesComponent } from "./pages/dashboard/contribution-dashboar
 const routerOptions: ExtraOptions = {
   scrollPositionRestoration: "enabled",
   anchorScrolling: "enabled",
+  // Angular 22 defaults to 'always'; keep the behaviour the routes were written against.
+  paramsInheritanceStrategy: "emptyOnly",
   // scrollOffset: [0, 64],
   // enableTracing: true
 };

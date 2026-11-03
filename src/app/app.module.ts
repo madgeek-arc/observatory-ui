@@ -2,7 +2,7 @@ import { ErrorHandler, inject, NgModule, provideAppInitializer } from "@angular/
 import { Router, RouterModule } from "@angular/router";
 import * as Sentry from "@sentry/angular";
 import { BrowserModule } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS, provideHttpClient, withXsrfConfiguration } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, provideHttpClient, withXsrfConfiguration, withXhr } from "@angular/common/http";
 import { environment } from "../environments/environment";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -51,6 +51,7 @@ import {
   StakeholdersHomeComponent
 } from "./pages/dashboard/contribution-dashboard-extension/stakeholders/stakeholders-home.component";
 import { APP_ENV } from "../survey-tool/catalogue-ui/config/app-env.token";
+import { CookieConsentComponent } from "./shared/cookies/cookie-consent.component";
 
 
 @NgModule({
@@ -81,6 +82,7 @@ import { APP_ENV } from "../survey-tool/catalogue-ui/config/app-env.token";
     PageContentComponent,
     SidebarMobileToggleComponent,
     StakeholdersHomeComponent,
+    CookieConsentComponent,
   ],
   providers: [
     {
@@ -112,6 +114,7 @@ import { APP_ENV } from "../survey-tool/catalogue-ui/config/app-env.token";
       return initializerFn();
     }),
     provideHttpClient(
+      withXhr(),
       withXsrfConfiguration({
         cookieName: 'XSRF-TOKEN',
         headerName: 'X-XSRF-TOKEN',
@@ -121,6 +124,8 @@ import { APP_ENV } from "../survey-tool/catalogue-ui/config/app-env.token";
       {
         trackerUrl: environment.matomoTrackerUrl,
         siteId: environment.matomoSiteId,
+        // Nothing is sent and no Matomo cookie is set until the visitor accepts analytics (see CookieConsentService)
+        requireConsent: 'tracking',
       },
     ),
   ],

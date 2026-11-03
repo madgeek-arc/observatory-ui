@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ChangeDetectionStrategy } from "@angular/core";
 import * as Highcharts from 'highcharts';
 import { HighchartsChartModule } from "highcharts-angular";
 
@@ -7,6 +7,7 @@ import { HighchartsChartModule } from "highcharts-angular";
   selector: 'bar-columns-chart',
   template: `
     <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" style="width: 100%; display: block;"></highcharts-chart>`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     HighchartsChartModule
   ]

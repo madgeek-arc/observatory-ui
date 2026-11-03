@@ -351,7 +351,7 @@
                           {{ thread.subject }}
                         </p>
                         <p class="uk-margin-remove uk-text-small uk-text-muted uk-text-italic uk-text-truncate">
-                          {{ stripHtml(thread.messages[thread.messages.length - 1]?.body) }}
+                          {{ stripHtml($safeNavigationMigration(thread.messages[thread.messages.length - 1]?.body)) }}
                         </p>
                       </div>
                     </div>

@@ -1,5 +1,6 @@
 import {
-  AfterViewChecked, Component, ElementRef, computed, inject, input, signal, viewChild
+  AfterViewChecked, Component, ElementRef, computed, inject, input, signal, viewChild,
+  ChangeDetectionStrategy
 } from "@angular/core";
 import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
 
@@ -22,6 +23,7 @@ import { CountryPageIndicatorsService } from "../services/country-page-indicator
   standalone: true,
   templateUrl: './card-config.component.html',
   styleUrls: ['../../../../assets/css/explore-sidebar.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     '[class.card-config-hidden]': '!cardVisible()',
     '[class.card-config-dimmed]': 'showHidden()',
@@ -30,7 +32,7 @@ import { CountryPageIndicatorsService } from "../services/country-page-indicator
 export class CardConfigComponent implements AfterViewChecked {
   protected readonly service = inject(CountryPageIndicatorsService);
 
-  /** Catalog id of the wrapped card — see COUNTRY_PAGE_INDICATORS. */
+  /** Catalog id of the wrapped card — see COUNTRY_PAGE_WIDGETS. */
   readonly indicatorId = input.required<string>();
 
   /** Colour class of the wrapped card (e.g. "eosc-sb visualisation-card"), so the no-data

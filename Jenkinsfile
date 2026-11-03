@@ -7,8 +7,9 @@ pipeline {
 
   options {
     buildDiscarder(logRotator(numToKeepStr: '20'))
-    timeout(time: 30, unit: 'MINUTES')
+    timeout(time: 1, unit: 'HOURS')
     timestamps()
+    disableConcurrentBuilds()
   }
 
   environment {
@@ -48,6 +49,21 @@ pipeline {
         script {
           DOCKER_IMAGE = docker.build("${REGISTRY}/${IMAGE_NAME}:${DOCKER_TAG}", "--build-arg configuration=${BUILD_CONFIGURATION} --label job=${env.JOB_NAME} .")
           DOCKER_IMAGE_SHA = sh(script: "docker inspect --format='{{.Id}}' ${DOCKER_IMAGE.id}", returnStdout: true).trim()
+        }
+      }
+    }
+
+    stage('Test') {
+      steps {
+        // Builds the Dockerfile 'test' stage (Karma specs and script tests) and exports its reports. It reuses the layers of 'Build Image'.
+        sh 'rm -rf reports'
+        sh "docker build --target test-reports --output type=local,dest=reports --progress=plain --build-arg configuration=${BUILD_CONFIGURATION} ."
+        sh 'for f in reports/*.exit; do [ "$(cat "$f")" = 0 ] || { echo "Tests failed: $f"; exit 1; }; done'
+      }
+      post {
+        always {
+          junit testResults: 'reports/**/*.xml', allowEmptyResults: true
+          archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
         }
       }
     }
@@ -93,8 +109,8 @@ pipeline {
                 withCredentials([string(credentialsId: 'jenkins-github-pat', variable: 'GH_TOKEN')]) {
                   sh '''
                     [ -f /etc/profile.d/load_nvm.sh ] || { echo "ERROR: /etc/profile.d/load_nvm.sh not found. NVM is required on this agent."; exit 1; }
-                    . /etc/profile.d/load_nvm.sh
-                    nvm install --lts
+                    . /etc/profile.d/load_nvm.sh >/dev/null
+                    nvm install --lts >/dev/null
                     npx release-please@17 github-release --repo-url ${GIT_URL} --token ${GH_TOKEN}
 
                     npx release-please@17 release-pr --repo-url ${GIT_URL} --token ${GH_TOKEN}

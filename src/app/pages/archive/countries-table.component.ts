@@ -1,10 +1,11 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { CountryTableData } from "../../domain/country-table-data";
 
 
 @Component({
     selector: 'app-countries-table',
     templateUrl: './countries-table.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

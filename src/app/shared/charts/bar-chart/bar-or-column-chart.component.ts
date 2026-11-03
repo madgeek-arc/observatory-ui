@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ChangeDetectionStrategy } from "@angular/core";
 import { LegendOptions, SeriesOptionsType } from "highcharts";
 import * as Highcharts from "highcharts";
 import Exporting from 'highcharts/modules/exporting';
@@ -13,6 +13,7 @@ ExportData(Highcharts);
 @Component({
     selector: 'app-multi-chart',
     template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

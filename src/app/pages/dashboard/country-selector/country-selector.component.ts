@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { CategorizedAreaData, Series } from "../../../domain/categorizedAreaData";
 import { Router } from "@angular/router";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
@@ -19,6 +19,7 @@ import { ChartsModule } from "../../../shared/charts/charts.module";
     NgOptimizedImage
 ],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [StakeholdersService]
 })
 

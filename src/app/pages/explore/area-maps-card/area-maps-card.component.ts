@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, input, OnInit } from "@angular/core";
+import { Component, computed, DestroyRef, inject, input, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgOptimizedImage } from "@angular/common";
 import { zip } from "rxjs/internal/observable/zip";
@@ -18,6 +18,7 @@ export interface AreaMapTabConfig {
 @Component({
   selector: 'app-area-maps-card',
   templateUrl: './area-maps-card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ChartsModule, NgOptimizedImage]
 })
 export class AreaMapsCardComponent implements OnInit {

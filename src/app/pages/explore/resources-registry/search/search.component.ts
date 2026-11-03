@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -25,6 +25,7 @@ import { Administrator } from "../../../../../survey-tool/app/domain/userInfo";
   selector: 'app-resource-registry-search',
   providers: [ResourceRegistryService, StakeholdersService],
   templateUrl: './search.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, PageContentComponent, SidebarMobileToggleComponent, SearchCardComponent]
 })
 

@@ -69,7 +69,7 @@
                 <div id="languageDropdown" data-uk-dropdown="mode: click; pos: bottom-left;  auto-update: true;">
                   <div>
                     <div style="overflow: visible;">
-                      <ng-select [items]="languageFacets?.values" bindLabel="value" bindValue="value" [isOpen]="true"
+                      <ng-select [items]="$safeNavigationMigration(languageFacets?.values)" bindLabel="value" bindValue="value" [isOpen]="true"
                                  placeholder="Language" [closeOnSelect]="false" class="open" [multiple]="true"
                                  [appendTo]="''"
                                  [dropdownPosition]="'bottom'" [(ngModel)]="selectedLanguages"
@@ -92,7 +92,7 @@
                 <div id="countryDropdown" uk-dropdown="mode: click; pos: bottom-left; auto-update: true;">
                   <div>
                     <div style="overflow: visible;">
-                      <ng-select [items]="countryFacets?.values" bindLabel="value" bindValue="value"
+                      <ng-select [items]="$safeNavigationMigration(countryFacets?.values)" bindLabel="value" bindValue="value"
                                  placeholder="Country"
                                  [isOpen]="true" class="open" [multiple]="true" [closeOnSelect]="false"
                                  [dropdownPosition]="'bottom'" [(ngModel)]="selectedCountry"
@@ -115,7 +115,7 @@
                 <div id="tagsDropdown" uk-dropdown="mode: click; pos: bottom-left; auto-update: true;">
                   <div>
                     <div style="overflow: visible;">
-                      <ng-select [items]="tagFacets?.values" bindLabel="value" bindValue="value" placeholder="Tags"
+                      <ng-select [items]="$safeNavigationMigration(tagFacets?.values)" bindLabel="value" bindValue="value" placeholder="Tags"
                                  [multiple]="true" class="open" [isOpen]="true" [closeOnSelect]="false"
                                  [dropdownPosition]="'bottom'" [(ngModel)]="selectedTag"
                                  (change)="onFilterChange('tags', selectedTag)"
@@ -139,7 +139,7 @@
                   <div id="statusDropdown" uk-dropdown="mode: click; pos: bottom-left; auto-update: true;">
                     <div>
                       <div style="overflow: visible;">
-                        <ng-select [items]="statusFacets?.values" bindLabel="value" bindValue="value"
+                        <ng-select [items]="$safeNavigationMigration(statusFacets?.values)" bindLabel="value" bindValue="value"
                                    placeholder="Status"
                                    [multiple]="true" class="open" [isOpen]="true" [closeOnSelect]="false"
                                    [dropdownPosition]="'bottom'" [(ngModel)]="selectedStatus"

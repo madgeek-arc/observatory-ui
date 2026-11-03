@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from "@angular/core";
+import { Component, computed, inject, input, ChangeDetectionStrategy } from "@angular/core";
 import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
 
 /**
@@ -20,6 +20,7 @@ import { CountryPageIndicatorsService } from "../services/country-page-indicator
 @Component({
   selector: 'app-section-hidden-notice',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './section-hidden-notice.html',
 })
 

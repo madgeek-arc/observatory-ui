@@ -85,6 +85,7 @@ export class ReportCreationService {
 
       doc.setData(data);
       doc.render();
+      this.preserveWhitespace(doc.getZip());
 
       // Generate and save the document
       const out = doc.getZip().generate({
@@ -103,6 +104,13 @@ export class ReportCreationService {
     }
   }
 
+
+  // docxtemplater 3.1 leaves runs like ' in ...' without xml:space="preserve", so Word drops the leading space
+  private preserveWhitespace(zip: any): void {
+    zip.file(/^word\/(document|header\d*|footer\d*)\.xml$/).forEach((part: any) => {
+      zip.file(part.name, part.asText().replace(/<w:t>/g, '<w:t xml:space="preserve">'));
+    });
+  }
 
   // SVG conversion method with cleanup
   public async svgToArrayBuffer(svgString: string, width: number, height: number): Promise<ArrayBuffer> {

@@ -1,4 +1,4 @@
-import {Component, DestroyRef, inject, model, OnInit} from '@angular/core';
+import {Component, DestroyRef, inject, model, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ResourceRegistryService } from '../resource-registry.service';
 import { Document } from 'src/app/domain/document';
@@ -18,6 +18,7 @@ import { StakeholdersService } from "../../../../../survey-tool/app/services/sta
 @Component({
   selector: 'app-document-landing',
   imports: [NgOptimizedImage, CommonModule, PageContentComponent, SidebarMobileToggleComponent, RouterLink, RecommendationsPage],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './document-landing.component.html',
 })
 

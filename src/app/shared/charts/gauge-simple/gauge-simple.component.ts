@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {AfterViewInit, Component, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy} from '@angular/core';
 import * as Highcharts from 'highcharts';
 import Exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
@@ -13,6 +13,7 @@ ExportData(Highcharts);
 @Component({
     selector: 'simple-gauge',
     template: '<div [id]="chartId"></div>',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

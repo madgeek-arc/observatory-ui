@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy} from '@angular/core';
 import {PaneBackgroundOptions, SeriesOptionsType} from 'highcharts';
 import * as Highcharts from 'highcharts';
 import Exporting from 'highcharts/modules/exporting';
@@ -19,6 +19,7 @@ export class ActivityGauge {
 @Component({
     selector: 'activity-gauge',
     templateUrl: 'gauge-activity.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

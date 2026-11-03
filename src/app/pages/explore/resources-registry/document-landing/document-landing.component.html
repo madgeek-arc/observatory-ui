@@ -11,14 +11,14 @@
             <div class="uk-flex uk-flex-between uk-flex-middle" data-uk-grid>
               <div class="uk-flex uk-flex-middle uk-width-expand">
                 @if (showImage) {
-                  <img ngSrc="../../survey-tool/assets/images/flags/{{documentData.docInfo?.country | lowercase}}-flag-round.png"
+                  <img ngSrc="../../survey-tool/assets/images/flags/{{$safeNavigationMigration(documentData.docInfo?.country) | lowercase}}-flag-round.png"
                        (error)="imageError()"
                        class="flag-image uk-margin-small-right" width="30" height="20" alt="rounded flag image">
                 }
                 <h4 class="uk-margin-remove">{{ documentData.docInfo?.title }}</h4>
               </div>
               <span class="uk-margin-left">
-                Last Update: {{ (documentData?.docInfo?.modificationDate | date:'dd/MM/yyyy') || documentData?.docInfo?.modificationDate || '--' }}
+                Last Update: {{ ($safeNavigationMigration(documentData?.docInfo?.modificationDate) | date:'dd/MM/yyyy') || documentData?.docInfo?.modificationDate || '--' }}
               </span>
             </div>
             <p>{{ documentData.docInfo?.originalTitles }}</p>
@@ -28,7 +28,7 @@
                 <p>{{ documentData.docInfo?.shortDescription.text }}</p>
                 <div class="uk-flex uk-flex-center">
                   @if (documentData?.url) {
-                    <a [href]="documentData?.url" target="_blank" class="uk-button uk-button-primary uk-border-pill">
+                    <a [href]="$safeNavigationMigration(documentData?.url)" target="_blank" class="uk-button uk-button-primary uk-border-pill">
                       Full text
                     </a>
                   }
@@ -40,15 +40,15 @@
                   <p><strong>Country:</strong> {{ documentData.docInfo?.country }}</p>
                   <p>
                     <strong>Start date:</strong>
-                    {{ (documentData.docInfo?.startDate | date:'dd/MM/yyyy') || documentData.docInfo?.startDate || '--' }}
+                    {{ ($safeNavigationMigration(documentData.docInfo?.startDate) | date:'dd/MM/yyyy') || documentData.docInfo?.startDate || '--' }}
                   </p>
                   <p>
                     <strong>End date:</strong>
-                    {{ (documentData.docInfo?.endDate | date: 'dd/MM/yyyy') || documentData.docInfo?.endDate || '--' }}
+                    {{ ($safeNavigationMigration(documentData.docInfo?.endDate) | date: 'dd/MM/yyyy') || documentData.docInfo?.endDate || '--' }}
                   </p>
                   <p>
                     <strong>Publication date:</strong>
-                    {{ (documentData.docInfo?.publicationDate | date:'yyyy') || documentData.docInfo?.publicationDate || '--' }}
+                    {{ ($safeNavigationMigration(documentData.docInfo?.publicationDate) | date:'yyyy') || documentData.docInfo?.publicationDate || '--' }}
                   </p>
                   <p><strong>Responsible organisation:</strong> {{ documentData.docInfo?.organisations }}</p>
                   <p><strong>Language:</strong> {{ documentData.docInfo?.language }}</p>
@@ -87,7 +87,7 @@
                     <div class="uk-grid uk-grid-small uk-flex-between uk-text-xsmall uk-flex-middle uk-grid-divider" data-uk-grid>
                       <div class="uk-width-auto uk-first-column">
                         @if (documentData?.url) {
-                          <a [href]="documentData?.url" target="_blank" class="uk-flex uk-flex-middle uk-button-link">
+                          <a [href]="$safeNavigationMigration(documentData?.url)" target="_blank" class="uk-flex uk-flex-middle uk-button-link">
                             <span class="material-symbols-outlined uk-margin-small-left" style="font-size: 20px">download</span>
                             <span>Full text</span>
                           </a>
@@ -117,7 +117,7 @@
                 <div class="uk-flex uk-flex-between uk-flex-middle">
                   <div class="uk-flex uk-flex-middle">
                     @if (showImage) {
-                      <img ngSrc="../../survey-tool/assets/images/flags/{{documentData.docInfo?.country | lowercase}}-flag-round.png"
+                      <img ngSrc="../../survey-tool/assets/images/flags/{{$safeNavigationMigration(documentData.docInfo?.country) | lowercase}}-flag-round.png"
                            class="flag-image uk-margin-small-right" width="30" height="20" alt="rounded flag image"
                            (error)="imageError()">
                     }
@@ -127,7 +127,7 @@
                 <p>{{ documentData.docInfo?.originalTitles }}</p>
                 <div>
                   <span>
-                    Last Update: {{ (documentData?.docInfo?.modificationDate | date:'dd/MM/yyyy') || documentData?.docInfo?.modificationDate || '--' }}
+                    Last Update: {{ ($safeNavigationMigration(documentData?.docInfo?.modificationDate) | date:'dd/MM/yyyy') || documentData?.docInfo?.modificationDate || '--' }}
                   </span>
                 </div>
                 <div class="uk-margin-medium-top">
@@ -440,19 +440,19 @@
                         <div class="uk-margin-small-bottom">
                           <div class="uk-text-meta uk-text-xsmall">Start date</div>
                           <div class="uk-text-primary uk-text-bold uk-text-default">
-                            {{ (documentData.docInfo?.startDate | date: 'dd/MM/yyyy') ?? '--' }}
+                            {{ ($safeNavigationMigration(documentData.docInfo?.startDate) | date: 'dd/MM/yyyy') ?? '--' }}
                           </div>
                         </div>
                         <div class="uk-margin-small-bottom">
                           <div class="uk-text-meta uk-text-xsmall">End date</div>
                           <div class="uk-text-primary uk-text-bold uk-text-default">
-                            {{ (documentData.docInfo?.endDate | date: 'dd/MM/yyyy') ?? '--' }}
+                            {{ ($safeNavigationMigration(documentData.docInfo?.endDate) | date: 'dd/MM/yyyy') ?? '--' }}
                           </div>
                         </div>
                         <div>
                           <div class="uk-text-meta uk-text-xsmall">Publication date</div>
                           <div class="uk-text-primary uk-text-bold uk-text-default">
-                            {{ (documentData.docInfo?.publicationDate| date: 'yyyy') ?? '--' }}
+                            {{ ($safeNavigationMigration(documentData.docInfo?.publicationDate)| date: 'yyyy') ?? '--' }}
                           </div>
                         </div>
                       </div>
@@ -468,14 +468,14 @@
                           <div class="uk-text-meta uk-text-xsmall">Created by</div>
                           <div class="uk-text-primary uk-text-bold uk-text-default">
                             {{ documentData.metadata?.createdby }}<br>
-                            on {{ documentData.metadata?.creationDate | date:'dd/MM/yyyy, HH:mm:ss' }}
+                            on {{ $safeNavigationMigration(documentData.metadata?.creationDate) | date:'dd/MM/yyyy, HH:mm:ss' }}
                           </div>
                         </div>
                         <div class="uk-margin-small-bottom">
                           <div class="uk-text-meta uk-text-xsmall">Last modified by</div>
                           <div class="uk-text-primary uk-text-bold uk-text-default">
                             {{ documentData.metadata?.modifiedBy }}<br>
-                            on {{ documentData.metadata?.modificationDate | date:'dd/MM/yyyy, HH:mm:ss' }}
+                            on {{ $safeNavigationMigration(documentData.metadata?.modificationDate) | date:'dd/MM/yyyy, HH:mm:ss' }}
                           </div>
                         </div>
                       </div>

@@ -1,5 +1,6 @@
 import {
-  AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild
+  AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild,
+  ChangeDetectionStrategy
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { Administrator, Coordinator, Stakeholder, UserInfo } from "../../../../survey-tool/app/domain/userInfo";
@@ -19,6 +20,7 @@ import * as UIkit from 'uikit';
     templateUrl: 'top-menu-dashboard.component.html',
     styleUrls: ['../top-menu.component.css', './top-menu-dashboard.component.less'],
     providers: [PrivacyPolicyService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

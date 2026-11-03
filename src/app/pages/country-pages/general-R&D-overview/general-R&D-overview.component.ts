@@ -1,4 +1,4 @@
-import {Component, DestroyRef, inject, OnInit} from "@angular/core";
+import {Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy} from "@angular/core";
 import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {DataShareService} from "../services/data-share.service";
 import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
@@ -27,6 +27,7 @@ import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-h
 @Component({
   selector: 'app-general-R&D-overview',
   templateUrl: './general-R&D-overview.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     NgOptimizedImage,

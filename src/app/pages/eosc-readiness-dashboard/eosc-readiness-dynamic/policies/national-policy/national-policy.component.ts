@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
 import { StakeholdersService } from "../../../../../../survey-tool/app/services/stakeholders.service";
@@ -16,6 +16,7 @@ import { Dataset, RawData } from "../../../../../domain/raw-data";
 @Component({
     selector: 'app-national-policy',
     templateUrl: 'national-policy.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

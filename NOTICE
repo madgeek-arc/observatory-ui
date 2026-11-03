@@ -1,0 +1,19 @@
+EOSC Observatory UI (observatory-ui)
+
+This product is licensed under the Apache License, Version 2.0. See LICENSE.
+
+Third-party scripts bundled with the application (angular.json "scripts",
+kept in src/survey-tool/assets/js):
+
+  sockjs-client v1.0.2 (sockjs.min.js)
+    MIT license. http://sockjs.org
+
+  Stomp Over WebSocket (stomp.min.js)
+    Apache License, Version 2.0.
+    http://www.jmesnil.net/stomp-websocket/doc/
+    Copyright (C) 2010-2013 Jeff Mesnil (http://jmesnil.net/)
+    Copyright (C) 2012 FuseSource, Inc. (http://fusesource.com)
+
+The npm packages used to build the application keep their own licences. Their
+texts are written to 3rdpartylicenses.txt by every production build, which is
+served at /3rdpartylicenses.txt.

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy } from "@angular/core";
 import * as Highcharts from "highcharts";
 import Exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
@@ -11,6 +11,7 @@ ExportData(Highcharts);
 @Component({
     selector: 'app-treemap',
     template: `<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

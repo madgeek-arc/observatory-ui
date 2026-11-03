@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { Stakeholder } from "../../../../../survey-tool/app/domain/userInfo";
 import { UserService } from "../../../../../survey-tool/app/services/user.service";
@@ -17,6 +17,7 @@ import {TopicThread} from "../../../../../messaging-system-ui/app/domain/messagi
   selector: 'app-stakeholders-home',
   templateUrl: `./stakeholders-home.component.html`,
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, ChartsModule]
 })
 

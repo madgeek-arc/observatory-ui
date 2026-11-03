@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { ResourceRegistryService } from "src/app/pages/explore/resources-registry/resource-registry.service";
@@ -19,6 +19,7 @@ import { UntypedFormGroup } from "@angular/forms";
     CatalogueUiModule,
     SurveyToolModule
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [WebsocketService]
 })
 

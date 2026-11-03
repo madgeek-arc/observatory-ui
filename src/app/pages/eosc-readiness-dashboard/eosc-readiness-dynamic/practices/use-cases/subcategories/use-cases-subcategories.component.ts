@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { zip } from "rxjs/internal/observable/zip";
 import { ColorPallet, EoscReadinessMapSubtitles } from "../../../eosc-readiness-map-subtitles";
@@ -12,6 +12,7 @@ import * as UIkit from 'uikit';
 @Component({
     selector: 'app-use-case-subcategories',
     templateUrl: 'use-cases-subcategories.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

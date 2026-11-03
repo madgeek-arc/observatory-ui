@@ -1,6 +1,6 @@
 import * as Highcharts from "highcharts/highmaps";
 import { SeriesMapDataOptions } from "highcharts/highmaps";
-import { Component, Input, SimpleChanges } from "@angular/core";
+import { Component, Input, SimpleChanges, ChangeDetectionStrategy } from "@angular/core";
 import { ColorAxisOptions, LegendOptions } from "highcharts";
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
@@ -19,6 +19,7 @@ let componentContext;
     selector: 'app-highcharts-color-axis',
     templateUrl: 'highcharts-color-axis-map.component.html',
     styles: ['#container {display: block; width: 100%; height: 100%; }'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

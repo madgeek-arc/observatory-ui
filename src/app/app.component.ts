@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core';
 import { NavigationEnd, Router } from "@angular/router";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { filter, map, startWith } from "rxjs/operators";
@@ -8,6 +8,7 @@ import { DashboardSideMenuService } from "../survey-tool/app/shared/dashboard-si
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AppComponent {
@@ -44,6 +45,7 @@ export class AppComponent {
   smallScreen= false;
   isOpen = true;
   hasHeader = true;
+  showFooter = true;
 
   constructor() {
     this.auth.redirect();
@@ -58,6 +60,10 @@ export class AppComponent {
 
     this.layoutService.hasHeader.subscribe(hasHeader => {
       this.hasHeader = hasHeader;
+    });
+
+    this.layoutService.showFooter.subscribe(showFooter => {
+      this.showFooter = showFooter;
     });
   }
 

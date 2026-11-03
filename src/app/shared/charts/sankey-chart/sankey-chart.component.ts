@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from "@angular/core";
 import * as Highcharts from "highcharts";
 import Exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
@@ -11,6 +11,7 @@ ExportData(Highcharts);
 
 @Component({
     selector: 'app-sankey-chart',
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
     standalone: false
 })

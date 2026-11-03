@@ -1,12 +1,14 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 
 import { SafeUrlPipe } from "../../../survey-tool/catalogue-ui/shared/pipes/safeUrlPipe";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
+import { safeIframePath } from "./iframe-path";
 
 @Component({
     selector: 'app-iframe-loader',
     templateUrl: './iframe-loader.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: []
 })
 
@@ -30,7 +32,7 @@ export class IframeLoaderComponent implements OnInit {
   ngOnInit() {
     
     this.route.queryParams.subscribe(params => {
-      this.iframePath = params['path'] || null;
+      this.iframePath = safeIframePath(params['path']);
       this.urlSelector(this.pathParams);
     });
 

@@ -1163,11 +1163,11 @@
               <div>
                 <category-indicators-wrapper [cardTitle]="'Publications'"
                                              [cardIcon]="'../assets/images/country_pages/Icon%20awesome-file-alt.svg'">
-              <practices-category-indicators [monitoring]="surveyAnswer['Practices']?.['Question54']?.['Question54-0']"
-                [useCases]="surveyAnswer['Practices']?.['Question55']?.['Question55-0']"
-                [investments]="surveyAnswer['Practices']?.['Question56']?.['Question56-0']"
+              <practices-category-indicators [monitoring]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question54']?.['Question54-0'])"
+                [useCases]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question55']?.['Question55-0'])"
+                [investments]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question56']?.['Question56-0'])"
                                                  [outputs]="surveyAnswer['Practices']?.['Question57']?.['Question57-1'] === 'Yes' ?
-                surveyAnswer['Practices']?.['Question57']?.['Question57-0'] : surveyAnswer['Practices']?.['Question57']?.['Question57-1-1']"
+                $safeNavigationMigration(surveyAnswer['Practices']?.['Question57']?.['Question57-0']) : $safeNavigationMigration(surveyAnswer['Practices']?.['Question57']?.['Question57-1-1'])"
                 [outputsTitle]="'publications published in open access'">
               </practices-category-indicators>
             </category-indicators-wrapper>
@@ -1236,27 +1236,27 @@
             <category-indicators-wrapper [hasSubcategories]="true" [cardTitle]="'Data'"
               [cardIcon]="'../assets/images/country_pages/Icon%20awesome-database.svg'">
               <practices-category-indicators [subtitle]="'Data management'"
-                [monitoring]="surveyAnswer['Practices']?.['Question58']?.['Question58-0']"
-                [useCases]="surveyAnswer['Practices']?.['Question59']?.['Question59-0']"
-                [investments]="surveyAnswer['Practices']?.['Question60']?.['Question60-0']"
+                [monitoring]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question58']?.['Question58-0'])"
+                [useCases]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question59']?.['Question59-0'])"
+                [investments]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question60']?.['Question60-0'])"
                                                  [outputs]="surveyAnswer['Practices']?.['Question61']?.['Question61-1'] === 'Yes' ?
-                surveyAnswer['Practices']?.['Question61']?.['Question61-0'] : surveyAnswer['Practices']?.['Question61']?.['Question61-1-1']"
+                $safeNavigationMigration(surveyAnswer['Practices']?.['Question61']?.['Question61-0']) : $safeNavigationMigration(surveyAnswer['Practices']?.['Question61']?.['Question61-1-1'])"
                 [outputsTitle]="'data management plans published'">
               </practices-category-indicators>
               <practices-category-indicators [subtitle]="'FAIR data'"
-                [monitoring]="surveyAnswer['Practices']?.['Question62']?.['Question62-0']"
-                [useCases]="surveyAnswer['Practices']?.['Question63']?.['Question63-0']"
-                [investments]="surveyAnswer['Practices']?.['Question64']?.['Question64-0']"
+                [monitoring]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question62']?.['Question62-0'])"
+                [useCases]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question63']?.['Question63-0'])"
+                [investments]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question64']?.['Question64-0'])"
                                                  [outputs]="surveyAnswer['Practices']?.['Question65']?.['Question65-1'] === 'Yes' ?
-                surveyAnswer['Practices']?.['Question65']?.['Question65-0'] : surveyAnswer['Practices']?.['Question65']?.['Question65-1-1']"
+                $safeNavigationMigration(surveyAnswer['Practices']?.['Question65']?.['Question65-0']) : $safeNavigationMigration(surveyAnswer['Practices']?.['Question65']?.['Question65-1-1'])"
                 [outputsTitle]="'FAIR datasets published'">
               </practices-category-indicators>
               <practices-category-indicators [subtitle]="'Open data'"
-                [monitoring]="surveyAnswer['Practices']?.['Question66']?.['Question66-0']"
-                [useCases]="surveyAnswer['Practices']?.['Question67']?.['Question67-0']"
-                [investments]="surveyAnswer['Practices']?.['Question68']?.['Question68-0']"
+                [monitoring]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question66']?.['Question66-0'])"
+                [useCases]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question67']?.['Question67-0'])"
+                [investments]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question68']?.['Question68-0'])"
                                                  [outputs]="surveyAnswer['Practices']?.['Question69']?.['Question69-1'] === 'Yes' ?
-                surveyAnswer['Practices']?.['Question69']?.['Question69-0'] : surveyAnswer['Practices']?.['Question69']?.['Question69-1-1']"
+                $safeNavigationMigration(surveyAnswer['Practices']?.['Question69']?.['Question69-0']) : $safeNavigationMigration(surveyAnswer['Practices']?.['Question69']?.['Question69-1-1'])"
                 [outputsTitle]="'open datasets published'">
               </practices-category-indicators>
             </category-indicators-wrapper>
@@ -1415,11 +1415,11 @@
             <category-indicators-wrapper [cardTitle]="'Software'"
               [cardIcon]="'../assets/images/country_pages/noun-software-2822919.svg'">
               <practices-category-indicators
-                [monitoring]="surveyAnswer['Practices']?.['Question70']?.['Question70-0']"
-                [useCases]="surveyAnswer['Practices']?.['Question71']?.['Question71-0']"
-                [investments]="surveyAnswer['Practices']?.['Question72']?.['Question72-0']"
+                [monitoring]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question70']?.['Question70-0'])"
+                [useCases]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question71']?.['Question71-0'])"
+                [investments]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question72']?.['Question72-0'])"
                     [outputs]="surveyAnswer['Practices']?.['Question73']?.['Question73-1'] === 'Yes' ?
-                      surveyAnswer['Practices']?.['Question73']?.['Question73-0'] : surveyAnswer['Practices']?.['Question73']?.['Question73-1-1']"
+                      $safeNavigationMigration(surveyAnswer['Practices']?.['Question73']?.['Question73-0']) : $safeNavigationMigration(surveyAnswer['Practices']?.['Question73']?.['Question73-1-1'])"
                 [outputsTitle]="'open source software sets published'">
               </practices-category-indicators>
             </category-indicators-wrapper>
@@ -1487,11 +1487,11 @@
             <category-indicators-wrapper [cardTitle]="'Services'"
               [cardIcon]="'../assets/images/country_pages/noun-settings-5110695.svg'">
               <practices-category-indicators
-                [monitoring]="surveyAnswer['Practices']?.['Question74']?.['Question74-0']"
-                [useCases]="surveyAnswer['Practices']?.['Question75']?.['Question75-0']"
-                [investments]="surveyAnswer['Practices']?.['Question76']?.['Question76-0']"
+                [monitoring]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question74']?.['Question74-0'])"
+                [useCases]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question75']?.['Question75-0'])"
+                [investments]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question76']?.['Question76-0'])"
                     [outputs]="surveyAnswer['Practices']?.['Question77']?.['Question77-1'] === 'Yes' ?
-                      surveyAnswer['Practices']?.['Question77']?.['Question77-0'] : surveyAnswer['Practices']?.['Question77']?.['Question77-1-1']"
+                      $safeNavigationMigration(surveyAnswer['Practices']?.['Question77']?.['Question77-0']) : $safeNavigationMigration(surveyAnswer['Practices']?.['Question77']?.['Question77-1-1'])"
                 [outputsTitle]="'services offered through EOSC'">
               </practices-category-indicators>
             </category-indicators-wrapper>
@@ -1560,29 +1560,29 @@
               [cardIcon]="'../assets/images/country_pages/noun-infrastructure-1694567.svg'">
               <practices-category-indicators
                 [subtitle]="'Data management'"
-                [monitoring]="surveyAnswer['Practices']?.['Question78']?.['Question78-0']"
-                [useCases]="surveyAnswer['Practices']?.['Question79']?.['Question79-0']"
-                [investments]="surveyAnswer['Practices']?.['Question80']?.['Question80-0']"
+                [monitoring]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question78']?.['Question78-0'])"
+                [useCases]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question79']?.['Question79-0'])"
+                [investments]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question80']?.['Question80-0'])"
                     [outputs]="surveyAnswer['Practices']?.['Question81']?.['Question81-1'] === 'Yes' ?
-                      surveyAnswer['Practices']?.['Question81']?.['Question81-0'] : surveyAnswer['Practices']?.['Question81']?.['Question81-1-1']"
+                      $safeNavigationMigration(surveyAnswer['Practices']?.['Question81']?.['Question81-0']) : $safeNavigationMigration(surveyAnswer['Practices']?.['Question81']?.['Question81-1-1'])"
                 [outputsTitle]="'repositories connected to EOSC'">
               </practices-category-indicators>
               <practices-category-indicators
                 [subtitle]="'FAIR data'"
-                [monitoring]="surveyAnswer['Practices']?.['Question82']?.['Question82-0']"
-                [useCases]="surveyAnswer['Practices']?.['Question83']?.['Question83-0']"
-                [investments]="surveyAnswer['Practices']?.['Question84']?.['Question84-0']"
+                [monitoring]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question82']?.['Question82-0'])"
+                [useCases]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question83']?.['Question83-0'])"
+                [investments]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question84']?.['Question84-0'])"
                     [outputs]="surveyAnswer['Practices']?.['Question85']?.['Question85-1'] === 'Yes' ?
-                      surveyAnswer['Practices']?.['Question85']?.['Question85-0'] : surveyAnswer['Practices']?.['Question85']?.['Question85-1-1']"
+                      $safeNavigationMigration(surveyAnswer['Practices']?.['Question85']?.['Question85-0']) : $safeNavigationMigration(surveyAnswer['Practices']?.['Question85']?.['Question85-1-1'])"
                 [outputsTitle]="'data stewards employed'">
               </practices-category-indicators>
               <practices-category-indicators
                 [subtitle]="'Open data'"
-                [monitoring]="surveyAnswer['Practices']?.['Question86']?.['Question86-0']"
-                [useCases]="surveyAnswer['Practices']?.['Question87']?.['Question87-0']"
-                [investments]="surveyAnswer['Practices']?.['Question88']?.['Question88-0']"
+                [monitoring]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question86']?.['Question86-0'])"
+                [useCases]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question87']?.['Question87-0'])"
+                [investments]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question88']?.['Question88-0'])"
                     [outputs]="surveyAnswer['Practices']?.['Question89']?.['Question89-1'] === 'Yes' ?
-                      surveyAnswer['Practices']?.['Question89']?.['Question89-0'] : surveyAnswer['Practices']?.['Question89']?.['Question89-1-1']"
+                      $safeNavigationMigration(surveyAnswer['Practices']?.['Question89']?.['Question89-0']) : $safeNavigationMigration(surveyAnswer['Practices']?.['Question89']?.['Question89-1-1'])"
                 [outputsTitle]="'repositories offering long-term data preservation'">
               </practices-category-indicators>
             </category-indicators-wrapper>
@@ -1741,10 +1741,10 @@
             <category-indicators-wrapper [cardTitle]="'Skills/Training'"
               [cardIcon]="'../assets/images/country_pages/noun-skills-2129400.svg'">
               <practices-category-indicators
-                [monitoring]="surveyAnswer['Practices']?.['Question90']?.['Question90-0']"
-                [useCases]="surveyAnswer['Practices']?.['Question91']?.['Question91-0']"
-                [investments]="surveyAnswer['Practices']?.['Question92']?.['Question92-0']"
-                [outputs]="surveyAnswer['Practices']?.['Question93']?.['Question93-0']"
+                [monitoring]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question90']?.['Question90-0'])"
+                [useCases]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question91']?.['Question91-0'])"
+                [investments]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question92']?.['Question92-0'])"
+                [outputs]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question93']?.['Question93-0'])"
                 [outputsTitle]="'educational curricula with an Open Science dimension'">
               </practices-category-indicators>
             </category-indicators-wrapper>
@@ -1812,11 +1812,11 @@
             <category-indicators-wrapper [cardTitle]="'Assessment'"
               [cardIcon]="'../assets/images/country_pages/noun-assesment-4658555.svg'">
               <practices-category-indicators
-                [monitoring]="surveyAnswer['Practices']?.['Question94']?.['Question94-0']"
-                [useCases]="surveyAnswer['Practices']?.['Question95']?.['Question95-0']"
-                [investments]="surveyAnswer['Practices']?.['Question96']?.['Question96-0']"
+                [monitoring]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question94']?.['Question94-0'])"
+                [useCases]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question95']?.['Question95-0'])"
+                [investments]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question96']?.['Question96-0'])"
                     [outputs]="surveyAnswer['Practices']?.['Question97']?.['Question97-1'] === 'Yes' ?
-                      surveyAnswer['Practices']?.['Question97']?.['Question97-0'] : surveyAnswer['Practices']?.['Question97']?.['Question97-1-1']"
+                      $safeNavigationMigration(surveyAnswer['Practices']?.['Question97']?.['Question97-0']) : $safeNavigationMigration(surveyAnswer['Practices']?.['Question97']?.['Question97-1-1'])"
                 [outputsTitle]="'signatories of the Agreement on Reforming Research Assessment'">
               </practices-category-indicators>
             </category-indicators-wrapper>
@@ -1884,10 +1884,10 @@
             <category-indicators-wrapper [cardTitle]="'Engagement'"
               [cardIcon]="'../assets/images/country_pages/noun-work-engagement-946691.svg'">
               <practices-category-indicators
-                [monitoring]="surveyAnswer['Practices']?.['Question98']?.['Question98-0']"
-                [useCases]="surveyAnswer['Practices']?.['Question99']?.['Question99-0']"
-                [investments]="surveyAnswer['Practices']?.['Question100']?.['Question100-0']"
-                [outputs]="surveyAnswer['Practices']?.['Question101']?.['Question101-0']"
+                [monitoring]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question98']?.['Question98-0'])"
+                [useCases]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question99']?.['Question99-0'])"
+                [investments]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question100']?.['Question100-0'])"
+                [outputs]="$safeNavigationMigration(surveyAnswer['Practices']?.['Question101']?.['Question101-0'])"
                 [outputsTitle]="'projects with a citizen science dimension'">
               </practices-category-indicators>
             </category-indicators-wrapper>

@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from "@angular/core";
+import { Component, DestroyRef, inject, ChangeDetectionStrategy } from "@angular/core";
 import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
@@ -34,6 +34,7 @@ import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-h
   selector: 'app-policy-overview',
   templateUrl: './policy-overview.component.html',
   styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgOptimizedImage,
     CommonModule,

@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {ActivatedRoute, Router} from "@angular/router";
 import { combineLatest } from "rxjs";
@@ -13,6 +13,7 @@ import {
 @Component({
   selector: 'app-contributions-ext-home',
   templateUrl: './contributions-home-extention.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 

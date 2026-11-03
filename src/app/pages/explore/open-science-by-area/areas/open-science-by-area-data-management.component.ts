@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from "@angular/core";
+import { Component, DestroyRef, inject, ChangeDetectionStrategy } from "@angular/core";
 import * as Highcharts from "highcharts/highcharts.src";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
@@ -19,6 +19,7 @@ import { PageContentComponent } from "../../../../../survey-tool/app/shared/page
     selector: 'app-open-science-by-area-data-management',
     templateUrl: './open-science-by-area-data-management.component.html',
     styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass, AreaMapsCardComponent]
 })
 

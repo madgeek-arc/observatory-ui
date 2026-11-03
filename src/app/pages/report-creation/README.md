@@ -97,7 +97,14 @@ interface ChartImageData {
    `{ paragraphLoop: true, linebreaks: true }` (so `\n` in text data renders as a line break,
    and repeated paragraphs work with loop tags if the template uses them).
 7. `doc.setData(data)` then `doc.render()` — this is where template tags in the `.docx` are
-   substituted; a tag present in the template but missing from `data` will throw here.
+   substituted. A text tag missing from `data` does **not** throw: `docxtemplater@3.1`'s default `nullGetter`
+   renders it as the word `undefined`. An image tag missing from `data` does throw (`getImage` reads
+   `byteLength` of `undefined`). `npm run docx:tags:check` (below) finds both before an export does.
+   Right after, `preserveWhitespace()` adds `xml:space="preserve"` to every `<w:t>` in
+   `document.xml` and the headers/footers. `docxtemplater@3.1` leaves the run where a tag ends
+   (e.g. `<w:t> in financial strategies…</w:t>` after `{Question11[0]}`) without it, and Word
+   then drops the leading space, producing "decreasein". Don't remove it, and no double spaces
+   are needed in the template.
 8. Generate the output as a `blob` (`application/vnd.openxmlformats-officedocument.wordprocessingml.document`)
    and save it via `file-saver`'s `saveAs(...)` as `report_<ISO-timestamp>.docx`
    (colons stripped, e.g. `report_2026-08-27T10-15-30.docx`).
@@ -105,8 +112,8 @@ interface ChartImageData {
 **Errors**: any failure (network, malformed template, missing/invalid tag, canvas/image
 failure upstream) is logged with `console.error('Export error:', err)` and rethrown — callers
 must catch it themselves to update UI state. (`ReportCreationComponent.generateReport()` does
-this; note that on failure it currently does not reset its own `exporting` flag — see caveat
-below.)
+this and resets its `exporting` flag in a `finally`, so a failed export doesn't leave the
+button disabled.)
 
 ### Usage (as done in `ReportCreationComponent.generateReport()`)
 
@@ -138,6 +145,99 @@ Text tag keys are the survey `namedQueries` question IDs from `report-chart.conf
 derived from the same question, or `_trend`/`_total` for investment charts — see the various
 `*Series(...)` methods in `report-creation.component.ts` for exactly which suffixes each chart
 `type` writes.
+
+## Figure numbering in the template
+
+The figure captions (`Figure 12: Map of EU Countries ...`) and the references to them
+(`as shown in Figure 12.`, `as shown in Figures 5 and 6.`) in `report_template.docx` are plain text,
+not Word fields, and `ReportCreationService` does not renumber anything at export time. After you
+add or remove sections in the template, run
+
+```bash
+npm run docx:figures          # renumber the captions in document order and update every reference
+npm run docx:figures:check    # report gaps and bad references without writing (exit 1 if a rewrite is needed)
+```
+
+The script (`scripts/renumber-docx-figures.mjs`) rewrites only the digits in those labels and replaces
+only `word/document.xml` in the `.docx`; it is safe to run twice. It stops with a list of problems,
+and writes nothing, when it cannot renumber safely:
+
+- two captions have the same number;
+- a reference points at a figure that has no caption (the figure was removed but its text stayed);
+- a caption or reference is split over several runs in Word (retype it in one go so the label stays
+  in one piece);
+- a reference uses a form other than `Figure N` or `Figures N and M`, such as `Figures 3, 4 and 5` or
+  `Figures 3-5`, which it would otherwise only half-update (reword it, or extend the script).
+
+It also warns when a reference is not followed by the caption it names, which usually means a
+reference was moved away from its figure. `npm run test:scripts` runs its unit tests.
+
+## Checking the tags in the template
+
+Nothing at runtime tells you when `report_template.docx` and the component disagree: a `{Question6[4]}` that no
+chart sets prints `undefined` in the report, and a `{%chartImage105}` or `{%pieChartImage_1_0}` that has no chart
+behind it fails the export (or shows nothing). After every template edit, and after changing `chartsCfg` or a
+`*Series` method, run
+
+```bash
+npm run docx:tags:check       # exit 0: every tag is filled in (warnings allowed), 1: tags without data, 2: file unreadable
+```
+
+It joins the runs of each paragraph (so a tag Word split into pieces is still found) and checks each `{tag}`
+against `report-chart.configuration.ts`:
+
+- a text tag has to be one that a chart sets, or `Year`/`FiscalYear`: `Question6` for a map, `Question6[0..3]` for a
+  `stackedBars` trend, `Question7[0..1]` for a `barChart`, `Question56[0..6]` and `Question56_invested` for a
+  `rangeColumns`, `Question56_trend[0..1]` for a `totalInvestments` and `Question5_total[0..6]` for the
+  `totalInvestmentsRangeColumns`. `reportKeys(chart)` in the configuration file is the list.
+- `{%chartImageN}` has to be one of the `chartsCfg.length` charts, counted from 1; `{%pieChartImage_i_j}` has to be
+  a chart that `buildsPies` (the maps), with `j` below its number of `namedQueries`, both counted from 0;
+  `{%logoImage}` is the only other image.
+- loops, conditions and anything else that is not a plain tag (`{#x}`, `{Question6 [0]}`) are rejected, because
+  the export gives them no data.
+
+Charts that the template does not show are only **warnings**: they are still loaded, rendered and turned into
+images on every export. After removing a section from the template, expect one warning per chart that was only
+there for it (17 at the time of writing). Removing them from `chartsCfg` shifts the `chartImageN` numbers of the
+charts after them, so it needs a stable key per chart first.
+
+The keys in `reportKeys` have to match what the `*Series` methods write; `report-creation.component.spec.ts` loads
+a chart of each type and compares. When you add a key to a method or a new chart `type`, change `reportKeys` (and
+`buildsPies` if it builds pie charts) in the same commit, or that spec fails. `npm run test:scripts` also runs the
+check against the committed template, so CI fails when a saved template has a tag the report does not fill in.
+
+## Report year selection
+
+The page has a **Survey year** select. The selected year becomes the report year (`{Year}` in the
+template, and the only year queried for the map/pie/range charts); `{FiscalYear}` is the survey
+before it. Trend charts (`stackedBars`, `barChart`, `totalInvestments`) cover every survey from 2022
+up to the selected year.
+
+- `allYears` in `report-creation.component.ts` is built from `FIRST_SURVEY_YEAR` (2022) up to the
+  current year minus one, so a new year appears on 1 January with no code change. (A survey runs the
+  year after its reference year.)
+- `selectableYears` is `allYears.slice(2)`, i.e. report years from 2024 on. Trend sentences compare
+  against the previous survey, so a report year always needs an earlier one.
+- On init the page probes each selectable year (`Question1`) and only enables the ones the stats API
+  has data for (`availableYears`); others show as "(no data)". It starts on the latest available
+  year. A year with no data comes back either as a `200` with an empty body (which `HttpClient`
+  delivers as `null`) or as a valid response with zero rows. Any single chart whose response is
+  missing is skipped with a console warning.
+- The report queries `EoscReadinessDataService.getQuestionEU(year, name)`. For years after 2021 the
+  service sends `{"name": "eosc.sb.eu.<Question>", "namedParameters": {"year": <year>}}`; earlier
+  years keep the per-year name `eosc.sb.eu.<year>.<Question>`. `getQuestion`, `getQuestions` and
+  `getQuestionComment` follow the same rule (`eosc.sb.<Question>[.comment]`), through one private
+  helper, `questionQuery`.
+- Changing the year calls `loadReport(year)`, which cancels in-flight requests (`reload$`), resets
+  `chartsCfg`'s `data`/`chartSeries`/`pieSeries`, the ready counters, `reportData` and the cached
+  `chartImages`, then reloads every chart. `generateReport()` reuses `chartImages` when non-empty, so
+  any new state that depends on the year must be reset there too.
+- The button is disabled while charts load (`loading`), and the select is disabled while exporting.
+
+**The year does not change literal text in `report_template.docx`.** Anything typed directly into the
+template (survey open/close dates, number of responding countries, the survey reference list, a
+literal "in 2023" for the fiscal year) has to be edited in Word, or turned into a `{tag}` and added
+to `reportData`.
 
 ## Packages used
 

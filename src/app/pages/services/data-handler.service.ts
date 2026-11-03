@@ -3,7 +3,7 @@ import { Dataset, RawData, Row } from "../../domain/raw-data";
 import { CountryTableData } from "../../domain/country-table-data";
 import { FundingForEOSCSums } from "../../domain/funding-for-eosc";
 import { CategorizedAreaData, Series } from "../../domain/categorizedAreaData";
-import { isNumeric } from "rxjs/internal-compatibility";
+import { isNumeric } from "src/app/shared/utils/is-numeric";
 import { SeriesMapbubbleDataOptions } from "highcharts";
 import { SeriesMapDataOptions } from "highcharts/highmaps";
 

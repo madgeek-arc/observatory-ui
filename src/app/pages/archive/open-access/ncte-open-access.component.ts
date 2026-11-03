@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { DataService } from "../../services/data.service";
 import { CountryTableData } from "../../../domain/country-table-data";
@@ -9,6 +9,7 @@ import { StakeholdersService } from "../../../../survey-tool/app/services/stakeh
 @Component({
     selector: 'app-ncte-open-access',
     templateUrl: './ncte-open-access.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

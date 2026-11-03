@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import Exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
@@ -14,6 +14,7 @@ ExportData(Highcharts);
 @Component({
     selector: 'app-pie-chart',
     template: '@if (chartId) {<div [id]="chartId"></div>}',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PieChartComponent implements OnChanges {
