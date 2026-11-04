@@ -91,7 +91,7 @@ export class EuAverageColumnTrendCardView {
       credits: { enabled: false },
       exporting: { enabled: false },
       xAxis: { categories: averages.map(item => item.year) },
-      yAxis: { min: 0, title: { text: undefined } },
+      yAxis: { min: 0, maxPadding: 0.5, title: { text: undefined } },
       tooltip: { enabled: false },
       plotOptions: {
         column: {
