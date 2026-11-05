@@ -95,7 +95,8 @@ export class CountriesTrendCardView {
         title: { text: undefined },
         labels: {
           formatter: function (): string {
-            return formatIndicatorValue(Number(this.value), format);
+            const value = Number(this.value);
+            return format === 'percentage' ? `${value}%` : formatIndicatorValue(value, format);
           }
         }
       },
