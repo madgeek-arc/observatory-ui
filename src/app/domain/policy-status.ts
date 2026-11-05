@@ -92,6 +92,22 @@ export function statusBadge(value: number | string | null | undefined, unit?: st
   return { text: 'N/A', cssClass: 'uk-label-closed' };
 }
 
+/** First year in the range with a Yes. A Yes never reverts to No, so the first Yes marks
+ *  the earliest year the status is known to hold — hence "since at least" in the UI. */
+export function yesSinceYear(
+  statusByYear: Map<number, number | string | null>,
+  startYear: number,
+  endYear: number,
+  unit?: string
+): number | undefined {
+  for (let year = startYear; year <= endYear; year++) {
+    if (statusCategory(statusByYear.get(year), unit) === 'positive') {
+      return year;
+    }
+  }
+  return undefined;
+}
+
 export interface TrendBadge extends StatusBadge {
   /** Material Symbols name, shown in front of the text. */
   icon: string;

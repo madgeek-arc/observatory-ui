@@ -4,14 +4,23 @@
       @for (row of rows; track row.id) {
         <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
           <span class="uk-text-small">{{ row.name }}</span>
-          <span class="uk-label uk-label-small status-badge" [class]="row.badge.cssClass">
-            {{ row.badge.text }}
+          <span class="uk-flex uk-flex-middle" style="gap: 8px;">
+            @if (row.sinceYear) {
+              <span class="uk-text-meta uk-text-small">since at least {{ row.sinceYear }}</span>
+            }
+            <span class="uk-label uk-label-small status-badge" [class]="row.badge.cssClass">
+              {{ row.badge.text }}
+            </span>
           </span>
         </div>
       }
-<!--      <div class="uk-text-meta uk-text-small uk-margin-small-top">-->
-<!--        {{ positiveCount() }} of {{ totalCount() }} selected countries-->
-<!--      </div>-->
+      <hr class="uk-margin-remove-top">
+      <div class="uk-text-meta uk-text-small uk-margin-small-top">
+        Status in {{ endYear() }}: Yes in {{ positiveCount() }} of {{ totalCount() }} selected countries
+        @if (isRange()) {
+          · 'since' = year took effect
+        }
+      </div>
     }
   </ng-template>
 </app-card-state>
