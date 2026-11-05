@@ -2,12 +2,12 @@ import { Component, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy } f
 import * as Highcharts from "highcharts/highmaps";
 import HC_exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
+import worldMapJson from '@highcharts/map-collection/custom/world-highres3.topo.json';
 
 HC_exporting(Highcharts);
 ExportData(Highcharts);
 
-declare var require: any;
-const worldMap = require('@highcharts/map-collection/custom/world-highres3.topo.json');
+const worldMap: any = worldMapJson;
 
 
 @Component({

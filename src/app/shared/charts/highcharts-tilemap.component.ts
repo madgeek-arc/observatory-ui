@@ -3,12 +3,12 @@ import HC_exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
 import HC_tilemap from 'highcharts/modules/tilemap';
 import {Component, ChangeDetectionStrategy} from "@angular/core";
+import worldMapJson from '@highcharts/map-collection/custom/world.geo.json';
 HC_exporting(Highcharts);
 HC_tilemap(Highcharts);
 ExportData(Highcharts);
 
-declare var require: any;
-const worldMap = require('@highcharts/map-collection/custom/world.geo.json');
+const worldMap: any = worldMapJson;
 
 interface ExtendedPointOptionsObject extends Highcharts.PointOptionsObject {
   country: string;

@@ -44,9 +44,10 @@ export class BarOrColumnChartComponent implements OnInit, OnChanges {
   chartOptions: Highcharts.Options = {};
 
   ngOnInit() {
-    (Highcharts as any).Templating = (Highcharts as any).Templating || {};
-    (Highcharts as any).Templating.helpers = (Highcharts as any).Templating.helpers || {};
-    (Highcharts as any).Templating.helpers.abs = (value: number) => Math.abs(value);
+    // Members are set on the Templating object: the esbuild builder rejects assigning to the Highcharts namespace import
+    const templating = (Highcharts as any).Templating;
+    templating.helpers = templating.helpers || {};
+    templating.helpers.abs = (value: number) => Math.abs(value);
 
     Highcharts.setOptions({
       lang: {
