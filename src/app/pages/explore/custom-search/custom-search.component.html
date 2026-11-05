@@ -153,11 +153,19 @@
         </div>
 
         <div class="uk-flex uk-flex-middle" style="gap: 8px;">
-          <input class="uk-input uk-width-expand" type="number"
-                 [ngModel]="startYear()" (ngModelChange)="setStartYear($event)" [max]="maxYear">
+          <select class="uk-select uk-form-small uk-width-auto"
+                  [ngModel]="startYear()" (ngModelChange)="setStartYear($event)">
+            @for (year of years; track year) {
+              <option [ngValue]="year">{{ year }}</option>
+            }
+          </select>
           <span class="uk-text-meta">–</span>
-          <input class="uk-input uk-width-expand" type="number"
-                 [ngModel]="endYear()" (ngModelChange)="setEndYear($event)" [max]="maxYear">
+          <select class="uk-select uk-form-small uk-width-auto"
+                  [ngModel]="endYear()" (ngModelChange)="setEndYear($event)">
+            @for (year of years; track year) {
+              <option [ngValue]="year">{{ year }}</option>
+            }
+          </select>
         </div>
         <div class="uk-text-meta uk-text-xsmall uk-margin-small-top">
           Same year = a snapshot number; a range draws trend lines.

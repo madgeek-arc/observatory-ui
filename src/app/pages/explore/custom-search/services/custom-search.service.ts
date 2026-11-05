@@ -72,6 +72,9 @@ export function combineStates(...states: QueryState<unknown>[]): QueryState<unkn
 export const hasNumericValue = (response: IndicatorQueryResponse | undefined): boolean =>
   !!response?.data.some(point => typeof point.value === 'number');
 
+/** The years the backend has data for — the only choices in the Time period selects. */
+export const AVAILABLE_YEARS: readonly number[] = [2021, 2022, 2023, 2024];
+
 @Injectable({providedIn: 'root'})
 export class CustomSearchService {
   private readonly base = environment.API_ENDPOINT;
@@ -79,8 +82,8 @@ export class CustomSearchService {
   readonly showEuAverage = signal(false);
   readonly showMedianValues = signal(false);
 
-  readonly startYear = signal(2021);
-  readonly endYear = signal(2025);
+  readonly startYear = signal(AVAILABLE_YEARS[0]);
+  readonly endYear = signal(AVAILABLE_YEARS[AVAILABLE_YEARS.length - 1]);
   readonly geographyScope = signal<'all' | 'select'>('all');
   readonly selectedCountryIds = signal<Set<string>>(new Set());
 

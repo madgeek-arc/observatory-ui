@@ -270,9 +270,18 @@ app-custom-search {
     border-color: @primary-color;
   }
 
-  /* Keep inputs white on focus (UIkit darkens @form-background by 5% by default). */
-  .uk-input:focus {
+  /* Keep inputs and selects white on focus (UIkit darkens @form-background by 5% by default). */
+  .uk-input:focus,
+  .uk-select:focus {
     background-color: #fff;
+  }
+
+  /* catalogue-ui forces every .uk-select to 56px !important — bring it back to the
+     small control height so it matches the other sidebar controls. */
+  .uk-select {
+    height: @global-control-small-height !important;
+    /* uk-form-small shrinks padding-right to 8px, which puts the select icon over the text. */
+    padding-right: @form-select-padding-right !important;
   }
 
   /* Indicator card: smaller group label above the title. */

@@ -8,7 +8,7 @@ import {PageContentComponent} from "../../../../survey-tool/app/shared/page-cont
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { ExploreIndicatorConfig } from "../../../domain/explore-indicators";
 import { Country, countries } from "../../../domain/countries";
-import { CustomSearchService, DashboardItem } from "./services/custom-search.service";
+import { AVAILABLE_YEARS, CustomSearchService, DashboardItem } from "./services/custom-search.service";
 import { IndicatorCard, resolveCurrentView } from "../indicator-card/indicator-card";
 import {RouterLink} from "@angular/router";
 import * as UIkit from "uikit";
@@ -52,7 +52,7 @@ export class CustomSearchComponent {
 
   readonly startYear = this.customSearchService.startYear;
   readonly endYear = this.customSearchService.endYear;
-  protected readonly maxYear = new Date().getFullYear();
+  protected readonly years = AVAILABLE_YEARS;
 
   readonly selectedIndicatorIds = signal<Set<string>>(new Set());
   private readonly expandedTopicIds = signal<Set<string>>(new Set());
