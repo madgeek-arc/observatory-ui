@@ -5,6 +5,9 @@ import { colors } from "../../../../domain/chart-color-palette";
 import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { CardState } from "../../../../shared/card-state/card-state";
 
+/** Number of areas tracked in a usual year — any other total gets an asterisk and a footnote. */
+const EXPECTED_AREAS = 12;
+
 @Component({
   selector: 'app-eu-average-column-trend-card-view',
   templateUrl: './eu-average-column-trend-card-view.html',
@@ -74,6 +77,17 @@ export class EuAverageColumnTrendCardView {
       point.dimensions['period'] === this.latestYear() && typeof point.total === 'number'
     )?.total
   );
+
+  /** Note for a total that differs from the usual number of areas; none when it matches. */
+  readonly areasNote = computed(() => {
+    const total = this.totalAreas();
+    if (total === undefined || total === EXPECTED_AREAS) {
+      return undefined;
+    }
+    return total < EXPECTED_AREAS
+      ? `Not all areas tracked in ${this.latestYear()}`
+      : `More than 12 areas tracked in ${this.latestYear()}`;
+  });
 
   /** "Policy Areas Count" → "policy areas". A label without " Count" just stays as is. */
   readonly unitLabel = computed(() =>

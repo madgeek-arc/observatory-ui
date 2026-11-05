@@ -6,13 +6,22 @@
         <div class="uk-margin-bottom">
           <span class="uk-text-bold uk-text-large">{{ average }}</span>
           <span>
-            @if (totalAreas(); as total) { <span class="uk-text-bold uk-text-large"> / {{ total }}</span> }<span class="uk-text-muted"> {{ unitLabel() }} on average in {{ latestYear() }}</span>
+            @if (totalAreas(); as total) {
+              <span class="uk-text-bold uk-text-large"> / {{ total }}@if (areasNote()) {*}</span>
+            }
+            <span class="uk-text-muted"> {{ unitLabel() }} on average in {{ latestYear() }}
+            </span>
           </span>
         </div>
       }
 
       <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
                         style="width: 100%; display: block;"></highcharts-chart>
+
+      @if (areasNote(); as note) {
+        <hr class="uk-margin-small">
+        <div class="uk-text-meta uk-text-small">* {{ note }}</div>
+      }
     }
   </ng-template>
 </app-card-state>
