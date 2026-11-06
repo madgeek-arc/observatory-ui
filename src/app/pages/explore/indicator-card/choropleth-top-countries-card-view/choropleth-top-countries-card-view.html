@@ -1,4 +1,5 @@
-<app-card-state [state]="state()" [height]="500" [empty]="isEmpty()">
+<app-card-state [state]="state()" [height]="500" [empty]="isEmpty()"
+                [emptyText]="'No country has reported data for ' + year() + '.'">
   <ng-template>
     @if (topCountries(); as top) {
       <div class="uk-flex uk-flex-middle" style="gap: 8px;">
