@@ -2,8 +2,9 @@
   <ng-template>
     @if (average() !== undefined) {
       <div style="padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid #eef1f3;">
-        <span class="uk-text-bold" style="font-size: 28px; line-height: 1.2;">{{ average() }} / {{ totalAreas() }}</span>
-        <span class="uk-text-muted uk-text-small"> {{ unitLabel() }} per country on average in {{ year() }}</span>
+        <span class="uk-text-bold" style="font-size: 20px;">{{ average() }}
+          / {{ totalAreas() }}</span>
+        <span class="uk-text-muted uk-text-small"> areas per country on average in {{ year() }}</span>
       </div>
     }
 
@@ -11,7 +12,19 @@
       <div class="uk-flex uk-flex-wrap" style="gap: 32px; padding-bottom: 12px; margin-bottom: 4px;
        border-bottom: 1px solid #eef1f3;">
         <div>
-          <div class="uk-text-bold">{{ reportingCountries() }}</div>
+          <div class="uk-text-bold uk-text-emphasis">{{ countriesWithManyAreas() }}
+            {{ countriesWithManyAreas() === 1 ? 'country' : 'countries' }}
+          </div>
+          <div class="uk-text-meta uk-text-xsmall">{{ areaVerb() }} {{ manyAreas }} areas or more</div>
+        </div>
+        <div>
+          <div class="uk-text-bold uk-text-emphasis">{{ countriesWithFewAreas() }}
+            {{ countriesWithFewAreas() === 1 ? 'country' : 'countries' }}
+          </div>
+          <div class="uk-text-meta uk-text-xsmall">{{ areaVerb() }} {{ fewAreas }} areas or fewer</div>
+        </div>
+        <div>
+          <div class="uk-text-bold uk-text-emphasis">{{ reportingCountries() }}</div>
           <div class="uk-text-meta uk-text-xsmall">reporting countries</div>
         </div>
       </div>
@@ -23,13 +36,16 @@
           <div class="uk-flex uk-flex-between uk-flex-middle" style="padding: 6px 0; border-bottom: 1px solid #eef1f3;">
             <span class="uk-text-small uk-margin-small-right">{{ area.name }}</span>
             <span class="uk-label uk-label-small uk-label-public uk-text-lowercase">{{ area.value }}
-              @if (area.total !== undefined) { of {{ area.total }}}</span>
+              @if (area.total !== undefined) {
+                of {{ reportingCountries() }}
+              }</span>
           </div>
         </div>
       }
     </div>
 
     <div class="uk-text-meta uk-text-xsmall uk-margin-small-top">All EU countries · {{ year() }} · number of
-      countries per area on the right</div>
+      countries per area on the right
+    </div>
   </ng-template>
 </app-card-state>
