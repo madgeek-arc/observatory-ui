@@ -11,6 +11,9 @@
             }
             <span class="uk-text-muted"> {{ unitLabel() }} on average in {{ latestYear() }}
             </span>
+            @if (changeSinceStart(); as change) {
+              <span class="uk-margin-small-left uk-text-bold uk-text-small" [class]="change.cssClass">{{ change.text }}</span>
+            }
           </span>
         </div>
       }

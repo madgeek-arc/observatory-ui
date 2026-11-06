@@ -4,6 +4,7 @@ import * as Highcharts from "highcharts";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { CardState } from "../../../../shared/card-state/card-state";
+import { StatusBadge } from "../../../../domain/policy-status";
 
 /** Number of areas tracked in a usual year — any other total gets an asterisk and a footnote. */
 const EXPECTED_AREAS = 12;
@@ -65,10 +66,26 @@ export class EuAverageColumnTrendCardView {
 
   readonly latestYear = computed(() => this.latest()?.year);
 
-  /** Rounded to 1 decimal, same as the column labels. */
   readonly latestAverage = computed(() => {
     const average = this.latest()?.average;
     return average == null ? undefined : +average.toFixed(1);
+  });
+
+  readonly changeSinceStart = computed<StatusBadge | undefined>(() => {
+    const startYear = this.customSearchService.startYear();
+    const first = this.yearlyAverages()?.find(item => item.year === String(startYear));
+    const latest = this.latest();
+    if (!first || !latest || first.year === latest.year || first.average === null || latest.average === null) {
+      return undefined;
+    }
+    const difference = +(+latest.average.toFixed(1) - +first.average.toFixed(1)).toFixed(1);
+    if (difference > 0) {
+      return { text: `+${difference} vs ${startYear}`, cssClass: 'uk-text-success' };
+    }
+    if (difference < 0) {
+      return { text: `${difference} vs ${startYear}`, cssClass: 'uk-text-danger' };
+    }
+    return { text: `0 vs ${startYear}`, cssClass: 'uk-text-muted' };
   });
 
   /** "out of N" — every row carries the same total, taken from the latest year's rows. */
