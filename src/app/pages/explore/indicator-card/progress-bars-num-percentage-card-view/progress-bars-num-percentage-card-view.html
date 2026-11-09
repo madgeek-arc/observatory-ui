@@ -1,26 +1,24 @@
 <app-card-state [state]="state()" [height]="60" [empty]="isEmpty()">
   <ng-template>
-    <ol class="uk-list uk-list-decimal uk-margin-remove">
-      @for (row of rows(); track row.id) {
-        <li>
-          <div class="uk-flex uk-flex-middle" style="gap: 12px;">
-            <span class="uk-text-small" style="width: 100px;">{{ row.name }}</span>
-            <progress class="uk-progress uk-width-expand uk-margin-remove" style="height: 8px;" [value]="row.percent" max="100"></progress>
-            <span class="uk-text-bold uk-text-small" style="width: 70px;">{{ row.formattedValue }}</span>
-            <span class="uk-text-meta uk-text-small" style="width: 50px;">{{ row.percent | number:'1.0-1' }}%</span>
-          </div>
-        </li>
-      }
-    </ol>
+    @for (row of rows(); track row.id; let index = $index) {
+      <div class="uk-grid-small uk-flex-middle uk-margin-small-bottom" uk-grid>
+        <div class="uk-width-auto uk-text-small uk-text-meta">{{ index + 1 }}.</div>
+        <div class="uk-width-xsmall uk-text-small uk-text-truncate">{{ row.name }}</div>
+        <div class="uk-width-expand">
+          <progress class="uk-progress uk-progress-small uk-margin-remove" [value]="row.percent" max="100"></progress>
+        </div>
+        <div class="uk-width-xsmall uk-text-small uk-text-bold uk-text-right">{{ row.formattedValue }}</div>
+        <div class="uk-width-xsmall uk-text-small uk-text-meta uk-text-right">{{ row.percent | number:'1.0-1' }}%</div>
+      </div>
+    }
 
-    <div class="uk-margin-small-top" style="border-top: 1px solid #eef1f3; padding: 8px 0 0 30px;">
-      <div class="uk-flex uk-flex-middle" style="gap: 12px;">
-        <span class="uk-text-small uk-text-bold uk-text-nowrap">{{ totalRow().label }}</span>
-        <span class="uk-width-expand"></span>
-        <span class="uk-text-bold uk-text-small" style="width: 70px; ">{{ totalRow().formattedValue }}</span>
-        <span class="uk-text-meta uk-text-small" style="min-width: 50px; white-space: nowrap;">
-          {{ totalRow().percent | number:'1.0-1' }}%@if (format() === 'currency') { of EU}
-        </span>
+    <hr class="uk-margin-small">
+
+    <div class="uk-grid-small uk-flex-middle" uk-grid>
+      <div class="uk-width-expand uk-text-small uk-text-bold">{{ totalRow().label }}</div>
+      <div class="uk-width-xsmall uk-text-small uk-text-bold uk-text-right">{{ totalRow().formattedValue }}</div>
+      <div class="uk-width-xsmall uk-text-small uk-text-meta uk-text-right">
+        {{ totalRow().percent | number:'1.0-1' }}%@if (format() === 'currency') { of EU}
       </div>
     </div>
   </ng-template>

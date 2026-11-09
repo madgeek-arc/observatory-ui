@@ -1,7 +1,7 @@
 <app-card-state [state]="state()" [height]="280" [empty]="isEmpty()">
   <ng-template>
     @if (chartOptions(); as options) {
-      <div class="uk-flex uk-gap-xlarge">
+      <div class="uk-flex uk-flex-top uk-gap-xlarge">
         <div class="uk-flex-none" style="position: relative; width: 280px;">
           <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
                             style="width: 100%; display: block;"></highcharts-chart>

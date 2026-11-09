@@ -1,4 +1,5 @@
 @progress-height: 18px;
+@progress-small-height: 8px;
 @progress-background: fade(@progress-bar-background, 30%);
 @progress-border-radius: 500px;
 @progress-box-shadow: none;
@@ -48,6 +49,9 @@
 }
 
 .hook-progress-misc() {
+  .uk-progress-small {
+    height: @progress-small-height;
+  }
   .uk-progress-circle[percentage] {
     display: flex;
     justify-content: center;
