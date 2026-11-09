@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { CountryTableData } from "../../../../domain/country-table-data";
+import { CountryTableData } from "src/app/domain/country-table-data";
 import { countriesNumbers, EoscReadinessMapSubtitles } from "../eosc-readiness-map-subtitles";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
-import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
-import { RawData } from "../../../../domain/raw-data";
+import { RawData } from "src/app/domain/raw-data";
 import { isNumeric } from "src/app/shared/utils/is-numeric";
 import { zip } from "rxjs/internal/observable/zip";
 import { ColorAxisOptions, LegendOptions } from "highcharts";

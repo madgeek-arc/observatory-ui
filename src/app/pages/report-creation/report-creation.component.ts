@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { ReportCreationService } from "../services/report-creation.service";
 import { EoscReadinessDataService } from "../services/eosc-readiness-data.service";
-import { StakeholdersService } from "../../../survey-tool/app/services/stakeholders.service";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { CustomSeriesMapOptions, WorldMapComponent } from "../../shared/charts/report-charts/world-map.component";
 import { forkJoin, Observable, of, Subject } from "rxjs";
 import { catchError, finalize, map, takeUntil } from "rxjs/operators";

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { environment } from "../../../../environments/environment";
+import { environment } from "src/environments/environment";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { User } from "../../../../survey-tool/app/domain/userInfo";
+import { User } from "src/survey-tool/app/domain/userInfo";
 
 export interface AnswerMetadata {
   lastUpdate: string;

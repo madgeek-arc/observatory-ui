@@ -3,7 +3,7 @@ import { DocumentLandingComponent } from './document-landing/document-landing.co
 import { SearchComponent } from './search/search.component';
 import { NgModule } from '@angular/core';
 import { DocumentEditComponent } from './document-edit/document-edit.component';
-import { AuthGuard } from "../../../../survey-tool/app/services/auth-guard.service";
+import { AuthGuard } from "src/survey-tool/app/services/auth-guard.service";
 
 export const resourcesRegistryRoutes: Routes = [
   {

@@ -3,7 +3,7 @@ import * as Highcharts from 'highcharts';
 import Exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
 import VariablePie from 'highcharts/modules/variable-pie';
-import { colors } from "../../../domain/chart-color-palette";
+import { colors } from "src/app/domain/chart-color-palette";
 import { renderLogo } from "../highcharts-functions";
 
 // Initialize the variable pie module

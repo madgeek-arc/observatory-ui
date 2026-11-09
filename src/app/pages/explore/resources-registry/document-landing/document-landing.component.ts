@@ -8,12 +8,12 @@ import { PageContentComponent } from 'src/survey-tool/app/shared/page-content/pa
 import {
   SidebarMobileToggleComponent
 } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
-import {Model} from "../../../../../survey-tool/catalogue-ui/domain/dynamic-form-model";
-import {SurveyService} from "../../../../../survey-tool/app/services/survey.service";
+import {Model} from "src/survey-tool/catalogue-ui/domain/dynamic-form-model";
+import {SurveyService} from "src/survey-tool/app/services/survey.service";
 import {RecommendationsPage} from "./document-recommendations/document-recommendations";
-import { Administrator } from "../../../../../survey-tool/app/domain/userInfo";
-import { UserService } from "../../../../../survey-tool/app/services/user.service";
-import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
+import { Administrator } from "src/survey-tool/app/domain/userInfo";
+import { UserService } from "src/survey-tool/app/services/user.service";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 
 @Component({
   selector: 'app-document-landing',

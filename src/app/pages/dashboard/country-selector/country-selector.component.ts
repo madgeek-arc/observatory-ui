@@ -1,13 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
-import { CategorizedAreaData, Series } from "../../../domain/categorizedAreaData";
+import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData";
 import { Router } from "@angular/router";
-import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { ColorPallet } from "../../eosc-readiness-dashboard/eosc-readiness-dynamic/eosc-readiness-map-subtitles";
-import { countries } from "../../../domain/countries";
-import { flagIcon, mapIcon } from "../../../../variables/icons";
+import { countries } from "src/app/domain/countries";
+import { flagIcon, mapIcon } from "src/variables/icons";
 import { DomSanitizer } from "@angular/platform-browser";
 import { LowerCasePipe, NgOptimizedImage } from "@angular/common";
-import { ChartsModule } from "../../../shared/charts/charts.module";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
 
 @Component({
   selector: 'country-selector',

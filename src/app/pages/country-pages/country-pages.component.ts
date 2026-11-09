@@ -7,10 +7,10 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SurveyPublicAnswer } from "./services/coutry-pages.service";
 import {
   DashboardSideMenuComponent, MenuItem, MenuSection
-} from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
+} from "src/survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
 import {
   DashboardSideMenuService
-} from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
+} from "src/survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
 import { forkJoin, of } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 import { WidgetConfig } from "../../domain/country-page-indicators";

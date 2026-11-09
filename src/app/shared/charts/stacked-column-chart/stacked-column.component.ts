@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy } from "@angular/core";
 import * as Highcharts from "highcharts";
 import { LegendOptions, OptionsStackingValue } from "highcharts";
-import { colors } from "../../../domain/chart-color-palette";
+import { colors } from "src/app/domain/chart-color-palette";
 import { renderLogo } from "../highcharts-functions";
 import ExportingModule from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';

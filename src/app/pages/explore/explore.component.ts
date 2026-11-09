@@ -3,11 +3,11 @@ import { RouterOutlet } from "@angular/router";
 import {
   DashboardSideMenuComponent,
   MenuItem, MenuSection
-} from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
+} from "src/survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
 import {
   DashboardSideMenuService
-} from "../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
-import { IconsService } from "../../../survey-tool/app/shared/icons/icons.service";
+} from "src/survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
+import { IconsService } from "src/survey-tool/app/shared/icons/icons.service";
 import { exploreIcons } from "./explore.icons";
 
 @Component({

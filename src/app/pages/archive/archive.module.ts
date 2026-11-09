@@ -11,7 +11,7 @@ import { DataHandlerService } from "../services/data-handler.service";
 import { NCTEMandate } from "./mandate/ncte-mandate";
 import { NCTEOpenAccessComponent } from "./open-access/ncte-open-access.component";
 import { NCTEMonitoringComponent } from "./monitoring/ncte-monitoring.component";
-import { StakeholdersService } from "../../../survey-tool/app/services/stakeholders.service";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { ChartsModule } from "../../shared/charts/charts.module";
 
 @NgModule({

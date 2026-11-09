@@ -4,21 +4,21 @@ import { LegendOptions, SeriesBubbleOptions, SeriesOptionsType } from "highchart
 import { zip } from "rxjs/internal/observable/zip";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
-import { RawData, Row, Data } from "../../../domain/raw-data";
+import { RawData, Row, Data } from "src/app/domain/raw-data";
 import { countriesNumbers } from "../../eosc-readiness-dashboard/eosc-readiness-dynamic/eosc-readiness-map-subtitles";
 import { DataHandlerService } from "../../services/data-handler.service";
-import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
+import { SurveyService } from "src/survey-tool/app/services/survey.service";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
-import { LATEST_SURVEY_YEAR, PREVIOUS_SURVEY_YEAR, SURVEY_YEARS, surveyModelId } from "../../../domain/survey-years";
-import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
-import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
-import { openScienceAreas, policesMapCaptions } from "../../../domain/chart-captions";
+import { LATEST_SURVEY_YEAR, PREVIOUS_SURVEY_YEAR, SURVEY_YEARS, surveyModelId } from "src/app/domain/survey-years";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
+import { CategorizedAreaData } from "src/app/domain/categorizedAreaData";
+import { openScienceAreas, policesMapCaptions } from "src/app/domain/chart-captions";
 import { OAAndTotalPublicationsPerCountry } from "../OSO-stats-queries/explore-queries";
-import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { SidebarMobileToggleComponent } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { CommonModule } from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
-import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
 
 
 @Component({

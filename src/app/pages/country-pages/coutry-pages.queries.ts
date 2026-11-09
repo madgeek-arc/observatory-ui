@@ -1,4 +1,4 @@
-import { environment } from "../../../environments/environment";
+import { environment } from "src/environments/environment";
 
 const profile = 'openaire_stats'; // Import proper variable from environment
 

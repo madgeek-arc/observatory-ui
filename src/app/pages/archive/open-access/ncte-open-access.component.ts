@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { DataService } from "../../services/data.service";
-import { CountryTableData } from "../../../domain/country-table-data";
+import { CountryTableData } from "src/app/domain/country-table-data";
 import { DataHandlerService } from "../../services/data-handler.service";
-import { environment } from "../../../../environments/environment";
-import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
+import { environment } from "src/environments/environment";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 
 @Component({
     selector: 'app-ncte-open-access',

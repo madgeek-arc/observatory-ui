@@ -6,13 +6,13 @@ import { trendOfOAPublications, trendOfOpenData } from "../OSO-stats-queries/exp
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
-import { LATEST_SURVEY_YEAR, SURVEY_YEARS } from "../../../domain/survey-years";
+import { LATEST_SURVEY_YEAR, SURVEY_YEARS } from "src/app/domain/survey-years";
 import {
   SidebarMobileToggleComponent
-} from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+} from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 
-import { ChartsModule } from "../../../shared/charts/charts.module";
-import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
 
 
 @Component({

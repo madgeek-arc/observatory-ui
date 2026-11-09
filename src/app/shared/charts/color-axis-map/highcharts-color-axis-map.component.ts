@@ -5,7 +5,7 @@ import { ColorAxisOptions, LegendOptions } from "highcharts";
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
 import ExportData from 'highcharts/modules/export-data';
-import { colorAxisDataWithZeroValue } from "../../../domain/categorizedAreaData";
+import { colorAxisDataWithZeroValue } from "src/app/domain/categorizedAreaData";
 import worldMapJson from '@highcharts/map-collection/custom/world-highres3.topo.json';
 
 HC_exporting(Highcharts);

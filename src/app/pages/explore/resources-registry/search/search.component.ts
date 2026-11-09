@@ -17,9 +17,9 @@ import {
   SidebarMobileToggleComponent
 } from 'src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component';
 import * as UIkit from 'uikit';
-import { UserService } from "../../../../../survey-tool/app/services/user.service";
-import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
-import { Administrator } from "../../../../../survey-tool/app/domain/userInfo";
+import { UserService } from "src/survey-tool/app/services/user.service";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
+import { Administrator } from "src/survey-tool/app/domain/userInfo";
 
 @Component({
   selector: 'app-resource-registry-search',

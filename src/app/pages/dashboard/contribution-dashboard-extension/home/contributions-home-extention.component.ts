@@ -3,12 +3,12 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {ActivatedRoute, Router} from "@angular/router";
 import { combineLatest } from "rxjs";
 import { filter, map, switchMap } from "rxjs/operators";
-import { UserService } from "../../../../../survey-tool/app/services/user.service";
-import { Stakeholder, UserInfo } from "../../../../../survey-tool/app/domain/userInfo";
-import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
+import { UserService } from "src/survey-tool/app/services/user.service";
+import { Stakeholder, UserInfo } from "src/survey-tool/app/domain/userInfo";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import {
   ContributionsHomeComponent
-} from "../../../../../survey-tool/app/pages/contributions-dashboard/home/contributions-home.component";
+} from "src/survey-tool/app/pages/contributions-dashboard/home/contributions-home.component";
 
 @Component({
   selector: 'app-contributions-ext-home',

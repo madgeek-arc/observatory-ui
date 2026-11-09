@@ -14,10 +14,10 @@ import {
 } from "../coutry-pages.queries";
 import * as Highcharts from "highcharts";
 import { LegendOptions, OptionsStackingValue, SeriesOptionsType } from "highcharts";
-import { ChartsModule } from "../../../shared/charts/charts.module";
+import { ChartsModule } from "src/app/shared/charts/charts.module";
 import { ExploreService } from "../../explore/explore.service";
-import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { SidebarMobileToggleComponent } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { combineLatest} from "rxjs";

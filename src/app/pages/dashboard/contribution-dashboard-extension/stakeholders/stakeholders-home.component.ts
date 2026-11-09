@@ -1,17 +1,17 @@
 import { Component, DestroyRef, inject, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { Stakeholder } from "../../../../../survey-tool/app/domain/userInfo";
-import { UserService } from "../../../../../survey-tool/app/services/user.service";
+import { Stakeholder } from "src/survey-tool/app/domain/userInfo";
+import { UserService } from "src/survey-tool/app/services/user.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { SurveyService } from "../../../../../survey-tool/app/services/survey.service";
+import { SurveyService } from "src/survey-tool/app/services/survey.service";
 import { EMPTY, combineLatest} from "rxjs";
 import { switchMap } from "rxjs/operators";
-import {ChartsModule} from "../../../../shared/charts/charts.module";
-import {DisplayEntries} from "../../../../../survey-tool/app/domain/survey";
-import {MessagingSystemService} from "../../../../../messaging-system-ui/services/messaging-system.service";
-import {TopicThread} from "../../../../../messaging-system-ui/app/domain/messaging";
+import {ChartsModule} from "src/app/shared/charts/charts.module";
+import {DisplayEntries} from "src/survey-tool/app/domain/survey";
+import {MessagingSystemService} from "src/messaging-system-ui/services/messaging-system.service";
+import {TopicThread} from "src/messaging-system-ui/app/domain/messaging";
 
 @Component({
   selector: 'app-stakeholders-home',

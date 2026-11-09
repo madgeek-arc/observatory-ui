@@ -7,18 +7,18 @@ import {OAvsTotalDataPerCountry, OAvsTotalPubsPerCountry} from "../coutry-pages.
 import {EoscReadinessDataService} from "../../services/eosc-readiness-data.service";
 import {
   CatalogueUiReusableComponentsModule
-} from "../../../../survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
+} from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
 import {
   SidebarMobileToggleComponent
-} from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import {PageContentComponent} from "../../../../survey-tool/app/shared/page-content/page-content.component";
+} from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import {PageContentComponent} from "src/survey-tool/app/shared/page-content/page-content.component";
 import {InfoCardComponent} from "src/app/shared/reusable-components/info-card/info-card.component";
 import {PdfExportService} from "../../services/pdf-export.service";
 import {combineLatest} from "rxjs";
 import {filter} from "rxjs/operators";
 import {ExploreService} from "../../explore/explore.service";
 import {StakeholderNewsService} from "../../services/stakeholder-news.service";
-import {NewsItem} from "../../../domain/news";
+import {NewsItem} from "src/app/domain/news";
 
 
 import { CardConfigComponent } from "../card-config/card-config.component";

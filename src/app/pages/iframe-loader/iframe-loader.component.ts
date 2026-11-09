@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 
-import { SafeUrlPipe } from "../../../survey-tool/catalogue-ui/shared/pipes/safeUrlPipe";
+import { SafeUrlPipe } from "src/survey-tool/catalogue-ui/shared/pipes/safeUrlPipe";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { safeIframePath } from "./iframe-path";
 

@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { environment } from '../../../environments/environment';
+import { environment } from 'src/environments/environment';
 import { Dataset, RawData } from '../../domain/raw-data';
 import { DataService } from './data.service';
 

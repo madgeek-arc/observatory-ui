@@ -1,13 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
-import { StakeholdersService } from "../../../../../../survey-tool/app/services/stakeholders.service";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../../services/data-handler.service";
-import { CountryTableData } from "../../../../../domain/country-table-data";
+import { CountryTableData } from "src/app/domain/country-table-data";
 import { countriesNumbers, EoscReadinessMapSubtitles } from "../../eosc-readiness-map-subtitles";
-import { RawData } from "../../../../../domain/raw-data";
-import { ActivityGauge } from "../../../../../shared/charts/gauge-activity/gauge-activity.component";
-import { countries } from "../../../../../domain/countries";
+import { RawData } from "src/app/domain/raw-data";
+import { ActivityGauge } from "src/app/shared/charts/gauge-activity/gauge-activity.component";
+import { countries } from "src/app/domain/countries";
 import { zip } from "rxjs/internal/observable/zip";
 import { isNumeric } from "src/app/shared/utils/is-numeric";
 import * as UIkit from 'uikit';

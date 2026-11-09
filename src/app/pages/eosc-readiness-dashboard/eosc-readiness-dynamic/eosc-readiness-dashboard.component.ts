@@ -1,6 +1,6 @@
 // import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 // import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-// import { UserInfo } from "../../../../survey-tool/app/domain/userInfo";
+// import { UserInfo } from "src/survey-tool/app/domain/userInfo";
 //
 // declare var UIkit;
 //
@@ -122,11 +122,11 @@
 // }
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import {ActivatedRoute, Router, RouterLink, RouterOutlet} from "@angular/router";
-import { DashboardSideMenuComponent, MenuItem, MenuSection} from "../../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
-import { DashboardSideMenuService} from "../../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
+import { DashboardSideMenuComponent, MenuItem, MenuSection} from "src/survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
+import { DashboardSideMenuService} from "src/survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
 import { FormsModule} from "@angular/forms";
 
-import {IconsService} from "../../../../survey-tool/app/shared/icons/icons.service";
+import {IconsService} from "src/survey-tool/app/shared/icons/icons.service";
 import {exploreIcons} from "../../explore/explore.icons";
 
 @Component({

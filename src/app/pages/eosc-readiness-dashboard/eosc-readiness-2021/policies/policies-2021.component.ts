@@ -2,12 +2,12 @@ import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { DataService } from "../../../services/data.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
-import { CountryTableData } from "../../../../domain/country-table-data";
-import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
-import { mapSubtitles } from "../../../../domain/mapSubtitles";
-import { latlong } from "../../../../domain/countries-lat-lon";
+import { CountryTableData } from "src/app/domain/country-table-data";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
+import { mapSubtitles } from "src/app/domain/mapSubtitles";
+import { latlong } from "src/app/domain/countries-lat-lon";
 import { zip } from "rxjs/internal/observable/zip";
-import { CategorizedAreaData, Series } from "../../../../domain/categorizedAreaData";
+import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData";
 import * as UIkit from 'uikit';
 
 @Component({

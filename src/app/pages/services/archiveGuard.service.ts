@@ -1,10 +1,10 @@
 import {inject} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot} from "@angular/router";
 import {of} from "rxjs";
-import {UserService} from "../../../survey-tool/app/services/user.service";
-import {Stakeholder} from "../../../survey-tool/app/domain/userInfo";
+import {UserService} from "src/survey-tool/app/services/user.service";
+import {Stakeholder} from "src/survey-tool/app/domain/userInfo";
 import {catchError, switchMap} from "rxjs/operators";
-import {AuthenticationService} from "../../../survey-tool/app/services/authentication.service";
+import {AuthenticationService} from "src/survey-tool/app/services/authentication.service";
 
 export const ArchiveGuardService: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
 

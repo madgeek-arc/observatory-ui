@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from "@angular/core";
 import { DatePipe, LowerCasePipe, NgClass, NgOptimizedImage } from "@angular/common";
 import { RouterLink } from "@angular/router";
-import { Document, HighlightedResults } from "../../../../../domain/document";
+import { Document, HighlightedResults } from "src/app/domain/document";
 
 @Component({
   selector: 'app-search-results',

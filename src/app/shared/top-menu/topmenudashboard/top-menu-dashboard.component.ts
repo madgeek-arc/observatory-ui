@@ -3,14 +3,14 @@ import {
   ChangeDetectionStrategy
 } from "@angular/core";
 import { Router } from "@angular/router";
-import { Administrator, Coordinator, Stakeholder, UserInfo } from "../../../../survey-tool/app/domain/userInfo";
-import { UserService } from "../../../../survey-tool/app/services/user.service";
+import { Administrator, Coordinator, Stakeholder, UserInfo } from "src/survey-tool/app/domain/userInfo";
+import { UserService } from "src/survey-tool/app/services/user.service";
 import { MessagingSystemService } from "src/messaging-system-ui/services/messaging-system.service";
-import { AuthenticationService } from "../../../../survey-tool/app/services/authentication.service";
-import { PrivacyPolicyService } from "../../../../survey-tool/app/services/privacy-policy.service";
-import { AcceptedPrivacyPolicy } from "../../../../survey-tool/app/domain/privacy-policy";
-import { UnreadMessages } from "../../../../messaging-system-ui/app/domain/messaging";
-import { MessagingWebsocketService } from "../../../../messaging-system-ui/services/messaging-websocket.service";
+import { AuthenticationService } from "src/survey-tool/app/services/authentication.service";
+import { PrivacyPolicyService } from "src/survey-tool/app/services/privacy-policy.service";
+import { AcceptedPrivacyPolicy } from "src/survey-tool/app/domain/privacy-policy";
+import { UnreadMessages } from "src/messaging-system-ui/app/domain/messaging";
+import { MessagingWebsocketService } from "src/messaging-system-ui/services/messaging-websocket.service";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import * as UIkit from 'uikit';

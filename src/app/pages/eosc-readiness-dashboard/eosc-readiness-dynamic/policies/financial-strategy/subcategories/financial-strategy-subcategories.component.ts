@@ -1,12 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ColorPallet, EoscReadinessMapSubtitles } from "../../../eosc-readiness-map-subtitles";
-import { CountryTableData } from "../../../../../../domain/country-table-data";
+import { CountryTableData } from "src/app/domain/country-table-data";
 import { zip } from "rxjs/internal/observable/zip";
-import { EoscReadinessDataService } from "../../../../../services/eosc-readiness-data.service";
-import { StakeholdersService } from "../../../../../../../survey-tool/app/services/stakeholders.service";
-import { DataHandlerService } from "../../../../../services/data-handler.service";
-import { CategorizedAreaData, Series } from "../../../../../../domain/categorizedAreaData";
+import { EoscReadinessDataService } from "src/app/pages/services/eosc-readiness-data.service";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
+import { DataHandlerService } from "src/app/pages/services/data-handler.service";
+import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData";
 import * as UIkit from 'uikit';
 
 @Component({

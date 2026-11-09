@@ -2,21 +2,21 @@ import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from "
 import * as Highcharts from "highcharts";
 import { LegendOptions, SeriesOptionsType } from "highcharts";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
-import { RawData } from "../../../domain/raw-data";
+import { RawData } from "src/app/domain/raw-data";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { zip } from "rxjs";
 import { DataHandlerService } from "../../services/data-handler.service";
-import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
+import { SurveyService } from "src/survey-tool/app/services/survey.service";
 import { PdfExportService } from "../../services/pdf-export.service";
-import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { ExploreService } from "../explore.service";
-import { LATEST_SURVEY_YEAR, SURVEY_YEARS, surveyModelId } from "../../../domain/survey-years";
-import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
-import { monitoringMapCaptions, openScienceAreas } from "../../../domain/chart-captions";
-import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { LATEST_SURVEY_YEAR, SURVEY_YEARS, surveyModelId } from "src/app/domain/survey-years";
+import { CategorizedAreaData } from "src/app/domain/categorizedAreaData";
+import { monitoringMapCaptions, openScienceAreas } from "src/app/domain/chart-captions";
+import { SidebarMobileToggleComponent } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { CommonModule } from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
-import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
     selector: 'app-national-monitoring',

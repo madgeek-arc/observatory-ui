@@ -3,7 +3,7 @@ import { FormsModule } from "@angular/forms";
 import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Observable } from "rxjs";
-import { UserService } from "../../../survey-tool/app/services/user.service";
+import { UserService } from "src/survey-tool/app/services/user.service";
 import { countries } from "../../domain/countries";
 import {
   CountryPageIndicatorsService, DefaultsDoc, GLOBAL_SCOPE_CODE, OverrideDoc

@@ -3,7 +3,7 @@ import { FormsModule } from "@angular/forms";
 import * as UIkit from "uikit";
 import {
   COUNTRY_PAGE_WIDGETS, WidgetConfig
-} from "../../../domain/country-page-indicators";
+} from "src/app/domain/country-page-indicators";
 import { CountryPageIndicatorsService } from "../../country-pages/services/country-page-indicators.service";
 
 /** Section labels in catalog order (dedup preserves first-seen order). */

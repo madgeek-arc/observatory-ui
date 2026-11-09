@@ -4,7 +4,7 @@ import { EoscReadinessDashboardRouting } from "./eosc-readiness-dashboard.routin
 import { HighchartsChartModule } from "highcharts-angular";
 import { DataService } from "../services/data.service";
 import { DataHandlerService } from "../services/data-handler.service";
-import { StakeholdersService } from "../../../survey-tool/app/services/stakeholders.service";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { Policies2021Component } from "./eosc-readiness-2021/policies/policies-2021.component";
 import { Practices2021Component } from "./eosc-readiness-2021/practices/practices-2021.component";
 import { ArchiveModule } from "../archive/archive.module";

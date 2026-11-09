@@ -2,9 +2,9 @@ import {Component, DestroyRef, OnInit, inject, ChangeDetectionStrategy} from '@a
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PageContentComponent} from "../../../../../survey-tool/app/shared/page-content/page-content.component";
+import {PageContentComponent} from "src/survey-tool/app/shared/page-content/page-content.component";
 import {StakeholderNewsService} from "../../../services/stakeholder-news.service";
-import {NewsItem, NewsWrapped, NewsResponse, NewsItemRequest} from '../../../../domain/news';
+import {NewsItem, NewsWrapped, NewsResponse, NewsItemRequest} from 'src/app/domain/news';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';

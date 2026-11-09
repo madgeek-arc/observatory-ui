@@ -2,14 +2,14 @@ import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute, RouterLink, RouterOutlet } from "@angular/router";
 import {
   DashboardSideMenuService
-} from "../../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
+} from "src/survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
 import {
   DashboardSideMenuComponent,
   MenuItem,
   MenuSection
-} from "../../../../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
+} from "src/survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.component";
 import { FormsModule } from "@angular/forms";
-import { IconsService } from "../../../../survey-tool/app/shared/icons/icons.service";
+import { IconsService } from "src/survey-tool/app/shared/icons/icons.service";
 import { exploreIcons } from "../../explore/explore.icons";
 
 @Component({

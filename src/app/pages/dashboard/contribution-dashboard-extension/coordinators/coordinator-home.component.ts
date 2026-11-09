@@ -1,14 +1,14 @@
 import {Component, computed, DestroyRef, inject, OnInit, signal, ChangeDetectionStrategy} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {Coordinator} from "../../../../../survey-tool/app/domain/userInfo";
-import {UserService} from "../../../../../survey-tool/app/services/user.service";
+import {Coordinator} from "src/survey-tool/app/domain/userInfo";
+import {UserService} from "src/survey-tool/app/services/user.service";
 import {ActivatedRoute} from "@angular/router";
-import {StakeholdersService} from "../../../../../survey-tool/app/services/stakeholders.service";
+import {StakeholdersService} from "src/survey-tool/app/services/stakeholders.service";
 import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
-import {SurveyService} from "../../../../../survey-tool/app/services/survey.service";
+import {SurveyService} from "src/survey-tool/app/services/survey.service";
 import {Observable, of} from "rxjs";
 import {catchError, filter, map, shareReplay, switchMap, tap} from "rxjs/operators";
-import {ChartsModule} from "../../../../shared/charts/charts.module";
+import {ChartsModule} from "src/app/shared/charts/charts.module";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {FormsModule} from "@angular/forms";
 

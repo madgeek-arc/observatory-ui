@@ -1,18 +1,18 @@
 import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { RawData } from "../../../../domain/raw-data";
+import { RawData } from "src/app/domain/raw-data";
 import { PdfExportService } from "../../../services/pdf-export.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
-import { COMPARISON_SURVEY_YEARS, LATEST_SURVEY_YEAR } from "../../../../domain/survey-years";
+import { COMPARISON_SURVEY_YEARS, LATEST_SURVEY_YEAR } from "src/app/domain/survey-years";
 import { AreaMapsCardComponent, AreaMapTabConfig } from "../../area-maps-card/area-maps-card.component";
-import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
-import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { monitoringMapCaptions, policesMapCaptions } from "src/app/domain/chart-captions";
+import { SidebarMobileToggleComponent } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import {NgClass, NgOptimizedImage} from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import * as Highcharts from "highcharts";
-import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
+import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
     selector: 'app-open-science-by-area-training',

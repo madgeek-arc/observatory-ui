@@ -7,7 +7,7 @@ import treemap from 'highcharts/modules/treemap';
 import treegraph from 'highcharts/modules/treegraph';
 import HC_more from 'highcharts/highcharts-more';
 import { renderLogo } from "../highcharts-functions";
-import { colors } from "../../../domain/chart-color-palette";
+import { colors } from "src/app/domain/chart-color-palette";
 
 treemap(Highcharts);
 HC_more(Highcharts);

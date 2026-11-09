@@ -1,7 +1,7 @@
 import * as Highcharts from "highcharts/highmaps";
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ChangeDetectionStrategy } from "@angular/core";
 import { SeriesOptionsType } from "highcharts/highmaps";
-import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
+import { CategorizedAreaData } from "src/app/domain/categorizedAreaData";
 import { PremiumSortPipe } from "../../pipes/premium-sort.pipe";
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';

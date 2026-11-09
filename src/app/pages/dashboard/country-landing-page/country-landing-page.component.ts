@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
-import { SurveyAnswer } from "../../../../survey-tool/app/domain/survey";
-import { Model } from "../../../../survey-tool/catalogue-ui/domain/dynamic-form-model";
-import { countries } from "../../../domain/countries";
+import { SurveyService } from "src/survey-tool/app/services/survey.service";
+import { SurveyAnswer } from "src/survey-tool/app/domain/survey";
+import { Model } from "src/survey-tool/catalogue-ui/domain/dynamic-form-model";
+import { countries } from "src/app/domain/countries";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
 @Component({

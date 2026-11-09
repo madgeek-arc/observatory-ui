@@ -3,10 +3,10 @@ import { ActivatedRoute } from "@angular/router";
 import { zip } from "rxjs/internal/observable/zip";
 import { DataService } from "../../../services/data.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
-import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
-import { CountryTableData } from "../../../../domain/country-table-data";
-import { mapSubtitles } from "../../../../domain/mapSubtitles";
-import { CategorizedAreaData, Series } from "../../../../domain/categorizedAreaData";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
+import { CountryTableData } from "src/app/domain/country-table-data";
+import { mapSubtitles } from "src/app/domain/mapSubtitles";
+import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData";
 import * as UIkit from 'uikit';
 
 @Component({

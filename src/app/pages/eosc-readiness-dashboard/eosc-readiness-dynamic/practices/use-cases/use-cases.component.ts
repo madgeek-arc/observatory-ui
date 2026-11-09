@@ -1,16 +1,16 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
-import { StakeholdersService } from "../../../../../../survey-tool/app/services/stakeholders.service";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../../services/data-handler.service";
-import { CountryTableData } from "../../../../../domain/country-table-data";
+import { CountryTableData } from "src/app/domain/country-table-data";
 import { ColorPallet, EoscReadinessMapSubtitles } from "../../eosc-readiness-map-subtitles";
 import { zip } from "rxjs/internal/observable/zip";
-import { ActivityGauge } from "../../../../../shared/charts/gauge-activity/gauge-activity.component";
-import { CategorizedAreaData, Series } from "../../../../../domain/categorizedAreaData";
-import { countries } from "../../../../../domain/countries";
+import { ActivityGauge } from "src/app/shared/charts/gauge-activity/gauge-activity.component";
+import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData";
+import { countries } from "src/app/domain/countries";
 import * as UIkit from 'uikit';
-import { RawData } from "../../../../../domain/raw-data";
+import { RawData } from "src/app/domain/raw-data";
 
 @Component({
     selector: 'app-national-policy',

@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
-import { CountryTableData } from "../../../domain/country-table-data";
+import { CountryTableData } from "src/app/domain/country-table-data";
 import { DataService } from "../../services/data.service";
 import { DataHandlerService } from "../../services/data-handler.service";
-import { CategorizedAreaData, Series } from "../../../domain/categorizedAreaData";
-import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
-import { latlong } from "../../../domain/countries-lat-lon";
+import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
+import { latlong } from "src/app/domain/countries-lat-lon";
 import { zip } from "rxjs";
 
 @Component({

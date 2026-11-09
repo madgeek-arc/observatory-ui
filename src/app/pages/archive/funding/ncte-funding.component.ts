@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { DataService } from "../../services/data.service";
-import { CountryTableData } from "../../../domain/country-table-data";
+import { CountryTableData } from "src/app/domain/country-table-data";
 import { DataHandlerService } from "../../services/data-handler.service";
-import { environment } from "../../../../environments/environment";
-import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
+import { environment } from "src/environments/environment";
+import { CategorizedAreaData } from "src/app/domain/categorizedAreaData";
 
 @Component({
     selector: 'app-ncte-funding',

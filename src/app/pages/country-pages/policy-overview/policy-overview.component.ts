@@ -7,13 +7,13 @@ import {
 } from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
 import {
   SidebarMobileToggleComponent
-} from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+} from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { SearchCardComponent } from "../../explore/resources-registry/search/card/search-card.component";
 import { ResourceRegistryService } from "../../explore/resources-registry/resource-registry.service";
-import { Paging } from "../../../../survey-tool/catalogue-ui/domain/paging";
-import { Document, HighlightedResults } from "../../../domain/document";
+import { Paging } from "src/survey-tool/catalogue-ui/domain/paging";
+import { Document, HighlightedResults } from "src/app/domain/document";
 
 class TableRow {
   OSArea: string;

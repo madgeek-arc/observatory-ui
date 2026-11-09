@@ -3,7 +3,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Router } from "@angular/router";
-import { UserService } from "../../../survey-tool/app/services/user.service";
+import { UserService } from "src/survey-tool/app/services/user.service";
 import * as UIkit from 'uikit';
 
 @Injectable()

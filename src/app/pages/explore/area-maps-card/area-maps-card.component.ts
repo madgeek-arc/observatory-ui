@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgOptimizedImage } from "@angular/common";
 import { zip } from "rxjs/internal/observable/zip";
 import { ExploreService } from "../explore.service";
-import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { DataHandlerService } from "../../services/data-handler.service";
 import { ChartsModule } from "src/app/shared/charts/charts.module";

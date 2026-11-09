@@ -1,18 +1,18 @@
 import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { zip } from "rxjs/internal/observable/zip";
-import { RawData, Row, Data } from "../../../domain/raw-data";
+import { RawData, Row, Data } from "src/app/domain/raw-data";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
-import { LATEST_SURVEY_YEAR, PREVIOUS_SURVEY_YEAR, SURVEY_YEARS } from "../../../domain/survey-years";
+import { LATEST_SURVEY_YEAR, PREVIOUS_SURVEY_YEAR, SURVEY_YEARS } from "src/app/domain/survey-years";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions, SeriesBubbleOptions } from "highcharts";
 import { OAPubsPerCountry } from "../OSO-stats-queries/explore-queries";
 import * as Highcharts from 'highcharts';
-import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { SidebarMobileToggleComponent } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import {NgClass, NgOptimizedImage} from "@angular/common";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
-import { PageContentComponent } from "../../../../survey-tool/app/shared/page-content/page-content.component";
+import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
 
 type MergedElement = { x: string; y: string; z: string; name: string; country: string };
 

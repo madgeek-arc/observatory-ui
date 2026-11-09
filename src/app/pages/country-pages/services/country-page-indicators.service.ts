@@ -2,8 +2,8 @@ import { computed, inject, Injectable, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { environment } from "../../../../environments/environment";
-import { COUNTRY_PAGE_WIDGETS, WidgetConfig } from "../../../domain/country-page-indicators";
+import { environment } from "src/environments/environment";
+import { COUNTRY_PAGE_WIDGETS, WidgetConfig } from "src/app/domain/country-page-indicators";
 
 export type IndicatorsMode = 'public' | 'config';
 
