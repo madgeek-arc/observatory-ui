@@ -64,9 +64,9 @@
             <div class="uk-width-1-1">
               <app-multi-chart chartType=bar [series]="columnChartSeries" [categories]="columnChartCategories"
                 [titles]="columnChartTitles" [legendOptions]="legendOptions" valueSuffix="%"
-                [height]="smallScreen ? 1150 : 950"
-                [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
-                               [caption]="'<p class=\'uk-text-justify\'>This bar chart illustrates the percentage of countries with established national policies across various Open Science areas for the years 2021 and 2022. Each bar represents a different area of Open Science, such as Open Access Publications, FAIR Data, and Citizen Science, showing the progression or changes in policy adoption from one year to the next. The comparison highlights the evolving landscape of Open Science initiatives at a national level, indicating which aspects of Open Science are gaining attention.</p>'
+                [height]="smallScreen ? 1350 : 1100"
+                [groupPadding]="0.1" [pointPadding]="0.05" [pointWidth]="14"
+                               [caption]="'<p class=\'uk-text-justify\'>This bar chart illustrates the percentage of countries with established national policies across various Open Science areas for the years ' + years[0] + ' to ' + year + '. Each bar represents a different area of Open Science, such as Open Access Publications, FAIR Data, and Citizen Science, showing the progression or changes in policy adoption from one year to the next. The comparison highlights the evolving landscape of Open Science initiatives at a national level, indicating which aspects of Open Science are gaining attention.</p>'
                            + '<b>Data source:</b> Survey on National Contributions to EOSC and Open Science '+year+'.'">
               </app-multi-chart>
             </div>
@@ -86,7 +86,7 @@
             <div class="uk-width-1-1">
               <app-multi-chart chartType=bar [series]="columnChart3Series" [categories]="columnChartCategories"
                                [titles]="columnChart3Titles" [legendOptions]="legendOptions" valueSuffix="%"
-                [height]="smallScreen ? 1150 : 950" [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
+                [height]="smallScreen ? 1350 : 1100" [groupPadding]="0.1" [pointPadding]="0.05" [pointWidth]="14"
                                [caption]="'<p class=\'uk-text-justify\'>This bar illustrates the coverage of researchers by national Open Science policies across various policy areas in Europe, as measured in Full-Time Equivalents (FTE). To calculate the percentage, we sum the number of researchers covered by each policy across all countries and then calculate the percentage in relation to the total number of researchers in Europe (using data from Eurostat). The graph displays this breakdown for each policy area, offering insights into the extent of policy coverage for Open Science across European countries.</p>'
                            + '<b>Data source:</b> Survey on National Contributions to EOSC and Open Science '+year+'; <a href=&quot;https://ec.europa.eu/eurostat/databrowser/view/tsc00004/default/table?lang=en&quot; target=&quot;_blank&quot;>Eurostat</a>'">
               </app-multi-chart>
@@ -194,7 +194,7 @@
             <div class="uk-width-1-1">
               <app-multi-chart chartType=bar [series]="columnChart2Series" [categories]="columnChartCategories"
                                [titles]="columnChart2Titles" [legendOptions]="legendOptions" valueSuffix="%"
-                [height]="smallScreen ? 1150 : 950" [groupPadding]="0.2" [pointPadding]="0.05" [pointWidth]="15"
+                [height]="smallScreen ? 1350 : 1100" [groupPadding]="0.1" [pointPadding]="0.05" [pointWidth]="14"
                                [caption]="'<p class=\'uk-text-justify\'>This graph presents an overview of the share of countries that have implemented financial strategies to support Open Science and EOSC initiatives across various domains. It illustrates the percentage of countries that have adopted financial frameworks within categories such as Open Access Publications, Fair Data, Data Management, and more.</p>'
                            + '<b>Data source:</b> Survey on National Contributions to EOSC and Open Science.'">
               </app-multi-chart>

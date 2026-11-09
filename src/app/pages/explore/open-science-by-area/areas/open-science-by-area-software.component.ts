@@ -6,6 +6,7 @@ import { PdfExportService } from "../../../services/pdf-export.service";
 import * as Highcharts from "highcharts";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
+import { COMPARISON_SURVEY_YEARS, LATEST_SURVEY_YEAR } from "../../../../domain/survey-years";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 import { OpenSoftwareVSClosed } from "../../OSO-stats-queries/explore-queries";
 import { AreaMapsCardComponent, AreaMapTabConfig } from "../../area-maps-card/area-maps-card.component";
@@ -32,8 +33,8 @@ export class OpenScienceByAreaSoftwareComponent implements OnInit {
 
   smallScreen = false;
 
-  years = ['2023', '2024'];
-  year = this.years[this.years.length-1];
+  years = [...COMPARISON_SURVEY_YEARS];
+  year = LATEST_SURVEY_YEAR;
 
   openSoftware: number[] = [];
   sets: number[] = [];

@@ -1,8 +1,8 @@
-import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import {NgClass, NgOptimizedImage} from "@angular/common";
+import { NgClass, NgOptimizedImage } from "@angular/common";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
-import { RawData } from "../../../../domain/raw-data";
+import { RawData } from "src/app/domain/raw-data";
 import {
   distributionOfOA,
   distributionOfOAByScienceFields,
@@ -20,11 +20,14 @@ import {
 } from "highcharts";
 import { PdfExportService } from "../../../services/pdf-export.service";
 import { ExploreService } from "../../explore.service";
+import { COMPARISON_SURVEY_YEARS, LATEST_SURVEY_YEAR } from "src/app/domain/survey-years";
 import { AreaMapsCardComponent, AreaMapTabConfig } from "../../area-maps-card/area-maps-card.component";
-import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
+import { monitoringMapCaptions, policesMapCaptions } from "src/app/domain/chart-captions";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
-import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
-import { PageContentComponent } from "../../../../../survey-tool/app/shared/page-content/page-content.component";
+import {
+  SidebarMobileToggleComponent
+} from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
 
 
 @Component({
@@ -44,8 +47,8 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   lastUpdateDate?: string;
   smallScreen = false;
 
-  years = ['2023', '2024'];
-  year = this.years[this.years.length-1];
+  years = [...COMPARISON_SURVEY_YEARS];
+  year = LATEST_SURVEY_YEAR;
 
   stackedColumnCategories: string[] = [];
   stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
@@ -335,7 +338,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
 
   /** Investments as tree graph -----------------------------------------------------------------------------------> **/
   getTreeGraphData(question: string) {
-    this.queryData.getQuestion(this.years[this.years.length-1], question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+    this.queryData.getQuestion(this.year, question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
         this.bar = this.exploreService.createInvestmentsBar(res);
         this.treeGraph = this.exploreService.createRanges(res);

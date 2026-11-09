@@ -10,6 +10,7 @@ import { SurveyService } from "../../../../survey-tool/app/services/survey.servi
 import { PdfExportService } from "../../services/pdf-export.service";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { ExploreService } from "../explore.service";
+import { LATEST_SURVEY_YEAR, SURVEY_YEARS, surveyModelId } from "../../../domain/survey-years";
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 import { monitoringMapCaptions, openScienceAreas } from "../../../domain/chart-captions";
 import { SidebarMobileToggleComponent } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
@@ -32,8 +33,8 @@ export class NationalMonitoringComponent implements OnInit {
   exportActive = false;
   smallScreen = false;
 
-  years = ['2022', '2023', '2024'];
-  year = this.years[this.years.length-1];
+  years = [...SURVEY_YEARS];
+  year = LATEST_SURVEY_YEAR;
 
   tableData: string[][] = [];
 
@@ -86,7 +87,7 @@ export class NationalMonitoringComponent implements OnInit {
   getMonitoring(question: string, index: number, mapCount: number) {
     zip(
       // this.queryData.getQuestion(this.years[this.years.length-1], question),
-      this.queryData.getQuestionComment(this.years[this.years.length-1], question),
+      this.queryData.getQuestionComment(this.year, question),
     ).subscribe({
       next: res => {
         this.tmpQuestionsDataArray[index] = this.dataHandlerService.convertRawDataToCategorizedAreasData({datasets: [this.monitoringRawData.datasets[index]]});
@@ -206,7 +207,7 @@ export class NationalMonitoringComponent implements OnInit {
   /** Create table ------------------------------------------------------------------------------------------------> **/
   getTableData() {
     if (this.monitoringRawData.datasets.length) {
-      this.surveyService.getSurveyValidatedCountries('m-eosc-sb-2023').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      this.surveyService.getSurveyValidatedCountries(surveyModelId(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: countries => {
           this.tableData = this.exploreService.createTable(this.monitoringRawData, countries);
         },
@@ -234,7 +235,7 @@ export class NationalMonitoringComponent implements OnInit {
     this.queryData.getQuestions(this.year, nameArr).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (value: any) => {
         // console.log(value);
-        this.surveyService.getSurveyValidatedCountries('m-eosc-sb-2023').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        this.surveyService.getSurveyValidatedCountries(surveyModelId(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: countries => {
             this.tableData = this.exploreService.createTable(value, countries);
           },

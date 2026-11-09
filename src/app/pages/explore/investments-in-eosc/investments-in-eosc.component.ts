@@ -5,6 +5,7 @@ import { RawData, Row, Data } from "../../../domain/raw-data";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
+import { LATEST_SURVEY_YEAR, PREVIOUS_SURVEY_YEAR, SURVEY_YEARS } from "../../../domain/survey-years";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions, SeriesBubbleOptions } from "highcharts";
 import { OAPubsPerCountry } from "../OSO-stats-queries/explore-queries";
 import * as Highcharts from 'highcharts';
@@ -31,8 +32,8 @@ export class InvestmentsInEoscComponent implements OnInit {
   smallScreen = false;
   lastUpdateDate?: string;
 
-  years = ['2022', '2023', '2024'];
-  year = this.years[this.years.length-1];
+  years = [...SURVEY_YEARS];
+  year = LATEST_SURVEY_YEAR;
 
   treeGraph: PointOptionsObject[] = [];
   bar: SeriesBarOptions[] = [];
@@ -133,7 +134,7 @@ export class InvestmentsInEoscComponent implements OnInit {
     zip(
       this.queryData.getQuestion(this.year, 'Question5'),  // Investments in EOSC and Open Science
       this.queryData.getQuestion(this.year, 'Question56'), // Investments in Open Access publications
-      this.queryData.getOSOStats(OAPubsPerCountry(this.years[this.years.length-2])), // OA Publications from stat tool from the previous year to match the investments.
+      this.queryData.getOSOStats(OAPubsPerCountry(PREVIOUS_SURVEY_YEAR)), // OA Publications from stat tool from the previous year to match the investments.
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);

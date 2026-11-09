@@ -13,6 +13,7 @@ import {
 import { distributionByDocumentType, OpenDataVSClosed, trendOfOpenData } from "../../OSO-stats-queries/explore-queries";
 import { PdfExportService } from "../../../services/pdf-export.service";
 import { ExploreService } from "../../explore.service";
+import { COMPARISON_SURVEY_YEARS, LATEST_SURVEY_YEAR } from "../../../../domain/survey-years";
 import { AreaMapsCardComponent, AreaMapTabConfig } from "../../area-maps-card/area-maps-card.component";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
 import { SidebarMobileToggleComponent } from "../../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
@@ -38,8 +39,8 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   smallScreen = false;
   lastUpdateDate?: string;
 
-  years = ['2023', '2024'];
-  year = this.years[this.years.length-1];
+  years = [...COMPARISON_SURVEY_YEARS];
+  year = LATEST_SURVEY_YEAR;
 
   stackedColumnCategories = [];
   stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];

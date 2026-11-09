@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "../../../../domain/raw-data";
 import { PdfExportService } from "../../../services/pdf-export.service";
 import { ExploreService } from "../../explore.service";
+import { COMPARISON_SURVEY_YEARS, LATEST_SURVEY_YEAR } from "../../../../domain/survey-years";
 import { AreaMapsCardComponent, AreaMapTabConfig } from "../../area-maps-card/area-maps-card.component";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { monitoringMapCaptions, policesMapCaptions } from "../../../../domain/chart-captions";
@@ -30,8 +31,8 @@ export class OpenScienceByAreaCitizenScienceComponent implements OnInit {
   exportActive = false;
   smallScreen = false;
 
-  years = ['2023', '2024'];
-  year = this.years[this.years.length-1];
+  years = [...COMPARISON_SURVEY_YEARS];
+  year = LATEST_SURVEY_YEAR;
 
   citizenProjects: number[] = [];
   countriesWithPolicy: number[] = [];

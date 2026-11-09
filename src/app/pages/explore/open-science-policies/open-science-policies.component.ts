@@ -10,6 +10,7 @@ import { DataHandlerService } from "../../services/data-handler.service";
 import { SurveyService } from "../../../../survey-tool/app/services/survey.service";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
+import { LATEST_SURVEY_YEAR, PREVIOUS_SURVEY_YEAR, SURVEY_YEARS, surveyModelId } from "../../../domain/survey-years";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
 import { CategorizedAreaData } from "../../../domain/categorizedAreaData";
 import { openScienceAreas, policesMapCaptions } from "../../../domain/chart-captions";
@@ -35,8 +36,8 @@ export class OpenSciencePoliciesComponent implements OnInit {
 
   exportActive = false;
 
-  years = ['2022', '2023', '2024'];
-  year = this.years[this.years.length-1];
+  years = [...SURVEY_YEARS];
+  year = LATEST_SURVEY_YEAR;
   lastUpdateDate?: string;
 
   smallScreen = false;
@@ -255,8 +256,8 @@ export class OpenSciencePoliciesComponent implements OnInit {
   getNationalPolicies(question: string, index: number) {
     zip(
       // this.queryData.getQuestion(this.years[this.years.length-1], question),
-      this.queryData.getQuestion(this.years[this.years.length-1], question + '.1'),
-      this.queryData.getQuestionComment(this.years[this.years.length-1], question), // For tooltip
+      this.queryData.getQuestion(this.year, question + '.1'),
+      this.queryData.getQuestionComment(this.year, question), // For tooltip
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: res => {
         this.tmpQuestionsDataArray[index] = this.dataHandlerService.mergePolicyQuestionData({
@@ -329,11 +330,11 @@ export class OpenSciencePoliciesComponent implements OnInit {
   /** Bubble chart ------------------------------------------------------------------------------------------------> **/
   getBubbleChartData() {
     zip( // Get data from previous year for number of researchers and number of publications to match financial investments.
-      this.queryData.getQuestion(this.years[this.years.length-2], 'Question1'),   // Number of Researchers in FTE per country (from eurostat)
+      this.queryData.getQuestion(PREVIOUS_SURVEY_YEAR, 'Question1'),   // Number of Researchers in FTE per country (from eurostat)
       this.queryData.getQuestion(this.year, 'Question5'),   // Financial investments in EOSC and Open Science per country
       this.queryData.getQuestion(this.year, 'Question56'),  // Financial investments in Open Access publications
       // this.queryData.getQuestion(this.year, 'Question57'), // number of publications published in Open Access
-      this.queryData.getOSOStats(OAAndTotalPublicationsPerCountry(this.years[this.years.length-2])), // number of publications published in Open Access
+      this.queryData.getOSOStats(OAAndTotalPublicationsPerCountry(PREVIOUS_SURVEY_YEAR)), // number of publications published in Open Access
 
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
@@ -375,7 +376,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
   /** Create table ------------------------------------------------------------------------------------------------> **/
   getTableData() {
     if (this.policiesRawData.datasets.length) {
-      this.surveyService.getSurveyValidatedCountries('m-eosc-sb-2023').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      this.surveyService.getSurveyValidatedCountries(surveyModelId(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: countries => {
           this.tableData = this.exploreService.createTable(this.policiesRawData, countries);
         },
@@ -403,7 +404,7 @@ export class OpenSciencePoliciesComponent implements OnInit {
     this.queryData.getQuestions(this.year, nameArr).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
-        this.surveyService.getSurveyValidatedCountries('m-eosc-sb-2023').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        this.surveyService.getSurveyValidatedCountries(surveyModelId(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: countries => {
             this.tableData = this.exploreService.createTable(value, countries);
           },

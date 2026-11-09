@@ -6,6 +6,7 @@ import { trendOfOAPublications, trendOfOpenData } from "../OSO-stats-queries/exp
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
+import { LATEST_SURVEY_YEAR, SURVEY_YEARS } from "../../../domain/survey-years";
 import {
   SidebarMobileToggleComponent
 } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
@@ -32,8 +33,8 @@ export class OpenScienceTrendsComponent implements OnInit {
   lastUpdateDate?: string;
   smallScreen = false;
 
-  years = ['2022', '2023', '2024'];
-  year = this.years[this.years.length - 1];
+  years = [...SURVEY_YEARS];
+  year = LATEST_SURVEY_YEAR;
 
   columnChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data Stewardship', 'Long-term Data Preservation', 'Skills / Training', 'Incentives / Rewards for OS', 'Citizen Science'];
 
