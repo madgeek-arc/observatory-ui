@@ -78,8 +78,10 @@ export class SelectorYesNoTableCardView {
       return [];
     }
     const unit = countriesResponse.metadata.unit;
-
-    return this.areas().map(area => ({
+    const excluded = this.excludedAreas();
+    return this.areas()
+      .filter(area => !excluded.has(area.code))
+      .map(area => ({
       label: area.label,
       cells: this.countries().map(country => {
         const value = countriesResponse.data.find(point =>
@@ -97,4 +99,15 @@ export class SelectorYesNoTableCardView {
   });
 
   readonly isEmpty = computed(() => (this.countriesResponse()?.data.length ?? 0) === 0);
+
+
+  /** Members the backend excluded for this period(e.g. QUESTION_PAUSED) - hidden from the table **/
+  private readonly excludedAreas = computed(() => {
+    const dimension = this.dimension();
+    return new Set(
+      (this.countriesResponse()?.exclusions ?? [])
+        .filter(exclusion => exclusion.dimension === dimension)
+        .map(exclusion => exclusion.member)
+    )
+  })
 }
