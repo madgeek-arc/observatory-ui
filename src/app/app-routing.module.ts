@@ -88,7 +88,7 @@ const routes: Routes = [
   },
   {
     path: 'contributions/:id',
-    loadChildren: () => import('../messaging-system-ui/app/messaging-system.module').then(m => m.MessagingSystemModule),
+    loadChildren: () => import('../messaging-system-ui/app/messaging-system.routes').then(m => m.MESSAGING_SYSTEM_ROUTES),
   },
   {
     path: 'contributions/:stakeholderId/resources-registry',
@@ -127,6 +127,10 @@ const routes: Routes = [
     //   hasSidebar: false,
     //   showFooter: false,
     // }
+  },
+  {
+    path: 'contact',
+    loadChildren: () => import('../messaging-system-ui/app/messaging-system.routes').then(m => m.CONTACT_ROUTES),
   },
   {
     path: '',

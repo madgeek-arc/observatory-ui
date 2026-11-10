@@ -6,6 +6,7 @@ import { provideMatomo } from 'ngx-matomo-client';
 import { environment } from '../environments/environment';
 import { UserService } from '../survey-tool/app/services/user.service';
 import { MessagingSystemService } from '../messaging-system-ui/services/messaging-system.service';
+import { MessagingWebsocketService } from '../messaging-system-ui/services/messaging-websocket.service';
 import { APP_ENV } from '../survey-tool/catalogue-ui/config/app-env.token';
 import { HttpInterceptorService } from './pages/services/http-interceptor.service';
 
@@ -18,6 +19,8 @@ export const appProviders: (Provider | EnvironmentProviders)[] = [
   },
   UserService,
   MessagingSystemService,
+  // The top menu opens the unread counter socket with it, outside any lazy route
+  MessagingWebsocketService,
   { provide: APP_ENV, useValue: environment },
   {
     provide: ErrorHandler,

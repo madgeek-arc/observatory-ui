@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { appProviders } from './app.config';
 import { SurveyToolModule } from "../survey-tool/app/survey-tool.module";
-import { MessagingSystemModule } from "src/messaging-system-ui/app/messaging-system.module";
 import { ReusableComponentsModule } from "../survey-tool/app/shared/reusablecomponents/reusable-components.module";
 import { CountryLandingPageComponent } from "./pages/dashboard/country-landing-page/country-landing-page.component";
 import { CountryLandingPagePoliciesComponent } from "./pages/dashboard/country-landing-page/policies-section.component";
@@ -67,7 +66,6 @@ import { CookieConsentComponent } from "./shared/cookies/cookie-consent.componen
     ChartsModule,
     RouterModule,
     SurveyToolModule,
-    MessagingSystemModule,
     ReusableComponentsModule,
     SharedModule,
     ContributionsDashboardComponent,

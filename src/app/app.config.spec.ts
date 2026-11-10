@@ -6,6 +6,7 @@ import { MatomoTracker } from 'ngx-matomo-client';
 import { environment } from '../environments/environment';
 import { UserService } from '../survey-tool/app/services/user.service';
 import { MessagingSystemService } from '../messaging-system-ui/services/messaging-system.service';
+import { MessagingWebsocketService } from '../messaging-system-ui/services/messaging-websocket.service';
 import { APP_ENV } from '../survey-tool/catalogue-ui/config/app-env.token';
 import { appProviders } from './app.config';
 import { HttpInterceptorService } from './pages/services/http-interceptor.service';
@@ -34,6 +35,7 @@ describe('appProviders', () => {
   it('resolve the services the whole application shares', () => {
     expect(TestBed.inject(UserService)).toBeTruthy();
     expect(TestBed.inject(MessagingSystemService)).toBeTruthy();
+    expect(TestBed.inject(MessagingWebsocketService)).toBeTruthy();
     expect(TestBed.inject(APP_ENV)).toBe(environment);
   });
 
