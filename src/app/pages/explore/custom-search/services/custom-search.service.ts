@@ -28,6 +28,7 @@ export interface IndicatorQueryResponse {
   dimensions: string[];
   data: { dimensions: Record<string, string>; value: number | string | null; total?: number }[];
   summary: { dimensions: { aggregation: string }; value: number }[];
+  exclusions?: { period: string; dimension: string; member: string; reason: string }[];
 }
 
 export interface DimensionMember {
