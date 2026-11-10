@@ -1,10 +1,11 @@
 import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
+import { SlicePipe } from "@angular/common";
 
 @Component({
     selector: 'cumulative-data-table',
     templateUrl: 'cumulative-data-table.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [SlicePipe]
 })
 
 export class CumulativeDataTablesComponent {

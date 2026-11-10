@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink, RouterOutlet } from "@angular/router";
 import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
 import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../../services/data-handler.service";
@@ -11,12 +11,16 @@ import { countries } from "src/app/domain/countries";
 import { zip } from "rxjs/internal/observable/zip";
 import { isNumeric } from "src/app/shared/utils/is-numeric";
 import * as UIkit from 'uikit';
+import { GaugeActivityComponent } from "../../../../../shared/charts/gauge-activity/gauge-activity.component";
+import { CumulativeDataTablesComponent } from "../../tables/cumulative-data-tables.component";
+import { HighchartsColumnRangesComponent } from "../../../../../shared/charts/column-ranges-chart/highcharts-column-ranges.component";
+import { PieChartComponent } from "../../../../../shared/charts/pie-chart/pie-chart.component";
 
 @Component({
     selector: 'app-national-policy',
     templateUrl: 'financial-investments.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [RouterLink, GaugeActivityComponent, CumulativeDataTablesComponent, HighchartsColumnRangesComponent, PieChartComponent, RouterOutlet]
 })
 
 export class FinancialInvestmentsComponent implements OnInit {

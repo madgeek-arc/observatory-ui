@@ -11,13 +11,18 @@ import { zip } from "rxjs/internal/observable/zip";
 import { ColorAxisOptions, LegendOptions } from "highcharts";
 import * as Highcharts from "highcharts";
 import * as UIkit from 'uikit';
+import { HighchartsColorAxisMapComponent } from "../../../../shared/charts/color-axis-map/highcharts-color-axis-map.component";
+import { HighchartsBarComponent } from "../../../../shared/charts/bar-chart/highcharts-bar.component";
+import { HighchartsColumnRangesComponent } from "../../../../shared/charts/column-ranges-chart/highcharts-column-ranges.component";
+import { PieChartComponent } from "../../../../shared/charts/pie-chart/pie-chart.component";
+import { DecimalPipe } from "@angular/common";
 
 @Component({
     selector: 'app-general',
     templateUrl: 'general.component.html',
     styleUrls: ['../../eosc-readiness-dashboard.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsColorAxisMapComponent, HighchartsBarComponent, HighchartsColumnRangesComponent, PieChartComponent, DecimalPipe]
 })
 
 export class GeneralComponent implements OnInit {

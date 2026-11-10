@@ -1,12 +1,12 @@
 import {Component, OnInit, ChangeDetectionStrategy} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
+import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
 import * as UIkit from 'uikit';
 
 @Component({
     selector: 'app-practices-2022',
     templateUrl: 'practices.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [RouterOutlet]
 })
 
 export class PracticesComponent implements OnInit {

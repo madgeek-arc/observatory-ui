@@ -9,12 +9,14 @@ import { DataHandlerService } from "src/app/pages/services/data-handler.service"
 import { CountryTableData } from "src/app/domain/country-table-data";
 import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData";
 import * as UIkit from 'uikit';
+import { HighchartsCategoryMapComponent } from "../../../../../../shared/charts/category-map/highcharts-category-map.component";
+import { GaugeSimpleComponent } from "../../../../../../shared/charts/gauge-simple/gauge-simple.component";
 
 @Component({
     selector: 'app-national-policy-subcategories',
     templateUrl: 'national-policy-subcategories.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsCategoryMapComponent, GaugeSimpleComponent]
 })
 
 export class NationalPolicySubcategoriesComponent implements OnInit{

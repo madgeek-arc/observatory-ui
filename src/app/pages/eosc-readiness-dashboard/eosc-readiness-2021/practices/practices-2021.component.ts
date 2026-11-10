@@ -8,12 +8,14 @@ import { CountryTableData } from "src/app/domain/country-table-data";
 import { mapSubtitles } from "src/app/domain/mapSubtitles";
 import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData";
 import * as UIkit from 'uikit';
+import { HighchartsCategoryMapComponent } from "../../../../shared/charts/category-map/highcharts-category-map.component";
+import { CountriesTableComponent } from "../../../archive/countries-table.component";
 
 @Component({
     selector: 'app-practices-2021',
     templateUrl: './practices-2021.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsCategoryMapComponent, CountriesTableComponent]
 })
 
 export class Practices2021Component implements OnInit {

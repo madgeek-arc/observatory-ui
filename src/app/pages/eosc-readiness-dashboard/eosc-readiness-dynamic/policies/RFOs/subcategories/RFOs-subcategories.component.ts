@@ -9,12 +9,14 @@ import { RawData } from "src/app/domain/raw-data";
 import { zip } from "rxjs/internal/observable/zip";
 import { isNumeric } from "src/app/shared/utils/is-numeric";
 import * as UIkit from 'uikit';
+import { HighchartsColorAxisMapComponent } from "../../../../../../shared/charts/color-axis-map/highcharts-color-axis-map.component";
+import { HighchartsBarComponent } from "../../../../../../shared/charts/bar-chart/highcharts-bar.component";
 
 @Component({
     selector: 'app-RFOs-subcategories',
     templateUrl: 'RFOs-subcategories.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsColorAxisMapComponent, HighchartsBarComponent]
 })
 
 export class RFOsSubcategoriesComponent implements OnInit{

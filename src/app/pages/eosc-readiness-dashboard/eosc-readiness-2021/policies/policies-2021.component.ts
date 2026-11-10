@@ -9,12 +9,14 @@ import { latlong } from "src/app/domain/countries-lat-lon";
 import { zip } from "rxjs/internal/observable/zip";
 import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData";
 import * as UIkit from 'uikit';
+import { HighchartsCategoryMapComponent } from "../../../../shared/charts/category-map/highcharts-category-map.component";
+import { CountriesTableComponent } from "../../../archive/countries-table.component";
 
 @Component({
     selector: 'app-policies-2021',
     templateUrl: './policies-2021.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsCategoryMapComponent, CountriesTableComponent]
 })
 
 export class Policies2021Component implements OnInit{

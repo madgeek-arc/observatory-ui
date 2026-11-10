@@ -9,12 +9,16 @@ import { FundingForEOSCSums } from "src/app/domain/funding-for-eosc";
 import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData";
 import { zip } from "rxjs/internal/observable/zip";
 import * as UIkit from 'uikit';
+import { HighchartsColorAxisMapComponent } from "../../../../shared/charts/color-axis-map/highcharts-color-axis-map.component";
+import { HighchartsBarComponent } from "../../../../shared/charts/bar-chart/highcharts-bar.component";
+import { HighchartsCategoryMapComponent } from "../../../../shared/charts/category-map/highcharts-category-map.component";
+import { CountriesTableComponent } from "../../../archive/countries-table.component";
 
 @Component({
     selector: 'app-investments-2021',
     templateUrl: 'investments-2021.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsColorAxisMapComponent, HighchartsBarComponent, HighchartsCategoryMapComponent, CountriesTableComponent]
 })
 
 export class Investments2021Component implements OnInit {

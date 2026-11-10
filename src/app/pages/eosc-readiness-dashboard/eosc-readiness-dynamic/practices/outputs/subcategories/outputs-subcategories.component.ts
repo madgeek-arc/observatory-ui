@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
-import { registerLocaleData } from "@angular/common";
+import { registerLocaleData, DecimalPipe } from "@angular/common";
 import localeEL from '@angular/common/locales/el';
 import { ActivatedRoute } from "@angular/router";
 import { CountryTableData } from "src/app/domain/country-table-data";
@@ -11,6 +11,8 @@ import { RawData } from "src/app/domain/raw-data";
 import { zip } from "rxjs/internal/observable/zip";
 import { isNumeric } from "src/app/shared/utils/is-numeric";
 import * as UIkit from 'uikit';
+import { HighchartsColorAxisMapComponent } from "../../../../../../shared/charts/color-axis-map/highcharts-color-axis-map.component";
+import { HighchartsBarComponent } from "../../../../../../shared/charts/bar-chart/highcharts-bar.component";
 
 registerLocaleData(localeEL); // Register Greek locale
 
@@ -18,7 +20,7 @@ registerLocaleData(localeEL); // Register Greek locale
     selector: 'app-outputs-subcategories',
     templateUrl: 'outputs-subcategories.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsColorAxisMapComponent, HighchartsBarComponent, DecimalPipe]
 })
 
 export class OutputsSubcategoriesComponent implements OnInit {

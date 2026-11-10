@@ -44,7 +44,7 @@ All routes are in `src/app/app-routing.module.ts`.
 | `country-pages`, `country/:code/...` | Country selector and country pages | None (public) |
 | `country/:code/configuration` | Country pages with override editing | No route guard; the component enables editing only for platform admins and `eosc-sb` coordinators/administrators |
 | `explore` | Lazy explore routes (`explore.routes.ts`) | None (public) |
-| `eoscreadiness` | Lazy `EoscReadinessDashboardModule` | Public, except `2021/investments` (`EoscReadinessGuard`) |
+| `eoscreadiness` | Lazy eosc readiness routes (`eosc-readiness-dashboard.routes.ts`) | Public, except `2021/investments` (`EoscReadinessGuard`) |
 | `country_selector`, `landing/country/:code`, `archive/**` | Landing pages and the lazy archive routes (`archive.routes.ts`) | `ArchiveGuardService`: `eosc-sb` coordinators and `eosc-sb` stakeholder admins only |
 | `contributions/:id/{contact,messages,...}` | Lazy `MessagingSystemModule` (contact form is public) | None at route level |
 | `contributions/:id/{stakeholder,coordinator,administrator,news-and-stories}` | Role homes defined in this repo | `AuthGuard` |

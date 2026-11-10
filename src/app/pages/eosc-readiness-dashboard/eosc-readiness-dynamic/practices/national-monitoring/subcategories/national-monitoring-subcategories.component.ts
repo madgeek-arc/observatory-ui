@@ -8,12 +8,14 @@ import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.s
 import { DataHandlerService } from "src/app/pages/services/data-handler.service";
 import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData";
 import * as UIkit from 'uikit';
+import { HighchartsCategoryMapComponent } from "../../../../../../shared/charts/category-map/highcharts-category-map.component";
+import { GaugeSimpleComponent } from "../../../../../../shared/charts/gauge-simple/gauge-simple.component";
 
 @Component({
     selector: 'app-national-monitoring-subcategories',
     templateUrl: 'national-monitoring-subcategories.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsCategoryMapComponent, GaugeSimpleComponent]
 })
 
 export class NationalMonitoringSubcategoriesComponent implements OnInit{

@@ -80,7 +80,7 @@ const routes: Routes = [
   },
   {
     path: 'eoscreadiness',
-    loadChildren: () => import('./pages/eosc-readiness-dashboard/eosc-readiness-dashboard.module').then(m => m.EoscReadinessDashboardModule),
+    loadChildren: () => import('./pages/eosc-readiness-dashboard/eosc-readiness-dashboard.routes').then(m => m.EOSC_READINESS_ROUTES),
   },
   {
     path: 'archive',

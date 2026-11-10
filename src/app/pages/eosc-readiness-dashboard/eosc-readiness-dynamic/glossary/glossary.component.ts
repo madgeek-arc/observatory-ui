@@ -4,8 +4,7 @@ import {Component, ChangeDetectionStrategy} from "@angular/core";
     selector: 'glossary',
     templateUrl: 'glossary.component.html',
     styleUrls: ['./glossary.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 
 export class GlossaryComponent {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLink, RouterOutlet } from "@angular/router";
 import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
 import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../../services/data-handler.service";
@@ -12,12 +12,16 @@ import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData"
 import { ActivityGauge } from "src/app/shared/charts/gauge-activity/gauge-activity.component";
 import * as UIkit from 'uikit';
 import { Dataset, RawData } from "src/app/domain/raw-data";
+import { GaugeActivityComponent } from "../../../../../shared/charts/gauge-activity/gauge-activity.component";
+import { CumulativeDataTablesComponent } from "../../tables/cumulative-data-tables.component";
+import { HighchartsCategoryMapComponent } from "../../../../../shared/charts/category-map/highcharts-category-map.component";
+import { GaugeSimpleComponent } from "../../../../../shared/charts/gauge-simple/gauge-simple.component";
 
 @Component({
     selector: 'app-national-policy',
     templateUrl: 'national-policy.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [RouterLink, GaugeActivityComponent, CumulativeDataTablesComponent, HighchartsCategoryMapComponent, GaugeSimpleComponent, RouterOutlet]
 })
 
 export class NationalPolicyComponent implements OnInit {

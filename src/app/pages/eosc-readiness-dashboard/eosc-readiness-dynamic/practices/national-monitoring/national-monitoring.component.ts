@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLink, RouterOutlet } from "@angular/router";
 import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
 import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { DataHandlerService } from "../../../../services/data-handler.service";
@@ -11,12 +11,16 @@ import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData"
 import * as UIkit from 'uikit';
 import { countries } from "src/app/domain/countries";
 import { RawData } from "src/app/domain/raw-data";
+import { GaugeActivityComponent } from "../../../../../shared/charts/gauge-activity/gauge-activity.component";
+import { CumulativeDataTablesComponent } from "../../tables/cumulative-data-tables.component";
+import { HighchartsCategoryMapComponent } from "../../../../../shared/charts/category-map/highcharts-category-map.component";
+import { GaugeSimpleComponent } from "../../../../../shared/charts/gauge-simple/gauge-simple.component";
 
 @Component({
     selector: 'app-national-policy',
     templateUrl: 'national-monitoring.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [RouterLink, GaugeActivityComponent, CumulativeDataTablesComponent, HighchartsCategoryMapComponent, GaugeSimpleComponent, RouterOutlet]
 })
 
 export class NationalMonitoringComponent implements OnInit {

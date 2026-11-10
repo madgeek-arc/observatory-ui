@@ -9,12 +9,14 @@ import { RawData } from "src/app/domain/raw-data";
 import { zip } from "rxjs/internal/observable/zip";
 import { isNumeric } from "src/app/shared/utils/is-numeric";
 import * as UIkit from 'uikit';
+import { HighchartsColumnRangesComponent } from "../../../../../../shared/charts/column-ranges-chart/highcharts-column-ranges.component";
+import { PieChartComponent } from "../../../../../../shared/charts/pie-chart/pie-chart.component";
 
 @Component({
     selector: 'app-financial-investments-subcategories',
     templateUrl: 'financial-investments-subcategories.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsColumnRangesComponent, PieChartComponent]
 })
 
 export class FinancialInvestmentsSubcategoriesComponent implements OnInit{

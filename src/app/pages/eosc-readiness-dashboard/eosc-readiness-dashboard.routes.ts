@@ -1,5 +1,4 @@
-import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
 import { EoscReadiness2021DashboardComponent } from "./eosc-readiness-2021/eosc-readiness-2021-dashboard.component";
 import { Policies2021Component } from "./eosc-readiness-2021/policies/policies-2021.component";
 import { Practices2021Component } from "./eosc-readiness-2021/practices/practices-2021.component";
@@ -48,8 +47,16 @@ import { GeneralComponent } from "./eosc-readiness-dynamic/general/general.compo
 import { GlossaryComponent } from "./eosc-readiness-dynamic/glossary/glossary.component";
 import { EoscReadinessGuard } from "../services/eosc-readiness-guard.service";
 import { EoscReadinessDashboardComponent } from "./eosc-readiness-dynamic/eosc-readiness-dashboard.component";
+import { DataService } from "../services/data.service";
+import { EoscReadinessDataService } from "../services/eosc-readiness-data.service";
+import { DataHandlerService } from "../services/data-handler.service";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 
-const nationalContributionsToEOSCDashboardRoutes: Routes = [
+// What EoscReadinessDashboardModule provided. They are stateless HTTP wrappers, so giving the two page routes
+// an instance each, not one for the whole subtree, makes no difference.
+const scopedProviders = [DataService, EoscReadinessDataService, DataHandlerService, StakeholdersService];
+
+export const EOSC_READINESS_ROUTES: Routes = [
   {
     path: '',
     redirectTo: '2024',
@@ -58,6 +65,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
     path: '2021',
     component: EoscReadiness2021DashboardComponent,
+    providers: scopedProviders,
     children: [
       {
         path: '',
@@ -83,6 +91,7 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
   {
     path: ':year',
     component: EoscReadinessDashboardComponent,
+    providers: scopedProviders,
     children: [
       {
         path: '',
@@ -192,11 +201,3 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
     ]
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(nationalContributionsToEOSCDashboardRoutes)],
-  exports: [RouterModule],
-  providers: []
-})
-
-export class EoscReadinessDashboardRouting {}
