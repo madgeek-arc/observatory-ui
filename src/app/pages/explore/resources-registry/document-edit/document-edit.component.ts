@@ -5,7 +5,6 @@ import { ResourceRegistryService } from "src/app/pages/explore/resources-registr
 import { Document } from "src/app/domain/document";
 import { Model } from "src/survey-tool/catalogue-ui/domain/dynamic-form-model";
 import { CatalogueUiModule } from "src/survey-tool/catalogue-ui/catalogue-ui.module";
-import { SurveyToolModule } from "src/survey-tool/app/survey-tool.module";
 import { SurveyComponent } from "src/survey-tool/catalogue-ui/pages/dynamic-form/survey.component";
 import { WebsocketService } from "src/survey-tool/catalogue-ui/services/websocket.service";
 import { UntypedFormGroup } from "@angular/forms";
@@ -15,10 +14,7 @@ import { UntypedFormGroup } from "@angular/forms";
   selector: 'app-document-edit',
   templateUrl: './document-edit.component.html',
   standalone: true,
-  imports: [
-    CatalogueUiModule,
-    SurveyToolModule
-  ],
+  imports: [CatalogueUiModule],
   changeDetection: ChangeDetectionStrategy.Eager,
   providers: [WebsocketService]
 })

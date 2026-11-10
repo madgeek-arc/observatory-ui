@@ -124,6 +124,6 @@ export const routes: Routes = [
   },
   {
     path: '',
-    loadChildren: () => import('../survey-tool/app/survey-tool.module').then(m => m.SurveyToolModule)
+    loadChildren: () => import('../survey-tool/app/survey-tool.routes').then(m => m.SURVEY_TOOL_ROUTES)
   }
 ];

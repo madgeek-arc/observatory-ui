@@ -49,7 +49,7 @@ All routes are in `src/app/app.routes.ts`.
 | `contact` | Contact form, the lazy `CONTACT_ROUTES` of the messaging system (public) | None |
 | `contributions/:id/{contact,messages,...}` | Lazy `MESSAGING_SYSTEM_ROUTES` (contact form is public) | None at route level |
 | `contributions/:id/{stakeholder,coordinator,administrator,news-and-stories}` | Role homes defined in this repo | `AuthGuard` |
-| `contributions/:id/...` (dashboard, surveys, groups, support) | survey-tool's `ContributionsDashboardModule` | `AuthGuard` on every route |
+| `contributions/:id/...` (dashboard, surveys, groups, support) | survey-tool's lazy `CONTRIBUTIONS_DASHBOARD_ROUTES` | `AuthGuard` on every route |
 | `reportExport` | Report creation | `AuthGuard` |
 | `fb`, `fb/new-form`, `fb/:id/edit`, `invitation/accept/:token` | Form builder and invitations, registered by survey-tool through the empty-path fallback route | `AuthGuard` |
 | `profile` | User profile (survey-tool) | None at route level |
@@ -97,11 +97,11 @@ flowchart TB
 
 Dependency notes for maintainers:
 
-- survey-tool imports from the host (`src/app/shared/shared.module`, `HomeComponent`, and `environments/environment`),
+- survey-tool imports from the host (`src/app/shared/shared.module` and `environments/environment`),
   and messaging-system-ui imports from the host environment and from survey-tool and catalogue-ui utilities. The
   submodules therefore cannot be built on their own. Only catalogue-ui is host-independent (it uses `APP_ENV`).
 - Extension point: survey-tool supplies `StakeholderMentionableUsersProvider` for catalogue-ui's `MentionableUsersProvider` token
-  (see `survey-tool.module.ts`).
+  (provided in `app.config.ts`).
 - Changes to a submodule are committed in that submodule's repository, then the pointer is bumped here.
 
 ## Build configurations
