@@ -11,7 +11,10 @@ import { OAPubsPerCountry } from "../OSO-stats-queries/explore-queries";
 import * as Highcharts from 'highcharts';
 import { SidebarMobileToggleComponent } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import {NgClass, NgOptimizedImage} from "@angular/common";
-import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { PieChartComponent } from "src/app/shared/charts/pie-chart/pie-chart.component";
+import { TreeGraphComponent } from "src/app/shared/charts/tree-graph/tree-graph.component";
+import { BubbleChartComponent } from "src/app/shared/charts/bubble-chart/bubble-chart.component";
+import { BarOrColumnChartComponent } from "src/app/shared/charts/bar-chart/bar-or-column-chart.component";
 import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
 
 type MergedElement = { x: string; y: string; z: string; name: string; country: string };
@@ -20,7 +23,16 @@ type MergedElement = { x: string; y: string; z: string; name: string; country: s
     selector: 'app-investments-in-eosc',
     templateUrl: './investments-in-eosc.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass]
+  imports: [
+      SidebarMobileToggleComponent,
+      PieChartComponent,
+      TreeGraphComponent,
+      BubbleChartComponent,
+      BarOrColumnChartComponent,
+      NgOptimizedImage,
+      PageContentComponent,
+      NgClass
+  ]
 })
 
 export class InvestmentsInEoscComponent implements OnInit {

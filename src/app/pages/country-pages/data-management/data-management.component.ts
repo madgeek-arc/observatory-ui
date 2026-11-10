@@ -8,7 +8,7 @@ import {
 } from "src/survey-tool/catalogue-ui/shared/reusable-components/read-more.component";
 import * as Highcharts from "highcharts/highcharts.src";
 import { ExploreService } from "../../explore/explore.service";
-import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { StackedColumnComponent } from "src/app/shared/charts/stacked-column-chart/stacked-column.component";
 import { SidebarMobileToggleComponent } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
@@ -24,7 +24,7 @@ import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-h
         CommonModule,
         NgOptimizedImage,
         ReadMoreComponent, ReadMoreTextComponent,
-        ChartsModule,
+        StackedColumnComponent,
         SidebarMobileToggleComponent,
         PageContentComponent,
         InfoCardComponent,

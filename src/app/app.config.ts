@@ -8,7 +8,6 @@ import {
   provideZoneChangeDetection
 } from '@angular/core';
 import { HTTP_INTERCEPTORS, provideHttpClient, withXhr, withXsrfConfiguration } from '@angular/common/http';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, Router, withInMemoryScrolling, withRouterConfig } from '@angular/router';
 import * as Sentry from '@sentry/angular';
 import { provideMatomo } from 'ngx-matomo-client';
@@ -85,8 +84,6 @@ export const appConfig: ApplicationConfig = {
       withRouterConfig({ paramsInheritanceStrategy: 'emptyOnly' }),
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),
     ),
-    // The cookie law banner of the survey tool is the only animation user
-    provideAnimations(),
     ...appProviders,
   ],
 };

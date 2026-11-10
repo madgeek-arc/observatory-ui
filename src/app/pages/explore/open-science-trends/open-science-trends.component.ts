@@ -11,7 +11,8 @@ import {
   SidebarMobileToggleComponent
 } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 
-import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { BarOrColumnChartComponent } from "src/app/shared/charts/bar-chart/bar-or-column-chart.component";
+import { StackedColumnComponent } from "src/app/shared/charts/stacked-column-chart/stacked-column.component";
 import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
 
 
@@ -21,7 +22,8 @@ import { PageContentComponent } from "src/survey-tool/app/shared/page-content/pa
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     SidebarMobileToggleComponent,
-    ChartsModule,
+    BarOrColumnChartComponent,
+    StackedColumnComponent,
     PageContentComponent
 ]
 })

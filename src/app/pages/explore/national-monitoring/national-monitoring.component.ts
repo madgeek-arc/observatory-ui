@@ -15,7 +15,8 @@ import { CategorizedAreaData } from "src/app/domain/categorizedAreaData";
 import { monitoringMapCaptions, openScienceAreas } from "src/app/domain/chart-captions";
 import { SidebarMobileToggleComponent } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { CommonModule } from "@angular/common";
-import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { HighchartsCategoryMapComponent } from "src/app/shared/charts/category-map/highcharts-category-map.component";
+import { BarOrColumnChartComponent } from "src/app/shared/charts/bar-chart/bar-or-column-chart.component";
 import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
 
 @Component({
@@ -23,7 +24,7 @@ import { PageContentComponent } from "src/survey-tool/app/shared/page-content/pa
     templateUrl: './national-monitoring.component.html',
     styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, PageContentComponent]
+    imports: [SidebarMobileToggleComponent, CommonModule, HighchartsCategoryMapComponent, BarOrColumnChartComponent, PageContentComponent]
 })
 
 export class NationalMonitoringComponent implements OnInit {

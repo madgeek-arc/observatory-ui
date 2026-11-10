@@ -97,7 +97,7 @@ flowchart TB
 
 Dependency notes for maintainers:
 
-- survey-tool imports from the host (`src/app/shared/shared.module` and `environments/environment`),
+- survey-tool imports from the host (`FooterComponent` in `src/app/shared`, and `environments/environment`),
   and messaging-system-ui imports from the host environment and from survey-tool and catalogue-ui utilities. The
   submodules therefore cannot be built on their own. Only catalogue-ui is host-independent (it uses `APP_ENV`).
 - Extension point: survey-tool supplies `StakeholderMentionableUsersProvider` for catalogue-ui's `MentionableUsersProvider` token

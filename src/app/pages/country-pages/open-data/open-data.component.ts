@@ -14,7 +14,7 @@ import {
 } from "../coutry-pages.queries";
 import * as Highcharts from "highcharts";
 import { LegendOptions, OptionsStackingValue, SeriesOptionsType } from "highcharts";
-import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { StackedColumnComponent } from "src/app/shared/charts/stacked-column-chart/stacked-column.component";
 import { ExploreService } from "../../explore/explore.service";
 import { SidebarMobileToggleComponent } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
@@ -32,7 +32,7 @@ import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-h
         CommonModule,
         NgOptimizedImage,
         ReadMoreComponent, ReadMoreTextComponent,
-        ChartsModule,
+        StackedColumnComponent,
         SidebarMobileToggleComponent,
         PageContentComponent,
         InfoCardComponent,

@@ -7,7 +7,7 @@ import { countries } from "src/app/domain/countries";
 import { flagIcon, mapIcon } from "src/variables/icons";
 import { DomSanitizer } from "@angular/platform-browser";
 import { LowerCasePipe, NgOptimizedImage } from "@angular/common";
-import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { HighchartsCategoryMapComponent } from "src/app/shared/charts/category-map/highcharts-category-map.component";
 
 @Component({
   selector: 'country-selector',
@@ -15,7 +15,7 @@ import { ChartsModule } from "src/app/shared/charts/charts.module";
   styleUrls: ['./country-selector.component.css'],
   imports: [
     LowerCasePipe,
-    ChartsModule,
+    HighchartsCategoryMapComponent,
     NgOptimizedImage
 ],
   standalone: true,

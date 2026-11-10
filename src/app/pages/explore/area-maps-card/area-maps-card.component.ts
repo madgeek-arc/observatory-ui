@@ -6,7 +6,7 @@ import { ExploreService } from "../explore.service";
 import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { DataHandlerService } from "../../services/data-handler.service";
-import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { HighchartsCategoryMapComponent } from "src/app/shared/charts/category-map/highcharts-category-map.component";
 
 export interface AreaMapTabConfig {
   question: string;
@@ -19,7 +19,7 @@ export interface AreaMapTabConfig {
   selector: 'app-area-maps-card',
   templateUrl: './area-maps-card.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [ChartsModule, NgOptimizedImage]
+  imports: [HighchartsCategoryMapComponent, NgOptimizedImage]
 })
 export class AreaMapsCardComponent implements OnInit {
 

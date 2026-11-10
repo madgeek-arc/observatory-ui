@@ -12,7 +12,8 @@ import {
 } from "../coutry-pages.queries";
 import * as Highcharts from "highcharts";
 import { LegendOptions, OptionsStackingValue, SeriesBarOptions, SeriesOptionsType } from "highcharts";
-import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { BarOrColumnChartComponent } from "src/app/shared/charts/bar-chart/bar-or-column-chart.component";
+import { StackedColumnComponent } from "src/app/shared/charts/stacked-column-chart/stacked-column.component";
 import { ExploreService } from "../../explore/explore.service";
 import {
   ReadMoreComponent, ReadMoreTextComponent
@@ -34,7 +35,8 @@ import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-h
     imports: [
         CommonModule,
         NgOptimizedImage,
-        ChartsModule,
+        BarOrColumnChartComponent,
+        StackedColumnComponent,
         ReadMoreComponent, ReadMoreTextComponent,
         SidebarMobileToggleComponent,
         PageContentComponent,

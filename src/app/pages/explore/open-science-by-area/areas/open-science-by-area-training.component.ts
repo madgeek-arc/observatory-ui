@@ -10,7 +10,8 @@ import { AreaMapsCardComponent, AreaMapTabConfig } from "../../area-maps-card/ar
 import { monitoringMapCaptions, policesMapCaptions } from "src/app/domain/chart-captions";
 import { SidebarMobileToggleComponent } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import {NgClass, NgOptimizedImage} from "@angular/common";
-import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { TreeGraphComponent } from "src/app/shared/charts/tree-graph/tree-graph.component";
+import { BarOrColumnChartComponent } from "src/app/shared/charts/bar-chart/bar-or-column-chart.component";
 import * as Highcharts from "highcharts";
 import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
 
@@ -18,7 +19,15 @@ import { PageContentComponent } from "src/survey-tool/app/shared/page-content/pa
     selector: 'app-open-science-by-area-training',
     templateUrl: './open-science-by-area-training.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [SidebarMobileToggleComponent, ChartsModule, NgOptimizedImage, PageContentComponent, NgClass, AreaMapsCardComponent]
+  imports: [
+      SidebarMobileToggleComponent,
+      TreeGraphComponent,
+      BarOrColumnChartComponent,
+      NgOptimizedImage,
+      PageContentComponent,
+      NgClass,
+      AreaMapsCardComponent
+  ]
 })
 
 export class OpenScienceByAreaTrainingComponent implements OnInit {

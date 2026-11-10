@@ -17,7 +17,9 @@ import { openScienceAreas, policesMapCaptions } from "src/app/domain/chart-capti
 import { OAAndTotalPublicationsPerCountry } from "../OSO-stats-queries/explore-queries";
 import { SidebarMobileToggleComponent } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { CommonModule } from "@angular/common";
-import { ChartsModule } from "src/app/shared/charts/charts.module";
+import { HighchartsCategoryMapComponent } from "src/app/shared/charts/category-map/highcharts-category-map.component";
+import { BubbleChartComponent } from "src/app/shared/charts/bubble-chart/bubble-chart.component";
+import { BarOrColumnChartComponent } from "src/app/shared/charts/bar-chart/bar-or-column-chart.component";
 import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
 
 
@@ -26,7 +28,14 @@ import { PageContentComponent } from "src/survey-tool/app/shared/page-content/pa
     templateUrl: './open-science-policies.component.html',
     styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [SidebarMobileToggleComponent, CommonModule, ChartsModule, PageContentComponent]
+    imports: [
+        SidebarMobileToggleComponent,
+        CommonModule,
+        HighchartsCategoryMapComponent,
+        BubbleChartComponent,
+        BarOrColumnChartComponent,
+        PageContentComponent
+    ]
 })
 
 export class OpenSciencePoliciesComponent implements OnInit {

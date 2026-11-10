@@ -8,7 +8,7 @@ import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
 import {SurveyService} from "src/survey-tool/app/services/survey.service";
 import {Observable, of} from "rxjs";
 import {catchError, filter, map, shareReplay, switchMap, tap} from "rxjs/operators";
-import {ChartsModule} from "src/app/shared/charts/charts.module";
+import { StackedColumnComponent } from "src/app/shared/charts/stacked-column-chart/stacked-column.component";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {FormsModule} from "@angular/forms";
 
@@ -19,7 +19,7 @@ import {FormsModule} from "@angular/forms";
   templateUrl: "coordinator-home.component.html",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [CommonModule, ChartsModule, NgSelectModule, FormsModule],
+  imports: [CommonModule, StackedColumnComponent, NgSelectModule, FormsModule],
 })
 
 export class CoordinatorHomeComponent implements OnInit {

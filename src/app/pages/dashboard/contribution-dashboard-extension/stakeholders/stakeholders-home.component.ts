@@ -8,7 +8,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SurveyService } from "src/survey-tool/app/services/survey.service";
 import { EMPTY, combineLatest} from "rxjs";
 import { switchMap } from "rxjs/operators";
-import {ChartsModule} from "src/app/shared/charts/charts.module";
+import { StackedColumnComponent } from "src/app/shared/charts/stacked-column-chart/stacked-column.component";
 import {DisplayEntries} from "src/survey-tool/app/domain/survey";
 import {MessagingSystemService} from "src/messaging-system-ui/services/messaging-system.service";
 import {TopicThread} from "src/messaging-system-ui/app/domain/messaging";
@@ -18,7 +18,7 @@ import {TopicThread} from "src/messaging-system-ui/app/domain/messaging";
   templateUrl: `./stakeholders-home.component.html`,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [CommonModule, ChartsModule]
+  imports: [CommonModule, StackedColumnComponent]
 })
 
 export class StakeholdersHomeComponent implements OnInit {
