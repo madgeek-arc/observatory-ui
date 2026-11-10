@@ -1,5 +1,4 @@
-import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
 import { ExploreComponent } from "./explore.component";
 import { OpenScienceTrendsComponent } from "./open-science-trends/open-science-trends.component";
 import { InvestmentsInEoscComponent } from "./investments-in-eosc/investments-in-eosc.component";
@@ -14,11 +13,14 @@ import { DataService } from "../services/data.service";
 import { EoscReadinessDataService } from "../services/eosc-readiness-data.service";
 import { DataHandlerService } from "../services/data-handler.service";
 import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
+import { ExploreService } from "./explore.service";
 
-const exploreRoutes: Routes = [
+export const EXPLORE_ROUTES: Routes = [
   {
     path: '',
     component: ExploreComponent,
+    // What ExploreModule provided: instances scoped to this lazy subtree, ExploreService included although it is root-provided
+    providers: [DataService, EoscReadinessDataService, DataHandlerService, StakeholdersService, ExploreService],
     children: [
       {
         path: '',
@@ -75,11 +77,3 @@ const exploreRoutes: Routes = [
     ]
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(exploreRoutes)],
-  exports: [RouterModule],
-  providers: []
-})
-
-export class ExploreRouting {}

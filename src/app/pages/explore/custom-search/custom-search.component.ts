@@ -6,8 +6,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 @Component({
     selector: 'app-custom-search',
     templateUrl: './custom-search.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 
 export class CustomSearchComponent implements OnInit {

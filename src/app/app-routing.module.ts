@@ -76,7 +76,7 @@ const routes: Routes = [
   },
   {
     path: 'explore',
-    loadChildren: () => import('./pages/explore/explore.module').then(m => m.ExploreModule),
+    loadChildren: () => import('./pages/explore/explore.routes').then(m => m.EXPLORE_ROUTES),
   },
   {
     path: 'eoscreadiness',
