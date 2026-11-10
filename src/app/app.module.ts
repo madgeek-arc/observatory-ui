@@ -1,19 +1,13 @@
-import { ErrorHandler, inject, NgModule, provideAppInitializer } from "@angular/core";
-import { Router, RouterModule } from "@angular/router";
-import * as Sentry from "@sentry/angular";
+import { NgModule } from "@angular/core";
+import { RouterModule } from "@angular/router";
 import { BrowserModule } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS, provideHttpClient, withXsrfConfiguration, withXhr } from "@angular/common/http";
-import { environment } from "../environments/environment";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { provideMatomo } from 'ngx-matomo-client';
-import { UserService } from "../survey-tool/app/services/user.service";
+import { appProviders } from './app.config';
 import { SurveyToolModule } from "../survey-tool/app/survey-tool.module";
-import { HttpInterceptorService } from "./pages/services/http-interceptor.service";
 import { MessagingSystemModule } from "src/messaging-system-ui/app/messaging-system.module";
 import { ReusableComponentsModule } from "../survey-tool/app/shared/reusablecomponents/reusable-components.module";
 import { CountryLandingPageComponent } from "./pages/dashboard/country-landing-page/country-landing-page.component";
-import { MessagingSystemService } from "../messaging-system-ui/services/messaging-system.service";
 import { CountryLandingPagePoliciesComponent } from "./pages/dashboard/country-landing-page/policies-section.component";
 import { CountryLandingPageGeneralComponent } from "./pages/dashboard/country-landing-page/general-section.component";
 import {
@@ -50,7 +44,6 @@ import {
 import {
   StakeholdersHomeComponent
 } from "./pages/dashboard/contribution-dashboard-extension/stakeholders/stakeholders-home.component";
-import { APP_ENV } from "../survey-tool/catalogue-ui/config/app-env.token";
 import { CookieConsentComponent } from "./shared/cookies/cookie-consent.component";
 
 
@@ -84,51 +77,7 @@ import { CookieConsentComponent } from "./shared/cookies/cookie-consent.componen
     StakeholdersHomeComponent,
     CookieConsentComponent,
   ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpInterceptorService,
-      multi: true
-    },
-    UserService,
-    MessagingSystemService,
-    { provide: APP_ENV, useValue: environment },
-    {
-      provide: ErrorHandler,
-      useValue: Sentry.createErrorHandler({
-        showDialog: false,
-      }),
-    },
-    {
-      provide: Sentry.TraceService,
-      deps: [Router],
-    },
-    provideAppInitializer(() => {
-      const initializerFn = (() => {
-        const trace = inject(Sentry.TraceService);
-        return () => {
-          // use `trace` here, e.g. trace.start() or whatever Sentry requires
-        };
-      })();
-
-      return initializerFn();
-    }),
-    provideHttpClient(
-      withXhr(),
-      withXsrfConfiguration({
-        cookieName: 'XSRF-TOKEN',
-        headerName: 'X-XSRF-TOKEN',
-      })
-    ),
-    provideMatomo(
-      {
-        trackerUrl: environment.matomoTrackerUrl,
-        siteId: environment.matomoSiteId,
-        // Nothing is sent and no Matomo cookie is set until the visitor accepts analytics (see CookieConsentService)
-        requireConsent: 'tracking',
-      },
-    ),
-  ],
+  providers: appProviders,
   bootstrap: [AppComponent]
 })
 
