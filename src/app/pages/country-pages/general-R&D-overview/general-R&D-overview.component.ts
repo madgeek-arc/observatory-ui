@@ -6,8 +6,8 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {OAvsTotalDataPerCountry, OAvsTotalPubsPerCountry} from "../coutry-pages.queries";
 import {EoscReadinessDataService} from "../../services/eosc-readiness-data.service";
 import {
-  CatalogueUiReusableComponentsModule
-} from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
+  ReadMoreComponent
+} from "src/survey-tool/catalogue-ui/shared/reusable-components/read-more.component";
 import {
   SidebarMobileToggleComponent
 } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
@@ -31,7 +31,7 @@ import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-h
   imports: [
     CommonModule,
     NgOptimizedImage,
-    CatalogueUiReusableComponentsModule,
+    ReadMoreComponent,
     SidebarMobileToggleComponent,
     PageContentComponent,
     InfoCardComponent,

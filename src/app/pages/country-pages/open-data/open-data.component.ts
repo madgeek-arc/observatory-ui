@@ -4,8 +4,8 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
 import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
 import {
-  CatalogueUiReusableComponentsModule
-} from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
+  ReadMoreComponent, ReadMoreTextComponent
+} from 'src/survey-tool/catalogue-ui/shared/reusable-components/read-more.component';
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import {
   distributionOfDataByDocumentTypeCountry,
@@ -31,7 +31,7 @@ import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-h
     imports: [
         CommonModule,
         NgOptimizedImage,
-        CatalogueUiReusableComponentsModule,
+        ReadMoreComponent, ReadMoreTextComponent,
         ChartsModule,
         SidebarMobileToggleComponent,
         PageContentComponent,

@@ -3,8 +3,8 @@ import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
 import {
-  CatalogueUiReusableComponentsModule
-} from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
+  ReadMoreComponent
+} from "src/survey-tool/catalogue-ui/shared/reusable-components/read-more.component";
 import {
   SidebarMobileToggleComponent
 } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
@@ -38,7 +38,7 @@ import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-h
   imports: [
     NgOptimizedImage,
     CommonModule,
-    CatalogueUiReusableComponentsModule,
+    ReadMoreComponent,
     SidebarMobileToggleComponent,
     PageContentComponent,
     SearchCardComponent,

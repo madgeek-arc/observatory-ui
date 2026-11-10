@@ -4,8 +4,8 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
 import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
 import {
-  CatalogueUiReusableComponentsModule
-} from 'src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module';
+  ReadMoreComponent, ReadMoreTextComponent
+} from 'src/survey-tool/catalogue-ui/shared/reusable-components/read-more.component';
 import * as Highcharts from "highcharts/highcharts.src";
 import { ExploreService } from "../../explore/explore.service";
 import { ChartsModule } from "src/app/shared/charts/charts.module";
@@ -23,7 +23,7 @@ import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-h
     imports: [
         CommonModule,
         NgOptimizedImage,
-        CatalogueUiReusableComponentsModule,
+        ReadMoreComponent, ReadMoreTextComponent,
         ChartsModule,
         SidebarMobileToggleComponent,
         PageContentComponent,

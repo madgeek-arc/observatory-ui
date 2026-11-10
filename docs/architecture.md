@@ -18,7 +18,7 @@ authority for access control. Frontend guards only decide what to show.
 
 | Area | Location | Notes |
 |---|---|---|
-| Application shell, routing | `src/main.ts`, `src/app/app.config.ts`, `app.routes.ts`, `app.component.ts` | `bootstrapApplication` with standalone components; the survey-tool and catalogue-ui pages are still declared in NgModules |
+| Application shell, routing | `src/main.ts`, `src/app/app.config.ts`, `app.routes.ts`, `app.component.ts` | `bootstrapApplication` with standalone components. catalogue-ui keeps thin NgModule wrappers for hosts that still use modules, nothing here imports them |
 | Public dashboard pages | `src/app/pages/{home,dashboard,country-pages,explore,eosc-readiness-dashboard,archive}` | Lazy-loaded routes |
 | Contributions extensions | `src/app/pages/dashboard/contribution-dashboard-extension` | Stakeholder, coordinator, administrator homes and news and stories, added on top of the survey-tool dashboard |
 | Country page configuration | `src/app/pages/country-pages-configuration` | Per-country widget overrides, stored through the backend |

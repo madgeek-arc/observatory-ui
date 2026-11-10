@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ResourceRegistryService } from "src/app/pages/explore/resources-registry/resource-registry.service";
 import { Document } from "src/app/domain/document";
 import { Model } from "src/survey-tool/catalogue-ui/domain/dynamic-form-model";
-import { CatalogueUiModule } from "src/survey-tool/catalogue-ui/catalogue-ui.module";
 import { SurveyComponent } from "src/survey-tool/catalogue-ui/pages/dynamic-form/survey.component";
 import { WebsocketService } from "src/survey-tool/catalogue-ui/services/websocket.service";
 import { UntypedFormGroup } from "@angular/forms";
@@ -14,7 +13,7 @@ import { UntypedFormGroup } from "@angular/forms";
   selector: 'app-document-edit',
   templateUrl: './document-edit.component.html',
   standalone: true,
-  imports: [CatalogueUiModule],
+  imports: [SurveyComponent],
   changeDetection: ChangeDetectionStrategy.Eager,
   providers: [WebsocketService]
 })

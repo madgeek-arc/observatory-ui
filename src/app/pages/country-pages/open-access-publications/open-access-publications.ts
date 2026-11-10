@@ -15,8 +15,8 @@ import { LegendOptions, OptionsStackingValue, SeriesBarOptions, SeriesOptionsTyp
 import { ChartsModule } from "src/app/shared/charts/charts.module";
 import { ExploreService } from "../../explore/explore.service";
 import {
-  CatalogueUiReusableComponentsModule
-} from "src/survey-tool/catalogue-ui/shared/reusable-components/catalogue-ui-reusable-components.module";
+  ReadMoreComponent, ReadMoreTextComponent
+} from "src/survey-tool/catalogue-ui/shared/reusable-components/read-more.component";
 import { SidebarMobileToggleComponent } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
 import { InfoCardComponent } from "src/app/shared/reusable-components/info-card/info-card.component";
@@ -35,7 +35,7 @@ import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-h
         CommonModule,
         NgOptimizedImage,
         ChartsModule,
-        CatalogueUiReusableComponentsModule,
+        ReadMoreComponent, ReadMoreTextComponent,
         SidebarMobileToggleComponent,
         PageContentComponent,
         InfoCardComponent,
