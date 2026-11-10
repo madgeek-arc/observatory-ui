@@ -5,6 +5,11 @@ import { SurveyAnswer } from "src/survey-tool/app/domain/survey";
 import { Model } from "src/survey-tool/catalogue-ui/domain/dynamic-form-model";
 import { countries } from "src/app/domain/countries";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
+import { CountryLandingPageGeneralComponent } from "./general-section.component";
+import { CountryLandingPagePoliciesComponent } from "./policies-section.component";
+import { CountryLandingPagePracticesComponent } from "./practices-section.component";
+import { CountryLandingPageUseCasesComponent } from "./use-cases-section.component";
+import { LowerCasePipe, DatePipe } from "@angular/common";
 
 @Component({
     selector: 'country-landing-page',
@@ -12,7 +17,7 @@ import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
     styleUrls: ['./country-landing-page.component.css'],
     providers: [SurveyService],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [CountryLandingPageGeneralComponent, CountryLandingPagePoliciesComponent, CountryLandingPagePracticesComponent, CountryLandingPageUseCasesComponent, LowerCasePipe, DatePipe]
 })
 
 export class CountryLandingPageComponent implements OnInit {

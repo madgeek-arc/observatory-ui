@@ -9,12 +9,15 @@ import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.s
 import {
   ContributionsHomeComponent
 } from "src/survey-tool/app/pages/contributions-dashboard/home/contributions-home.component";
+import { PageContentComponent } from "src/survey-tool/app/shared/page-content/page-content.component";
+import { SidebarMobileToggleComponent } from "src/survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
+import { StakeholdersHomeComponent } from "../stakeholders/stakeholders-home.component";
 
 @Component({
-  selector: 'app-contributions-ext-home',
-  templateUrl: './contributions-home-extention.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+    selector: 'app-contributions-ext-home',
+    templateUrl: './contributions-home-extention.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [PageContentComponent, SidebarMobileToggleComponent, StakeholdersHomeComponent]
 })
 
 export class ContributionsHomeExtentionComponent extends ContributionsHomeComponent implements OnInit {

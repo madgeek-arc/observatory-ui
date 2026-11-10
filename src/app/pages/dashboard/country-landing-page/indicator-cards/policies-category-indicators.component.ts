@@ -4,8 +4,7 @@ import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
     selector: 'policies-category-indicators',
     templateUrl: 'policies-category-indicators.component.html',
     styleUrls: ['../country-landing-page.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 
 export class PoliciesCategoryIndicatorsComponent {

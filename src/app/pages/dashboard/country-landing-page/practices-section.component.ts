@@ -1,12 +1,14 @@
 import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
-import {CommonModule} from "@angular/common";
+import { CommonModule, NgClass } from "@angular/common";
+import { CategoryIndicatorsWrapperComponent } from "./indicator-cards/category-indicators-wrapper.component";
+import { PracticesCategoryIndicatorsComponent } from "./indicator-cards/practices-category-indicators.component";
 
 @Component({
     selector: 'country-landing-page-practices',
     templateUrl: 'practices-section.component.html',
     styleUrls: ['./country-landing-page.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [NgClass, CategoryIndicatorsWrapperComponent, PracticesCategoryIndicatorsComponent]
 })
 
 export class CountryLandingPagePracticesComponent {
