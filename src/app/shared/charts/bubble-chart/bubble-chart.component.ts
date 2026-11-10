@@ -5,6 +5,7 @@ import ExportData from 'highcharts/modules/export-data';
 import { PointOptionsObject, SeriesBubbleOptions } from "highcharts";
 import { renderLogo } from "../highcharts-functions";
 import { colors } from "src/app/domain/chart-color-palette";
+import { HighchartsChartModule } from "highcharts-angular";
 
 Exporting(Highcharts);
 ExportData(Highcharts);
@@ -13,7 +14,7 @@ ExportData(Highcharts);
     selector: 'app-bubble-chart',
     template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsChartModule]
 })
 
 export class BubbleChartComponent implements OnChanges {

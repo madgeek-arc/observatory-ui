@@ -4,6 +4,7 @@ import HC_exporting from 'highcharts/modules/exporting';
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
 import ExportData from 'highcharts/modules/export-data';
 import {SeriesMapDataOptions} from "highcharts/highmaps";
+import { HighchartsChartModule } from "highcharts-angular";
 
 HC_exporting(Highcharts);
 HC_ExportingOffline(Highcharts);
@@ -15,7 +16,7 @@ let componentContext;
     templateUrl: './highcharts-bar.component.html',
     styles: ['#container {display: block; width: 100%; height: 100%; }'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsChartModule]
 })
 
 export class HighchartsBarComponent implements OnChanges{

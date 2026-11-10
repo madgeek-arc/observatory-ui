@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
 import * as Highcharts from "highcharts";
 import Exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
+import { HighchartsChartModule } from "highcharts-angular";
 
 Exporting(Highcharts);
 ExportData(Highcharts);
@@ -10,7 +11,7 @@ ExportData(Highcharts);
     selector: "app-area-chart",
     template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsChartModule]
 })
 
 export class AreaChartComponent {

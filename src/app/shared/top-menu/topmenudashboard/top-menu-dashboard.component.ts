@@ -2,7 +2,7 @@ import {
   AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild,
   ChangeDetectionStrategy
 } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { Administrator, Coordinator, Stakeholder, UserInfo } from "src/survey-tool/app/domain/userInfo";
 import { UserService } from "src/survey-tool/app/services/user.service";
 import { MessagingSystemService } from "src/messaging-system-ui/services/messaging-system.service";
@@ -21,7 +21,7 @@ import * as UIkit from 'uikit';
     styleUrls: ['../top-menu.component.css', './top-menu-dashboard.component.less'],
     providers: [PrivacyPolicyService],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [RouterLink, RouterLinkActive]
 })
 
 export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {

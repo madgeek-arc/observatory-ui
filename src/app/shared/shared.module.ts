@@ -12,14 +12,12 @@ import { PipeModule } from "./pipes/pipe.module";
     CommonModule,
     RouterModule,
     // ChartsModule,
-    PipeModule
-  ],
-  exports: [
+    PipeModule,
     TopMenuDashboardComponent,
     FooterComponent,
-    FullFooterComponent,
+    FullFooterComponent
   ],
-  declarations: [
+  exports: [
     TopMenuDashboardComponent,
     FooterComponent,
     FullFooterComponent,

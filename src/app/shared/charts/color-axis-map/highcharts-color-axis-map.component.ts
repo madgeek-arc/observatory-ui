@@ -7,6 +7,7 @@ import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
 import ExportData from 'highcharts/modules/export-data';
 import { colorAxisDataWithZeroValue } from "src/app/domain/categorizedAreaData";
 import worldMapJson from '@highcharts/map-collection/custom/world-highres3.topo.json';
+import { HighchartsChartModule } from "highcharts-angular";
 
 HC_exporting(Highcharts);
 HC_ExportingOffline(Highcharts);
@@ -20,7 +21,7 @@ let componentContext;
     templateUrl: 'highcharts-color-axis-map.component.html',
     styles: ['#container {display: block; width: 100%; height: 100%; }'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsChartModule]
 })
 
 export class HighchartsColorAxisMapComponent {

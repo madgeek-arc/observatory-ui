@@ -3,6 +3,7 @@ import * as Highcharts from "highcharts";
 import Exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
 import TreemapModule from 'highcharts/modules/treemap';
+import { HighchartsChartModule } from "highcharts-angular";
 
 TreemapModule(Highcharts);
 Exporting(Highcharts);
@@ -12,7 +13,7 @@ ExportData(Highcharts);
     selector: 'app-treemap',
     template: `<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>`,
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsChartModule]
 })
 
 export class TreemapComponent implements OnChanges {

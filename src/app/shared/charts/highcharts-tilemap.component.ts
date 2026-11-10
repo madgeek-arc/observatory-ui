@@ -4,6 +4,7 @@ import ExportData from 'highcharts/modules/export-data';
 import HC_tilemap from 'highcharts/modules/tilemap';
 import {Component, ChangeDetectionStrategy} from "@angular/core";
 import worldMapJson from '@highcharts/map-collection/custom/world.geo.json';
+import { HighchartsChartModule } from "highcharts-angular";
 HC_exporting(Highcharts);
 HC_tilemap(Highcharts);
 ExportData(Highcharts);
@@ -18,7 +19,7 @@ interface ExtendedPointOptionsObject extends Highcharts.PointOptionsObject {
     selector: 'app-highcharts-tilemap',
     templateUrl: './highcharts-tilemap.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsChartModule]
 })
 
 export class HighchartsTilemapComponent {

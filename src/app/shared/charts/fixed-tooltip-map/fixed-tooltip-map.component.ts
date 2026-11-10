@@ -4,6 +4,7 @@ import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
 import ExportData from 'highcharts/modules/export-data';
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ChangeDetectionStrategy } from "@angular/core";
 import worldMapJson from '@highcharts/map-collection/custom/world-highres3.topo.json';
+import { HighchartsChartModule } from "highcharts-angular";
 
 
 HC_exporting(Highcharts);
@@ -1085,7 +1086,7 @@ const data = [
     styleUrls: ['fixed-tooltip-map.component.scss'],
     template: '<highcharts-chart id="container" [Highcharts]="Highcharts" [constructorType]="chartConstructor" [options]="chartOptions" style="width: 100%; height: 400px; display: block;"></highcharts-chart>',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsChartModule]
 })
 
 export class FixedTooltipMapComponent implements OnChanges, OnInit {

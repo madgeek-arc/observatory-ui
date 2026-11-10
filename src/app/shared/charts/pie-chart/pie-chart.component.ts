@@ -14,8 +14,7 @@ ExportData(Highcharts);
 @Component({
     selector: 'app-pie-chart',
     template: '@if (chartId) {<div [id]="chartId"></div>}',
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class PieChartComponent implements OnChanges {
 

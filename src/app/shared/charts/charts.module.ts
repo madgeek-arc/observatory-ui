@@ -26,9 +26,7 @@ import { TreemapComponent } from "./treemap/treemap.component";
   imports: [
     CommonModule,
     HighchartsChartModule,
-    NgStyle
-  ],
-  declarations: [
+    NgStyle,
     HighchartsTilemapComponent,
     HighchartsCategoryMapComponent,
     HighchartsBubbleMapComponent,

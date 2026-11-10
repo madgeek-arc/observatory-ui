@@ -5,6 +5,7 @@ import Exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
 import HighchartsMore from 'highcharts/highcharts-more';
 import SolidGauge from 'highcharts/modules/solid-gauge';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 HighchartsMore(Highcharts);
 SolidGauge(Highcharts);
@@ -20,7 +21,7 @@ export class ActivityGauge {
     selector: 'activity-gauge',
     templateUrl: 'gauge-activity.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsChartModule]
 })
 
 export class GaugeActivityComponent implements OnChanges {

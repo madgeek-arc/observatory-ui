@@ -6,6 +6,7 @@ import { SeriesOptionsType } from "highcharts";
 import HighchartsStock from 'highcharts/modules/stock';
 import More from 'highcharts/highcharts-more';
 import Streamgraph from 'highcharts/modules/streamgraph';
+import { HighchartsChartModule } from "highcharts-angular";
 
 More(Highcharts);
 Streamgraph(Highcharts);
@@ -22,7 +23,7 @@ export class StreamData {
     selector: "app-stream-graph",
     template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsChartModule]
 })
 
 export class StreamGraphComponent implements OnChanges {

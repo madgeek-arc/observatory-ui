@@ -8,6 +8,7 @@ import HC_exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
 import { createInfoBox, renderLogo } from "../highcharts-functions";
 import worldMapJson from '@highcharts/map-collection/custom/world-highres3.topo.json';
+import { HighchartsChartModule } from "highcharts-angular";
 
 HC_exporting(Highcharts);
 HC_ExportingOffline(Highcharts);
@@ -20,7 +21,7 @@ const worldMap: any = worldMapJson;
     templateUrl: './highcharts-category-map.component.html',
     styles: ['#container { display: block; width: 100%; height: 100%; }'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsChartModule]
 })
 
 export class HighchartsCategoryMapComponent implements OnInit, OnChanges {

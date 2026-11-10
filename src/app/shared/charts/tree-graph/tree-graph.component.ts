@@ -8,6 +8,7 @@ import treegraph from 'highcharts/modules/treegraph';
 import HC_more from 'highcharts/highcharts-more';
 import { renderLogo } from "../highcharts-functions";
 import { colors } from "src/app/domain/chart-color-palette";
+import { HighchartsChartModule } from "highcharts-angular";
 
 treemap(Highcharts);
 HC_more(Highcharts);
@@ -20,7 +21,7 @@ ExportData(Highcharts);
     selector: 'app-tree-graph',
     template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsChartModule]
 })
 
 

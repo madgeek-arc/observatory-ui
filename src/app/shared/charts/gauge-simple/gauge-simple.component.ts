@@ -13,8 +13,7 @@ ExportData(Highcharts);
 @Component({
     selector: 'simple-gauge',
     template: '<div [id]="chartId"></div>',
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 
 export class GaugeSimpleComponent implements AfterViewInit, OnChanges {

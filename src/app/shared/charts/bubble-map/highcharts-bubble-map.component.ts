@@ -3,6 +3,8 @@ import * as Highcharts from "highcharts/highmaps";
 import HC_exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
 import worldMapJson from '@highcharts/map-collection/custom/world-highres3.topo.json';
+import { HighchartsChartModule } from "highcharts-angular";
+import { NgStyle } from "@angular/common";
 
 HC_exporting(Highcharts);
 ExportData(Highcharts);
@@ -15,7 +17,7 @@ const worldMap: any = worldMapJson;
     templateUrl: 'highcharts-bubble-map.component.html',
     styleUrls: ['highcharts-bubble-map.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsChartModule, NgStyle]
 })
 
 export class HighchartsBubbleMapComponent implements OnChanges {

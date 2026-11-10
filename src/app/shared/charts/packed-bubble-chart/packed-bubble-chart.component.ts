@@ -4,6 +4,7 @@ import Exporting from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
 import { PointOptionsType } from "highcharts";
 import { SeriesOptionsType } from "highcharts/highmaps";
+import { HighchartsChartModule } from "highcharts-angular";
 // import PackedBubble from 'highcharts/modules/packed-bubble';
 
 // PackedBubble(Highcharts);
@@ -14,7 +15,7 @@ ExportData(Highcharts);
     selector: "app-packed-bubble-chart",
     template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsChartModule]
 })
 
 export class PackedBubbleChartComponent {
