@@ -1,5 +1,4 @@
-import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
 import { OpenScienceByAreaComponent } from "./open-science-by-area.component";
 import { OpenScienceByAreaPublicationsComponent } from "./areas/open-science-by-area-publications.component";
 import { OpenScienceByAreaOpenDataComponent } from "./areas/open-science-by-area-open-data.component";
@@ -10,7 +9,7 @@ import { OpenScienceByAreaRepositoriesComponent } from "./areas/open-science-by-
 import { OpenScienceByAreaTrainingComponent } from "./areas/open-science-by-area-training.component";
 import { OpenScienceByAreaSoftwareComponent } from "./areas/open-science-by-area-software.component";
 
-const openScienceAreaRoutes: Routes = [
+export const OPEN_SCIENCE_BY_AREA_ROUTES: Routes = [
   {
     path: '',
     component: OpenScienceByAreaComponent,
@@ -48,11 +47,3 @@ const openScienceAreaRoutes: Routes = [
     component: OpenScienceByAreaSoftwareComponent
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(openScienceAreaRoutes)],
-  exports: [RouterModule],
-  providers: []
-})
-
-export class OpenScienceByAreaRouting {}

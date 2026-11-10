@@ -10,6 +10,10 @@ import { OpenScienceImpactComponent } from "./open-science-impact/open-science-i
 import { CustomSearchComponent } from "./custom-search/custom-search.component";
 import { SearchComponent } from './resources-registry/search/search.component';
 import { DocumentLandingComponent } from './resources-registry/document-landing/document-landing.component';
+import { DataService } from "../services/data.service";
+import { EoscReadinessDataService } from "../services/eosc-readiness-data.service";
+import { DataHandlerService } from "../services/data-handler.service";
+import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 
 const exploreRoutes: Routes = [
   {
@@ -23,7 +27,9 @@ const exploreRoutes: Routes = [
       },
       {
         path: 'open-science-by-area',
-        loadChildren: () => import('./open-science-by-area/open-science-by-area.module').then(m => m.OpenScienceByAreaModule),
+        // What OpenScienceByAreaModule provided: instances scoped to this lazy subtree
+        providers: [DataService, EoscReadinessDataService, DataHandlerService, StakeholdersService],
+        loadChildren: () => import('./open-science-by-area/open-science-by-area.routes').then(m => m.OPEN_SCIENCE_BY_AREA_ROUTES),
       },
       {
         path: 'open-science-trends',
