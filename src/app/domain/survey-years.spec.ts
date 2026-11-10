@@ -10,7 +10,7 @@ describe('survey years', () => {
   it('lists the years from oldest to latest', () => {
     const years = SURVEY_YEARS.map(Number);
 
-    expect(years.every(year => Number.isInteger(year))).toBeTrue();
+    expect(years.every(year => Number.isInteger(year))).toBe(true);
     expect(years).toEqual([...years].sort((a, b) => a - b));
     expect(new Set(years).size).toBe(years.length);
   });

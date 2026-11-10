@@ -1,6 +1,9 @@
+import type { Mock, MockInstance } from 'vitest';
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient, withXhr } from '@angular/common/http';
+import { HttpInterceptorFn, HttpResponse, provideHttpClient, withInterceptors, withXhr } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { readFile } from 'node:fs/promises';
+import { from, map } from 'rxjs';
 import PizZip from 'pizzip';
 import { ReportCreationService } from './report-creation.service';
 
@@ -49,11 +52,11 @@ const tick = () => new Promise<void>(resolve => setTimeout(resolve));
 const captureDownload = () => {
   let blob: Blob | undefined;
   let fileName = '';
-  spyOn(URL, 'createObjectURL').and.callFake((exported: Blob | MediaSource) => {
+  vi.spyOn(URL, 'createObjectURL').mockImplementation((exported: Blob | MediaSource) => {
     blob = exported as Blob;
     return 'blob:report';
   });
-  spyOn(HTMLAnchorElement.prototype, 'dispatchEvent').and.callFake(function (this: HTMLAnchorElement) { // saveAs() clicks a download link
+  vi.spyOn(HTMLAnchorElement.prototype, 'dispatchEvent').mockImplementation(function (this: HTMLAnchorElement) { // saveAs() clicks a download link
     fileName = this.download;
     return true;
   });
@@ -157,22 +160,22 @@ describe('ReportCreationService', () => {
       });
 
       describe('errors', () => {
-        beforeEach(() => spyOn(console, 'error'));
+        beforeEach(() => vi.spyOn(console, 'error').mockImplementation(() => undefined));
 
         it('logs and rethrows when the template cannot be loaded', async () => {
           const done = service.exportDocWithMultipleImages({}, {});
           http.expectOne(service.templateUrl).flush(new ArrayBuffer(0), {status: 500, statusText: 'Server Error'});
 
-          await expectAsync(done).toBeRejected();
-          expect(console.error).toHaveBeenCalledWith('Export error:', jasmine.anything());
+          await expect(done).rejects.toBeDefined();
+          expect(console.error).toHaveBeenCalledWith('Export error:', expect.anything());
         });
 
         it('logs and rethrows when the template is not a docx', async () => {
           const done = service.exportDocWithMultipleImages({}, {});
           http.expectOne(service.templateUrl).flush(new ArrayBuffer(8));
 
-          await expectAsync(done).toBeRejected();
-          expect(console.error).toHaveBeenCalledWith('Export error:', jasmine.anything());
+          await expect(done).rejects.toBeDefined();
+          expect(console.error).toHaveBeenCalledWith('Export error:', expect.anything());
         });
       });
     });
@@ -208,25 +211,57 @@ describe('ReportCreationService', () => {
 
     describe('svgToArrayBuffer', () => {
       const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="10"><rect width="20" height="10" fill="red"/></svg>';
+      const context = {fillStyle: '', fillRect: vi.fn(), drawImage: vi.fn()};
+      let toBlob: Mock;
+      let revoke: MockInstance;
 
-      it('renders the svg to a png', async () => {
-        const png = new Uint8Array(await service.svgToArrayBuffer(svg, 20, 10));
+      // jsdom neither decodes images nor draws on a canvas, so a stand-in takes the place of each. The image
+      // loads when its source is svg markup, like in a browser; the canvas hands back a png. What is left to
+      // check here is how the service uses them, not the rendering itself.
+      beforeEach(() => {
+        let source: Blob;
+        vi.spyOn(URL, 'createObjectURL').mockImplementation((blob: Blob | MediaSource) => {
+          source = blob as Blob;
+          return 'blob:svg';
+        });
+        revoke = vi.spyOn(URL, 'revokeObjectURL');
+        vi.stubGlobal('Image', class {
+          onload?: () => void;
+          onerror?: () => void;
+          crossOrigin = '';
+          set src(_url: string) {
+            void source.text().then(text => (text.startsWith('<svg') ? this.onload : this.onerror)?.());
+          }
+          get src(): string {
+            return 'blob:svg';
+          }
+        });
+        vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(context as unknown as CanvasRenderingContext2D);
+        toBlob = vi.fn((callback: BlobCallback) => callback(new Blob([pngBytes()], {type: 'image/png'})));
+        vi.spyOn(HTMLCanvasElement.prototype, 'toBlob').mockImplementation(toBlob as HTMLCanvasElement['toBlob']);
+        context.fillStyle = '';
+        context.fillRect.mockClear();
+        context.drawImage.mockClear();
+      });
 
-        expect(Array.from(png.slice(0, PNG_SIGNATURE.length))).toEqual(PNG_SIGNATURE);
+      it('draws the svg on a white canvas of the given size and exports it as a png', async () => {
+        const png = await service.svgToArrayBuffer(svg, 20, 10);
+
+        expect(context.fillStyle).toBe('#ffffff');
+        expect(context.fillRect).toHaveBeenCalledWith(0, 0, 20, 10);
+        expect(context.drawImage).toHaveBeenCalledWith(expect.anything(), 0, 0, 20, 10);
+        expect(toBlob).toHaveBeenCalledWith(expect.any(Function), 'image/png');
+        expect(Array.from(new Uint8Array(png).slice(0, PNG_SIGNATURE.length))).toEqual(PNG_SIGNATURE);
       });
 
       it('revokes the object url it created', async () => {
-        const revoke = spyOn(URL, 'revokeObjectURL').and.callThrough();
-
         await service.svgToArrayBuffer(svg, 20, 10);
 
         expect(revoke).toHaveBeenCalledTimes(1);
       });
 
       it('rejects when the svg cannot be loaded', async () => {
-        const revoke = spyOn(URL, 'revokeObjectURL').and.callThrough();
-
-        await expectAsync(service.svgToArrayBuffer('not an svg', 20, 10)).toBeRejectedWithError('Failed to load SVG as image');
+        await expect(service.svgToArrayBuffer('not an svg', 20, 10)).rejects.toThrow('Failed to load SVG as image');
         expect(revoke).toHaveBeenCalledTimes(1);
       });
     });
@@ -235,8 +270,13 @@ describe('ReportCreationService', () => {
   describe('with the real report template', () => {
     let service: ReportCreationService;
 
+    // There is no server behind the test run to fetch the asset from, so the file is read from disk
+    const assetFromDisk: HttpInterceptorFn = request => from(readFile(`src/${request.url}`)).pipe(
+      map(file => new HttpResponse({body: new Uint8Array(file).buffer})) // copied, so that it is an ArrayBuffer of this realm
+    );
+
     beforeEach(() => {
-      TestBed.configureTestingModule({providers: [provideHttpClient(withXhr())]});
+      TestBed.configureTestingModule({providers: [provideHttpClient(withXhr(), withInterceptors([assetFromDisk]))]});
       service = TestBed.inject(ReportCreationService);
     });
 

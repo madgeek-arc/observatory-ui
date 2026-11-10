@@ -4,7 +4,12 @@ import { CookieConsentService } from './cookie-consent.service';
 import { CONSENT_COOKIE_NAME, CONSENT_VERSION } from './cookie-consent.model';
 
 describe('CookieConsentService', () => {
-  let tracker: jasmine.SpyObj<MatomoTracker>;
+  const createTracker = () => ({
+    setConsentGiven: vi.fn(),
+    forgetConsentGiven: vi.fn(),
+    deleteCookies: vi.fn()
+  });
+  let tracker: ReturnType<typeof createTracker>;
 
   const clearCookie = () => {
     document.cookie = `${CONSENT_COOKIE_NAME}=; Max-Age=0; Path=/`;
@@ -18,7 +23,7 @@ describe('CookieConsentService', () => {
 
   beforeEach(() => {
     clearCookie();
-    tracker = jasmine.createSpyObj<MatomoTracker>('MatomoTracker', ['setConsentGiven', 'forgetConsentGiven', 'deleteCookies']);
+    tracker = createTracker();
     TestBed.configureTestingModule({providers: [{provide: MatomoTracker, useValue: tracker}]});
   });
 
@@ -27,7 +32,7 @@ describe('CookieConsentService', () => {
   it('has no choice when there is no cookie, and keeps Matomo off', () => {
     const service = create();
 
-    expect(service.hasChoice()).toBeFalse();
+    expect(service.hasChoice()).toBe(false);
     expect(service.consent()).toBeNull();
     expect(tracker.deleteCookies).toHaveBeenCalled();
     expect(tracker.setConsentGiven).not.toHaveBeenCalled();
@@ -49,7 +54,7 @@ describe('CookieConsentService', () => {
 
     const service = create();
 
-    expect(service.hasChoice()).toBeFalse();
+    expect(service.hasChoice()).toBe(false);
   });
 
   it('ignores a cookie written with another schema version', () => {
@@ -57,7 +62,7 @@ describe('CookieConsentService', () => {
 
     const service = create();
 
-    expect(service.hasChoice()).toBeFalse();
+    expect(service.hasChoice()).toBe(false);
     expect(tracker.setConsentGiven).not.toHaveBeenCalled();
   });
 
@@ -66,7 +71,7 @@ describe('CookieConsentService', () => {
 
     service.acceptAll();
 
-    expect(service.consent()?.analytics).toBeTrue();
+    expect(service.consent()?.analytics).toBe(true);
     expect(service.consent()?.version).toBe(CONSENT_VERSION);
     expect(document.cookie).toContain(`${CONSENT_COOKIE_NAME}=`);
     expect(tracker.setConsentGiven).toHaveBeenCalledTimes(1);
@@ -75,12 +80,12 @@ describe('CookieConsentService', () => {
   it('rejectAll after accepting removes Matomo consent and cookies', () => {
     const service = create();
     service.acceptAll();
-    tracker.forgetConsentGiven.calls.reset();
-    tracker.deleteCookies.calls.reset();
+    tracker.forgetConsentGiven.mockClear();
+    tracker.deleteCookies.mockClear();
 
     service.rejectAll();
 
-    expect(service.consent()?.analytics).toBeFalse();
+    expect(service.consent()?.analytics).toBe(false);
     expect(tracker.forgetConsentGiven).toHaveBeenCalledTimes(1);
     expect(tracker.deleteCookies).toHaveBeenCalledTimes(1);
   });
@@ -88,13 +93,13 @@ describe('CookieConsentService', () => {
   it('restores a previously saved choice on start and re-applies it to Matomo', () => {
     create().acceptAll();
     TestBed.resetTestingModule();
-    tracker = jasmine.createSpyObj<MatomoTracker>('MatomoTracker', ['setConsentGiven', 'forgetConsentGiven', 'deleteCookies']);
+    tracker = createTracker();
     TestBed.configureTestingModule({providers: [{provide: MatomoTracker, useValue: tracker}]});
 
     const service = create();
 
-    expect(service.hasChoice()).toBeTrue();
-    expect(service.consent()?.analytics).toBeTrue();
+    expect(service.hasChoice()).toBe(true);
+    expect(service.consent()?.analytics).toBe(true);
     expect(tracker.setConsentGiven).toHaveBeenCalledTimes(1);
     expect(tracker.forgetConsentGiven).not.toHaveBeenCalled();
   });
@@ -102,10 +107,10 @@ describe('CookieConsentService', () => {
   it('closes the settings panel when a choice is saved', () => {
     const service = create();
     service.open();
-    expect(service.settingsOpen()).toBeTrue();
+    expect(service.settingsOpen()).toBe(true);
 
     service.save(false);
 
-    expect(service.settingsOpen()).toBeFalse();
+    expect(service.settingsOpen()).toBe(false);
   });
 });

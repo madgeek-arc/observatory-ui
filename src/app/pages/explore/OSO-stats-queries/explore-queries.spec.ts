@@ -71,8 +71,8 @@ describe('explore queries', () => {
         || (condition.value === PREVIOUS_YEAR && name in comparisonQueries)
         || (condition.value === TREND_START_YEAR && condition.type === '>=' && trendQueries.includes(name));
 
-      expect(years.length).withContext(name).toBeGreaterThan(0);
-      expect(years.filter(condition => !allowed(condition))).withContext(name).toEqual([]);
+      expect(years.length, name).toBeGreaterThan(0);
+      expect(years.filter(condition => !allowed(condition)), name).toEqual([]);
     });
   });
 

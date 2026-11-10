@@ -1,3 +1,4 @@
+import type { Mock } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { RawData } from '../../domain/raw-data';
@@ -78,10 +79,10 @@ describe('report-chart.configuration contract', () => {
   ];
 
   let component: ReportCreationComponent;
-  let getQuestionEU: jasmine.Spy;
+  let getQuestionEU: Mock;
 
   beforeEach(() => {
-    getQuestionEU = jasmine.createSpy('getQuestionEU');
+    getQuestionEU = vi.fn();
     TestBed.configureTestingModule({
       providers: [
         {provide: EoscReadinessDataService, useValue: {getQuestionEU}},
@@ -94,7 +95,7 @@ describe('report-chart.configuration contract', () => {
   });
 
   function load(type: string, namedQueries: string[], stats: string[], answer: RawData): Chart {
-    getQuestionEU.and.returnValue(of(answer));
+    getQuestionEU.mockReturnValue(of(answer));
     const chart: Chart = {title: type, namedQueries, stats, type, data: [], chartSeries: [], pieSeries: []};
     component.loadChart(chart);
     return chart;

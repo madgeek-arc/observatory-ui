@@ -1,3 +1,4 @@
+import type { Mock } from 'vitest';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, NEVER, of } from 'rxjs';
@@ -71,19 +72,19 @@ const byAreaPages: Record<string, Type<ExplorePage>> = {
   'Software': OpenScienceByAreaSoftwareComponent,
 };
 
+/** A stand-in for a service: just the listed methods, each a spy that never answers */
+function spies<Method extends string>(...methods: Method[]): Record<Method, Mock> {
+  return Object.fromEntries(methods.map(method => [method, vi.fn().mockReturnValue(NEVER)])) as Record<Method, Mock>;
+}
+
 /**
  * Creates a page whose services never answer, so that `ngOnInit` only issues its requests:
  * the spies then tell which years the page asked for. The template is not rendered.
  */
 function createPage<T>(page: Type<T>) {
-  const data = jasmine.createSpyObj<EoscReadinessDataService>('EoscReadinessDataService', [
-    'getQuestion', 'getQuestions', 'getQuestionComment', 'getQuestionEU', 'getOSOStats', 'getOSOStatsChartData'
-  ]);
-  Object.values(data).forEach(method => (method as jasmine.Spy).and.returnValue(NEVER));
-  const survey = jasmine.createSpyObj<SurveyService>('SurveyService', ['getSurveyValidatedCountries']);
-  survey.getSurveyValidatedCountries.and.returnValue(NEVER);
-  const stakeholders = jasmine.createSpyObj<StakeholdersService>('StakeholdersService', ['getEOSCSBCountries']);
-  stakeholders.getEOSCSBCountries.and.returnValue(NEVER);
+  const data = spies('getQuestion', 'getQuestions', 'getQuestionComment', 'getQuestionEU', 'getOSOStats', 'getOSOStatsChartData');
+  const survey = spies('getSurveyValidatedCountries');
+  const stakeholders = spies('getEOSCSBCountries');
 
   TestBed.configureTestingModule({
     providers: [
@@ -101,16 +102,16 @@ function createPage<T>(page: Type<T>) {
 }
 
 /** The survey years a page asked the stats API for, sorted */
-function surveyYearsRequested(data: jasmine.SpyObj<EoscReadinessDataService>): string[] {
+function surveyYearsRequested(data: Record<'getQuestion' | 'getQuestions' | 'getQuestionComment' | 'getQuestionEU', Mock>): string[] {
   const requests = [data.getQuestion, data.getQuestions, data.getQuestionComment, data.getQuestionEU]
-    .flatMap(spy => spy.calls.allArgs().map(args => args[0] as string));
+    .flatMap(spy => spy.mock.calls.map(args => args[0] as string));
 
   return [...new Set(requests)].sort();
 }
 
 /** The OpenAIRE queries a page sent */
-function openAireQueries(data: jasmine.SpyObj<EoscReadinessDataService>): string[] {
-  return [data.getOSOStats, data.getOSOStatsChartData].flatMap(spy => spy.calls.allArgs().map(args => args[0] as string));
+function openAireQueries(data: Record<'getOSOStats' | 'getOSOStatsChartData', Mock>): string[] {
+  return [data.getOSOStats, data.getOSOStatsChartData].flatMap(spy => spy.mock.calls.map(args => args[0] as string));
 }
 
 const yearFilter = (year: string) => `"result.year","type":"=","values":["${year}"]`;
@@ -220,16 +221,16 @@ describe('Explore pages and the survey years', () => {
 
         table.getTableData();
 
-        expect(survey.getSurveyValidatedCountries).toHaveBeenCalledOnceWith(surveyModelId(LATEST_SURVEY_YEAR));
+        expect(survey.getSurveyValidatedCountries).toHaveBeenCalledExactlyOnceWith(surveyModelId(LATEST_SURVEY_YEAR));
       });
 
       it(`${name} asks for the latest survey, after loading its answers`, () => {
         const {page, data, survey} = createPage(component);
-        data.getQuestions.and.returnValue(of(new RawData()));
+        data.getQuestions.mockReturnValue(of(new RawData()));
 
         (page as Table).getTableData();
 
-        expect(survey.getSurveyValidatedCountries).toHaveBeenCalledOnceWith(surveyModelId(LATEST_SURVEY_YEAR));
+        expect(survey.getSurveyValidatedCountries).toHaveBeenCalledExactlyOnceWith(surveyModelId(LATEST_SURVEY_YEAR));
       });
     });
   });

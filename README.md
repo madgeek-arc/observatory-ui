@@ -52,7 +52,7 @@ npm ci
 npm start          # ng serve with proxy.conf.js, http://localhost:4200
 ```
 
-Other scripts: `npm run build:prod`, `npm run build:beta`, `npm test` (Karma/Jasmine, needs Chrome), `npm run test:ci` (one headless run, as Jenkins does; set `CHROME_BIN` if Chrome is not found).
+Other scripts: `npm run build:prod`, `npm run build:beta`, `npm test` (Vitest in jsdom, watch mode), `npm run test:ci` (one run with a JUnit report in `reports/vitest/`, as Jenkins does).
 
 ## Documentation
 

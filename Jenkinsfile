@@ -55,7 +55,7 @@ pipeline {
 
     stage('Test') {
       steps {
-        // Builds the Dockerfile 'test' stage (Karma specs and script tests) and exports its reports. It reuses the layers of 'Build Image'.
+        // Builds the Dockerfile 'test' stage (Vitest specs and script tests) and exports its reports. It reuses the layers of 'Build Image'.
         sh 'rm -rf reports'
         sh "docker build --target test-reports --output type=local,dest=reports --progress=plain --build-arg configuration=${BUILD_CONFIGURATION} ."
         sh 'for f in reports/*.exit; do [ "$(cat "$f")" = 0 ] || { echo "Tests failed: $f"; exit 1; }; done'

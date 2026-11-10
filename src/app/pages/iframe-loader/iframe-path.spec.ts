@@ -94,8 +94,8 @@ describe('safeIframePath', () => {
     ['x', '/x', './x', '../x', 'https://app.example/x', 'x?y=1', '?y=1', '#h'].forEach(raw => {
       const out = safeIframePath(raw, base);
       expect(out).not.toBeNull();
-      expect(out!.startsWith('/')).toBeTrue();
-      expect(out!.startsWith('//')).toBeFalse();
+      expect(out!.startsWith('/')).toBe(true);
+      expect(out!.startsWith('//')).toBe(false);
     });
   });
 });
