@@ -18,8 +18,8 @@ authority for access control. Frontend guards only decide what to show.
 
 | Area | Location | Notes |
 |---|---|---|
-| Application shell, routing | `src/app/app.module.ts`, `app-routing.module.ts`, `app.component.ts` | NgModule-based bootstrap; some pages are standalone components |
-| Public dashboard pages | `src/app/pages/{home,dashboard,country-pages,explore,eosc-readiness-dashboard,archive}` | Mostly lazy-loaded modules |
+| Application shell, routing | `src/main.ts`, `src/app/app.config.ts`, `app.routes.ts`, `app.component.ts` | `bootstrapApplication` with standalone components; the survey-tool and catalogue-ui pages are still declared in NgModules |
+| Public dashboard pages | `src/app/pages/{home,dashboard,country-pages,explore,eosc-readiness-dashboard,archive}` | Lazy-loaded routes |
 | Contributions extensions | `src/app/pages/dashboard/contribution-dashboard-extension` | Stakeholder, coordinator, administrator homes and news and stories, added on top of the survey-tool dashboard |
 | Country page configuration | `src/app/pages/country-pages-configuration` | Per-country widget overrides, stored through the backend |
 | Report export | `src/app/pages/report-creation`, `src/app/pages/services/report-creation.service.ts` | See its [README](../src/app/pages/report-creation/README.md) |
@@ -32,11 +32,11 @@ authority for access control. Frontend guards only decide what to show.
 
 Layering is: page component, then feature or shared service, then `HttpClient`, then `/api` (or an external
 statistics service). Authentication, user state and the HTTP error interceptor are cross-cutting and are provided at
-application level in `app.module.ts`.
+application level in `app.config.ts`.
 
 ## Routing
 
-All routes are in `src/app/app-routing.module.ts`.
+All routes are in `src/app/app.routes.ts`.
 
 | Route prefix | Target | Frontend access check |
 |---|---|---|
@@ -46,7 +46,8 @@ All routes are in `src/app/app-routing.module.ts`.
 | `explore` | Lazy explore routes (`explore.routes.ts`) | None (public) |
 | `eoscreadiness` | Lazy eosc readiness routes (`eosc-readiness-dashboard.routes.ts`) | Public, except `2021/investments` (`EoscReadinessGuard`) |
 | `country_selector`, `landing/country/:code`, `archive/**` | Landing pages and the lazy archive routes (`archive.routes.ts`) | `ArchiveGuardService`: `eosc-sb` coordinators and `eosc-sb` stakeholder admins only |
-| `contributions/:id/{contact,messages,...}` | Lazy `MessagingSystemModule` (contact form is public) | None at route level |
+| `contact` | Contact form, the lazy `CONTACT_ROUTES` of the messaging system (public) | None |
+| `contributions/:id/{contact,messages,...}` | Lazy `MESSAGING_SYSTEM_ROUTES` (contact form is public) | None at route level |
 | `contributions/:id/{stakeholder,coordinator,administrator,news-and-stories}` | Role homes defined in this repo | `AuthGuard` |
 | `contributions/:id/...` (dashboard, surveys, groups, support) | survey-tool's `ContributionsDashboardModule` | `AuthGuard` on every route |
 | `reportExport` | Report creation | `AuthGuard` |

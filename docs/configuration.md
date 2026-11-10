@@ -54,7 +54,7 @@ All three files export the same `environment` object. New keys must be added to 
 Values shown as "fixed URL", "public site key" and "fixed DSN" are committed in the file; read them there rather than
 copying them into other documents.
 
-The `environment` object is also supplied to the submodules as the `APP_ENV` provider (`app.module.ts`), and
+The `environment` object is also supplied to the submodules as the `APP_ENV` provider (`app.config.ts`), and
 `src/survey-tool/environments/environment.ts` re-exports it, so a single set of keys serves the host and all three
 submodules.
 

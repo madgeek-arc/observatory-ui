@@ -1,16 +1,30 @@
-import { EnvironmentProviders, ErrorHandler, inject, Provider, provideAppInitializer } from '@angular/core';
+import {
+  ApplicationConfig,
+  EnvironmentProviders,
+  ErrorHandler,
+  inject,
+  Provider,
+  provideAppInitializer,
+  provideZoneChangeDetection
+} from '@angular/core';
 import { HTTP_INTERCEPTORS, provideHttpClient, withXhr, withXsrfConfiguration } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideRouter, Router, withInMemoryScrolling, withRouterConfig } from '@angular/router';
 import * as Sentry from '@sentry/angular';
 import { provideMatomo } from 'ngx-matomo-client';
 import { environment } from '../environments/environment';
+import { AuthenticationService } from '../survey-tool/app/services/authentication.service';
+import { StakeholderMentionableUsersProvider } from '../survey-tool/app/services/stakeholder-mentionable-users.service';
+import { SurveyService } from '../survey-tool/app/services/survey.service';
 import { UserService } from '../survey-tool/app/services/user.service';
 import { MessagingSystemService } from '../messaging-system-ui/services/messaging-system.service';
 import { MessagingWebsocketService } from '../messaging-system-ui/services/messaging-websocket.service';
 import { APP_ENV } from '../survey-tool/catalogue-ui/config/app-env.token';
+import { MentionableUsersProvider } from '../survey-tool/catalogue-ui/domain/mentionable-user';
 import { HttpInterceptorService } from './pages/services/http-interceptor.service';
+import { routes } from './app.routes';
 
-/** The providers of the whole application, shared by the root module and by the spec that checks they resolve */
+/** The providers of the whole application, shared by the bootstrap and by the spec that checks they resolve */
 export const appProviders: (Provider | EnvironmentProviders)[] = [
   {
     provide: HTTP_INTERCEPTORS,
@@ -18,6 +32,9 @@ export const appProviders: (Provider | EnvironmentProviders)[] = [
     multi: true
   },
   UserService,
+  AuthenticationService,
+  SurveyService,
+  { provide: MentionableUsersProvider, useClass: StakeholderMentionableUsersProvider },
   MessagingSystemService,
   // The top menu opens the unread counter socket with it, outside any lazy route
   MessagingWebsocketService,
@@ -58,3 +75,18 @@ export const appProviders: (Provider | EnvironmentProviders)[] = [
     },
   ),
 ];
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideZoneChangeDetection(),
+    provideRouter(
+      routes,
+      // Angular 22 defaults to 'always'; keep the behaviour the routes were written against
+      withRouterConfig({ paramsInheritanceStrategy: 'emptyOnly' }),
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),
+    ),
+    // The cookie law banner of the survey tool is the only animation user
+    provideAnimations(),
+    ...appProviders,
+  ],
+};

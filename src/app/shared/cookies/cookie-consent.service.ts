@@ -6,7 +6,7 @@ import { CONSENT_COOKIE_NAME, CONSENT_MAX_AGE_DAYS, CONSENT_VERSION, Consent } f
  * Keeps the visitor's cookie choices in a single first-party cookie and applies them to Matomo.
  *
  * The consent cookie is the only source of truth: Matomo is configured with `requireConsent: 'tracking'`
- * (see AppModule), so nothing is sent and no Matomo cookie is set until {@link save} records analytics consent.
+ * (see appConfig), so nothing is sent and no Matomo cookie is set until {@link save} records analytics consent.
  */
 @Injectable({ providedIn: 'root' })
 export class CookieConsentService {

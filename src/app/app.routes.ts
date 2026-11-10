@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { ExtraOptions, RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { HomeComponent } from "./pages/home/home.component";
 import { CountryLandingPageComponent } from "./pages/dashboard/country-landing-page/country-landing-page.component";
 import {
@@ -25,16 +24,7 @@ import {
 } from "./pages/dashboard/contribution-dashboard-extension/administrator/administrator-home.component";
 import { NewsAndStoriesComponent } from "./pages/dashboard/contribution-dashboard-extension/news-and-stories/news-and-stories.component";
 
-const routerOptions: ExtraOptions = {
-  scrollPositionRestoration: "enabled",
-  anchorScrolling: "enabled",
-  // Angular 22 defaults to 'always'; keep the behaviour the routes were written against.
-  paramsInheritanceStrategy: "emptyOnly",
-  // scrollOffset: [0, 64],
-  // enableTracing: true
-};
-
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
@@ -137,9 +127,3 @@ const routes: Routes = [
     loadChildren: () => import('../survey-tool/app/survey-tool.module').then(m => m.SurveyToolModule)
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes, routerOptions)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }

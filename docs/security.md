@@ -39,7 +39,7 @@ show "You do not have access to this resource" and navigate to `/home`.
 | Item | Where | Notes |
 |---|---|---|
 | Session cookie (`SESSION`) | Browser cookie set by the backend | Not readable or written by application code |
-| `XSRF-TOKEN` cookie → `X-XSRF-TOKEN` header | Angular `withXsrfConfiguration` in `app.module.ts` | Added by Angular to state-changing requests to the same origin; also sent in the STOMP CONNECT headers |
+| `XSRF-TOKEN` cookie → `X-XSRF-TOKEN` header | Angular `withXsrfConfiguration` in `app.config.ts` | Added by Angular to state-changing requests to the same origin; also sent in the STOMP CONNECT headers |
 | `userInfo`, `currentStakeholder`, `currentCoordinator`, `currentAdministrator`, `redirectUrl` | `sessionStorage` | Per tab; cleared on logout. `userInfo` contains the user's name, e-mail and profile |
 | `consent` cookie | First-party | Cookie-consent choice, `SameSite=Lax`, `Secure` on HTTPS, 395 days |
 | `AccessToken` cookie | Browser cookie | Not created by this application. It is only deleted on logout; messaging-system-ui no longer sends it as an `Authorization` header (see its [security notes](../src/messaging-system-ui/docs/security.md)) |
@@ -52,7 +52,7 @@ calls. Font files are served with `Access-Control-Allow-Origin: *`. CSRF protect
 
 ## Consent, analytics and error reporting
 
-- Matomo is created with `requireConsent: 'tracking'` (`app.module.ts`): no data is sent and no Matomo cookie is set
+- Matomo is created with `requireConsent: 'tracking'` (`app.config.ts`): no data is sent and no Matomo cookie is set
   until the visitor accepts analytics in the cookie banner (`shared/cookies`). Rejecting or withdrawing deletes Matomo's cookies.
 - Sentry is enabled by `enableSentry`. Session replay is sampled (`sentry.replaysSessionSampleRate`, `0.0` in
   production, replays on error at `1.0`); the SDK error dialog is disabled. Review what pages can show before raising

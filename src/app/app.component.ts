@@ -1,15 +1,27 @@
 import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core';
-import { NavigationEnd, Router } from "@angular/router";
+import { NgStyle } from '@angular/common';
+import { NavigationEnd, Router, RouterOutlet } from "@angular/router";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { filter, map, startWith } from "rxjs/operators";
 import { AuthenticationService } from "../survey-tool/app/services/authentication.service";
 import { DashboardSideMenuService } from "../survey-tool/app/shared/dashboard-side-menu/dashboard-side-menu.service";
+import { ContributionsDashboardComponent } from "../survey-tool/app/pages/contributions-dashboard/contributions-dashboard.component";
+import { CookieConsentComponent } from "./shared/cookies/cookie-consent.component";
+import { FullFooterComponent } from "./shared/footer/full-footer.component";
+import { TopMenuDashboardComponent } from "./shared/top-menu/topmenudashboard/top-menu-dashboard.component";
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [
+        NgStyle,
+        RouterOutlet,
+        TopMenuDashboardComponent,
+        ContributionsDashboardComponent,
+        FullFooterComponent,
+        CookieConsentComponent
+    ]
 })
 export class AppComponent {
   private layoutService = inject(DashboardSideMenuService);
