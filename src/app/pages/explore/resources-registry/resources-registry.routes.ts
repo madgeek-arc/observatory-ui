@@ -1,7 +1,6 @@
-import { Routes, RouterModule } from '@angular/router';
+import { Routes } from '@angular/router';
 import { DocumentLandingComponent } from './document-landing/document-landing.component';
 import { SearchComponent } from './search/search.component';
-import { NgModule } from '@angular/core';
 import { DocumentEditComponent } from './document-edit/document-edit.component';
 import { AuthGuard } from "src/survey-tool/app/services/auth-guard.service";
 
@@ -30,11 +29,3 @@ export const resourcesRegistryRoutes: Routes = [
     component: DocumentEditComponent
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(resourcesRegistryRoutes)],
-  exports: [RouterModule],
-  providers: []
-})
-
-export class ResourcesRegistryRoutingModule {}

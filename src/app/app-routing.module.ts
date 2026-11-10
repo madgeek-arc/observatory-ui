@@ -92,7 +92,7 @@ const routes: Routes = [
   },
   {
     path: 'contributions/:stakeholderId/resources-registry',
-    loadChildren: () => import('./pages/explore/resources-registry/resources-registry.module').then(m => m.ResourcesRegistryModule),
+    loadChildren: () => import('./pages/explore/resources-registry/resources-registry.routes').then(m => m.resourcesRegistryRoutes),
   },
   {
     path: 'contributions/:id/',
