@@ -6,12 +6,14 @@ import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData"
 import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { latlong } from "src/app/domain/countries-lat-lon";
 import { zip } from "rxjs";
+import { HighchartsCategoryMapComponent } from "../../../shared/charts/category-map/highcharts-category-map.component";
+import { CountriesTableComponent } from "../countries-table.component";
 
 @Component({
     selector: 'app-ncte-policies',
     templateUrl: './ncte-policies.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsCategoryMapComponent, CountriesTableComponent]
 })
 
 export class NCTEPoliciesComponent implements OnInit{

@@ -7,7 +7,9 @@ import { DataHandlerService } from "../services/data-handler.service";
 import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { Policies2021Component } from "./eosc-readiness-2021/policies/policies-2021.component";
 import { Practices2021Component } from "./eosc-readiness-2021/practices/practices-2021.component";
-import { ArchiveModule } from "../archive/archive.module";
+import { NCTEFundingComponent } from "../archive/funding/ncte-funding.component";
+import { NCTEMandate } from "../archive/mandate/ncte-mandate";
+import { CountriesTableComponent } from "../archive/countries-table.component";
 import { Investments2021Component } from "./eosc-readiness-2021/investments/investments-2021.component";
 import { PoliciesComponent } from "./eosc-readiness-dynamic/policies/policies.component";
 import { PracticesComponent } from "./eosc-readiness-dynamic/practices/practices.component";
@@ -64,7 +66,9 @@ import { ChartsModule } from "../../shared/charts/charts.module";
     CommonModule,
     EoscReadinessDashboardRouting,
     HighchartsChartModule,
-    ArchiveModule,
+    NCTEFundingComponent,
+    NCTEMandate,
+    CountriesTableComponent,
     ChartsModule,
   ],
   providers: [

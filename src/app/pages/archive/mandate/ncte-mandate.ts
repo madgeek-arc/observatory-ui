@@ -5,13 +5,15 @@ import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { DataService } from "../../services/data.service";
 import { DataHandlerService } from "../../services/data-handler.service";
 import { CategorizedAreaData } from "src/app/domain/categorizedAreaData";
+import { HighchartsCategoryMapComponent } from "../../../shared/charts/category-map/highcharts-category-map.component";
+import { CountriesTableComponent } from "../countries-table.component";
 
 
 @Component({
     selector: 'app-mandate',
     templateUrl: 'ncte-mandate.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsCategoryMapComponent, CountriesTableComponent]
 })
 
 export class NCTEMandate {

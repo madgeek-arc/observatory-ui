@@ -5,8 +5,7 @@ import { CountryTableData } from "../../domain/country-table-data";
 @Component({
     selector: 'app-countries-table',
     templateUrl: './countries-table.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 
 export class CountriesTableComponent implements OnChanges {

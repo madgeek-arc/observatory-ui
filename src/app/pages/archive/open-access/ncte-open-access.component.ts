@@ -5,12 +5,13 @@ import { CountryTableData } from "src/app/domain/country-table-data";
 import { DataHandlerService } from "../../services/data-handler.service";
 import { environment } from "src/environments/environment";
 import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
+import { CountriesTableComponent } from "../countries-table.component";
 
 @Component({
     selector: 'app-ncte-open-access',
     templateUrl: './ncte-open-access.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [CountriesTableComponent]
 })
 
 export class NCTEOpenAccessComponent implements OnInit {

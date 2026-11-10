@@ -5,12 +5,14 @@ import { CountryTableData } from "src/app/domain/country-table-data";
 import { DataHandlerService } from "../../services/data-handler.service";
 import { environment } from "src/environments/environment";
 import { CategorizedAreaData } from "src/app/domain/categorizedAreaData";
+import { HighchartsCategoryMapComponent } from "../../../shared/charts/category-map/highcharts-category-map.component";
+import { CountriesTableComponent } from "../countries-table.component";
 
 @Component({
     selector: 'app-ncte-funding',
     templateUrl: './ncte-funding.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HighchartsCategoryMapComponent, CountriesTableComponent]
 })
 
 export class NCTEFundingComponent implements OnInit {

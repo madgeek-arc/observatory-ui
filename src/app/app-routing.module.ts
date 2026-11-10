@@ -9,7 +9,6 @@ import { AuthGuard } from "../survey-tool/app/services/auth-guard.service";
 import { countryPagesRoutes } from "./pages/country-pages/country-pages.routing";
 import { countryPagesConfigurationRoutes } from "./pages/country-pages-configuration/country-pages-configuration.routing";
 import { CountrySelectorComponent } from "./pages/dashboard/country-selector/country-selector.component";
-import { ArchiveModule } from "./pages/archive/archive.module";
 import { ArchiveGuardService } from "./pages/services/archiveGuard.service";
 import {
   ContributionsHomeComponent
@@ -85,7 +84,7 @@ const routes: Routes = [
   },
   {
     path: 'archive',
-    loadChildren: () => import('./pages/archive/archive.module').then(m => m.ArchiveModule)
+    loadChildren: () => import('./pages/archive/archive.routes').then(m => m.ARCHIVE_ROUTES)
   },
   {
     path: 'contributions/:id',

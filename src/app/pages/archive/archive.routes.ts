@@ -1,5 +1,4 @@
-import {RouterModule, Routes} from '@angular/router';
-import {NgModule} from '@angular/core';
+import {Routes} from '@angular/router';
 import {ArchiveComponent} from "./archive.component";
 import {NCTEPoliciesComponent} from "./policies/ncte-policies.component";
 import {NCTEFundingComponent} from "./funding/ncte-funding.component";
@@ -7,11 +6,16 @@ import {NCTEMandate} from "./mandate/ncte-mandate";
 import {NCTEOpenAccessComponent} from "./open-access/ncte-open-access.component";
 import {NCTEMonitoringComponent} from "./monitoring/ncte-monitoring.component";
 import {ArchiveGuardService} from "../services/archiveGuard.service";
+import {DataService} from "../services/data.service";
+import {DataHandlerService} from "../services/data-handler.service";
+import {StakeholdersService} from "src/survey-tool/app/services/stakeholders.service";
 
-const nationalContributionsToEOSCDashboardRoutes: Routes = [
+export const ARCHIVE_ROUTES: Routes = [
   {
     path: '',
     component: ArchiveComponent,
+    // What ArchiveModule provided: instances scoped to this lazy subtree
+    providers: [DataService, DataHandlerService, StakeholdersService],
     canActivateChild: [ArchiveGuardService],
     children: [
       {
@@ -43,10 +47,3 @@ const nationalContributionsToEOSCDashboardRoutes: Routes = [
     runGuardsAndResolvers: 'always'
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(nationalContributionsToEOSCDashboardRoutes)],
-  exports: [RouterModule]
-})
-
-export class ArchiveRouting {}
