@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { readFile } from 'node:fs/promises';
 import { ErrorHandler } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import * as Sentry from '@sentry/angular';
@@ -59,6 +60,15 @@ describe('appProviders', () => {
 describe('appConfig', () => {
   let placeholder: HTMLScriptElement;
 
+  /** The route config path of the deepest activated route */
+  const leafPath = (router: Router) => {
+    let route = router.routerState.snapshot.root;
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+    return route.routeConfig?.path;
+  };
+
   beforeEach(() => {
     placeholder = document.head.appendChild(document.createElement('script'));
     TestBed.configureTestingModule({ providers: appConfig.providers });
@@ -81,18 +91,23 @@ describe('appConfig', () => {
 
   it('shows the not-found page for a URL no route matches, without hiding the survey tool routes', async () => {
     const router = TestBed.inject(Router);
-    const leafPath = () => {
-      let route = router.routerState.snapshot.root;
-      while (route.firstChild) {
-        route = route.firstChild;
-      }
-      return route.routeConfig?.path;
-    };
 
     await router.navigateByUrl('/no/such/page');
-    expect(leafPath()).toBe('**');
+    expect(leafPath(router)).toBe('**');
 
     await router.navigateByUrl('/profile');
-    expect(leafPath()).toBe('profile');
+    expect(leafPath(router)).toBe('profile');
+  });
+
+  it('points every internal link of the footer at a real route', async () => {
+    const footer = await readFile('src/app/shared/footer/full-footer.component.html', 'utf8');
+    const links = [...footer.matchAll(/routerLink\]="\['(\/[^']+)'\]"/g)].map(match => match[1]);
+    const router = TestBed.inject(Router);
+
+    expect(links.length).toBeGreaterThan(10);
+    for (const link of links) {
+      await router.navigateByUrl(link);
+      expect(leafPath(router), `${link} falls through to the not-found page`).not.toBe('**');
+    }
   });
 });
