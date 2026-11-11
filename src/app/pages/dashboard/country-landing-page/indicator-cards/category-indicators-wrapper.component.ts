@@ -5,7 +5,7 @@ import { NgClass } from "@angular/common";
     selector: 'category-indicators-wrapper',
     templateUrl: 'category-indicators-wrapper.component.html',
     styleUrls: ['../country-landing-page.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [NgClass]
 })
 

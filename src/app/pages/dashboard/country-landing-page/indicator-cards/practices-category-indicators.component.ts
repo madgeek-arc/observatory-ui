@@ -4,7 +4,7 @@ import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
     selector: 'practices-category-indicators',
     templateUrl: 'practices-category-indicators.component.html',
     styleUrls: ['../country-landing-page.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class PracticesCategoryIndicatorsComponent {
