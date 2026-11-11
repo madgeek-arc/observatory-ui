@@ -1,33 +1,28 @@
-import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed, input, signal } from '@angular/core';
 import { CountryTableData } from "../../domain/country-table-data";
 
 
 @Component({
     selector: 'app-countries-table',
     templateUrl: './countries-table.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CountriesTableComponent implements OnChanges {
+export class CountriesTableComponent {
 
-  @Input() countries: CountryTableData[];
-  @Input() tableHeaders: string[] = null;
-  @Input() tableType: string;
+  countries = input<CountryTableData[]>();
+  tableHeaders = input<string[]>(null);
+  tableType = input<string>();
 
-  sortedColumnIndex: number = -1;
-  asc: boolean = true;
+  sortedColumnIndex = signal(-1);
+  asc = signal(true);
 
-  constructor() {}
-
-  ngOnChanges() {
-    this.countries.sort((a, b) => (a['name'] > b['name']) ? 1 : -1);
-    // console.log('countries ->', this.countries);
-    // console.log('table headers ->', this.tableHeaders);
-  }
+  // Sorted by country name. Sorts a copy, the array belongs to the parent.
+  rows = computed(() => this.countries()?.slice().sort((a, b) => (a['name'] > b['name']) ? 1 : -1));
 
   // Returns a function responsible for sorting a specific column index (idx = columnIndex, asc = ascending order?).
   comparer(idx, asc) {
-    this.sortedColumnIndex = idx;
+    this.sortedColumnIndex.set(idx);
     function getCellValue(tr, idx) {
       return tr.children[idx].innerText || tr.children[idx].textContent;
     }
@@ -45,8 +40,9 @@ export class CountriesTableComponent implements OnChanges {
   sortByColumn(e) {
     const table = e.target.closest('table');
     const tbody = table.querySelector('tbody');
+    this.asc.update(asc => !asc);
     Array.from(tbody.querySelectorAll('tr'))
-      .sort(this.comparer(Array.from(e.target.parentNode.children).indexOf(e.target), this.asc = !this.asc))
+      .sort(this.comparer(Array.from(e.target.parentNode.children).indexOf(e.target), this.asc()))
       .forEach(tr => tbody.appendChild(tr));
   }
 

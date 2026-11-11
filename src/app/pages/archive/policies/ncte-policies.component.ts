@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, inject, signal } from "@angular/core";
 import { CountryTableData } from "src/app/domain/country-table-data";
 import { DataService } from "../../services/data.service";
 import { DataHandlerService } from "../../services/data-handler.service";
@@ -12,27 +12,31 @@ import { CountriesTableComponent } from "../countries-table.component";
 @Component({
     selector: 'app-ncte-policies',
     templateUrl: './ncte-policies.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [HighchartsCategoryMapComponent, CountriesTableComponent]
 })
 
 export class NCTEPoliciesComponent implements OnInit{
 
-  tableAbsoluteData: CountryTableData[];
+  private dataService = inject(DataService);
+  private dataHandlerService = inject(DataHandlerService);
+  private stakeholdersService = inject(StakeholdersService);
+
+  // read by the template
+  tableAbsoluteData = signal<CountryTableData[]>(undefined);
+  countryCodeArray = signal<CategorizedAreaData>(null);
+  mapSubtitle = signal<string>(null);
+  loadingAbsoluteTable = signal(true);
+
+  // only used to build the map datasets
   mapPointData: CountryTableData[];
   question3: CountryTableData[];
   question12: CountryTableData[];
   question14: CountryTableData[];
-  countryCodeArray: CategorizedAreaData = null;
-  mapSubtitle: string = null;
-  loadingAbsoluteTable: boolean = true;
   countriesArray: string[] = [];
 
-  constructor(private dataService: DataService, private dataHandlerService: DataHandlerService,
-              private stakeholdersService: StakeholdersService) {}
-
   ngOnInit() {
-    this.loadingAbsoluteTable = true;
+    this.loadingAbsoluteTable.set(true);
     zip(
       this.dataService.getEOSCRelevantPolicies(),
       this.dataService.getUseCasesAndPracticesByDimension(),
@@ -41,8 +45,8 @@ export class NCTEPoliciesComponent implements OnInit{
       this.dataService.getQuestion14(),
       this.dataService.getQuestion16()).subscribe(
         next => {
-          this.tableAbsoluteData = this.dataHandlerService.convertRawDataToTableData(next[0]);
-          this.loadingAbsoluteTable = false;
+          this.tableAbsoluteData.set(this.dataHandlerService.convertRawDataToTableData(next[0]));
+          this.loadingAbsoluteTable.set(false);
           this.mapPointData = this.dataHandlerService.convertRawDataToTableData(next[1]);
           this.countriesArray = next[2];
           this.question3 = this.dataHandlerService.convertRawDataToMapPoint(next[3]);
@@ -60,22 +64,22 @@ export class NCTEPoliciesComponent implements OnInit{
 
     this.createMapSubtitle(index);
 
-    this.countryCodeArray = new CategorizedAreaData();
-    this.countryCodeArray.series[0] = new Series('Has Policy', false);
+    const mapData = new CategorizedAreaData();
+    mapData.series[0] = new Series('Has Policy', false);
 
     let countryCodeArray = [];
-    for (let i = 0; i < this.tableAbsoluteData.length; i++) {
-      if (this.tableAbsoluteData[i].EOSCRelevantPoliciesInPlace[index] === 'true') {
-        countryCodeArray.push(this.tableAbsoluteData[i].code);
+    for (let i = 0; i < this.tableAbsoluteData().length; i++) {
+      if (this.tableAbsoluteData()[i].EOSCRelevantPoliciesInPlace[index] === 'true') {
+        countryCodeArray.push(this.tableAbsoluteData()[i].code);
       }
     }
-    this.countryCodeArray.series[0].data = countryCodeArray;
+    mapData.series[0].data = countryCodeArray;
 
-    this.countryCodeArray.series[1] = new Series('No Policy', false);
-    this.countryCodeArray.series[1].data = this.countriesArray.filter( code => !countryCodeArray.includes(code));
+    mapData.series[1] = new Series('No Policy', false);
+    mapData.series[1].data = this.countriesArray.filter( code => !countryCodeArray.includes(code));
 
-    for (let i = 0; i < this.countryCodeArray.series.length; i++) {
-      this.countryCodeArray.series[i].data = this.countryCodeArray.series[i].data.map(code => ({ code }));
+    for (let i = 0; i < mapData.series.length; i++) {
+      mapData.series[i].data = mapData.series[i].data.map(code => ({ code }));
     }
 
     if (index > 2) {
@@ -85,12 +89,12 @@ export class NCTEPoliciesComponent implements OnInit{
           mapPointArray.push({name: this.mapPointData[i].code, lat: latlong.get(this.mapPointData[i].code).latitude, lon: latlong.get(this.mapPointData[i].code).longitude});
         }
       }
-      const pos = this.countryCodeArray.series.length
-      this.countryCodeArray.series[pos] = new Series('Countries with use cases and best practices relevant to the policy', false, 'mappoint');
-      this.countryCodeArray.series[pos].data = mapPointArray;
-      this.countryCodeArray.series[pos].color = '#7CFC00';
-      this.countryCodeArray.series[pos].marker.symbol = 'circle';
-      this.countryCodeArray.series[pos].showInLegend = true;
+      const pos = mapData.series.length
+      mapData.series[pos] = new Series('Countries with use cases and best practices relevant to the policy', false, 'mappoint');
+      mapData.series[pos].data = mapPointArray;
+      mapData.series[pos].color = '#7CFC00';
+      mapData.series[pos].marker.symbol = 'circle';
+      mapData.series[pos].showInLegend = true;
     }
 
     if (index === 0 || index === 4 || index === 7) {
@@ -114,55 +118,54 @@ export class NCTEPoliciesComponent implements OnInit{
         }
       }
 
-      const pos = this.countryCodeArray.series.length
-      this.countryCodeArray.series[pos] = new Series('Countries with financial strategies linked to the policy', false, 'mappoint');
-      this.countryCodeArray.series[pos].data = mapPointArray;
-      this.countryCodeArray.series[pos].color = '#FFEF00';
-      this.countryCodeArray.series[pos].marker.symbol = 'diamond';
-      this.countryCodeArray.series[pos].showInLegend = true;
+      const pos = mapData.series.length
+      mapData.series[pos] = new Series('Countries with financial strategies linked to the policy', false, 'mappoint');
+      mapData.series[pos].data = mapPointArray;
+      mapData.series[pos].color = '#FFEF00';
+      mapData.series[pos].marker.symbol = 'diamond';
+      mapData.series[pos].showInLegend = true;
     }
 
-        // console.log(this.countryCodeArray);
-
+    this.countryCodeArray.set(mapData);
   }
 
   createMapSubtitle(index: number) {
     switch (index) {
       case 0:
-        this.mapSubtitle = 'There are one or more policies relevant for the EOSC in place';
+        this.mapSubtitle.set('There are one or more policies relevant for the EOSC in place');
         break;
       case 1:
-        this.mapSubtitle = 'Policy in planning';
+        this.mapSubtitle.set('Policy in planning');
         break;
       case 2:
-        this.mapSubtitle = 'One or more of the open science policies explicitly mentions EOSC';
+        this.mapSubtitle.set('One or more of the open science policies explicitly mentions EOSC');
         break;
       case 3:
-        this.mapSubtitle = 'Policy addresses Open access to data, data management and/or FAIR';
+        this.mapSubtitle.set('Policy addresses Open access to data, data management and/or FAIR');
         break;
       case 4:
-        this.mapSubtitle = 'Policy addresses FAIRisation of data';
+        this.mapSubtitle.set('Policy addresses FAIRisation of data');
         break;
       case 5:
-        this.mapSubtitle = 'Policy addresses Open access to software';
+        this.mapSubtitle.set('Policy addresses Open access to software');
         break;
       case 6:
-        this.mapSubtitle = 'Policy addresses Preservation and reuse of scientific information';
+        this.mapSubtitle.set('Policy addresses Preservation and reuse of scientific information');
         break;
       case 7:
-        this.mapSubtitle = 'Policy addresses Infrastructures that include aspects of open science';
+        this.mapSubtitle.set('Policy addresses Infrastructures that include aspects of open science');
         break;
       case 8:
-        this.mapSubtitle = 'Policy addresses Skills and competencies';
+        this.mapSubtitle.set('Policy addresses Skills and competencies');
         break;
       case 9:
-        this.mapSubtitle = 'Policy addresses Incentives and rewards';
+        this.mapSubtitle.set('Policy addresses Incentives and rewards');
         break;
       case 10:
-        this.mapSubtitle = 'Policy addresses Citizen science';
+        this.mapSubtitle.set('Policy addresses Citizen science');
         break;
       case 11:
-        this.mapSubtitle = 'Other';
+        this.mapSubtitle.set('Other');
         break;
     }
   }

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject, signal } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { CountryTableData } from "src/app/domain/country-table-data";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
@@ -12,36 +12,39 @@ import { CountriesTableComponent } from "../countries-table.component";
 @Component({
     selector: 'app-mandate',
     templateUrl: 'ncte-mandate.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [HighchartsCategoryMapComponent, CountriesTableComponent]
 })
 
 export class NCTEMandate {
 
+  private dataService = inject(DataService);
+  private dataHandlerService = inject(DataHandlerService);
+  private sanitizer = inject(DomSanitizer);
+
   private chartsURL = environment.STATS_API_ENDPOINT + 'chart?json=';
   private profileName = environment.profileName;
 
-  tableAbsoluteData: CountryTableData[];
-  mapData: CategorizedAreaData;
-  loadingAbsoluteTable: boolean = true;
+  tableAbsoluteData = signal<CountryTableData[]>(undefined);
+  mapData = signal<CategorizedAreaData>(undefined);
+  loadingAbsoluteTable = signal(true);
 
   mandatedStatusPieChartURL: SafeResourceUrl;
-
-  constructor(private dataService: DataService, private dataHandlerService: DataHandlerService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.dataService.getMandatedStatus().subscribe(
       rawData => {
         // console.log('RawData', rawData);
-        this.tableAbsoluteData = this.dataHandlerService.convertRawDataToTableData(rawData);
-        this.loadingAbsoluteTable = false;
-        this.mapData = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData);
-        for (let i = 0; i < this.mapData.series.length; i++) {
-          this.mapData.series[i].data = this.mapData.series[i].data.map(code => ({ code }));
+        this.tableAbsoluteData.set(this.dataHandlerService.convertRawDataToTableData(rawData));
+        this.loadingAbsoluteTable.set(false);
+        const mapData = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData);
+        for (let i = 0; i < mapData.series.length; i++) {
+          mapData.series[i].data = mapData.series[i].data.map(code => ({ code }));
         }
+        this.mapData.set(mapData);
       }, error => {
         console.error(error);
-        this.loadingAbsoluteTable = false;
+        this.loadingAbsoluteTable.set(false);
       }
     );
 

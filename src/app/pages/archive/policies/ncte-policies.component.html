@@ -73,7 +73,7 @@
               </div>
             </div>
             <div class="uk-width-2-3" style="height: 700px">
-              <app-highcharts-category-map [mapData]="countryCodeArray" [subtitle]="mapSubtitle"
+              <app-highcharts-category-map [mapData]="countryCodeArray()" [subtitle]="mapSubtitle()"
                 [title]="'EOSC-relevant Policies in Place at national or regional level'">
               </app-highcharts-category-map>
             </div>
@@ -84,11 +84,11 @@
     <li aria-hidden="true" style="animation-duration: 200ms;" class="">
       <div class="uk-margin-medium-top">
         <div class="uk-card uk-card-default uk-card-body">
-          @if (loadingAbsoluteTable) {
+          @if (loadingAbsoluteTable()) {
             <div class="whiteFilm"><i class="fa fa-spinner fa-spin fa-2x loader" aria-hidden="true"></i></div>
           }
-          @if (tableAbsoluteData) {
-            <app-countries-table [countries]="tableAbsoluteData" [tableType]="'policies'"></app-countries-table>
+          @if (tableAbsoluteData()) {
+            <app-countries-table [countries]="tableAbsoluteData()" [tableType]="'policies'"></app-countries-table>
           }
         </div>
       </div>

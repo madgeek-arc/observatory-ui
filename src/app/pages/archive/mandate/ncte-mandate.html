@@ -23,7 +23,7 @@
             <div class="uk-width-2-3">
               <!--<app-highcharts-category-map></app-highcharts-category-map>-->
               <div class="" style="height: 600px">
-                <app-highcharts-category-map [mapData]="mapData" [mapType]="'Categorization'"
+                <app-highcharts-category-map [mapData]="mapData()" [mapType]="'Categorization'"
                   [pointFormat]="'{point.name}: <b>{series.name}</b>'"
                   [title]="'Mandated organisation appointed by the country in EOSC Association'">
                 </app-highcharts-category-map>
@@ -49,11 +49,11 @@
       <li aria-hidden="true" style="animation-duration: 200ms;" class="">
         <div class="uk-margin-medium-top">
           <div class="uk-card uk-card-default uk-card-body">
-            @if (loadingAbsoluteTable) {
+            @if (loadingAbsoluteTable()) {
               <div class="whiteFilm"><i class="fa fa-spinner fa-spin fa-2x loader" aria-hidden="true"></i></div>
             }
-            @if (tableAbsoluteData) {
-              <app-countries-table [countries]="tableAbsoluteData" [tableType]="'mandate'"></app-countries-table>
+            @if (tableAbsoluteData()) {
+              <app-countries-table [countries]="tableAbsoluteData()" [tableType]="'mandate'"></app-countries-table>
             }
           </div>
         </div>

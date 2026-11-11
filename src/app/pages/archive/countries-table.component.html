@@ -1,29 +1,29 @@
 <ng-container>
-  @if (countries) {
+  @if (rows()) {
     <table class="uk-table uk-table-hover uk-table-divider uk-table-small">
       <thead>
         <tr>
           <th class="uk-text-center" (click)="sortByColumn($event)">
-            @if (sortedColumnIndex !== 0) {
+            @if (sortedColumnIndex() !== 0) {
               <span class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort.svg"></span>
             }
-            @if (sortedColumnIndex === 0 && !asc) {
+            @if (sortedColumnIndex() === 0 && !asc()) {
               <span class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-descending.svg"></span>
             }
-            @if (sortedColumnIndex === 0 && asc) {
+            @if (sortedColumnIndex() === 0 && asc()) {
               <span class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-ascending.svg"></span>
             }
             Country
           </th>
-          @for (header of tableHeaders; track header; let i = $index) {
+          @for (header of tableHeaders(); track header; let i = $index) {
             <th class="uk-text-center" (click)="sortByColumn($event)">
-              @if (sortedColumnIndex !== i+1) {
+              @if (sortedColumnIndex() !== i+1) {
                 <span class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort.svg"></span>
               }
-              @if (sortedColumnIndex === i+1 && !asc) {
+              @if (sortedColumnIndex() === i+1 && !asc()) {
                 <span class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-descending.svg"></span>
               }
-              @if (sortedColumnIndex === i+1 && asc) {
+              @if (sortedColumnIndex() === i+1 && asc()) {
                 <span class="uk-margin-small-right"><img src="../../../survey-tool/assets/images/icons/sort-ascending.svg"></span>
               }
               {{header}}
@@ -32,17 +32,17 @@
         </tr>
       </thead>
       <tbody>
-        @for (countryOverview of countries; track countryOverview) {
+        @for (countryOverview of rows(); track countryOverview) {
           <tr>
             <td class="uk-text-center"><span>{{countryOverview.name}}</span></td>
-            @if (tableType==='policies') {
+            @if (tableType() === 'policies') {
               @for (column of countryOverview.EOSCRelevantPoliciesInPlace; track column) {
                 <td class="uk-text-center">
                   <span>{{column === 'true' ? 'Yes' : '--'}}</span>
                 </td>
               }
             }
-            @if (tableType === 'funding') {
+            @if (tableType() === 'funding') {
               <td class="uk-text-center">
                 @if (countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies === null
                   || countryOverview.dedicatedFinancialContributionsToEOSCLinkedToPolicies === 'null') {
@@ -52,7 +52,7 @@
                 }
               </td>
             }
-            @if (tableType === 'mandate') {
+            @if (tableType() === 'mandate') {
               <td class="uk-text-center">
                 @if (countryOverview.hasAppointedMandatedOrganization === null
                   || countryOverview.hasAppointedMandatedOrganization === 'null') {

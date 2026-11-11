@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, inject, signal } from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { DataService } from "../../services/data.service";
 import { CountryTableData } from "src/app/domain/country-table-data";
@@ -11,40 +11,43 @@ import { CountriesTableComponent } from "../countries-table.component";
 @Component({
     selector: 'app-ncte-funding',
     templateUrl: './ncte-funding.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [HighchartsCategoryMapComponent, CountriesTableComponent]
 })
 
 export class NCTEFundingComponent implements OnInit {
 
+  private dataService = inject(DataService);
+  private dataHandlerService = inject(DataHandlerService);
+  private sanitizer = inject(DomSanitizer);
+
   private chartsURL = environment.STATS_API_ENDPOINT + 'chart?json=';
   private profileName = environment.profileName;
   dev = !environment.production;
 
-  tableAbsoluteData: CountryTableData[];
-  mapData: CategorizedAreaData;
-  bubbleMapSeries: any[] = null;
-  loadingAbsoluteTable: boolean = true;
+  tableAbsoluteData = signal<CountryTableData[]>(undefined);
+  mapData = signal<CategorizedAreaData>(undefined);
+  bubbleMapSeries = signal<any[]>(null);
+  loadingAbsoluteTable = signal(true);
 
   // fundingForEOSCSums: FundingForEOSCSums;
 
   financialContrToEOSCPieChartURL: SafeResourceUrl;
 
-  constructor(private dataService: DataService, private dataHandlerService: DataHandlerService, private sanitizer: DomSanitizer) {}
-
   ngOnInit() {
     this.dataService.getQuestion5().subscribe(
       rawData => {
-        this.tableAbsoluteData = this.dataHandlerService.convertRawDataToTableData(rawData);
-        this.loadingAbsoluteTable = false;
-        this.mapData = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData);
-        for (let i = 0; i < this.mapData.series.length; i++) {
-          this.mapData.series[i].data = this.mapData.series[i].data.map(code => ({ code }));
+        this.tableAbsoluteData.set(this.dataHandlerService.convertRawDataToTableData(rawData));
+        this.loadingAbsoluteTable.set(false);
+        const mapData = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData);
+        for (let i = 0; i < mapData.series.length; i++) {
+          mapData.series[i].data = mapData.series[i].data.map(code => ({ code }));
         }
+        this.mapData.set(mapData);
 
       }, error => {
         console.error(error);
-        this.loadingAbsoluteTable = false;
+        this.loadingAbsoluteTable.set(false);
       }
     );
 
@@ -60,7 +63,7 @@ export class NCTEFundingComponent implements OnInit {
 
     this.dataService.getFundingForEOSCBubbleSeries().subscribe(
       rawData => {
-        this.bubbleMapSeries = this.dataHandlerService.convertRawDataToBubbleMapSeries(rawData);
+        this.bubbleMapSeries.set(this.dataHandlerService.convertRawDataToBubbleMapSeries(rawData));
       },
       error => {console.error(error)}
     );

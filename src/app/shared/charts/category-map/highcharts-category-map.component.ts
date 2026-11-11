@@ -1,5 +1,5 @@
 import * as Highcharts from "highcharts/highmaps";
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ChangeDetectionStrategy } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ChangeDetectionStrategy, signal } from "@angular/core";
 import { SeriesOptionsType } from "highcharts/highmaps";
 import { CategorizedAreaData } from "src/app/domain/categorizedAreaData";
 import { PremiumSortPipe } from "../../pipes/premium-sort.pipe";
@@ -20,7 +20,7 @@ const worldMap: any = worldMapJson;
     selector: 'app-highcharts-category-map',
     templateUrl: './highcharts-category-map.component.html',
     styles: ['#container { display: block; width: 100%; height: 100%; }'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [HighchartsChartModule]
 })
 
@@ -48,7 +48,8 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   datasetOrder = ['Yes', 'Partly', 'In planning', 'No', 'Awaiting data'];
   premiumSort = new PremiumSortPipe();
   chartConstructor = "mapChart";
-  ready = false;
+  // set from a timeout in ngOnChanges, so it has to be a signal for the OnPush view to refresh
+  ready = signal(false);
   chartOptions: Highcharts.Options;
 
   constructor() {
@@ -69,7 +70,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.ready = false;
+    this.ready.set(false);
     if (this.mapData) {
       const self = this, chart = this.chart;
       // chart.showLoading();
@@ -101,7 +102,7 @@ export class HighchartsCategoryMapComponent implements OnInit, OnChanges {
         // console.log(this.mapData.series);
         // console.log(self.chartOptions.series)
         // chart.hideLoading();
-        this.ready = true;
+        this.ready.set(true);
         self.updateFlag = true;
       }, 0);
 
