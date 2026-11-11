@@ -24,7 +24,7 @@ authority for access control. Frontend guards only decide what to show.
 | Country page configuration | `src/app/pages/country-pages-configuration` | Per-country widget overrides, stored through the backend |
 | Report export | `src/app/pages/report-creation`, `src/app/pages/services/report-creation.service.ts` | See its [README](../src/app/pages/report-creation/README.md) |
 | Data access | `src/app/pages/services/*`, feature-local `*.service.ts` | `HttpClient` services; statistics queries are built in `data.service.ts` and `eosc-readiness-data.service.ts` |
-| Charts | `src/app/shared/charts` | Highcharts wrappers (maps, bar, pie, treemap, gauges, report charts) |
+| Charts | `src/app/shared/charts` | Highcharts wrappers (maps, bar, pie, tree graph, gauges, report charts) |
 | Shared UI | `src/app/shared/{top-menu,footer,cookies,pipes,reusable-components}` | Cookie consent gates Matomo |
 | Static domain data | `src/app/domain` | Country lists, colours, captions, indicator tables |
 | Environments | `src/environments` | One file per build configuration, see [configuration.md](configuration.md) |
