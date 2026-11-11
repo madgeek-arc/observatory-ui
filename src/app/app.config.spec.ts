@@ -70,11 +70,29 @@ describe('appConfig', () => {
     expect(TestBed.inject(ROUTER_CONFIGURATION).paramsInheritanceStrategy).toBe('emptyOnly');
   });
 
-  it('mounts the contact page at the root and leaves the survey tool routes as the last resort', () => {
+  it('mounts the contact page at the root and leaves the survey tool routes as the last resort before the wildcard', () => {
     const paths = TestBed.inject(Router).config.map(route => route.path);
 
     expect(paths).toContain('contact');
     expect(paths).not.toContain('messages');
-    expect(paths.at(-1)).toBe('');
+    expect(paths.at(-2)).toBe('');
+    expect(paths.at(-1)).toBe('**');
+  });
+
+  it('shows the not-found page for a URL no route matches, without hiding the survey tool routes', async () => {
+    const router = TestBed.inject(Router);
+    const leafPath = () => {
+      let route = router.routerState.snapshot.root;
+      while (route.firstChild) {
+        route = route.firstChild;
+      }
+      return route.routeConfig?.path;
+    };
+
+    await router.navigateByUrl('/no/such/page');
+    expect(leafPath()).toBe('**');
+
+    await router.navigateByUrl('/profile');
+    expect(leafPath()).toBe('profile');
   });
 });

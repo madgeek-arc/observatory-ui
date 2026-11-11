@@ -125,5 +125,10 @@ export const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('../survey-tool/app/survey-tool.routes').then(m => m.SURVEY_TOOL_ROUTES)
+  },
+  // Must stay last: it only answers what neither the routes above nor the survey tool routes matched
+  {
+    path: '**',
+    loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent)
   }
 ];
