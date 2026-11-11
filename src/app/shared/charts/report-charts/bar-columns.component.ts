@@ -7,7 +7,7 @@ import { HighchartsChartModule } from "highcharts-angular";
   selector: 'bar-columns-chart',
   template: `
     <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" style="width: 100%; display: block;"></highcharts-chart>`,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     HighchartsChartModule
   ]

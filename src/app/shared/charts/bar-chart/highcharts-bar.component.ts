@@ -15,7 +15,7 @@ let componentContext;
     selector: 'app-bar-chart',
     templateUrl: './highcharts-bar.component.html',
     styles: ['#container {display: block; width: 100%; height: 100%; }'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [HighchartsChartModule]
 })
 

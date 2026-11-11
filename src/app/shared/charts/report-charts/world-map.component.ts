@@ -24,7 +24,7 @@ export type CustomSeriesMapOptions = Omit<Highcharts.SeriesMapOptions, 'data'> &
   imports: [
     HighchartsChartModule
 ],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `@if (ready) {<highcharts-chart [Highcharts]="Highcharts" [constructorType]="'mapChart'" [options]="chartOptions" style="width: 100%; display: block;"></highcharts-chart>}`
 })
 

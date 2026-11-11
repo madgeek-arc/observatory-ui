@@ -20,7 +20,7 @@ export class ActivityGauge {
 @Component({
     selector: 'activity-gauge',
     templateUrl: 'gauge-activity.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [HighchartsChartModule]
 })
 

@@ -23,7 +23,7 @@ function slicePercentage(point: Highcharts.Point): number {
   imports: [
     HighchartsChartModule
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" style="width: 100%; display: block;"></highcharts-chart>`
 })
 

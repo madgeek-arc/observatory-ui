@@ -12,7 +12,7 @@ ExportData(Highcharts);
     selector: 'app-column-ranges-chart',
     template: '@if (chartId) {<div [id]="chartId" class="container"></div>}',
     styles: [`.container {display: block; width: 100%; height: 100%; }`],
-    changeDetection: ChangeDetectionStrategy.Eager
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class HighchartsColumnRangesComponent implements OnChanges {

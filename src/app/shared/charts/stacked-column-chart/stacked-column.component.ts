@@ -13,7 +13,7 @@ ExportData(Highcharts);
 @Component({
     selector: 'app-stacked-column',
     template: '<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [callbackFunction]="chartCallback" style="width: 100%; height: 100%; display: block;"></highcharts-chart>',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [HighchartsChartModule]
 })
 
