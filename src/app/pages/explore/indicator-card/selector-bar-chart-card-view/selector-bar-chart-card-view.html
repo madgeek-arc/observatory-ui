@@ -4,6 +4,9 @@
     @if (ready()) {
       <app-multi-chart chartType="bar" [series]="chartSeries()" [categories]="categories()"
                         valueSuffix="%" [groupPadding]="0.1" [pointPadding]="0.05" [pointWidth]="10" [height]="600" />
+      @if (hasPausedYears()) {
+        <p class="uk-text-small uk-text-muted uk-margin-small-top">* Missing bars indicate years in which the question was paused.</p>
+      }
     } @else {
       <app-loading-placeholder [height]="200" />
     }
