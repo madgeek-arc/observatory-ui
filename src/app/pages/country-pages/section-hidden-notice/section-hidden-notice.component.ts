@@ -20,7 +20,7 @@ import { CountryPageIndicatorsService } from "../services/country-page-indicator
 @Component({
   selector: 'app-section-hidden-notice',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './section-hidden-notice.html',
 })
 

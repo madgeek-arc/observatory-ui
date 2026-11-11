@@ -4,7 +4,7 @@ import { RouterLink } from "@angular/router";
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [RouterLink]
 })
 

@@ -9,7 +9,7 @@ import { Component, input, output, ChangeDetectionStrategy } from "@angular/core
 @Component({
   selector: 'app-override-mode-banner',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './override-mode-banner.component.html',
 })
 export class OverrideModeBannerComponent {

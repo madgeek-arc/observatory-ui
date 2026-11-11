@@ -5,7 +5,7 @@ import { CommonModule, NgClass, NgOptimizedImage } from "@angular/common";
     selector: 'app-info-card',
     standalone: true,
     templateUrl: './info-card.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [NgClass, CommonModule, NgOptimizedImage],
 })
 
