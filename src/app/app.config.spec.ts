@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ErrorHandler } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import * as Sentry from '@sentry/angular';
@@ -14,7 +14,6 @@ import { MessagingWebsocketService } from '../messaging-system-ui/services/messa
 import { APP_ENV } from '../survey-tool/catalogue-ui/config/app-env.token';
 import { MentionableUsersProvider } from '../survey-tool/catalogue-ui/domain/mentionable-user';
 import { appConfig, appProviders } from './app.config';
-import { HttpInterceptorService } from './pages/services/http-interceptor.service';
 
 /**
  * The root providers are plain code that Angular only resolves at startup. A wrong one blanks the whole
@@ -53,10 +52,6 @@ describe('appProviders', () => {
   it('replace the default error handler with the Sentry one', () => {
     expect(TestBed.inject(ErrorHandler).handleError).toBeTypeOf('function');
     expect(TestBed.inject(ErrorHandler).constructor).not.toBe(ErrorHandler);
-  });
-
-  it('register the HTTP interceptor class', () => {
-    expect(TestBed.inject(HTTP_INTERCEPTORS).map(interceptor => interceptor.constructor)).toEqual([HttpInterceptorService]);
   });
 });
 

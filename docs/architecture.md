@@ -31,8 +31,8 @@ authority for access control. Frontend guards only decide what to show.
 | Submodules | `src/survey-tool`, `src/messaging-system-ui`, `src/survey-tool/catalogue-ui` | Each documented in its own repository |
 
 Layering is: page component, then feature or shared service, then `HttpClient`, then `/api` (or an external
-statistics service). Authentication, user state and the HTTP error interceptor are cross-cutting and are provided at
-application level in `app.config.ts`.
+statistics service). Authentication and user state are cross-cutting and are provided at application level in
+`app.config.ts`.
 
 ## Routing
 

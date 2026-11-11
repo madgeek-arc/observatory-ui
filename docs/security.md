@@ -11,8 +11,8 @@ enforced by the backend; the browser application can only hide or redirect.
 - **Session discovery:** `AuthenticationService.authenticated` is true when `UserService` holds a user from
   `GET /api/user/info`. `AuthGuard` calls that endpoint; on an empty answer or an error it stores the current path in
   `sessionStorage.redirectUrl` and starts the login. After login `AppComponent` navigates back to the stored path.
-- **Refresh:** `UserService` re-reads `/user/info` every 60 minutes. A `401` from any call clears the cached user
-  (`HttpInterceptorService`).
+- **Refresh:** `UserService` re-reads `/user/info` every 60 minutes. A failed `/user/info` call clears the cached user.
+  There is no global handler for `401` or `403`: they reach the calling component like any other HTTP error.
 - **Logout:** clears `sessionStorage`, removes the `AccessToken` cookie if present, drops the cached user and
   navigates to `/api/logout`.
 

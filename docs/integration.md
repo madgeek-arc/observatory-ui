@@ -66,8 +66,8 @@ flowchart LR
 - **No retries or timeouts on HTTP calls.** The UI does not retry REST requests and sets no client-side timeout;
   nginx's 300 s limit on `/api` is the effective one for the application, including its statistics calls
   (`/api/statistics/`). The 90 s limit on `/stats/api` applies only to callers of that route. Failures reach the calling component.
-- **Global interceptor** (`src/app/pages/services/http-interceptor.service.ts`): `401` clears the cached user (the next guarded
-  route triggers login); `403` shows a "no access" notification and navigates to `/home`; other errors are rethrown to the caller.
+- **No global HTTP error handling.** There is no interceptor: `401` and `403` reach the caller as an `HttpErrorResponse`,
+  like any other failure. A guarded route triggers login through `AuthGuard` when `/user/info` fails.
 - **WebSockets** reconnect automatically: the messaging sockets retry every second for roughly two minutes and then
   every 10 seconds. Without the socket, unread counts do not update live; the rest of the page keeps working.
 - **Statistics or OpenAIRE unavailable:** the affected charts stay empty; other widgets are independent.

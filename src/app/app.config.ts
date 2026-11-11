@@ -7,7 +7,7 @@ import {
   provideAppInitializer,
   provideZoneChangeDetection
 } from '@angular/core';
-import { HTTP_INTERCEPTORS, provideHttpClient, withXhr, withXsrfConfiguration } from '@angular/common/http';
+import { provideHttpClient, withXhr, withXsrfConfiguration } from '@angular/common/http';
 import { provideRouter, Router, withInMemoryScrolling, withRouterConfig } from '@angular/router';
 import * as Sentry from '@sentry/angular';
 import { provideMatomo } from 'ngx-matomo-client';
@@ -20,16 +20,10 @@ import { MessagingSystemService } from '../messaging-system-ui/services/messagin
 import { MessagingWebsocketService } from '../messaging-system-ui/services/messaging-websocket.service';
 import { APP_ENV } from '../survey-tool/catalogue-ui/config/app-env.token';
 import { MentionableUsersProvider } from '../survey-tool/catalogue-ui/domain/mentionable-user';
-import { HttpInterceptorService } from './pages/services/http-interceptor.service';
 import { routes } from './app.routes';
 
 /** The providers of the whole application, shared by the bootstrap and by the spec that checks they resolve */
 export const appProviders: (Provider | EnvironmentProviders)[] = [
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: HttpInterceptorService,
-    multi: true
-  },
   UserService,
   AuthenticationService,
   SurveyService,
