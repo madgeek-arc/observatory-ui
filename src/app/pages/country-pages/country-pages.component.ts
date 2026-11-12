@@ -1,4 +1,4 @@
-import { Component, DestroyRef, effect, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, DestroyRef, effect, inject, OnInit, ChangeDetectionStrategy, signal } from "@angular/core";
 import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { LowerCasePipe, NgOptimizedImage } from "@angular/common";
 import { countries } from "../../domain/countries";
@@ -28,7 +28,7 @@ import {
         DashboardSideMenuComponent
     ],
     templateUrl: './country-pages.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrls: ['../../../assets/css/explore-sidebar.less', '../../../assets/css/explore-dashboard.less']
 })
 
@@ -41,25 +41,33 @@ export class CountryPagesComponent implements OnInit {
 
   stakeholderId?: string;
   countryStakeholderId?: string;
-  countryCode?: string;
-  countryName?: string;
+  countryCode = signal<string>(undefined);
+  countryName = signal<string>(undefined);
 
   hasSidebar = true;
   hasAdminMenu = false;
-  menuSections: MenuSection[] = [];
+  menuSections = signal<MenuSection[]>([]);
   menuItems: MenuItem[] = [];
-  back: MenuItem = null;
+  back = signal<MenuItem>(null);
   isConfigMode = false;
 
-  constructor(private route: ActivatedRoute, private dataService: DataShareService,
-              private surveyAnswer: SurveyPublicAnswer, private layoutService: DashboardSideMenuService,
-              protected indicatorsService: CountryPageIndicatorsService) {
+  private route = inject(ActivatedRoute);
+  private dataService = inject(DataShareService);
+  private surveyAnswer = inject(SurveyPublicAnswer);
+  private layoutService = inject(DashboardSideMenuService);
+  protected indicatorsService = inject(CountryPageIndicatorsService);
+
+  constructor() {
     // Config preview: keep the left-nav in step with the card toggles — a section whose whole group
     // is switched off gets its menu entry struck through (see applyMenuHiddenState). Reading the
-    // visibility signal makes this re-run on every toggle; Zone CD then refreshes the shared sidebar.
+    // visibility signal makes this re-run on every toggle. The sidebar is an Eager child that reads
+    // `customClass` off the items, so a changed menu is handed over as a new array (the OnPush view
+    // would otherwise not refresh it).
     effect(() => {
       this.indicatorsService.visibility();
-      this.applyMenuHiddenState();
+      if (this.applyMenuHiddenState()) {
+        this.menuSections.set([{items: this.menuItems}]);
+      }
     });
   }
 
@@ -70,29 +78,29 @@ export class CountryPagesComponent implements OnInit {
     // Whether the shared section/card components render with the admin controls or publicly.
     this.indicatorsService.mode.set(this.isConfigMode ? 'config' : 'public');
 
-    this.back = this.isConfigMode ? null : new MenuItem('back', 'Back to country selection', null, '/country-pages', '', null, null, 'uk-text-uppercase back_button uk-margin');
+    this.back.set(this.isConfigMode ? null : new MenuItem('back', 'Back to country selection', null, '/country-pages', '', null, null, 'uk-text-uppercase back_button uk-margin'));
 
     // Card-visibility config. The editing scope is encoded in the :code itself
     // (GLOBAL_SCOPE_CODE === 'EU' vs a real country), so route.params alone re-emits on a switch.
     this.loadVisibilityConfig();
 
     this.route.params.subscribe(params => {
-      this.countryCode = params['code'];
+      this.countryCode.set(params['code']);
 
       // The Global default (EU) is not a real stakeholder — it borrows GLOBAL_DATA_COUNTRY's
       // survey data for its preview. countryCode stays the path segment so the section menu links
       // remain in /country/EU/..., but all data/stats are fetched under the backing country code.
-      const isGlobal = this.countryCode === GLOBAL_SCOPE_CODE;
-      const dataCode = isGlobal ? GLOBAL_DATA_COUNTRY : this.countryCode;
+      const isGlobal = this.countryCode() === GLOBAL_SCOPE_CODE;
+      const dataCode = isGlobal ? GLOBAL_DATA_COUNTRY : this.countryCode();
 
       this.dataService.countryCode.next(dataCode);
       // Flag/label follow the path code (EU for the Global default), while data uses dataCode (FR).
-      this.dataService.displayCountryCode.next(this.countryCode);
+      this.dataService.displayCountryCode.next(this.countryCode());
       this.stakeholderId = 'sh-eosc-sb-' + dataCode;
       this.countryStakeholderId = 'sh-country-' + dataCode;
 
-      this.countryName = isGlobal ? GLOBAL_SCOPE_LABEL : this.findCountryByCode(this.countryCode);
-      this.dataService.countryName.next(this.countryName);
+      this.countryName.set(isGlobal ? GLOBAL_SCOPE_LABEL : this.findCountryByCode(this.countryCode()));
+      this.dataService.countryName.next(this.countryName());
 
       this.initMenuItems();
       this.layoutService.setOpen(true);
@@ -192,26 +200,26 @@ export class CountryPagesComponent implements OnInit {
   }
 
   initMenuItems() {
-    this.menuSections = [];
-    this.menuItems = [];
+    const menuItems: MenuItem[] = [];
 
     const base = this.isConfigMode
-      ? '/country/' + this.countryCode + '/configuration'
-      : '/country/' + this.countryCode;
+      ? '/country/' + this.countryCode() + '/configuration'
+      : '/country/' + this.countryCode();
 
-    this.menuItems.push(new MenuItem('0', 'General R&D Overview', null, base + '/general', null, {}));
-    this.menuItems.push(new MenuItem('1', 'Policy overview', null, base + '/policy', null, {}));
-    this.menuItems.push(new MenuItem('2', 'Open Access Publications', null, base + '/publications', null, {}));
-    this.menuItems.push(new MenuItem('3', 'Open Data', null, base + '/open-data', null, {}));
-    this.menuItems.push(new MenuItem('4', 'FAIR Data', null, base + '/fair-data', null, {}));
-    this.menuItems.push(new MenuItem('5', 'Data Management', null, base + '/data-management', null, {}));
-    this.menuItems.push(new MenuItem('6', 'Citizen Science', null, base + '/citizen-science', null, {}));
-    this.menuItems.push(new MenuItem('7', 'Repositories', null, base + '/repositories', null, {}));
-    this.menuItems.push(new MenuItem('8', 'Open Science Training', null, base + '/science-training', null, {}));
-    this.menuItems.push(new MenuItem('9', 'Open Software', null, base + '/open-software', null, {}));
+    menuItems.push(new MenuItem('0', 'General R&D Overview', null, base + '/general', null, {}));
+    menuItems.push(new MenuItem('1', 'Policy overview', null, base + '/policy', null, {}));
+    menuItems.push(new MenuItem('2', 'Open Access Publications', null, base + '/publications', null, {}));
+    menuItems.push(new MenuItem('3', 'Open Data', null, base + '/open-data', null, {}));
+    menuItems.push(new MenuItem('4', 'FAIR Data', null, base + '/fair-data', null, {}));
+    menuItems.push(new MenuItem('5', 'Data Management', null, base + '/data-management', null, {}));
+    menuItems.push(new MenuItem('6', 'Citizen Science', null, base + '/citizen-science', null, {}));
+    menuItems.push(new MenuItem('7', 'Repositories', null, base + '/repositories', null, {}));
+    menuItems.push(new MenuItem('8', 'Open Science Training', null, base + '/science-training', null, {}));
+    menuItems.push(new MenuItem('9', 'Open Software', null, base + '/open-software', null, {}));
 
-    this.menuSections.push({items: this.menuItems});
+    this.menuItems = menuItems;
     this.applyMenuHiddenState();
+    this.menuSections.set([{items: menuItems}]);
   }
 
   /**
@@ -220,15 +228,21 @@ export class CountryPagesComponent implements OnInit {
    * both derive from `groupVisibleCount === 0`. Public pages don't strike (hidden sections are
    * dropped there instead). The menu item titles match the catalog `group` labels 1:1.
    */
-  private applyMenuHiddenState(): void {
+  private applyMenuHiddenState(): boolean {
     if (!this.isConfigMode) {
-      return;
+      return false;
     }
+    let changed = false;
     for (const item of this.menuItems) {
       const hidden = this.indicatorsService.groupTotal(item.title) > 0
         && this.indicatorsService.groupVisibleCount(item.title) === 0;
-      item.customClass = hidden ? 'menu-item-hidden' : null;
+      const customClass = hidden ? 'menu-item-hidden' : null;
+      if (item.customClass !== customClass) {
+        item.customClass = customClass;
+        changed = true;
+      }
     }
+    return changed;
   }
 
   public get open() {
