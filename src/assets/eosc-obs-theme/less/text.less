@@ -47,6 +47,12 @@
     letter-spacing: .08em;
     color: @muted-2-color;
     text-transform: uppercase;
+
+    // UIkit override attempted: uk-text-small/uk-text-meta are too large here and UIkit has no font-size or letter-spacing utility, so this shrinks the eyebrow for tight spots.
+    &.uk-eyebrow-small {
+      font-size: 11px;
+      letter-spacing: .04em;
+    }
   }
 }
 
