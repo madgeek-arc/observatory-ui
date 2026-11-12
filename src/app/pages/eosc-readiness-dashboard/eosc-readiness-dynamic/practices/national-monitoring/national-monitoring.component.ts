@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, signal, inject } from "@angular/core";
 import { ActivatedRoute, RouterLink, RouterOutlet } from "@angular/router";
 import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
 import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
@@ -15,32 +15,34 @@ import { GaugeActivityComponent } from "../../../../../shared/charts/gauge-activ
 import { CumulativeDataTablesComponent } from "../../tables/cumulative-data-tables.component";
 import { HighchartsCategoryMapComponent } from "../../../../../shared/charts/category-map/highcharts-category-map.component";
 import { GaugeSimpleComponent } from "../../../../../shared/charts/gauge-simple/gauge-simple.component";
+import { setAt } from "src/app/shared/utils/set-at";
 
 @Component({
     selector: 'app-national-policy',
     templateUrl: 'national-monitoring.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [RouterLink, GaugeActivityComponent, CumulativeDataTablesComponent, HighchartsCategoryMapComponent, GaugeSimpleComponent, RouterOutlet]
 })
 
 export class NationalMonitoringComponent implements OnInit {
   year: string = null;
-  countriesArray: string[] = [];
-  numberOfCountries: number = 0;
+  countriesArray = signal<string[]>([]);
+  numberOfCountries = signal<number>(0);
   tableAbsoluteDataArray: CountryTableData[][] = [];
   mapSubtitles: string[] = [];
   mapSubtitlesArray: string[][] = EoscReadinessMapSubtitles;
-  questionsDataArray: any[] = [];
+  questionsDataArray = signal<any[]>([]);
   tmpQuestionsDataArray: any[] = [];
-  toolTipData: Map<string, string>[] = [];
-  activityGaugeData: ActivityGauge[] = [];
-  participatingCountries: number[] = [];
-  participatingCountriesPercentage: number[] = [];
-  tableData: string[][] = [];
+  toolTipData = signal<Map<string, string>[]>([]);
+  activityGaugeData = signal<ActivityGauge[]>([]);
+  participatingCountries = signal<number[]>([]);
+  participatingCountriesPercentage = signal<number[]>([]);
+  tableData = signal<string[][]>([]);
 
-  constructor(private route: ActivatedRoute, private queryData: EoscReadinessDataService,
-              private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
-  }
+  private route = inject(ActivatedRoute);
+  private queryData = inject(EoscReadinessDataService);
+  private stakeholdersService = inject(StakeholdersService);
+  private dataHandlerService = inject(DataHandlerService);
 
   ngOnInit() {
     this.year = this.route.parent.parent.snapshot.paramMap.get('year');
@@ -89,8 +91,8 @@ export class NationalMonitoringComponent implements OnInit {
   }
 
   getAllData() {
-    this.activityGaugeData = [];
-    this.tableData = [];
+    this.activityGaugeData.set([]);
+    this.tableData.set([]);
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       // this.queryData.getQuestion54(),
@@ -119,65 +121,68 @@ export class NationalMonitoringComponent implements OnInit {
       this.queryData.getQuestion(this.year, 'Question98'),// Engagement
     ).subscribe(
       res => {
+        let tableData: string[][] = [];
+        const activityGaugeData: ActivityGauge[] = [];
         let y = 0;
 
-        this.countriesArray = res[0];
-        this.tableData[0] = ['Countries'].concat(this.countriesArray);
+        this.countriesArray.set(res[0]);
+        tableData[0] = ['Countries'].concat(this.countriesArray());
 
-        this.numberOfCountries = (res[1] as RawData).datasets[0].series.result.length;
+        this.numberOfCountries.set((res[1] as RawData).datasets[0].series.result.length);
 
-        this.participatingCountries[0] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        y = Math.round((this.participatingCountries[0]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.tableData[1] = ['Publications'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[1], this.countriesArray));
-        this.activityGaugeData.push({name: 'Publications', y: y});
+        setAt(this.participatingCountries, 0, this.dataHandlerService.convertRawDataForActivityGauge(res[1]));
+        y = Math.round((this.participatingCountries()[0]/this.numberOfCountries() + Number.EPSILON) * 100);
+        tableData[1] = ['Publications'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[1], this.countriesArray()));
+        activityGaugeData.push({name: 'Publications', y: y});
 
-        this.tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(res[2], this.countriesArray);
-        this.tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(res[3], this.countriesArray, this.tableData[2]);
-        this.tableData[2] = ['Data'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[4], this.countriesArray, this.tableData[2]));
-        this.participatingCountries[1] = this.countTableEntries(this.tableData[2]);
-        y = Math.round((this.participatingCountries[1]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Data', y: y});
+        tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(res[2], this.countriesArray());
+        tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(res[3], this.countriesArray(), tableData[2]);
+        tableData[2] = ['Data'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[4], this.countriesArray(), tableData[2]));
+        setAt(this.participatingCountries, 1, this.countTableEntries(tableData[2]));
+        y = Math.round((this.participatingCountries()[1]/this.numberOfCountries() + Number.EPSILON) * 100);
+        activityGaugeData.push({name: 'Data', y: y});
 
-        this.participatingCountries[2] = this.dataHandlerService.convertRawDataForActivityGauge(res[5]);
-        y = Math.round((this.participatingCountries[2]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.tableData[3] = ['Software'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[5], this.countriesArray));
-        this.activityGaugeData.push({name: 'Software', y: y});
+        setAt(this.participatingCountries, 2, this.dataHandlerService.convertRawDataForActivityGauge(res[5]));
+        y = Math.round((this.participatingCountries()[2]/this.numberOfCountries() + Number.EPSILON) * 100);
+        tableData[3] = ['Software'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[5], this.countriesArray()));
+        activityGaugeData.push({name: 'Software', y: y});
 
-        this.participatingCountries[3] = this.dataHandlerService.convertRawDataForActivityGauge(res[6]);
-        y = Math.round((this.participatingCountries[3]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.tableData[4] = ['Services'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[6], this.countriesArray));
-        this.activityGaugeData.push({name: 'Services', y: y});
+        setAt(this.participatingCountries, 3, this.dataHandlerService.convertRawDataForActivityGauge(res[6]));
+        y = Math.round((this.participatingCountries()[3]/this.numberOfCountries() + Number.EPSILON) * 100);
+        tableData[4] = ['Services'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[6], this.countriesArray()));
+        activityGaugeData.push({name: 'Services', y: y});
 
-        this.tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[7], this.countriesArray);
-        this.tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[8], this.countriesArray, this.tableData[5]);
-        this.tableData[5] = ['Infrastructure'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[9], this.countriesArray, this.tableData[5]));
-        this.participatingCountries[4] = this.countTableEntries(this.tableData[5]);
-        y = Math.round((this.participatingCountries[4]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Infrastructure', y: y});
+        tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[7], this.countriesArray());
+        tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[8], this.countriesArray(), tableData[5]);
+        tableData[5] = ['Infrastructure'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[9], this.countriesArray(), tableData[5]));
+        setAt(this.participatingCountries, 4, this.countTableEntries(tableData[5]));
+        y = Math.round((this.participatingCountries()[4]/this.numberOfCountries() + Number.EPSILON) * 100);
+        activityGaugeData.push({name: 'Infrastructure', y: y});
 
-        this.participatingCountries[5] = this.dataHandlerService.convertRawDataForActivityGauge(res[10]);
-        y =  Math.round((this.participatingCountries[5]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.tableData[6] = ['Skills/Training'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[10], this.countriesArray));
-        this.activityGaugeData.push({name: 'Skills/Training', y: y});
+        setAt(this.participatingCountries, 5, this.dataHandlerService.convertRawDataForActivityGauge(res[10]));
+        y =  Math.round((this.participatingCountries()[5]/this.numberOfCountries() + Number.EPSILON) * 100);
+        tableData[6] = ['Skills/Training'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[10], this.countriesArray()));
+        activityGaugeData.push({name: 'Skills/Training', y: y});
 
-        this.participatingCountries[6] = this.dataHandlerService.convertRawDataForActivityGauge(res[11]);
-        y = Math.round((this.participatingCountries[6]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.tableData[7] = ['Assessment'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[11], this.countriesArray));
-        this.activityGaugeData.push({name: 'Assessment', y: y});
+        setAt(this.participatingCountries, 6, this.dataHandlerService.convertRawDataForActivityGauge(res[11]));
+        y = Math.round((this.participatingCountries()[6]/this.numberOfCountries() + Number.EPSILON) * 100);
+        tableData[7] = ['Assessment'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[11], this.countriesArray()));
+        activityGaugeData.push({name: 'Assessment', y: y});
 
-        this.participatingCountries[7] = this.dataHandlerService.convertRawDataForActivityGauge(res[12]);
-        y = Math.round((this.participatingCountries[7]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.tableData[8] = ['Engagement'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[12], this.countriesArray));
-        this.activityGaugeData.push({name: 'Engagement', y: y});
+        setAt(this.participatingCountries, 7, this.dataHandlerService.convertRawDataForActivityGauge(res[12]));
+        y = Math.round((this.participatingCountries()[7]/this.numberOfCountries() + Number.EPSILON) * 100);
+        tableData[8] = ['Engagement'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[12], this.countriesArray()));
+        activityGaugeData.push({name: 'Engagement', y: y});
 
-        this.activityGaugeData = [...this.activityGaugeData];
-        this.tableData = this.tableData[0].map((_, colIndex) => this.tableData.map(row => row[colIndex])); // Transpose 2d array
-        for (let i = 1; i < this.tableData.length; i++) {
-          let tmpData = countries.find(country => country.id === this.tableData[i][0]);
+        this.activityGaugeData.set(activityGaugeData);
+        tableData = tableData[0].map((_, colIndex) => tableData.map(row => row[colIndex])); // Transpose 2d array
+        for (let i = 1; i < tableData.length; i++) {
+          let tmpData = countries.find(country => country.id === tableData[i][0]);
           if (tmpData)
-            this.tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
+            tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
         }
-        // console.log(this.tableData);
+        this.tableData.set(tableData);
+        // console.log(tableData);
       },
       error => {console.error(error)},
       () => {}
@@ -193,14 +198,14 @@ export class NationalMonitoringComponent implements OnInit {
       this.queryData.getQuestionComment(this.year, 'Question54'),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
+        this.countriesArray.set(res[0]);
         this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        this.participatingCountries[0] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        this.participatingCountriesPercentage[0] = Math.round((this.participatingCountries[0]/res[1].datasets[0].series.result.length + Number.EPSILON) * 100);
+        setAt(this.participatingCountries, 0, this.dataHandlerService.convertRawDataForActivityGauge(res[1]));
+        setAt(this.participatingCountriesPercentage, 0, Math.round((this.participatingCountries()[0]/res[1].datasets[0].series.result.length + Number.EPSILON) * 100));
         for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
-        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        setAt(this.toolTipData, 0, this.dataHandlerService.covertRawDataGetText(res[2]));
         this.createMapDataFromCategorization(0,2);
       }
     );
@@ -215,14 +220,14 @@ export class NationalMonitoringComponent implements OnInit {
       this.queryData.getQuestionComment(this.year, 'Question70'),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
+        this.countriesArray.set(res[0]);
         this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        this.participatingCountries[2] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        this.participatingCountriesPercentage[2] = Math.round((this.participatingCountries[2]/res[1].datasets[0].series.result.length + Number.EPSILON) * 100);
+        setAt(this.participatingCountries, 2, this.dataHandlerService.convertRawDataForActivityGauge(res[1]));
+        setAt(this.participatingCountriesPercentage, 2, Math.round((this.participatingCountries()[2]/res[1].datasets[0].series.result.length + Number.EPSILON) * 100));
         for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
           this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
         }
-        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        setAt(this.toolTipData, 1, this.dataHandlerService.covertRawDataGetText(res[2]));
         this.createMapDataFromCategorization(1,2);
       }
     );
@@ -237,14 +242,14 @@ export class NationalMonitoringComponent implements OnInit {
       this.queryData.getQuestionComment(this.year, 'Question74'),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
+        this.countriesArray.set(res[0]);
         this.tmpQuestionsDataArray[2] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        this.participatingCountries[3] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        this.participatingCountriesPercentage[3] = Math.round((this.participatingCountries[3]/res[1].datasets[0].series.result.length + Number.EPSILON) * 100);
+        setAt(this.participatingCountries, 3, this.dataHandlerService.convertRawDataForActivityGauge(res[1]));
+        setAt(this.participatingCountriesPercentage, 3, Math.round((this.participatingCountries()[3]/res[1].datasets[0].series.result.length + Number.EPSILON) * 100));
         for (let i = 0; i < this.tmpQuestionsDataArray[2].series.length; i++) {
           this.tmpQuestionsDataArray[2].series[i].data = this.tmpQuestionsDataArray[2].series[i].data.map(code => ({ code }));
         }
-        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        setAt(this.toolTipData, 2, this.dataHandlerService.covertRawDataGetText(res[2]));
         this.createMapDataFromCategorization(2,2);
       }
     );
@@ -259,14 +264,14 @@ export class NationalMonitoringComponent implements OnInit {
       this.queryData.getQuestionComment(this.year, 'Question90'),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
+        this.countriesArray.set(res[0]);
         this.tmpQuestionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        this.participatingCountries[5] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        this.participatingCountriesPercentage[5] = Math.round((this.participatingCountries[5]/res[1].datasets[0].series.result.length + Number.EPSILON) * 100);
+        setAt(this.participatingCountries, 5, this.dataHandlerService.convertRawDataForActivityGauge(res[1]));
+        setAt(this.participatingCountriesPercentage, 5, Math.round((this.participatingCountries()[5]/res[1].datasets[0].series.result.length + Number.EPSILON) * 100));
         for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
           this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
         }
-        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        setAt(this.toolTipData, 3, this.dataHandlerService.covertRawDataGetText(res[2]));
         this.createMapDataFromCategorization(3,2);
       }
     );
@@ -281,14 +286,14 @@ export class NationalMonitoringComponent implements OnInit {
       this.queryData.getQuestionComment(this.year, 'Question94'),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
+        this.countriesArray.set(res[0]);
         this.tmpQuestionsDataArray[4] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        this.participatingCountries[6] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        this.participatingCountriesPercentage[6] = Math.round((this.participatingCountries[6]/res[1].datasets[0].series.result.length + Number.EPSILON) * 100);
+        setAt(this.participatingCountries, 6, this.dataHandlerService.convertRawDataForActivityGauge(res[1]));
+        setAt(this.participatingCountriesPercentage, 6, Math.round((this.participatingCountries()[6]/res[1].datasets[0].series.result.length + Number.EPSILON) * 100));
         for (let i = 0; i < this.tmpQuestionsDataArray[4].series.length; i++) {
           this.tmpQuestionsDataArray[4].series[i].data = this.tmpQuestionsDataArray[4].series[i].data.map(code => ({ code }));
         }
-        this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        setAt(this.toolTipData, 4, this.dataHandlerService.covertRawDataGetText(res[2]));
         this.createMapDataFromCategorization(4,2);
       }
     );
@@ -303,14 +308,14 @@ export class NationalMonitoringComponent implements OnInit {
       this.queryData.getQuestionComment(this.year, 'Question98'),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
-        this.participatingCountries[7] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
+        this.countriesArray.set(res[0]);
+        setAt(this.participatingCountries, 7, this.dataHandlerService.convertRawDataForActivityGauge(res[1]));
         this.tmpQuestionsDataArray[5] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        this.participatingCountriesPercentage[7] = Math.round((this.participatingCountries[7]/res[1].datasets[0].series.result.length + Number.EPSILON) * 100);
+        setAt(this.participatingCountriesPercentage, 7, Math.round((this.participatingCountries()[7]/res[1].datasets[0].series.result.length + Number.EPSILON) * 100));
         for (let i = 0; i < this.tmpQuestionsDataArray[5].series.length; i++) {
           this.tmpQuestionsDataArray[5].series[i].data = this.tmpQuestionsDataArray[5].series[i].data.map(code => ({ code }));
         }
-        this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        setAt(this.toolTipData, 5, this.dataHandlerService.covertRawDataGetText(res[2]));
         this.createMapDataFromCategorization(5,2);
       }
     );
@@ -319,30 +324,31 @@ export class NationalMonitoringComponent implements OnInit {
   createMapDataFromCategorization(index: number, mapCount: number) {
     // this.mapSubtitles[mapCount] = this.mapSubtitlesArray[mapCount][index];
 
-    this.questionsDataArray[index] = new CategorizedAreaData();
+    const mapData = new CategorizedAreaData();
 
     let position = 0;
     for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
       if (this.tmpQuestionsDataArray[index].series[i].name === 'Awaiting data')
         continue;
       position = this.tmpQuestionsDataArray[index].series[i].name === 'No'? 1 : 0;
-      this.questionsDataArray[index].series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
-      this.questionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
-      this.questionsDataArray[index].series[i].showInLegend = true;
-      this.questionsDataArray[index].series[i].color = ColorPallet[position];
+      mapData.series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
+      mapData.series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
+      mapData.series[i].showInLegend = true;
+      mapData.series[i].color = ColorPallet[position];
     }
     let countryCodeArray = [];
-    for (let i = 0; i < this.questionsDataArray[index].series.length; i++) {
-      for (const data of this.questionsDataArray[index].series[i].data) {
+    for (let i = 0; i < mapData.series.length; i++) {
+      for (const data of mapData.series[i].data) {
         countryCodeArray.push(data.code)
       }
     }
 
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[2];
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data.map(code => ({ code }));
+    mapData.series[mapData.series.length] = new Series('Awaiting Data', false);
+    mapData.series[mapData.series.length-1].showInLegend = true;
+    mapData.series[mapData.series.length-1].color = ColorPallet[2];
+    mapData.series[mapData.series.length-1].data = this.countriesArray().filter(code => !countryCodeArray.includes(code));
+    mapData.series[mapData.series.length-1].data = mapData.series[mapData.series.length-1].data.map(code => ({ code }));
+    setAt(this.questionsDataArray, index, mapData);
   }
 
   countTableEntries(column: string[]) {

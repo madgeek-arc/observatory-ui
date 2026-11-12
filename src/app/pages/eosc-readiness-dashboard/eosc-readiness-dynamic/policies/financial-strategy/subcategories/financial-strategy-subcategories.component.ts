@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, signal, inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ColorPallet, EoscReadinessMapSubtitles } from "../../../eosc-readiness-map-subtitles";
 import { CountryTableData } from "src/app/domain/country-table-data";
@@ -10,32 +10,34 @@ import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData"
 import * as UIkit from 'uikit';
 import { HighchartsCategoryMapComponent } from "../../../../../../shared/charts/category-map/highcharts-category-map.component";
 import { GaugeSimpleComponent } from "../../../../../../shared/charts/gauge-simple/gauge-simple.component";
+import { setAt } from "src/app/shared/utils/set-at";
 
 @Component({
     selector: 'app-financial-strategy-subcategories',
     templateUrl: 'financial-strategy-subcategories.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [HighchartsCategoryMapComponent, GaugeSimpleComponent]
 })
 
 export class FinancialStrategySubcategoriesComponent implements OnInit{
 
-  dataType: string = null;
+  dataType = signal<string>(null);
   year: string = null;
 
-  countriesArray: string[] = [];
+  countriesArray = signal<string[]>([]);
   tableAbsoluteDataArray: CountryTableData[][] = [];
   mapSubtitles: string[] = [];
   mapSubtitlesArray: string[][] = EoscReadinessMapSubtitles;
-  questionsDataArray: any[] = [];
+  questionsDataArray = signal<any[]>([]);
   tmpQuestionsDataArray: any[] = [];
-  participatingCountries: number[] = [];
-  participatingCountriesPercentage: number[] = [];
-  toolTipData: Map<string, string>[] = [];
+  participatingCountries = signal<number[]>([]);
+  participatingCountriesPercentage = signal<number[]>([]);
+  toolTipData = signal<Map<string, string>[]>([]);
 
-  constructor(private route: ActivatedRoute, private queryData: EoscReadinessDataService,
-              private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
-  }
+  private route = inject(ActivatedRoute);
+  private queryData = inject(EoscReadinessDataService);
+  private stakeholdersService = inject(StakeholdersService);
+  private dataHandlerService = inject(DataHandlerService);
 
   ngOnInit() {
     this.year = this.route.parent.parent.parent.snapshot.paramMap.get('year');
@@ -44,8 +46,8 @@ export class FinancialStrategySubcategoriesComponent implements OnInit{
 
     this.route.params.subscribe(
       params => {
-        this.dataType = params['dataType'];
-        switch (this.dataType) {
+        this.dataType.set(params['dataType']);
+        switch (this.dataType()) {
           case 'dataManagement':
             this.getDataManagementData();
             UIkit.switcher('#dataContent').show(0);
@@ -84,14 +86,14 @@ export class FinancialStrategySubcategoriesComponent implements OnInit{
       this.queryData.getQuestionComment(this.year, 'Question11'),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
+        this.countriesArray.set(res[0]);
         this.tmpQuestionsDataArray[0] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        this.participatingCountries[0] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        this.participatingCountriesPercentage[0] = Math.round((this.participatingCountries[0]/this.countriesArray.length + Number.EPSILON) * 100);
+        setAt(this.participatingCountries, 0, this.dataHandlerService.convertRawDataForActivityGauge(res[1]));
+        setAt(this.participatingCountriesPercentage, 0, Math.round((this.participatingCountries()[0]/this.countriesArray().length + Number.EPSILON) * 100));
         for (let i = 0; i < this.tmpQuestionsDataArray[0].series.length; i++) {
           this.tmpQuestionsDataArray[0].series[i].data = this.tmpQuestionsDataArray[0].series[i].data.map(code => ({ code }));
         }
-        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        setAt(this.toolTipData, 0, this.dataHandlerService.covertRawDataGetText(res[2]));
         this.createMapDataFromCategorization(0,1);
       }
     );
@@ -106,14 +108,14 @@ export class FinancialStrategySubcategoriesComponent implements OnInit{
       this.queryData.getQuestionComment(this.year, 'Question15'),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
+        this.countriesArray.set(res[0]);
         this.tmpQuestionsDataArray[1] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        this.participatingCountries[1] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        this.participatingCountriesPercentage[1] = Math.round((this.participatingCountries[1]/this.countriesArray.length + Number.EPSILON) * 100);
+        setAt(this.participatingCountries, 1, this.dataHandlerService.convertRawDataForActivityGauge(res[1]));
+        setAt(this.participatingCountriesPercentage, 1, Math.round((this.participatingCountries()[1]/this.countriesArray().length + Number.EPSILON) * 100));
         for (let i = 0; i < this.tmpQuestionsDataArray[1].series.length; i++) {
           this.tmpQuestionsDataArray[1].series[i].data = this.tmpQuestionsDataArray[1].series[i].data.map(code => ({ code }));
         }
-        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        setAt(this.toolTipData, 1, this.dataHandlerService.covertRawDataGetText(res[2]));
         this.createMapDataFromCategorization(1,1);
       }
     );
@@ -128,14 +130,14 @@ export class FinancialStrategySubcategoriesComponent implements OnInit{
       this.queryData.getQuestionComment(this.year, 'Question19'),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
+        this.countriesArray.set(res[0]);
         this.tmpQuestionsDataArray[2] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        this.participatingCountries[2] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        this.participatingCountriesPercentage[2] = Math.round((this.participatingCountries[2]/this.countriesArray.length + Number.EPSILON) * 100);
+        setAt(this.participatingCountries, 2, this.dataHandlerService.convertRawDataForActivityGauge(res[1]));
+        setAt(this.participatingCountriesPercentage, 2, Math.round((this.participatingCountries()[2]/this.countriesArray().length + Number.EPSILON) * 100));
         for (let i = 0; i < this.tmpQuestionsDataArray[2].series.length; i++) {
           this.tmpQuestionsDataArray[2].series[i].data = this.tmpQuestionsDataArray[2].series[i].data.map(code => ({ code }));
         }
-        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        setAt(this.toolTipData, 2, this.dataHandlerService.covertRawDataGetText(res[2]));
         this.createMapDataFromCategorization(2,1);
       }
     );
@@ -150,14 +152,14 @@ export class FinancialStrategySubcategoriesComponent implements OnInit{
       this.queryData.getQuestionComment(this.year, 'Question31'),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
+        this.countriesArray.set(res[0]);
         this.tmpQuestionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        this.participatingCountries[3] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        this.participatingCountriesPercentage[3] = Math.round((this.participatingCountries[3]/this.countriesArray.length + Number.EPSILON) * 100);
+        setAt(this.participatingCountries, 3, this.dataHandlerService.convertRawDataForActivityGauge(res[1]));
+        setAt(this.participatingCountriesPercentage, 3, Math.round((this.participatingCountries()[3]/this.countriesArray().length + Number.EPSILON) * 100));
         for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
           this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
         }
-        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        setAt(this.toolTipData, 3, this.dataHandlerService.covertRawDataGetText(res[2]));
         this.createMapDataFromCategorization(3,1);
       }
     );
@@ -172,14 +174,14 @@ export class FinancialStrategySubcategoriesComponent implements OnInit{
       this.queryData.getQuestionComment(this.year, 'Question35'),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
+        this.countriesArray.set(res[0]);
         this.tmpQuestionsDataArray[4] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        this.participatingCountries[4] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        this.participatingCountriesPercentage[4] = Math.round((this.participatingCountries[4]/this.countriesArray.length + Number.EPSILON) * 100);
+        setAt(this.participatingCountries, 4, this.dataHandlerService.convertRawDataForActivityGauge(res[1]));
+        setAt(this.participatingCountriesPercentage, 4, Math.round((this.participatingCountries()[4]/this.countriesArray().length + Number.EPSILON) * 100));
         for (let i = 0; i < this.tmpQuestionsDataArray[4].series.length; i++) {
           this.tmpQuestionsDataArray[4].series[i].data = this.tmpQuestionsDataArray[4].series[i].data.map(code => ({ code }));
         }
-        this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        setAt(this.toolTipData, 4, this.dataHandlerService.covertRawDataGetText(res[2]));
         this.createMapDataFromCategorization(4,1);
       }
     );
@@ -194,14 +196,14 @@ export class FinancialStrategySubcategoriesComponent implements OnInit{
       this.queryData.getQuestionComment(this.year, 'Question39'),
     ).subscribe(
       res => {
-        this.countriesArray = res[0];
+        this.countriesArray.set(res[0]);
         this.tmpQuestionsDataArray[5] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[1]);
-        this.participatingCountries[5] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        this.participatingCountriesPercentage[5] = Math.round((this.participatingCountries[5]/this.countriesArray.length + Number.EPSILON) * 100);
+        setAt(this.participatingCountries, 5, this.dataHandlerService.convertRawDataForActivityGauge(res[1]));
+        setAt(this.participatingCountriesPercentage, 5, Math.round((this.participatingCountries()[5]/this.countriesArray().length + Number.EPSILON) * 100));
         for (let i = 0; i < this.tmpQuestionsDataArray[5].series.length; i++) {
           this.tmpQuestionsDataArray[5].series[i].data = this.tmpQuestionsDataArray[5].series[i].data.map(code => ({ code }));
         }
-        this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        setAt(this.toolTipData, 5, this.dataHandlerService.covertRawDataGetText(res[2]));
         this.createMapDataFromCategorization(5,1);
       }
     );
@@ -210,29 +212,30 @@ export class FinancialStrategySubcategoriesComponent implements OnInit{
   createMapDataFromCategorization(index: number, mapCount: number) {
     // this.mapSubtitles[mapCount] = this.mapSubtitlesArray[mapCount][index];
 
-    this.questionsDataArray[index] = new CategorizedAreaData();
+    const mapData = new CategorizedAreaData();
 
     let position = 0;
     for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
       if (this.tmpQuestionsDataArray[index].series[i].name === 'Awaiting data')
         continue;
       position = this.tmpQuestionsDataArray[index].series[i].name === 'No'? 1 : 0;
-      this.questionsDataArray[index].series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
-      this.questionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
-      this.questionsDataArray[index].series[i].showInLegend = true;
-      this.questionsDataArray[index].series[i].color = ColorPallet[position];
+      mapData.series[i] = new Series(this.mapSubtitlesArray[mapCount][position], false);
+      mapData.series[i].data = this.tmpQuestionsDataArray[index].series[i].data;
+      mapData.series[i].showInLegend = true;
+      mapData.series[i].color = ColorPallet[position];
     }
     let countryCodeArray = [];
-    for (let i = 0; i < this.questionsDataArray[index].series.length; i++) {
-      for (const data of this.questionsDataArray[index].series[i].data) {
+    for (let i = 0; i < mapData.series.length; i++) {
+      for (const data of mapData.series[i].data) {
         countryCodeArray.push(data.code)
       }
     }
 
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length] = new Series('Awaiting Data', false);
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].showInLegend = true;
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].color = ColorPallet[2];
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
-    this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data = this.questionsDataArray[index].series[this.questionsDataArray[index].series.length-1].data.map(code => ({ code }));
+    mapData.series[mapData.series.length] = new Series('Awaiting Data', false);
+    mapData.series[mapData.series.length-1].showInLegend = true;
+    mapData.series[mapData.series.length-1].color = ColorPallet[2];
+    mapData.series[mapData.series.length-1].data = this.countriesArray().filter(code => !countryCodeArray.includes(code));
+    mapData.series[mapData.series.length-1].data = mapData.series[mapData.series.length-1].data.map(code => ({ code }));
+    setAt(this.questionsDataArray, index, mapData);
   }
 }

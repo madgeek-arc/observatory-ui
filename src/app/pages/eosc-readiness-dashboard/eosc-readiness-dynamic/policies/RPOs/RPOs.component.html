@@ -19,9 +19,9 @@
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
                   <div class="uk-margin-small-bottom">
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[0]}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries()[0]}}</span>
                     <span> out of </span>
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries()}}</span>
                   </div>
                   countries have RPOs with a policy on open access publications
                 </div>
@@ -31,9 +31,9 @@
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
                   <div class="uk-margin-small-bottom">
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[1]}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries()[1]}}</span>
                     <span> out of </span>
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries()}}</span>
                   </div>
                   countries have RPOs with a policy on data
                 </div>
@@ -43,9 +43,9 @@
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
                   <div class="uk-margin-small-bottom">
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[2]}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries()[2]}}</span>
                     <span> out of </span>
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries()}}</span>
                   </div>
                   countries have RPOs with a policy on open source software
                 </div>
@@ -55,9 +55,9 @@
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
                   <div class="uk-margin-small-bottom">
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[3]}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries()[3]}}</span>
                     <span> out of </span>
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries()}}</span>
                   </div>
                   countries have RPOs with a policy on offering services through EOSC
                 </div>
@@ -67,7 +67,7 @@
           <div class="">
             <div class="uk-card uk-card-default uk-card-body">
               <activity-gauge [title]="'Percentage of countries that have RPOs with policies on EOSC and open science'"
-                [data]="activityGaugeData">
+                [data]="activityGaugeData()">
               </activity-gauge>
             </div>
           </div>
@@ -75,7 +75,7 @@
           <div class="uk-width-1-1 uk-margin-large-top">
             <div class="uk-card uk-card-default uk-card-body">
 
-              <cumulative-data-table [title]="'RPOs with policies per country'" [tableData]="tableData"></cumulative-data-table>
+              <cumulative-data-table [title]="'RPOs with policies per country'" [tableData]="tableData()"></cumulative-data-table>
             </div>
           </div>
 
@@ -84,9 +84,9 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[0]" [title]="'Number of RPOs with a policy on open access publications'"
-              [toolTipData]="toolTipData[0]" [subtitle]="" [dataSeriesSuffix]="''"
-              [participatingCountries]="countriesArray">
+            <app-highcharts-color-axis [mapData]="questionsDataArray()[0]" [title]="'Number of RPOs with a policy on open access publications'"
+              [toolTipData]="toolTipData()[0]" [subtitle]="" [dataSeriesSuffix]="''"
+              [participatingCountries]="countriesArray()">
             </app-highcharts-color-axis>
           </div>
 
@@ -94,17 +94,17 @@
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="indicator-label">Total number of RPOs with a policy on open access publications</div>
-                @if (!sumsArray[0]) {
+                @if (!sumsArray()[0]) {
                   <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
                 }
-                @if (sumsArray[0]) {
-                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[0]}}</strong></div>
+                @if (sumsArray()[0]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray()[0]}}</strong></div>
                 }
               </div>
             </div>
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
-              <app-bar-chart [mapData]="questionsDataArrayForBarChart[0]" [subTitle]="''" [dataSeriesSuffix]="''"
+              <app-bar-chart [mapData]="questionsDataArrayForBarChart()[0]" [subTitle]="''" [dataSeriesSuffix]="''"
                 [title]="'Number of RPOs with a policy on open access publications'">
               </app-bar-chart>
             </div>
@@ -121,9 +121,9 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[1]" [title]="'Number of RPOs with a policy on open source software'"
-              [toolTipData]="toolTipData[1]" [subtitle]="" [dataSeriesSuffix]="''"
-              [participatingCountries]="countriesArray">
+            <app-highcharts-color-axis [mapData]="questionsDataArray()[1]" [title]="'Number of RPOs with a policy on open source software'"
+              [toolTipData]="toolTipData()[1]" [subtitle]="" [dataSeriesSuffix]="''"
+              [participatingCountries]="countriesArray()">
             </app-highcharts-color-axis>
           </div>
 
@@ -131,17 +131,17 @@
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="indicator-label">Total number of RPOs with a policy on open source software</div>
-                @if (!sumsArray[1]) {
+                @if (!sumsArray()[1]) {
                   <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
                 }
-                @if (sumsArray[1]) {
-                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[1]}}</strong></div>
+                @if (sumsArray()[1]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray()[1]}}</strong></div>
                 }
               </div>
             </div>
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
-              <app-bar-chart [mapData]="questionsDataArrayForBarChart[1]" [subTitle]="''" [dataSeriesSuffix]="''"
+              <app-bar-chart [mapData]="questionsDataArrayForBarChart()[1]" [subTitle]="''" [dataSeriesSuffix]="''"
                 [title]="'Number of RPOs with a policy on open access publications'">
               </app-bar-chart>
             </div>
@@ -151,9 +151,9 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[2]" [title]="'Number of RPOs with a policy on offering services through EOSC'"
-              [toolTipData]="toolTipData[0]" [subtitle]="" [dataSeriesSuffix]="''"
-              [participatingCountries]="countriesArray">
+            <app-highcharts-color-axis [mapData]="questionsDataArray()[2]" [title]="'Number of RPOs with a policy on offering services through EOSC'"
+              [toolTipData]="toolTipData()[0]" [subtitle]="" [dataSeriesSuffix]="''"
+              [participatingCountries]="countriesArray()">
             </app-highcharts-color-axis>
           </div>
 
@@ -161,17 +161,17 @@
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="indicator-label">Total number of RPOs with a policy on offering services through EOSC</div>
-                @if (!sumsArray[2]) {
+                @if (!sumsArray()[2]) {
                   <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
                 }
-                @if (sumsArray[2]) {
-                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[2]}}</strong></div>
+                @if (sumsArray()[2]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray()[2]}}</strong></div>
                 }
               </div>
             </div>
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
-              <app-bar-chart [mapData]="questionsDataArrayForBarChart[2]" [subTitle]="''" [dataSeriesSuffix]="''"
+              <app-bar-chart [mapData]="questionsDataArrayForBarChart()[2]" [subTitle]="''" [dataSeriesSuffix]="''"
                 [title]="'Number of RPOs with a policy on offering services through EOSC'">
               </app-bar-chart>
             </div>
@@ -188,9 +188,9 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[3]" [title]="'Number of RPOs with a policy on skills/training for Open Science'"
-              [toolTipData]="toolTipData[3]" [subtitle]="" [dataSeriesSuffix]="''"
-              [participatingCountries]="countriesArray">
+            <app-highcharts-color-axis [mapData]="questionsDataArray()[3]" [title]="'Number of RPOs with a policy on skills/training for Open Science'"
+              [toolTipData]="toolTipData()[3]" [subtitle]="" [dataSeriesSuffix]="''"
+              [participatingCountries]="countriesArray()">
             </app-highcharts-color-axis>
           </div>
 
@@ -198,17 +198,17 @@
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="indicator-label">Total number of RPOs with a policy on skills/training for Open Science</div>
-                @if (!sumsArray[3]) {
+                @if (!sumsArray()[3]) {
                   <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
                 }
-                @if (sumsArray[3]) {
-                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[3]}}</strong></div>
+                @if (sumsArray()[3]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray()[3]}}</strong></div>
                 }
               </div>
             </div>
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
-              <app-bar-chart [mapData]="questionsDataArrayForBarChart[3]" [subTitle]="''" [dataSeriesSuffix]="''"
+              <app-bar-chart [mapData]="questionsDataArrayForBarChart()[3]" [subTitle]="''" [dataSeriesSuffix]="''"
                 [title]="'Number of RPOs with a policy on skills/training for Open Science'">
               </app-bar-chart>
             </div>
@@ -218,9 +218,9 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[4]" [title]="'Number of RPOs with a policy on incentives/rewards for Open Science'"
-              [toolTipData]="toolTipData[4]" [subtitle]="" [dataSeriesSuffix]="''"
-              [participatingCountries]="countriesArray">
+            <app-highcharts-color-axis [mapData]="questionsDataArray()[4]" [title]="'Number of RPOs with a policy on incentives/rewards for Open Science'"
+              [toolTipData]="toolTipData()[4]" [subtitle]="" [dataSeriesSuffix]="''"
+              [participatingCountries]="countriesArray()">
             </app-highcharts-color-axis>
           </div>
 
@@ -228,17 +228,17 @@
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="indicator-label">Total number of RPOs with a policy on incentives/rewards for Open Science</div>
-                @if (!sumsArray[4]) {
+                @if (!sumsArray()[4]) {
                   <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
                 }
-                @if (sumsArray[4]) {
-                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[4]}}</strong></div>
+                @if (sumsArray()[4]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray()[4]}}</strong></div>
                 }
               </div>
             </div>
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
-              <app-bar-chart [mapData]="questionsDataArrayForBarChart[4]" [subTitle]="''" [dataSeriesSuffix]="''"
+              <app-bar-chart [mapData]="questionsDataArrayForBarChart()[4]" [subTitle]="''" [dataSeriesSuffix]="''"
                 [title]="'Number of RPOs with a policy on incentives/rewards for Open Science'">
               </app-bar-chart>
             </div>
@@ -248,9 +248,9 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 800px">
-            <app-highcharts-color-axis [mapData]="questionsDataArray[5]" [title]="'Number of RPOs with a policy on citizen science'"
-              [toolTipData]="toolTipData[5]" [subtitle]="" [dataSeriesSuffix]="''"
-              [participatingCountries]="countriesArray">
+            <app-highcharts-color-axis [mapData]="questionsDataArray()[5]" [title]="'Number of RPOs with a policy on citizen science'"
+              [toolTipData]="toolTipData()[5]" [subtitle]="" [dataSeriesSuffix]="''"
+              [participatingCountries]="countriesArray()">
             </app-highcharts-color-axis>
           </div>
 
@@ -258,17 +258,17 @@
             <div class="uk-margin-medium-bottom">
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="indicator-label">Total number of RPOs with a policy on citizen science</div>
-                @if (!sumsArray[5]) {
+                @if (!sumsArray()[5]) {
                   <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
                 }
-                @if (sumsArray[5]) {
-                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[5]}}</strong></div>
+                @if (sumsArray()[5]) {
+                  <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray()[5]}}</strong></div>
                 }
               </div>
             </div>
 
             <div class="uk-card uk-card-default uk-card-body" style="height: 550px">
-              <app-bar-chart [mapData]="questionsDataArrayForBarChart[5]" [subTitle]="''" [dataSeriesSuffix]="''"
+              <app-bar-chart [mapData]="questionsDataArrayForBarChart()[5]" [subTitle]="''" [dataSeriesSuffix]="''"
                 [title]="'Number of RPOs with a policy on citizen science'">
               </app-bar-chart>
             </div>

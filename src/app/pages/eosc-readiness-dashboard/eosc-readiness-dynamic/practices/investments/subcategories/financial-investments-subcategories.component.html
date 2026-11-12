@@ -1,5 +1,5 @@
 <div>
-  @switch (dataType) {
+  @switch (dataType()) {
     @case ('dataManagement') {
       <div>
         <!--    <div class="uk-grid uk-margin-medium-top">-->
@@ -27,7 +27,7 @@
 <div class="uk-grid uk-margin-medium-top">
   <div class="uk-width-3-5" style="height: 600px">
     <app-column-ranges-chart [chartId]="'column7'" [subTitle]="'(in ranges)'"
-      title="Financial investments in data management in {{ +year-1 }}" [series]="columnSeries[0]">
+      title="Financial investments in data management in {{ +year-1 }}" [series]="columnSeries()[0]">
     </app-column-ranges-chart>
   </div>
   <div class="uk-width-2-5">
@@ -37,17 +37,17 @@
           Total financial investments in data management in {{ +year-1 }}
           <span class="uk-text-muted">(in millions of Euro)</span>
         </div>
-        @if (!sumsArray[0]) {
+        @if (!sumsArray()[0]) {
           <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
         }
-        @if (sumsArray[0]) {
-          <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[0]}} M</strong>
+        @if (sumsArray()[0]) {
+          <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray()[0]}} M</strong>
         </div>
       }
     </div>
   </div>
   <div class="uk-card uk-card-default uk-card-body">
-    <app-pie-chart [chartId]="'pie7'" [series]="pieSeries[0]"></app-pie-chart>
+    <app-pie-chart [chartId]="'pie7'" [series]="pieSeries()[0]"></app-pie-chart>
   </div>
 </div>
 </div>
@@ -80,7 +80,7 @@
 <div class="uk-grid uk-margin-medium-top">
   <div class="uk-width-3-5" style="height: 600px">
     <app-column-ranges-chart [chartId]="'column8'" [subTitle]="'(in ranges)'"
-      title="Financial investments in FAIR data in {{ +year-1 }}" [series]="columnSeries[1]">
+      title="Financial investments in FAIR data in {{ +year-1 }}" [series]="columnSeries()[1]">
     </app-column-ranges-chart>
   </div>
   <div class="uk-width-2-5">
@@ -90,17 +90,17 @@
           Total financial investments in FAIR data in {{ +year-1 }}
           <span class="uk-text-muted">(in millions of Euro)</span>
         </div>
-        @if (!sumsArray[1]) {
+        @if (!sumsArray()[1]) {
           <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
         }
-        @if (sumsArray[1]) {
-          <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[1]}} M</strong>
+        @if (sumsArray()[1]) {
+          <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray()[1]}} M</strong>
         </div>
       }
     </div>
   </div>
   <div class="uk-card uk-card-default uk-card-body">
-    <app-pie-chart [chartId]="'pie8'" [series]="pieSeries[1]"></app-pie-chart>
+    <app-pie-chart [chartId]="'pie8'" [series]="pieSeries()[1]"></app-pie-chart>
   </div>
 </div>
 </div>
@@ -133,7 +133,7 @@
 <div class="uk-grid uk-margin-medium-top">
   <div class="uk-width-3-5" style="height: 600px">
     <app-column-ranges-chart [chartId]="'column9'" [subTitle]="'(in ranges)'"
-      title="Financial investments in open data in {{ +year-1 }}" [series]="columnSeries[2]">
+      title="Financial investments in open data in {{ +year-1 }}" [series]="columnSeries()[2]">
     </app-column-ranges-chart>
   </div>
   <div class="uk-width-2-5">
@@ -143,17 +143,17 @@
           Total financial investments in open data in {{ +year-1 }}
           <span class="uk-text-muted">(in millions of Euro)</span>
         </div>
-        @if (!sumsArray[2]) {
+        @if (!sumsArray()[2]) {
           <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
         }
-        @if (sumsArray[2]) {
-          <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[2]}} M</strong>
+        @if (sumsArray()[2]) {
+          <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray()[2]}} M</strong>
         </div>
       }
     </div>
   </div>
   <div class="uk-card uk-card-default uk-card-body">
-    <app-pie-chart [chartId]="'pie9'" [series]="pieSeries[2]"></app-pie-chart>
+    <app-pie-chart [chartId]="'pie9'" [series]="pieSeries()[2]"></app-pie-chart>
   </div>
 </div>
 </div>
@@ -185,7 +185,7 @@
 <!--    </div>-->
 <div class="uk-grid uk-margin-medium-top">
   <div class="uk-width-3-5" style="height: 600px">
-    <app-column-ranges-chart [chartId]="'column10'" [series]="columnSeries[3]" [subTitle]="'(in ranges)'"
+    <app-column-ranges-chart [chartId]="'column10'" [series]="columnSeries()[3]" [subTitle]="'(in ranges)'"
       title="Financial investments in connecting repositories to EOSC in {{ +year-1 }}">
     </app-column-ranges-chart>
   </div>
@@ -196,17 +196,17 @@
           Total financial investments in connecting repositories to EOSC in {{ +year-1 }}
           <span class="uk-text-muted">(in millions of Euro)</span>
         </div>
-        @if (!sumsArray[3]) {
+        @if (!sumsArray()[3]) {
           <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
         }
-        @if (sumsArray[3]) {
-          <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[3]}} M</strong>
+        @if (sumsArray()[3]) {
+          <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray()[3]}} M</strong>
         </div>
       }
     </div>
   </div>
   <div class="uk-card uk-card-default uk-card-body">
-    <app-pie-chart [chartId]="'pie10'" [series]="pieSeries[3]"></app-pie-chart>
+    <app-pie-chart [chartId]="'pie10'" [series]="pieSeries()[3]"></app-pie-chart>
   </div>
 </div>
 </div>
@@ -238,7 +238,7 @@
 <!--    </div>-->
 <div class="uk-grid uk-margin-medium-top">
   <div class="uk-width-3-5" style="height: 600px">
-    <app-column-ranges-chart [chartId]="'column11'" [series]="columnSeries[4]" [subTitle]="'(in ranges)'"
+    <app-column-ranges-chart [chartId]="'column11'" [series]="columnSeries()[4]" [subTitle]="'(in ranges)'"
       title="Financial investments in data stewardship in {{ +year-1 }}">
     </app-column-ranges-chart>
   </div>
@@ -249,17 +249,17 @@
           Total financial investments in data stewardship in {{ +year-1 }}
           <span class="uk-text-muted">(in millions of Euro)</span>
         </div>
-        @if (!sumsArray[4]) {
+        @if (!sumsArray()[4]) {
           <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
         }
-        @if (sumsArray[4]) {
-          <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[4]}} M</strong>
+        @if (sumsArray()[4]) {
+          <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray()[4]}} M</strong>
         </div>
       }
     </div>
   </div>
   <div class="uk-card uk-card-default uk-card-body">
-    <app-pie-chart [chartId]="'pie11'" [series]="pieSeries[4]"></app-pie-chart>
+    <app-pie-chart [chartId]="'pie11'" [series]="pieSeries()[4]"></app-pie-chart>
   </div>
 </div>
 </div>
@@ -291,7 +291,7 @@
 <!--    </div>-->
 <div class="uk-grid uk-margin-medium-top">
   <div class="uk-width-3-5" style="height: 600px">
-    <app-column-ranges-chart [chartId]="'column12'" [series]="columnSeries[5]" [subTitle]="'(in ranges)'"
+    <app-column-ranges-chart [chartId]="'column12'" [series]="columnSeries()[5]" [subTitle]="'(in ranges)'"
       title="Financial investments in long-term data preservation in {{ +year-1 }}">
     </app-column-ranges-chart>
   </div>
@@ -302,17 +302,17 @@
           Total financial investments in long-term data preservation in {{ +year-1 }}
           <span class="uk-text-muted">(in millions of Euro)</span>
         </div>
-        @if (!sumsArray[5]) {
+        @if (!sumsArray()[5]) {
           <div class="uk-text-lead uk-margin-small-top"><strong>--</strong></div>
         }
-        @if (sumsArray[5]) {
-          <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray[5]}} M</strong>
+        @if (sumsArray()[5]) {
+          <div class="uk-text-lead uk-margin-small-top"><strong>{{sumsArray()[5]}} M</strong>
         </div>
       }
     </div>
   </div>
   <div class="uk-card uk-card-default uk-card-body">
-    <app-pie-chart [chartId]="'pie12'" [series]="pieSeries[5]"></app-pie-chart>
+    <app-pie-chart [chartId]="'pie12'" [series]="pieSeries()[5]"></app-pie-chart>
   </div>
 </div>
 </div>

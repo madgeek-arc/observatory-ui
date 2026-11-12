@@ -1,18 +1,18 @@
-import {Component, OnInit, ChangeDetectionStrategy} from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
 import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
 import * as UIkit from 'uikit';
 
 @Component({
     selector: 'app-practices-2022',
     templateUrl: 'practices.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [RouterOutlet]
 })
 
 export class PracticesComponent implements OnInit {
 
-  constructor(private router: Router, private route: ActivatedRoute) {
-  }
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   ngOnInit() {
     this.route.params.subscribe(

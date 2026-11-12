@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, signal, inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { CountryTableData } from "src/app/domain/country-table-data";
 import { countriesNumbers, EoscReadinessMapSubtitles } from "../../../eosc-readiness-map-subtitles";
@@ -11,18 +11,19 @@ import { isNumeric } from "src/app/shared/utils/is-numeric";
 import * as UIkit from 'uikit';
 import { HighchartsColumnRangesComponent } from "../../../../../../shared/charts/column-ranges-chart/highcharts-column-ranges.component";
 import { PieChartComponent } from "../../../../../../shared/charts/pie-chart/pie-chart.component";
+import { setAt } from "src/app/shared/utils/set-at";
 
 @Component({
     selector: 'app-financial-investments-subcategories',
     templateUrl: 'financial-investments-subcategories.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [HighchartsColumnRangesComponent, PieChartComponent]
 })
 
 export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
 
   year: string = null;
-  dataType: string = null;
+  dataType = signal<string>(null);
 
   countriesArray: string[] = [];
   tableAbsoluteDataArray: CountryTableData[][] = [];
@@ -31,14 +32,15 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
   questionsDataArrayForBarChart: any[] = [];
-  sumsArray: string[] = [];
+  sumsArray = signal<string[]>([]);
   toolTipData: Map<string, string>[] = [];
-  pieSeries: {name: string, type: string, data: (string | number)[][]}[][] = [];
-  columnSeries: {name: string, type: string, data: (string | number)[][]}[][] = [];
+  pieSeries = signal<{name: string, type: string, data: (string | number)[][]}[][]>([]);
+  columnSeries = signal<{name: string, type: string, data: (string | number)[][]}[][]>([]);
 
-  constructor(private route: ActivatedRoute, private queryData: EoscReadinessDataService,
-              private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
-  }
+  private route = inject(ActivatedRoute);
+  private queryData = inject(EoscReadinessDataService);
+  private stakeholdersService = inject(StakeholdersService);
+  private dataHandlerService = inject(DataHandlerService);
 
   ngOnInit() {
     this.year = this.route.parent.parent.parent.snapshot.paramMap.get('year');
@@ -47,8 +49,8 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
 
     this.route.params.subscribe(
       params => {
-        this.dataType = params['dataType'];
-        switch (this.dataType) {
+        this.dataType.set(params['dataType']);
+        switch (this.dataType()) {
           case 'dataManagement':
             this.getDataManagementData();
             UIkit.switcher('#dataContent').show(0);
@@ -95,7 +97,7 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
         // this.questionsDataArray[0].forEach((data: string[]) => {tempArr.push(data[0]);});
         // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         // this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[0] = this.calculateSum(res[1]);
+        setAt(this.sumsArray, 0, this.calculateSum(res[1]));
       }
     )
   }
@@ -117,7 +119,7 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
         // this.questionsDataArray[1].forEach((data: string[]) => {tempArr.push(data[0]);});
         // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         // this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[1] = this.calculateSum(res[1]);
+        setAt(this.sumsArray, 1, this.calculateSum(res[1]));
       }
     )
   }
@@ -139,7 +141,7 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
         // this.questionsDataArray[2].forEach((data: string[]) => {tempArr.push(data[0]);});
         // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         // this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[2] = this.calculateSum(res[1]);
+        setAt(this.sumsArray, 2, this.calculateSum(res[1]));
       }
     )
   }
@@ -161,7 +163,7 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
         // this.questionsDataArray[3].forEach((data: string[]) => {tempArr.push(data[0]);});
         // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         // this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[3] = this.calculateSum(res[1]);
+        setAt(this.sumsArray, 3, this.calculateSum(res[1]));
       }
     )
   }
@@ -183,7 +185,7 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
         // this.questionsDataArray[4].forEach((data: string[]) => {tempArr.push(data[0]);});
         // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         // this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[4] = this.calculateSum(res[1]);
+        setAt(this.sumsArray, 4, this.calculateSum(res[1]));
       }
     )
   }
@@ -205,13 +207,13 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
         // this.questionsDataArray[5].forEach((data: string[]) => {tempArr.push(data[0]);});
         // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         // this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[5] = this.calculateSum(res[1]);
+        setAt(this.sumsArray, 5, this.calculateSum(res[1]));
       }
     )
   }
 
   getInvestmentsDataPie(arr: number[], index: number) {
-    this.pieSeries[index] = [{
+    const pieSeries = [{
       name: 'No of countries',
       type: 'pie',
       data: [
@@ -224,43 +226,45 @@ export class FinancialInvestmentsSubcategoriesComponent implements OnInit{
     }];
     for (let i = 0; i < arr.length; i++) {
       if (arr[i][1] < 1) {
-        (<number>this.pieSeries[index][0].data[0][1])++;
+        (<number>pieSeries[0].data[0][1])++;
       } else if (arr[i][1] < 5) {
-        (<number>this.pieSeries[index][0].data[1][1])++;
+        (<number>pieSeries[0].data[1][1])++;
       } else if (arr[i][1] < 10) {
-        (<number>this.pieSeries[index][0].data[2][1])++;
+        (<number>pieSeries[0].data[2][1])++;
       } else if (arr[i][1] < 20) {
-        (<number>this.pieSeries[index][0].data[3][1])++;
+        (<number>pieSeries[0].data[3][1])++;
       } else if (arr[i][1] >= 20) {
-        (<number>this.pieSeries[index][0].data[4][1])++;
+        (<number>pieSeries[0].data[4][1])++;
       }
     }
     // console.log(this.series[0]);
+    setAt(this.pieSeries, index, pieSeries);
   }
 
   createStackedColumnSeries(arr: any[], index: number) {
     arr.sort((a, b) => { return a[1] - b[1]; });
-    this.columnSeries[index] = [];
+    const columnSeries: {name: string, type: string, data: (string | number)[][]}[] = [];
     let serie: {name: string, type: string, data: (string | number)[][]};
     for (let i = 0; i < arr.length; i++) {
       let country = this.findCountryName(arr[i][0]);
       if (arr[i][1] < 1) {
         serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [[' < 1 M', 1]]}
-        this.columnSeries[index].push(serie);
+        columnSeries.push(serie);
       } else if (arr[i][1] < 5) {
         serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [['1 - 5 M', 1]]}
-        this.columnSeries[index].push(serie);
+        columnSeries.push(serie);
       } else if (arr[i][1] < 10) {
         serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [['5 - 10 M', 1]]}
-        this.columnSeries[index].push(serie);
+        columnSeries.push(serie);
       } else if (arr[i][1] < 20) {
         serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [['10 - 20 M', 1]]}
-        this.columnSeries[index].push(serie);
+        columnSeries.push(serie);
       } else if (arr[i][1] >= 20) {
         serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [[' > 20 M', 1]]}
-        this.columnSeries[index].push(serie);
+        columnSeries.push(serie);
       }
     }
+    setAt(this.columnSeries, index, columnSeries);
   }
 
   findCountryName(code: string) {

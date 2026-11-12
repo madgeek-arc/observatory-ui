@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, signal, inject } from "@angular/core";
 import { ActivatedRoute, Router, RouterLink, RouterOutlet } from "@angular/router";
 import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
 import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
@@ -15,35 +15,38 @@ import { GaugeActivityComponent } from "../../../../../shared/charts/gauge-activ
 import { CumulativeDataTablesComponent } from "../../tables/cumulative-data-tables.component";
 import { HighchartsColumnRangesComponent } from "../../../../../shared/charts/column-ranges-chart/highcharts-column-ranges.component";
 import { PieChartComponent } from "../../../../../shared/charts/pie-chart/pie-chart.component";
+import { setAt } from "src/app/shared/utils/set-at";
 
 @Component({
     selector: 'app-national-policy',
     templateUrl: 'financial-investments.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [RouterLink, GaugeActivityComponent, CumulativeDataTablesComponent, HighchartsColumnRangesComponent, PieChartComponent, RouterOutlet]
 })
 
 export class FinancialInvestmentsComponent implements OnInit {
   year: string = null;
   countriesArray: string[] = [];
-  numberOfCountries: number = 0;
+  numberOfCountries = signal<number>(0);
   tableAbsoluteDataArray: CountryTableData[][] = [];
   mapSubtitles: string[] = [];
   mapSubtitlesArray: string[][] = EoscReadinessMapSubtitles;
   questionsDataArray: any[] = [];
   tmpQuestionsDataArray: any[] = [];
   questionsDataArrayForBarChart: any[] = [];
-  sumsArray: string[] = [];
+  sumsArray = signal<string[]>([]);
   toolTipData: Map<string, string>[] = [];
-  activityGaugeData: ActivityGauge[] = [];
-  participatingCountries: number[] = [];
-  tableData: string[][] = [];
-  pieSeries: {name: string, type: string, data: (string | number)[][]}[][] = [];
-  columnSeries: {name: string, type: string, data: (string | number)[][]}[][] = [];
+  activityGaugeData = signal<ActivityGauge[]>([]);
+  participatingCountries = signal<number[]>([]);
+  tableData = signal<string[][]>([]);
+  pieSeries = signal<{name: string, type: string, data: (string | number)[][]}[][]>([]);
+  columnSeries = signal<{name: string, type: string, data: (string | number)[][]}[][]>([]);
 
-  constructor(private router: Router, private route: ActivatedRoute, private queryData: EoscReadinessDataService,
-              private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
-  }
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private queryData = inject(EoscReadinessDataService);
+  private stakeholdersService = inject(StakeholdersService);
+  private dataHandlerService = inject(DataHandlerService);
 
   ngOnInit() {
     this.year = this.route.parent.parent.snapshot.paramMap.get('year');
@@ -91,8 +94,8 @@ export class FinancialInvestmentsComponent implements OnInit {
   }
 
   getAll() {
-    this.activityGaugeData = [];
-    this.tableData = [];
+    this.activityGaugeData.set([]);
+    this.tableData.set([]);
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       // this.queryData.getQuestion56(),
@@ -121,78 +124,81 @@ export class FinancialInvestmentsComponent implements OnInit {
       this.queryData.getQuestion(this.year, 'Question100'), // Engagement
     ).subscribe(
       res => {
+        let tableData: string[][] = [];
+        const activityGaugeData: ActivityGauge[] = [];
         let y = 0;
         this.countriesArray = res[0];
-        this.tableData[0] = ['Countries'].concat(this.countriesArray);
+        tableData[0] = ['Countries'].concat(this.countriesArray);
 
-        this.numberOfCountries = (res[1] as RawData).datasets[0].series.result.length;
+        this.numberOfCountries.set((res[1] as RawData).datasets[0].series.result.length);
 
-        this.participatingCountries[0] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        y = Math.round((this.participatingCountries[0]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Publications', y: y});
-        this.tableData[1] = ['Publications'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[1], this.countriesArray));
-        this.replaceWithRanges(this.tableData[1]);
-        this.sumsArray[0] = this.calculateSum(res[1]);
+        setAt(this.participatingCountries, 0, this.dataHandlerService.convertRawDataForActivityGauge(res[1]));
+        y = Math.round((this.participatingCountries()[0]/this.numberOfCountries() + Number.EPSILON) * 100);
+        activityGaugeData.push({name: 'Publications', y: y});
+        tableData[1] = ['Publications'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[1], this.countriesArray));
+        this.replaceWithRanges(tableData[1]);
+        setAt(this.sumsArray, 0, this.calculateSum(res[1]));
 
-        this.tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(res[2], this.countriesArray);
-        this.tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(res[3], this.countriesArray, this.tableData[2]);
-        this.tableData[2] = ['Data'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[4], this.countriesArray, this.tableData[2]));
-        this.replaceWithRanges(this.tableData[2]);
-        this.participatingCountries[1] = this.countTableEntries(this.tableData[2]);
-        y = Math.round((this.participatingCountries[1]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Data', y: y});
+        tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(res[2], this.countriesArray);
+        tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(res[3], this.countriesArray, tableData[2]);
+        tableData[2] = ['Data'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[4], this.countriesArray, tableData[2]));
+        this.replaceWithRanges(tableData[2]);
+        setAt(this.participatingCountries, 1, this.countTableEntries(tableData[2]));
+        y = Math.round((this.participatingCountries()[1]/this.numberOfCountries() + Number.EPSILON) * 100);
+        activityGaugeData.push({name: 'Data', y: y});
 
-        this.participatingCountries[2] = this.dataHandlerService.convertRawDataForActivityGauge(res[5]);
-        y = Math.round((this.participatingCountries[2]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Software', y: y});
-        this.tableData[3] = ['Software'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[5], this.countriesArray));
-        this.replaceWithRanges(this.tableData[3]);
-        this.sumsArray[1] = this.calculateSum(res[5]);
+        setAt(this.participatingCountries, 2, this.dataHandlerService.convertRawDataForActivityGauge(res[5]));
+        y = Math.round((this.participatingCountries()[2]/this.numberOfCountries() + Number.EPSILON) * 100);
+        activityGaugeData.push({name: 'Software', y: y});
+        tableData[3] = ['Software'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[5], this.countriesArray));
+        this.replaceWithRanges(tableData[3]);
+        setAt(this.sumsArray, 1, this.calculateSum(res[5]));
 
-        this.participatingCountries[3] = this.dataHandlerService.convertRawDataForActivityGauge(res[6]);
-        y = Math.round((this.participatingCountries[3]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.tableData[4] = ['Services'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[6], this.countriesArray));
-        this.replaceWithRanges(this.tableData[4]);
-        this.activityGaugeData.push({name: 'Services', y: y});
-        this.sumsArray[2] = this.calculateSum(res[6]);
+        setAt(this.participatingCountries, 3, this.dataHandlerService.convertRawDataForActivityGauge(res[6]));
+        y = Math.round((this.participatingCountries()[3]/this.numberOfCountries() + Number.EPSILON) * 100);
+        tableData[4] = ['Services'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[6], this.countriesArray));
+        this.replaceWithRanges(tableData[4]);
+        activityGaugeData.push({name: 'Services', y: y});
+        setAt(this.sumsArray, 2, this.calculateSum(res[6]));
 
-        this.tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[7], this.countriesArray);
-        this.tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[8], this.countriesArray, this.tableData[5]);
-        this.tableData[5] = ['Infrastructure'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[9], this.countriesArray, this.tableData[5]));
-        this.replaceWithRanges(this.tableData[5]);
-        this.participatingCountries[4] = this.countTableEntries(this.tableData[5]);
-        y = Math.round((this.participatingCountries[4]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Infrastructure', y: y});
+        tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[7], this.countriesArray);
+        tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[8], this.countriesArray, tableData[5]);
+        tableData[5] = ['Infrastructure'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[9], this.countriesArray, tableData[5]));
+        this.replaceWithRanges(tableData[5]);
+        setAt(this.participatingCountries, 4, this.countTableEntries(tableData[5]));
+        y = Math.round((this.participatingCountries()[4]/this.numberOfCountries() + Number.EPSILON) * 100);
+        activityGaugeData.push({name: 'Infrastructure', y: y});
 
-        this.participatingCountries[5] = this.dataHandlerService.convertRawDataForActivityGauge(res[10]);
-        y =  Math.round((this.participatingCountries[5]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.tableData[6] = ['Skills/Training'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[10], this.countriesArray));
-        this.replaceWithRanges(this.tableData[6]);
-        this.activityGaugeData.push({name: 'Skills/Training', y: y});
-        this.sumsArray[3] = this.calculateSum(res[10]);
+        setAt(this.participatingCountries, 5, this.dataHandlerService.convertRawDataForActivityGauge(res[10]));
+        y =  Math.round((this.participatingCountries()[5]/this.numberOfCountries() + Number.EPSILON) * 100);
+        tableData[6] = ['Skills/Training'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[10], this.countriesArray));
+        this.replaceWithRanges(tableData[6]);
+        activityGaugeData.push({name: 'Skills/Training', y: y});
+        setAt(this.sumsArray, 3, this.calculateSum(res[10]));
 
-        this.participatingCountries[6] = this.dataHandlerService.convertRawDataForActivityGauge(res[11]);
-        y = Math.round((this.participatingCountries[6]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.tableData[7] = ['Assessment'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[11], this.countriesArray));
-        this.replaceWithRanges(this.tableData[7]);
-        this.activityGaugeData.push({name: 'Assessment', y: y});
-        this.sumsArray[4] = this.calculateSum(res[11]);
+        setAt(this.participatingCountries, 6, this.dataHandlerService.convertRawDataForActivityGauge(res[11]));
+        y = Math.round((this.participatingCountries()[6]/this.numberOfCountries() + Number.EPSILON) * 100);
+        tableData[7] = ['Assessment'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[11], this.countriesArray));
+        this.replaceWithRanges(tableData[7]);
+        activityGaugeData.push({name: 'Assessment', y: y});
+        setAt(this.sumsArray, 4, this.calculateSum(res[11]));
 
-        this.participatingCountries[7] = this.dataHandlerService.convertRawDataForActivityGauge(res[12]);
-        y = Math.round((this.participatingCountries[7]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.tableData[8] = ['Engagement'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[12], this.countriesArray));
-        this.replaceWithRanges(this.tableData[8]);
-        this.activityGaugeData.push({name: 'Engagement', y: y});
-        this.sumsArray[5] = this.calculateSum(res[12]);
+        setAt(this.participatingCountries, 7, this.dataHandlerService.convertRawDataForActivityGauge(res[12]));
+        y = Math.round((this.participatingCountries()[7]/this.numberOfCountries() + Number.EPSILON) * 100);
+        tableData[8] = ['Engagement'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[12], this.countriesArray));
+        this.replaceWithRanges(tableData[8]);
+        activityGaugeData.push({name: 'Engagement', y: y});
+        setAt(this.sumsArray, 5, this.calculateSum(res[12]));
 
-        this.activityGaugeData = [...this.activityGaugeData];
-        this.tableData = this.tableData[0].map((_, colIndex) => this.tableData.map(row => row[colIndex])); // Transpose 2d array
-        for (let i = 1; i < this.tableData.length; i++) {
-          let tmpData = countries.find(country => country.id === this.tableData[i][0]);
+        this.activityGaugeData.set(activityGaugeData);
+        tableData = tableData[0].map((_, colIndex) => tableData.map(row => row[colIndex])); // Transpose 2d array
+        for (let i = 1; i < tableData.length; i++) {
+          let tmpData = countries.find(country => country.id === tableData[i][0]);
           if (tmpData)
-            this.tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
+            tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
         }
-        // console.log(this.tableData);
+        this.tableData.set(tableData);
+        // console.log(tableData);
       },
       error => {}
     )
@@ -214,7 +220,7 @@ export class FinancialInvestmentsComponent implements OnInit {
         // let tempArr: string[] = [];
         // this.questionsDataArray[0].forEach((data: string[]) => {tempArr.push(data[0]);});
         // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
-        this.sumsArray[0] = this.calculateSum(res[1]);
+        setAt(this.sumsArray, 0, this.calculateSum(res[1]));
         // this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
       }
     )
@@ -237,7 +243,7 @@ export class FinancialInvestmentsComponent implements OnInit {
         // this.questionsDataArray[1].forEach((data: string[]) => {tempArr.push(data[0]);});
         // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         // this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[1] = this.calculateSum(res[1]);
+        setAt(this.sumsArray, 1, this.calculateSum(res[1]));
       }
     )
   }
@@ -259,7 +265,7 @@ export class FinancialInvestmentsComponent implements OnInit {
         // this.questionsDataArray[2].forEach((data: string[]) => {tempArr.push(data[0]);});
         // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         // this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[2] = this.calculateSum(res[1]);
+        setAt(this.sumsArray, 2, this.calculateSum(res[1]));
       }
     )
   }
@@ -281,7 +287,7 @@ export class FinancialInvestmentsComponent implements OnInit {
         // this.questionsDataArray[3].forEach((data: string[]) => {tempArr.push(data[0]);});
         // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         // this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[3] = this.calculateSum(res[1]);
+        setAt(this.sumsArray, 3, this.calculateSum(res[1]));
       }
     )
   }
@@ -303,7 +309,7 @@ export class FinancialInvestmentsComponent implements OnInit {
         // this.questionsDataArray[4].forEach((data: string[]) => {tempArr.push(data[0]);});
         // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         // this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[4] = this.calculateSum(res[1]);
+        setAt(this.sumsArray, 4, this.calculateSum(res[1]));
       }
     )
   }
@@ -325,13 +331,13 @@ export class FinancialInvestmentsComponent implements OnInit {
         // this.questionsDataArray[5].forEach((data: string[]) => {tempArr.push(data[0]);});
         // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         // this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[5] = this.calculateSum(res[1]);
+        setAt(this.sumsArray, 5, this.calculateSum(res[1]));
       }
     )
   }
 
   getInvestmentsDataPie(arr: number[], index: number) {
-    this.pieSeries[index] = [{
+    const pieSeries = [{
       name: 'No of countries',
       type: 'pie',
       data: [
@@ -344,43 +350,45 @@ export class FinancialInvestmentsComponent implements OnInit {
     }];
     for (let i = 0; i < arr.length; i++) {
       if (arr[i][1] < 1) {
-        (<number>this.pieSeries[index][0].data[0][1])++;
+        (<number>pieSeries[0].data[0][1])++;
       } else if (arr[i][1] < 5) {
-        (<number>this.pieSeries[index][0].data[1][1])++;
+        (<number>pieSeries[0].data[1][1])++;
       } else if (arr[i][1] < 10) {
-        (<number>this.pieSeries[index][0].data[2][1])++;
+        (<number>pieSeries[0].data[2][1])++;
       } else if (arr[i][1] < 20) {
-        (<number>this.pieSeries[index][0].data[3][1])++;
+        (<number>pieSeries[0].data[3][1])++;
       } else if (arr[i][1] >= 20) {
-        (<number>this.pieSeries[index][0].data[4][1])++;
+        (<number>pieSeries[0].data[4][1])++;
       }
     }
     // console.log(this.series[0]);
+    setAt(this.pieSeries, index, pieSeries);
   }
 
   createStackedColumnSeries(arr: any[], index: number) {
     arr.sort((a, b) => { return a[1] - b[1]; });
-    this.columnSeries[index] = [];
+    const columnSeries: {name: string, type: string, data: (string | number)[][]}[] = [];
     let serie: {name: string, type: string, data: (string | number)[][]};
     for (let i = 0; i < arr.length; i++) {
       let country = this.findCountryName(arr[i][0]);
       if (arr[i][1] < 1) {
         serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [[' < 1 M', 1]]}
-        this.columnSeries[index].push(serie);
+        columnSeries.push(serie);
       } else if (arr[i][1] < 5) {
         serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [['1 - 5 M', 1]]}
-        this.columnSeries[index].push(serie);
+        columnSeries.push(serie);
       } else if (arr[i][1] < 10) {
         serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [['5 - 10 M', 1]]}
-        this.columnSeries[index].push(serie);
+        columnSeries.push(serie);
       } else if (arr[i][1] < 20) {
         serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [['10 - 20 M', 1]]}
-        this.columnSeries[index].push(serie);
+        columnSeries.push(serie);
       } else if (arr[i][1] >= 20) {
         serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [[' > 20 M', 1]]}
-        this.columnSeries[index].push(serie);
+        columnSeries.push(serie);
       }
     }
+    setAt(this.columnSeries, index, columnSeries);
   }
 
   findCountryName(code: string) {

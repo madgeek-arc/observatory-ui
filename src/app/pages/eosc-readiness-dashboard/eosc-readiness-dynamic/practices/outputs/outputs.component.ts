@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, signal, inject } from "@angular/core";
 import { ActivatedRoute, RouterLink, RouterOutlet } from "@angular/router";
 import { EoscReadinessDataService } from "../../../../services/eosc-readiness-data.service";
 import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
@@ -15,33 +15,35 @@ import { GaugeActivityComponent } from "../../../../../shared/charts/gauge-activ
 import { CumulativeDataTablesComponent } from "../../tables/cumulative-data-tables.component";
 import { HighchartsColorAxisMapComponent } from "../../../../../shared/charts/color-axis-map/highcharts-color-axis-map.component";
 import { HighchartsBarComponent } from "../../../../../shared/charts/bar-chart/highcharts-bar.component";
+import { setAt } from "src/app/shared/utils/set-at";
 
 @Component({
     selector: 'app-national-policy',
     templateUrl: 'outputs.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [RouterLink, GaugeActivityComponent, CumulativeDataTablesComponent, HighchartsColorAxisMapComponent, HighchartsBarComponent, RouterOutlet]
 })
 
 export class OutputsComponent implements OnInit {
   year: string = null;
-  countriesArray: string[] = [];
-  numberOfCountries: number = 0;
+  countriesArray = signal<string[]>([]);
+  numberOfCountries = signal<number>(0);
   tableAbsoluteDataArray: CountryTableData[][] = [];
   mapSubtitles: string[] = [];
   mapSubtitlesArray: string[][] = EoscReadinessMapSubtitles;
-  questionsDataArray: any[] = [];
+  questionsDataArray = signal<any[]>([]);
   tmpQuestionsDataArray: any[] = [];
-  questionsDataArrayForBarChart: any[] = [];
-  sumsArray: string[] = [];
-  toolTipData: Map<string, string>[] = [];
-  activityGaugeData: ActivityGauge[] = [];
-  participatingCountries: number[] = [];
-  tableData: string[][] = [];
+  questionsDataArrayForBarChart = signal<any[]>([]);
+  sumsArray = signal<string[]>([]);
+  toolTipData = signal<Map<string, string>[]>([]);
+  activityGaugeData = signal<ActivityGauge[]>([]);
+  participatingCountries = signal<number[]>([]);
+  tableData = signal<string[][]>([]);
 
-  constructor(private route: ActivatedRoute, private queryData: EoscReadinessDataService,
-              private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {
-  }
+  private route = inject(ActivatedRoute);
+  private queryData = inject(EoscReadinessDataService);
+  private stakeholdersService = inject(StakeholdersService);
+  private dataHandlerService = inject(DataHandlerService);
 
   ngOnInit() {
     this.year = this.route.parent.parent.snapshot.paramMap.get('year');
@@ -89,8 +91,8 @@ export class OutputsComponent implements OnInit {
   }
 
   getAll() {
-    this.activityGaugeData = [];
-    this.tableData = [];
+    this.activityGaugeData.set([]);
+    this.tableData.set([]);
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
       // this.queryData.getQuestion57(),
@@ -119,70 +121,73 @@ export class OutputsComponent implements OnInit {
       this.queryData.getQuestion(this.year, 'Question101'), // Engagement
     ).subscribe(
       res => {
+        let tableData: string[][] = [];
+        const activityGaugeData: ActivityGauge[] = [];
         let y = 0;
-        this.countriesArray = res[0];
-        this.tableData[0] = ['Countries'].concat(this.countriesArray);
+        this.countriesArray.set(res[0]);
+        tableData[0] = ['Countries'].concat(this.countriesArray());
 
-        this.numberOfCountries = (res[1] as RawData).datasets[0].series.result.length;
+        this.numberOfCountries.set((res[1] as RawData).datasets[0].series.result.length);
 
-        this.participatingCountries[0] = this.dataHandlerService.convertRawDataForActivityGauge(res[1]);
-        y = Math.round((this.participatingCountries[0]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Publications', y: y});
-        this.tableData[1] = ['Publications'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[1], this.countriesArray));
-        this.sumsArray[0] = this.calculateSum(res[1]);
+        setAt(this.participatingCountries, 0, this.dataHandlerService.convertRawDataForActivityGauge(res[1]));
+        y = Math.round((this.participatingCountries()[0]/this.numberOfCountries() + Number.EPSILON) * 100);
+        activityGaugeData.push({name: 'Publications', y: y});
+        tableData[1] = ['Publications'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[1], this.countriesArray()));
+        setAt(this.sumsArray, 0, this.calculateSum(res[1]));
 
-        this.tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(res[2], this.countriesArray);
-        this.tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(res[3], this.countriesArray, this.tableData[2]);
-        this.tableData[2] = ['Data'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[4], this.countriesArray, this.tableData[2]));
-        this.participatingCountries[1] = this.countTableEntries(this.tableData[2]);
-        y = Math.round((this.participatingCountries[1]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Data', y: y});
+        tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(res[2], this.countriesArray());
+        tableData[2] = this.dataHandlerService.convertRawDataForCumulativeTable(res[3], this.countriesArray(), tableData[2]);
+        tableData[2] = ['Data'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[4], this.countriesArray(), tableData[2]));
+        setAt(this.participatingCountries, 1, this.countTableEntries(tableData[2]));
+        y = Math.round((this.participatingCountries()[1]/this.numberOfCountries() + Number.EPSILON) * 100);
+        activityGaugeData.push({name: 'Data', y: y});
 
-        this.participatingCountries[2] = this.dataHandlerService.convertRawDataForActivityGauge(res[5]);
-        y = Math.round((this.participatingCountries[2]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Software', y: y});
-        this.tableData[3] = ['Software'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[5], this.countriesArray));
-        this.sumsArray[1] = this.calculateSum(res[5]);
+        setAt(this.participatingCountries, 2, this.dataHandlerService.convertRawDataForActivityGauge(res[5]));
+        y = Math.round((this.participatingCountries()[2]/this.numberOfCountries() + Number.EPSILON) * 100);
+        activityGaugeData.push({name: 'Software', y: y});
+        tableData[3] = ['Software'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[5], this.countriesArray()));
+        setAt(this.sumsArray, 1, this.calculateSum(res[5]));
 
-        this.participatingCountries[3] = this.dataHandlerService.convertRawDataForActivityGauge(res[6]);
-        y = Math.round((this.participatingCountries[3]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.tableData[4] = ['Services'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[6], this.countriesArray));
-        this.activityGaugeData.push({name: 'Services', y: y});
-        this.sumsArray[2] = this.calculateSum(res[6]);
+        setAt(this.participatingCountries, 3, this.dataHandlerService.convertRawDataForActivityGauge(res[6]));
+        y = Math.round((this.participatingCountries()[3]/this.numberOfCountries() + Number.EPSILON) * 100);
+        tableData[4] = ['Services'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[6], this.countriesArray()));
+        activityGaugeData.push({name: 'Services', y: y});
+        setAt(this.sumsArray, 2, this.calculateSum(res[6]));
 
-        this.tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[7], this.countriesArray);
-        this.tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[8], this.countriesArray, this.tableData[5]);
-        this.tableData[5] = ['Infrastructure'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[9], this.countriesArray, this.tableData[5]));
-        this.participatingCountries[4] = this.countTableEntries(this.tableData[5]);
-        y = Math.round((this.participatingCountries[4]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.activityGaugeData.push({name: 'Infrastructure', y: y});
+        tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[7], this.countriesArray());
+        tableData[5] = this.dataHandlerService.convertRawDataForCumulativeTable(res[8], this.countriesArray(), tableData[5]);
+        tableData[5] = ['Infrastructure'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[9], this.countriesArray(), tableData[5]));
+        setAt(this.participatingCountries, 4, this.countTableEntries(tableData[5]));
+        y = Math.round((this.participatingCountries()[4]/this.numberOfCountries() + Number.EPSILON) * 100);
+        activityGaugeData.push({name: 'Infrastructure', y: y});
 
-        this.participatingCountries[5] = this.dataHandlerService.convertRawDataForActivityGauge(res[10]);
-        y =  Math.round((this.participatingCountries[5]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.tableData[6] = ['Skills/Training'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[10], this.countriesArray));
-        this.activityGaugeData.push({name: 'Skills/Training', y: y});
-        this.sumsArray[3] = this.calculateSum(res[10]);
+        setAt(this.participatingCountries, 5, this.dataHandlerService.convertRawDataForActivityGauge(res[10]));
+        y =  Math.round((this.participatingCountries()[5]/this.numberOfCountries() + Number.EPSILON) * 100);
+        tableData[6] = ['Skills/Training'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[10], this.countriesArray()));
+        activityGaugeData.push({name: 'Skills/Training', y: y});
+        setAt(this.sumsArray, 3, this.calculateSum(res[10]));
 
-        this.participatingCountries[6] = this.dataHandlerService.convertRawDataForActivityGauge(res[11]);
-        y = Math.round((this.participatingCountries[6]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.tableData[7] = ['Assessment'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[11], this.countriesArray));
-        this.activityGaugeData.push({name: 'Assessment', y: y});
-        this.sumsArray[4] = this.calculateSum(res[11]);
+        setAt(this.participatingCountries, 6, this.dataHandlerService.convertRawDataForActivityGauge(res[11]));
+        y = Math.round((this.participatingCountries()[6]/this.numberOfCountries() + Number.EPSILON) * 100);
+        tableData[7] = ['Assessment'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[11], this.countriesArray()));
+        activityGaugeData.push({name: 'Assessment', y: y});
+        setAt(this.sumsArray, 4, this.calculateSum(res[11]));
 
-        this.participatingCountries[7] = this.dataHandlerService.convertRawDataForActivityGauge(res[12]);
-        y = Math.round((this.participatingCountries[7]/this.numberOfCountries + Number.EPSILON) * 100);
-        this.tableData[8] = ['Engagement'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[12], this.countriesArray));
-        this.activityGaugeData.push({name: 'Engagement', y: y});
-        this.sumsArray[5] = this.calculateSum(res[12]);
+        setAt(this.participatingCountries, 7, this.dataHandlerService.convertRawDataForActivityGauge(res[12]));
+        y = Math.round((this.participatingCountries()[7]/this.numberOfCountries() + Number.EPSILON) * 100);
+        tableData[8] = ['Engagement'].concat(this.dataHandlerService.convertRawDataForCumulativeTable(res[12], this.countriesArray()));
+        activityGaugeData.push({name: 'Engagement', y: y});
+        setAt(this.sumsArray, 5, this.calculateSum(res[12]));
 
-        this.activityGaugeData = [...this.activityGaugeData];
-        this.tableData = this.tableData[0].map((_, colIndex) => this.tableData.map(row => row[colIndex])); // Transpose 2d array
-        for (let i = 1; i < this.tableData.length; i++) {
-          let tmpData = countries.find(country => country.id === this.tableData[i][0]);
+        this.activityGaugeData.set(activityGaugeData);
+        tableData = tableData[0].map((_, colIndex) => tableData.map(row => row[colIndex])); // Transpose 2d array
+        for (let i = 1; i < tableData.length; i++) {
+          let tmpData = countries.find(country => country.id === tableData[i][0]);
           if (tmpData)
-            this.tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
+            tableData[i][0] = tmpData.name + ` (${tmpData.id})`;
         }
-        // console.log(this.tableData);
+        this.tableData.set(tableData);
+        // console.log(tableData);
       },
       error => {}
     )
@@ -197,12 +202,14 @@ export class OutputsComponent implements OnInit {
       this.queryData.getQuestionComment(this.year, 'Question57'),
     ).subscribe(
       res => {
-        this.questionsDataArray[0] = this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        const mapData = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        setAt(this.questionsDataArray, 0, mapData);
+        setAt(this.questionsDataArrayForBarChart, 0, mapData);
         let tempArr: string[] = [];
-        this.questionsDataArray[0].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
-        this.sumsArray[0] = this.calculateSum(res[1]);
-        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        this.questionsDataArray()[0].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray.set(res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element)));
+        setAt(this.sumsArray, 0, this.calculateSum(res[1]));
+        setAt(this.toolTipData, 0, this.dataHandlerService.covertRawDataGetText(res[2]));
       }
     )
   }
@@ -216,12 +223,14 @@ export class OutputsComponent implements OnInit {
       this.queryData.getQuestionComment(this.year, 'Question73'),
     ).subscribe(
       res => {
-        this.questionsDataArray[1] = this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        const mapData = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        setAt(this.questionsDataArray, 1, mapData);
+        setAt(this.questionsDataArrayForBarChart, 1, mapData);
         let tempArr: string[] = [];
-        this.questionsDataArray[1].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
-        this.sumsArray[1] = this.calculateSum(res[1]);
-        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        this.questionsDataArray()[1].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray.set(res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element)));
+        setAt(this.sumsArray, 1, this.calculateSum(res[1]));
+        setAt(this.toolTipData, 1, this.dataHandlerService.covertRawDataGetText(res[2]));
       }
     )
   }
@@ -235,12 +244,14 @@ export class OutputsComponent implements OnInit {
       this.queryData.getQuestionComment(this.year, 'Question77'),
     ).subscribe(
       res => {
-        this.questionsDataArray[2] = this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        const mapData = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        setAt(this.questionsDataArray, 2, mapData);
+        setAt(this.questionsDataArrayForBarChart, 2, mapData);
         let tempArr: string[] = [];
-        this.questionsDataArray[2].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
-        this.sumsArray[2] = this.calculateSum(res[1]);
-        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        this.questionsDataArray()[2].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray.set(res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element)));
+        setAt(this.sumsArray, 2, this.calculateSum(res[1]));
+        setAt(this.toolTipData, 2, this.dataHandlerService.covertRawDataGetText(res[2]));
       }
     )
   }
@@ -254,12 +265,14 @@ export class OutputsComponent implements OnInit {
       this.queryData.getQuestionComment(this.year, 'Question93'),
     ).subscribe(
       res => {
-        this.questionsDataArray[3] = this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        const mapData = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        setAt(this.questionsDataArray, 3, mapData);
+        setAt(this.questionsDataArrayForBarChart, 3, mapData);
         let tempArr: string[] = [];
-        this.questionsDataArray[3].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
-        this.sumsArray[3] = this.calculateSum(res[1]);
-        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        this.questionsDataArray()[3].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray.set(res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element)));
+        setAt(this.sumsArray, 3, this.calculateSum(res[1]));
+        setAt(this.toolTipData, 3, this.dataHandlerService.covertRawDataGetText(res[2]));
       }
     )
   }
@@ -273,12 +286,14 @@ export class OutputsComponent implements OnInit {
       this.queryData.getQuestionComment(this.year, 'Question97'),
     ).subscribe(
       res => {
-        this.questionsDataArray[4] = this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        const mapData = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        setAt(this.questionsDataArray, 4, mapData);
+        setAt(this.questionsDataArrayForBarChart, 4, mapData);
         let tempArr: string[] = [];
-        this.questionsDataArray[4].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
-        this.sumsArray[4] = this.calculateSum(res[1]);
-        this.toolTipData[4] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        this.questionsDataArray()[4].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray.set(res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element)));
+        setAt(this.sumsArray, 4, this.calculateSum(res[1]));
+        setAt(this.toolTipData, 4, this.dataHandlerService.covertRawDataGetText(res[2]));
       }
     )
   }
@@ -292,12 +307,14 @@ export class OutputsComponent implements OnInit {
       this.queryData.getQuestionComment(this.year, 'Question101'),
     ).subscribe(
       res => {
-        this.questionsDataArray[5] = this.questionsDataArrayForBarChart[5] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        const mapData = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        setAt(this.questionsDataArray, 5, mapData);
+        setAt(this.questionsDataArrayForBarChart, 5, mapData);
         let tempArr: string[] = [];
-        this.questionsDataArray[5].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
-        this.sumsArray[5] = this.calculateSum(res[1]);
-        this.toolTipData[5] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        this.questionsDataArray()[5].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray.set(res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element)));
+        setAt(this.sumsArray, 5, this.calculateSum(res[1]));
+        setAt(this.toolTipData, 5, this.dataHandlerService.covertRawDataGetText(res[2]));
       }
     )
   }

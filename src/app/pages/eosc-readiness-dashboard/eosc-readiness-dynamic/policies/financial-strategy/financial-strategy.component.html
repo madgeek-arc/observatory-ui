@@ -19,9 +19,9 @@
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
                   <div class="uk-margin-small-bottom">
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[0]}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries()[0]}}</span>
                     <span> out of </span>
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries()}}</span>
                   </div>
                   countries have a financial strategy on open access publications
                 </div>
@@ -31,9 +31,9 @@
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
                   <div class="uk-margin-small-bottom">
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[1]}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries()[1]}}</span>
                     <span> out of </span>
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries()}}</span>
                   </div>
                   countries have a financial strategy on data
                 </div>
@@ -43,9 +43,9 @@
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
                   <div class="uk-margin-small-bottom">
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[2]}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries()[2]}}</span>
                     <span> out of </span>
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries()}}</span>
                   </div>
                   countries have a financial strategy on open source software
                 </div>
@@ -55,9 +55,9 @@
               <div class="uk-card uk-card-default uk-card-body">
                 <div class="uk-text-center">
                   <div class="uk-margin-small-bottom">
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries[3]}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-right">{{participatingCountries()[3]}}</span>
                     <span> out of </span>
-                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries}}</span>
+                    <span class="uk-text-lead uk-text-bold uk-margin-small-left">{{numberOfCountries()}}</span>
                   </div>
                   countries have a financial strategy on offering services through EOSC
                 </div>
@@ -67,7 +67,7 @@
           <div class="">
             <div class="uk-card uk-card-default uk-card-body">
               <activity-gauge [title]="'Percentage of countries with financial strategies on EOSC and open science'"
-                [data]="activityGaugeData">
+                [data]="activityGaugeData()">
               </activity-gauge>
             </div>
           </div>
@@ -75,7 +75,7 @@
           <div class="uk-width-1-1 uk-margin-large-top">
             <div class="uk-card uk-card-default uk-card-body">
 
-              <cumulative-data-table [title]="'Financial strategies per country'" [tableData]="tableData"></cumulative-data-table>
+              <cumulative-data-table [title]="'Financial strategies per country'" [tableData]="tableData()"></cumulative-data-table>
             </div>
           </div>
 
@@ -84,25 +84,25 @@
       <li class="uk-animation-fade">
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 700px">
-            <app-highcharts-category-map [mapData]="questionsDataArray[0]" [subtitle]="" [toolTipData]="toolTipData[0]"
+            <app-highcharts-category-map [mapData]="questionsDataArray()[0]" [subtitle]="" [toolTipData]="toolTipData()[0]"
               [title]="'Financial strategy on open access publications'">
             </app-highcharts-category-map>
           </div>
           <div class="uk-width-1-3">
-            @if (participatingCountries[0] >= 0) {
+            @if (participatingCountries()[0] >= 0) {
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="uk-text-lead uk-margin-small-top uk-text-center">
-                  <strong>{{participatingCountries[0] +' out of '+ countriesArray?.length}}</strong>
+                  <strong>{{participatingCountries()[0] +' out of '+ countriesArray()?.length}}</strong>
                 </div>
                 <div class="indicator-label">
                   countries have a financial strategy on open access publications
                 </div>
               </div>
             }
-            @if (participatingCountries[0] >= 0) {
+            @if (participatingCountries()[0] >= 0) {
               <div class="uk-margin-top">
                 <div class="uk-card uk-card-default uk-card-body">
-                  <simple-gauge [chartId]="'gauge0'" [data]=participatingCountriesPercentage[0]
+                  <simple-gauge [chartId]="'gauge0'" [data]=participatingCountriesPercentage()[0]
                     [title]="'Percentage of countries with a financial strategy on open access publications'">
                   </simple-gauge>
                 </div>
@@ -121,25 +121,25 @@
       <li>
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 700px">
-            <app-highcharts-category-map [mapData]="questionsDataArray[1]" [subtitle]="" [toolTipData]="toolTipData[1]"
+            <app-highcharts-category-map [mapData]="questionsDataArray()[1]" [subtitle]="" [toolTipData]="toolTipData()[1]"
               [title]="'Financial strategy on open source software'">
             </app-highcharts-category-map>
           </div>
           <div class="uk-width-1-3">
-            @if (participatingCountries[2] >= 0) {
+            @if (participatingCountries()[2] >= 0) {
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="uk-text-lead uk-margin-small-top uk-text-center">
-                  <strong>{{participatingCountries[2] +' out of '+ countriesArray?.length}}</strong>
+                  <strong>{{participatingCountries()[2] +' out of '+ countriesArray()?.length}}</strong>
                 </div>
                 <div class="indicator-label">
                   countries have a financial strategy on open source software
                 </div>
               </div>
             }
-            @if (participatingCountries[2] >= 0) {
+            @if (participatingCountries()[2] >= 0) {
               <div class="uk-margin-top">
                 <div class="uk-card uk-card-default uk-card-body">
-                  <simple-gauge [chartId]="'gauge1'" [data]=participatingCountriesPercentage[2]
+                  <simple-gauge [chartId]="'gauge1'" [data]=participatingCountriesPercentage()[2]
                     [title]="'Percentage of countries with a financial strategy on open source software'">
                   </simple-gauge>
                 </div>
@@ -151,25 +151,25 @@
       <li>
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 700px">
-            <app-highcharts-category-map [mapData]="questionsDataArray[2]" [subtitle]="" [toolTipData]="toolTipData[2]"
+            <app-highcharts-category-map [mapData]="questionsDataArray()[2]" [subtitle]="" [toolTipData]="toolTipData()[2]"
               [title]="'Financial strategy on offering services through EOSC'">
             </app-highcharts-category-map>
           </div>
           <div class="uk-width-1-3">
-            @if (participatingCountries[3] >= 0) {
+            @if (participatingCountries()[3] >= 0) {
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="uk-text-lead uk-margin-small-top uk-text-center">
-                  <strong>{{participatingCountries[3] +' out of '+ countriesArray?.length}}</strong>
+                  <strong>{{participatingCountries()[3] +' out of '+ countriesArray()?.length}}</strong>
                 </div>
                 <div class="indicator-label">
                   countries have a financial strategy on offering services through EOSC
                 </div>
               </div>
             }
-            @if (participatingCountries[3] >= 0) {
+            @if (participatingCountries()[3] >= 0) {
               <div class="uk-margin-top">
                 <div class="uk-card uk-card-default uk-card-body">
-                  <simple-gauge [chartId]="'gauge2'" [data]=participatingCountriesPercentage[3]
+                  <simple-gauge [chartId]="'gauge2'" [data]=participatingCountriesPercentage()[3]
                     [title]="'Percentage of countries with a financial strategy on offering services through EOSC'">
                   </simple-gauge>
                 </div>
@@ -188,25 +188,25 @@
       <li>
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 700px">
-            <app-highcharts-category-map [mapData]="questionsDataArray[3]" [subtitle]="" [toolTipData]="toolTipData[3]"
+            <app-highcharts-category-map [mapData]="questionsDataArray()[3]" [subtitle]="" [toolTipData]="toolTipData()[3]"
               [title]="'Financial strategy on skills/training for Open Science'">
             </app-highcharts-category-map>
           </div>
           <div class="uk-width-1-3">
-            @if (participatingCountries[5] >= 0) {
+            @if (participatingCountries()[5] >= 0) {
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="uk-text-lead uk-margin-small-top uk-text-center">
-                  <strong>{{participatingCountries[5] +' out of '+ countriesArray?.length}}</strong>
+                  <strong>{{participatingCountries()[5] +' out of '+ countriesArray()?.length}}</strong>
                 </div>
                 <div class="indicator-label">
                   countries have a financial strategy on skills/training for Open Science
                 </div>
               </div>
             }
-            @if (participatingCountries[5] >= 0) {
+            @if (participatingCountries()[5] >= 0) {
               <div class="uk-margin-top">
                 <div class="uk-card uk-card-default uk-card-body">
-                  <simple-gauge [chartId]="'gauge3'" [data]=participatingCountriesPercentage[5]
+                  <simple-gauge [chartId]="'gauge3'" [data]=participatingCountriesPercentage()[5]
                     [title]="'Percentage of countries with a financial strategy on skills/training for Open Science'">
                   </simple-gauge>
                 </div>
@@ -218,25 +218,25 @@
       <li>
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 700px">
-            <app-highcharts-category-map [mapData]="questionsDataArray[4]" [subtitle]="" [toolTipData]="toolTipData[4]"
+            <app-highcharts-category-map [mapData]="questionsDataArray()[4]" [subtitle]="" [toolTipData]="toolTipData()[4]"
               [title]="'Financial strategy on incentives/rewards for Open Science'">
             </app-highcharts-category-map>
           </div>
           <div class="uk-width-1-3">
-            @if (participatingCountries[6] >= 0) {
+            @if (participatingCountries()[6] >= 0) {
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="uk-text-lead uk-margin-small-top uk-text-center">
-                  <strong>{{participatingCountries[6] +' out of '+ countriesArray?.length}}</strong>
+                  <strong>{{participatingCountries()[6] +' out of '+ countriesArray()?.length}}</strong>
                 </div>
                 <div class="indicator-label">
                   countries have a financial strategy on incentives/rewards for Open Science
                 </div>
               </div>
             }
-            @if (participatingCountries[6] >= 0) {
+            @if (participatingCountries()[6] >= 0) {
               <div class="uk-margin-top">
                 <div class="uk-card uk-card-default uk-card-body">
-                  <simple-gauge [chartId]="'gauge4'" [data]=participatingCountriesPercentage[6]
+                  <simple-gauge [chartId]="'gauge4'" [data]=participatingCountriesPercentage()[6]
                     [title]="'Percentage of countries with a financial strategy on incentives/rewards for Open Science'">
                   </simple-gauge>
                 </div>
@@ -248,25 +248,25 @@
       <li>
         <div class="uk-grid">
           <div class="uk-width-2-3" style="height: 700px">
-            <app-highcharts-category-map [mapData]="questionsDataArray[5]" [subtitle]="" [toolTipData]="toolTipData[5]"
+            <app-highcharts-category-map [mapData]="questionsDataArray()[5]" [subtitle]="" [toolTipData]="toolTipData()[5]"
               [title]="'Financial strategy on citizen science'">
             </app-highcharts-category-map>
           </div>
           <div class="uk-width-1-3">
-            @if (participatingCountries[7] >= 0) {
+            @if (participatingCountries()[7] >= 0) {
               <div class="uk-card uk-card-default uk-card-body indicator-card">
                 <div class="uk-text-lead uk-margin-small-top uk-text-center">
-                  <strong>{{participatingCountries[7] +' out of '+ countriesArray?.length}}</strong>
+                  <strong>{{participatingCountries()[7] +' out of '+ countriesArray()?.length}}</strong>
                 </div>
                 <div class="indicator-label">
                   countries have a financial strategy on citizen science
                 </div>
               </div>
             }
-            @if (participatingCountries[7] >= 0) {
+            @if (participatingCountries()[7] >= 0) {
               <div class="uk-margin-top">
                 <div class="uk-card uk-card-default uk-card-body">
-                  <simple-gauge [chartId]="'gauge5'" [data]=participatingCountriesPercentage[7]
+                  <simple-gauge [chartId]="'gauge5'" [data]=participatingCountriesPercentage()[7]
                     [title]="'Percentage of countries with a financial strategy on citizen science'">
                   </simple-gauge>
                 </div>

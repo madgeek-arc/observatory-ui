@@ -4,7 +4,7 @@ import { RouterOutlet } from "@angular/router";
 @Component({
     selector: 'app-policies',
     templateUrl: 'policies.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [RouterOutlet]
 })
 
