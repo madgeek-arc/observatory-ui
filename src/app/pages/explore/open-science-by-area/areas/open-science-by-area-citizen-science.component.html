@@ -22,7 +22,7 @@
                   style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
               Export report
             </span>
-              @if (exportActive) {
+              @if (exportActive()) {
                 <span class="uk-margin-small-left" uk-spinner="ratio: 0.7"></span>
               } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
@@ -42,7 +42,7 @@
                   style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
               Export report
             </span>
-              @if (exportActive) {
+              @if (exportActive()) {
                 <span class="uk-margin-small-left" uk-spinner="ratio: 0.7"></span>
               } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
@@ -70,17 +70,17 @@
           class="uk-child-width-1-3@m uk-child-width-1-3@l uk-child-width-1-1@s uk-grid-match uk-grid-row-medium uk-flex-center"
           uk-grid>
 
-          @if (citizenProjects.length === 2) {
+          @if (citizenProjects().length === 2) {
             <div>
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <div>
                   <p>New Citizen Science project in EU Countries</p>
                 </div>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">{{ citizenProjects[1] }} projects</span>
+                  <span class="uk-text-bold">{{ citizenProjects()[1] }} projects</span>
                 </div>
                 <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                  @let trend = trendService.getTrendMetadata(citizenProjects[1], citizenProjects[0], false);
+                  @let trend = trendService.getTrendMetadata(citizenProjects()[1], citizenProjects()[0], false);
                   <div class="uk-flex uk-flex-middle">
                   <span class="material-symbols-outlined" [ngClass]="trend.colorClass">
                     {{ trend.icon }}
@@ -97,17 +97,17 @@
             </div>
           }
 
-          @if (countriesWithPolicy.length === 2) {
+          @if (countriesWithPolicy().length === 2) {
             <div>
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <div>
                   <p>EU Countries with Policy on Citizen Science</p>
                 </div>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">{{ countriesWithPolicy[1] }}%</span>
+                  <span class="uk-text-bold">{{ countriesWithPolicy()[1] }}%</span>
                 </div>
                 <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                  @let trend = trendService.getTrendMetadata(countriesWithPolicy[1], countriesWithPolicy[0]);
+                  @let trend = trendService.getTrendMetadata(countriesWithPolicy()[1], countriesWithPolicy()[0]);
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined" [ngClass]="trend.colorClass">
                       {{ trend.icon }}
@@ -124,17 +124,17 @@
             </div>
           }
 
-          @if (totalInvestments.length === 2) {
+          @if (totalInvestments().length === 2) {
             <div>
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <div>
                   <p>Financial investments in Citizen Science</p>
                 </div>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">{{ totalInvestments[1] }} mil Euro</span>
+                  <span class="uk-text-bold">{{ totalInvestments()[1] }} mil Euro</span>
                 </div>
                 <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                  @let trend = trendService.getTrendMetadata(totalInvestments[1], totalInvestments[0], false);
+                  @let trend = trendService.getTrendMetadata(totalInvestments()[1], totalInvestments()[0], false);
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined" [ngClass]="trend.colorClass">
                       {{ trend.icon }}
@@ -151,17 +151,17 @@
             </div>
           }
 
-          @if (countriesWithStrategy.length === 2) {
+          @if (countriesWithStrategy().length === 2) {
             <div>
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <div>
                   <p>EU Countries with Financial Strategy on Citizen Science</p>
                 </div>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">{{ countriesWithStrategy[1] }}%</span>
+                  <span class="uk-text-bold">{{ countriesWithStrategy()[1] }}%</span>
                 </div>
                 <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                  @let trend = trendService.getTrendMetadata(countriesWithStrategy[1], countriesWithStrategy[0]);
+                  @let trend = trendService.getTrendMetadata(countriesWithStrategy()[1], countriesWithStrategy()[0]);
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined" [ngClass]="trend.colorClass">
                       {{ trend.icon }}
@@ -178,17 +178,17 @@
             </div>
           }
 
-          @if (countriesWithMonitoring.length === 2) {
+          @if (countriesWithMonitoring().length === 2) {
             <div>
               <div class="uk-card card-simple uk-card-small uk-card-body">
                 <div>
                   <p>EU Countries with Citizen Science Monitoring Initiatives</p>
                 </div>
                 <div class="number big uk-margin-medium-top">
-                  <span class="uk-text-bold">{{ countriesWithMonitoring[1] }}%</span>
+                  <span class="uk-text-bold">{{ countriesWithMonitoring()[1] }}%</span>
                 </div>
                 <div class="uk-flex uk-flex-bottom uk-flex-between uk-width-1-1">
-                  @let trend = trendService.getTrendMetadata(countriesWithMonitoring[1], countriesWithMonitoring[0]);
+                  @let trend = trendService.getTrendMetadata(countriesWithMonitoring()[1], countriesWithMonitoring()[0]);
                   <div class="uk-flex uk-flex-middle">
                     <span class="material-symbols-outlined" [ngClass]="trend.colorClass">
                       {{ trend.icon }}
@@ -242,7 +242,7 @@
           <ul id="investments" class="uk-switcher">
             <li>
               <div class="">
-                <app-multi-chart [series]="bar" [categories]="['Number of countries per Investment Category']"
+                <app-multi-chart [series]="bar()" [categories]="['Number of countries per Investment Category']"
                                  [titles]="barChartTitles" [stacking]="'normal'" [reversedStacks]="false"
                                  [pointWidth]="75" [legendOptions]="legendOptions"
                                  [customTooltip]="true" [yAxisLabels]="false" [height]="smallScreen ? 500 : 400"
@@ -253,7 +253,7 @@
             </li>
             <li>
               <div class="">
-                <app-tree-graph [data]="treeGraph" [height]="700"
+                <app-tree-graph [data]="treeGraph()" [height]="700"
                                 [title]="'Financial Investments on Citizen Science in '+ (+year-1)"
                                 [caption]="'<p class=\'uk-text-justify\'>The graph illustrates the financial investments in Citizen Science made by European countries. The investments are categorized in ranges to show the distribution and scale of funding.</p>' +
                             '<p><strong>Data source: </strong>Survey on National Contributions to EOSC and Open Science '+year+' — for financial contributions the data reflect the previous year ('+(+year-1)+').</p>'">

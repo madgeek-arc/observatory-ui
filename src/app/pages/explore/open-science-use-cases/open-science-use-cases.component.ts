@@ -5,7 +5,7 @@ import { SidebarMobileToggleComponent } from "src/survey-tool/app/shared/dashboa
 @Component({
     selector: 'app-open-science-use-cases',
     templateUrl: './open-science-use-cases.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [PageContentComponent, SidebarMobileToggleComponent]
 })
 

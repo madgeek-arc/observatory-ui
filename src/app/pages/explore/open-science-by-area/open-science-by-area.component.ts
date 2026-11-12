@@ -7,7 +7,7 @@ import { RouterModule } from "@angular/router";
 @Component({
     selector: 'app-open-science-by-area',
     templateUrl: './open-science-by-area.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [SidebarMobileToggleComponent, RouterModule]
 })
 

@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, input, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, computed, DestroyRef, inject, input, OnInit, ChangeDetectionStrategy, signal } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgOptimizedImage } from "@angular/common";
 import { zip } from "rxjs/internal/observable/zip";
@@ -7,6 +7,7 @@ import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.s
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { DataHandlerService } from "../../services/data-handler.service";
 import { HighchartsCategoryMapComponent } from "src/app/shared/charts/category-map/highcharts-category-map.component";
+import { setAt } from "src/app/shared/utils/set-at";
 
 export interface AreaMapTabConfig {
   question: string;
@@ -18,7 +19,7 @@ export interface AreaMapTabConfig {
 @Component({
   selector: 'app-area-maps-card',
   templateUrl: './area-maps-card.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [HighchartsCategoryMapComponent, NgOptimizedImage]
 })
 export class AreaMapsCardComponent implements OnInit {
@@ -37,13 +38,13 @@ export class AreaMapsCardComponent implements OnInit {
   private dataHandlerService = inject(DataHandlerService);
 
   //  Template State
-  questionsDataArray: any[] = [];
-  participatingCountries: number[] = [];
-  total: number[] = [];
+  questionsDataArray = signal<any[]>([]);
+  participatingCountries = signal<number[]>([]);
+  total = signal<number[]>([]);
 
-  comment?: string;
-  countryName?: string;
-  countryCode?: string;
+  comment = signal<string | undefined>(undefined);
+  countryName = signal<string | undefined>(undefined);
+  countryCode = signal<string | undefined>(undefined);
 
   // Internal State
   private tmpQuestionsDataArray: any[] = [];
@@ -77,12 +78,12 @@ export class AreaMapsCardComponent implements OnInit {
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: res => {
         this.tmpQuestionsDataArray[index] = this.dataHandlerService.mergePolicyQuestionData(res[0], res[1]);
-        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(res[0]);
-        this.total[index] = res[0].datasets[0].series.result.length;
+        setAt(this.participatingCountries, index, this.dataHandlerService.convertRawDataForActivityGauge(res[0]));
+        setAt(this.total, index, res[0].datasets[0].series.result.length);
         this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.questionsDataArray[index] = this.exploreService.createCategorizedMapDataFromMergedResponse(
+        setAt(this.questionsDataArray, index, this.exploreService.createCategorizedMapDataFromMergedResponse(
           this.tmpQuestionsDataArray[index], this.countriesArray
-        );
+        ));
       },
       error: err => { console.error(err); }
     });
@@ -95,29 +96,31 @@ export class AreaMapsCardComponent implements OnInit {
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: res => {
         this.tmpQuestionsDataArray[index] = this.dataHandlerService.convertRawDataToCategorizedAreasData(res[0]);
-        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge(res[0]);
-        this.total[index] = res[0].datasets[0].series.result.length;
+        setAt(this.participatingCountries, index, this.dataHandlerService.convertRawDataForActivityGauge(res[0]));
+        setAt(this.total, index, res[0].datasets[0].series.result.length);
         for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
           this.tmpQuestionsDataArray[index].series[i].data =
             this.tmpQuestionsDataArray[index].series[i].data.map((code: any) => ({ code }));
         }
         this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[1]);
-        this.questionsDataArray[index] = this.exploreService.createMapDataFromCategorization(
+        setAt(this.questionsDataArray, index, this.exploreService.createMapDataFromCategorization(
           this.tmpQuestionsDataArray[index], this.countriesArray, mapCount
-        );
+        ));
       },
       error: err => { console.error(err); }
     });
   }
 
   showComment(index: number, country: { code: string }) {
-    this.comment = this.toolTipData[index]?.get(country.code.toLowerCase())
-      ?.replace(/\\n/g, '<br>').replace(/\\t/g, '  ') ?? 'N/A';
-    this.countryCode = country.code.toLowerCase();
-    this.countryName = this.exploreService.findCountryName(country.code).name;
+    this.comment.set(this.toolTipData[index]?.get(country.code.toLowerCase())
+      ?.replace(/\\n/g, '<br>').replace(/\\t/g, '  ') ?? 'N/A');
+    this.countryCode.set(country.code.toLowerCase());
+    this.countryName.set(this.exploreService.findCountryName(country.code).name);
   }
 
   resetSelection() {
-    this.countryName = this.countryCode = this.comment = undefined;
+    this.countryName.set(undefined);
+    this.countryCode.set(undefined);
+    this.comment.set(undefined);
   }
 }

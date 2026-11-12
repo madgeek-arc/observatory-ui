@@ -1,6 +1,6 @@
-import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy, signal } from "@angular/core";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { RawData } from "src/app/domain/raw-data";
 import * as Highcharts from "highcharts";
 import {
@@ -13,6 +13,7 @@ import {
 import { distributionByDocumentType, OpenDataVSClosed, trendOfOpenData } from "../../OSO-stats-queries/explore-queries";
 import { PdfExportService } from "../../../services/pdf-export.service";
 import { ExploreService } from "../../explore.service";
+import { setAt } from "src/app/shared/utils/set-at";
 import { COMPARISON_SURVEY_YEARS, LATEST_SURVEY_YEAR } from "src/app/domain/survey-years";
 import { AreaMapsCardComponent, AreaMapTabConfig } from "../../area-maps-card/area-maps-card.component";
 import { monitoringMapCaptions, policesMapCaptions } from "src/app/domain/chart-captions";
@@ -28,7 +29,7 @@ import { PageContentComponent } from "src/survey-tool/app/shared/page-content/pa
     selector: 'app-open-science-by-area-open-data',
     templateUrl: './open-science-by-area-open-data.component.html',
     styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
       SidebarMobileToggleComponent,
       TreeGraphComponent,
@@ -46,15 +47,18 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   protected trendService = inject(ExploreService);
 
   private destroyRef = inject(DestroyRef);
-  exportActive = false;
+  private queryData = inject(EoscReadinessDataService);
+  private pdfService = inject(PdfExportService);
+  private exploreService = inject(ExploreService);
+  exportActive = signal(false);
   smallScreen = false;
-  lastUpdateDate?: string;
+  lastUpdateDate = toSignal(this.exploreService._lastUpdateDate);
 
   years = [...COMPARISON_SURVEY_YEARS];
   year = LATEST_SURVEY_YEAR;
 
-  stackedColumnCategories = [];
-  stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
+  stackedColumnCategories = signal<string[]>([]);
+  stackedColumnSeries = signal<Highcharts.SeriesColumnOptions[]>([]);
   yAxisTitle = 'Number of Data Sets';
   legend: LegendOptions = {
     // align: 'right',
@@ -70,8 +74,8 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
-  stackedColumn2Categories = [];
-  stackedColumn2Series = [
+  stackedColumn2Categories = signal<string[]>([]);
+  stackedColumn2Series = signal([
     {
       type: 'column',
       name: 'Open',
@@ -93,19 +97,19 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
       data: [],
       color: '#515252'
     }
-  ] as Highcharts.SeriesColumnOptions[];
+  ] as Highcharts.SeriesColumnOptions[]);
   yAxisTitle2 = 'Percentage of Open Data';
   stacking: OptionsStackingValue = 'percent';
   dataLabels_format = '{point.percentage:.0f}%';
 
-  openData: number[] = [];
-  countriesWithPolicy: number[] = [];
-  countriesWithStrategy: number[] = [];
-  countriesWithMonitoring: number[] = [];
-  totalInvestments: number[] = [];
+  openData = signal<number[]>([]);
+  countriesWithPolicy = signal<number[]>([]);
+  countriesWithStrategy = signal<number[]>([]);
+  countriesWithMonitoring = signal<number[]>([]);
+  totalInvestments = signal<number[]>([]);
 
-  treeGraph: PointOptionsObject[] = [];
-  bar: SeriesBarOptions[] = [];
+  treeGraph = signal<PointOptionsObject[]>([]);
+  bar = signal<SeriesBarOptions[]>([]);
   legendOptions: LegendOptions = {
     align: 'center',
     verticalAlign: 'top',
@@ -138,9 +142,6 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
     yAxis: '',
   }
 
-  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
-              private exploreService: ExploreService) {}
-
   ngOnInit() {
     this.years.forEach((year, index) => {
       this.getCountriesWithPolicy(year, index);
@@ -156,26 +157,23 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
     this.getDistributionByDocumentType();
 
     this.smallScreen = this.exploreService.isMobileOrSmallScreen;
-
-    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: value => this.lastUpdateDate = value
-    });
-
   }
 
   /** Get Trend of Open Data --------------------------------------------------------------------------------------> **/
   getTrend() {
     this.queryData.getOSOStatsChartData(trendOfOpenData(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
+        const stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
         value.series.forEach((series, index) => {
           let tmpSeries: SeriesOptionsType = {
             type: 'column',
             name: value.dataSeriesNames[index],
             data: series.data
           }
-          this.stackedColumnSeries.push(tmpSeries);
+          stackedColumnSeries.push(tmpSeries);
         });
-        this.stackedColumnCategories = value.xAxis_categories;
+        this.stackedColumnSeries.set(stackedColumnSeries);
+        this.stackedColumnCategories.set(value.xAxis_categories);
       }
     });
   }
@@ -184,18 +182,22 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   getDistributionByDocumentType() {
     this.queryData.getOSOStatsChartData(distributionByDocumentType(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        value.series.forEach((series, index) => {
-          this.stackedColumn2Series[index].data.push(...series.data);
-        });
+        // Build the new series and categories in locals and set them once: the chart redraws when the reference changes
+        const stackedColumn2Series = this.stackedColumn2Series().map((series, index) => ({
+          ...series,
+          data: [...series.data, ...(value.series[index]?.data ?? [])]
+        }));
 
-        this.stackedColumn2Categories = value.xAxis_categories;
-        this.stackedColumn2Series[0].data.forEach((item, index) => {
+        const stackedColumn2Categories = [...value.xAxis_categories];
+        stackedColumn2Series[0].data.forEach((item, index) => {
           let sum = 0;
-          this.stackedColumn2Series.forEach(series => {
+          stackedColumn2Series.forEach(series => {
             sum += (+series.data[index]);
           });
-          this.stackedColumn2Categories[index] = this.stackedColumn2Categories[index]+ ` (total = ${sum.toLocaleString('en-GB')} )`
+          stackedColumn2Categories[index] = stackedColumn2Categories[index]+ ` (total = ${sum.toLocaleString('en-GB')} )`
         });
+        this.stackedColumn2Series.set(stackedColumn2Series);
+        this.stackedColumn2Categories.set(stackedColumn2Categories);
       }
     });
   }
@@ -204,8 +206,8 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   getOpenDataPercentage() {
     this.queryData.getOSOStats(OpenDataVSClosed(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.openData[0] = (Math.round((+value.data[2]/+value.data[3] + Number.EPSILON) * 100));
-        this.openData[1] = (Math.round((+value.data[0]/+value.data[1] + Number.EPSILON) * 100));
+        setAt(this.openData, 0, (Math.round((+value.data[2]/+value.data[3] + Number.EPSILON) * 100)));
+        setAt(this.openData, 1, (Math.round((+value.data[0]/+value.data[1] + Number.EPSILON) * 100)));
       }
     });
   }
@@ -214,7 +216,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   getNationalMonitoring(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question66').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.countriesWithMonitoring[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
+        setAt(this.countriesWithMonitoring, index, this.calculatePercentage(value, value.datasets[0].series.result.length));
       }
     });
   }
@@ -223,7 +225,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   getCountriesWithFinancialStrategy(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question19').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.countriesWithStrategy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
+        setAt(this.countriesWithStrategy, index, this.calculatePercentage(value, value.datasets[0].series.result.length));
       }
     });
   }
@@ -232,7 +234,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   getTotalInvestments(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question68').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.totalInvestments[index] = this.calculateSum(value);
+        setAt(this.totalInvestments, index, this.calculateSum(value));
       }
     });
   }
@@ -241,7 +243,7 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   getCountriesWithPolicy(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question18').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.countriesWithPolicy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
+        setAt(this.countriesWithPolicy, index, this.calculatePercentage(value, value.datasets[0].series.result.length));
       }
     });
   }
@@ -250,19 +252,19 @@ export class OpenScienceByAreaOpenDataComponent implements OnInit {
   getTreeGraphData() {
     this.queryData.getQuestion(this.year, 'Question68').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.bar = this.exploreService.createInvestmentsBar(res);
-        this.treeGraph = this.exploreService.createRanges(res);
+        this.bar.set(this.exploreService.createInvestmentsBar(res));
+        this.treeGraph.set(this.exploreService.createRanges(res));
       }
     );
   }
 
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
   exportToPDF(contents: HTMLElement[], filename?: string) {
-    this.exportActive = true
+    this.exportActive.set(true)
     this.pdfService.export(contents, filename).then(() => {
-      this.exportActive = false;
+      this.exportActive.set(false);
     }).catch((error) => {
-      this.exportActive = false;
+      this.exportActive.set(false);
       console.error('Error during PDF generation:', error);
     });
   }

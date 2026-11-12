@@ -13,12 +13,12 @@
         <div data-uk-grid>
           <div class="uk-width-2-3@m uk-width-2-3@l uk-width-1-1@s">
             <app-highcharts-category-map
-              [mapData]="questionsDataArray[$index]"
+              [mapData]="questionsDataArray()[$index]"
               [height]="700"
               [smallScreen]="smallScreen()"
               [title]="tab.title"
               [backgroundColor]="'#ffffff'"
-              [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>' + participatingCountries[$index] + ' out of ' + total[$index] + '</strong>' + tab.labelSuffix"
+              [customLabelText]="'<span class=\'uk-text-xsmall\'><strong>' + participatingCountries()[$index] + ' out of ' + total()[$index] + '</strong>' + tab.labelSuffix"
               [caption]="tab.caption"
               (mapClick)="showComment($index, $event)">
             </app-highcharts-category-map>
@@ -28,16 +28,16 @@
               <h6>Start Exploring</h6>
               <p>Click on a country to see what the survey reveals. Each one has its own story.</p>
               <div class="uk-flex uk-flex-middle uk-margin-medium-top">
-                @if (countryCode) {
-                  <img ngSrc="survey-tool/assets/images/flags/{{countryCode}}-flag-round.png"
+                @if (countryCode()) {
+                  <img ngSrc="survey-tool/assets/images/flags/{{countryCode()}}-flag-round.png"
                        width="30" height="30" alt="Rounded flag of the selected country">
                 }
-                @if (countryName) {
-                  <span class="uk-margin-small-left">{{ countryName }}</span>
+                @if (countryName()) {
+                  <span class="uk-margin-small-left">{{ countryName() }}</span>
                 }
               </div>
-              @if (comment) {
-                <p [innerHTML]="comment"
+              @if (comment()) {
+                <p [innerHTML]="comment()"
                    class="uk-text-justify uk-text-small overflow-wrap-break-word"></p>
               } @else {
                 --

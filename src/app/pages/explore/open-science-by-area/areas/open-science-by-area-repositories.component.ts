@@ -1,10 +1,11 @@
-import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy, signal } from "@angular/core";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RawData } from "src/app/domain/raw-data";
 import { PdfExportService } from "../../../services/pdf-export.service";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions } from "highcharts";
 import { ExploreService } from "../../explore.service";
+import { setAt } from "src/app/shared/utils/set-at";
 import { COMPARISON_SURVEY_YEARS, LATEST_SURVEY_YEAR } from "src/app/domain/survey-years";
 import { AreaMapsCardComponent, AreaMapTabConfig } from "../../area-maps-card/area-maps-card.component";
 import { monitoringMapCaptions, policesMapCaptions } from "src/app/domain/chart-captions";
@@ -20,7 +21,7 @@ import { PageContentComponent } from "src/survey-tool/app/shared/page-content/pa
     selector: 'app-open-science-by-area-repositories',
     templateUrl: './open-science-by-area-repositories.component.html',
     styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
       SidebarMobileToggleComponent,
       TreeGraphComponent,
@@ -37,20 +38,23 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
   protected trendService = inject(ExploreService);
 
   private destroyRef = inject(DestroyRef);
-  exportActive = false;
+  private queryData = inject(EoscReadinessDataService);
+  private pdfService = inject(PdfExportService);
+  private exploreService = inject(ExploreService);
+  exportActive = signal(false);
   smallScreen = false;
 
   years = [...COMPARISON_SURVEY_YEARS];
   year = LATEST_SURVEY_YEAR;
 
-  repositories: number[] = [];
-  countriesWithPolicy: number[] = [];
-  countriesWithStrategy: number[] = [];
-  countriesWithMonitoring: number[] = [];
-  totalInvestments: number[] = [];
+  repositories = signal<number[]>([]);
+  countriesWithPolicy = signal<number[]>([]);
+  countriesWithStrategy = signal<number[]>([]);
+  countriesWithMonitoring = signal<number[]>([]);
+  totalInvestments = signal<number[]>([]);
 
-  treeGraph: PointOptionsObject[][] = [];
-  bar: SeriesBarOptions[][] = [];
+  treeGraph = signal<PointOptionsObject[][]>([]);
+  bar = signal<SeriesBarOptions[][]>([]);
   legendOptions: LegendOptions = {
     align: 'center',
     verticalAlign: 'top',
@@ -112,9 +116,6 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
     yAxis: '',
   }
 
-  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
-              private exploreService: ExploreService) {}
-
   ngOnInit() {
     this.smallScreen = this.exploreService.isMobileOrSmallScreen;
 
@@ -135,7 +136,7 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
   getMonitoringPercentage(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question78').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.countriesWithMonitoring[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
+        setAt(this.countriesWithMonitoring, index, this.calculatePercentage(value, value.datasets[0].series.result.length));
       }
     });
   }
@@ -144,7 +145,7 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
   getCountriesWithFinancialStrategy(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question31').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.countriesWithStrategy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
+        setAt(this.countriesWithStrategy, index, this.calculatePercentage(value, value.datasets[0].series.result.length));
       }
     });
   }
@@ -153,7 +154,7 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
   getTotalInvestments(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question80').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.totalInvestments[index] = this.calculateSum(value);
+        setAt(this.totalInvestments, index, this.calculateSum(value));
       }
     });
   }
@@ -162,7 +163,7 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
   getCountriesWithPolicy(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question30').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.countriesWithPolicy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
+        setAt(this.countriesWithPolicy, index, this.calculatePercentage(value, value.datasets[0].series.result.length));
       }
     });
   }
@@ -171,7 +172,7 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
   getRepositories(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question89').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.repositories[index] = this.calculateSum(value);
+        setAt(this.repositories, index, this.calculateSum(value));
       }
     });
   }
@@ -180,19 +181,19 @@ export class OpenScienceByAreaRepositoriesComponent implements OnInit {
   getTreeGraphData(question: string, index: number) {
     this.queryData.getQuestion(this.year, question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.bar[index] = this.exploreService.createInvestmentsBar(res);
-        this.treeGraph[index] = this.exploreService.createRanges(res);
+        setAt(this.bar, index, this.exploreService.createInvestmentsBar(res));
+        setAt(this.treeGraph, index, this.exploreService.createRanges(res));
       }
     );
   }
 
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
   exportToPDF(contents: HTMLElement[], filename?: string) {
-    this.exportActive = true;
+    this.exportActive.set(true);
     this.pdfService.export(contents, filename).then(() => {
-      this.exportActive = false;
+      this.exportActive.set(false);
     }).catch((error) => {
-      this.exportActive = false;
+      this.exportActive.set(false);
       console.error('Error during PDF generation:', error);
     });
   }

@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from "@angular/core";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from "@angular/core";
+import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { NgClass, NgOptimizedImage } from "@angular/common";
 import { EoscReadinessDataService } from "../../../services/eosc-readiness-data.service";
 import { RawData } from "src/app/domain/raw-data";
@@ -20,6 +20,7 @@ import {
 } from "highcharts";
 import { PdfExportService } from "../../../services/pdf-export.service";
 import { ExploreService } from "../../explore.service";
+import { setAt } from "src/app/shared/utils/set-at";
 import { COMPARISON_SURVEY_YEARS, LATEST_SURVEY_YEAR } from "src/app/domain/survey-years";
 import { AreaMapsCardComponent, AreaMapTabConfig } from "../../area-maps-card/area-maps-card.component";
 import { monitoringMapCaptions, policesMapCaptions } from "src/app/domain/chart-captions";
@@ -36,7 +37,7 @@ import { PageContentComponent } from "src/survey-tool/app/shared/page-content/pa
     selector: 'app-open-science-by-area-publications',
     templateUrl: './open-science-by-area-publications.component.html',
     styleUrls: ['../../../../../assets/css/explore-dashboard.less'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
       SidebarMobileToggleComponent,
       TreeGraphComponent,
@@ -54,15 +55,18 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   protected trendService = inject(ExploreService);
 
   private destroyRef = inject(DestroyRef);
-  exportActive = false;
-  lastUpdateDate?: string;
+  private queryData = inject(EoscReadinessDataService);
+  private pdfService = inject(PdfExportService);
+  private exploreService = inject(ExploreService);
+  exportActive = signal(false);
+  lastUpdateDate = toSignal(this.exploreService._lastUpdateDate);
   smallScreen = false;
 
   years = [...COMPARISON_SURVEY_YEARS];
   year = LATEST_SURVEY_YEAR;
 
-  stackedColumnCategories: string[] = [];
-  stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
+  stackedColumnCategories = signal<string[]>([]);
+  stackedColumnSeries = signal<Highcharts.SeriesColumnOptions[]>([]);
   yAxisTitle = 'Number of Publications';
   legend: LegendOptions = {
     // align: 'right',
@@ -77,23 +81,23 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
-  stackedColumn2Categories = [];
-  stackedColumn2Series:Highcharts.SeriesColumnOptions[] = [];
+  stackedColumn2Categories = signal<string[]>([]);
+  stackedColumn2Series = signal<Highcharts.SeriesColumnOptions[]>([]);
   yAxisTitle2 = 'Percentage of Publications';
   stacking: OptionsStackingValue = 'percent';
   dataLabels_format = '{point.percentage:.0f}%';
 
   treemapData: Highcharts.PointOptionsObject[] = [];
 
-  countriesWithPolicy: number[] = [];
-  countriesWithPolicyImmediate: number[] = [];
-  countriesWithStrategy: number[] = [];
-  countriesWithMonitoring: number[] = [];
-  totalInvestments: number[] = [];
-  OAPublications: number[] = [];
+  countriesWithPolicy = signal<number[]>([]);
+  countriesWithPolicyImmediate = signal<number[]>([]);
+  countriesWithStrategy = signal<number[]>([]);
+  countriesWithMonitoring = signal<number[]>([]);
+  totalInvestments = signal<number[]>([]);
+  OAPublications = signal<number[]>([]);
 
-  treeGraph: PointOptionsObject[] = [];
-  bar: SeriesBarOptions[] = [];
+  treeGraph = signal<PointOptionsObject[]>([]);
+  bar = signal<SeriesBarOptions[]>([]);
   legendOptions: LegendOptions = {
     align: 'center',
     verticalAlign: 'top',
@@ -123,7 +127,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     labelSuffix: ' countries have a <br>national financial strategy on OΑ publications</span>'
   };
 
-  bar2: SeriesOptionsType[] = [
+  bar2 = signal<SeriesOptionsType[]>([
     {
       type: 'bar',
       name: 'Open',
@@ -134,8 +138,8 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
       name: 'Closed',
       data: []
     }
-  ];
-  barCategories: string[] = [];
+  ]);
+  barCategories = signal<string[]>([]);
 
   barChartTitles = {
     title: 'Financial Investments in Open Access Publications in '+(+this.year-1),
@@ -148,9 +152,6 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
     xAxis: '',
     yAxis: '',
   }
-
-  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
-              private exploreService: ExploreService) {}
 
   ngOnInit() {
     this.getPublicationPercentage();
@@ -173,26 +174,23 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
       this.getCountriesWithPolicyImmediate(year, index);
       // this.getPlans(year, index);
     });
-
-    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: value => this.lastUpdateDate = value
-    });
-
   }
 
   /** Get trends of Publications ----------------------------------------------------------------------------------> **/
   getTrends() {
     this.queryData.getOSOStatsChartData(trendOfOAPublications(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
+        const stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
         value.series.forEach((series, index) => {
           const tmpSeries: SeriesOptionsType = {
             type: 'column',
             name: value.dataSeriesNames[index],
             data: series.data,
           };
-          this.stackedColumnSeries.push(tmpSeries);
+          stackedColumnSeries.push(tmpSeries);
         });
-        this.stackedColumnCategories = value.xAxis_categories;
+        this.stackedColumnSeries.set(stackedColumnSeries);
+        this.stackedColumnCategories.set(value.xAxis_categories);
       }
     });
   }
@@ -201,13 +199,15 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   getDistributionsOA() {
     this.queryData.getOSOStatsChartData(distributionOfOA(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
+        // Copy the series and set the array once: the chart redraws when the reference changes
+        const bar2 = this.bar2().map(series => ({ ...series }) as SeriesBarOptions);
         value.series.forEach((series, index) => {
-          (this.bar2[index] as SeriesBarOptions).data = series.data;
+          bar2[index].data = series.data;
         });
-        for (let i = 0; i < (this.bar2[this.bar2.length - 1] as SeriesBarOptions).data.length; i++) {
-          (this.bar2[this.bar2.length - 1] as SeriesBarOptions).data[i] = -(this.bar2[this.bar2.length - 1] as SeriesBarOptions).data[i];
-        }
-        this.barCategories = value.xAxis_categories;
+        const closed = bar2[bar2.length - 1];
+        closed.data = closed.data.map(point => -point);
+        this.bar2.set(bar2);
+        this.barCategories.set(value.xAxis_categories);
 
       }
     });
@@ -270,6 +270,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   getDistributionOAPublication() {
     this.queryData.getOSOStatsChartData(distributionOfOAPublications(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
+        const stackedColumn2Series: Highcharts.SeriesColumnOptions[] = [];
         value.series.forEach((series, index) => {
           const tmpSeries: SeriesOptionsType = {
             type: 'column',
@@ -277,9 +278,10 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
             data: series.data,
           }
 
-          this.stackedColumn2Series.push(tmpSeries);
+          stackedColumn2Series.push(tmpSeries);
         });
-        this.stackedColumn2Categories = value.xAxis_categories;
+        this.stackedColumn2Series.set(stackedColumn2Series);
+        this.stackedColumn2Categories.set(value.xAxis_categories);
         // this.stackedColumn2Series[0].data.forEach((item, index) => {
         //   let sum = 0;
         //   this.stackedColumn2Series.forEach(series => {
@@ -295,8 +297,8 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   getPublicationPercentage() {
     this.queryData.getOSOStats(OAPublicationVSClosed(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.OAPublications[0] = (Math.round((+value.data[2]/+value.data[3] + Number.EPSILON) * 100));
-        this.OAPublications[1] = (Math.round((+value.data[0]/+value.data[1] + Number.EPSILON) * 100));
+        setAt(this.OAPublications, 0, (Math.round((+value.data[2]/+value.data[3] + Number.EPSILON) * 100)));
+        setAt(this.OAPublications, 1, (Math.round((+value.data[0]/+value.data[1] + Number.EPSILON) * 100)));
       }
     });
   }
@@ -305,7 +307,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   getNationalMonitoring(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question54').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.countriesWithMonitoring[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
+        setAt(this.countriesWithMonitoring, index, this.calculatePercentage(value, value.datasets[0].series.result.length));
       }
     });
   }
@@ -314,7 +316,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   getCountriesWithFinancialStrategy(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question7').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.countriesWithStrategy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
+        setAt(this.countriesWithStrategy, index, this.calculatePercentage(value, value.datasets[0].series.result.length));
       }
     });
   }
@@ -324,7 +326,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   getTotalInvestments(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question56').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.totalInvestments[index] = this.calculateSum(value);
+        setAt(this.totalInvestments, index, this.calculateSum(value));
       }
     });
   }
@@ -333,7 +335,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   getCountriesWithPolicy(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question6').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.countriesWithPolicy[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
+        setAt(this.countriesWithPolicy, index, this.calculatePercentage(value, value.datasets[0].series.result.length));
       }
     });
   }
@@ -342,7 +344,7 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   getCountriesWithPolicyImmediate(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question6.3').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.countriesWithPolicyImmediate[index] = this.calculatePercentage(value, value.datasets[0].series.result.length);
+        setAt(this.countriesWithPolicyImmediate, index, this.calculatePercentage(value, value.datasets[0].series.result.length));
       }
     });
   }
@@ -351,19 +353,19 @@ export class OpenScienceByAreaPublicationsComponent implements OnInit {
   getTreeGraphData(question: string) {
     this.queryData.getQuestion(this.year, question).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.bar = this.exploreService.createInvestmentsBar(res);
-        this.treeGraph = this.exploreService.createRanges(res);
+        this.bar.set(this.exploreService.createInvestmentsBar(res));
+        this.treeGraph.set(this.exploreService.createRanges(res));
       }
     );
   }
 
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
   exportToPDF(contents: HTMLElement[], filename?: string) {
-    this.exportActive = true
+    this.exportActive.set(true)
     this.pdfService.export(contents, filename).then(() => {
-      this.exportActive = false;
+      this.exportActive.set(false);
     }).catch((error) => {
-      this.exportActive = false;
+      this.exportActive.set(false);
       console.error('Error during PDF generation:', error);
     });
   }
