@@ -9,10 +9,10 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
           <!--          <h4>Repositories</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode() | lowercase}}-flag-round.png"
               class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Repositories in {{ year }}</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName() }} - Repositories in {{ year() }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
@@ -23,7 +23,7 @@
                 style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              @if (exportActive) {
+              @if (exportActive()) {
                 <span class="uk-margin-small-left"
                 data-uk-spinner="ratio: 0.7"></span>
               } @else {
@@ -35,10 +35,10 @@
         <div class="uk-hidden@m">
           <!--          <h4>Repositories</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode() | lowercase}}-flag-round.png"
               class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Repositories in {{ year }}</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName() }} - Repositories in {{ year() }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-right" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
@@ -49,7 +49,7 @@
                 style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              @if (exportActive) {
+              @if (exportActive()) {
                 <span class="uk-margin-small-left"
                 data-uk-spinner="ratio: 0.7"></span>
               } @else {
@@ -93,7 +93,7 @@
             <app-card-config indicatorId="50" colorClass="eosc-sb visualisation-card">
             @if (OpenRepositoriesPercentage[1] !== null) {
               <app-info-card
-                [titleHtml]="`Percentage of <span class='uk-text-bold'>Open Repositories in ${countryName}</span>`"
+                [titleHtml]="`Percentage of <span class='uk-text-bold'>Open Repositories in ${countryName()}</span>`"
                 [value]="OpenRepositoriesPercentage[1]"
                 [unit]="'%'"
                 [diff]="OpenRepositoriesPercentageDiff"
@@ -102,34 +102,34 @@
             }
             </app-card-config>
             <app-card-config indicatorId="51" colorClass="eosc-sb visualisation-card">
-            @if (rfoOpenRepositoriesPercentage[1] !== null) {
+            @if (rfoOpenRepositoriesPercentage()[1] !== null) {
               <app-info-card
                 [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Repositories</span>`"
-                [value]="rfoOpenRepositoriesPercentage[1]"
+                [value]="rfoOpenRepositoriesPercentage()[1]"
                 [unit]="'%'"
-                [diff]="rfoOpenRepositoriesPercentageDiff"
+                [diff]="rfoOpenRepositoriesPercentageDiff()"
                 colorClass="eosc-sb visualisation-card">
               </app-info-card>
             }
             </app-card-config>
             <app-card-config indicatorId="52" colorClass="eosc-sb visualisation-card">
-            @if (financialInvestment[1] !== null) {
+            @if (financialInvestment()[1] !== null) {
               <app-info-card
                 [titleHtml]="`Total <span class='uk-text-bold'>financial investment in repositories</span>`"
-                [value]="financialInvestment[1]"
+                [value]="financialInvestment()[1]"
                 [unit]="'mil Euro'"
-                [diff]="financialInvestmentPercentageDiff"
+                [diff]="financialInvestmentPercentageDiff()"
                 colorClass="eosc-sb visualisation-card">
               </app-info-card>
             }
             </app-card-config>
             <app-card-config indicatorId="53" colorClass="eosc-sb visualisation-card">
-            @if (rpoOpenRepositoriesPercentage[1] !== null) {
+            @if (rpoOpenRepositoriesPercentage()[1] !== null) {
               <app-info-card
                 [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy in Repositories</span>`"
-                [value]="rpoOpenRepositoriesPercentage[1]"
+                [value]="rpoOpenRepositoriesPercentage()[1]"
                 [unit]="'%'"
-                [diff]="rpoOpenRepositoriesPercentageDiff"
+                [diff]="rpoOpenRepositoriesPercentageDiff()"
                 colorClass="eosc-sb visualisation-card">
               </app-info-card>
             }
@@ -147,24 +147,24 @@
           <h5 class="uk-flex uk-flex-between uk-margin-remove">
             National Repository Policy
                   <span class="material-symbols-outlined" [ngClass]="{
-                  'up-arrow-color': hasNationalPolicyOR === 'Yes',
-                  'down-arrow-color': hasNationalPolicyOR === 'No',
-                  'unanswered-color': hasNationalPolicyOR === null
+                  'up-arrow-color': hasNationalPolicyOR() === 'Yes',
+                  'down-arrow-color': hasNationalPolicyOR() === 'No',
+                  'unanswered-color': hasNationalPolicyOR() === null
                 }">
               {{
-              hasNationalPolicyOR === 'Yes' ? 'check' :
-              hasNationalPolicyOR === 'No' ? 'close' :
+              hasNationalPolicyOR() === 'Yes' ? 'check' :
+              hasNationalPolicyOR() === 'No' ? 'close' :
               'question_mark'
               }}
             </span>
           </h5>
-          @if (policyMandatoryOR === 'Yes') {
+          @if (policyMandatoryOR() === 'Yes') {
             <p class="uk-text-primary uk-text-bolder uk-margin-remove-top">
             Mandatory policy</p>
           }
-          @if (nationalPolicyClarificationOR) {
+          @if (nationalPolicyClarificationOR()) {
             <read-more-text [maxHeight]="68"
-              [text]="nationalPolicyClarificationOR">
+              [text]="nationalPolicyClarificationOR()">
             </read-more-text>
           }
         </div>
@@ -172,20 +172,20 @@
           <h5 class="uk-flex uk-flex-between">
             Financial Strategy for Repositories
                   <span class="material-symbols-outlined" [ngClass]="{
-                  'up-arrow-color': hasFinancialStrategyOR === 'Yes',
-                  'down-arrow-color': hasFinancialStrategyOR === 'No',
-                  'unanswered-color': hasFinancialStrategyOR === null
+                  'up-arrow-color': hasFinancialStrategyOR() === 'Yes',
+                  'down-arrow-color': hasFinancialStrategyOR() === 'No',
+                  'unanswered-color': hasFinancialStrategyOR() === null
                 }">
               {{
-              hasFinancialStrategyOR === 'Yes' ? 'check' :
-              hasFinancialStrategyOR === 'No' ? 'close' :
+              hasFinancialStrategyOR() === 'Yes' ? 'check' :
+              hasFinancialStrategyOR() === 'No' ? 'close' :
               'question_mark'
               }}
             </span>
           </h5>
-          @if (financialStrategyClarificationOR) {
+          @if (financialStrategyClarificationOR()) {
             <read-more-text [maxHeight]="68"
-              [text]="financialStrategyClarificationOR">
+              [text]="financialStrategyClarificationOR()">
             </read-more-text>
           }
         </div>
@@ -194,19 +194,19 @@
           <h5 class="uk-flex uk-flex-between">
             Monitoring of Repositories
                   <span class="material-symbols-outlined" [ngClass]="{
-                  'up-arrow-color': hasMonitoringOR === 'Yes',
-                  'down-arrow-color': hasMonitoringOR === 'No',
-                  'unanswered-color': hasMonitoringOR === null
+                  'up-arrow-color': hasMonitoringOR() === 'Yes',
+                  'down-arrow-color': hasMonitoringOR() === 'No',
+                  'unanswered-color': hasMonitoringOR() === null
                 }">
               {{
-              hasMonitoringOR === 'Yes' ? 'check' :
-              hasMonitoringOR === 'No' ? 'close' :
+              hasMonitoringOR() === 'Yes' ? 'check' :
+              hasMonitoringOR() === 'No' ? 'close' :
               'question_mark'
               }}
             </span>
           </h5>
-          @if (monitoringClarificationOR) {
-            <read-more-text [maxHeight]="68" [text]="monitoringClarificationOR">
+          @if (monitoringClarificationOR()) {
+            <read-more-text [maxHeight]="68" [text]="monitoringClarificationOR()">
             </read-more-text>
           }
         </div>
@@ -217,9 +217,9 @@
   <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
     <div>
       <p><span class="uk-text-bold">Data source:</span>
-      Survey on National Contributions to EOSC and Open Science {{year}} -
-      showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
-      OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+      Survey on National Contributions to EOSC and Open Science {{year()}} -
+      showing data for {{ year() }}, except financial contributions, which reflect the previous year ({{+year()-1}});
+      OpenAIRE Graph data for {{ year() }} (updated on {{ lastUpdateDate() }}).
     </p>
   </div>
 </div>
@@ -233,15 +233,15 @@
         <app-card-config indicatorId="55">
         <div class="uk-animation-fade">
           <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-            <h6 class="uk-margin-bottom">Learn more about Repositories Landscape in {{ countryName }}</h6>
-            <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
+            <h6 class="uk-margin-bottom">Learn more about Repositories Landscape in {{ countryName() }}</h6>
+            <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate() | date: 'yyyy-MM-dd'}}</div>
             <div class="uk-margin-medium-top">
               <read-more [maxHeight]="300">
                 <div id="networks_aggregators">
                   <div class="uk-text-secondary uk-margin-small-bottom">Networks & Aggregators of Scientific/Research Content</div>
-                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question16']?.['Question16-1']) {
+                  @if (countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question16']?.['Question16-1']) {
                     <div class="uk-margin-remove-top"
-                         [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question16']['Question16-1']">
+                         [innerHTML]="countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question16']['Question16-1']">
                     </div>
                   } @else {
                     <p class="uk-margin-remove-top">N/A</p>
@@ -249,9 +249,9 @@
                 </div>
                 <div id="literature_repositories" class="uk-margin-medium-top">
                   <div class="uk-text-secondary uk-margin-small-bottom">Literature repositories</div>
-                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question17']?.['Question17-1']) {
+                  @if (countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question17']?.['Question17-1']) {
                     <div class="uk-margin-remove-top"
-                         [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question17']['Question17-1']">
+                         [innerHTML]="countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question17']['Question17-1']">
                     </div>
                   } @else {
                     <p class="uk-margin-remove-top">N/A</p>
@@ -259,9 +259,9 @@
                 </div>
                 <div id="data_repositories" class="uk-margin-medium-top">
                   <div class="uk-text-secondary uk-margin-small-bottom">Data repositories</div>
-                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']) {
+                  @if (countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']) {
                     <div class="uk-margin-remove-top"
-                         [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']">
+                         [innerHTML]="countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']">
                     </div>
                   } @else {
                     <p class="uk-margin-remove-top">N/A</p>
@@ -269,9 +269,9 @@
                 </div>
                 <div id="software_repositories" class="uk-margin-medium-top">
                   <div class="uk-text-secondary uk-margin-small-bottom">Software repositories</div>
-                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']?.['Question19-1']) {
+                  @if (countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']?.['Question19-1']) {
                     <div class="uk-margin-remove-top"
-                         [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']['Question19-1']">
+                         [innerHTML]="countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']['Question19-1']">
                     </div>
                   } @else {
                     <p class="uk-margin-remove-top">N/A</p>
@@ -279,9 +279,9 @@
                 </div>
                 <div id="OA_publishing_platforms" class="uk-margin-medium-top">
                   <div class="uk-text-secondary uk-margin-small-bottom">OA Publishing Platforms</div>
-                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question20']?.['Question20-1']) {
+                  @if (countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question20']?.['Question20-1']) {
                     <div class="uk-margin-remove-top"
-                         [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question20']['Question20-1']">
+                         [innerHTML]="countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question20']['Question20-1']">
                     </div>
                   } @else {
                     <p class="uk-margin-remove-top">N/A</p>

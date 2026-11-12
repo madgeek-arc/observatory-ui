@@ -28,7 +28,7 @@ interface IndicatorGroupView {
   standalone: true,
   imports: [FormsModule],
   templateUrl: './indicator-list.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['../../../../assets/css/explore-sidebar.less'],
 })
 export class IndicatorListComponent {

@@ -8,10 +8,10 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
           <!--          <h4>Training for Open Science</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode() | lowercase}}-flag-round.png"
               class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Training for Open Science in {{ year }}</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName() }} - Training for Open Science in {{ year() }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-center uk-flex-none" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
@@ -22,7 +22,7 @@
                 style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              @if (exportActive) {
+              @if (exportActive()) {
                 <span class="uk-margin-small-left"
                 data-uk-spinner="ratio: 0.7"></span>
               } @else {
@@ -34,10 +34,10 @@
         <div class="uk-hidden@m">
           <!--          <h4>Training for Open Science</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode() | lowercase}}-flag-round.png"
               class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Training for Open Science in {{ year }}</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName() }} - Training for Open Science in {{ year() }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-right" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
@@ -46,7 +46,7 @@
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              @if (exportActive) {
+              @if (exportActive()) {
                 <span class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
               } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
@@ -75,7 +75,7 @@
     This page offers an overview of skills and training initiatives in Europe, including policies, financial
   investments, and strategies from the Survey on National Contributions to EOSC and Open Science.</p>
   <div class="uk-flex uk-flex-between uk-flex-middle">
-    <h5>General Overview of Open Science Training in {{ countryName }} for {{ year }}</h5>
+    <h5>General Overview of Open Science Training in {{ countryName() }} for {{ year() }}</h5>
   </div>
 
   <!--        <div class="uk-flex uk-flex-between uk-flex-middle">-->
@@ -112,36 +112,36 @@
         </div> -->
         <!--Card 2-->
         <app-card-config indicatorId="56" colorClass="eosc-sb visualisation-card">
-        @if (rfoTrainingPercentage[1] !== null) {
+        @if (rfoTrainingPercentage()[1] !== null) {
           <app-info-card
             [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Open Science Training</span>`"
-            [value]="rfoTrainingPercentage[1]"
+            [value]="rfoTrainingPercentage()[1]"
             [unit]="'%'"
-            [diff]="rfoTrainingPercentageDiff"
+            [diff]="rfoTrainingPercentageDiff()"
             colorClass="eosc-sb visualisation-card">
           </app-info-card>
         }
         </app-card-config>
         <!--Card 3-->
         <app-card-config indicatorId="57" colorClass="eosc-sb visualisation-card">
-        @if (trainingFinancialInvestment[1] !== null) {
+        @if (trainingFinancialInvestment()[1] !== null) {
           <app-info-card
             [titleHtml]="`Total <span class='uk-text-bold'>financial investment in Open Science Training</span>`"
-            [value]="trainingFinancialInvestment[1]"
+            [value]="trainingFinancialInvestment()[1]"
             [unit]="'mil Euro'"
-            [diff]="trainingFinancialInvestmentPercentageDiff"
+            [diff]="trainingFinancialInvestmentPercentageDiff()"
             colorClass="eosc-sb visualisation-card">
           </app-info-card>
         }
         </app-card-config>
         <!--Card 4-->
         <app-card-config indicatorId="58" colorClass="eosc-sb visualisation-card">
-        @if (rpoTrainingPercentage[1] !== null) {
+        @if (rpoTrainingPercentage()[1] !== null) {
           <app-info-card
             [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Open Science Training</span>`"
-            [value]="rpoTrainingPercentage[1]"
+            [value]="rpoTrainingPercentage()[1]"
             [unit]="'%'"
-            [diff]="rpoTrainingPercentageDiff"
+            [diff]="rpoTrainingPercentageDiff()"
             colorClass="eosc-sb visualisation-card">
           </app-info-card>
         }
@@ -159,17 +159,17 @@
       <h5 class="uk-flex uk-flex-between uk-margin-remove">
         National Open Science Training Policy
                   <span class="material-symbols-outlined" [ngClass]="{
-                  'up-arrow-color': hasNationalPolicy === 'Yes',
-                  'down-arrow-color': hasNationalPolicy === 'No',
-                  'unanswered-color': hasNationalPolicy === null}">
+                  'up-arrow-color': hasNationalPolicy() === 'Yes',
+                  'down-arrow-color': hasNationalPolicy() === 'No',
+                  'unanswered-color': hasNationalPolicy() === null}">
           {{
-          hasNationalPolicy === 'Yes' ? 'check' :
-          hasNationalPolicy === 'No' ? 'close' :
+          hasNationalPolicy() === 'Yes' ? 'check' :
+          hasNationalPolicy() === 'No' ? 'close' :
           'question_mark'
           }}
         </span>
       </h5>
-      @if (policyMandatory === 'Yes') {
+      @if (policyMandatory() === 'Yes') {
         <p class="uk-text-primary uk-text-bolder uk-margin-remove-top">
         Mandatory policy</p>
       }
@@ -184,19 +184,19 @@
       <h5 class="uk-flex uk-flex-between">
         Financial Strategy on Open Science Training
                   <span class="material-symbols-outlined" [ngClass]="{
-                  'up-arrow-color': hasFinancialStrategy === 'Yes',
-                  'down-arrow-color': hasFinancialStrategy === 'No',
-                  'unanswered-color': hasFinancialStrategy === null}">
+                  'up-arrow-color': hasFinancialStrategy() === 'Yes',
+                  'down-arrow-color': hasFinancialStrategy() === 'No',
+                  'unanswered-color': hasFinancialStrategy() === null}">
           {{
-          hasFinancialStrategy === 'Yes' ? 'check' :
-          hasFinancialStrategy === 'No' ? 'close' :
+          hasFinancialStrategy() === 'Yes' ? 'check' :
+          hasFinancialStrategy() === 'No' ? 'close' :
           'question_mark'
           }}
         </span>
       </h5>
-      @if (financialStrategyClarification) {
+      @if (financialStrategyClarification()) {
         <read-more-text [maxHeight]="68"
-          [text]="financialStrategyClarification">
+          [text]="financialStrategyClarification()">
         </read-more-text>
       }
     </div>
@@ -205,19 +205,19 @@
       <h5 class="uk-flex uk-flex-between">
         Monitoring on Open Science Training
                   <span class="material-symbols-outlined" [ngClass]="{
-                  'up-arrow-color': hasMonitoring === 'Yes',
-                  'down-arrow-color': hasMonitoring === 'No',
-                  'unanswered-color': hasMonitoring === null
+                  'up-arrow-color': hasMonitoring() === 'Yes',
+                  'down-arrow-color': hasMonitoring() === 'No',
+                  'unanswered-color': hasMonitoring() === null
                 }">
           {{
-          hasMonitoring === 'Yes' ? 'check' :
-          hasMonitoring === 'No' ? 'close' :
+          hasMonitoring() === 'Yes' ? 'check' :
+          hasMonitoring() === 'No' ? 'close' :
           'question_mark'
           }}
         </span>
       </h5>
-      @if (monitoringClarification) {
-        <read-more-text [maxHeight]="68" [text]="monitoringClarification">
+      @if (monitoringClarification()) {
+        <read-more-text [maxHeight]="68" [text]="monitoringClarification()">
         </read-more-text>
       }
     </div>
@@ -229,9 +229,9 @@
 
   <div>
     <p><span class="uk-text-bold">Data source:</span>
-    Survey on National Contributions to EOSC and Open Science {{year}} -
-    showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
-    OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+    Survey on National Contributions to EOSC and Open Science {{year()}} -
+    showing data for {{ year() }}, except financial contributions, which reflect the previous year ({{+year()-1}});
+    OpenAIRE Graph data for {{ year() }} (updated on {{ lastUpdateDate() }}).
   </p>
 </div>
 </div>
@@ -244,30 +244,30 @@
         <app-card-config indicatorId="60">
         <div class="uk-animation-fade">
           <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-            <h6 class="uk-margin-bottom">Learn more about Open Science Training in {{ countryName }}</h6>
-            <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
+            <h6 class="uk-margin-bottom">Learn more about Open Science Training in {{ countryName() }}</h6>
+            <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate() | date: 'yyyy-MM-dd'}}</div>
             <div class="uk-margin-medium-top">
               <read-more [maxHeight]="300">
                 <div id="skills_overview">
                   <div class="uk-text-secondary uk-margin-small-bottom">Overview</div>
-                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question24']) {
-                    <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question24']"
+                  @if (countrySurveyAnswer()['OPEN SCIENCE DIGITAL SKILLS']['Question24']) {
+                    <div [innerHTML]="countrySurveyAnswer()['OPEN SCIENCE DIGITAL SKILLS']['Question24']"
                          class="uk-margin-remove-top"></div> } @else {
                     <p class="uk-margin-remove-top">N/A</p>
                   }
                 </div>
                 <div id="training_infrastructure" class="uk-margin-medium-top">
                   <div class="uk-text-secondary uk-margin-small-bottom">Training Infrastructure</div>
-                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question25']) {
-                    <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question25']"
+                  @if (countrySurveyAnswer()['OPEN SCIENCE DIGITAL SKILLS']['Question25']) {
+                    <div [innerHTML]="countrySurveyAnswer()['OPEN SCIENCE DIGITAL SKILLS']['Question25']"
                          class="uk-margin-remove-top"></div> } @else {
                     <p class="uk-margin-remove-top">N/A</p>
                   }
                 </div>
                 <div id="competence_centers" class="uk-margin-medium-top">
                   <div class="uk-text-secondary uk-margin-small-bottom">Open Science/Digital Competence centers</div>
-                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question26']?.length > 0) {
-                    @for (element of countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question26']; track element) {
+                  @if (countrySurveyAnswer()['OPEN SCIENCE DIGITAL SKILLS']['Question26']?.length > 0) {
+                    @for (element of countrySurveyAnswer()['OPEN SCIENCE DIGITAL SKILLS']['Question26']; track element) {
                       <div class="uk-margin-remove-top"> <div [innerHTML]="element['Question26-1']"></div>
                       </div>
                     }
@@ -277,16 +277,16 @@
                 </div>
                 <div id="open_science_professionals" class="uk-margin-medium-top">
                   <div class="uk-text-secondary uk-margin-small-bottom">Open Science Professionals</div>
-                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question27']) {
-                    <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question27']"
+                  @if (countrySurveyAnswer()['OPEN SCIENCE DIGITAL SKILLS']['Question27']) {
+                    <div [innerHTML]="countrySurveyAnswer()['OPEN SCIENCE DIGITAL SKILLS']['Question27']"
                          class="uk-margin-remove-top"></div> } @else {
                     <p class="uk-margin-remove-top">N/A</p>
                   }
                 </div>
                 <div id="open_science_curricula" class="uk-margin-medium-top">
                   <div class="uk-text-secondary uk-margin-small-bottom">Open Science Curricula</div>
-                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question28']?.length > 0) {
-                    @for (element of countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question28']; track element) {
+                  @if (countrySurveyAnswer()['OPEN SCIENCE DIGITAL SKILLS']['Question28']?.length > 0) {
+                    @for (element of countrySurveyAnswer()['OPEN SCIENCE DIGITAL SKILLS']['Question28']; track element) {
                       <div class="uk-margin-remove-top"> <div [innerHTML]="element"></div>
                       </div>
                     }
@@ -296,8 +296,8 @@
                 </div>
                 <div id="links" class="uk-margin-medium-top">
                   <div class="uk-text-secondary uk-margin-small-bottom">Links to national initiatives on Digital Skills</div>
-                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question29']?.['Question29-1']) {
-                    <div [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL SKILLS']['Question29']['Question29-1']"
+                  @if (countrySurveyAnswer()['OPEN SCIENCE DIGITAL SKILLS']['Question29']?.['Question29-1']) {
+                    <div [innerHTML]="countrySurveyAnswer()['OPEN SCIENCE DIGITAL SKILLS']['Question29']['Question29-1']"
                          class="uk-margin-remove-top"></div> } @else {
                     <p class="uk-margin-remove-top">N/A</p>
                   }
@@ -314,14 +314,14 @@
         <app-card-config indicatorId="61">
         <div class="uk-animation-fade">
           <div class="uk-card uk-card-default uk-card-body uk-width-1-1 noads visualisation-card">
-            <h6 class="uk-margin-bottom">Helpdesk and Support in {{ countryName }}</h6>
+            <h6 class="uk-margin-bottom">Helpdesk and Support in {{ countryName() }}</h6>
             <div class="uk-margin-medium-top">
               <read-more [maxHeight]="250">
                 <div id="helpdesk_support">
-                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']?.['Question22']?.['Question22-1']) {
-                    <div class="uk-margin-remove-top" [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question22']['Question22-1']"></div>
+                  @if (countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']?.['Question22']?.['Question22-1']) {
+                    <div class="uk-margin-remove-top" [innerHTML]="countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question22']['Question22-1']"></div>
                   }
-                  @if (!countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']?.['Question22']?.['Question22-1']) {
+                  @if (!countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']?.['Question22']?.['Question22-1']) {
                     <p class="uk-margin-remove-top">N/A</p>
                   }
                 </div>

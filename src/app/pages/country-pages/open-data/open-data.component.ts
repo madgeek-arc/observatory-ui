@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy, signal } from '@angular/core';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
 import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
@@ -25,6 +25,7 @@ import { filter } from "rxjs/operators";
 
 import { CardConfigComponent } from "../card-config/card-config.component";
 import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
+import { setAt } from "src/app/shared/utils/set-at";
 
 @Component({
     selector: 'app-open-data',
@@ -39,41 +40,41 @@ import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-h
         CardConfigComponent,
         SectionHiddenNoticeComponent
     ],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './open-data.component.html'
 })
 export class OpenDataComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
-  exportActive = false;
-  smallScreen: boolean = false;
+  exportActive = signal(false);
+  smallScreen = signal<boolean>(false);
 
   countryCode?: string;
   /** Code used only for the flag/label (EU for the Global default); data still uses countryCode. */
-  flagCode?: string;
-  countryName?: string;
+  flagCode = signal<string>(undefined);
+  countryName = signal<string>(undefined);
   surveyAnswers: Object[] = [];
-  countrySurveyAnswer?: Object;
-  countrySurveyAnswerLastUpdate: string | null = null;
-  year: string;
+  countrySurveyAnswer = signal<Object>(undefined);
+  countrySurveyAnswerLastUpdate = signal<string | null>(null);
+  year = signal<string>(undefined);
   prevYear: string;
 
 
-  rfoOpenDataPercentage: (number | null)[] = [null, null];
-  rfoOpenDataPercentageDiff: number | null = null;
-  ODfinancialInvestment: (string | null)[] = [null, null];
-  ODfinancialInvestmentPercentageDiff: number | null = null;
-  rpoOpenDataPercentage: (number | null)[] = [null, null];
-  rpoOpenDataPercentageDiff: number | null = null;
-  hasNationalPolicyOD: string | null = null;
-  nationalPolicyClarificationOD: string | null = null;
-  hasFinancialStrategyOD: string | null = null;
-  financialStrategyClarificationOD: string | null = null;
-  hasMonitoringOD: string | null = null;
-  monitoringClarificationOD: string | null = null;
-  policyMandatoryOD: string | null = null;
-  OpenDataPercentage: (number | null)[] = [null, null];
-  OpenDataPercentageDiff: number | null = null;
+  rfoOpenDataPercentage = signal<(number | null)[]>([null, null]);
+  rfoOpenDataPercentageDiff = signal<number | null>(null);
+  ODfinancialInvestment = signal<(string | null)[]>([null, null]);
+  ODfinancialInvestmentPercentageDiff = signal<number | null>(null);
+  rpoOpenDataPercentage = signal<(number | null)[]>([null, null]);
+  rpoOpenDataPercentageDiff = signal<number | null>(null);
+  hasNationalPolicyOD = signal<string | null>(null);
+  nationalPolicyClarificationOD = signal<string | null>(null);
+  hasFinancialStrategyOD = signal<string | null>(null);
+  financialStrategyClarificationOD = signal<string | null>(null);
+  hasMonitoringOD = signal<string | null>(null);
+  monitoringClarificationOD = signal<string | null>(null);
+  policyMandatoryOD = signal<string | null>(null);
+  OpenDataPercentage = signal<(number | null)[]>([null, null]);
+  OpenDataPercentageDiff = signal<number | null>(null);
 
   legend: LegendOptions = {
     // align: 'right',
@@ -89,25 +90,27 @@ export class OpenDataComponent implements OnInit {
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
-  stackedColumnCategories: string[] = [];
-  stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
+  stackedColumnCategories = signal<string[]>([]);
+  stackedColumnSeries = signal<Highcharts.SeriesColumnOptions[]>([]);
 
-  stackedColumn2Categories: string[] = [];
-  stackedColumn2Series: Highcharts.SeriesColumnOptions[] = [];
+  stackedColumn2Categories = signal<string[]>([]);
+  stackedColumn2Series = signal<Highcharts.SeriesColumnOptions[]>([]);
   stacking: OptionsStackingValue = 'percent';
   dataLabels_format = '{point.percentage:.0f}%';
 
-  lastUpdateDate?: string;
+  lastUpdateDate = signal<string>(undefined);
 
-  constructor(protected dataShareService: DataShareService, private exploreService: ExploreService,
-              private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {}
+  protected dataShareService = inject(DataShareService);
+  private exploreService = inject(ExploreService);
+  private queryData = inject(EoscReadinessDataService);
+  private pdfService = inject(PdfExportService);
 
   ngOnInit() {
 
-    this.smallScreen = this.exploreService.isMobileOrSmallScreen;
+    this.smallScreen.set(this.exploreService.isMobileOrSmallScreen);
 
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: value => this.lastUpdateDate = value
+      next: value => this.lastUpdateDate.set(value)
     });
 
     combineLatest([
@@ -120,7 +123,7 @@ export class OpenDataComponent implements OnInit {
       )
       .subscribe(([code, year]) => {
         this.countryCode = code;
-        this.year = year;
+        this.year.set(year);
         const numericYear = +year;
         this.prevYear = (numericYear - 1).toString();
         this.countryCode = code;
@@ -131,13 +134,13 @@ export class OpenDataComponent implements OnInit {
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
-        this.countryName = name;
+        this.countryName.set(name);
       }
     });
 
     this.dataShareService.displayCountryCode$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (code) => {
-        this.flagCode = code;
+        this.flagCode.set(code);
       }
     });
 
@@ -150,85 +153,89 @@ export class OpenDataComponent implements OnInit {
 
     this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answer) => {
-        this.countrySurveyAnswer = answer;
+        this.countrySurveyAnswer.set(answer);
       }
     });
 
     this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (metadata) => {
-        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
+        this.countrySurveyAnswerLastUpdate.set(metadata?.lastUpdate ?? null);
       }
     });
 
   }
 
   initCardValues() {
-    this.rfoOpenDataPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question21']?.['Question21-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);
-    this.rfoOpenDataPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question21']?.['Question21-0'], this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0']);
-    this.rfoOpenDataPercentageDiff = this.dataShareService.calculateDiff(this.rfoOpenDataPercentage[0], this.rfoOpenDataPercentage[1]);
+    setAt(this.rfoOpenDataPercentage, 1, this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question21']?.['Question21-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']));
+    setAt(this.rfoOpenDataPercentage, 0, this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question21']?.['Question21-0'], this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0']));
+    this.rfoOpenDataPercentageDiff.set(this.dataShareService.calculateDiff(this.rfoOpenDataPercentage()[0], this.rfoOpenDataPercentage()[1]));
 
-    this.ODfinancialInvestment[1] = this.surveyAnswers[1]?.['Practices']?.['Question68']?.['Question68-0'];
-    this.ODfinancialInvestment[0] = this.surveyAnswers[0]?.['Practices']?.['Question68']?.['Question68-0'];
-    this.ODfinancialInvestmentPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.ODfinancialInvestment[0], this.ODfinancialInvestment[1]);
+    setAt(this.ODfinancialInvestment, 1, this.surveyAnswers[1]?.['Practices']?.['Question68']?.['Question68-0']);
+    setAt(this.ODfinancialInvestment, 0, this.surveyAnswers[0]?.['Practices']?.['Question68']?.['Question68-0']);
+    this.ODfinancialInvestmentPercentageDiff.set(this.dataShareService.calculateDiffAsPercentage(this.ODfinancialInvestment()[0], this.ODfinancialInvestment()[1]));
 
-    this.rpoOpenDataPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question20']?.['Question20-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']);
-    this.rpoOpenDataPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question20']?.['Question20-0'], this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0']);
-    this.rpoOpenDataPercentageDiff = this.dataShareService.calculateDiff(this.rpoOpenDataPercentage[0], this.rpoOpenDataPercentage[1]);
+    setAt(this.rpoOpenDataPercentage, 1, this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question20']?.['Question20-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']));
+    setAt(this.rpoOpenDataPercentage, 0, this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question20']?.['Question20-0'], this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0']));
+    this.rpoOpenDataPercentageDiff.set(this.dataShareService.calculateDiff(this.rpoOpenDataPercentage()[0], this.rpoOpenDataPercentage()[1]));
 
-    this.hasNationalPolicyOD = this.surveyAnswers[1]?.['Policies']?.['Question18']?.['Question18-0'] || null;
-    this.policyMandatoryOD = this.surveyAnswers[1]?.['Policies']?.['Question18']?.['Question18-1-0']?.['Question18-1'] || null;
-    this.nationalPolicyClarificationOD = this.surveyAnswers[1]?.['Policies']?.['Question18']?.['Question18-3'] || null;
+    this.hasNationalPolicyOD.set(this.surveyAnswers[1]?.['Policies']?.['Question18']?.['Question18-0'] || null);
+    this.policyMandatoryOD.set(this.surveyAnswers[1]?.['Policies']?.['Question18']?.['Question18-1-0']?.['Question18-1'] || null);
+    this.nationalPolicyClarificationOD.set(this.surveyAnswers[1]?.['Policies']?.['Question18']?.['Question18-3'] || null);
 
-    this.hasFinancialStrategyOD = this.surveyAnswers[1]?.['Policies']?.['Question19']?.['Question19-0'] || null;
-    this.financialStrategyClarificationOD = this.surveyAnswers[1]?.['Policies']?.['Question19']?.['Question19-3'] || null;
+    this.hasFinancialStrategyOD.set(this.surveyAnswers[1]?.['Policies']?.['Question19']?.['Question19-0'] || null);
+    this.financialStrategyClarificationOD.set(this.surveyAnswers[1]?.['Policies']?.['Question19']?.['Question19-3'] || null);
 
-    this.hasMonitoringOD = this.surveyAnswers[1]?.['Practices']?.['Question66']?.['Question66-0'] || null;
-    this.monitoringClarificationOD = this.surveyAnswers[1]?.['Practices']?.['Question66']?.['Question66-1'] || null;
+    this.hasMonitoringOD.set(this.surveyAnswers[1]?.['Practices']?.['Question66']?.['Question66-0'] || null);
+    this.monitoringClarificationOD.set(this.surveyAnswers[1]?.['Practices']?.['Question66']?.['Question66-1'] || null);
 
   }
 
   getOpenDataPercentage() {
-    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode, this.prevYear, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode, this.prevYear, this.year())).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.OpenDataPercentage[0] = this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]);
-        this.OpenDataPercentage[1] = this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]);
-        this.OpenDataPercentageDiff = this.dataShareService.calculateDiff(this.OpenDataPercentage[0], this.OpenDataPercentage[1]);
+        setAt(this.OpenDataPercentage, 0, this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]));
+        setAt(this.OpenDataPercentage, 1, this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]));
+        this.OpenDataPercentageDiff.set(this.dataShareService.calculateDiff(this.OpenDataPercentage()[0], this.OpenDataPercentage()[1]));
       }
     });
   }
 
   /** Get trends of Open Data -------------------------------------------------------------------------------------> **/
   getTrendsOpenData() {
-    this.queryData.getOSOStatsChartData(trendOfOpenDataCountry(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(trendOfOpenDataCountry(this.countryCode, this.year())).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
+        const newSeries: Highcharts.SeriesColumnOptions[] = [];
         value.series.forEach((series, index) => {
           let tmpSeries: SeriesOptionsType = {
             type: 'column',
             name: value.dataSeriesNames[index],
             data: series.data
           }
-          this.stackedColumnSeries.push(tmpSeries);
+          newSeries.push(tmpSeries);
         });
+        this.stackedColumnSeries.update(current => [...current, ...newSeries]);
 
-        this.stackedColumnCategories = value.xAxis_categories;
+        this.stackedColumnCategories.set(value.xAxis_categories);
       }
     });
   }
 
   /** Get Distribution By Document Type ---------------------------------------------------------------------------> **/
   getDistributionByDocumentType() {
-    this.queryData.getOSOStatsChartData(distributionOfDataByDocumentTypeCountry(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStatsChartData(distributionOfDataByDocumentTypeCountry(this.countryCode, this.year())).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
+        const newSeries: Highcharts.SeriesColumnOptions[] = [];
         value.series.forEach((series, index) => {
           let tmpSeries: SeriesOptionsType = {
             type: 'column',
             name: value.dataSeriesNames[index],
             data: series.data
           }
-          this.stackedColumn2Series.push(tmpSeries);
+          newSeries.push(tmpSeries);
         });
+        this.stackedColumn2Series.update(current => [...current, ...newSeries]);
 
-        this.stackedColumn2Categories = value.xAxis_categories;
+        this.stackedColumn2Categories.set(value.xAxis_categories);
       }
     });
   }
@@ -241,24 +248,24 @@ export class OpenDataComponent implements OnInit {
   /** Left card block renders only if at least one of its cards will be visible (see service). */
   hasAnyLeftCardVisible(): boolean {
     return this.indicatorsService.anyCardVisible([
-      { id: '25', hasData: this.OpenDataPercentage[1]    != null },
-      { id: '26', hasData: this.rfoOpenDataPercentage[1] != null },
-      { id: '27', hasData: this.ODfinancialInvestment[1] != null },
-      { id: '28', hasData: this.rpoOpenDataPercentage[1] != null },
+      { id: '25', hasData: this.OpenDataPercentage()[1]    != null },
+      { id: '26', hasData: this.rfoOpenDataPercentage()[1] != null },
+      { id: '27', hasData: this.ODfinancialInvestment()[1] != null },
+      { id: '28', hasData: this.rpoOpenDataPercentage()[1] != null },
     ]);
   }
 
   hasAnyLeftCardData() {
     return this.dataShareService.hasAnyValue([
-      this.OpenDataPercentage[1],
-      this.rfoOpenDataPercentage[1],
-      this.ODfinancialInvestment[1],
-      this.rpoOpenDataPercentage[1]
+      this.OpenDataPercentage()[1],
+      this.rfoOpenDataPercentage()[1],
+      this.ODfinancialInvestment()[1],
+      this.rpoOpenDataPercentage()[1]
     ]);
   }
 
   hasSurveyOpenData(): boolean {
-    const surveyData = this?.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
+    const surveyData = this?.countrySurveyAnswer()?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
     if (!surveyData) {
       return false;
     }
@@ -267,16 +274,16 @@ export class OpenDataComponent implements OnInit {
   }
 
   exportToPDF(contents: HTMLElement[], filename?: string) {
-    this.exportActive = true
+    this.exportActive.set(true)
 
     // Χρόνος για να εφαρμοστούν τα styles
     // setTimeout(() => {
       this.pdfService.export(contents, filename).then(() => {
         // this.restoreAnimations(modifiedElements, contents);
-        this.exportActive = false;
+        this.exportActive.set(false);
       }).catch((error) => {
         // this.restoreAnimations(modifiedElements, contents);
-        this.exportActive = false;
+        this.exportActive.set(false);
         console.error('Error during PDF generation:', error);
       });
     // }, 0);

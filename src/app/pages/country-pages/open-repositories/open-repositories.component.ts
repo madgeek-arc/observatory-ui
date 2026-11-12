@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy, signal } from '@angular/core';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
 import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
@@ -15,6 +15,7 @@ import { ExploreService } from "../../explore/explore.service";
 
 import { CardConfigComponent } from "../card-config/card-config.component";
 import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
+import { setAt } from "src/app/shared/utils/set-at";
 
 @Component({
     selector: 'app-open-repositories',
@@ -28,7 +29,7 @@ import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-h
         CardConfigComponent,
         SectionHiddenNoticeComponent
     ],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './open-repositories.component.html'
 })
 
@@ -37,40 +38,41 @@ export class OpenRepositoriesComponent implements OnInit {
   private exploreService = inject(ExploreService)
 
   protected readonly Math = Math;
-  exportActive = false;
+  exportActive = signal(false);
 
   countryCode?: string;
   /** Code used only for the flag/label (EU for the Global default); data still uses countryCode. */
-  flagCode?: string;
-  countryName?: string;
+  flagCode = signal<string>(undefined);
+  countryName = signal<string>(undefined);
   surveyAnswers: Object[] = [];
-  countrySurveyAnswer?: Object;
-  countrySurveyAnswerLastUpdate: string | null = null;
-  year?: string;
-  lastUpdateDate?: string;
+  countrySurveyAnswer = signal<Object>(undefined);
+  countrySurveyAnswerLastUpdate = signal<string | null>(null);
+  year = signal<string>(undefined);
+  lastUpdateDate = signal<string>(undefined);
 
 
-  rfoOpenRepositoriesPercentage: (number | null)[] = [null, null];
-  rfoOpenRepositoriesPercentageDiff: number | null = null;
-  rpoOpenRepositoriesPercentage: (number | null)[] = [null, null];
-  rpoOpenRepositoriesPercentageDiff: number | null = null;
-  hasNationalPolicyOR: string | null = null;
-  nationalPolicyClarificationOR: string | null = null;
-  hasFinancialStrategyOR: string | null = null;
-  financialStrategyClarificationOR: string | null = null;
-  hasMonitoringOR: string | null = null;
-  monitoringClarificationOR: string | null = null;
-  policyMandatoryOR: string | null = null;
+  rfoOpenRepositoriesPercentage = signal<(number | null)[]>([null, null]);
+  rfoOpenRepositoriesPercentageDiff = signal<number | null>(null);
+  rpoOpenRepositoriesPercentage = signal<(number | null)[]>([null, null]);
+  rpoOpenRepositoriesPercentageDiff = signal<number | null>(null);
+  hasNationalPolicyOR = signal<string | null>(null);
+  nationalPolicyClarificationOR = signal<string | null>(null);
+  hasFinancialStrategyOR = signal<string | null>(null);
+  financialStrategyClarificationOR = signal<string | null>(null);
+  hasMonitoringOR = signal<string | null>(null);
+  monitoringClarificationOR = signal<string | null>(null);
+  policyMandatoryOR = signal<string | null>(null);
   OpenRepositoriesPercentage: (number | null)[] = [null, null];
   OpenRepositoriesPercentageDiff: number | null = null;
-  financialInvestment: (string | null)[] = [null, null];
-  financialInvestmentPercentageDiff: number | null = null;
+  financialInvestment = signal<(string | null)[]>([null, null]);
+  financialInvestmentPercentageDiff = signal<number | null>(null);
 
-  constructor(private dataShareService: DataShareService, private pdfService: PdfExportService) {}
+  private dataShareService = inject(DataShareService);
+  private pdfService = inject(PdfExportService);
 
   ngOnInit(): void {
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: value => this.lastUpdateDate = value
+      next: value => this.lastUpdateDate.set(value)
     });
 
     this.dataShareService.surveyAnswers.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -82,19 +84,19 @@ export class OpenRepositoriesComponent implements OnInit {
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
-        this.countryName = name;
+        this.countryName.set(name);
       }
     });
 
     this.dataShareService.displayCountryCode$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (code) => {
-        this.flagCode = code;
+        this.flagCode.set(code);
       }
     });
 
     this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (year) => {
-        this.year = year;
+        this.year.set(year);
       }
     })
 
@@ -107,40 +109,40 @@ export class OpenRepositoriesComponent implements OnInit {
 
     this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answer) => {
-        this.countrySurveyAnswer = answer;
+        this.countrySurveyAnswer.set(answer);
       }
     });
 
     this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (metadata) => {
-        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
+        this.countrySurveyAnswerLastUpdate.set(metadata?.lastUpdate ?? null);
       }
     });
   }
 
  initCardValues() {
-  this.rfoOpenRepositoriesPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question33']?.['Question33-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);
-  this.rfoOpenRepositoriesPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question33']?.['Question33-0'], this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0']);
-  this.rfoOpenRepositoriesPercentageDiff = this.dataShareService.calculateDiff(this.rfoOpenRepositoriesPercentage[0], this.rfoOpenRepositoriesPercentage[1]);
+  setAt(this.rfoOpenRepositoriesPercentage, 1, this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question33']?.['Question33-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']));
+  setAt(this.rfoOpenRepositoriesPercentage, 0, this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question33']?.['Question33-0'], this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0']));
+  this.rfoOpenRepositoriesPercentageDiff.set(this.dataShareService.calculateDiff(this.rfoOpenRepositoriesPercentage()[0], this.rfoOpenRepositoriesPercentage()[1]));
 
-  this.financialInvestment[1] = this.surveyAnswers[1]?.['Practices']?.['Question80']?.['Question80-0']?.trim() || null;
-  this.financialInvestment[0] = this.surveyAnswers[0]?.['Practices']?.['Question80']?.['Question80-0']?.trim() || null;
-  this.financialInvestment = this.financialInvestment.map(value => value === "" ? null : value);
-  this.financialInvestmentPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.financialInvestment[0], this.financialInvestment[1]);
+  setAt(this.financialInvestment, 1, this.surveyAnswers[1]?.['Practices']?.['Question80']?.['Question80-0']?.trim() || null);
+  setAt(this.financialInvestment, 0, this.surveyAnswers[0]?.['Practices']?.['Question80']?.['Question80-0']?.trim() || null);
+  this.financialInvestment.set(this.financialInvestment().map(value => value === "" ? null : value));
+  this.financialInvestmentPercentageDiff.set(this.dataShareService.calculateDiffAsPercentage(this.financialInvestment()[0], this.financialInvestment()[1]));
 
-  this.rpoOpenRepositoriesPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question32']?.['Question32-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']);
-  this.rpoOpenRepositoriesPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question32']?.['Question32-0'], this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0']);
-  this.rpoOpenRepositoriesPercentageDiff = this.dataShareService.calculateDiff(this.rpoOpenRepositoriesPercentage[0], this.rpoOpenRepositoriesPercentage[1]);
+  setAt(this.rpoOpenRepositoriesPercentage, 1, this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question32']?.['Question32-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']));
+  setAt(this.rpoOpenRepositoriesPercentage, 0, this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question32']?.['Question32-0'], this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0']));
+  this.rpoOpenRepositoriesPercentageDiff.set(this.dataShareService.calculateDiff(this.rpoOpenRepositoriesPercentage()[0], this.rpoOpenRepositoriesPercentage()[1]));
 
-  this.hasNationalPolicyOR = this.surveyAnswers[1]?.['Policies']?.['Question30']?.['Question30-0'] || null;
-  this.policyMandatoryOR = this.surveyAnswers[1]?.['Policies']?.['Question30']?.['Question30-1-0']?.['Question30-1'] || null;
-  this.nationalPolicyClarificationOR = this.surveyAnswers[1]?.['Policies']?.['Question30']?.['Question30-3'] || null;
+  this.hasNationalPolicyOR.set(this.surveyAnswers[1]?.['Policies']?.['Question30']?.['Question30-0'] || null);
+  this.policyMandatoryOR.set(this.surveyAnswers[1]?.['Policies']?.['Question30']?.['Question30-1-0']?.['Question30-1'] || null);
+  this.nationalPolicyClarificationOR.set(this.surveyAnswers[1]?.['Policies']?.['Question30']?.['Question30-3'] || null);
 
-  this.hasFinancialStrategyOR = this.surveyAnswers[1]?.['Policies']?.['Question31']?.['Question31-0'] || null;
-  this.financialStrategyClarificationOR = this.surveyAnswers[1]?.['Policies']?.['Question31']?.['Question31-3'] || null;
+  this.hasFinancialStrategyOR.set(this.surveyAnswers[1]?.['Policies']?.['Question31']?.['Question31-0'] || null);
+  this.financialStrategyClarificationOR.set(this.surveyAnswers[1]?.['Policies']?.['Question31']?.['Question31-3'] || null);
 
-  this.hasMonitoringOR = this.surveyAnswers[1]?.['Practices']?.['Question78']?.['Question78-0'] || null;
-  this.monitoringClarificationOR = this.surveyAnswers[1]?.['Practices']?.['Question78']?.['Question78-1'] || null;
+  this.hasMonitoringOR.set(this.surveyAnswers[1]?.['Practices']?.['Question78']?.['Question78-0'] || null);
+  this.monitoringClarificationOR.set(this.surveyAnswers[1]?.['Practices']?.['Question78']?.['Question78-1'] || null);
 
  }
 
@@ -150,22 +152,22 @@ export class OpenRepositoriesComponent implements OnInit {
   hasAnyLeftCardVisible(): boolean {
     return this.indicatorsService.anyCardVisible([
       { id: '50', hasData: this.OpenRepositoriesPercentage[1]    != null },
-      { id: '51', hasData: this.rfoOpenRepositoriesPercentage[1] != null },
-      { id: '52', hasData: this.financialInvestment[1]           != null },
-      { id: '53', hasData: this.rpoOpenRepositoriesPercentage[1] != null },
+      { id: '51', hasData: this.rfoOpenRepositoriesPercentage()[1] != null },
+      { id: '52', hasData: this.financialInvestment()[1]           != null },
+      { id: '53', hasData: this.rpoOpenRepositoriesPercentage()[1] != null },
     ]);
   }
 
   hasAnyLeftCardData() {
     return this.dataShareService.hasAnyValue([
-      this.rfoOpenRepositoriesPercentage[1],
-      this.financialInvestment[1],
-      this.rpoOpenRepositoriesPercentage[1],
+      this.rfoOpenRepositoriesPercentage()[1],
+      this.financialInvestment()[1],
+      this.rpoOpenRepositoriesPercentage()[1],
     ]);
   }
 
   hasSurveyRepositoriesData(): boolean {
-    const surveyData = this?.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
+    const surveyData = this?.countrySurveyAnswer()?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
     if (!surveyData) {
       return false;
     }
@@ -181,16 +183,16 @@ export class OpenRepositoriesComponent implements OnInit {
   }
 
   exportToPDF(contents: HTMLElement[], filename?: string) {
-    this.exportActive = true
+    this.exportActive.set(true)
 
     // Χρόνος για να εφαρμοστούν τα styles
     // setTimeout(() => {
       this.pdfService.export(contents, filename).then(() => {
         // this.restoreAnimations(modifiedElements, contents);
-        this.exportActive = false;
+        this.exportActive.set(false);
       }).catch((error) => {
         // this.restoreAnimations(modifiedElements, contents);
-        this.exportActive = false;
+        this.exportActive.set(false);
         console.error('Error during PDF generation:', error);
       });
     // }, 0);

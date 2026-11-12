@@ -1,4 +1,4 @@
-import {Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy} from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy, signal } from "@angular/core";
 import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {DataShareService} from "../services/data-share.service";
 import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
@@ -23,11 +23,12 @@ import {NewsItem} from "src/app/domain/news";
 
 import { CardConfigComponent } from "../card-config/card-config.component";
 import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
+import { setAt } from "src/app/shared/utils/set-at";
 
 @Component({
   selector: 'app-general-R&D-overview',
   templateUrl: './general-R&D-overview.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     NgOptimizedImage,
@@ -46,36 +47,37 @@ export class GeneralRDOverviewComponent implements OnInit {
   private newsService = inject(StakeholderNewsService);
 
   protected readonly Math = Math;
-  exportActive = false;
+  exportActive = signal(false);
 
-  openSoftware: (string | null)[] = [null, null];
-  openSoftwarePercentageDiff: number | null = null;
-  rfos: (string | null)[] = [null, null];
-  rfosPercentageDiff: number | null = null;
-  rpos: (string | null)[] = [null, null];
-  rposPercentageDiff: number | null = null;
-  totalInvestment: (string | null)[] = [null, null];
-  investmentPercentageDiff: (number | null) = null;
-  OAPubsPercentage: (number | null)[] = [null, null];
-  OAPubsPercentageDiff: number | null = null;
-  OpenDataPercentage: (number | null)[] = [null, null];
-  OpenDataPercentageDiff: number | null = null;
+  openSoftware = signal<(string | null)[]>([null, null]);
+  openSoftwarePercentageDiff = signal<number | null>(null);
+  rfos = signal<(string | null)[]>([null, null]);
+  rfosPercentageDiff = signal<number | null>(null);
+  rpos = signal<(string | null)[]>([null, null]);
+  rposPercentageDiff = signal<number | null>(null);
+  totalInvestment = signal<(string | null)[]>([null, null]);
+  investmentPercentageDiff = signal<(number | null)>(null);
+  OAPubsPercentage = signal<(number | null)[]>([null, null]);
+  OAPubsPercentageDiff = signal<number | null>(null);
+  OpenDataPercentage = signal<(number | null)[]>([null, null]);
+  OpenDataPercentageDiff = signal<number | null>(null);
 
-  countryNewsItems: NewsItem[] = [];
+  countryNewsItems = signal<NewsItem[]>([]);
 
   countryCode?: string;
   /** Code used only for the flag/label (EU for the Global default); data still uses countryCode. */
-  flagCode?: string;
-  countryName?: string;
+  flagCode = signal<string>(undefined);
+  countryName = signal<string>(undefined);
   surveyAnswers: Object[] = [null, null];
-  countrySurveyAnswer?: Object;
-  countrySurveyAnswerLastUpdate: string | null = null;
-  year: string;
+  countrySurveyAnswer = signal<Object>(undefined);
+  countrySurveyAnswerLastUpdate = signal<string | null>(null);
+  year = signal<string>(undefined);
   prevYear: string;
-  lastUpdateDate?: string;
+  lastUpdateDate = signal<string>(undefined);
 
-  constructor(private dataShareService: DataShareService, private queryData: EoscReadinessDataService, private pdfService: PdfExportService) {
-  }
+  private dataShareService = inject(DataShareService);
+  private queryData = inject(EoscReadinessDataService);
+  private pdfService = inject(PdfExportService);
 
   ngOnInit() {
 
@@ -89,7 +91,7 @@ export class GeneralRDOverviewComponent implements OnInit {
       )
       .subscribe(([code, year]) => {
         this.countryCode = code;
-        this.year = year;
+        this.year.set(year);
         const numericYear = +year;
         this.prevYear = (numericYear - 1).toString();
         this.getPublicationPercentage();
@@ -98,18 +100,18 @@ export class GeneralRDOverviewComponent implements OnInit {
       });
 
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: value => this.lastUpdateDate = value
+      next: value => this.lastUpdateDate.set(value)
     });
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
-        this.countryName = name;
+        this.countryName.set(name);
       }
     });
 
     this.dataShareService.displayCountryCode$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (code) => {
-        this.flagCode = code;
+        this.flagCode.set(code);
       }
     });
 
@@ -122,13 +124,13 @@ export class GeneralRDOverviewComponent implements OnInit {
 
     this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (answer) => {
-        this.countrySurveyAnswer = answer;
+        this.countrySurveyAnswer.set(answer);
       }
     });
 
     this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (metadata) => {
-        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
+        this.countrySurveyAnswerLastUpdate.set(metadata?.lastUpdate ?? null);
       }
     });
 
@@ -136,22 +138,22 @@ export class GeneralRDOverviewComponent implements OnInit {
 
   /** Get OA VS closed, restricted and embargoed Publications -----------------------------------------------------> **/
   getPublicationPercentage() {
-    this.queryData.getOSOStats(OAvsTotalPubsPerCountry(this.countryCode, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStats(OAvsTotalPubsPerCountry(this.countryCode, this.year())).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.OAPubsPercentage[0] = this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]);
-        this.OAPubsPercentage[1] = this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]);
-        this.OAPubsPercentageDiff = this.dataShareService.calculateDiff(this.OAPubsPercentage[0], this.OAPubsPercentage[1]);
+        setAt(this.OAPubsPercentage, 0, this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]));
+        setAt(this.OAPubsPercentage, 1, this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]));
+        this.OAPubsPercentageDiff.set(this.dataShareService.calculateDiff(this.OAPubsPercentage()[0], this.OAPubsPercentage()[1]));
       }
     });
   }
 
   /** Get Open VS closed, restricted and embargoed Data -----------------------------------------------------------> **/
   getOpenDataPercentage() {
-    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode, this.prevYear, this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode, this.prevYear, this.year())).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.OpenDataPercentage[0] = this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]);
-        this.OpenDataPercentage[1] = this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]);
-        this.OpenDataPercentageDiff = this.dataShareService.calculateDiff(this.OpenDataPercentage[0], this.OpenDataPercentage[1]);
+        setAt(this.OpenDataPercentage, 0, this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]));
+        setAt(this.OpenDataPercentage, 1, this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]));
+        this.OpenDataPercentageDiff.set(this.dataShareService.calculateDiff(this.OpenDataPercentage()[0], this.OpenDataPercentage()[1]));
       }
     });
   }
@@ -164,7 +166,7 @@ export class GeneralRDOverviewComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (items) => {
-          this.countryNewsItems = items;
+          this.countryNewsItems.set(items);
         }
       });
   }
@@ -176,21 +178,21 @@ export class GeneralRDOverviewComponent implements OnInit {
     if (this.surveyAnswers[1] === null)
       return;
 
-    this.openSoftware[0] = this.surveyAnswers[0]?.['Practices']?.['Question73']?.['Question73-0'] || null;
-    this.openSoftware[1] = this.surveyAnswers[1]?.['Practices']?.['Question73']?.['Question73-0'] || null;
-    this.openSoftwarePercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.openSoftware[0], this.openSoftware[1]);
+    setAt(this.openSoftware, 0, this.surveyAnswers[0]?.['Practices']?.['Question73']?.['Question73-0'] || null);
+    setAt(this.openSoftware, 1, this.surveyAnswers[1]?.['Practices']?.['Question73']?.['Question73-0'] || null);
+    this.openSoftwarePercentageDiff.set(this.dataShareService.calculateDiffAsPercentage(this.openSoftware()[0], this.openSoftware()[1]));
 
-    this.totalInvestment[0] = this.surveyAnswers[0]?.['General']?.['Question5']?.['Question5-0'] || null;
-    this.totalInvestment[1] = this.surveyAnswers[1]?.['General']?.['Question5']?.['Question5-0'] || null;
-    this.investmentPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.totalInvestment[0], this.totalInvestment[1]);
+    setAt(this.totalInvestment, 0, this.surveyAnswers[0]?.['General']?.['Question5']?.['Question5-0'] || null);
+    setAt(this.totalInvestment, 1, this.surveyAnswers[1]?.['General']?.['Question5']?.['Question5-0'] || null);
+    this.investmentPercentageDiff.set(this.dataShareService.calculateDiffAsPercentage(this.totalInvestment()[0], this.totalInvestment()[1]));
 
-    this.rfos[0] = this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0'] || null;
-    this.rfos[1] = this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0'] || null;
-    this.rfosPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.rfos[0], this.rfos[1]);
+    setAt(this.rfos, 0, this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0'] || null);
+    setAt(this.rfos, 1, this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0'] || null);
+    this.rfosPercentageDiff.set(this.dataShareService.calculateDiffAsPercentage(this.rfos()[0], this.rfos()[1]));
 
-    this.rpos[0] = this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0'] || null;
-    this.rpos[1] = this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0'] || null;
-    this.rposPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.rpos[0], this.rpos[1]);
+    setAt(this.rpos, 0, this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0'] || null);
+    setAt(this.rpos, 1, this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0'] || null);
+    this.rposPercentageDiff.set(this.dataShareService.calculateDiffAsPercentage(this.rpos()[0], this.rpos()[1]));
   }
 
   private readonly indicatorsService = inject(CountryPageIndicatorsService);
@@ -198,30 +200,30 @@ export class GeneralRDOverviewComponent implements OnInit {
   /** Left card block renders only if at least one of its cards will be visible (see service). */
   hasAnyLeftCardVisible(): boolean {
     return this.indicatorsService.anyCardVisible([
-      { id: '1', hasData: this.OAPubsPercentage[1]  != null },
-      { id: '2', hasData: this.OpenDataPercentage[1] != null },
-      { id: '3', hasData: this.totalInvestment[1]    != null },
-      { id: '4', hasData: this.openSoftware[1]       != null },
+      { id: '1', hasData: this.OAPubsPercentage()[1]  != null },
+      { id: '2', hasData: this.OpenDataPercentage()[1] != null },
+      { id: '3', hasData: this.totalInvestment()[1]    != null },
+      { id: '4', hasData: this.openSoftware()[1]       != null },
     ]);
   }
 
   hasAnyLeftCardData() {
     return this.dataShareService.hasAnyValue([
-      this.OAPubsPercentage[1],
-      this.OpenDataPercentage[1],
-      this.totalInvestment[1],
-      this.openSoftware[1]
+      this.OAPubsPercentage()[1],
+      this.OpenDataPercentage()[1],
+      this.totalInvestment()[1],
+      this.openSoftware()[1]
     ]);
   }
 
   hasSurveyGeneralData(): boolean {
-    const stiData = this.countrySurveyAnswer?.['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK'];
+    const stiData = this.countrySurveyAnswer()?.['SCIENCE, TECHNOLOGY & INNOVATION - STI POLICY FRAMEWORK'];
     const stiQuestions = ['Question2', 'Question3', 'Question4', 'Question30', 'Question5', 'Question6', 'Question7', 'Question8', 'Question9', 'Question10'];
 
-    const infraData = this.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
+    const infraData = this.countrySurveyAnswer()?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
     const infraQuestions = ['Question14', 'Question21', 'Question23', 'Question32', 'Question33'];
 
-    const policyData = this.countrySurveyAnswer?.['OPEN_SCIENCE_POLICY'];
+    const policyData = this.countrySurveyAnswer()?.['OPEN_SCIENCE_POLICY'];
     const policyQuestions = ['Question11'];
 
     if (!stiData && !infraData && !policyData) {
@@ -237,16 +239,16 @@ export class GeneralRDOverviewComponent implements OnInit {
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
 
   exportToPDF(contents: HTMLElement[], filename?: string) {
-    this.exportActive = true
+    this.exportActive.set(true)
 
     // Χρόνος για να εφαρμοστούν τα styles
     // setTimeout(() => {
     this.pdfService.export(contents, filename).then(() => {
       // this.restoreAnimations(modifiedElements, contents);
-      this.exportActive = false;
+      this.exportActive.set(false);
     }).catch((error) => {
       // this.restoreAnimations(modifiedElements, contents);
-      this.exportActive = false;
+      this.exportActive.set(false);
       console.error('Error during PDF generation:', error);
     });
     // }, 0);
