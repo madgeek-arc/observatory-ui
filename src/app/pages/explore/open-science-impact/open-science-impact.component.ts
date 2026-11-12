@@ -18,7 +18,7 @@ import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData"
 @Component({
     selector: 'app-open-science-impact',
     templateUrl: './open-science-impact.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class OpenScienceImpactComponent implements OnInit {

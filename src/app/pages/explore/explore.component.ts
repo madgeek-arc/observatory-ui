@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import {
   DashboardSideMenuComponent,
@@ -16,19 +16,20 @@ import { exploreIcons } from "./explore.icons";
         DashboardSideMenuComponent,
         RouterOutlet,
     ],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './explore.component.html'
 })
 
 export class ExploreComponent implements OnInit {
+
+  private layoutService = inject(DashboardSideMenuService);
+  private iconService = inject(IconsService);
 
   menuItems: MenuItem[] = [];
   menuSections: MenuSection[] = [];
 
   hasSidebar = true;
   hasAdminMenu = false;
-
-  constructor(private layoutService: DashboardSideMenuService, private iconService: IconsService) {}
 
   ngOnInit() {
     this.iconService.registerIcons(exploreIcons);

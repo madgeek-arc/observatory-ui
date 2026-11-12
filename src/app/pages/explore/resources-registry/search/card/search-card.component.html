@@ -1,4 +1,4 @@
-@for (doc of documents; track $index) {
+@for (doc of documents(); track $index) {
   <div class="uk-card uk-card-default uk-margin-bottom" [attr.id]="'card-' + doc.result.id">
     <div class="uk-card-body">
       @if (alertStates[doc.result.id]) {
@@ -10,7 +10,7 @@
           </div>
         </div>
       }
-      @if (isAdminPage) {
+      @if (isAdminPage()) {
         <div class="uk-flex uk-flex-right uk-margin-bottom">
           <div [ngClass]="{'uk-label-success': doc.result.status === 'APPROVED','uk-label-danger': doc.result.status === 'REJECTED','uk-label-warning': doc.result.status === 'PENDING'}">
             {{ doc.result.status }}
@@ -35,7 +35,7 @@
                 <a [routerLink]="['../document-landing', doc.result.id]">
                   @if ((getHighlightForField(doc, 'title') ?? doc.result.docInfo?.title)) {
                     <span [innerHTML]="getHighlightForField(doc, 'title') ?? doc.result.docInfo?.title"></span>
-                  } @else if (isAdminPage) {
+                  } @else if (isAdminPage()) {
                     <span class="uk-text-muted">&#123; No title found &#125;</span>
                   }
                 </a>
@@ -107,7 +107,7 @@
         }
       }
     </div>
-    @if (isAdminPage) {
+    @if (isAdminPage()) {
       <div class="uk-card-footer">
         <div class="uk-flex uk-flex-right">
           <a [routerLink]="['../document-edit', doc.result.id]" title="Edit Document"

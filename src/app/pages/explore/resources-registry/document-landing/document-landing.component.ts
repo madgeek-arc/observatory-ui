@@ -1,4 +1,4 @@
-import {Component, DestroyRef, inject, model, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, DestroyRef, inject, model, OnInit, ChangeDetectionStrategy, signal} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ResourceRegistryService } from '../resource-registry.service';
 import { Document } from 'src/app/domain/document';
@@ -18,7 +18,7 @@ import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.s
 @Component({
   selector: 'app-document-landing',
   imports: [NgOptimizedImage, CommonModule, PageContentComponent, SidebarMobileToggleComponent, RouterLink, RecommendationsPage],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './document-landing.component.html',
 })
 
@@ -29,26 +29,27 @@ export class DocumentLandingComponent implements OnInit {
   private userService = inject(UserService);
   private stakeholdersService = inject(StakeholdersService);
 
-  documentId: string = null;
-  documentData: Document = null;
+  documentId = signal<string>(null);
+  documentData = signal<Document>(null);
   error: string = null;
   destroyRef = inject(DestroyRef);
 
-  isAdminPage: boolean = false;
+  isAdminPage = signal(false);
 
-  statusMessage: string = null;
-  statusType: 'success' | 'danger' = null;
+  statusMessage = signal<string>(null);
+  statusType = signal<'success' | 'danger'>(null);
 
   surveyModels: Map<string, Model> = new Map();
-  fieldPathsMap: { [key: string]: string } = {};
-  surveyNames: Map<string, string> = new Map();
+  // The template reads these two; they get a new Map/object per change so the OnPush view refreshes
+  fieldPathsMap = signal<{ [key: string]: string }>({});
+  surveyNames = signal<Map<string, string>>(new Map());
 
-  showImage: boolean = true;
+  showImage = signal(true);
 
   ngOnInit() {
 
     if (this.route.snapshot.paramMap.get('stakeholderId') && this.route.snapshot.paramMap.get('stakeholderId') === 'admin-eosc-sb') {
-        this.isAdminPage = true
+        this.isAdminPage.set(true);
     }
 
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
@@ -60,11 +61,11 @@ export class DocumentLandingComponent implements OnInit {
     })
 
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
-      this.documentId = params['documentId'];
-      if (this.documentId) {
-        this.documentService.getDocumentById(this.documentId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      this.documentId.set(params['documentId']);
+      if (this.documentId()) {
+        this.documentService.getDocumentById(this.documentId()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: (data) => {
-            this.documentData = data;
+            this.documentData.set(data);
             this.loadSurveyModels();
           },
           error: (err) => {
@@ -82,12 +83,12 @@ export class DocumentLandingComponent implements OnInit {
     this.userService.currentAdministrator.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(next => {
       const currentGroup = next ?? JSON.parse(sessionStorage.getItem('currentAdministrator'));
       if (currentGroup) {
-        this.isAdminPage = true;
+        this.isAdminPage.set(true);
       } else {
         this.stakeholdersService.getAdministrators(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
           res => {
             this.userService.changeCurrentAdministrator(res as Administrator);
-            this.isAdminPage = true;
+            this.isAdminPage.set(true);
           },
           error => console.error('Failed to load administrator info', error)
         );
@@ -98,37 +99,37 @@ export class DocumentLandingComponent implements OnInit {
   onUpdateStatus(id: string, status: 'APPROVED' | 'REJECTED') {
     this.documentService.updateStatus(id, status).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => {
-        this.statusMessage = status === 'APPROVED' ? 'Document approved successfully.' : 'Document rejected successfully.';
-        this.statusType = 'success' ;
-        setTimeout(() => this.statusMessage = null, 5000);
+        this.statusMessage.set(status === 'APPROVED' ? 'Document approved successfully.' : 'Document rejected successfully.');
+        this.statusType.set('success');
+        setTimeout(() => this.statusMessage.set(null), 5000);
 
         this.documentService.getDocumentById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: (data) => {
-            this.documentData = data;
+            this.documentData.set(data);
           },
           error: (err) => {
             this.error = 'Error fetching document after status update.';
-            this.statusMessage = 'Failed to refresh document data.';
-            this.statusType = 'danger';
+            this.statusMessage.set('Failed to refresh document data.');
+            this.statusType.set('danger');
           }
       });
       },
       error: (err) => {
         this.error = `Error updating document status to ${status}.`;
-        this.statusMessage = 'Failed to update document status.';
-        this.statusType = 'danger';
-        setTimeout(() => this.statusMessage = null, 5000);
+        this.statusMessage.set('Failed to update document status.');
+        this.statusType.set('danger');
+        setTimeout(() => this.statusMessage.set(null), 5000);
         console.error(err);
       }
     });
   }
 
   loadSurveyModels() {
-    if (!this.documentData?.references) {
+    if (!this.documentData()?.references) {
       return;
     }
 
-    const uniqueAnswerIds = [...new Set(this.documentData.references.map(r => r.surveyAnswerId))];
+    const uniqueAnswerIds = [...new Set(this.documentData().references.map(r => r.surveyAnswerId))];
     uniqueAnswerIds.forEach(answerId => {
       this.surveyService.getAnswer(answerId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: (answer) => {
@@ -136,7 +137,7 @@ export class DocumentLandingComponent implements OnInit {
             this.surveyService.getSurvey(answer.surveyId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
               next: (model) => {
                 if ( model.name) {
-                  this.surveyNames.set(answerId, model.name)
+                  this.surveyNames.update(names => new Map(names).set(answerId, model.name));
                 }
                 this.surveyModels.set(answerId, model);
                 this.generateAllPaths();
@@ -151,17 +152,24 @@ export class DocumentLandingComponent implements OnInit {
   }
 
   generateAllPaths() {
-    if (!this.documentData.references) return;
+    if (!this.documentData().references) return;
 
-    this.documentData.references.forEach(ref => {
-      const model = this.surveyModels.get(ref.surveyAnswerId);
-      ref.fields.forEach(fieldId => {
-        const path = this.findPathInModel(model, fieldId);
-        if (path) {
-          this.fieldPathsMap[fieldId] = path;
-        }
+    // findPathInModel throws when another reference's survey has not loaded yet; the paths found before that
+    // were kept on the field, so they are published from a finally block
+    const fieldPaths = {...this.fieldPathsMap()};
+    try {
+      this.documentData().references.forEach(ref => {
+        const model = this.surveyModels.get(ref.surveyAnswerId);
+        ref.fields.forEach(fieldId => {
+          const path = this.findPathInModel(model, fieldId);
+          if (path) {
+            fieldPaths[fieldId] = path;
+          }
+        });
       });
-    });
+    } finally {
+      this.fieldPathsMap.set(fieldPaths);
+    }
   }
 
   findPathInModel(model: Model, targetFieldId: string): string | null {
@@ -243,7 +251,7 @@ export class DocumentLandingComponent implements OnInit {
   }
 
   imageError() {
-    this.showImage = false;
-    console.log(this.showImage);
+    this.showImage.set(false);
+    console.log(this.showImage());
   }
 }

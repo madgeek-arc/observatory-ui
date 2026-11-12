@@ -3,7 +3,7 @@
     <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
   <div inner>
-    @if (!isAdminPage) {
+    @if (!isAdminPage()) {
       <div class="uk-section uk-section-small uk-section-primary uk-preserve-color">
         <div class="uk-container uk-margin-top">
           <h4>European Open Science Resources Registry</h4>
@@ -55,9 +55,9 @@
     }
 
     <div class="uk-section uk-section-small"
-         [ngClass]="isAdminPage ? 'uk-section-default' : 'uk-section-primary uk-preserve-color'">
+         [ngClass]="isAdminPage() ? 'uk-section-default' : 'uk-section-primary uk-preserve-color'">
       <div class="uk-container uk-margin-top">
-        @if (loading) {
+        @if (loading()) {
           <div class="uk-flex uk-flex-center uk-flex-middle">
             <span uk-spinner="ratio: 2"></span>
           </div>
@@ -69,12 +69,12 @@
                 <div id="languageDropdown" data-uk-dropdown="mode: click; pos: bottom-left;  auto-update: true;">
                   <div>
                     <div style="overflow: visible;">
-                      <ng-select [items]="$safeNavigationMigration(languageFacets?.values)" bindLabel="value" bindValue="value" [isOpen]="true"
+                      <ng-select [items]="$safeNavigationMigration(languageFacets()?.values)" bindLabel="value" bindValue="value" [isOpen]="true"
                                  placeholder="Language" [closeOnSelect]="false" class="open" [multiple]="true"
                                  [appendTo]="''"
                                  [dropdownPosition]="'bottom'" [(ngModel)]="selectedLanguages"
-                                 (change)="onFilterChange('language', selectedLanguages)"
-                                 (remove)="onFilterRemove('language', selectedLanguages)" [clearable]="false">
+                                 (change)="onFilterChange('language', selectedLanguages())"
+                                 (remove)="onFilterRemove('language', selectedLanguages())" [clearable]="false">
                         <ng-template ng-option-tmp let-item="item">
                           {{ item.value }} ({{ item.count }})
                         </ng-template>
@@ -92,12 +92,12 @@
                 <div id="countryDropdown" uk-dropdown="mode: click; pos: bottom-left; auto-update: true;">
                   <div>
                     <div style="overflow: visible;">
-                      <ng-select [items]="$safeNavigationMigration(countryFacets?.values)" bindLabel="value" bindValue="value"
+                      <ng-select [items]="$safeNavigationMigration(countryFacets()?.values)" bindLabel="value" bindValue="value"
                                  placeholder="Country"
                                  [isOpen]="true" class="open" [multiple]="true" [closeOnSelect]="false"
                                  [dropdownPosition]="'bottom'" [(ngModel)]="selectedCountry"
-                                 (change)="onFilterChange('country', selectedCountry)"
-                                 (remove)="onFilterRemove('country', selectedCountry)" [clearable]="false">
+                                 (change)="onFilterChange('country', selectedCountry())"
+                                 (remove)="onFilterRemove('country', selectedCountry())" [clearable]="false">
                         <ng-template ng-option-tmp let-item="item">
                           {{ item.value }} ({{ item.count }})
                         </ng-template>
@@ -115,11 +115,11 @@
                 <div id="tagsDropdown" uk-dropdown="mode: click; pos: bottom-left; auto-update: true;">
                   <div>
                     <div style="overflow: visible;">
-                      <ng-select [items]="$safeNavigationMigration(tagFacets?.values)" bindLabel="value" bindValue="value" placeholder="Tags"
+                      <ng-select [items]="$safeNavigationMigration(tagFacets()?.values)" bindLabel="value" bindValue="value" placeholder="Tags"
                                  [multiple]="true" class="open" [isOpen]="true" [closeOnSelect]="false"
                                  [dropdownPosition]="'bottom'" [(ngModel)]="selectedTag"
-                                 (change)="onFilterChange('tags', selectedTag)"
-                                 (remove)="onFilterRemove('tags', selectedTag)"
+                                 (change)="onFilterChange('tags', selectedTag())"
+                                 (remove)="onFilterRemove('tags', selectedTag())"
                                  [clearable]="false">
                         <ng-template ng-option-tmp let-item="item">
                           {{ item.value }} ({{ item.count }})
@@ -133,18 +133,18 @@
                 </div>
               </div>
 
-              @if (isAdminPage) {
+              @if (isAdminPage()) {
                 <div class="uk-inline" style="position: relative;">
                   <button class="uk-button uk-button-default" type="button">Status</button>
                   <div id="statusDropdown" uk-dropdown="mode: click; pos: bottom-left; auto-update: true;">
                     <div>
                       <div style="overflow: visible;">
-                        <ng-select [items]="$safeNavigationMigration(statusFacets?.values)" bindLabel="value" bindValue="value"
+                        <ng-select [items]="$safeNavigationMigration(statusFacets()?.values)" bindLabel="value" bindValue="value"
                                    placeholder="Status"
                                    [multiple]="true" class="open" [isOpen]="true" [closeOnSelect]="false"
                                    [dropdownPosition]="'bottom'" [(ngModel)]="selectedStatus"
-                                   (change)="onFilterChange('status', selectedStatus)"
-                                   (remove)="onFilterRemove('status', selectedStatus)"
+                                   (change)="onFilterChange('status', selectedStatus())"
+                                   (remove)="onFilterRemove('status', selectedStatus())"
                                    [clearable]="false">
                           <ng-template ng-option-tmp let-item="item">
                             {{ item.value }} ({{ item.count }})
@@ -171,7 +171,7 @@
             <div class="uk-inline">
               <span class="uk-form-icon" data-uk-icon="icon: search"></span>
               <input type="text" class="uk-input menuSearch" placeholder="Search..."
-                     [value]="searchQuery"
+                     [value]="searchQuery()"
                      (input)="keywordSubject.next(getInputValue($event))"
                      style="border-radius: 20px;">
             </div>
@@ -179,37 +179,37 @@
           <!-- Badges Container-->
           <div class="badge-container uk-margin-bottom uk-flex">
             <div>
-              @for (language of appliedLanguages; track language) {
+              @for (language of appliedLanguages(); track language) {
                 <span class="filter-badge">
                 <strong>Language: &nbsp;</strong>{{ language }}
                   <button class="remove-btn" type="button" (click)="removeLanguageFilter(language)">x</button>
               </span>
               }
 
-              @for (country of appliedCountries; track country) {
+              @for (country of appliedCountries(); track country) {
                 <span class="filter-badge">
                 <strong>Country: &nbsp;</strong> {{ country }}
                   <button class="remove-btn" type="button" (click)="removeCountryFilter(country)">x</button>
               </span>
               }
 
-              @for (tag of appliedTags; track tag) {
+              @for (tag of appliedTags(); track tag) {
                 <span class="filter-badge">
                 <strong>Tag: &nbsp;</strong> {{ tag }}
                   <button class="remove-btn" type="button" (click)="removeTagFilter(tag)">x</button>
               </span>
               }
 
-              @for (status of appliedStatus; track status) {
+              @for (status of appliedStatus(); track status) {
                 <span class="filter-badge">
                 <strong>Status: </strong> {{ status }}
                   <button class="remove-btn" type="button" (click)="removeStatusFilter(status)">x</button>
               </span>
               }
 
-              @if (searchQuery) {
+              @if (searchQuery()) {
                 <span class="filter-badge">
-                <strong>Keyword: &nbsp;</strong> {{ searchQuery }}
+                <strong>Keyword: &nbsp;</strong> {{ searchQuery() }}
                   <button class="remove-btn" type="button" (click)="removeKeywordFilter()">x</button>
               </span>
               }
@@ -217,24 +217,24 @@
           </div>
 
 
-          @if (documents.results.length > 0) {
+          @if (documents().results.length > 0) {
             <div>
-              <app-search-results [documents]="documents.results" [isAdminPage]="isAdminPage"
+              <app-search-results [documents]="documents().results" [isAdminPage]="isAdminPage()"
                                   (onUpdateStatus)="onUpdateStatus($event.id, $event.status)"></app-search-results>
               <!--Pagination Section-->
-              @if (documents.total > 0) {
+              @if (documents().total > 0) {
                 <div class="uk-grid uk-row-first uk-margin-bottom uk-margin-top">
                   <div class="uk-width-1-1">
                     <div class="uk-flex uk-flex-between uk-flex-middle">
                       <!--Info text-->
                       <p class="big-text uk-margin-remove">
-                        <span class="uk-text-bold">{{ documents.total }}</span> Documents, Page
-                        <span class="uk-text-bold">{{ this.currentPage }}</span> of {{ this.totalPages }}
+                        <span class="uk-text-bold">{{ documents().total }}</span> Documents, Page
+                        <span class="uk-text-bold">{{ currentPage() }}</span> of {{ totalPages() }}
                       </p>
                       <!--Pagination Controls-->
-                      @if (totalPages > 1) {
+                      @if (totalPages() > 1) {
                         <ul class="uk-pagination">
-                          @if (currentPage > 2 && totalPages > 5) {
+                          @if (currentPage() > 2 && totalPages() > 5) {
                             <li>
                               <a (click)="goToPage(0)" class="uk-pagination-link">
                                 <span uk-pagination-previous></span>
@@ -243,7 +243,7 @@
                             </li>
                           }
                           <!--Previous Page-->
-                          @if (currentPage > 1) {
+                          @if (currentPage() > 1) {
                             <li>
                               <a (click)="previousPage()" class="uk-pagination-link">
                                 <span uk-pagination-previous></span>
@@ -251,13 +251,13 @@
                             </li>
                           }
                           <!--Page Numbers-->
-                          @for (i of pages; track i) {
-                            <li [ngClass]="i == currentPage ? 'uk-active uk-animation-fade' : ''">
+                          @for (i of pages(); track i) {
+                            <li [ngClass]="i == currentPage() ? 'uk-active uk-animation-fade' : ''">
                               <a (click)="goToPage(i - 1)" class="uk=pagination-link">{{ i }}</a>
                             </li>
                           }
                           <!--Next Page-->
-                          @if (currentPage < totalPages) {
+                          @if (currentPage() < totalPages()) {
                             <li>
                               <a (click)="nextPage()" class="uk=pagination-link">
                                 <span uk-pagination-next></span>
@@ -265,9 +265,9 @@
                             </li>
                           }
                           <!--Last Page-->
-                          @if (currentPage < totalPages - 1 && totalPages > 5) {
+                          @if (currentPage() < totalPages() - 1 && totalPages() > 5) {
                             <li>
-                              <a (click)="goToPage(totalPages - 1)" class="uk-pagination-link">
+                              <a (click)="goToPage(totalPages() - 1)" class="uk-pagination-link">
                                 <span uk-pagination-next></span>
                                 <span uk-pagination-next></span>
                               </a>
@@ -281,7 +281,7 @@
               }
             </div>
           } @else {
-            @if (searching) {
+            @if (searching()) {
               <div class="uk-flex uk-flex-center uk-margin-large-top">
                 <span uk-spinner="ratio: 2"></span>
               </div>

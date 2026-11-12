@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from "@angular/core";
+import { Component, input, output, ChangeDetectionStrategy } from "@angular/core";
 import { DatePipe, LowerCasePipe, NgClass, NgOptimizedImage } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { Document, HighlightedResults } from "src/app/domain/document";
@@ -12,15 +12,15 @@ import { Document, HighlightedResults } from "src/app/domain/document";
     NgClass,
     NgOptimizedImage
 ],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'search-card.component.html'
 })
 
 export class SearchCardComponent {
-  @Input() documents: HighlightedResults<Document>[] = [];
-  @Input() isAdminPage: boolean = false;
+  documents = input<HighlightedResults<Document>[]>([]);
+  isAdminPage = input<boolean>(false);
 
-  @Output() onUpdateStatus: EventEmitter<{ id: string, status: 'APPROVED' | 'REJECTED' }> = new EventEmitter<{ id: string, status: 'APPROVED' | 'REJECTED' }>();
+  onUpdateStatus = output<{ id: string, status: 'APPROVED' | 'REJECTED' }>();
 
   showImage = new Map<string, boolean>();
 

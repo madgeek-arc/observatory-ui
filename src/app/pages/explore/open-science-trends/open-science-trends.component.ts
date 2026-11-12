@@ -1,9 +1,9 @@
-import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy, signal } from "@angular/core";
 import * as Highcharts from "highcharts";
 import { LegendOptions, SeriesOptionsType } from "highcharts";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { trendOfOAPublications, trendOfOpenData } from "../OSO-stats-queries/explore-queries";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
 import { LATEST_SURVEY_YEAR, SURVEY_YEARS } from "src/app/domain/survey-years";
@@ -19,7 +19,7 @@ import { PageContentComponent } from "src/survey-tool/app/shared/page-content/pa
 @Component({
   selector: 'app-open-science-trends',
   templateUrl: './open-science-trends.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     SidebarMobileToggleComponent,
     BarOrColumnChartComponent,
@@ -31,8 +31,11 @@ import { PageContentComponent } from "src/survey-tool/app/shared/page-content/pa
 export class OpenScienceTrendsComponent implements OnInit {
 
   private destroyRef = inject(DestroyRef);
-  exportActive = false;
-  lastUpdateDate?: string;
+  private queryData = inject(EoscReadinessDataService);
+  private pdfService = inject(PdfExportService);
+  private exploreService = inject(ExploreService);
+  exportActive = signal(false);
+  lastUpdateDate = toSignal(this.exploreService._lastUpdateDate);
   smallScreen = false;
 
   years = [...SURVEY_YEARS];
@@ -40,14 +43,17 @@ export class OpenScienceTrendsComponent implements OnInit {
 
   columnChartCategories = ['Open Access Publications', 'Fair Data', 'Data Management', 'Open Data', 'Open Software', 'Services', 'Connecting repositories to EOSC', 'Data Stewardship', 'Long-term Data Preservation', 'Skills / Training', 'Incentives / Rewards for OS', 'Citizen Science'];
 
-  columnChartSeries: SeriesOptionsType[] = [];
+  columnChartSeries = signal<SeriesOptionsType[]>([]);
+  // Filled one response per year; the signal gets the sorted series once every year has arrived
+  private columnChartSeriesByYear: SeriesOptionsType[] = [];
   columnChartTitles = {
     title: 'Trends in National Open Science Policies by Areas',
     xAxis: 'Policy on',
     yAxis: 'Percentage of countries with national policies',
   }
 
-  columnChart2Series: SeriesOptionsType[] = [];
+  columnChart2Series = signal<SeriesOptionsType[]>([]);
+  private columnChart2SeriesByYear: SeriesOptionsType[] = [];
   columnChart2Titles = {
     title: 'Trends in Financial Strategy on EOSC and Open Science by Areas',
     xAxis: 'Financial Strategy on',
@@ -67,8 +73,8 @@ export class OpenScienceTrendsComponent implements OnInit {
   };
 
 
-  stackedColumnCategories = [];
-  stackedColumnSeries = [] as Highcharts.SeriesColumnOptions[];
+  stackedColumnCategories = signal<string[]>([]);
+  stackedColumnSeries = signal<Highcharts.SeriesColumnOptions[]>([]);
   yAxisTitle = 'Number of Publications';
   legend: LegendOptions = {
     // align: 'right',
@@ -84,13 +90,10 @@ export class OpenScienceTrendsComponent implements OnInit {
   };
   tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
 
-  stackedColumn2Categories: string[] = [];
-  stackedColumn2Series: Highcharts.SeriesColumnOptions[] = [];
+  stackedColumn2Categories = signal<string[]>([]);
+  stackedColumn2Series = signal<Highcharts.SeriesColumnOptions[]>([]);
   yAxis2Title = 'Number of Data Sets';
 
-
-  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
-              private exploreService: ExploreService) {}
 
   ngOnInit() {
     this.smallScreen = this.exploreService.isMobileOrSmallScreen;
@@ -102,10 +105,6 @@ export class OpenScienceTrendsComponent implements OnInit {
 
     this.getTrendsPublications();
     this.getTrendsOpenData();
-
-    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: value => this.lastUpdateDate = value
-    });
   }
 
   /** Bar charts --------------------------------------------------------------------------------------------------> **/
@@ -128,11 +127,11 @@ export class OpenScienceTrendsComponent implements OnInit {
     this.queryData.getQuestions(year, nameArr).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
-        this.columnChartSeries.push(this.exploreService.createColumnChartSeries(value, year));
+        this.columnChartSeriesByYear.push(this.exploreService.createColumnChartSeries(value, year));
 
-        if (this.columnChartSeries.length === this.years.length) { // When series complete
-          this.columnChartSeries.sort((a, b) => a.name.localeCompare(b.name));
-          this.columnChartSeries = [...this.columnChartSeries]; // Trigger angular detection change
+        if (this.columnChartSeriesByYear.length === this.years.length) { // When series complete
+          this.columnChartSeriesByYear.sort((a, b) => a.name.localeCompare(b.name));
+          this.columnChartSeries.set([...this.columnChartSeriesByYear]);
         }
       },
       error: err => {console.error(err)}
@@ -158,11 +157,11 @@ export class OpenScienceTrendsComponent implements OnInit {
     this.queryData.getQuestions(year, nameArr).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
-        this.columnChart2Series.push(this.exploreService.createColumnChartSeries(value, year));
+        this.columnChart2SeriesByYear.push(this.exploreService.createColumnChartSeries(value, year));
 
-        if (this.columnChart2Series.length === this.years.length) { // When series complete
-          this.columnChart2Series.sort((a, b) => a.name.localeCompare(b.name));
-          this.columnChart2Series = [...this.columnChart2Series]; // Trigger angular detection change
+        if (this.columnChart2SeriesByYear.length === this.years.length) { // When series complete
+          this.columnChart2SeriesByYear.sort((a, b) => a.name.localeCompare(b.name));
+          this.columnChart2Series.set([...this.columnChart2SeriesByYear]);
         }
       },
       error: err => {console.error(err)}
@@ -191,15 +190,17 @@ export class OpenScienceTrendsComponent implements OnInit {
   getTrendsPublications() {
     this.queryData.getOSOStatsChartData(trendOfOAPublications(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
+        const stackedColumnSeries: Highcharts.SeriesColumnOptions[] = [];
         value.series.forEach((series, index) => {
           const tmpSeries: SeriesOptionsType = {
             type: 'column',
             name: value.dataSeriesNames[index],
             data: series.data,
           };
-          this.stackedColumnSeries.push(tmpSeries);
+          stackedColumnSeries.push(tmpSeries);
         });
-        this.stackedColumnCategories = value.xAxis_categories;
+        this.stackedColumnSeries.set(stackedColumnSeries);
+        this.stackedColumnCategories.set(value.xAxis_categories);
       }
     });
   }
@@ -208,16 +209,18 @@ export class OpenScienceTrendsComponent implements OnInit {
   getTrendsOpenData() {
     this.queryData.getOSOStatsChartData(trendOfOpenData(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
+        const stackedColumn2Series: Highcharts.SeriesColumnOptions[] = [];
         value.series.forEach((series, index) => {
           let tmpSeries: SeriesOptionsType = {
             type: 'column',
             name: value.dataSeriesNames[index],
             data: series.data
           }
-          this.stackedColumn2Series.push(tmpSeries);
+          stackedColumn2Series.push(tmpSeries);
         });
 
-        this.stackedColumn2Categories = value.xAxis_categories;
+        this.stackedColumn2Series.set(stackedColumn2Series);
+        this.stackedColumn2Categories.set(value.xAxis_categories);
       }
     });
   }
@@ -225,11 +228,11 @@ export class OpenScienceTrendsComponent implements OnInit {
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
 
   exportToPDF(contents: HTMLElement[], filename?: string) {
-    this.exportActive = true
+    this.exportActive.set(true)
     this.pdfService.export(contents, filename).then(() => {
-      this.exportActive = false;
+      this.exportActive.set(false);
     }).catch((error) => {
-      this.exportActive = false;
+      this.exportActive.set(false);
       console.error('Error during PDF generation:', error);
     });
   }

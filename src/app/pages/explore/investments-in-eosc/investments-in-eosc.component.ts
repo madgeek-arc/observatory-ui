@@ -1,10 +1,11 @@
-import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy, signal } from "@angular/core";
+import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { zip } from "rxjs/internal/observable/zip";
 import { RawData, Row, Data } from "src/app/domain/raw-data";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { ExploreService } from "../explore.service";
+import { setAt } from "src/app/shared/utils/set-at";
 import { LATEST_SURVEY_YEAR, PREVIOUS_SURVEY_YEAR, SURVEY_YEARS } from "src/app/domain/survey-years";
 import { LegendOptions, PointOptionsObject, SeriesBarOptions, SeriesBubbleOptions } from "highcharts";
 import { OAPubsPerCountry } from "../OSO-stats-queries/explore-queries";
@@ -22,7 +23,7 @@ type MergedElement = { x: string; y: string; z: string; name: string; country: s
 @Component({
     selector: 'app-investments-in-eosc',
     templateUrl: './investments-in-eosc.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
       SidebarMobileToggleComponent,
       PieChartComponent,
@@ -38,17 +39,20 @@ type MergedElement = { x: string; y: string; z: string; name: string; country: s
 export class InvestmentsInEoscComponent implements OnInit {
 
   private destroyRef = inject(DestroyRef);
+  private queryData = inject(EoscReadinessDataService);
+  private pdfService = inject(PdfExportService);
+  private exploreService = inject(ExploreService);
   protected trendService = inject(ExploreService)
-  exportActive = false;
+  exportActive = signal(false);
 
   smallScreen = false;
-  lastUpdateDate?: string;
+  lastUpdateDate = toSignal(this.exploreService._lastUpdateDate);
 
   years = [...SURVEY_YEARS];
   year = LATEST_SURVEY_YEAR;
 
-  treeGraph: PointOptionsObject[] = [];
-  bar: SeriesBarOptions[] = [];
+  treeGraph = signal<PointOptionsObject[]>([]);
+  bar = signal<SeriesBarOptions[]>([]);
   legendOptions: LegendOptions = {
     align: 'center',
     verticalAlign: 'top',
@@ -57,7 +61,7 @@ export class InvestmentsInEoscComponent implements OnInit {
     borderWidth: 1,
   };
 
-  variablePie = [];
+  variablePie = signal<any[]>([]);
 
   pieTooltip = {
     headerFormat: '',
@@ -66,7 +70,7 @@ export class InvestmentsInEoscComponent implements OnInit {
       'Investment in millions of Euro: <b>{point.y}</b><br/>'
   }
 
-  bubbleWithPlotLines = [] as SeriesBubbleOptions[];
+  bubbleWithPlotLines = signal<SeriesBubbleOptions[]>([]);
   bubbleChartTooltip: Highcharts.TooltipOptions = {
     useHTML: true,
     followPointer: true,
@@ -96,16 +100,13 @@ export class InvestmentsInEoscComponent implements OnInit {
   //   followPointer: true
   // }
 
-  totalInvestments: number[] = [];
+  totalInvestments = signal<number[]>([]);
 
   barChartTitles = {
     title: 'Overview of investments in EOSC and Open Science in European Countries',
     xAxis: '',
     yAxis: '',
   }
-
-  constructor(private queryData: EoscReadinessDataService, private pdfService: PdfExportService,
-              private exploreService: ExploreService) {}
 
   ngOnInit() {
     this.getPieChartData();
@@ -116,17 +117,13 @@ export class InvestmentsInEoscComponent implements OnInit {
     });
 
     this.smallScreen = this.exploreService.isMobileOrSmallScreen;
-
-    this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: value => this.lastUpdateDate = value
-    });
   }
 
   /** Get total investments ---------------------------------------------------------------------------------------> **/
   getTotalInvestments(year: string, index: number) {
     this.queryData.getQuestion(year, 'Question5').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.totalInvestments[index] = this.calculateSum(value);
+        setAt(this.totalInvestments, index, this.calculateSum(value));
       }
     });
   }
@@ -135,8 +132,8 @@ export class InvestmentsInEoscComponent implements OnInit {
   getTreeGraphData() {
     this.queryData.getQuestion(this.year, 'Question5').pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       res => {
-        this.bar = this.exploreService.createInvestmentsBar(res);
-        this.treeGraph = this.exploreService.createRanges(res);
+        this.bar.set(this.exploreService.createInvestmentsBar(res));
+        this.treeGraph.set(this.exploreService.createRanges(res));
       }
     );
   }
@@ -150,7 +147,7 @@ export class InvestmentsInEoscComponent implements OnInit {
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
-        this.bubbleWithPlotLines = this.createBubbleSeries([value[0], value[1]], value[2]);
+        this.bubbleWithPlotLines.set(this.createBubbleSeries([value[0], value[1]], value[2]));
       },
       error: err => {console.error(err)}
     });
@@ -203,7 +200,7 @@ export class InvestmentsInEoscComponent implements OnInit {
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         // console.log(value);
-        this.variablePie = this.createPieSeries(value);
+        this.variablePie.set(this.createPieSeries(value));
         // this.countryArray = this.mergeByCountryCode(value);
       },
       error: err => {console.error(err)}
@@ -236,11 +233,11 @@ export class InvestmentsInEoscComponent implements OnInit {
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
   exportToPDF(contents: HTMLElement[], filename?: string) {
     console.log('Contents to export:', contents);
-    this.exportActive = true
+    this.exportActive.set(true)
     this.pdfService.export(contents, filename).then(() => {
-      this.exportActive = false;
+      this.exportActive.set(false);
     }).catch((error) => {
-      this.exportActive = false;
+      this.exportActive.set(false);
       console.error('Error during PDF generation:', error);
     });
   }

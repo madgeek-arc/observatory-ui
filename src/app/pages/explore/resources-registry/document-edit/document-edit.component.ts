@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from "@angular/core";
+import { Component, inject, OnInit, ViewChild, ChangeDetectionStrategy, signal } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { ResourceRegistryService } from "src/app/pages/explore/resources-registry/resource-registry.service";
@@ -14,29 +14,28 @@ import { UntypedFormGroup } from "@angular/forms";
   templateUrl: './document-edit.component.html',
   standalone: true,
   imports: [SurveyComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [WebsocketService]
 })
 
 export class DocumentEditComponent implements OnInit {
 
+  private route = inject(ActivatedRoute);
+  private resourceRegistryService = inject(ResourceRegistryService);
+  private router = inject(Router);
+
   @ViewChild(SurveyComponent) child: SurveyComponent
 
   documentId: string | null = null;
   // document: Document | null = null;
-  docModel: Model;
-  payload: object = null;
-  errorMessage: string = null;
-
-  constructor(
-    private route: ActivatedRoute,
-    private resourceRegistryService: ResourceRegistryService, private router: Router,
-  ) {}
+  docModel = signal<Model>(undefined);
+  payload = signal<object>(null);
+  errorMessage = signal<string>(null);
 
   ngOnInit(): void {
     this.resourceRegistryService.getDocumentModel().subscribe({
       next: (model: Model) => {
-        this.docModel = model
+        this.docModel.set(model);
       },
       error: (error) => {
         console.error('Failed to load document model:', error);
@@ -49,7 +48,7 @@ export class DocumentEditComponent implements OnInit {
       this.resourceRegistryService.getDocumentById(this.documentId).subscribe({
         next: (doc: Document) => {
           // this.document = doc;
-          this.payload = {'answer': {docInfo: doc.docInfo}};
+          this.payload.set({'answer': {docInfo: doc.docInfo}});
         },
         error: (error) => {
           console.error('Error fetching document:', error);
@@ -73,7 +72,7 @@ export class DocumentEditComponent implements OnInit {
           this.router.navigate(['document-landing', this.documentId], {relativeTo: this.route.parent}).then();
         },
         error: () => {
-          this.errorMessage = 'Failed to save the document';
+          this.errorMessage.set('Failed to save the document');
         }
       });
     }

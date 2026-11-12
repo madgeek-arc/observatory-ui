@@ -1,9 +1,9 @@
-@if (recommendedDocs.length > 0) {
+@if (recommendedDocs().length > 0) {
   <div class="uk-container uk-margin-large-top">
     <h4 class="uk-text-bold uk-margin-bottom">Explore more resources</h4>
 
     <div class="uk-child-width-1-1" data-uk-grid>
-      @for (doc of recommendedDocs; track $index) {
+      @for (doc of recommendedDocs(); track $index) {
         <div class="uk-margin">
           <div class="uk-card uk-card-default uk-card-body">
 

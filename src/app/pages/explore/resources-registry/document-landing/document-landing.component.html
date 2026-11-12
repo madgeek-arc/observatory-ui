@@ -1,34 +1,34 @@
-<!-- <pre>{{documentData | json}}</pre>-->
+<!-- <pre>{{documentData() | json}}</pre>-->
 <div page-content [fullWidth]="true">
   <div actions class="uk-section-primary uk-preserve-color">
     <sidebar-mobile-toggle class="uk-hidden@m uk-display-block uk-padding-small"></sidebar-mobile-toggle>
   </div>
   <div inner>
-    @if (!isAdminPage) {
+    @if (!isAdminPage()) {
       <div class="uk-section uk-section-small uk-section-primary uk-preserve-color" style="min-height: 95vh">
-        @if (documentData !== null) {
+        @if (documentData() !== null) {
           <div class="uk-container uk-margin-large-top">
             <div class="uk-flex uk-flex-between uk-flex-middle" data-uk-grid>
               <div class="uk-flex uk-flex-middle uk-width-expand">
-                @if (showImage) {
-                  <img ngSrc="../../survey-tool/assets/images/flags/{{$safeNavigationMigration(documentData.docInfo?.country) | lowercase}}-flag-round.png"
+                @if (showImage()) {
+                  <img ngSrc="../../survey-tool/assets/images/flags/{{$safeNavigationMigration(documentData().docInfo?.country) | lowercase}}-flag-round.png"
                        (error)="imageError()"
                        class="flag-image uk-margin-small-right" width="30" height="20" alt="rounded flag image">
                 }
-                <h4 class="uk-margin-remove">{{ documentData.docInfo?.title }}</h4>
+                <h4 class="uk-margin-remove">{{ documentData().docInfo?.title }}</h4>
               </div>
               <span class="uk-margin-left">
-                Last Update: {{ ($safeNavigationMigration(documentData?.docInfo?.modificationDate) | date:'dd/MM/yyyy') || documentData?.docInfo?.modificationDate || '--' }}
+                Last Update: {{ ($safeNavigationMigration(documentData()?.docInfo?.modificationDate) | date:'dd/MM/yyyy') || documentData()?.docInfo?.modificationDate || '--' }}
               </span>
             </div>
-            <p>{{ documentData.docInfo?.originalTitles }}</p>
+            <p>{{ documentData().docInfo?.originalTitles }}</p>
             <div class="uk-grid uk-grid-small">
               <div class="uk-width-2-3@m">
                 <h4>Short Description</h4>
-                <p>{{ documentData.docInfo?.shortDescription.text }}</p>
+                <p>{{ documentData().docInfo?.shortDescription.text }}</p>
                 <div class="uk-flex uk-flex-center">
-                  @if (documentData?.url) {
-                    <a [href]="$safeNavigationMigration(documentData?.url)" target="_blank" class="uk-button uk-button-primary uk-border-pill">
+                  @if (documentData()?.url) {
+                    <a [href]="$safeNavigationMigration(documentData()?.url)" target="_blank" class="uk-button uk-button-primary uk-border-pill">
                       Full text
                     </a>
                   }
@@ -37,24 +37,24 @@
               <div class="uk-width-1-3@m">
                 <div class="uk-card uk-card-default uk-card-body uk-border-rounded" style="border-radius: 15px; border: 2px solid #40E0D0;">
                   <h5 class="uk-text-center">Key Facts</h5>
-                  <p><strong>Country:</strong> {{ documentData.docInfo?.country }}</p>
+                  <p><strong>Country:</strong> {{ documentData().docInfo?.country }}</p>
                   <p>
                     <strong>Start date:</strong>
-                    {{ ($safeNavigationMigration(documentData.docInfo?.startDate) | date:'dd/MM/yyyy') || documentData.docInfo?.startDate || '--' }}
+                    {{ ($safeNavigationMigration(documentData().docInfo?.startDate) | date:'dd/MM/yyyy') || documentData().docInfo?.startDate || '--' }}
                   </p>
                   <p>
                     <strong>End date:</strong>
-                    {{ ($safeNavigationMigration(documentData.docInfo?.endDate) | date: 'dd/MM/yyyy') || documentData.docInfo?.endDate || '--' }}
+                    {{ ($safeNavigationMigration(documentData().docInfo?.endDate) | date: 'dd/MM/yyyy') || documentData().docInfo?.endDate || '--' }}
                   </p>
                   <p>
                     <strong>Publication date:</strong>
-                    {{ ($safeNavigationMigration(documentData.docInfo?.publicationDate) | date:'yyyy') || documentData.docInfo?.publicationDate || '--' }}
+                    {{ ($safeNavigationMigration(documentData().docInfo?.publicationDate) | date:'yyyy') || documentData().docInfo?.publicationDate || '--' }}
                   </p>
-                  <p><strong>Responsible organisation:</strong> {{ documentData.docInfo?.organisations }}</p>
-                  <p><strong>Language:</strong> {{ documentData.docInfo?.language }}</p>
-                  @if (documentData.docInfo?.authors) {
+                  <p><strong>Responsible organisation:</strong> {{ documentData().docInfo?.organisations }}</p>
+                  <p><strong>Language:</strong> {{ documentData().docInfo?.language }}</p>
+                  @if (documentData().docInfo?.authors) {
                     <p><strong>Authors:</strong>
-                      @for (author of documentData.docInfo?.authors; track $index; let last = $last) {
+                      @for (author of documentData().docInfo?.authors; track $index; let last = $last) {
                         <span>
                           {{ author.name }} {{ author.orcid }}{{ !last ? ', ' : '' }}
                         </span>
@@ -69,16 +69,16 @@
       </div>
     } @else {
       <div class="uk-section uk-section-small uk-section-default">
-        @if (documentData !== null) {
+        @if (documentData() !== null) {
           <div class="uk-container uk-container-expand">
             <div class="uk-grid-divider uk-grid" data-uk-grid>
               <div class="uk-width-3-4 uk-first-column">
                 <!-- ALERT -->
-                @if (statusMessage) {
+                @if (statusMessage()) {
                   <div class="uk-width-1-1 uk-margin-small-bottom">
                     <div class="uk-alert uk-width-auto" data-uk-alert
-                         [ngClass]="{'uk-alert-success': statusType==='success', 'uk-alert-danger': statusType==='danger'}">
-                      {{ statusMessage }}<a class="uk-alert-close" data-uk-close (click)="statusMessage = null"></a>
+                         [ngClass]="{'uk-alert-success': statusType()==='success', 'uk-alert-danger': statusType()==='danger'}">
+                      {{ statusMessage() }}<a class="uk-alert-close" data-uk-close (click)="statusMessage.set(null)"></a>
                     </div>
                   </div>
                 }
@@ -86,8 +86,8 @@
                   <div class="landing-action-bar uk-box-shadow-small uk-margin-bottom uk-text-bolder">
                     <div class="uk-grid uk-grid-small uk-flex-between uk-text-xsmall uk-flex-middle uk-grid-divider" data-uk-grid>
                       <div class="uk-width-auto uk-first-column">
-                        @if (documentData?.url) {
-                          <a [href]="$safeNavigationMigration(documentData?.url)" target="_blank" class="uk-flex uk-flex-middle uk-button-link">
+                        @if (documentData()?.url) {
+                          <a [href]="$safeNavigationMigration(documentData()?.url)" target="_blank" class="uk-flex uk-flex-middle uk-button-link">
                             <span class="material-symbols-outlined uk-margin-small-left" style="font-size: 20px">download</span>
                             <span>Full text</span>
                           </a>
@@ -95,15 +95,15 @@
                       </div>
                       <div class="uk-width-expand">
                         <div class="uk-grid uk-grid-small uk-flex-middle uk-child-width-auto" data-uk-grid>
-                          <a [routerLink]="['../../document-edit', documentId]" class="uk-flex uk-flex-middle uk-button-link">
+                          <a [routerLink]="['../../document-edit', documentId()]" class="uk-flex uk-flex-middle uk-button-link">
                             <span class="material-symbols-outlined uk-margin-small-left" style="font-size: 20px">edit</span>
                             <span>Edit</span>
                           </a>
-                          <a (click)="onUpdateStatus(documentData.id, 'APPROVED')" class="uk-flex uk-flex-middle uk-button-link">
+                          <a (click)="onUpdateStatus(documentData().id, 'APPROVED')" class="uk-flex uk-flex-middle uk-button-link">
                             <span class="material-symbols-outlined uk-margin-small-left" style="font-size: 20px">check_circle</span>
                             <span>Approve</span>
                           </a>
-                          <a (click)="onUpdateStatus(documentData.id, 'REJECTED')" class="uk-flex uk-flex-middle uk-button-link">
+                          <a (click)="onUpdateStatus(documentData().id, 'REJECTED')" class="uk-flex uk-flex-middle uk-button-link">
                             <span class="material-symbols-outlined uk-margin-small-left" style="font-size: 20px">
                               cancel
                             </span>
@@ -116,25 +116,25 @@
                 </div>
                 <div class="uk-flex uk-flex-between uk-flex-middle">
                   <div class="uk-flex uk-flex-middle">
-                    @if (showImage) {
-                      <img ngSrc="../../survey-tool/assets/images/flags/{{$safeNavigationMigration(documentData.docInfo?.country) | lowercase}}-flag-round.png"
+                    @if (showImage()) {
+                      <img ngSrc="../../survey-tool/assets/images/flags/{{$safeNavigationMigration(documentData().docInfo?.country) | lowercase}}-flag-round.png"
                            class="flag-image uk-margin-small-right" width="30" height="20" alt="rounded flag image"
                            (error)="imageError()">
                     }
-                    <h1 class="uk-margin-remove uk-h5">{{ documentData.docInfo?.title }}</h1>
+                    <h1 class="uk-margin-remove uk-h5">{{ documentData().docInfo?.title }}</h1>
                   </div>
                 </div>
-                <p>{{ documentData.docInfo?.originalTitles }}</p>
+                <p>{{ documentData().docInfo?.originalTitles }}</p>
                 <div>
                   <span>
-                    Last Update: {{ ($safeNavigationMigration(documentData?.docInfo?.modificationDate) | date:'dd/MM/yyyy') || documentData?.docInfo?.modificationDate || '--' }}
+                    Last Update: {{ ($safeNavigationMigration(documentData()?.docInfo?.modificationDate) | date:'dd/MM/yyyy') || documentData()?.docInfo?.modificationDate || '--' }}
                   </span>
                 </div>
                 <div class="uk-margin-medium-top">
-                  @if (documentData.docInfo?.authors) {
+                  @if (documentData().docInfo?.authors) {
                     <div class="uk-text-small">
                       <span class="uk-text-meta uk-margin-xsmall-right">Authors:</span>
-                      @for (author of documentData.docInfo?.authors; track $index; let last = $last) {
+                      @for (author of documentData().docInfo?.authors; track $index; let last = $last) {
                         <span class="uk-text-italic uk-text-default">
                           {{ author.name }} {{ author.orcid }}{{ !last ? ', ' : '' }}
                         </span>
@@ -144,34 +144,34 @@
                   <div class="uk-margin-top uk-text-small">
                     <div class="uk-text-meta uk-flex uk-flex-middle">
                       Short Description
-                      @if (documentData.docInfo?.shortDescription?.generated) {
+                      @if (documentData().docInfo?.shortDescription?.generated) {
                         <span class="material-symbols-outlined uk-margin-xsmall-left" style="font-size: 20px">star_shine</span>
                       }
                     </div>
-                    <div class="uk-text-justify">{{ documentData.docInfo?.shortDescription.text }}</div>
+                    <div class="uk-text-justify">{{ documentData().docInfo?.shortDescription.text }}</div>
                   </div>
                   <div class="uk-card card-simple uk-margin-top">
                     <div class="uk-card-body uk-card-small">
                       <div class="">
                         <div class="uk-text-meta uk-text-xsmall">Responsible organisation</div>
-                        <div class="uk-text-default">{{ documentData.docInfo?.organisations }}</div>
+                        <div class="uk-text-default">{{ documentData().docInfo?.organisations }}</div>
                       </div>
                     </div>
                   </div>
                   <div>
                   </div>
-                  @if (documentData.docInfo?.tags) {
+                  @if (documentData().docInfo?.tags) {
                     <div class="uk-text-small uk-margin-top">
                       <span class="uk-text-meta uk-margin-small-right">Tags:</span>
-                      @for (tag of documentData.docInfo?.tags; track $index;) {
+                      @for (tag of documentData().docInfo?.tags; track $index;) {
                         <span class="uk-badge uk-margin-small-right">{{ tag }}</span>
                       }
                     </div>
                   }
-                  @if (documentData.docInfo?.otherTags) {
+                  @if (documentData().docInfo?.otherTags) {
                     <div class="uk-text-small uk-margin-top">
                       <span class="uk-text-meta uk-margin-small-right">Other tags:</span>
-                      @for (tag of documentData.docInfo?.otherTags; track $index;) {
+                      @for (tag of documentData().docInfo?.otherTags; track $index;) {
                         <span class="badge-simple uk-margin-small-right">{{ tag }}</span>
                       }
                     </div>
@@ -201,14 +201,14 @@
                         <span>Text</span>
                       </a>
                     </li>
-                    @if (documentData.references) {
+                    @if (documentData().references) {
                       <li>
                         <a href="#">
                           <span>Referenced in</span>
                         </a>
                       </li>
                     }
-                    @if (documentData.docInfo?.links) {
+                    @if (documentData().docInfo?.links) {
                       <li>
                         <a href="#">
                           <span>Links found</span>
@@ -220,19 +220,19 @@
                     <li aria-hidden="false" class="uk-active" style="animation-duration: 200ms;">
                       <div class="uk-margin-top uk-text-small">
                         <div class="uk-text-meta uk-flex uk-flex-middle">Abstract
-                          @if (documentData.docInfo?.abstract?.generated) {
+                          @if (documentData().docInfo?.abstract?.generated) {
                             <span class="material-symbols-outlined uk-margin-xsmall-left" style="font-size: 20px">star_shine</span>
                           }
                         </div>
-                        <div class="uk-text-justify">{{ documentData.docInfo?.abstract.text }}</div>
+                        <div class="uk-text-justify">{{ documentData().docInfo?.abstract.text }}</div>
                       </div>
                       <div class="uk-margin-top uk-text-small">
                         <div class="uk-text-meta uk-flex uk-flex-middle">Summary
-                          @if (documentData.docInfo?.summary?.generated) {
+                          @if (documentData().docInfo?.summary?.generated) {
                             <span class="material-symbols-outlined uk-margin-xsmall-left" style="font-size: 20px">star_shine</span>
                           }
                         </div>
-                        <div class="uk-text-justify">{{ documentData.docInfo?.summary.text }}</div>
+                        <div class="uk-text-justify">{{ documentData().docInfo?.summary.text }}</div>
                       </div>
                     </li>
                     <li aria-hidden="true" class="" style="animation-duration: 200ms;">
@@ -241,7 +241,7 @@
                           <thead>
                           <tr>
                             <th>Important paragraphs generated from the text in the original language</th>
-                            @if (documentData.docInfo?.language !== 'en') {
+                            @if (documentData().docInfo?.language !== 'en') {
                               <th>
                                 Important paragraphs generated from the text in english
                               </th>
@@ -249,11 +249,11 @@
                           </tr>
                           </thead>
                           <tbody>
-                            @for (paragraph of documentData.paragraphs; track $index; let i = $index) {
+                            @for (paragraph of documentData().paragraphs; track $index; let i = $index) {
                               <tr>
                                 <td>{{ paragraph }}</td>
-                                @if (documentData.docInfo?.language !== 'en') {
-                                  <td>{{ documentData.paragraphsEn[i] }}</td>
+                                @if (documentData().docInfo?.language !== 'en') {
+                                  <td>{{ documentData().paragraphsEn[i] }}</td>
                                 }
                               </tr>
                             }
@@ -268,7 +268,7 @@
                           <thead>
                           <tr>
                             <th>Original language</th>
-                            @if (documentData.docInfo?.language !== 'en') {
+                            @if (documentData().docInfo?.language !== 'en') {
                               <th class="uk-flex uk-flex-middle">English
                                 <span class="material-symbols-outlined uk-margin-xsmall-left" style="font-size: 20px">star_shine</span>
                               </th>
@@ -276,11 +276,11 @@
                           </tr>
                           </thead>
                           <tbody>
-                            @for (sentence of documentData.sentences; track $index; let i = $index) {
+                            @for (sentence of documentData().sentences; track $index; let i = $index) {
                               <tr>
                                 <td>{{ sentence }}</td>
-                                @if (documentData.docInfo?.language !== 'en') {
-                                  <td>{{ documentData.sentencesEn[i] }}</td>
+                                @if (documentData().docInfo?.language !== 'en') {
+                                  <td>{{ documentData().sentencesEn[i] }}</td>
                                 }
                               </tr>
                             }
@@ -291,10 +291,10 @@
                     </li>
                     <li aria-hidden="true" class="" style="animation-duration: 200ms;">
                       <div class="uk-margin-medium-top uk-text-small">
-                        <p>{{ documentData.text }}</p>
+                        <p>{{ documentData().text }}</p>
                       </div>
                     </li>
-                    @if (documentData.references) {
+                    @if (documentData().references) {
                       <li aria-hidden="true" class="" style="animation-duration: 200ms;">
                         <div class="uk-margin-medium-top">
                           <table class="uk-table uk-table-divider uk-text-small">
@@ -305,21 +305,21 @@
                             </tr>
                             </thead>
                             <tbody>
-                              @for (reference of documentData.references; track $index;) {
+                              @for (reference of documentData().references; track $index;) {
                                 <tr>
                                   <td>
                                     <div class="uk-text-bold">{{ reference.surveyAnswerId }}</div>
-                                    @if (surveyNames.get(reference.surveyAnswerId)) {
+                                    @if (surveyNames().get(reference.surveyAnswerId)) {
                                       <div class="uk-text-muted">
-                                        {{ surveyNames.get(reference.surveyAnswerId) }}
+                                        {{ surveyNames().get(reference.surveyAnswerId) }}
                                       </div>
                                     }
                                   </td>
                                   <td>
                                     @for (fieldId of reference.fields; track $index;) {
                                       <div class="uk-margin-small-bottom">
-                                        @if (fieldPathsMap[fieldId]) {
-                                          <div class="uk-text-small">{{ fieldPathsMap[fieldId] }}</div>
+                                        @if (fieldPathsMap()[fieldId]) {
+                                          <div class="uk-text-small">{{ fieldPathsMap()[fieldId] }}</div>
                                           <span class="uk-text-bold uk-text-muted">{{ fieldId }}</span>
                                         }
                                       </div>
@@ -332,7 +332,7 @@
                         </div>
                       </li>
                     }
-                    @if (documentData.docInfo?.links) {
+                    @if (documentData().docInfo?.links) {
                       <li aria-hidden="true" class="" style="animation-duration: 200ms;">
                         <div class="uk-margin-medium-top">
                           <table class="uk-table uk-table-divider uk-table-striped uk-text-small">
@@ -346,7 +346,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                              @for (link of documentData.docInfo.links; track $index) {
+                              @for (link of documentData().docInfo.links; track $index) {
                                 <tr>
                                   <td>{{ link.name }}</td>
                                   <td>{{ link.pid }}</td>
@@ -372,7 +372,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                              @for (link of documentData.docInfo.otherLinks; track $index) {
+                              @for (link of documentData().docInfo.otherLinks; track $index) {
                                 <tr>
                                   <td>{{ link.name }}</td>
                                   <td>{{ link.pid }}</td>
@@ -393,37 +393,37 @@
               <div class="uk-width-1-4">
                 <div class="uk-margin-medium-bottom">
                   <p>Status:
-                    <span [ngClass]="{'uk-label-success': documentData.status === 'APPROVED','uk-label-danger': documentData.status === 'REJECTED','uk-label-warning': documentData.status === 'PENDING'}"
+                    <span [ngClass]="{'uk-label-success': documentData().status === 'APPROVED','uk-label-danger': documentData().status === 'REJECTED','uk-label-warning': documentData().status === 'PENDING'}"
                           class="uk-label uk-text-upper uk-margin-small-left">
-                      {{ documentData.status }}
+                      {{ documentData().status }}
                     </span>
                   </p>
                   <p>
-                    Source: <span class="uk-label uk-text-upper uk-margin-small-left">{{ documentData.source }}</span>
+                    Source: <span class="uk-label uk-text-upper uk-margin-small-left">{{ documentData().source }}</span>
                   </p>
                   <p>
-                    Curated: <span class="uk-label uk-text-upper uk-margin-small-left">{{ documentData.curated }}</span>
+                    Curated: <span class="uk-label uk-text-upper uk-margin-small-left">{{ documentData().curated }}</span>
                   </p>
                 </div>
-                @if (documentData.docInfo?.country || documentData.docInfo?.language) {
+                @if (documentData().docInfo?.country || documentData().docInfo?.language) {
                   <div class="uk-card uk-card-default">
                     <div class="uk-card-body uk-card-small">
                       <div class="uk-flex uk-flex-middle">
                         <span class="material-symbols-outlined uk-text-background">flag</span>
                         <div class="uk-margin-left uk-width-expand uk-text-break">
-                          @if (documentData.docInfo?.country) {
+                          @if (documentData().docInfo?.country) {
                             <div class="uk-margin-small-bottom">
                               <div class="uk-text-meta uk-text-xsmall">Country</div>
                               <div class="uk-text-primary uk-text-bold uk-text-default">
-                                {{ documentData.docInfo.country }}
+                                {{ documentData().docInfo.country }}
                               </div>
                             </div>
                           }
-                          @if (documentData.docInfo?.language) {
+                          @if (documentData().docInfo?.language) {
                             <div>
                               <div class="uk-text-meta uk-text-xsmall">Language</div>
                               <div class="uk-text-primary uk-text-bold uk-text-default">
-                                {{ documentData.docInfo.language }}
+                                {{ documentData().docInfo.language }}
                               </div>
                             </div>
                           }
@@ -440,19 +440,19 @@
                         <div class="uk-margin-small-bottom">
                           <div class="uk-text-meta uk-text-xsmall">Start date</div>
                           <div class="uk-text-primary uk-text-bold uk-text-default">
-                            {{ ($safeNavigationMigration(documentData.docInfo?.startDate) | date: 'dd/MM/yyyy') ?? '--' }}
+                            {{ ($safeNavigationMigration(documentData().docInfo?.startDate) | date: 'dd/MM/yyyy') ?? '--' }}
                           </div>
                         </div>
                         <div class="uk-margin-small-bottom">
                           <div class="uk-text-meta uk-text-xsmall">End date</div>
                           <div class="uk-text-primary uk-text-bold uk-text-default">
-                            {{ ($safeNavigationMigration(documentData.docInfo?.endDate) | date: 'dd/MM/yyyy') ?? '--' }}
+                            {{ ($safeNavigationMigration(documentData().docInfo?.endDate) | date: 'dd/MM/yyyy') ?? '--' }}
                           </div>
                         </div>
                         <div>
                           <div class="uk-text-meta uk-text-xsmall">Publication date</div>
                           <div class="uk-text-primary uk-text-bold uk-text-default">
-                            {{ ($safeNavigationMigration(documentData.docInfo?.publicationDate)| date: 'yyyy') ?? '--' }}
+                            {{ ($safeNavigationMigration(documentData().docInfo?.publicationDate)| date: 'yyyy') ?? '--' }}
                           </div>
                         </div>
                       </div>
@@ -467,15 +467,15 @@
                         <div class="uk-margin-small-bottom">
                           <div class="uk-text-meta uk-text-xsmall">Created by</div>
                           <div class="uk-text-primary uk-text-bold uk-text-default">
-                            {{ documentData.metadata?.createdby }}<br>
-                            on {{ $safeNavigationMigration(documentData.metadata?.creationDate) | date:'dd/MM/yyyy, HH:mm:ss' }}
+                            {{ documentData().metadata?.createdby }}<br>
+                            on {{ $safeNavigationMigration(documentData().metadata?.creationDate) | date:'dd/MM/yyyy, HH:mm:ss' }}
                           </div>
                         </div>
                         <div class="uk-margin-small-bottom">
                           <div class="uk-text-meta uk-text-xsmall">Last modified by</div>
                           <div class="uk-text-primary uk-text-bold uk-text-default">
-                            {{ documentData.metadata?.modifiedBy }}<br>
-                            on {{ $safeNavigationMigration(documentData.metadata?.modificationDate) | date:'dd/MM/yyyy, HH:mm:ss' }}
+                            {{ documentData().metadata?.modifiedBy }}<br>
+                            on {{ $safeNavigationMigration(documentData().metadata?.modificationDate) | date:'dd/MM/yyyy, HH:mm:ss' }}
                           </div>
                         </div>
                       </div>
@@ -488,7 +488,7 @@
         }
       </div>
     }
-    <app-document-recommendations [documentId]="documentId" [isAdminPage]="isAdminPage"></app-document-recommendations>
+    <app-document-recommendations [documentId]="documentId()" [isAdminPage]="isAdminPage()"></app-document-recommendations>
 
   </div>
 </div>

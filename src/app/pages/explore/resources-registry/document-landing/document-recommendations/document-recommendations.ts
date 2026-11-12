@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Input, OnChanges, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, DestroyRef, inject, input, OnChanges, ChangeDetectionStrategy, signal } from "@angular/core";
 import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
@@ -9,7 +9,7 @@ import { ResourceRegistryService } from "../../resource-registry.service";
   selector: 'app-document-recommendations',
   templateUrl: './document-recommendations.html',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, NgOptimizedImage, RouterLink],
 })
 
@@ -18,23 +18,23 @@ export class RecommendationsPage implements OnChanges {
   private destroyRef = inject(DestroyRef);
   private resourcesRegistryService = inject(ResourceRegistryService);
 
-  @Input() documentId: string = null;
-  @Input() isAdminPage = false;
+  documentId = input<string>(null);
+  isAdminPage = input(false);
 
-  recommendedDocs: Document[] = [];
+  recommendedDocs = signal<Document[]>([]);
   showImage = new Map<string, boolean>();
 
   ngOnChanges() {
-    if (this.documentId) {
+    if (this.documentId()) {
       let quantity = 3;
       let status: string | null = 'APPROVED';
-      if (this.isAdminPage) {
+      if (this.isAdminPage()) {
         quantity = 5;
         status = null;
       }
-      this.resourcesRegistryService.getRecommendations(this.documentId, quantity, status).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      this.resourcesRegistryService.getRecommendations(this.documentId(), quantity, status).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: (res: Document[]) => {
-          this.recommendedDocs = res;
+          this.recommendedDocs.set(res);
         },
         error: (err) => console.error('Error fetching recommendations for document', err),
       });

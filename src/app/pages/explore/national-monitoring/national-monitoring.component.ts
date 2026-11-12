@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy, signal } from "@angular/core";
 import * as Highcharts from "highcharts";
 import { LegendOptions, SeriesOptionsType } from "highcharts";
 import { EoscReadinessDataService } from "../../services/eosc-readiness-data.service";
@@ -10,6 +10,7 @@ import { SurveyService } from "src/survey-tool/app/services/survey.service";
 import { PdfExportService } from "../../services/pdf-export.service";
 import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
 import { ExploreService } from "../explore.service";
+import { setAt } from "src/app/shared/utils/set-at";
 import { LATEST_SURVEY_YEAR, SURVEY_YEARS, surveyModelId } from "src/app/domain/survey-years";
 import { CategorizedAreaData } from "src/app/domain/categorizedAreaData";
 import { monitoringMapCaptions, openScienceAreas } from "src/app/domain/chart-captions";
@@ -23,25 +24,33 @@ import { PageContentComponent } from "src/survey-tool/app/shared/page-content/pa
     selector: 'app-national-monitoring',
     templateUrl: './national-monitoring.component.html',
     styleUrls: ['../../dashboard/country-landing-page/country-landing-page.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [SidebarMobileToggleComponent, CommonModule, HighchartsCategoryMapComponent, BarOrColumnChartComponent, PageContentComponent]
 })
 
 export class NationalMonitoringComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
+  private queryData = inject(EoscReadinessDataService);
+  private surveyService = inject(SurveyService);
+  private dataHandlerService = inject(DataHandlerService);
+  private pdfService = inject(PdfExportService);
+  private stakeholdersService = inject(StakeholdersService);
+  private exploreService = inject(ExploreService);
   protected readonly monitoringMapCaptions = monitoringMapCaptions;
 
-  exportActive = false;
+  exportActive = signal(false);
   smallScreen = false;
 
   years = [...SURVEY_YEARS];
   year = LATEST_SURVEY_YEAR;
 
-  tableData: string[][] = [];
+  tableData = signal<string[][]>([]);
 
   columnChartCategories = openScienceAreas
 
-  columnChartSeries: SeriesOptionsType[] = [];
+  columnChartSeries = signal<SeriesOptionsType[]>([]);
+  // Filled one response per year; the signal gets the sorted series once every year has arrived
+  private columnChartSeriesByYear: SeriesOptionsType[] = [];
   columnChartTitles = {
     title: 'National Monitoring of Open Science by Areas',
     xAxis: 'National Monitoring on',
@@ -64,17 +73,13 @@ export class NationalMonitoringComponent implements OnInit {
   mapTitles = ['National Monitoring on Open Access publications', 'National Monitoring on Data Management', 'National Monitoring on FAIR Data', 'National Monitoring on Open Data', 'National Monitoring on Open Sources Software', 'National Monitoring on offering services through EOSC', 'National Monitoring on Connecting Repositories to EOSC', 'National Monitoring on Data Stewardship', 'National Monitoring on Long-term Data Preservation', 'National Monitoring on Skills/Training in Open Science', 'National Monitoring on incentives/rewards for Open Science', 'National Monitoring on Citizen Science'];
 
   monitoringRawData: RawData = new RawData();
-  monitoringMapData: CategorizedAreaData = new CategorizedAreaData();
+  monitoringMapData = signal<CategorizedAreaData>(new CategorizedAreaData());
   countriesArray: string[] = [];
-  questionsDataArray: any[] = [];
+  questionsDataArray = signal<any[]>([]);
   tmpQuestionsDataArray: any[] = [];
-  participatingCountries: number[] = [];
-  total: number[] = [];
-  toolTipData: Map<string, string>[] = [];
-
-  constructor(private queryData: EoscReadinessDataService, private surveyService: SurveyService,
-              private dataHandlerService: DataHandlerService, private pdfService: PdfExportService,
-              private stakeholdersService: StakeholdersService, private exploreService: ExploreService) {}
+  participatingCountries = signal<number[]>([]);
+  total = signal<number[]>([]);
+  toolTipData = signal<Map<string, string>[]>([]);
 
   ngOnInit() {
     this.years.forEach((year, index) => {
@@ -92,14 +97,14 @@ export class NationalMonitoringComponent implements OnInit {
     ).subscribe({
       next: res => {
         this.tmpQuestionsDataArray[index] = this.dataHandlerService.convertRawDataToCategorizedAreasData({datasets: [this.monitoringRawData.datasets[index]]});
-        this.participatingCountries[index] = this.dataHandlerService.convertRawDataForActivityGauge({datasets: [this.monitoringRawData.datasets[index]]});
-        this.total[index] = this.monitoringRawData.datasets[index].series.result.length; // Total countries with validated response
+        setAt(this.participatingCountries, index, this.dataHandlerService.convertRawDataForActivityGauge({datasets: [this.monitoringRawData.datasets[index]]}));
+        setAt(this.total, index, this.monitoringRawData.datasets[index].series.result.length); // Total countries with validated response
 
         for (let i = 0; i < this.tmpQuestionsDataArray[index].series.length; i++) {
           this.tmpQuestionsDataArray[index].series[i].data = this.tmpQuestionsDataArray[index].series[i].data.map(code => ({ code }));
         }
-        this.toolTipData[index] = this.dataHandlerService.covertRawDataGetText(res[0]);
-        this.questionsDataArray[index] = this.exploreService.createMapDataFromCategorization(this.tmpQuestionsDataArray[index], this.countriesArray, mapCount);
+        setAt(this.toolTipData, index, this.dataHandlerService.covertRawDataGetText(res[0]));
+        setAt(this.questionsDataArray, index, this.exploreService.createMapDataFromCategorization(this.tmpQuestionsDataArray[index], this.countriesArray, mapCount));
       },
       error: err => {console.error(err)}
     });
@@ -109,51 +114,51 @@ export class NationalMonitoringComponent implements OnInit {
     // console.log(this.questionsDataArray);
     switch (index) {
       case 0:
-        if (!this.questionsDataArray[index])
+        if (!this.questionsDataArray()[index])
           this.getMonitoring('Question54', index, 2); // National Monitoring on Open Access publications
         break;
       case 1:
-        if (!this.questionsDataArray[index])
+        if (!this.questionsDataArray()[index])
           this.getMonitoring('Question58', index, 2); // National Monitoring on Data Management
         break;
       case 2:
-        if (!this.questionsDataArray[index])
+        if (!this.questionsDataArray()[index])
           this.getMonitoring('Question62', index, 2); // National Monitoring on FAIR Data
         break;
       case 3:
-        if (!this.questionsDataArray[index])
+        if (!this.questionsDataArray()[index])
           this.getMonitoring('Question66', index, 2); // National Monitoring on Open Data
         break;
       case 4:
-        if (!this.questionsDataArray[index])
+        if (!this.questionsDataArray()[index])
           this.getMonitoring('Question70', index, 2); // National Monitoring on Open Sources Software
         break;
       case 5:
-        if (!this.questionsDataArray[index])
+        if (!this.questionsDataArray()[index])
           this.getMonitoring('Question74', index, 2); // National Monitoring on Services
         break;
       case 6:
-        if (!this.questionsDataArray[index])
+        if (!this.questionsDataArray()[index])
           this.getMonitoring('Question78', index, 2); // National Monitoring on Connecting Repositories to EOSC
         break;
       case 7:
-        if (!this.questionsDataArray[index])
+        if (!this.questionsDataArray()[index])
           this.getMonitoring('Question82', index, 2); // National Monitoring on Data stewardship
         break;
       case 8:
-        if (!this.questionsDataArray[index])
+        if (!this.questionsDataArray()[index])
           this.getMonitoring('Question86', index, 2); // National Monitoring on Long-term Data Preservation
         break;
       case 9:
-        if (!this.questionsDataArray[index])
+        if (!this.questionsDataArray()[index])
           this.getMonitoring('Question90', index, 2); // National Monitoring on Skills/Training in Open Science
         break;
       case 10:
-        if (!this.questionsDataArray[index])
+        if (!this.questionsDataArray()[index])
           this.getMonitoring('Question94', index, 2); // National Monitoring on Incentives/rewards for Open Science
         break;
       case 11:
-        if (!this.questionsDataArray[index])
+        if (!this.questionsDataArray()[index])
           this.getMonitoring('Question98', index, 2); // National Monitoring on Citizen Science
         break;
     }
@@ -178,11 +183,11 @@ export class NationalMonitoringComponent implements OnInit {
 
     this.queryData.getQuestions(year, nameArr).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
-        this.columnChartSeries.push(this.exploreService.createColumnChartSeries(value, year));
+        this.columnChartSeriesByYear.push(this.exploreService.createColumnChartSeries(value, year));
 
-        if (this.columnChartSeries.length === this.years.length) { // When series complete
-          this.columnChartSeries.sort((a, b) => a.name.localeCompare(b.name));
-          this.columnChartSeries = [...this.columnChartSeries]; // Trigger angular detection change
+        if (this.columnChartSeriesByYear.length === this.years.length) { // When series complete
+          this.columnChartSeriesByYear.sort((a, b) => a.name.localeCompare(b.name));
+          this.columnChartSeries.set([...this.columnChartSeriesByYear]);
         }
 
         if (this.years.length === ++index) { // If this is the last year
@@ -195,7 +200,7 @@ export class NationalMonitoringComponent implements OnInit {
             next: countries => {
               this.countriesArray = countries;
               // this.getChart(0); // Draw first map
-              this.monitoringMapData = this.exploreService.mergeCategorizedMapData(this.monitoringRawData, this.openScienceAreas, this.countriesArray, 'monitoring');
+              this.monitoringMapData.set(this.exploreService.mergeCategorizedMapData(this.monitoringRawData, this.openScienceAreas, this.countriesArray, 'monitoring'));
             },
             error: error => {console.error(error);}
           });
@@ -210,7 +215,7 @@ export class NationalMonitoringComponent implements OnInit {
     if (this.monitoringRawData.datasets.length) {
       this.surveyService.getSurveyValidatedCountries(surveyModelId(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: countries => {
-          this.tableData = this.exploreService.createTable(this.monitoringRawData, countries);
+          this.tableData.set(this.exploreService.createTable(this.monitoringRawData, countries));
         },
         error: err => {console.error(err)}
       });
@@ -238,7 +243,7 @@ export class NationalMonitoringComponent implements OnInit {
         // console.log(value);
         this.surveyService.getSurveyValidatedCountries(surveyModelId(this.year)).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: countries => {
-            this.tableData = this.exploreService.createTable(value, countries);
+            this.tableData.set(this.exploreService.createTable(value, countries));
           },
           error: err => {console.error(err)}
         });
@@ -249,11 +254,11 @@ export class NationalMonitoringComponent implements OnInit {
 
   /** Export to PDF -----------------------------------------------------------------------------------------------> **/
   exportToPDF(contents: HTMLElement[], filename?: string) {
-    this.exportActive = true
+    this.exportActive.set(true)
     this.pdfService.export(contents, filename).then(() => {
-      this.exportActive = false;
+      this.exportActive.set(false);
     }).catch((error) => {
-      this.exportActive = false;
+      this.exportActive.set(false);
       console.error('Error during PDF generation:', error);
     });
   }
