@@ -1,6 +1,6 @@
 import * as Highcharts from "highcharts/highmaps";
 import { SeriesMapDataOptions } from "highcharts/highmaps";
-import { Component, Input, SimpleChanges, ChangeDetectionStrategy } from "@angular/core";
+import { Component, Input, SimpleChanges, ChangeDetectionStrategy, signal } from "@angular/core";
 import { ColorAxisOptions, LegendOptions } from "highcharts";
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_ExportingOffline from 'highcharts/modules/offline-exporting';
@@ -20,7 +20,7 @@ let componentContext;
     selector: 'app-highcharts-color-axis',
     templateUrl: 'highcharts-color-axis-map.component.html',
     styles: ['#container {display: block; width: 100%; height: 100%; }'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [HighchartsChartModule]
 })
 
@@ -44,7 +44,8 @@ export class HighchartsColorAxisMapComponent {
   chartOptions: Highcharts.Options;
   dataForInitialization = colorAxisDataWithZeroValue;
 
-  ready: boolean = false;
+  // set from a timeout in ngOnChanges, so it has to be a signal for the OnPush view to refresh
+  ready = signal(false);
 
   constructor() {
     componentContext = this;
@@ -53,7 +54,7 @@ export class HighchartsColorAxisMapComponent {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.ready = false;
+    this.ready.set(false);
     const componentContext = this, chart = this.chart;
 
     if (this.mapData?.length >= 0) {
@@ -83,7 +84,7 @@ export class HighchartsColorAxisMapComponent {
         componentContext.chartOptions.legend = this.legend;
         // console.log(componentContext.chartOptions.series)
         // chart.hideLoading();
-        this.ready = true;
+        this.ready.set(true);
         componentContext.updateFlag = true;
       }, 0);
     }

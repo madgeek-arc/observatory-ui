@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, signal, inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { DataService } from "../../../services/data.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
@@ -13,28 +13,30 @@ import { HighchartsColorAxisMapComponent } from "../../../../shared/charts/color
 import { HighchartsBarComponent } from "../../../../shared/charts/bar-chart/highcharts-bar.component";
 import { HighchartsCategoryMapComponent } from "../../../../shared/charts/category-map/highcharts-category-map.component";
 import { CountriesTableComponent } from "../../../archive/countries-table.component";
+import { setAt } from "src/app/shared/utils/set-at";
 
 @Component({
     selector: 'app-investments-2021',
     templateUrl: 'investments-2021.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [HighchartsColorAxisMapComponent, HighchartsBarComponent, HighchartsCategoryMapComponent, CountriesTableComponent]
 })
 
 export class Investments2021Component implements OnInit {
 
-  questionsDataArray: any[] = [];
-  questionsDataArrayForBarChart: any[] = [];
+  questionsDataArray = signal<any[]>([]);
+  questionsDataArrayForBarChart = signal<any[]>([]);
   tmpQuestionsDataArray: any[] = [];
-  tableAbsoluteDataArray: CountryTableData[][] = [];
+  tableAbsoluteDataArray = signal<CountryTableData[][]>([]);
   countriesArray: string[] = [];
-  mapSubtitles: string[] = [];
+  mapSubtitles = signal<string[]>([]);
   mapSubtitlesArray: string[][] = mapSubtitles;
-  fundingForEOSCSums: FundingForEOSCSums;
+  fundingForEOSCSums = signal<FundingForEOSCSums>(undefined);
 
-  constructor(private dataService: DataService, private dataHandlerService: DataHandlerService,
-              private route: ActivatedRoute, private stakeholdersService: StakeholdersService) {
-  }
+  private dataService = inject(DataService);
+  private dataHandlerService = inject(DataHandlerService);
+  private route = inject(ActivatedRoute);
+  private stakeholdersService = inject(StakeholdersService);
 
   ngOnInit() {
     this.route.queryParams.subscribe(
@@ -58,22 +60,22 @@ export class Investments2021Component implements OnInit {
       this.stakeholdersService.getEOSCSBCountries()).subscribe(
       rawData => {
         this.countriesArray = rawData[8];
-        this.questionsDataArray[4] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[0]);
-        this.questionsDataArrayForBarChart[4] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[0]);
-        this.questionsDataArray[5] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[1]);
-        this.questionsDataArrayForBarChart[5] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[1]);
-        this.questionsDataArray[6] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[2]);
-        this.questionsDataArrayForBarChart[6] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[2]);
-        this.tableAbsoluteDataArray[7] = this.dataHandlerService.convertRawDataToTableData(rawData[3]);
+        setAt(this.questionsDataArray, 4, this.dataHandlerService.covertRawDataToColorAxisMap(rawData[0]));
+        setAt(this.questionsDataArrayForBarChart, 4, this.dataHandlerService.covertRawDataToColorAxisMap(rawData[0]));
+        setAt(this.questionsDataArray, 5, this.dataHandlerService.covertRawDataToColorAxisMap(rawData[1]));
+        setAt(this.questionsDataArrayForBarChart, 5, this.dataHandlerService.covertRawDataToColorAxisMap(rawData[1]));
+        setAt(this.questionsDataArray, 6, this.dataHandlerService.covertRawDataToColorAxisMap(rawData[2]));
+        setAt(this.questionsDataArrayForBarChart, 6, this.dataHandlerService.covertRawDataToColorAxisMap(rawData[2]));
+        setAt(this.tableAbsoluteDataArray, 7, this.dataHandlerService.convertRawDataToTableData(rawData[3]));
         this.createMapDataset(0, 7);
-        this.tableAbsoluteDataArray[8] = this.dataHandlerService.convertRawDataToTableData(rawData[4]);
+        setAt(this.tableAbsoluteDataArray, 8, this.dataHandlerService.convertRawDataToTableData(rawData[4]));
         this.createMapDataset(0, 8);
-        this.questionsDataArray[9] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[5]);
-        this.questionsDataArrayForBarChart[9] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[5]);
-        this.questionsDataArray[10] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[6]);
-        this.questionsDataArrayForBarChart[10] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[6]);
-        this.questionsDataArray[11] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[7]);
-        this.questionsDataArrayForBarChart[11] = this.dataHandlerService.covertRawDataToColorAxisMap(rawData[7]);
+        setAt(this.questionsDataArray, 9, this.dataHandlerService.covertRawDataToColorAxisMap(rawData[5]));
+        setAt(this.questionsDataArrayForBarChart, 9, this.dataHandlerService.covertRawDataToColorAxisMap(rawData[5]));
+        setAt(this.questionsDataArray, 10, this.dataHandlerService.covertRawDataToColorAxisMap(rawData[6]));
+        setAt(this.questionsDataArrayForBarChart, 10, this.dataHandlerService.covertRawDataToColorAxisMap(rawData[6]));
+        setAt(this.questionsDataArray, 11, this.dataHandlerService.covertRawDataToColorAxisMap(rawData[7]));
+        setAt(this.questionsDataArrayForBarChart, 11, this.dataHandlerService.covertRawDataToColorAxisMap(rawData[7]));
 
       },
       error => {
@@ -83,7 +85,7 @@ export class Investments2021Component implements OnInit {
 
     this.dataService.getFundingForEOSC().subscribe(
      rawData => {
-        this.fundingForEOSCSums = this.dataHandlerService.convertRawDataToFundingForEOSCSumsCustom(rawData);
+        this.fundingForEOSCSums.set(this.dataHandlerService.convertRawDataToFundingForEOSCSumsCustom(rawData));
       },
      error => {
         console.error(error);
@@ -92,26 +94,26 @@ export class Investments2021Component implements OnInit {
   }
 
   createMapDataset(index: number, mapCount: number) {
-    this.mapSubtitles[mapCount] = mapSubtitles[mapCount][index];
+    setAt(this.mapSubtitles, mapCount, mapSubtitles[mapCount][index]);
 
-    this.questionsDataArray[mapCount] = new CategorizedAreaData();
-    this.questionsDataArray[mapCount].series[0] = new Series('Has Policy', false);
+    const mapData = new CategorizedAreaData();
+    mapData.series[0] = new Series('Has Policy', false);
 
     let countryCodeArray = [];
-    for (let i = 0; i < this.tableAbsoluteDataArray[mapCount].length; i++) {
-      if (this.tableAbsoluteDataArray[mapCount][i].EOSCRelevantPoliciesInPlace[index] === 'true') {
-        countryCodeArray.push(this.tableAbsoluteDataArray[mapCount][i].code);
+    for (let i = 0; i < this.tableAbsoluteDataArray()[mapCount].length; i++) {
+      if (this.tableAbsoluteDataArray()[mapCount][i].EOSCRelevantPoliciesInPlace[index] === 'true') {
+        countryCodeArray.push(this.tableAbsoluteDataArray()[mapCount][i].code);
       }
     }
-    this.questionsDataArray[mapCount].series[0].data = countryCodeArray;
+    mapData.series[0].data = countryCodeArray;
 
-    this.questionsDataArray[mapCount].series[1] = new Series('No Policy', false);
-    this.questionsDataArray[mapCount].series[1].data = this.countriesArray.filter( code => !countryCodeArray.includes(code));
+    mapData.series[1] = new Series('No Policy', false);
+    mapData.series[1].data = this.countriesArray.filter( code => !countryCodeArray.includes(code));
 
-    for (let i = 0; i < this.questionsDataArray[mapCount].series.length; i++) {
-      this.questionsDataArray[mapCount].series[i].data = this.questionsDataArray[mapCount].series[i].data.map(code => ({ code }));
+    for (let i = 0; i < mapData.series.length; i++) {
+      mapData.series[i].data = mapData.series[i].data.map(code => ({ code }));
     }
-
+    setAt(this.questionsDataArray, mapCount, mapData);
   }
 
 }

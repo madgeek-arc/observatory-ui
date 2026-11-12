@@ -1,29 +1,29 @@
-import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
+import { Component, ChangeDetectionStrategy, input } from "@angular/core";
 import { SlicePipe } from "@angular/common";
 
 @Component({
     selector: 'cumulative-data-table',
     templateUrl: 'cumulative-data-table.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [SlicePipe]
 })
 
 export class CumulativeDataTablesComponent {
 
-  @Input() title: string = null;
-  @Input() tableData: string[][] = [];
+  title = input<string>(null);
+  tableData = input<string[][]>([]);
 
   step: number = 20;
   from: number = 1;
   to: number = this.from + this.step;
 
   next() {
-    if (this.from+this.step > this.tableData.length-1)
+    if (this.from+this.step > this.tableData().length-1)
       return;
 
     this.from = this.from + this.step;
-    if (this.to + this.step > this.tableData.length-1) {
-      this.to = this.tableData.length
+    if (this.to + this.step > this.tableData().length-1) {
+      this.to = this.tableData().length
     } else
       this.to += this.step;
   }

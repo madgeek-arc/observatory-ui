@@ -29,7 +29,7 @@
                     }
                   </div>
                   <div class="uk-width-2-3" style="height: 700px">
-                    <app-highcharts-category-map [mapData]="questionsDataArray[15]" [subtitle]="mapSubtitles[15]"
+                    <app-highcharts-category-map [mapData]="questionsDataArray()[15]" [subtitle]="mapSubtitles()[15]"
                       [title]="'Mandated Organisation Appointed by the Country in EOSC Association'">
                     </app-highcharts-category-map>
                   </div>
@@ -37,8 +37,8 @@
               </li>
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
-                  @if (tableAbsoluteDataArray[15]) {
-                    <app-countries-table [countries]="tableAbsoluteDataArray[15]"
+                  @if (tableAbsoluteDataArray()[15]) {
+                    <app-countries-table [countries]="tableAbsoluteDataArray()[15]"
                       [tableHeaders]="['Mandated Organisation Appointed by the Country in EOSC Association']"
                       [tableType]="'mandate'">
                     </app-countries-table>
@@ -75,7 +75,7 @@
                       }
                     </div>
                     <div class="uk-width-2-3" style="height: 700px">
-                      <app-highcharts-category-map [mapData]="questionsDataArray[16]" [subtitle]="mapSubtitles[16]"
+                      <app-highcharts-category-map [mapData]="questionsDataArray()[16]" [subtitle]="mapSubtitles()[16]"
                         [title]="'National Monitoring or Mapping Exercise on Open Science Activities'">
                       </app-highcharts-category-map>
                     </div>
@@ -84,8 +84,8 @@
               </li>
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
-                  @if (tableAbsoluteDataArray[16]) {
-                    <app-countries-table [countries]="tableAbsoluteDataArray[16]"
+                  @if (tableAbsoluteDataArray()[16]) {
+                    <app-countries-table [countries]="tableAbsoluteDataArray()[16]"
                       [tableHeaders]="mapSubtitlesArray[16]" [tableType]="'policies'">
                     </app-countries-table>
                   }
@@ -119,7 +119,7 @@
                     }
                   </div>
                   <div class="uk-width-2-3" style="height: 700px">
-                    <app-highcharts-category-map [mapData]="questionsDataArray[17]" [subtitle]="mapSubtitles[17]"
+                    <app-highcharts-category-map [mapData]="questionsDataArray()[17]" [subtitle]="mapSubtitles()[17]"
                       [title]="'Reporting Method for National Monitoring on Open Science Activities'">
                     </app-highcharts-category-map>
                   </div>
@@ -127,8 +127,8 @@
               </li>
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
-                  @if (tableAbsoluteDataArray[17]) {
-                    <app-countries-table [countries]="tableAbsoluteDataArray[17]"
+                  @if (tableAbsoluteDataArray()[17]) {
+                    <app-countries-table [countries]="tableAbsoluteDataArray()[17]"
                       [tableHeaders]="mapSubtitlesArray[17]" [tableType]="'policies'">
                     </app-countries-table>
                   }
@@ -162,7 +162,7 @@
                     }
                   </div>
                   <div class="uk-width-2-3" style="height: 700px">
-                    <app-highcharts-category-map [mapData]="questionsDataArray[18]" [subtitle]="mapSubtitles[18]"
+                    <app-highcharts-category-map [mapData]="questionsDataArray()[18]" [subtitle]="mapSubtitles()[18]"
                       [title]="'Use Cases on Open Science Activities'">
                     </app-highcharts-category-map>
                   </div>
@@ -170,8 +170,8 @@
               </li>
               <li>
                 <div class="uk-card uk-card-default uk-card-body">
-                  @if (tableAbsoluteDataArray[18]) {
-                    <app-countries-table [countries]="tableAbsoluteDataArray[18]"
+                  @if (tableAbsoluteDataArray()[18]) {
+                    <app-countries-table [countries]="tableAbsoluteDataArray()[18]"
                       [tableHeaders]="mapSubtitlesArray[18]" [tableType]="'policies'">
                     </app-countries-table>
                   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, signal, inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { CountryTableData } from "src/app/domain/country-table-data";
 import { countriesNumbers, EoscReadinessMapSubtitles } from "../eosc-readiness-map-subtitles";
@@ -16,54 +16,57 @@ import { HighchartsBarComponent } from "../../../../shared/charts/bar-chart/high
 import { HighchartsColumnRangesComponent } from "../../../../shared/charts/column-ranges-chart/highcharts-column-ranges.component";
 import { PieChartComponent } from "../../../../shared/charts/pie-chart/pie-chart.component";
 import { DecimalPipe } from "@angular/common";
+import { setAt } from "src/app/shared/utils/set-at";
 
 @Component({
     selector: 'app-general',
     templateUrl: 'general.component.html',
     styleUrls: ['../../eosc-readiness-dashboard.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [HighchartsColorAxisMapComponent, HighchartsBarComponent, HighchartsColumnRangesComponent, PieChartComponent, DecimalPipe]
 })
 
 export class GeneralComponent implements OnInit {
 
-  type: string = null;
-  year: string = null;
+  type = signal<string>(null);
+  year = signal<string>(null);
   fragment: string = null;
 
-  countriesArray: string[] = [];
-  toolTipData: Map<string, string>[] = [];
+  countriesArray = signal<string[]>([]);
+  toolTipData = signal<Map<string, string>[]>([]);
   tableAbsoluteDataArray: CountryTableData[][] = [];
   legend: LegendOptions;
   colorAxis: ColorAxisOptions;
-  pieSeries: {name: string, type: string, data: (string | number)[][]}[];
-  columnSeries: {name: string, type: string, data: (string | number)[][]}[];
+  pieSeries = signal<{name: string, type: string, data: (string | number)[][]}[]>(undefined);
+  columnSeries = signal<{name: string, type: string, data: (string | number)[][]}[]>(undefined);
   mapSubtitles: string[] = [];
   mapSubtitlesArray: string[][] = EoscReadinessMapSubtitles;
-  questionsDataArray: any[] = [];
+  questionsDataArray = signal<any[]>([]);
   tmpQuestionsDataArray: any[] = [];
-  questionsDataArrayForBarChart: any[] = [];
-  sumsArray: string[] = [];
+  questionsDataArrayForBarChart = signal<any[]>([]);
+  sumsArray = signal<string[]>([]);
 
-  constructor(private route: ActivatedRoute, private queryData: EoscReadinessDataService,
-              private stakeholdersService: StakeholdersService, private dataHandlerService: DataHandlerService) {}
+  private route = inject(ActivatedRoute);
+  private queryData = inject(EoscReadinessDataService);
+  private stakeholdersService = inject(StakeholdersService);
+  private dataHandlerService = inject(DataHandlerService);
 
   ngOnInit() {
     this.route.parent.paramMap.subscribe({
       next: value => {
-        if (this.year && this.year !== value.get('year')) {
-          if (this.type) {
-            this.initCharts(this.type);
+        if (this.year() && this.year() !== value.get('year')) {
+          if (this.type()) {
+            this.initCharts(this.type());
           }
         }
-        this.year = value.get('year');
+        this.year.set(value.get('year'));
       }
     });
 
     this.route.params.subscribe(
       params => {
-        this.type = params['type'];
-        this.initCharts(this.type);
+        this.type.set(params['type']);
+        this.initCharts(this.type());
       }
     );
 
@@ -92,17 +95,19 @@ export class GeneralComponent implements OnInit {
   getResearchersData() {
     zip(
       this.stakeholdersService.getEOSCSBCountries(),
-      this.queryData.getQuestion(this.year, 'Question1'),
-      this.queryData.getQuestionComment(this.year, 'Question1'),
+      this.queryData.getQuestion(this.year(), 'Question1'),
+      this.queryData.getQuestionComment(this.year(), 'Question1'),
     ).subscribe(
       res => {
         // this.countriesArray = res[0];
-        this.questionsDataArray[0] = this.questionsDataArrayForBarChart[0] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        const mapData = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        setAt(this.questionsDataArray, 0, mapData);
+        setAt(this.questionsDataArrayForBarChart, 0, mapData);
         let tempArr: string[] = [];
-        this.questionsDataArray[0].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.toolTipData[0] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
-        this.sumsArray[0] = this.calculateSum(res[1]);
+        this.questionsDataArray()[0].forEach((data: string[]) => {tempArr.push(data[0]);});
+        setAt(this.toolTipData, 0, this.dataHandlerService.covertRawDataGetText(res[2]));
+        this.countriesArray.set(res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element)));
+        setAt(this.sumsArray, 0, this.calculateSum(res[1]));
       }
     );
   }
@@ -112,16 +117,18 @@ export class GeneralComponent implements OnInit {
       this.stakeholdersService.getEOSCSBCountries(),
       // this.queryData.getQuestion2(),
       // this.queryData.getQuestion2comment(),
-      this.queryData.getQuestion(this.year, 'Question2'),
-      this.queryData.getQuestionComment(this.year, 'Question2'),
+      this.queryData.getQuestion(this.year(), 'Question2'),
+      this.queryData.getQuestionComment(this.year(), 'Question2'),
     ).subscribe(
       res => {
-        this.questionsDataArray[1] = this.questionsDataArrayForBarChart[1] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        const mapData = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        setAt(this.questionsDataArray, 1, mapData);
+        setAt(this.questionsDataArrayForBarChart, 1, mapData);
         let tempArr: string[] = [];
-        this.questionsDataArray[1].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
-        this.toolTipData[1] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[1] = this.calculateSum(res[1]);
+        this.questionsDataArray()[1].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray.set(res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element)));
+        setAt(this.toolTipData, 1, this.dataHandlerService.covertRawDataGetText(res[2]));
+        setAt(this.sumsArray, 1, this.calculateSum(res[1]));
       }
     );
   }
@@ -131,16 +138,18 @@ export class GeneralComponent implements OnInit {
       this.stakeholdersService.getEOSCSBCountries(),
       // this.queryData.getQuestion3(),
       // this.queryData.getQuestion3comment(),
-      this.queryData.getQuestion(this.year, 'Question3'),
-      this.queryData.getQuestionComment(this.year, 'Question3'),
+      this.queryData.getQuestion(this.year(), 'Question3'),
+      this.queryData.getQuestionComment(this.year(), 'Question3'),
     ).subscribe(
       res => {
-        this.questionsDataArray[2] = this.questionsDataArrayForBarChart[2] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        const mapData = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        setAt(this.questionsDataArray, 2, mapData);
+        setAt(this.questionsDataArrayForBarChart, 2, mapData);
         let tempArr: string[] = [];
-        this.questionsDataArray[2].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
-        this.toolTipData[2] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[2] = this.calculateSum(res[1]);
+        this.questionsDataArray()[2].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray.set(res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element)));
+        setAt(this.toolTipData, 2, this.dataHandlerService.covertRawDataGetText(res[2]));
+        setAt(this.sumsArray, 2, this.calculateSum(res[1]));
       }
     );
   }
@@ -150,16 +159,18 @@ export class GeneralComponent implements OnInit {
       this.stakeholdersService.getEOSCSBCountries(),
       // this.queryData.getQuestion4(),
       // this.queryData.getQuestion4comment(),
-      this.queryData.getQuestion(this.year, 'Question4'),
-      this.queryData.getQuestionComment(this.year, 'Question4'),
+      this.queryData.getQuestion(this.year(), 'Question4'),
+      this.queryData.getQuestionComment(this.year(), 'Question4'),
     ).subscribe(
       res => {
-        this.questionsDataArray[3] = this.questionsDataArrayForBarChart[3] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        const mapData = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        setAt(this.questionsDataArray, 3, mapData);
+        setAt(this.questionsDataArrayForBarChart, 3, mapData);
         let tempArr: string[] = [];
-        this.questionsDataArray[3].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
-        this.toolTipData[3] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[3] = this.calculateSum(res[1]);
+        this.questionsDataArray()[3].forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray.set(res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element)));
+        setAt(this.toolTipData, 3, this.dataHandlerService.covertRawDataGetText(res[2]));
+        setAt(this.sumsArray, 3, this.calculateSum(res[1]));
       }
     );
   }
@@ -169,18 +180,20 @@ export class GeneralComponent implements OnInit {
       this.stakeholdersService.getEOSCSBCountries(),
       // this.queryData.getQuestion5(),
       // this.queryData.getQuestion5comment(),
-      this.queryData.getQuestion(this.year, 'Question5'),
-      this.queryData.getQuestionComment(this.year, 'Question5'),
+      this.queryData.getQuestion(this.year(), 'Question5'),
+      this.queryData.getQuestionComment(this.year(), 'Question5'),
     ).subscribe(
       res => {
-        this.questionsDataArray[pos] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        this.getInvestmentsDataPie(this.questionsDataArray[pos]);
-        this.createStackedColumnSeries(this.questionsDataArray[pos]);
+        const mapData: any[] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        this.getInvestmentsDataPie(mapData);
+        // sorts mapData in place, so it runs before the chart receives the array
+        this.createStackedColumnSeries(mapData);
+        setAt(this.questionsDataArray, pos, mapData);
         // let tempArr: string[] = [];
         // this.questionsDataArray[pos].forEach((data: string[]) => {tempArr.push(data[0]);});
         // this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
         // this.toolTipData[pos] = this.dataHandlerService.covertRawDataGetText(res[2]);
-        this.sumsArray[pos] = this.calculateSum(res[1]);
+        setAt(this.sumsArray, pos, this.calculateSum(res[1]));
       }
     );
   }
@@ -190,33 +203,35 @@ export class GeneralComponent implements OnInit {
       this.stakeholdersService.getEOSCSBCountries(),
       // this.queryData.getQuestion5(),
       // this.queryData.getQuestion5comment(),
-      this.queryData.getQuestion(this.year, 'Question5'),
-      this.queryData.getQuestionComment(this.year, 'Question5'),
+      this.queryData.getQuestion(this.year(), 'Question5'),
+      this.queryData.getQuestionComment(this.year(), 'Question5'),
     ).subscribe(
       res => {
-        this.questionsDataArray[pos] = this.questionsDataArrayForBarChart[pos] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
-        for (let i = 0; i < this.questionsDataArray[pos].length; i++) {
+        const mapData: any[] = this.dataHandlerService.covertRawDataToColorAxisMap(res[1]);
+        for (let i = 0; i < mapData.length; i++) {
           let country = countriesNumbers.find(
-            elem=> elem.id.toLowerCase() === this.questionsDataArray[pos][i][0]
+            elem=> elem.id.toLowerCase() === mapData[i][0]
           );
           if (country?.[param]) {
-            this.questionsDataArray[pos][i][1] = this.round(this.questionsDataArray[pos][i][1] / country[param] * 1000, 4);
+            mapData[i][1] = this.round(mapData[i][1] / country[param] * 1000, 4);
           } else {
-            this.questionsDataArray[pos].splice(i, 1);
+            mapData.splice(i, 1);
             i--;
           }
         }
+        setAt(this.questionsDataArray, pos, mapData);
+        setAt(this.questionsDataArrayForBarChart, pos, mapData);
         let tempArr: string[] = [];
-        this.questionsDataArray[pos].forEach((data: string[]) => {tempArr.push(data[0]);});
-        this.countriesArray = res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element));
-        this.toolTipData[pos] = this.dataHandlerService.covertRawDataGetText(res[2]);
+        mapData.forEach((data: string[]) => {tempArr.push(data[0]);});
+        this.countriesArray.set(res[0].map(element => {return element.toLowerCase()}).filter(element => !tempArr.includes(element)));
+        setAt(this.toolTipData, pos, this.dataHandlerService.covertRawDataGetText(res[2]));
         // this.sumsArray[pos] = this.calculateSum(res[1]);
       }
     );
   }
 
   getInvestmentsDataPie(arr: number[]) {
-      this.pieSeries = [{
+      const pieSeries = [{
           name: 'No of countries',
           type: 'pie',
           data: [
@@ -229,43 +244,45 @@ export class GeneralComponent implements OnInit {
       }];
       for (let i = 0; i < arr.length; i++) {
           if (arr[i][1] < 1) {
-              (<number>this.pieSeries[0].data[0][1])++;
+              (<number>pieSeries[0].data[0][1])++;
           } else if (arr[i][1] < 5) {
-              (<number>this.pieSeries[0].data[1][1])++;
+              (<number>pieSeries[0].data[1][1])++;
           } else if (arr[i][1] < 10) {
-              (<number>this.pieSeries[0].data[2][1])++;
+              (<number>pieSeries[0].data[2][1])++;
           } else if (arr[i][1] < 20) {
-              (<number>this.pieSeries[0].data[3][1])++;
+              (<number>pieSeries[0].data[3][1])++;
           } else if (arr[i][1] >= 20) {
-              (<number>this.pieSeries[0].data[4][1])++;
+              (<number>pieSeries[0].data[4][1])++;
           }
       }
+      this.pieSeries.set(pieSeries);
       // console.log(this.series[0]);
   }
 
   createStackedColumnSeries(arr: any[]) {
     arr.sort((a, b) => { return a[1] - b[1]; });
-    this.columnSeries = [];
+    const columnSeries: {name: string, type: string, data: (string | number)[][]}[] = [];
     let serie: {name: string, type: string, data: (string | number)[][]};
     for (let i = 0; i < arr.length; i++) {
       let country = this.findCountryName(arr[i][0]);
       if (arr[i][1] < 1) {
         serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [[' < 1 M', 1]]}
-        this.columnSeries.push(serie);
+        columnSeries.push(serie);
       } else if (arr[i][1] < 5) {
         serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [['1 - 5 M', 1]]}
-        this.columnSeries.push(serie);
+        columnSeries.push(serie);
       } else if (arr[i][1] < 10) {
         serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [['5 - 10 M', 1]]}
-        this.columnSeries.push(serie);
+        columnSeries.push(serie);
       } else if (arr[i][1] < 20) {
         serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [['10 - 20 M', 1]]}
-        this.columnSeries.push(serie);
+        columnSeries.push(serie);
       } else if (arr[i][1] >= 20) {
         serie = {name: country.name + ' ('+ country.id +')', type: 'column', data: [[' > 20 M', 1]]}
-        this.columnSeries.push(serie);
+        columnSeries.push(serie);
       }
     }
+    this.columnSeries.set(columnSeries);
   }
 
   calculateSum(rawData: RawData): string {
@@ -294,27 +311,27 @@ export class GeneralComponent implements OnInit {
     } else {
       switch (fragment) {
         case 'absolute':
-          if (!this.questionsDataArray[4])
+          if (!this.questionsDataArray()[4])
             this.getInvestmentsData(4);
           UIkit.switcher('#investmentsContent').show(0);
           break;
         case 'gdp':
-          if (!this.questionsDataArray[5])
+          if (!this.questionsDataArray()[5])
             this.getInvestmentsDataPercentage(5, 'gdp');
           UIkit.switcher('#investmentsContent').show(1);
           break;
         case 'gerd':
-          if (!this.questionsDataArray[6])
+          if (!this.questionsDataArray()[6])
             this.getInvestmentsDataPercentage(6, 'gerd');
           UIkit.switcher('#investmentsContent').show(2);
           break;
         case 'income':
-          if (!this.questionsDataArray[7])
+          if (!this.questionsDataArray()[7])
             this.getInvestmentsDataPercentage(7, 'income');
           UIkit.switcher('#investmentsContent').show(3);
           break;
         case 'total':
-          if (!this.questionsDataArray[8])
+          if (!this.questionsDataArray()[8])
             this.getInvestmentsData(8);
           this.colorAxis = {
             dataClasses: [
@@ -339,7 +356,7 @@ export class GeneralComponent implements OnInit {
           UIkit.switcher('#investmentsContent').show(0);
           break;
         case 'details':
-          if (!this.questionsDataArray[9])
+          if (!this.questionsDataArray()[9])
             this.getInvestmentsData(9);
           this.legend = {
               title: {

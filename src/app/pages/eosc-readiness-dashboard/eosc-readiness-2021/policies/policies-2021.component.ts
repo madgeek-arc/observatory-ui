@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, signal, inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { DataService } from "../../../services/data.service";
 import { DataHandlerService } from "../../../services/data-handler.service";
@@ -11,31 +11,33 @@ import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData"
 import * as UIkit from 'uikit';
 import { HighchartsCategoryMapComponent } from "../../../../shared/charts/category-map/highcharts-category-map.component";
 import { CountriesTableComponent } from "../../../archive/countries-table.component";
+import { setAt } from "src/app/shared/utils/set-at";
 
 @Component({
     selector: 'app-policies-2021',
     templateUrl: './policies-2021.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [HighchartsCategoryMapComponent, CountriesTableComponent]
 })
 
 export class Policies2021Component implements OnInit{
 
-  questionsDataArray: any[] = [];
+  questionsDataArray = signal<any[]>([]);
   tmpQuestionsDataArray: any[] = [];
-  tableAbsoluteDataArray: CountryTableData[][] = [];
+  tableAbsoluteDataArray = signal<CountryTableData[][]>([]);
   mapPointData: CountryTableData[];
   question3: CountryTableData[];
   question12: CountryTableData[];
   question14: CountryTableData[];
   countriesArray: string[] = [];
-  mapSubtitles: string[] = [];
+  mapSubtitles = signal<string[]>([]);
   mapSubtitlesArray: string[][] = mapSubtitles;
 
 
-  constructor(private dataService: DataService, private dataHandlerService: DataHandlerService,
-              private route: ActivatedRoute, private stakeholdersService: StakeholdersService) {
-  }
+  private dataService = inject(DataService);
+  private dataHandlerService = inject(DataHandlerService);
+  private route = inject(ActivatedRoute);
+  private stakeholdersService = inject(StakeholdersService);
 
   ngOnInit() {
     this.route.queryParams.subscribe(
@@ -54,13 +56,13 @@ export class Policies2021Component implements OnInit{
       this.dataService.getQuestion16()).subscribe(
       rawData => {
         this.countriesArray = rawData[0];
-        this.tableAbsoluteDataArray[2] = this.dataHandlerService.convertRawDataToTableData(rawData[1]);
+        setAt(this.tableAbsoluteDataArray, 2, this.dataHandlerService.convertRawDataToTableData(rawData[1]));
         this.createMapDataset(0, 2);
-        this.tableAbsoluteDataArray[12] = this.dataHandlerService.convertRawDataToTableData(rawData[2]);
+        setAt(this.tableAbsoluteDataArray, 12, this.dataHandlerService.convertRawDataToTableData(rawData[2]));
         this.createMapDataset(0, 12);
-        this.tableAbsoluteDataArray[13] = this.dataHandlerService.convertRawDataToTableData(rawData[3]);
+        setAt(this.tableAbsoluteDataArray, 13, this.dataHandlerService.convertRawDataToTableData(rawData[3]));
         this.createMapDataset(0, 13);
-        this.tableAbsoluteDataArray[14] = this.dataHandlerService.convertRawDataToTableData(rawData[4]);
+        setAt(this.tableAbsoluteDataArray, 14, this.dataHandlerService.convertRawDataToTableData(rawData[4]));
         this.createMapDataset(0, 14);
       },
       error => {
@@ -71,7 +73,7 @@ export class Policies2021Component implements OnInit{
       this.dataService.getQuestion5()).subscribe(
        rawData => {
           this.countriesArray = rawData[0];
-          this.tableAbsoluteDataArray[3] = this.dataHandlerService.convertRawDataToTableData(rawData[1]);
+          setAt(this.tableAbsoluteDataArray, 3, this.dataHandlerService.convertRawDataToTableData(rawData[1]));
           this.tmpQuestionsDataArray[3] = this.dataHandlerService.convertRawDataToCategorizedAreasData(rawData[1]);
           for (let i = 0; i < this.tmpQuestionsDataArray[3].series.length; i++) {
             this.tmpQuestionsDataArray[3].series[i].data = this.tmpQuestionsDataArray[3].series[i].data.map(code => ({ code }));
@@ -97,7 +99,7 @@ export class Policies2021Component implements OnInit{
       this.dataService.getQuestion14(),
       this.dataService.getQuestion16()).subscribe(
       next => {
-        this.tableAbsoluteDataArray[1] = this.dataHandlerService.convertRawDataToTableData(next[0]);
+        setAt(this.tableAbsoluteDataArray, 1, this.dataHandlerService.convertRawDataToTableData(next[0]));
         this.mapPointData = this.dataHandlerService.convertRawDataToTableData(next[1]);
         this.countriesArray = next[2];
         this.question3 = this.dataHandlerService.convertRawDataToMapPoint(next[3]);
@@ -113,71 +115,71 @@ export class Policies2021Component implements OnInit{
   }
 
   createMapDataset(index: number, mapCount: number) {
-    this.mapSubtitles[mapCount] = mapSubtitles[mapCount][index];
+    setAt(this.mapSubtitles, mapCount, mapSubtitles[mapCount][index]);
 
-    this.questionsDataArray[mapCount] = new CategorizedAreaData();
-    this.questionsDataArray[mapCount].series[0] = new Series('Has Policy', false);
+    const mapData = new CategorizedAreaData();
+    mapData.series[0] = new Series('Has Policy', false);
 
     let countryCodeArray = [];
-    for (let i = 0; i < this.tableAbsoluteDataArray[mapCount].length; i++) {
-      if (this.tableAbsoluteDataArray[mapCount][i].EOSCRelevantPoliciesInPlace[index] === 'true') {
-        countryCodeArray.push(this.tableAbsoluteDataArray[mapCount][i].code);
+    for (let i = 0; i < this.tableAbsoluteDataArray()[mapCount].length; i++) {
+      if (this.tableAbsoluteDataArray()[mapCount][i].EOSCRelevantPoliciesInPlace[index] === 'true') {
+        countryCodeArray.push(this.tableAbsoluteDataArray()[mapCount][i].code);
       }
     }
-    this.questionsDataArray[mapCount].series[0].data = countryCodeArray;
+    mapData.series[0].data = countryCodeArray;
 
-    this.questionsDataArray[mapCount].series[1] = new Series('No Policy', false);
-    this.questionsDataArray[mapCount].series[1].data = this.countriesArray.filter( code => !countryCodeArray.includes(code));
+    mapData.series[1] = new Series('No Policy', false);
+    mapData.series[1].data = this.countriesArray.filter( code => !countryCodeArray.includes(code));
 
-    for (let i = 0; i < this.questionsDataArray[mapCount].series.length; i++) {
-      this.questionsDataArray[mapCount].series[i].data = this.questionsDataArray[mapCount].series[i].data.map(code => ({ code }));
+    for (let i = 0; i < mapData.series.length; i++) {
+      mapData.series[i].data = mapData.series[i].data.map(code => ({ code }));
     }
-
+    setAt(this.questionsDataArray, mapCount, mapData);
   }
 
   createMapDataFromCategorization(index: number, mapCount: number) {
-    this.mapSubtitles[mapCount] = mapSubtitles[mapCount][index];
+    setAt(this.mapSubtitles, mapCount, mapSubtitles[mapCount][index]);
 
-    this.questionsDataArray[mapCount] = new CategorizedAreaData();
+    const mapData = new CategorizedAreaData();
 
-    this.questionsDataArray[mapCount].series[0] = new Series(this.mapSubtitles[mapCount], false);
+    mapData.series[0] = new Series(this.mapSubtitles()[mapCount], false);
     for (let i = 0; i < this.tmpQuestionsDataArray[mapCount].series.length; i++) {
-      if (this.tmpQuestionsDataArray[mapCount].series[i].name === this.mapSubtitles[mapCount]){
-        this.questionsDataArray[mapCount].series[0].data = this.tmpQuestionsDataArray[mapCount].series[i].data;
+      if (this.tmpQuestionsDataArray[mapCount].series[i].name === this.mapSubtitles()[mapCount]){
+        mapData.series[0].data = this.tmpQuestionsDataArray[mapCount].series[i].data;
         break;
       }
     }
     let countryCodeArray = [];
-    for (const data of this.questionsDataArray[mapCount].series[0].data) {
+    for (const data of mapData.series[0].data) {
       countryCodeArray.push(data.code)
     }
 
-    this.questionsDataArray[mapCount].series[1] = new Series('Other', false);
-    this.questionsDataArray[mapCount].series[1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
-    this.questionsDataArray[mapCount].series[1].data = this.questionsDataArray[mapCount].series[1].data.map(code => ({ code }));
-
+    mapData.series[1] = new Series('Other', false);
+    mapData.series[1].data = this.countriesArray.filter(code => !countryCodeArray.includes(code));
+    mapData.series[1].data = mapData.series[1].data.map(code => ({ code }));
+    setAt(this.questionsDataArray, mapCount, mapData);
   }
 
   createComplexMapDataset(index: number, mapCount: number) {
 
-    this.mapSubtitles[mapCount] = mapSubtitles[mapCount][index];
+    setAt(this.mapSubtitles, mapCount, mapSubtitles[mapCount][index]);
 
-    this.questionsDataArray[mapCount] = new CategorizedAreaData();
-    this.questionsDataArray[mapCount].series[0] = new Series('Has Policy', false);
+    const mapData = new CategorizedAreaData();
+    mapData.series[0] = new Series('Has Policy', false);
 
     let countryCodeArray = [];
-    for (let i = 0; i < this.tableAbsoluteDataArray[mapCount].length; i++) {
-      if (this.tableAbsoluteDataArray[mapCount][i].EOSCRelevantPoliciesInPlace[index] === 'true') {
-        countryCodeArray.push(this.tableAbsoluteDataArray[mapCount][i].code);
+    for (let i = 0; i < this.tableAbsoluteDataArray()[mapCount].length; i++) {
+      if (this.tableAbsoluteDataArray()[mapCount][i].EOSCRelevantPoliciesInPlace[index] === 'true') {
+        countryCodeArray.push(this.tableAbsoluteDataArray()[mapCount][i].code);
       }
     }
-    this.questionsDataArray[mapCount].series[0].data = countryCodeArray;
+    mapData.series[0].data = countryCodeArray;
 
-    this.questionsDataArray[mapCount].series[1] = new Series('No Policy', false);
-    this.questionsDataArray[mapCount].series[1].data = this.countriesArray.filter( code => !countryCodeArray.includes(code));
+    mapData.series[1] = new Series('No Policy', false);
+    mapData.series[1].data = this.countriesArray.filter( code => !countryCodeArray.includes(code));
 
-    for (let i = 0; i < this.questionsDataArray[mapCount].series.length; i++) {
-      this.questionsDataArray[mapCount].series[i].data = this.questionsDataArray[mapCount].series[i].data.map(code => ({ code }));
+    for (let i = 0; i < mapData.series.length; i++) {
+      mapData.series[i].data = mapData.series[i].data.map(code => ({ code }));
     }
 
     if (index > 2) {
@@ -187,12 +189,12 @@ export class Policies2021Component implements OnInit{
           mapPointArray.push({name: this.mapPointData[i].code, lat: latlong.get(this.mapPointData[i].code).latitude, lon: latlong.get(this.mapPointData[i].code).longitude});
         }
       }
-      const pos = this.questionsDataArray[mapCount].series.length
-      this.questionsDataArray[mapCount].series[pos] = new Series('Countries with use cases and best practices relevant to the policy', false, 'mappoint');
-      this.questionsDataArray[mapCount].series[pos].data = mapPointArray;
-      this.questionsDataArray[mapCount].series[pos].color = '#7CFC00';
-      this.questionsDataArray[mapCount].series[pos].marker.symbol = 'circle';
-      this.questionsDataArray[mapCount].series[pos].showInLegend = true;
+      const pos = mapData.series.length
+      mapData.series[pos] = new Series('Countries with use cases and best practices relevant to the policy', false, 'mappoint');
+      mapData.series[pos].data = mapPointArray;
+      mapData.series[pos].color = '#7CFC00';
+      mapData.series[pos].marker.symbol = 'circle';
+      mapData.series[pos].showInLegend = true;
     }
 
     if (index === 0 || index === 4 || index === 7) {
@@ -216,16 +218,16 @@ export class Policies2021Component implements OnInit{
         }
       }
 
-      const pos = this.questionsDataArray[mapCount].series.length
-      this.questionsDataArray[mapCount].series[pos] = new Series('Countries with financial strategies linked to the policy', false, 'mappoint');
-      this.questionsDataArray[mapCount].series[pos].data = mapPointArray;
-      this.questionsDataArray[mapCount].series[pos].color = '#FFEF00';
-      this.questionsDataArray[mapCount].series[pos].marker.symbol = 'diamond';
-      this.questionsDataArray[mapCount].series[pos].showInLegend = true;
+      const pos = mapData.series.length
+      mapData.series[pos] = new Series('Countries with financial strategies linked to the policy', false, 'mappoint');
+      mapData.series[pos].data = mapPointArray;
+      mapData.series[pos].color = '#FFEF00';
+      mapData.series[pos].marker.symbol = 'diamond';
+      mapData.series[pos].showInLegend = true;
     }
 
     // console.log(this.countryCodeArray);
-
+    setAt(this.questionsDataArray, mapCount, mapData);
   }
 
 }
