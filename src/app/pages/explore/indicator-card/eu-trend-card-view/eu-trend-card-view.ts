@@ -31,10 +31,7 @@ export class EuTrendCardView {
       countries: [],
       yearFrom: this.customSearchService.startYear(),
       yearTo: this.customSearchService.endYear(),
-      seriesAggregations: [
-        ...(this.customSearchService.showEuAverage() ? ['AVG'] : []),
-        ...(this.customSearchService.showMedianValues() ? ['MEDIAN'] : [])
-      ]
+      seriesAggregations: []
     } as IndicatorPresetQueryRequest
   }));
 
@@ -76,22 +73,6 @@ export class EuTrendCardView {
         .map((serie, index) =>
           ({...serie, type: 'line' as const, color: colors[index % colors.length]})),
       legend: {enabled: false},
-    };
-  });
-
-  readonly summaryRow = computed(() => {
-    const response = this.response();
-    if (!response) {
-      return undefined;
-    }
-    const format = this.format();
-    return {
-      euAverage: this.customSearchService.showEuAverage()
-        ? formatIfNumber(response.summary.find(s => s.dimensions.aggregation === 'AVG')?.value, format)
-        : undefined,
-      median: this.customSearchService.showMedianValues()
-        ? formatIfNumber(response.summary.find(s => s.dimensions.aggregation === 'MEDIAN')?.value, format)
-        : undefined
     };
   });
 
