@@ -77,6 +77,20 @@ export class CustomSearchComponent {
     this.indicators().filter(i => this.selectedIndicatorIds().has(i.id))
   );
 
+  /** EU Average checkbox is usable when nothing is selected yet, or any selected indicator allows AVG. */
+  readonly euAverageAllowed = computed(() => {
+    const selected = this.selectedIndicatorCards();
+    return selected.length === 0
+      || selected.some(indicator => indicator.allowedSeriesAggregations.includes('AVG'));
+  });
+
+  /** Median checkbox is usable when nothing is selected yet, or any selected indicator allows MEDIAN. */
+  readonly medianAllowed = computed(() => {
+    const selected = this.selectedIndicatorCards();
+    return selected.length === 0
+      || selected.some(indicator => indicator.allowedSeriesAggregations.includes('MEDIAN'));
+  });
+
   readonly topics = computed<Topic[]>(() => {
     const list = this.indicators();
     const names = [...new Set(list.map(i => i.group))];

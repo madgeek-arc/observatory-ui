@@ -1,6 +1,10 @@
 import { Component, computed, inject, input, output, signal } from "@angular/core";
+import { toObservable, toSignal } from "@angular/core/rxjs-interop";
+import { of } from "rxjs";
+import { catchError, map, switchMap } from "rxjs/operators";
 import { CountryScope, ExploreIndicatorConfig, IndicatorRenderStyle, IndicatorView, RenderStyle, TimeScope } from "../../../domain/explore-indicators";
-import { CustomSearchService } from "../custom-search/services/custom-search.service";
+import { CustomSearchService, IndicatorPresetQueryRequest } from "../custom-search/services/custom-search.service";
+import { formatIfNumber } from "../../../domain/format-indicator-value";
 import { EuSnapshotCardView } from "./eu-snapshot-card-view/eu-snapshot-card-view";
 import { EuTrendCardView } from "./eu-trend-card-view/eu-trend-card-view";
 import { CountriesTrendCardView, TrendMode } from "./countries-trend-card-view/countries-trend-card-view";
@@ -169,6 +173,60 @@ export class IndicatorCard {
       this.customSearchService.endYear()
     )
   );
+
+
+  readonly aggregations = computed<string[]>(() => {
+    const allowed = this.indicator().allowedSeriesAggregations;
+    return [
+      ...(this.customSearchService.showEuAverage() ? ['AVG'] : []),
+      ...(this.customSearchService.showMedianValues() ? ['MEDIAN'] : [])
+    ].filter(aggregation => allowed.includes(aggregation));
+  });
+
+  /** Request for the summary only — rebuilt whenever aggregations, years or countries change. */
+  private readonly summaryParams = computed(() => ({
+    id: this.indicator().id,
+    request: {
+      countries: this.customSearchService.geographyScope() === 'all'
+        ? []
+        : [...this.customSearchService.selectedCountryIds()],
+      yearFrom: this.customSearchService.startYear(),
+      yearTo: this.customSearchService.endYear(),
+      seriesAggregations: this.aggregations()
+    } as IndicatorPresetQueryRequest
+  }));
+
+  /** The backend's summary, or undefined when nothing is allowed/selected or the call failed. */
+  readonly summary = toSignal(
+    toObservable(this.summaryParams).pipe(
+      switchMap(({ id, request }) =>
+        request.seriesAggregations.length === 0
+          ? of(undefined)
+          : this.customSearchService.queryIndicator(id, request).pipe(
+              map(response => response.summary),
+              catchError(() => of(undefined))
+            )
+      )
+    )
+  );
+
+  /** Formatted EU average / median for the row under the card — undefined values are not shown. */
+  readonly summaryRow = computed(() => {
+    const summary = this.summary();
+    if (!summary) {
+      return undefined;
+    }
+    const aggregations = this.aggregations();
+    const format = this.indicator().format;
+    return {
+      euAverage: aggregations.includes('AVG')
+        ? formatIfNumber(summary.find(s => s.dimensions.aggregation === 'AVG')?.value, format)
+        : undefined,
+      median: aggregations.includes('MEDIAN')
+        ? formatIfNumber(summary.find(s => s.dimensions.aggregation === 'MEDIAN')?.value, format)
+        : undefined
+    };
+  });
 
 
   readonly renderStyles = computed<IndicatorRenderStyle[]>(() => {

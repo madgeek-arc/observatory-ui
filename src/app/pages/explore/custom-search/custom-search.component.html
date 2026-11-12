@@ -36,7 +36,8 @@
             <span class="uk-label">{{ savedViews().length }}</span>
           }
         </button>
-        <button type="button" class="uk-button uk-button-default uk-button-small" (click)="saveView()">Save view</button>
+        <button type="button" class="uk-button uk-button-default uk-button-small" (click)="saveView()">Save view
+        </button>
         <button type="button" class="uk-button uk-button-default uk-button-small">Share link</button>
         <button type="button" class="uk-button uk-button-primary uk-button-small">Export report</button>
       </div>
@@ -63,17 +64,23 @@
           @for (topic of topics(); track topic.id) {
             <li class="uk-card uk-card-default" [class.uk-accordion-active]="isTopicExpanded(topic.id)">
               <a class="uk-accordion-title uk-card-title uk-flex uk-flex-middle" (click)="toggleTopic(topic.id)">
-                <span class="material-symbols-outlined indicator-caret">{{ isTopicExpanded(topic.id) ? 'arrow_drop_down' : 'arrow_right' }}</span>
+                <span
+                  class="material-symbols-outlined indicator-caret">{{ isTopicExpanded(topic.id) ? 'arrow_drop_down' : 'arrow_right' }}</span>
                 <span class="uk-text-xsmall" style="flex: 1 1 auto; min-width: 0;">{{ topic.name }}</span>
                 @if (selectedCountForTopic(topic) > 0) {
-                  <span class="uk-text-xsmall uk-text-primary uk-text-bold uk-text-nowrap uk-margin-small-right">{{ selectedCountForTopic(topic) }} of {{ topic.indicators.length }} selected</span>
+                  <span
+                    class="uk-text-xsmall uk-text-primary uk-text-bold uk-text-nowrap uk-margin-small-right">{{ selectedCountForTopic(topic) }}
+                    of {{ topic.indicators.length }} selected</span>
                 } @else {
-                  <span class="uk-text-xsmall uk-text-meta uk-text-nowrap uk-margin-small-right">{{ topic.indicators.length }} indicators</span>
+                  <span
+                    class="uk-text-xsmall uk-text-meta uk-text-nowrap uk-margin-small-right">{{ topic.indicators.length }}
+                    indicators</span>
                 }
               </a>
               <div class="uk-accordion-content uk-card-body">
                 <div class="uk-margin-small-top uk-margin-small-bottom">
-                  <a class="uk-text-xsmall uk-text-primary uk-text-bold uk-link-reset" (click)="toggleSelectAllInTopic(topic)">
+                  <a class="uk-text-xsmall uk-text-primary uk-text-bold uk-link-reset"
+                     (click)="toggleSelectAllInTopic(topic)">
                     {{ isTopicFullySelected(topic) ? 'Clear all' : 'Select all' }}
                   </a>
                 </div>
@@ -84,7 +91,8 @@
                         <input class="uk-checkbox" type="checkbox" style="flex-shrink: 0;"
                                [checked]="isIndicatorSelected(indicator.id)"
                                (change)="toggleIndicator(indicator.id)">
-                        <span class="uk-text-xsmall" style="flex: 1 1 auto; min-width: 0;" [class.uk-text-primary]="isIndicatorSelected(indicator.id)">{{ indicator.label }}</span>
+                        <span class="uk-text-xsmall" style="flex: 1 1 auto; min-width: 0;"
+                              [class.uk-text-primary]="isIndicatorSelected(indicator.id)">{{ indicator.label }}</span>
                       </label>
                     </li>
                   }
@@ -117,19 +125,21 @@
         @if (geographyScope() === 'select') {
           <div class="uk-inline uk-width-1-1">
             <button type="button" class="uk-input uk-form-small uk-flex uk-flex-between uk-flex-middle">
-              @if ( selectedCountryIds().size > 0) {
+              @if (selectedCountryIds().size > 0) {
                 {{ selectedCountryIds().size }} {{ selectedCountryIds().size === 1 ? 'country' : 'countries' }} selected
               } @else {
                 Select countries
               }
-            <span class="material-symbols-outlined indicator-caret">arrow_drop_down</span>
+              <span class="material-symbols-outlined indicator-caret">arrow_drop_down</span>
             </button>
             <div uk-dropdown="mode: click; pos: bottom-left; flip: false;">
               <input class="uk-input uk-margin-small-bottom" type="search" placeholder="Search..."
                      [ngModel]="countrySearchTerm()" (ngModelChange)="countrySearchTerm.set($event)">
               <div class="uk-flex uk-flex-between uk-margin-small-bottom uk-border-top uk-border-bottom">
-                <a class="uk-link-reset uk-text-small uk-text-bold" (click)="selectAllFilteredCountries()"><span class="uk-text-primary">Select all</span></a>
-                <a class="uk-link-reset uk-text-small uk-text-bold" (click)="clearSelectedCountries()"><span class="uk-text-meta">Clear</span></a>
+                <a class="uk-link-reset uk-text-small uk-text-bold" (click)="selectAllFilteredCountries()"><span
+                  class="uk-text-primary">Select all</span></a>
+                <a class="uk-link-reset uk-text-small uk-text-bold" (click)="clearSelectedCountries()"><span
+                  class="uk-text-meta">Clear</span></a>
               </div>
               <div style="max-height: 200px; overflow-y: auto;">
                 @for (country of filteredCountries(); track country.id) {
@@ -174,105 +184,114 @@
         <hr class="uk-margin-medium-top">
 
         <div class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
-          <span style="width: 3px; height: 16px; background: var(--eosc-observatory-primary-color); display: inline-block; border-radius: 2px;"></span>
+          <span
+            style="width: 3px; height: 16px; background: var(--eosc-observatory-primary-color); display: inline-block; border-radius: 2px;"></span>
           <span class="uk-text-bold uk-text-small">Advanced analytics</span>
         </div>
 
-        <label class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
-          <input class="uk-checkbox" type="checkbox" [checked]="showEuAverage()" (change)="showEuAverage.set(!showEuAverage())">
-          <span class="uk-text-small">Show EU Average</span>
+        <label class="uk-flex uk-flex-middle uk-margin-small-bottom" style="gap: 8px;" [attr.uk-tooltip]="euAverageAllowed()
+        ? null : 'title: None of the selected indicators support EU average; pos: top'">
+          <input class="uk-checkbox" type="checkbox"
+                 [checked]="showEuAverage()"
+                 [disabled]="!euAverageAllowed()"
+                 (change)="showEuAverage.set(!showEuAverage())">
+          <span class="uk-text-small" [class.uk-text-muted]="!euAverageAllowed()">Show EU Average</span>
         </label>
-        <label class="uk-flex uk-flex-middle" style="gap: 8px;">
-          <input class="uk-checkbox" type="checkbox" [checked]="showMedianValues()" (change)="showMedianValues.set(!showMedianValues())">
-          <span class="uk-text-small">Show Median Values</span>
+        <label class="uk-flex uk-flex-middle" style="gap: 8px;" [attr.uk-tooltip]="medianAllowed()
+        ? null : 'title: None of the selected indicators support median values; pos: top'">
+          <input class="uk-checkbox" type="checkbox"
+                 [checked]="showMedianValues()"
+                 [disabled]="!medianAllowed()"
+                 (change)="showMedianValues.set(!showMedianValues())">
+          <span class="uk-text-small" [class.uk-text-muted]="!medianAllowed()">Show Median Values</span>
         </label>
 
       </div>
 
       <div class="uk-width-expand uk-padding-small">
 
-      <div class="uk-text-small uk-text-meta uk-margin-small-bottom">
-        Live view · <b>{{ summary().indicators }}</b> indicators across <b>{{ summary().topics }}</b> topics
-        · {{ summary().yearsLabel }}
-      </div>
+        <div class="uk-text-small uk-text-meta uk-margin-small-bottom">
+          Live view · <b>{{ summary().indicators }}</b> indicators across <b>{{ summary().topics }}</b> topics
+          · {{ summary().yearsLabel }}
+        </div>
 
-      <div class="uk-grid-small uk-margin-small-bottom" uk-grid>
-        <div class="uk-width-1-4@m">
-          <div class="uk-card card-simple uk-card-small uk-card-body">
-            <div class="uk-text-meta uk-text-small uk-text-bold">Indicators</div>
-            <div class="uk-text-bold uk-text-large">{{ summary().indicators }}</div>
-            <div class="uk-text-meta uk-text-xsmall">in this view</div>
+        <div class="uk-grid-small uk-margin-small-bottom" uk-grid>
+          <div class="uk-width-1-4@m">
+            <div class="uk-card card-simple uk-card-small uk-card-body">
+              <div class="uk-text-meta uk-text-small uk-text-bold">Indicators</div>
+              <div class="uk-text-bold uk-text-large">{{ summary().indicators }}</div>
+              <div class="uk-text-meta uk-text-xsmall">in this view</div>
+            </div>
+          </div>
+          <div class="uk-width-1-4@m">
+            <div class="uk-card card-simple uk-card-small uk-card-body">
+              <div class="uk-text-meta uk-text-small uk-text-bold">Topics</div>
+              <div class="uk-text-bold uk-text-large">{{ summary().topics }}</div>
+              <div class="uk-text-meta uk-text-xsmall">covered</div>
+            </div>
+          </div>
+          <div class="uk-width-1-4@m">
+            <div class="uk-card card-simple uk-card-small uk-card-body">
+              <div class="uk-text-meta uk-text-small uk-text-bold">Countries</div>
+              <div class="uk-text-bold uk-text-large">{{ summary().countries }}</div>
+              <div class="uk-text-meta uk-text-xsmall">in scope</div>
+            </div>
+          </div>
+          <div class="uk-width-1-4@m">
+            <div class="uk-card card-simple uk-card-small uk-card-body">
+              <div class="uk-text-meta uk-text-small uk-text-bold">Data Points</div>
+              <div class="uk-text-bold uk-text-large">{{ summary().dataPoints }}</div>
+              <div class="uk-text-meta uk-text-xsmall">in this view</div>
+            </div>
           </div>
         </div>
-        <div class="uk-width-1-4@m">
-          <div class="uk-card card-simple uk-card-small uk-card-body">
-            <div class="uk-text-meta uk-text-small uk-text-bold">Topics</div>
-            <div class="uk-text-bold uk-text-large">{{ summary().topics }}</div>
-            <div class="uk-text-meta uk-text-xsmall">covered</div>
-          </div>
-        </div>
-        <div class="uk-width-1-4@m">
-          <div class="uk-card card-simple uk-card-small uk-card-body">
-            <div class="uk-text-meta uk-text-small uk-text-bold">Countries</div>
-            <div class="uk-text-bold uk-text-large">{{ summary().countries }}</div>
-            <div class="uk-text-meta uk-text-xsmall">in scope</div>
-          </div>
-        </div>
-        <div class="uk-width-1-4@m">
-          <div class="uk-card card-simple uk-card-small uk-card-body">
-            <div class="uk-text-meta uk-text-small uk-text-bold">Data Points</div>
-            <div class="uk-text-bold uk-text-large">{{ summary().dataPoints }}</div>
-            <div class="uk-text-meta uk-text-xsmall">in this view</div>
-          </div>
-        </div>
-      </div>
 
-      <div class="uk-grid-small uk-margin-small-bottom uk-grid-match" uk-grid>
-        @for (indicator of selectedIndicatorCards(); track indicator.id) {
-          <div [class]="isFullWidthCard(indicator) ? 'uk-width-1-1@m' : 'uk-width-1-2@m'">
-            <app-indicator-card
-              [indicator]="indicator"
-              (closeCard)="toggleIndicator($event)">
-            </app-indicator-card>
-          </div>
-        }
-      </div>
-
-      @if (summary().indicators === 0) {
-        <div class="uk-card card-simple uk-card-small uk-card-body">
-          <div class="uk-text-large uk-text-bold">Start a custom search</div>
-          <p class="uk-text-small uk-text-meta">
-            Expand a topic in the left rail and tick the indicators you want — or pick up a view you saved earlier.
-          </p>
-          <div class="uk-flex uk-flex-middle" style="gap: 10px;">
-            <button type="button" class="uk-button uk-button-primary">Open a saved view</button>
-            <span class="uk-text-small uk-text-meta">or tick indicators on the left to start fresh</span>
-          </div>
-
-          @if (savedViews().length > 0) {
-            <div>
-              <div class="uk-text-meta uk-text-xsmall uk-text-uppercase uk-text-bold">Pick up where you left off</div>
-              <div class="uk-grid-small" uk-grid>
-                @for (view of savedViews(); track view.id) {
-                  <div class="uk-width-1-2@m">
-                    <div class="uk-card uk-card-default uk-card-small uk-card-body">
-                      <div class="uk-flex uk-flex-between">
-                        <span class="uk-text-bold">{{ view.name }}</span>
-                        <span class="uk-label">{{ view.shared ? 'SHARED' : 'PRIVATE' }}</span>
-                      </div>
-                      <div class="uk-text-meta uk-text-small">
-                        {{ view.indicatorsCount }} indicators · {{ view.topicsCount }} topics
-                        · {{ view.countriesLabel }}
-                      </div>
-                      <div class="uk-text-meta uk-text-xsmall">Updated {{ view.updated }}</div>
-                    </div>
-                  </div>
-                }
-              </div>
+        <div class="uk-grid-small uk-margin-small-bottom uk-grid-match" uk-grid>
+          @for (indicator of selectedIndicatorCards(); track indicator.id) {
+            <div [class]="isFullWidthCard(indicator) ? 'uk-width-1-1@m' : 'uk-width-1-2@m'">
+              <app-indicator-card
+                [indicator]="indicator"
+                (closeCard)="toggleIndicator($event)">
+              </app-indicator-card>
             </div>
           }
         </div>
-      }
+
+        @if (summary().indicators === 0) {
+          <div class="uk-card card-simple uk-card-small uk-card-body">
+            <div class="uk-text-large uk-text-bold">Start a custom search</div>
+            <p class="uk-text-small uk-text-meta">
+              Expand a topic in the left rail and tick the indicators you want — or pick up a view you saved earlier.
+            </p>
+            <div class="uk-flex uk-flex-middle" style="gap: 10px;">
+              <button type="button" class="uk-button uk-button-primary">Open a saved view</button>
+              <span class="uk-text-small uk-text-meta">or tick indicators on the left to start fresh</span>
+            </div>
+
+            @if (savedViews().length > 0) {
+              <div>
+                <div class="uk-text-meta uk-text-xsmall uk-text-uppercase uk-text-bold">Pick up where you left off</div>
+                <div class="uk-grid-small" uk-grid>
+                  @for (view of savedViews(); track view.id) {
+                    <div class="uk-width-1-2@m">
+                      <div class="uk-card uk-card-default uk-card-small uk-card-body">
+                        <div class="uk-flex uk-flex-between">
+                          <span class="uk-text-bold">{{ view.name }}</span>
+                          <span class="uk-label">{{ view.shared ? 'SHARED' : 'PRIVATE' }}</span>
+                        </div>
+                        <div class="uk-text-meta uk-text-small">
+                          {{ view.indicatorsCount }} indicators · {{ view.topicsCount }} topics
+                          · {{ view.countriesLabel }}
+                        </div>
+                        <div class="uk-text-meta uk-text-xsmall">Updated {{ view.updated }}</div>
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
 
       </div>
 
