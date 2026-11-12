@@ -6,7 +6,7 @@ import {
 } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
 import {PageContentComponent} from "../../../../survey-tool/app/shared/page-content/page-content.component";
 import { StakeholdersService } from "../../../../survey-tool/app/services/stakeholders.service";
-import { ExploreIndicatorConfig } from "../../../domain/explore-indicators";
+import { ExploreIndicatorConfig, IndicatorView } from "../../../domain/explore-indicators";
 import { Country, countries } from "../../../domain/countries";
 import { AVAILABLE_YEARS, CustomSearchService, DashboardItem } from "./services/custom-search.service";
 import { IndicatorCard, resolveCurrentView } from "../indicator-card/indicator-card";
@@ -77,18 +77,18 @@ export class CustomSearchComponent {
     this.indicators().filter(i => this.selectedIndicatorIds().has(i.id))
   );
 
-  /** EU Average checkbox is usable when nothing is selected yet, or any selected indicator allows AVG. */
+  /** EU Average checkbox is usable when nothing is selected yet, or any selected indicator's current view allows AVG. */
   readonly euAverageAllowed = computed(() => {
     const selected = this.selectedIndicatorCards();
     return selected.length === 0
-      || selected.some(indicator => indicator.allowedSeriesAggregations.includes('AVG'));
+      || selected.some(indicator => this.currentViewOf(indicator)?.allowedSeriesAggregations.includes('AVG'));
   });
 
-  /** Median checkbox is usable when nothing is selected yet, or any selected indicator allows MEDIAN. */
+  /** Median checkbox is usable when nothing is selected yet, or any selected indicator's current view allows MEDIAN. */
   readonly medianAllowed = computed(() => {
     const selected = this.selectedIndicatorCards();
     return selected.length === 0
-      || selected.some(indicator => indicator.allowedSeriesAggregations.includes('MEDIAN'));
+      || selected.some(indicator => this.currentViewOf(indicator)?.allowedSeriesAggregations.includes('MEDIAN'));
   });
 
   readonly topics = computed<Topic[]>(() => {
@@ -167,6 +167,11 @@ export class CustomSearchComponent {
 
   isIndicatorSelected(id: string): boolean {
     return this.selectedIndicatorIds().has(id);
+  }
+
+  /** The view the indicator's card shows for the current geography and years. */
+  private currentViewOf(indicator: ExploreIndicatorConfig): IndicatorView | undefined {
+    return resolveCurrentView(indicator, this.geographyScope(), this.startYear(), this.endYear());
   }
 
   /** fullWidth lives on each view, not on the indicator as a whole */

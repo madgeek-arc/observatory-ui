@@ -111,6 +111,7 @@ export interface IndicatorView {
   renderStyles: IndicatorRenderStyle[];
   selector?: IndicatorViewSelector;
   fullWidth: boolean;
+  allowedSeriesAggregations: string[];
 }
 
 export interface ExploreIndicatorConfig {
@@ -120,6 +121,5 @@ export interface ExploreIndicatorConfig {
   group: string;
   views: IndicatorView[];
   format: IndicatorFormat;
-  allowedSeriesAggregations: string[];
   presetFilters?: Record<string, string[]>;
 }

@@ -176,7 +176,7 @@ export class IndicatorCard {
 
 
   readonly aggregations = computed<string[]>(() => {
-    const allowed = this.indicator().allowedSeriesAggregations;
+    const allowed = this.currentView()?.allowedSeriesAggregations ?? [];
     return [
       ...(this.customSearchService.showEuAverage() ? ['AVG'] : []),
       ...(this.customSearchService.showMedianValues() ? ['MEDIAN'] : [])
