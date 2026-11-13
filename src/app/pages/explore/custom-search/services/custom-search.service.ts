@@ -34,6 +34,7 @@ export interface IndicatorQueryResponse {
 export interface DimensionMember {
   code: string;
   label: string;
+  group?: string;
 }
 
 interface DimensionMembersResponse {

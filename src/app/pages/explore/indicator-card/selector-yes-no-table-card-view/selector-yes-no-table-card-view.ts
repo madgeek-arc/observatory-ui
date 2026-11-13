@@ -1,9 +1,10 @@
 import { Component, computed, inject, input } from "@angular/core";
 import { combineStates, CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
-import { statusCategory } from "../../../../domain/policy-status";
+import { legendForGroup, statusCategory } from "../../../../domain/policy-status";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CardState } from "../../../../shared/card-state/card-state";
+import { formatIfNumber } from "../../../../domain/format-indicator-value";
 
 @Component({
   selector: 'app-selector-yes-no-table-card-view',
@@ -35,6 +36,13 @@ export class SelectorYesNoTableCardView {
   private readonly labelByCode = computed(() =>
     Object.fromEntries((this.members() ?? []).map(m => [m.code, m.label]))
   );
+  /** Every area in a preset belongs to one group (POLICY / FINANCIAL_STRATEGY / MONITORING_INITIATIVE),
+   *  so the first area's group decides the legend wording. */
+  readonly legend = computed(() => {
+    const groupByCode = new Map((this.members() ?? []).map(m => [m.code, m.group]));
+    const firstCode = this.categoryCodes()[0];
+    return legendForGroup(firstCode ? groupByCode.get(firstCode) : undefined);
+  });
   private readonly areas = computed(() =>
     this.categoryCodes().map(code => ({ code, label: this.labelByCode()[code] ?? code }))
   );
@@ -94,7 +102,7 @@ export class SelectorYesNoTableCardView {
           symbol: status === 'positive' ? '✓' : status === 'awaiting' ? '–' : ''
         };
       }),
-      euValue: euResponse.data.find(point => point.dimensions[dimension] === area.code)?.value
+      euValue: formatIfNumber(euResponse.data.find(point => point.dimensions[dimension] === area.code)?.value, 'percentage')
     }));
   });
 

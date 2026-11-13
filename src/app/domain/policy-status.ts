@@ -64,6 +64,23 @@ export function mapHeadlineFor(indicatorCode: string): MapHeadline | undefined {
   return MAP_HEADLINES[indicatorCode];
 }
 
+export interface StatusLegend {
+  positive: string;
+  negative: string;
+}
+
+/** Legend wording per member group (the `group` field of the dimension members response). */
+const LEGEND_BY_GROUP: Record<string, StatusLegend> = {
+  POLICY: { positive: 'Policy in place', negative: 'No policy' },
+  FINANCIAL_STRATEGY: { positive: 'Financial strategy in place', negative: 'No financial strategy' },
+  MONITORING_INITIATIVE: { positive: 'Monitored', negative: 'Not monitored' },
+};
+const DEFAULT_LEGEND: StatusLegend = { positive: 'Yes', negative: 'No' };
+
+export function legendForGroup(group: string | undefined): StatusLegend {
+  return (group && LEGEND_BY_GROUP[group]) || DEFAULT_LEGEND;
+}
+
 export type StatusCategory = 'positive' | 'negative' | 'awaiting';
 
 /** Classifies a cell's raw value into 3 UI states — positive (confirmed yes), negative
