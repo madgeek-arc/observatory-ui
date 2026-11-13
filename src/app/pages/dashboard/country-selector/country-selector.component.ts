@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, inject, signal } from "@angular/core";
 import { CategorizedAreaData, Series } from "src/app/domain/categorizedAreaData";
 import { Router } from "@angular/router";
 import { StakeholdersService } from "src/survey-tool/app/services/stakeholders.service";
@@ -19,24 +19,26 @@ import { HighchartsCategoryMapComponent } from "src/app/shared/charts/category-m
     NgOptimizedImage
 ],
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [StakeholdersService]
 })
 
 export class CountrySelectorComponent implements OnInit {
 
-  countriesArray: string[] = [];
-  questionsDataArray: CategorizedAreaData = new CategorizedAreaData();
+  private router = inject(Router);
+  private stakeholdersService = inject(StakeholdersService);
+  private sanitizer = inject(DomSanitizer);
+
+  countriesArray = signal<string[]>([]);
+  questionsDataArray = signal<CategorizedAreaData>(new CategorizedAreaData());
 
   mapIconVar = this.sanitizer.bypassSecurityTrustHtml(mapIcon.replace(/&nbsp;/g, ''));
   flagIconVar = this.sanitizer.bypassSecurityTrustHtml(flagIcon.replace(/&nbsp;/g, ''));
 
-  constructor(private router: Router, private stakeholdersService: StakeholdersService, private sanitizer: DomSanitizer) {}
-
   ngOnInit() {
     this.stakeholdersService.getEOSCSBCountries().subscribe(
       res => {
-        this.countriesArray = res;
+        this.countriesArray.set(res);
         this.initSeries();
       },
       error => {console.log(error);}
@@ -44,9 +46,11 @@ export class CountrySelectorComponent implements OnInit {
   }
 
   initSeries() {
-    this.questionsDataArray.series[0] = new Series('Countries', false);
-    this.questionsDataArray.series[0].color = ColorPallet[0];
-    this.questionsDataArray.series[0].data = this.countriesArray.map(code => ({code}));
+    const mapData = new CategorizedAreaData();
+    mapData.series[0] = new Series('Countries', false);
+    mapData.series[0].color = ColorPallet[0];
+    mapData.series[0].data = this.countriesArray().map(code => ({code}));
+    this.questionsDataArray.set(mapData);
   }
 
   goToLanding(code) {

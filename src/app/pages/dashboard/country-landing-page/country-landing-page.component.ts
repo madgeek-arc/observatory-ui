@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, inject, signal } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { SurveyService } from "src/survey-tool/app/services/survey.service";
 import { SurveyAnswer } from "src/survey-tool/app/domain/survey";
@@ -16,33 +16,35 @@ import { LowerCasePipe, DatePipe } from "@angular/common";
     templateUrl: 'country-landing-page.component.html',
     styleUrls: ['./country-landing-page.component.css'],
     providers: [SurveyService],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CountryLandingPageGeneralComponent, CountryLandingPagePoliciesComponent, CountryLandingPagePracticesComponent, CountryLandingPageUseCasesComponent, LowerCasePipe, DatePipe]
 })
 
 export class CountryLandingPageComponent implements OnInit {
 
-  countryCode: string = null;
-  surveyAnswer: SurveyAnswer = null;
+  private route = inject(ActivatedRoute);
+  private surveyService = inject(SurveyService);
+  private sanitizer = inject(DomSanitizer);
+
+  countryCode = signal<string>(null);
+  surveyAnswer = signal<SurveyAnswer>(null);
   surveyModel: Model;
-  answer: object = null;
+  answer = signal<object>(null);
 
-  countryPageNarrativeURL: SafeResourceUrl;
-  countryPageOSOURL: SafeResourceUrl;
-
-  constructor(private route: ActivatedRoute, private surveyService: SurveyService, private sanitizer: DomSanitizer) {}
+  countryPageNarrativeURL = signal<SafeResourceUrl>(undefined);
+  countryPageOSOURL = signal<SafeResourceUrl>(undefined);
 
   ngOnInit() {
     this.route.params.subscribe(
       value => {
-        this.countryCode = value['code'];
-        this.countryPageNarrativeURL = this.sanitizer.bypassSecurityTrustResourceUrl(`https://dl120.madgik.di.uoa.gr/embeddable/country/${this.countryCode}?showFull=false`);
-        this.countryPageOSOURL = this.sanitizer.bypassSecurityTrustResourceUrl(`https://osobservatory.openaire.eu/country/${this.countryCode}/overview`);
-        this.surveyService.getLatestAnswer(`sh-eosc-sb-${this.countryCode}`, 'm-jlFggsCN').subscribe(
+        this.countryCode.set(value['code']);
+        this.countryPageNarrativeURL.set(this.sanitizer.bypassSecurityTrustResourceUrl(`https://dl120.madgik.di.uoa.gr/embeddable/country/${this.countryCode()}?showFull=false`));
+        this.countryPageOSOURL.set(this.sanitizer.bypassSecurityTrustResourceUrl(`https://osobservatory.openaire.eu/country/${this.countryCode()}/overview`));
+        this.surveyService.getLatestAnswer(`sh-eosc-sb-${this.countryCode()}`, 'm-jlFggsCN').subscribe(
           res => {
-            this.surveyAnswer = res;
-            this.answer = this.surveyAnswer.answer
-            console.log(this.surveyAnswer);
+            this.surveyAnswer.set(res);
+            this.answer.set(res.answer);
+            console.log(this.surveyAnswer());
           }, error => {console.error(error);}
         );
         this.surveyService.getSurvey('m-jlFggsCN').subscribe(

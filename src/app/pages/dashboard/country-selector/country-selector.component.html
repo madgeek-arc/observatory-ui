@@ -82,19 +82,19 @@
         </div>
         <ul id="selection_mode" class="uk-switcher">
           <li aria-hidden="false" class="uk-active" style="animation-duration: 200ms;">
-            @if (questionsDataArray?.series.length > 0) {
+            @if (questionsDataArray()?.series.length > 0) {
               <div class="uk-width-1-1 uk-margin-top" >
-                <app-highcharts-category-map [mapData]="questionsDataArray" [subtitle]="''" [title]="''"
+                <app-highcharts-category-map [mapData]="questionsDataArray()" [subtitle]="''" [title]="''"
                   (mapClick)="goToLanding($event['code'])">
                 </app-highcharts-category-map>
               </div>
             }
           </li>
           <li aria-hidden="true" class="" style="animation-duration: 200ms;">
-            @if (countriesArray.length > 0) {
+            @if (countriesArray().length > 0) {
               <div class="uk-width-1-1 uk-margin-top" >
                 <div class="uk-grid uk-child-width-1-4 select-country">
-                  @for (country of countriesArray; track country) {
+                  @for (country of countriesArray(); track country) {
                     <div class="uk-margin-bottom">
                       <a class="uk-flex uk-flex-middle" (click)="goToLanding(country)">
                         <img ngSrc="../../survey-tool/assets/images/flags/{{country | lowercase}}-flag.svg" class="flag-image-selector" width="30" height="20" alt="Flag of {{country}}">
