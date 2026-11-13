@@ -1,12 +1,12 @@
 <div class="uk-section uk-section-small uk-padding-remove-top">
   <div class="uk-container uk-container-expand">
 
-    @if (loading) {
+    @if (loading()) {
       <div class="uk-flex uk-flex-center uk-margin-medium-top">
         <span data-uk-spinner="ratio: 2"></span>
       </div>
 
-    } @else if (latestAnswerInfo) {
+    } @else if (latestAnswerInfo()) {
       <div class="uk-margin-medium-bottom">
         <h4 class="uk-text uk-margin-remove-bottom">Welcome to the Survey Tool of the EOSC Open Science Observatory</h4>
         <p class="uk-text-meta uk-margin-top">
@@ -30,7 +30,7 @@
 
                 <h2 class="uk-margin-small-top uk-margin-remove-bottom uk-text-bold"
                     style="color: #1a2b4e; font-size: 1.6rem;">
-                  {{ (latestAnswerInfo.progressTotal.current / latestAnswerInfo.progressTotal.total) | percent:'1.0-0' }}
+                  {{ (latestAnswerInfo().progressTotal.current / latestAnswerInfo().progressTotal.total) | percent:'1.0-0' }}
                 </h2>
               </div>
 
@@ -42,12 +42,12 @@
 
             <div class="uk-margin-small-top">
               <progress class="uk-progress uk-margin-remove-bottom"
-                        [value]="latestAnswerInfo.progressTotal.current"
-                        [max]="latestAnswerInfo.progressTotal.total"
+                        [value]="latestAnswerInfo().progressTotal.current"
+                        [max]="latestAnswerInfo().progressTotal.total"
                         style="height: 6px; border-radius: 4px;">
               </progress>
               <p class="uk-text-meta uk-text-right uk-margin-remove-top uk-text-small">
-                {{ latestAnswerInfo.progressTotal.current }} / {{ latestAnswerInfo.progressTotal.total }} Questions
+                {{ latestAnswerInfo().progressTotal.current }} / {{ latestAnswerInfo().progressTotal.total }} Questions
               </p>
             </div>
           </div>
@@ -63,7 +63,7 @@
 
                 <h2 class="uk-margin-small-top uk-margin-remove-bottom uk-text-bold"
                     style="color: #1a2b4e; font-size: 1.6rem;">
-                  {{ latestAnswerInfo.submissionCloseAt | date:'dd.MM.yy' }}
+                  {{ latestAnswerInfo().submissionCloseAt | date:'dd.MM.yy' }}
                 </h2>
               </div>
 
@@ -85,7 +85,7 @@
 
                 <h2 class="uk-margin-small-top uk-margin-remove-bottom uk-text-bold"
                     style="color: #1a2b4e; font-size: 1.6rem;">
-                  {{ latestAnswerInfo.validated ? 'Yes' : 'No' }}
+                  {{ latestAnswerInfo().validated ? 'Yes' : 'No' }}
                 </h2>
               </div>
 
@@ -246,10 +246,10 @@
               </div>
 
               <div class="uk-margin-top" style="min-height: 400px;">
-                @if (viewSeries.length > 0) {
+                @if (viewSeries().length > 0) {
                   <app-stacked-column
-                    [series]="viewSeries"
-                    [categories]="viewCategories"
+                    [series]="viewSeries()"
+                    [categories]="viewCategories()"
                     [title]="''"
                     [yAxis]="'Views'"
                     [stacking]="'normal'"
@@ -261,10 +261,10 @@
 
                   <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-top uk-padding-small uk-border-rounded">
                     <span class="uk-text-muted">
-                      Total views for the last {{ viewCategories.length }} months
+                      Total views for the last {{ viewCategories().length }} months
                     </span>
                     <span class="uk-text-bold">
-                      {{ totalViews | number }}
+                      {{ totalViews() | number }}
                     </span>
                   </div>
                 } @else {
@@ -291,12 +291,12 @@
               <hr class="uk-margin-small-top uk-margin-small-bottom">
 
               <div class="uk-margin-small-top">
-                @if (loading) {
+                @if (loading()) {
                   <div class="uk-text-center uk-padding-small">
                     <div uk-spinner="ratio: 0.8"></div>
                   </div>
                 } @else {
-                  @for (entry of recentHistory; track entry.time) {
+                  @for (entry of recentHistory(); track entry.time) {
                     <div class="uk-padding-small uk-padding-remove-horizontal uk-flex uk-flex-top">
                       <span class="material-symbols-outlined uk-margin-small-right">
                         edit_note
@@ -336,12 +336,12 @@
               <hr class="uk-margin-small-top uk-margin-small-bottom">
 
               <div class="uk-margin-small-top">
-                @if (loadingThreads) {
+                @if (loadingThreads()) {
                   <div class="uk-text-center uk-padding-small">
                     <div uk-spinner="ratio: 0.8"></div>
                   </div>
                 } @else {
-                  @for (thread of recentThreads; track thread.id) {
+                  @for (thread of recentThreads(); track thread.id) {
                     <div class="uk-padding-small uk-padding-remove-horizontal uk-flex uk-flex-top">
                       <span class="material-symbols-outlined uk-margin-small-right">
                         forum

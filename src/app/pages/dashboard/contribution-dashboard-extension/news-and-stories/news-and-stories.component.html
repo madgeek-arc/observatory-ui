@@ -2,13 +2,13 @@
   <div inner>
 
     <!-- Initial full-page spinner -->
-    @if (loading) {
+    @if (loading()) {
       <div class="uk-flex uk-flex-center uk-margin-large-top">
         <span data-uk-spinner="ratio: 2"></span>
       </div>
     }
 
-    @if (!loading) {
+    @if (!loading()) {
       <div class="uk-flex uk-flex-right uk-margin-medium-top uk-margin-medium-left uk-margin-medium-right">
         <button class="uk-button uk-button-primary uk-button-small uk-border-rounded uk-flex uk-flex-middle"
                 (click)="openAddModal()">
@@ -30,7 +30,7 @@
                              placeholder="Sort by" [closeOnSelect]="false" class="open" [appendTo]="''"
                              [dropdownPosition]="'bottom'" [(ngModel)]="sort"
                              (change)="onSortChange()" [clearable]="false"
-                             (remove)="onSortRemove(sort)">
+                             (remove)="onSortRemove(sort())">
                     <ng-template ng-option-tmp let-item="item">
                       {{ item.label }}
                     </ng-template>
@@ -54,7 +54,7 @@
                              placeholder="Order by" [closeOnSelect]="false" class="open" [appendTo]="''"
                              [dropdownPosition]="'bottom'" [(ngModel)]="order"
                              (change)="onOrderChange()" [clearable]="false"
-                             (remove)="onOrderRemove(order)">
+                             (remove)="onOrderRemove(order())">
                     <ng-template ng-option-tmp let-item="item">
                       {{ item.label }}
                     </ng-template>
@@ -77,7 +77,7 @@
                   <ng-select [items]="activeOptions" bindLabel="label" bindValue="value" [isOpen]="true"
                              placeholder="Status" [closeOnSelect]="false" class="open" [appendTo]="''"
                              [multiple]="true" [dropdownPosition]="'bottom'" [(ngModel)]="activeFilter"
-                             (change)="onActiveChange()" (remove)="onActiveRemove(activeFilter)"
+                             (change)="onActiveChange()" (remove)="onActiveRemove(activeFilter())"
                              [clearable]="false">
                     <ng-template ng-option-tmp let-item="item">
                       {{ item.label }}
@@ -103,7 +103,7 @@
           <div class="uk-inline">
             <span class="uk-form-icon" data-uk-icon="icon: search"></span>
             <input #searchInput type="text" class="uk-input menuSearch" placeholder="Search..."
-                   [value]="keyword"
+                   [value]="keyword()"
                    (input)="keywordSubject.next(searchInput.value)"
                    style="border-radius: 20px;">
           </div>
@@ -113,27 +113,27 @@
       <!-- Badge container -->
       <div class="badge-container uk-margin-bottom uk-flex uk-margin-medium-left uk-margin-medium-right">
         <div>
-          @if (appliedSort !== 'creationDate') {
+          @if (appliedSort() !== 'creationDate') {
             <span class="filter-badge">
-              <strong>Sort: &nbsp;</strong>{{ getOptionLabel(sortOptions, appliedSort) }}
+              <strong>Sort: &nbsp;</strong>{{ getOptionLabel(sortOptions, appliedSort()) }}
               <button class="remove-btn" type="button" (click)="removeSortFilter()">x</button>
             </span>
           }
-          @if (appliedOrder !== 'desc') {
+          @if (appliedOrder() !== 'desc') {
             <span class="filter-badge">
-              <strong>Order: &nbsp;</strong>{{ getOptionLabel(orderOptions, appliedOrder) }}
+              <strong>Order: &nbsp;</strong>{{ getOptionLabel(orderOptions, appliedOrder()) }}
               <button class="remove-btn" type="button" (click)="removeOrderFilter()">x</button>
             </span>
           }
-          @if (appliedActive !== 'all') {
+          @if (appliedActive() !== 'all') {
             <span class="filter-badge">
-              <strong>Active: &nbsp;</strong>{{ getOptionLabel(activeOptions, appliedActive) }}
+              <strong>Active: &nbsp;</strong>{{ getOptionLabel(activeOptions, appliedActive()) }}
               <button class="remove-btn" type="button" (click)="removeActiveFilter()">x</button>
             </span>
           }
-          @if (keyword) {
+          @if (keyword()) {
             <span class="filter-badge">
-              <strong>Keyword: &nbsp;</strong>{{ keyword }}
+              <strong>Keyword: &nbsp;</strong>{{ keyword() }}
               <button class="remove-btn" type="button" (click)="removeKeywordFilter()">x</button>
             </span>
           }
@@ -141,7 +141,7 @@
       </div>
 
       <!-- Table  -->
-      @if (newsItems.length > 0) {
+      @if (newsItems().length > 0) {
         <div
           class="uk-overflow-auto uk-margin-medium-left uk-margin-medium-right uk-card uk-card-default uk-border-rounded">
           <table class="uk-table uk-table-divider uk-table-middle uk-margin-remove">
@@ -156,14 +156,14 @@
             </thead>
             <tbody>
             <!-- Table-level spinner: only the tbody refreshes, the input above stays alive -->
-              @if (searching) {
+              @if (searching()) {
                 <tr>
                   <td colspan="5" class="uk-text-center uk-padding">
                     <span data-uk-spinner="ratio: 1"></span>
                   </td>
                 </tr>
               } @else {
-                @for (item of newsItems; track item.result.id) {
+                @for (item of newsItems(); track item.result.id) {
                   <tr>
                     <td>
                       <div class="uk-text-bold" [innerHTML]="getHighlightForField(item, 'title') ?? item.result.title"></div>
@@ -230,30 +230,30 @@
         </div>
       }
 
-      @if (totalPages > 1) {
+      @if (totalPages() > 1) {
         <div
           class="uk-flex uk-flex-middle uk-flex-between uk-margin-medium-top uk-margin-medium-left uk-margin-medium-right uk-margin-medium-bottom">
           <p class="uk-margin-remove uk-text-small">
-            Results <span class="uk-text-bold">{{ (currentPage - 1) * pageSize + 1 }}</span>–<span
-            class="uk-text-bold">{{ (currentPage - 1) * pageSize + newsItems.length }}</span> of <span
-            class="uk-text-bold">{{ total }}</span>
+            Results <span class="uk-text-bold">{{ (currentPage() - 1) * pageSize + 1 }}</span>–<span
+            class="uk-text-bold">{{ (currentPage() - 1) * pageSize + newsItems().length }}</span> of <span
+            class="uk-text-bold">{{ total() }}</span>
           </p>
           <ul class="uk-pagination uk-margin-remove">
-            @if (currentPage > 2 && totalPages > 5) {
+            @if (currentPage() > 2 && totalPages() > 5) {
               <li><a (click)="goToPage(1)"><span data-uk-pagination-previous></span><span
                 data-uk-pagination-previous></span></a></li>
             }
-            @if (currentPage !== 1) {
+            @if (currentPage() !== 1) {
               <li><a (click)="previousPage()"><span data-uk-pagination-previous></span></a></li>
             }
-            @for (i of pages; track i) {
-              <li [class.uk-active]="i === currentPage"><a (click)="goToPage(i)">{{ i }}</a></li>
+            @for (i of pages(); track i) {
+              <li [class.uk-active]="i === currentPage()"><a (click)="goToPage(i)">{{ i }}</a></li>
             }
-            @if (currentPage !== totalPages) {
+            @if (currentPage() !== totalPages()) {
               <li><a (click)="nextPage()"><span data-uk-pagination-next></span></a></li>
             }
-            @if (currentPage < totalPages - 1 && totalPages > 5) {
-              <li><a (click)="goToPage(totalPages)"><span data-uk-pagination-next></span><span
+            @if (currentPage() < totalPages() - 1 && totalPages() > 5) {
+              <li><a (click)="goToPage(totalPages())"><span data-uk-pagination-next></span><span
                 data-uk-pagination-next></span></a></li>
             }
           </ul>
@@ -333,8 +333,8 @@
                 type="button">Cancel
         </button>
         <button class="uk-button uk-button-primary uk-border-rounded" type="submit"
-                [disabled]="storyForm.invalid || submitting">
-          {{ submitting ? 'Saving...' : (isUpdateMode ? 'Update Story' : 'Save Story') }}
+                [disabled]="storyForm.invalid || submitting()">
+          {{ submitting() ? 'Saving...' : (isUpdateMode ? 'Update Story' : 'Save Story') }}
         </button>
       </div>
     </form>
@@ -382,8 +382,8 @@
       <button class="uk-button uk-button-default uk-modal-close uk-border-rounded uk-margin-small-right">
         Cancel
       </button>
-      <button class="uk-button uk-button-danger uk-border-rounded" [disabled]="deleting" (click)="onDelete()">
-        @if (deleting) {
+      <button class="uk-button uk-button-danger uk-border-rounded" [disabled]="deleting()" (click)="onDelete()">
+        @if (deleting()) {
           Deleting...
         } @else {
           Delete

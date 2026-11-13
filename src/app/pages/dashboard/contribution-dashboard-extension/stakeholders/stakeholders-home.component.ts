@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit, ChangeDetectionStrategy, signal } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { Stakeholder } from "src/survey-tool/app/domain/userInfo";
 import { UserService } from "src/survey-tool/app/services/user.service";
@@ -17,7 +17,7 @@ import {TopicThread} from "src/messaging-system-ui/app/domain/messaging";
   selector: 'app-stakeholders-home',
   templateUrl: `./stakeholders-home.component.html`,
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, StackedColumnComponent]
 })
 
@@ -32,18 +32,18 @@ export class StakeholdersHomeComponent implements OnInit {
 
 
   currentGroup: Stakeholder | null = null;
-  latestAnswerInfo: any = null;
-  loading: boolean = false;
-  recentHistory: DisplayEntries[] = [];
-  recentThreads: TopicThread[] = [];
-  loadingThreads: boolean = false;
+  latestAnswerInfo = signal<any>(null);
+  loading = signal(false);
+  recentHistory = signal<DisplayEntries[]>([]);
+  recentThreads = signal<TopicThread[]>([]);
+  loadingThreads = signal(false);
 
   tooltipPointFormat: string = '{series.name}: <b>{point.y}</b>';
 
   // Highchart
-  viewCategories: string[] = [];
-  viewSeries: any[] = [];
-  totalViews: number = 0;
+  viewCategories = signal<string[]>([]);
+  viewSeries = signal<any[]>([]);
+  totalViews = signal(0);
 
 
   ngOnInit() {
@@ -68,17 +68,17 @@ export class StakeholdersHomeComponent implements OnInit {
         const allKeys = Object.keys(res.pageviewsPerMonth);
         const allValues = Object.values(res.pageviewsPerMonth);
 
-        this.viewCategories = allKeys.slice(-6);
+        this.viewCategories.set(allKeys.slice(-6));
         const finalValues = allValues.slice(-6);
 
-        this.viewSeries = [{
+        this.viewSeries.set([{
           name: 'Page Views',
           type: 'column',
           data: finalValues,
           color: '#11a18d',
           showInLegend: false
-        }];
-        this.totalViews = finalValues.reduce((a, b) => a + b, 0);
+        }]);
+        this.totalViews.set(finalValues.reduce((a, b) => a + b, 0));
       },
       error: (err) => console.error('Analytics Error:', err)
     });
@@ -87,7 +87,7 @@ export class StakeholdersHomeComponent implements OnInit {
       switchMap(params => {
         const id = params['id'];
         if (!id) return EMPTY;
-        this.loading = true;
+        this.loading.set(true);
 
         const storedGroup = this.currentGroup || JSON.parse(sessionStorage.getItem("currentStakeholder"));
         if (!storedGroup || storedGroup.id !== id) {
@@ -111,23 +111,23 @@ export class StakeholdersHomeComponent implements OnInit {
       }),
       switchMap(res => {
         if (res?.results?.length > 0) {
-          this.latestAnswerInfo = res.results[0];
-          return this.surveyService.getAnswerHistory(this.latestAnswerInfo.surveyAnswerId);
+          this.latestAnswerInfo.set(res.results[0]);
+          return this.surveyService.getAnswerHistory(this.latestAnswerInfo().surveyAnswerId);
         }
-        this.loading = false;
+        this.loading.set(false);
         return EMPTY;
       })
     ).subscribe({
       next: (historyRes) => {
         if (historyRes?.entries) {
-          this.recentHistory = historyRes.entries
+          this.recentHistory.set(historyRes.entries
             .sort((a, b) => b.time - a.time)
-            .slice(0, 3);
+            .slice(0, 3));
         }
-        this.loading = false;
+        this.loading.set(false);
       },
       error: (err) => {
-        this.loading = false;
+        this.loading.set(false);
       }
     });
   }
@@ -145,8 +145,8 @@ export class StakeholdersHomeComponent implements OnInit {
   }
 
   navigateToHistory() {
-    const surveyId = this.latestAnswerInfo?.surveyId;
-    const answerId = this.latestAnswerInfo?.surveyAnswerId;
+    const surveyId = this.latestAnswerInfo()?.surveyId;
+    const answerId = this.latestAnswerInfo()?.surveyAnswerId;
 
     if (surveyId && answerId) {
       this.router.navigate(['../', 'mySurveys', surveyId, answerId, 'history'],
@@ -156,21 +156,21 @@ export class StakeholdersHomeComponent implements OnInit {
   }
 
   fetchRecentThreads(groupId: string) {
-    this.loadingThreads = true;
+    this.loadingThreads.set(true);
 
     this.messagingService.getInbox(groupId).subscribe({
       next: (response: any) => {
         if (response && response.content) {
           console.log('Recent Threads:', response.content);
-          this.recentThreads = response.content.slice(0, 3);
+          this.recentThreads.set(response.content.slice(0, 3));
         } else {
-          this.recentThreads = [];
+          this.recentThreads.set([]);
         }
-        this.loadingThreads = false;
+        this.loadingThreads.set(false);
       },
       error: (err) => {
         console.error('API Error:', err);
-        this.loadingThreads = false;
+        this.loadingThreads.set(false);
       }
     });
   }

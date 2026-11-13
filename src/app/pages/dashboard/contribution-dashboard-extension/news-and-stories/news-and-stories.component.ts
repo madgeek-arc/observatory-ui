@@ -1,4 +1,4 @@
-import {Component, DestroyRef, OnInit, inject, ChangeDetectionStrategy} from '@angular/core';
+import {Component, DestroyRef, OnInit, inject, ChangeDetectionStrategy, signal} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -18,7 +18,7 @@ declare var UIkit: any;
   selector: 'app-news-and-stories',
   standalone: true,
   imports: [CommonModule, PageContentComponent, ReactiveFormsModule, FormsModule, NgSelectModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './news-and-stories.component.html'
 })
 export class NewsAndStoriesComponent implements OnInit {
@@ -29,24 +29,24 @@ export class NewsAndStoriesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   stakeholderId: string | null = null;
-  newsItems: NewsWrapped[] = [];
-  loading: boolean = true;
-  searching: boolean = false;
-  deleting: boolean = false;
+  newsItems = signal<NewsWrapped[]>([]);
+  loading = signal(true);
+  searching = signal(false);
+  deleting = signal(false);
   private skipTotalUpdate = false;
 
   // Filter selections
   urlParameters: URLParameter[] = [];
-  keyword: string = '';
-  sort: string = 'creationDate';
-  order: string = 'desc';
-  activeFilter: string[] = [];
+  keyword = signal('');
+  sort = signal('creationDate');
+  order = signal('desc');
+  activeFilter = signal<string[]>([]);
   keywordSubject = new Subject<string>();
 
   // Applied filters
-  appliedSort: string = 'creationDate';
-  appliedOrder: string = 'desc';
-  appliedActive: string = 'all';
+  appliedSort = signal('creationDate');
+  appliedOrder = signal('desc');
+  appliedActive = signal('all');
 
   readonly sortOptions = [
     {label: 'Creation Date', value: 'creationDate'},
@@ -64,10 +64,10 @@ export class NewsAndStoriesComponent implements OnInit {
 
   // Pagination
   pageSize = 5;
-  total = 0;
-  currentPage = 1;
-  totalPages = 0;
-  pages: number[] = [];
+  total = signal(0);
+  currentPage = signal(1);
+  totalPages = signal(0);
+  pages = signal<number[]>([]);
   offset = 2;
 
   storyForm = new FormGroup({
@@ -80,7 +80,7 @@ export class NewsAndStoriesComponent implements OnInit {
   });
 
   isUpdateMode = false;
-  submitting = false;
+  submitting = signal(false);
   selectedNewsId: string | null = null;
   selectedNewsItem: NewsItem | null = null;
   selectedDeleteId: string | null = null;
@@ -90,14 +90,14 @@ export class NewsAndStoriesComponent implements OnInit {
     this.stakeholderId = this.route.snapshot.params['id'];
 
     this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef), tap(params => {
-        this.keyword = params['keyword'] || '';
-        this.sort = params['sort'] || 'creationDate';
-        this.order = params['order'] || 'desc';
+        this.keyword.set(params['keyword'] || '');
+        this.sort.set(params['sort'] || 'creationDate');
+        this.order.set(params['order'] || 'desc');
         const activeVal = params['active'] || '';
-        this.activeFilter = activeVal ? [activeVal] : [];
-        this.appliedSort = this.sort;
-        this.appliedOrder = this.order;
-        this.appliedActive = activeVal || 'all';
+        this.activeFilter.set(activeVal ? [activeVal] : []);
+        this.appliedSort.set(this.sort());
+        this.appliedOrder.set(this.order());
+        this.appliedActive.set(activeVal || 'all');
       }),
       filter(params => {
         if (!params['sort'] || !params['order']) {
@@ -109,31 +109,31 @@ export class NewsAndStoriesComponent implements OnInit {
         return !!this.stakeholderId;
       }),
       tap(() => {
-        this.loading ? null : (this.searching = true);
+        if (!this.loading()) this.searching.set(true);
       }),
       switchMap(params => {
         const from = params['from'] ? +params['from'] : 0;
-        const active = this.activeFilter.length ? this.activeFilter[0] === 'true' : undefined;
+        const active = this.activeFilter().length ? this.activeFilter()[0] === 'true' : undefined;
         return this.stakeholderNewsService.getStakeholderNews(
-          this.stakeholderId, from, this.pageSize, this.keyword, this.sort, this.order, active
+          this.stakeholderId, from, this.pageSize, this.keyword(), this.sort(), this.order(), active
         );
       })
     ).subscribe({
       next: (res: NewsResponse) => {
-        this.newsItems = res.results;
+        this.newsItems.set(res.results);
         if (this.skipTotalUpdate) {
           this.skipTotalUpdate = false;
         } else {
-          this.total = res.total;
+          this.total.set(res.total);
         }
         this.paginationInit(res.from);
-        this.loading = false;
-        this.searching = false;
+        this.loading.set(false);
+        this.searching.set(false);
       },
       error: (err) => {
         console.error('Error fetching news:', err);
-        this.loading = false;
-        this.searching = false;
+        this.loading.set(false);
+        this.searching.set(false);
       }
     })
 
@@ -150,28 +150,28 @@ export class NewsAndStoriesComponent implements OnInit {
   }
 
   fetchNews(from: number = 0) {
-    if (!this.loading) {
-      this.searching = true;
+    if (!this.loading()) {
+      this.searching.set(true);
     }
 
-    const active: boolean | undefined = this.activeFilter.length
-      ? this.activeFilter[0] === 'true'
+    const active: boolean | undefined = this.activeFilter().length
+      ? this.activeFilter()[0] === 'true'
       : undefined;
 
     this.stakeholderNewsService.getStakeholderNews(
-      this.stakeholderId, from, this.pageSize, this.keyword, this.sort, this.order, active
+      this.stakeholderId, from, this.pageSize, this.keyword(), this.sort(), this.order(), active
     ).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (res: NewsResponse) => {
-        this.newsItems = res.results;
-        this.total = res.total;
+        this.newsItems.set(res.results);
+        this.total.set(res.total);
         this.paginationInit(res.from);
-        this.loading = false;
-        this.searching = false;
+        this.loading.set(false);
+        this.searching.set(false);
       },
       error: (err) => {
         console.error('Error fetching news:', err);
-        this.loading = false;
-        this.searching = false;
+        this.loading.set(false);
+        this.searching.set(false);
       }
     });
   }
@@ -187,30 +187,33 @@ export class NewsAndStoriesComponent implements OnInit {
   paginationInit(from: number) {
     let addToEndCounter = 0;
     let addToStartCounter = 0;
-    this.pages = [];
-    this.currentPage = Math.floor(from / this.pageSize) + 1;
-    this.totalPages = Math.ceil(this.total / this.pageSize);
-    for (let i = (this.currentPage - this.offset); i < (this.currentPage + 1 + this.offset); ++i) {
+    const pages: number[] = [];
+    const currentPage = Math.floor(from / this.pageSize) + 1;
+    const totalPages = Math.ceil(this.total() / this.pageSize);
+    for (let i = (currentPage - this.offset); i < (currentPage + 1 + this.offset); ++i) {
       if (i < 1) {
         addToEndCounter++;
       }
-      if (i > this.totalPages) {
+      if (i > totalPages) {
         addToStartCounter++;
       }
-      if (i >= 1 && i <= this.totalPages) {
-        this.pages.push(i);
+      if (i >= 1 && i <= totalPages) {
+        pages.push(i);
       }
     }
     for (let i = 0; i < addToEndCounter; ++i) {
-      if (this.pages.length < this.totalPages) {
-        this.pages.push(this.pages.length + 1);
+      if (pages.length < totalPages) {
+        pages.push(pages.length + 1);
       }
     }
     for (let i = 0; i < addToStartCounter; ++i) {
-      if (this.pages[0] > 1) {
-        this.pages.unshift(this.pages[0] - 1);
+      if (pages[0] > 1) {
+        pages.unshift(pages[0] - 1);
       }
     }
+    this.currentPage.set(currentPage);
+    this.totalPages.set(totalPages);
+    this.pages.set(pages);
   }
 
   goToPage(page: number) {
@@ -219,25 +222,25 @@ export class NewsAndStoriesComponent implements OnInit {
   }
 
   previousPage() {
-    this.goToPage(this.currentPage - 1);
+    this.goToPage(this.currentPage() - 1);
   }
 
   nextPage() {
-    this.goToPage(this.currentPage + 1);
+    this.goToPage(this.currentPage() + 1);
   }
 
   onSortChange() {
-    this.updateURLParameters('sort', this.sort);
+    this.updateURLParameters('sort', this.sort());
     this.updateURLParameters('from', '0');
   }
 
   onOrderChange() {
-    this.updateURLParameters('order', this.order);
+    this.updateURLParameters('order', this.order());
     this.updateURLParameters('from', '0');
   }
 
   onActiveChange() {
-    this.updateURLParameters('active', this.activeFilter);
+    this.updateURLParameters('active', this.activeFilter());
     this.updateURLParameters('from', '0');
   }
 
@@ -249,15 +252,15 @@ export class NewsAndStoriesComponent implements OnInit {
   }
 
   onSortRemove(currentValue: string) {
-    this.sort = currentValue.length ? currentValue[0] : 'creationDate';
-    this.updateURLParameters('sort', this.sort);
+    this.sort.set(currentValue.length ? currentValue[0] : 'creationDate');
+    this.updateURLParameters('sort', this.sort());
     this.updateURLParameters('from', '0');
     this.navigateUsingURLParameters();
   }
 
   onOrderRemove(currentValue: string) {
-    this.order = currentValue.length ? currentValue[0] : 'desc';
-    this.updateURLParameters('order', this.order);
+    this.order.set(currentValue.length ? currentValue[0] : 'desc');
+    this.updateURLParameters('order', this.order());
     this.updateURLParameters('from', '0');
     this.navigateUsingURLParameters();
   }
@@ -269,35 +272,35 @@ export class NewsAndStoriesComponent implements OnInit {
 
   /** Badge removal methods */
   removeSortFilter() {
-    this.sort = 'creationDate';
+    this.sort.set('creationDate');
     this.updateURLParameters('sort', '');
     this.navigateUsingURLParameters();
   }
 
   removeOrderFilter() {
-    this.order = 'desc';
+    this.order.set('desc');
     this.updateURLParameters('order', '');
     this.navigateUsingURLParameters();
   }
 
   removeActiveFilter() {
-    this.activeFilter = [];
+    this.activeFilter.set([]);
     this.updateURLParameters('active', '');
     this.navigateUsingURLParameters();
   }
 
   removeKeywordFilter() {
-    this.keyword = '';
+    this.keyword.set('');
     this.updateURLParameters('keyword', '');
     this.navigateUsingURLParameters();
   }
 
   showClearFilter(): boolean {
     return (
-      (this.keyword && this.keyword.trim() !== '') ||
-      this.appliedSort !== 'creationDate' ||
-      this.appliedOrder !== 'desc' ||
-      this.appliedActive !== 'all'
+      (this.keyword() && this.keyword().trim() !== '') ||
+      this.appliedSort() !== 'creationDate' ||
+      this.appliedOrder() !== 'desc' ||
+      this.appliedActive() !== 'all'
     );
   }
 
@@ -305,10 +308,10 @@ export class NewsAndStoriesComponent implements OnInit {
     this.urlParameters = this.urlParameters.filter(p =>
       p.key !== 'sort' && p.key !== 'order' && p.key !== 'active' && p.key !== 'keyword'
     );
-    this.sort = 'creationDate';
-    this.order = 'desc';
-    this.activeFilter = [];
-    this.keyword = '';
+    this.sort.set('creationDate');
+    this.order.set('desc');
+    this.activeFilter.set([]);
+    this.keyword.set('');
     this.navigateUsingURLParameters();
   }
 
@@ -369,7 +372,7 @@ export class NewsAndStoriesComponent implements OnInit {
 
   onSubmit() {
     if (this.storyForm.invalid || !this.stakeholderId) return;
-    this.submitting = true;
+    this.submitting.set(true);
     const formValue = this.storyForm.value;
 
     const payload: NewsItemRequest = {
@@ -387,12 +390,12 @@ export class NewsAndStoriesComponent implements OnInit {
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: () => {
-            this.submitting = false;
+            this.submitting.set(false);
             UIkit.modal('#story-modal').hide();
-            this.fetchNews((this.currentPage - 1) * this.pageSize);
+            this.fetchNews((this.currentPage() - 1) * this.pageSize);
           },
           error: (err) => {
-            this.submitting = false;
+            this.submitting.set(false);
             console.error('Error updating story:', err);
           }
         });
@@ -402,12 +405,12 @@ export class NewsAndStoriesComponent implements OnInit {
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: () => {
-            this.submitting = false;
+            this.submitting.set(false);
             UIkit.modal('#story-modal').hide();
-            this.fetchNews((this.currentPage - 1) * this.pageSize);
+            this.fetchNews((this.currentPage() - 1) * this.pageSize);
           },
           error: (err) => {
-            this.submitting = false;
+            this.submitting.set(false);
             console.error('Error adding story:', err);
           }
         });
@@ -416,29 +419,29 @@ export class NewsAndStoriesComponent implements OnInit {
 
   onDelete() {
     if (!this.selectedDeleteId || !this.stakeholderId) return;
-    this.deleting = true;
+    this.deleting.set(true);
     this.stakeholderNewsService.deleteNews(this.stakeholderId, this.selectedDeleteId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
-          this.deleting = false;
+          this.deleting.set(false);
           UIkit.modal('#delete-modal').hide();
           // Remove item locally to avoid Elasticsearch eventual consistency issue
-          this.newsItems = this.newsItems.filter(
+          this.newsItems.set(this.newsItems().filter(
             item => item.result.id !== this.selectedDeleteId
-          );
-          this.total--;
+          ));
+          this.total.update(total => total - 1);
           this.selectedDeleteId = null;
-          if (this.newsItems.length === 0 && this.currentPage > 1) {
-            this.totalPages = Math.ceil(this.total / this.pageSize);
+          if (this.newsItems().length === 0 && this.currentPage() > 1) {
+            this.totalPages.set(Math.ceil(this.total() / this.pageSize));
             this.skipTotalUpdate = true;
-            this.goToPage(this.currentPage - 1);
+            this.goToPage(this.currentPage() - 1);
           } else {
-            this.paginationInit((this.currentPage - 1) * this.pageSize);
+            this.paginationInit((this.currentPage() - 1) * this.pageSize);
           }
         },
         error: (err) => {
-          this.deleting = false;
+          this.deleting.set(false);
           console.error('Error deleting story:', err);
         }
       });

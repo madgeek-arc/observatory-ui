@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy, signal } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {ActivatedRoute, Router} from "@angular/router";
 import { combineLatest } from "rxjs";
@@ -16,7 +16,7 @@ import { StakeholdersHomeComponent } from "../stakeholders/stakeholders-home.com
 @Component({
     selector: 'app-contributions-ext-home',
     templateUrl: './contributions-home-extention.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [PageContentComponent, SidebarMobileToggleComponent, StakeholdersHomeComponent]
 })
 
@@ -39,12 +39,12 @@ export class ContributionsHomeExtentionComponent extends ContributionsHomeCompon
 
   currentStakeholder: Stakeholder | null = null;
   userInfo: UserInfo | null = null;
-  isManager: boolean | null = null;
+  isManager = signal<boolean | null>(null);
 
   ngOnInit() {
     const url = this.router.url;
     if (url.includes('/coordinator') || url.includes('administrator')) {
-      this.isManager = false;
+      this.isManager.set(false);
     }
     this.route.params.pipe(
       map(params => params['id']),
@@ -65,7 +65,7 @@ export class ContributionsHomeExtentionComponent extends ContributionsHomeCompon
     ).subscribe(([stakeholder, userInfo]) => {
       this.currentStakeholder = stakeholder;
       this.userInfo = userInfo;
-      this.isManager = this.checkIfManager();
+      this.isManager.set(this.checkIfManager());
     });
   }
 

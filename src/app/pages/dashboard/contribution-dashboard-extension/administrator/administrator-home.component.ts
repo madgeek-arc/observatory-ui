@@ -17,7 +17,7 @@ import {FormsModule} from "@angular/forms";
   selector: "app-administrator-home",
   templateUrl: "administrator-home.component.html",
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, StackedColumnComponent, NgSelectModule, FormsModule],
 })
 
@@ -33,16 +33,16 @@ export class AdministratorHomeComponent implements OnInit {
   tooltipPointFormat: string = '{series.name}: <b>{point.y}</b>';
 
   // Explore page views chart
-  exploreCategories: string[] = [];
-  exploreSeries: any[] = [];
-  totalExploreViews: number = 0;
+  exploreCategories = signal<string[]>([]);
+  exploreSeries = signal<any[]>([]);
+  totalExploreViews = signal(0);
 
   // Country page views chart
-  countryCategories: string[] = [];
-  countrySeries: any[] = [];
-  totalCountryViews: number = 0;
-  selectedCountry: string = '';
-  countries: string[] = [];
+  countryCategories = signal<string[]>([]);
+  countrySeries = signal<any[]>([]);
+  totalCountryViews = signal(0);
+  selectedCountry = signal('');
+  countries = signal<string[]>([]);
 
   private administrator$ = this.route.params.pipe(
     map(params => params['id'] as string),
@@ -125,16 +125,16 @@ export class AdministratorHomeComponent implements OnInit {
         next: (res) => {
           const allKeys = Object.keys(res.pageviewsPerMonth);
           const allValues = Object.values(res.pageviewsPerMonth) as number[];
-          this.exploreCategories = allKeys.slice(-6);
+          this.exploreCategories.set(allKeys.slice(-6));
           const finalValues = allValues.slice(-6);
-          this.exploreSeries = [{
+          this.exploreSeries.set([{
             name: 'Page Views',
             type: 'column',
             data: finalValues,
             color: '#11a18d',
             showInLegend: false
-          }];
-          this.totalExploreViews = finalValues.reduce((a, b) => a + b, 0);
+          }]);
+          this.totalExploreViews.set(finalValues.reduce((a, b) => a + b, 0));
         },
         error: (err) => console.error('Explore Analytics Error:', err)
       });
@@ -143,9 +143,9 @@ export class AdministratorHomeComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (countries) => {
-          this.countries = countries;
+          this.countries.set(countries);
           if (countries.length > 0) {
-            this.selectedCountry = countries[0];
+            this.selectedCountry.set(countries[0]);
             this.fetchCountryViews(countries[0]);
           }
         },
@@ -154,23 +154,23 @@ export class AdministratorHomeComponent implements OnInit {
   }
 
   fetchCountryViews(country: string) {
-    this.countrySeries = [];
+    this.countrySeries.set([]);
     this.stakeholdersService.getCountryPageViews(country, 6)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
           const allKeys = Object.keys(res.pageviewsPerMonth);
           const allValues = Object.values(res.pageviewsPerMonth) as number[];
-          this.countryCategories = allKeys.slice(-6);
+          this.countryCategories.set(allKeys.slice(-6));
           const finalValues = allValues.slice(-6);
-          this.countrySeries = [{
+          this.countrySeries.set([{
             name: 'Page Views',
             type: 'column',
             data: finalValues,
             color: '#3498db',
             showInLegend: false
-          }];
-          this.totalCountryViews = finalValues.reduce((a, b) => a + b, 0);
+          }]);
+          this.totalCountryViews.set(finalValues.reduce((a, b) => a + b, 0));
         },
         error: (err) => console.error('Country Analytics Error:', err)
       });
