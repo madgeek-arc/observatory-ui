@@ -1,32 +1,34 @@
 import { Component, computed, inject, input } from "@angular/core";
+import { FormatPercentPipe } from "../../../../shared/pipes/format-percent.pipe";
 import * as Highcharts from "highcharts";
 import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
-import { ChartsModule } from "../../../../shared/charts/charts.module";
+import { HighchartsChartModule } from "highcharts-angular";
+import { roundHalfUp } from "../../../../domain/format-indicator-value";
+import { stackedColumnOptions } from "../stacked-column-options";
 import { CardState } from "../../../../shared/card-state/card-state";
 
 interface CountryColumnChart {
   id: string;
   name: string;
-  series: Highcharts.SeriesColumnOptions[];
+  chartOptions: Highcharts.Options;
   latestPercent: number;
 }
 
 @Component({
   selector: 'app-composite-columns-line-card-view',
   templateUrl: 'composite-columns-line-card-view.html',
-  imports: [ChartsModule, CardState]
+  imports: [HighchartsChartModule, CardState, FormatPercentPipe]
 })
 export class CompositeColumnsLineCardView {
+  Highcharts: typeof Highcharts = Highcharts;
   private readonly customSearchService = inject(CustomSearchService);
 
   indicatorId = input.required<string>();
   indicatorCode = input.required<string>();
   dimension = input.required<string>();
 
-  readonly tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
-  readonly legendOff: Highcharts.LegendOptions = { enabled: false };
 
   private readonly queryParams = computed(() => ({
     id: this.indicatorId(),
@@ -99,7 +101,7 @@ export class CompositeColumnsLineCardView {
       (sum, code) => sum + (valueByKey.get(`${countryId}|${code}|${period}`) ?? 0), 0
     );
     const oaValue = valueByKey.get(`${countryId}|OA|${period}`) ?? 0;
-    return total > 0 ? Math.round((oaValue / total) * 100) : 0;
+    return total > 0 ? roundHalfUp((oaValue / total) * 100) : 0;
   }
 
   readonly countryCharts = computed<CountryColumnChart[]>(() => {
@@ -115,12 +117,12 @@ export class CompositeColumnsLineCardView {
     return resolveSelectedCountries(this.customSearchService.selectedCountryIds()).map(country => ({
       id: country.id,
       name: country.name,
-      series: codes.map((code, index) => ({
+      chartOptions: stackedColumnOptions(categories, codes.map((code, index) => ({
         type: 'column' as const,
         name: this.labelByCode()[code] ?? code,
         color: colors[index % colors.length],
         data: categories.map(year => valueByKey.get(`${country.id}|${code}|${year}`) ?? 0)
-      })),
+      })), 200, { enabled: false }),
       latestPercent: this.percentOpenAccessFor(country.id, latestYear)
     }));
   });

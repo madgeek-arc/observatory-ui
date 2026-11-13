@@ -5,7 +5,7 @@ import { colors } from "../../../../domain/chart-color-palette";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { CardState } from "../../../../shared/card-state/card-state";
-import { formatCompactCurrency } from "../../../../domain/format-indicator-value";
+import { axisLabelFormatter, formatCurrency } from "../../../../domain/format-indicator-value";
 
 @Component({
   selector: 'app-tabbed-countries-trend-card-view',
@@ -110,7 +110,7 @@ export class TabbedCountriesTrendCardView {
         ...country,
         values,
         latestIndex,
-        formattedLatest: latest === null ? '–' : formatCompactCurrency(latest)
+        formattedLatest: latest === null ? '–' : formatCurrency(latest)
       };
     });
   });
@@ -140,16 +140,11 @@ export class TabbedCountriesTrendCardView {
       yAxis: {
         min: 0,
         title: { text: undefined },
-        labels: {
-          formatter: function () {
-            const value = Number(this.value);
-            return value === 0 ? '0' : formatCompactCurrency(value);
-          }
-        }
+        labels: { formatter: axisLabelFormatter('currency') }
       },
       tooltip: {
         pointFormatter: function () {
-          return `<span style="color:${this.color}">●</span> ${this.series.name}: <b>${formatCompactCurrency(this.y ?? 0)}</b><br/>`;
+          return `<span style="color:${this.color}">●</span> ${this.series.name}: <b>${formatCurrency(this.y ?? 0)}</b><br/>`;
         }
       },
       plotOptions: { line: { marker: { enabled: false, radius: 4, symbol: 'circle' } } },

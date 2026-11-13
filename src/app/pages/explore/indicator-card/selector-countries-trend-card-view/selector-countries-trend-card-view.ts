@@ -3,6 +3,7 @@ import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
+import { axisLabelFormatter, formatPercent, roundHalfUp } from "../../../../domain/format-indicator-value";
 import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { CardState } from "../../../../shared/card-state/card-state";
 
@@ -113,8 +114,8 @@ export class SelectorCountriesTrendCardView {
         credits: { enabled: false },
         exporting: { enabled: false },
         xAxis: { categories: years },
-        yAxis: { min: 0, max: 100, title: { text: undefined } },
-        tooltip: { pointFormat: '{series.name}: {point.y}%' },
+        yAxis: { min: 0, max: 100, title: { text: undefined }, labels: { formatter: axisLabelFormatter('percentage') } },
+        tooltip: { pointFormatter: function () { return `${this.series.name}: ${formatPercent(this.y ?? 0)}`; } },
         plotOptions: { line: { marker: { enabled: true, radius: 3, symbol: 'circle' } } },
         legend: { enabled: false },
         series: countries.map(country => ({
@@ -126,7 +127,7 @@ export class SelectorCountriesTrendCardView {
               (sum, type) => sum + (valueByKey.get(`${type}|${classification}|${country.id}|${year}`) ?? 0), 0
             );
             const value = valueByKey.get(`${accessType}|${classification}|${country.id}|${year}`) ?? 0;
-            return total > 0 ? Math.round((value / total) * 100) : 0;
+            return total > 0 ? roundHalfUp((value / total) * 100) : 0;
           })
         }))
       }

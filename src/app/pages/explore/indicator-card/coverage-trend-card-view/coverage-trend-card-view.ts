@@ -6,6 +6,7 @@ import { resolveSelectedCountries } from "../../../../domain/countries";
 import { isPositiveStatus } from "../../../../domain/policy-status";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CardState } from "../../../../shared/card-state/card-state";
+import { axisLabelFormatter, formatCompactNumber } from "../../../../domain/format-indicator-value";
 
 @Component({
   selector: 'app-coverage-trend-card-view',
@@ -86,9 +87,10 @@ export class CoverageTrendCardView {
       yAxis: {
         min: 0,
         max: preAggregated ? response.data[0]?.total : this.totalAreas(),
-        title: { text: 'Areas with a policy in place' }
+        title: { text: 'Areas with a policy in place' },
+        labels: { formatter: axisLabelFormatter('number') }
       },
-      tooltip: { pointFormat: '{series.name}: {point.y}' },
+      tooltip: { pointFormatter: function () { return `${this.series.name}: ${formatCompactNumber(this.y ?? 0)}`; } },
       plotOptions: {
         line: { marker: { enabled: true, radius: 4, symbol: 'circle' } }
       },

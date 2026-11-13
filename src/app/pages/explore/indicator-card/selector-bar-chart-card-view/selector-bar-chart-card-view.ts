@@ -1,18 +1,29 @@
 import { Component, computed, inject, input } from "@angular/core";
+import { HighchartsChartModule } from "highcharts-angular";
+import * as Highcharts from "highcharts";
 import { SeriesOptionsType } from "highcharts";
-import { ChartsModule } from "../../../../shared/charts/charts.module";
 import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { colors } from "../../../../domain/chart-color-palette";
 import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
 import { CardState } from "../../../../shared/card-state/card-state";
+import { renderLogo } from "../../../../shared/charts/highcharts-functions";
+import { axisLabelFormatter, formatPercent } from "../../../../domain/format-indicator-value";
 
+/**
+ * Builds its own Highcharts options instead of using the shared <app-multi-chart>: that component
+ * formats numbers with Highcharts' global settings (shared with the Explore pages), so Custom Search
+ * could not apply its own number rules there without changing Explore too. The layout below copies
+ * what <app-multi-chart> drew for this card (inverted bar chart, logo, legend, grid lines).
+ */
 @Component({
   selector: 'app-selector-bar-chart-card-view',
   templateUrl: './selector-bar-chart-card-view.html',
-  imports: [ChartsModule, LoadingPlaceholder, CardState]
+  imports: [HighchartsChartModule, LoadingPlaceholder, CardState]
 })
 export class SelectorBarChartCardView {
   private readonly customSearchService = inject(CustomSearchService);
+
+  Highcharts: typeof Highcharts = Highcharts;
 
   indicatorId = input.required<string>();
   indicatorCode = input.required<string>();
@@ -126,6 +137,49 @@ export class SelectorBarChartCardView {
   });
 
   readonly ready = computed(() => this.response() !== undefined && this.categoryCodes().length > 0);
+
+  readonly chartOptions = computed<Highcharts.Options>(() => ({
+    colors,
+    chart: {
+      type: 'bar',
+      height: 600,
+      spacingBottom: 50,
+      events: {
+        load: function () {
+          renderLogo(this.renderer, this.chartWidth, this.chartHeight);
+        }
+      }
+    },
+    title: { text: undefined },
+    credits: { enabled: false },
+    exporting: { sourceWidth: 1000, sourceHeight: 600 },
+    xAxis: { categories: this.categories(), gridLineWidth: 1, lineWidth: 0 },
+    yAxis: {
+      title: { text: undefined },
+      gridLineWidth: 0,
+      labels: { formatter: axisLabelFormatter('percentage') }
+    },
+    tooltip: {
+      pointFormatter: function () {
+        return `<span style="color:${this.color}">●</span> ${this.series.name}: <b>${formatPercent(this.y ?? 0)}</b><br/>`;
+      }
+    },
+    plotOptions: {
+      // The series are 'column' type; in a 'bar' (inverted) chart they draw horizontally.
+      column: {
+        pointWidth: 10,
+        groupPadding: 0.1,
+        pointPadding: 0.05,
+        dataLabels: {
+          enabled: true,
+          formatter: function () {
+            return this.y === null || this.y === undefined ? null : formatPercent(this.y);
+          }
+        }
+      }
+    },
+    series: this.chartSeries()
+  }));
 
   readonly isEmpty = computed(() => !hasNumericValue(this.response()));
 }

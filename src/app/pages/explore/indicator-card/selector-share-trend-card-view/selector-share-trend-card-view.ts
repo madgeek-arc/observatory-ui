@@ -1,15 +1,17 @@
 import { Component, computed, inject, input } from "@angular/core";
+import { FormatPercentPipe } from "../../../../shared/pipes/format-percent.pipe";
 import * as Highcharts from "highcharts";
 import { HighchartsChartModule } from "highcharts-angular";
 import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
+import { axisLabelFormatter, formatPercent, roundHalfUp } from "../../../../domain/format-indicator-value";
 import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
   selector: 'app-selector-share-trend-card-view',
   templateUrl: './selector-share-trend-card-view.html',
-  imports: [HighchartsChartModule, CardState]
+  imports: [HighchartsChartModule, CardState, FormatPercentPipe]
 })
 export class SelectorShareTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -59,7 +61,7 @@ export class SelectorShareTrendCardView {
     }
     const percentByKey = new Map<string, number>();
     for (const [key, total] of totals) {
-      percentByKey.set(key, total > 0 ? Math.round((oaValues.get(key) ?? 0) / total * 100) : 0);
+      percentByKey.set(key, total > 0 ? roundHalfUp((oaValues.get(key) ?? 0) / total * 100) : 0);
     }
     return percentByKey;
   });
@@ -93,8 +95,8 @@ export class SelectorShareTrendCardView {
       credits: { enabled: false },
       exporting: { enabled: false },
       xAxis: { categories: years },
-      yAxis: { title: { text: undefined } },
-      tooltip: { pointFormat: '{series.name}: {point.y}%' },
+      yAxis: { title: { text: undefined }, labels: { formatter: axisLabelFormatter('percentage') } },
+      tooltip: { pointFormatter: function () { return `${this.series.name}: ${formatPercent(this.y ?? 0)}`; } },
       plotOptions: { line: { marker: { enabled: false, radius: 4, symbol: 'circle' } } },
       legend: { enabled: false },
       series: this.countryShares().map(country => {

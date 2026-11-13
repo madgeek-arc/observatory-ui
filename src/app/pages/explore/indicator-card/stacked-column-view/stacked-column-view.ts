@@ -5,6 +5,7 @@ import { colors } from "../../../../domain/chart-color-palette";
 import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { LoadingPlaceholder } from "../../../../shared/loading-placeholder/loading-placeholder";
 import { CardState } from "../../../../shared/card-state/card-state";
+import { axisLabelFormatter, formatCompactNumber, formatPercent } from "../../../../domain/format-indicator-value";
 
 @Component({
   selector: 'app-stacked-column-view',
@@ -89,10 +90,13 @@ export class StackedColumnView {
         min: 0,
         max: 100,
         title: { text: undefined },
-        gridLineWidth: 1
+        gridLineWidth: 1,
+        labels: { formatter: axisLabelFormatter('percentage') }
       },
       tooltip: {
-        pointFormat: '{series.name}: {point.y}<br/>Total: {point.total}'
+        pointFormatter: function () {
+          return `${this.series.name}: ${formatCompactNumber(this.y ?? 0)} (${formatPercent(this.percentage ?? 0)})<br/>Total: ${formatCompactNumber(this.total ?? 0)}`;
+        }
       },
       plotOptions: {
         column: {
@@ -101,7 +105,7 @@ export class StackedColumnView {
             enabled: true,
             color: '#FFFFFF',
             formatter: function (): string | null {
-              return (this.point.percentage ?? 0) >= 5 ? `${Math.round(this.point.percentage ?? 0)}%` : null;
+              return (this.point.percentage ?? 0) >= 5 ? formatPercent(this.point.percentage ?? 0) : null;
             }
           }
         }

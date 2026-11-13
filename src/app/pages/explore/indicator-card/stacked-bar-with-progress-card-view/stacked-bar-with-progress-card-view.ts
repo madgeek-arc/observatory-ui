@@ -1,15 +1,16 @@
 import { Component, computed, inject, input } from "@angular/core";
+import { FormatPercentPipe } from "../../../../shared/pipes/format-percent.pipe";
 import * as Highcharts from "highcharts";
 import { HighchartsChartModule } from "highcharts-angular";
 import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { colors } from "../../../../domain/chart-color-palette";
-import { formatCount } from "../../../../domain/format-indicator-value";
+import { formatCompactNumber, formatPercent, roundHalfUp } from "../../../../domain/format-indicator-value";
 import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
   selector: 'app-stacked-bar-with-progress-card-view',
   templateUrl: './stacked-bar-with-progress-card-view.html',
-  imports: [HighchartsChartModule, CardState]
+  imports: [HighchartsChartModule, CardState, FormatPercentPipe]
 })
 export class StackedBarWithProgressCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -50,7 +51,7 @@ export class StackedBarWithProgressCardView {
     return response.data.reduce((sum, point) => sum + (typeof point.value === 'number' ? point.value : 0), 0);
   });
 
-  readonly formattedTotal = computed(() => formatCount(this.total()));
+  readonly formattedTotal = computed(() => formatCompactNumber(this.total()));
 
   readonly segments = computed(() => {
     const response = this.response();
@@ -68,9 +69,9 @@ export class StackedBarWithProgressCardView {
           code,
           label: this.labelByCode()[code] ?? code,
           value,
-          percent: Math.round((value / total) * 100),
+          percent: roundHalfUp((value / total) * 100),
           color: colors[index % colors.length],
-          formattedValue: formatCount(value)
+          formattedValue: formatCompactNumber(value)
         };
       });
   });
@@ -91,7 +92,7 @@ export class StackedBarWithProgressCardView {
       exporting: { enabled: false },
       xAxis: { categories: [''], visible: false },
       yAxis: { min: 0, max: 100, visible: false, title: { text: undefined } },
-      tooltip: { pointFormat: '{series.name}: {point.y}%' },
+      tooltip: { pointFormatter: function () { return `${this.series.name}: ${formatPercent(this.y ?? 0)}`; } },
       plotOptions: {
         bar: {
           stacking: 'normal',
@@ -101,7 +102,7 @@ export class StackedBarWithProgressCardView {
             enabled: true,
             color: '#FFFFFF',
             formatter: function (): string | null {
-              return (this.y ?? 0) >= 0 ? `${this.y}%` : null;
+              return (this.y ?? 0) >= 0 ? formatPercent(this.y ?? 0) : null;
             }
           }
         }

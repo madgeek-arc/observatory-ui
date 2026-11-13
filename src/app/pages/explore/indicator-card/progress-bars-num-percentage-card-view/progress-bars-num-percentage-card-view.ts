@@ -8,13 +8,12 @@ import {
 } from "../../custom-search/services/custom-search.service";
 import {IndicatorFormat} from "../../../../domain/explore-indicators";
 import {resolveSelectedCountries} from "../../../../domain/countries";
-import {formatCompactCurrency} from "../../../../domain/format-indicator-value";
+import {formatCurrency, formatPercent, roundHalfUp} from "../../../../domain/format-indicator-value";
 import {CardState} from "../../../../shared/card-state/card-state";
-import {DecimalPipe} from "@angular/common";
 
 @Component({
   selector: 'app-progress-bars-num-percentage-card-view',
-  imports: [CardState, DecimalPipe],
+  imports: [CardState],
   templateUrl: './progress-bars-num-percentage-card-view.html',
 })
 export class ProgressBarsNumPercentageCardView {
@@ -86,7 +85,7 @@ export class ProgressBarsNumPercentageCardView {
           // Currency: share of the all-countries (EU) total.
           if (value !== null) {
             percent = eu > 0 ? value / eu * 100 : 0;
-            formattedValue = formatCompactCurrency(value);
+            formattedValue = formatCurrency(value);
           }
         }
 
@@ -96,6 +95,7 @@ export class ProgressBarsNumPercentageCardView {
           value,
           total,
           percent,
+          formattedPercent: formatPercent(percent),
           formattedValue
         };
       })
@@ -111,16 +111,17 @@ export class ProgressBarsNumPercentageCardView {
       const withData = rows.filter(row =>
         row.value !== null && row.total !== null && row.total > 0);
       if (withData.length === 0) {
-        return {label: 'Selected average', percent: 0, formattedValue: 'N/A'};
+        return {label: 'Selected average', percent: 0, formattedPercent: 'N/A', formattedValue: 'N/A'};
       }
       // Rounded first, so the percent is computed from the value shown beside it (5.7/10 → 57%).
-      const avgValue = +(withData.reduce((sum, row) =>
-        sum + (row.value ?? 0), 0) / withData.length).toFixed(1);
+      const avgValue = roundHalfUp(withData.reduce((sum, row) =>
+        sum + (row.value ?? 0), 0) / withData.length);
       // Assumes every country shares the same total (e.g. 12 monitored areas).
       const total = withData[0].total ?? 0;
       return {
         label: 'Selected average',
         percent: avgValue / total * 100,
+        formattedPercent: formatPercent(avgValue / total * 100),
         formattedValue: `${avgValue}/${total}`
       };
     }
@@ -130,7 +131,8 @@ export class ProgressBarsNumPercentageCardView {
     return {
       label: 'Selected countries',
       percent: eu > 0 ? sum / eu * 100 : 0,
-      formattedValue: formatCompactCurrency(sum)
+      formattedPercent: formatPercent(eu > 0 ? sum / eu * 100 : 0),
+      formattedValue: formatCurrency(sum)
     };
   });
 

@@ -4,6 +4,7 @@ import { resolveSelectedCountries } from "../../../../domain/countries";
 import { isPositiveStatus } from "../../../../domain/policy-status";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CardState } from "../../../../shared/card-state/card-state";
+import { formatIfNumber } from "../../../../domain/format-indicator-value";
 
 interface YearAdoptedCell {
   year: string | undefined;
@@ -115,7 +116,7 @@ export class YearAdoptedTableCardView {
         }
         return { year, background: this.colorMid, textColor: '#FFFFFF' };
       }),
-      euValue: euResponse.data.find(point => point.dimensions[dimension] === area.code)?.value
+      euValue: formatIfNumber(euResponse.data.find(point => point.dimensions[dimension] === area.code)?.value, 'percentage')
     }));
   });
 

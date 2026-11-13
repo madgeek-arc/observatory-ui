@@ -4,7 +4,7 @@ import * as Highcharts from "highcharts";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { CardState } from "../../../../shared/card-state/card-state";
-import { formatCompactCurrency } from "../../../../domain/format-indicator-value";
+import { axisLabelFormatter, formatCurrency, formatPercent } from "../../../../domain/format-indicator-value";
 
 
 export type StackedMode = 'amount' | 'share';
@@ -108,10 +108,10 @@ export class StackedColumnAmountShareCardView {
     let delta: { text: string; baselineYear: string } | undefined;
     if (startTotal !== undefined && startYear !== latestYear) {
       const difference = total - startTotal;
-      delta = { text: `${difference >= 0 ? '+' : '-'}${formatCompactCurrency(Math.abs(difference))}`, baselineYear: startYear };
+      delta = { text: `${difference >= 0 ? '+' : '-'}${formatCurrency(Math.abs(difference))}`, baselineYear: startYear };
     }
 
-    return { year: latestYear, formattedTotal: formatCompactCurrency(total), delta };
+    return { year: latestYear, formattedTotal: formatCurrency(total), delta };
   });
 
   readonly chartOptions = computed<Highcharts.Options | undefined>(() => {
@@ -128,20 +128,12 @@ export class StackedColumnAmountShareCardView {
       yAxis: {
         min: 0,
         title: { text: undefined },
-        labels: {
-          formatter: function () {
-            const value = Number(this.value);
-            if (share) {
-              return `${value}%`;
-            }
-            return value === 0 ? '0' : formatCompactCurrency(value);
-          }
-        }
+        labels: { formatter: axisLabelFormatter(share ? 'percentage' : 'currency') }
       },
       tooltip: {
         pointFormatter: function () {
-          const amount = formatCompactCurrency(this.y ?? 0);
-          const value = share ? `${(this.percentage ?? 0).toFixed(0)}% (${amount})` : amount;
+          const amount = formatCurrency(this.y ?? 0);
+          const value = share ? `${formatPercent(this.percentage ?? 0)} (${amount})` : amount;
           return `<span style="color:${this.color}">●</span> ${this.series.name}: <b>${value}</b><br/>`;
         }
       },

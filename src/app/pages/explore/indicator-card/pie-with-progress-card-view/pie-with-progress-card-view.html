@@ -20,7 +20,7 @@
                          style="width: 220px; flex-shrink: 0; height: 8px;"
                          [style.--progress-fill-color]="area.color"></progress>
               <span class="uk-text-bold uk-text-small uk-text-right" style="width: 36px; flex-shrink: 0;">
-                {{ area.percent }}%
+                {{ area.percent | formatPercent }}
               </span>
               <span class="uk-text-meta uk-text-small uk-text-right" style="width: 60px; flex-shrink: 0;">
                 {{ area.formattedValue }}

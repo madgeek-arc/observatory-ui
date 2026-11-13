@@ -6,6 +6,7 @@ import {
 } from "../../custom-search/services/custom-search.service";
 import {CardState} from "../../../../shared/card-state/card-state";
 import {statusCategory} from "../../../../domain/policy-status";
+import {roundHalfUp} from "../../../../domain/format-indicator-value";
 import UIkit from "uikit";
 import data = UIkit.data;
 
@@ -111,7 +112,7 @@ export class CountByAreaWithAverageCardView {
       return undefined;
     }
     const yesCount = this.answeredRows().filter(row => statusCategory(row.value) === 'positive').length;
-    return (yesCount / reportingCountries).toFixed(1);
+    return String(roundHalfUp(yesCount / reportingCountries));
   });
 
   /** The year the response is about. Every row carries it in its `period` dimension. */

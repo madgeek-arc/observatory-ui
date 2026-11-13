@@ -3,7 +3,7 @@ import { ChartsModule } from "../../../../shared/charts/charts.module";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { IndicatorFormat } from "../../../../domain/explore-indicators";
-import { formatIfNumber } from "../../../../domain/format-indicator-value";
+import { formatIfNumber, formatIndicatorValue } from "../../../../domain/format-indicator-value";
 import { resolveCountryName } from "../../../../domain/countries";
 import { CardState } from "../../../../shared/card-state/card-state";
 
@@ -11,6 +11,7 @@ interface RankedCountry {
   id: string;
   name: string;
   value: number;
+  formattedValue: string;
   barWidth: number;
 }
 
@@ -86,6 +87,7 @@ export class ChoroplethTopCountriesCardView {
       id: c.id,
       name: resolveCountryName(c.id),
       value: c.value,
+      formattedValue: formatIndicatorValue(c.value, this.format()),
       barWidth: maxValue > 0 ? Math.round((c.value / maxValue) * 100) : 0
     }));
   });

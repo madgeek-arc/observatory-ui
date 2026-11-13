@@ -1,14 +1,16 @@
 import { Component, computed, inject, input, signal } from "@angular/core";
+import { FormatPercentPipe } from "../../../../shared/pipes/format-percent.pipe";
 import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { colors } from "../../../../domain/chart-color-palette";
+import { axisLabelFormatter, formatPercent, roundHalfUp } from "../../../../domain/format-indicator-value";
 import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
   selector: 'app-selector-trend-card-view',
   templateUrl: './selector-trend-card-view.html',
-  imports: [HighchartsChartModule, CardState]
+  imports: [HighchartsChartModule, CardState, FormatPercentPipe]
 })
 export class SelectorTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -90,7 +92,7 @@ export class SelectorTrendCardView {
           (sum, type) => sum + (valueByKey.get(`${type}|${classification}|${year}`) ?? 0), 0
         );
         const value = valueByKey.get(`${accessType}|${classification}|${year}`) ?? 0;
-        return total > 0 ? Math.round((value / total) * 100) : 0;
+        return total > 0 ? roundHalfUp((value / total) * 100) : 0;
       })
     }));
   });
@@ -118,8 +120,8 @@ export class SelectorTrendCardView {
       credits: { enabled: false },
       exporting: { enabled: false },
       xAxis: { categories: years },
-      yAxis: { min: 0, max: 100, title: { text: undefined } },
-      tooltip: { pointFormat: '{series.name}: {point.y}%' },
+      yAxis: { min: 0, max: 100, title: { text: undefined }, labels: { formatter: axisLabelFormatter('percentage') } },
+      tooltip: { pointFormatter: function () { return `${this.series.name}: ${formatPercent(this.y ?? 0)}`; } },
       plotOptions: {
         line: { marker: { enabled: true, radius: 4, symbol: 'circle' } }
       },

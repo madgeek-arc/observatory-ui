@@ -2,8 +2,8 @@
   <ng-template>
     <!-- The bars also need the category codes, which may still come from /members. -->
     @if (ready()) {
-      <app-multi-chart chartType="bar" [series]="chartSeries()" [categories]="categories()"
-                        valueSuffix="%" [groupPadding]="0.1" [pointPadding]="0.05" [pointWidth]="10" [height]="600" />
+      <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions()" [oneToOne]="true"
+                        style="width: 100%; display: block;"></highcharts-chart>
       @if (hasPausedYears()) {
         <p class="uk-text-small uk-text-muted uk-margin-small-top">* Missing bars indicate years in which the question was paused.</p>
       }

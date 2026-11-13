@@ -1,7 +1,7 @@
 <app-card-state [state]="state()" [height]="280" [empty]="isEmpty()">
   <ng-template>
     <span class="uk-text-bold" style="font-size: 20px;">
-      {{ latestPercent() }}%  </span><span class="uk-text-muted">open access in {{ latestYear() }}</span>
+      {{ latestPercent() | formatPercent }}  </span><span class="uk-text-muted">open access in {{ latestYear() }}</span>
 
       @let delta = deltaVsFirstYear();
       @if (delta !== undefined) {
@@ -12,14 +12,8 @@
 
 
     <div class="uk-margin-small-top" style="height: 280px;">
-      <app-stacked-column
-        [categories]="categories()"
-        [series]="chartSeries()"
-        [pointFormat]="tooltipPointFormat"
-        [stackLabels]="false"
-        [dataLabels]="false"
-        [height]="280">
-      </app-stacked-column>
+      <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions()" [oneToOne]="true"
+                        style="width: 100%; height: 100%; display: block;"></highcharts-chart>
     </div>
   </ng-template>
 </app-card-state>

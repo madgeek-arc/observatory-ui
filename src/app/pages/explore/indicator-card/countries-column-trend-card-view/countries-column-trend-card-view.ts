@@ -5,6 +5,7 @@ import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { CardState } from "../../../../shared/card-state/card-state";
+import { axisLabelFormatter, formatCompactNumber } from "../../../../domain/format-indicator-value";
 
 @Component({
   selector: 'app-countries-column-trend-card-view',
@@ -76,9 +77,9 @@ export class CountriesColumnTrendCardView {
       credits: { enabled: false },
       exporting: { enabled: false },
       xAxis: { categories: years },
-      yAxis: { min: 0, title: { text: undefined } },
-      tooltip: { pointFormat: '{series.name}: {point.y}' },
-      plotOptions: { column: { dataLabels: { enabled: true } } },
+      yAxis: { min: 0, title: { text: undefined }, labels: { formatter: axisLabelFormatter('number') } },
+      tooltip: { pointFormatter: function () { return `${this.series.name}: ${formatCompactNumber(this.y ?? 0)}`; } },
+      plotOptions: { column: { dataLabels: { enabled: true, formatter: function () { return formatCompactNumber(this.y ?? 0); } } } },
       legend: { enabled: false },
       series: countries.map(country => ({
         type: 'column' as const,

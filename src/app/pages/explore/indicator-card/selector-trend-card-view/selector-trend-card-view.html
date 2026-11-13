@@ -19,7 +19,7 @@
         @for (item of latestShares(); track item.label; let i = $index) {
           <div class="uk-flex uk-flex-middle" style="gap: 6px;">
             <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%;" [style.background]="colors[i]"></span>
-            <span class="uk-text-small">{{ item.label }} <b>{{ item.value }}%</b></span>
+            <span class="uk-text-small">{{ item.label }} <b>{{ item.value | formatPercent }}</b></span>
           </div>
         }
       </div>

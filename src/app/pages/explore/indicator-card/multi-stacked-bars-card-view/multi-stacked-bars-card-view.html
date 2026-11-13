@@ -9,7 +9,7 @@
             <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
                               style="flex: 1 1 auto; display: block;"></highcharts-chart>
           }
-          <span class="uk-text-bold uk-text-small" style="width: 36px; flex-shrink: 0; text-align: right;">{{ row.headlinePercent }}%</span>
+          <span class="uk-text-bold uk-text-small" style="width: 50px; flex-shrink: 0; text-align: right;">{{ row.headlinePercent | formatPercent }}</span>
           <span class="uk-text-meta uk-text-small" style="width: 50px; flex-shrink: 0; text-align: right;">{{ row.formattedTotal }}</span>
         </div>
       }
@@ -23,7 +23,7 @@
               <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
                                 style="flex: 1 1 auto; display: block;"></highcharts-chart>
             }
-            <span class="uk-text-bold uk-text-small" style="width: 36px; flex-shrink: 0; text-align: right;">{{ eu.headlinePercent }}%</span>
+            <span class="uk-text-bold uk-text-small" style="width: 50px; flex-shrink: 0; text-align: right;">{{ eu.headlinePercent | formatPercent }}</span>
             <span style="width: 50px; flex-shrink: 0;"></span>
           </div>
         </div>

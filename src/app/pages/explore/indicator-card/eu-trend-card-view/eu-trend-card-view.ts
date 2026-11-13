@@ -10,7 +10,7 @@ import {
 import {CardState} from "../../../../shared/card-state/card-state";
 import {colors} from "../../../../domain/chart-color-palette";
 import {IndicatorFormat} from "../../../../domain/explore-indicators";
-import {formatIfNumber} from "../../../../domain/format-indicator-value";
+import {axisLabelFormatter, formatIfNumber} from "../../../../domain/format-indicator-value";
 
 @Component({
   selector: 'app-eu-trend-card-view',
@@ -59,7 +59,7 @@ export class EuTrendCardView {
       },
       yAxis: {
         title: {text: undefined},
-        labels: {style: {color: '#a4adb2'}},
+        labels: {style: {color: '#a4adb2'}, formatter: axisLabelFormatter(format)},
       },
       tooltip: {pointFormat: '<span style="color:{point.color}">●</span> {series.name}: <b>{point.formattedValue}</b><br/>'},
       series: [{

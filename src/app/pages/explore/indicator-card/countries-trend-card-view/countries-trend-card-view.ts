@@ -6,7 +6,7 @@ import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CardState } from "../../../../shared/card-state/card-state";
 import { IndicatorFormat } from "../../../../domain/explore-indicators";
-import { formatIfNumber, formatIndicatorValue } from "../../../../domain/format-indicator-value";
+import { axisLabelFormatter, formatIfNumber } from "../../../../domain/format-indicator-value";
 
 export type TrendMode = 'per-year' | 'cumulative';
 
@@ -80,7 +80,7 @@ export class CountriesTrendCardView {
         type: 'line' as const,
         name: country.name,
         color: country.color,
-        data: finalValues.map(value => ({ y: value, formattedValue: formatIfNumber(value ?? undefined, format) }))
+        data: finalValues.map(value => ({ y: value, formattedValue: formatIfNumber(value, format) }))
       };
     });
 
@@ -93,12 +93,7 @@ export class CountriesTrendCardView {
       xAxis: { categories: years },
       yAxis: {
         title: { text: undefined },
-        labels: {
-          formatter: function (): string {
-            const value = Number(this.value);
-            return format === 'percentage' ? `${value}%` : formatIndicatorValue(value, format);
-          }
-        }
+        labels: { formatter: axisLabelFormatter(format) }
       },
       tooltip: { pointFormat: '<span style="color:{point.color}">●</span> {series.name}: <b>{point.formattedValue}</b><br/>' },
       series

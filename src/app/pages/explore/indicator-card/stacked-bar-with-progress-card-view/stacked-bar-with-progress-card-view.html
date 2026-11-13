@@ -1,7 +1,7 @@
 <app-card-state [state]="state()" [height]="200" [empty]="isEmpty()">
   <ng-template>
     <span class="uk-text-bold" style="font-size: 20px;">
-      {{ headlinePercent() }}% </span> of {{ formattedTotal() }} publications are open access
+      {{ headlinePercent() | formatPercent }} </span> of {{ formattedTotal() }} publications are open access
 
 
     @if (chartOptions(); as options) {
@@ -18,7 +18,7 @@
           <progress class="uk-progress uk-width-expand uk-margin-remove" [value]="segment.percent" max="100"
                     style="height: 8px;"
                     [style.--progress-fill-color]="segment.color"></progress>
-          <span class="uk-text-bold uk-text-small" style="width: 40px; flex-shrink: 0; text-align: right;">{{ segment.percent }}%</span>
+          <span class="uk-text-bold uk-text-small" style="width: 50px; flex-shrink: 0; text-align: right;">{{ segment.percent | formatPercent }}</span>
           <span class="uk-text-meta uk-text-small" style="width: 55px; flex-shrink: 0; text-align: right;">{{ segment.formattedValue }}</span>
         </div>
       }

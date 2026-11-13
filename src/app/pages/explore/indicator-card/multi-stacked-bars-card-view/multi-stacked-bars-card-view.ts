@@ -1,10 +1,11 @@
 import { Component, computed, inject, input } from "@angular/core";
+import { FormatPercentPipe } from "../../../../shared/pipes/format-percent.pipe";
 import * as Highcharts from "highcharts";
 import { HighchartsChartModule } from "highcharts-angular";
 import { combineStates, CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest, IndicatorQueryResponse } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
-import { formatCount } from "../../../../domain/format-indicator-value";
+import { formatCompactNumber, formatPercent, roundHalfUp } from "../../../../domain/format-indicator-value";
 import { CardState } from "../../../../shared/card-state/card-state";
 
 interface BarSegment {
@@ -19,7 +20,7 @@ interface BarSegment {
 @Component({
   selector: 'app-multi-stacked-bars-card-view',
   templateUrl: './multi-stacked-bars-card-view.html',
-  imports: [HighchartsChartModule, CardState]
+  imports: [HighchartsChartModule, CardState, FormatPercentPipe]
 })
 export class MultiStackedBarsCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -91,9 +92,9 @@ export class MultiStackedBarsCardView {
           code,
           label: this.labelByCode()[code] ?? code,
           value,
-          percent: Math.round((value / total) * 100),
+          percent: roundHalfUp((value / total) * 100),
           color: colors[index % colors.length],
-          formattedValue: formatCount(value)
+          formattedValue: formatCompactNumber(value)
         };
       });
     return { total, segments };
@@ -112,7 +113,7 @@ export class MultiStackedBarsCardView {
       exporting: { enabled: false },
       xAxis: { categories: [''], visible: false },
       yAxis: { min: 0, max: 100, visible: false, title: { text: undefined } },
-      tooltip: { pointFormat: '{series.name}: {point.y}%' },
+      tooltip: { pointFormatter: function () { return `${this.series.name}: ${formatPercent(this.y ?? 0)}`; } },
       plotOptions: {
         bar: {
           stacking: 'normal',
@@ -122,7 +123,7 @@ export class MultiStackedBarsCardView {
             enabled: true,
             color: '#FFFFFF',
             formatter: function (): string | null {
-              return (this.y ?? 0) >= 10 ? `${this.y}%` : null;
+              return (this.y ?? 0) >= 10 ? formatPercent(this.y ?? 0) : null;
             }
           }
         }
@@ -151,7 +152,7 @@ export class MultiStackedBarsCardView {
       const { total, segments } = this.buildSegments(countryData);
       return {
         name: country.name,
-        formattedTotal: formatCount(total),
+        formattedTotal: formatCompactNumber(total),
         headlinePercent: segments[0]?.percent ?? 0,
         chartOptions: this.buildBarOptions(segments)
       };

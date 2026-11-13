@@ -1,9 +1,10 @@
 import {Component, computed, inject, input} from "@angular/core";
+import { FormatPercentPipe } from "../../../../shared/pipes/format-percent.pipe";
 import * as Highcharts from "highcharts";
 import { HighchartsChartModule } from "highcharts-angular";
 import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { colors } from "../../../../domain/chart-color-palette";
-import { formatIndicatorValue } from "../../../../domain/format-indicator-value";
+import { formatCurrency, formatPercent, roundHalfUp } from "../../../../domain/format-indicator-value";
 import { CardState } from "../../../../shared/card-state/card-state";
 
 interface AreaShare {
@@ -18,7 +19,7 @@ interface AreaShare {
 @Component({
   selector: 'app-pie-with-progress-card-view',
   templateUrl: './pie-with-progress-card-view.html',
-  imports: [HighchartsChartModule, CardState]
+  imports: [HighchartsChartModule, CardState, FormatPercentPipe]
 })
 export class PieWithProgressCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -61,7 +62,7 @@ export class PieWithProgressCardView {
     const response = this.response();
     return response ? response.data.reduce((sum, point) => sum + (typeof point.value === 'number' ? point.value : 0), 0) : 0;
   });
-  readonly formattedTotal = computed(() => formatIndicatorValue(this.total(), 'currency'));
+  readonly formattedTotal = computed(() => formatCurrency(this.total()));
 
   readonly areas = computed<AreaShare[]>(() => {
     const response = this.response();
@@ -77,14 +78,14 @@ export class PieWithProgressCardView {
           code,
           label: this.labelByCode()[code] ?? code,
           value: point.value as number,
-          percent: total > 0 ? Math.round((point.value as number) / total * 100) : 0
+          percent: total > 0 ? roundHalfUp((point.value as number) / total * 100) : 0
         };
       })
       .sort((a, b) => b.value - a.value)
       .map((area, index) => ({
         ...area,
         color: colors[index % colors.length],
-        formattedValue: formatIndicatorValue(area.value, 'currency')
+        formattedValue: formatCurrency(area.value)
       }));
   });
 
@@ -100,7 +101,8 @@ export class PieWithProgressCardView {
       exporting: { enabled: false },
       legend: { enabled: false },
       tooltip: {
-        pointFormat: '{point.formattedValue} · {point.percent}%'
+        // Pre-formatted strings: a {point.percent} number here would use Highcharts' global decimal setting.
+        pointFormat: '{point.formattedValue} · {point.formattedPercent}'
       },
       plotOptions: {
         pie: {
@@ -117,7 +119,7 @@ export class PieWithProgressCardView {
           y: area.value,
           color: area.color,
           formattedValue: area.formattedValue,
-          percent: area.percent
+          formattedPercent: formatPercent(area.percent)
         }))
       }]
     };

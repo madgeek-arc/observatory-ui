@@ -1,14 +1,17 @@
 import { Component, computed, inject, input } from "@angular/core";
+import { FormatPercentPipe } from "../../../../shared/pipes/format-percent.pipe";
 import * as Highcharts from "highcharts";
 import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { colors } from "../../../../domain/chart-color-palette";
-import { ChartsModule } from "../../../../shared/charts/charts.module";
+import { HighchartsChartModule } from "highcharts-angular";
+import { roundHalfUp } from "../../../../domain/format-indicator-value";
+import { stackedColumnOptions } from "../stacked-column-options";
 import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
   selector: 'app-stacked-column-with-totals-card-view',
   templateUrl: './stacked-column-with-totals-card-view.html',
-  imports: [ChartsModule, CardState]
+  imports: [HighchartsChartModule, CardState, FormatPercentPipe]
 })
 export class StackedColumnWithTotalsCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -17,7 +20,7 @@ export class StackedColumnWithTotalsCardView {
   indicatorCode = input.required<string>();
   dimension = input.required<string>();
 
-  readonly tooltipPointFormat = '{series.name}: {point.y}<br/>Total: {point.total}';
+  Highcharts: typeof Highcharts = Highcharts;
 
   private readonly queryParams = computed(() => ({
     id: this.indicatorId(),
@@ -81,6 +84,8 @@ export class StackedColumnWithTotalsCardView {
     }));
   });
 
+  readonly chartOptions = computed(() => stackedColumnOptions(this.categories(), this.chartSeries(), 280));
+
   /** Hardcoded to the "OA" access-status code — same simplification as
    *  StackedBarWithProgressCardView's headline, not yet generalized for od-4. */
   private percentOpenAccessFor(period: string | undefined): number {
@@ -94,7 +99,7 @@ export class StackedColumnWithTotalsCardView {
     );
     const total = rows.reduce((sum, point) => sum + (point.value as number), 0);
     const oaValue = rows.find(point => point.dimensions[dimension] === 'OA')?.value;
-    return total > 0 && typeof oaValue === 'number' ? Math.round((oaValue / total) * 100) : 0;
+    return total > 0 && typeof oaValue === 'number' ? roundHalfUp((oaValue / total) * 100) : 0;
   }
 
   readonly firstYear = computed(() => this.categories()[0]);
@@ -105,7 +110,7 @@ export class StackedColumnWithTotalsCardView {
     if (categories.length < 2) {
       return undefined;
     }
-    return this.latestPercent() - this.percentOpenAccessFor(this.firstYear());
+    return roundHalfUp(this.latestPercent() - this.percentOpenAccessFor(this.firstYear()));
   });
 
   readonly isEmpty = computed(() => !hasNumericValue(this.response()));

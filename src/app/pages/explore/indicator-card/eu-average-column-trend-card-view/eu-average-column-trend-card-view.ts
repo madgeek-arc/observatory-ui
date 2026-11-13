@@ -5,6 +5,7 @@ import { colors } from "../../../../domain/chart-color-palette";
 import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { CardState } from "../../../../shared/card-state/card-state";
 import { StatusBadge } from "../../../../domain/policy-status";
+import { axisLabelFormatter, roundHalfUp } from "../../../../domain/format-indicator-value";
 
 /** Number of areas tracked in a usual year — any other total gets an asterisk and a footnote. */
 const EXPECTED_AREAS = 12;
@@ -68,7 +69,7 @@ export class EuAverageColumnTrendCardView {
 
   readonly latestAverage = computed(() => {
     const average = this.latest()?.average;
-    return average == null ? undefined : +average.toFixed(1);
+    return average == null ? undefined : roundHalfUp(average);
   });
 
   readonly changeSinceStart = computed<StatusBadge | undefined>(() => {
@@ -78,7 +79,8 @@ export class EuAverageColumnTrendCardView {
     if (!first || !latest || first.year === latest.year || first.average === null || latest.average === null) {
       return undefined;
     }
-    const difference = +(+latest.average.toFixed(1) - +first.average.toFixed(1)).toFixed(1);
+    // Difference of the two shown (rounded) values, so "+0.7" always matches the numbers on the columns.
+    const difference = roundHalfUp(roundHalfUp(latest.average) - roundHalfUp(first.average));
     if (difference > 0) {
       return { text: `+${difference} vs ${startYear}`, cssClass: 'uk-text-success' };
     }
@@ -122,7 +124,7 @@ export class EuAverageColumnTrendCardView {
       credits: { enabled: false },
       exporting: { enabled: false },
       xAxis: { categories: averages.map(item => item.year) },
-      yAxis: { min: 0, maxPadding: 0.5, title: { text: undefined } },
+      yAxis: { min: 0, maxPadding: 0.5, title: { text: undefined }, labels: { formatter: axisLabelFormatter('number') } },
       tooltip: { enabled: false },
       plotOptions: {
         column: {
@@ -136,7 +138,7 @@ export class EuAverageColumnTrendCardView {
         name: 'EU average',
         data: averages.map(item => ({
           y: item.average,
-          formattedValue: item.average === null ? '' : String(+item.average.toFixed(1))
+          formattedValue: item.average === null ? '' : String(roundHalfUp(item.average))
         }))
       }]
     };

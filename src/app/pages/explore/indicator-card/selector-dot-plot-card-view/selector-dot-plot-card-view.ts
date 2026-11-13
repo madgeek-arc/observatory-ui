@@ -1,15 +1,17 @@
 import { Component, computed, inject, input, signal } from "@angular/core";
+import { FormatPercentPipe } from "../../../../shared/pipes/format-percent.pipe";
 import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
+import { formatPercent, roundHalfUp } from "../../../../domain/format-indicator-value";
 import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { CardState } from "../../../../shared/card-state/card-state";
 
 @Component({
   selector: 'app-selector-dot-plot-card-view',
   templateUrl: './selector-dot-plot-card-view.html',
-  imports: [HighchartsChartModule, CardState]
+  imports: [HighchartsChartModule, CardState, FormatPercentPipe]
 })
 export class SelectorDotPlotCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -96,7 +98,7 @@ export class SelectorDotPlotCardView {
           (sum, type) => sum + (valueByKey.get(`${type}|${classification}|${country.id}`) ?? 0), 0
         );
         const value = valueByKey.get(`${accessType}|${classification}|${country.id}`) ?? 0;
-        return { label: classification, value: total > 0 ? Math.round((value / total) * 100) : 0 };
+        return { label: classification, value: total > 0 ? roundHalfUp((value / total) * 100) : 0 };
       });
       const nums = values.map(v => v.value);
       return { id: country.id, name: country.name, values, min: Math.min(...nums), max: Math.max(...nums) };
@@ -170,7 +172,7 @@ export class SelectorDotPlotCardView {
         plotLines: [{ value: 0, width: 1, color: '#B8B8B8' }]
       },
       tooltip: {
-        pointFormat: '{series.name}: {point.x}%',
+        pointFormatter: function () { return `${this.series.name}: ${formatPercent(this.x ?? 0)}`; },
         useHTML: true,
         hideDelay: 0
       },

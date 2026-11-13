@@ -8,7 +8,7 @@
           <progress class="uk-progress uk-progress-small uk-margin-remove" [value]="row.percent" max="100"></progress>
         </div>
         <div class="uk-width-xsmall uk-text-small uk-text-bold uk-text-right">{{ row.formattedValue }}</div>
-        <div class="uk-width-xsmall uk-text-small uk-text-meta uk-text-right">{{ row.percent | number:'1.0-1' }}%</div>
+        <div class="uk-width-xsmall uk-text-small uk-text-meta uk-text-right">{{ row.formattedPercent }}</div>
       </div>
     }
 
@@ -18,7 +18,7 @@
       <div class="uk-width-expand uk-text-small uk-text-bold">{{ totalRow().label }}</div>
       <div class="uk-width-xsmall uk-text-small uk-text-bold uk-text-right">{{ totalRow().formattedValue }}</div>
       <div class="uk-width-xsmall uk-text-small uk-text-meta uk-text-right">
-        {{ totalRow().percent | number:'1.0-1' }}%@if (format() === 'currency') { of EU}
+        {{ totalRow().formattedPercent }}@if (format() === 'currency') { of EU}
       </div>
     </div>
   </ng-template>

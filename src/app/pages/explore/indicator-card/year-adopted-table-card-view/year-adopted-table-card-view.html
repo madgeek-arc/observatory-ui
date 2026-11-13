@@ -25,7 +25,7 @@
                   </div>
                 </td>
               }
-              <td class="uk-text-meta uk-text-small" style="padding: 2px 6px;">{{ row.euValue != null ? row.euValue + '%' : 'N/A' }}</td>
+              <td class="uk-text-meta uk-text-small" style="padding: 2px 6px;">{{ row.euValue ?? 'N/A' }}</td>
             </tr>
           }
         </tbody>

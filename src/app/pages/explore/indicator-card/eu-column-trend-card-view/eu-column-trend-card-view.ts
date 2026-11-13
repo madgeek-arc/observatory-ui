@@ -5,20 +5,7 @@ import { colors } from "../../../../domain/chart-color-palette";
 import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { CardState } from "../../../../shared/card-state/card-state";
 import { IndicatorFormat } from "../../../../domain/explore-indicators";
-import { formatCompactCurrency, formatCount, formatIndicatorValue } from "../../../../domain/format-indicator-value";
-
-/** EU totals are sums over every country, so they get large — abbreviate them
- *  (1651818 -> "1.65M", 2425586800000 -> "€2.4T") instead of printing raw digits. */
-function formatColumnLabel(value: number, format: IndicatorFormat): string {
-  switch (format) {
-    case 'percentage':
-      return formatIndicatorValue(value, format);
-    case 'currency':
-      return formatCompactCurrency(value);
-    default:
-      return formatCount(value);
-  }
-}
+import { axisLabelFormatter, formatIndicatorValue } from "../../../../domain/format-indicator-value";
 
 @Component({
   selector: 'app-eu-column-trend-card-view',
@@ -77,7 +64,7 @@ export class EuColumnTrendCardView {
       credits: { enabled: false },
       exporting: { enabled: false },
       xAxis: { categories: totals.map(([year]) => year) },
-      yAxis: { min: 0, maxPadding: 0.15, title: { text: undefined } },
+      yAxis: { min: 0, maxPadding: 0.15, title: { text: undefined }, labels: { formatter: axisLabelFormatter(format) } },
       tooltip: { enabled: false },
       plotOptions: {
         column: {
@@ -89,7 +76,7 @@ export class EuColumnTrendCardView {
       series: [{
         type: 'column',
         name: 'Total',
-        data: totals.map(([, value]) => ({ y: value, formattedValue: formatColumnLabel(value, format) }))
+        data: totals.map(([, value]) => ({ y: value, formattedValue: formatIndicatorValue(value, format) }))
       }]
     };
   });
