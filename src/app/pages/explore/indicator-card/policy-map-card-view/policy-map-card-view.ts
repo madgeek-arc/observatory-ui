@@ -39,9 +39,11 @@ export class PolicyMapCardView {
     return Array.from({length: end - start + 1}, (_, index) => start + index);
   });
 
+  /** Opens on the last year that has data; falls back to the end year if none has. */
   readonly selectedYear = linkedSignal({
-    source: this.years,
-    computation: years => years[years.length - 1]
+    source: () => ({ years: this.years(), withoutData: this.yearsWithoutData() }),
+    computation: ({ years, withoutData }) =>
+      years.filter(year => !withoutData.has(year)).at(-1) ?? years[years.length - 1]
   });
 
   private readonly queryParams = computed(() => ({
@@ -151,7 +153,13 @@ export class PolicyMapCardView {
     return trendBadge(this.countPositive(selectedYear) - this.countPositive(baselineYear), baselineYear);
   });
 
-  readonly isEmpty = computed(() => this.selectedYearData().length === 0);
+  /** Years in the range with no rows at all, e.g. 2024 for paused areas. */
+  readonly yearsWithoutData = computed(() =>
+    new Set(this.years().filter(year => this.pointsOf(year).length === 0))
+  );
+
+  /** The whole range is empty → card-state shows its full-card "No data" message. */
+  readonly isEmpty = computed(() => (this.response()?.data ?? []).length === 0);
 
   selectYear(year: number) {
     this.selectedYear.set(year);

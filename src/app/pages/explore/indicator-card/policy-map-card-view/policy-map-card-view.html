@@ -16,11 +16,14 @@
           @if (years().length > 1) {
             <div class="uk-flex uk-flex-wrap uk-margin-small-bottom" style="gap: 6px;">
               @for (year of years(); track year) {
-                <button type="button"
-                        [class]="year === selectedYear() ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
-                        (click)="selectYear(year)">
-                  {{ year }}
-                </button>
+                <span [attr.uk-tooltip]="yearsWithoutData().has(year) ? 'No data for the selected year' : null">
+                  <button type="button"
+                          [class]="year === selectedYear() ? 'uk-button uk-button-secondary uk-button-small' : 'uk-button eos-btn--ghost uk-button-small'"
+                          [disabled]="yearsWithoutData().has(year)"
+                          (click)="selectYear(year)">
+                    {{ year }}
+                  </button>
+                </span>
               }
             </div>
           }
