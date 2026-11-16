@@ -50,6 +50,13 @@ export class CompositeColumnsLineCardView {
   private readonly labelByCode = computed(() =>
     Object.fromEntries((this.members() ?? []).map(m => [m.code, m.label]))
   );
+  /** Open access = every member the backend groups as OPEN_ACCESS (e.g. with + without
+   *  licence); the 'OA' fallback covers members that have no group yet. */
+  private readonly openAccessCodes = computed(() => new Set(
+    (this.members() ?? [])
+      .filter(member => member.group === 'OPEN_ACCESS' || member.code === 'OA')
+      .map(member => member.code)
+  ));
 
   readonly categories = computed(() => {
     const response = this.response();
@@ -100,7 +107,9 @@ export class CompositeColumnsLineCardView {
     const total = this.codes().reduce(
       (sum, code) => sum + (valueByKey.get(`${countryId}|${code}|${period}`) ?? 0), 0
     );
-    const oaValue = valueByKey.get(`${countryId}|OA|${period}`) ?? 0;
+    const oaValue = [...this.openAccessCodes()].reduce(
+      (sum, code) => sum + (valueByKey.get(`${countryId}|${code}|${period}`) ?? 0), 0
+    );
     return total > 0 ? roundHalfUp((oaValue / total) * 100) : 0;
   }
 

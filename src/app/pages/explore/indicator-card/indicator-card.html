@@ -156,6 +156,7 @@
         @case ('selector-share-trend') {
           <app-selector-share-trend-card-view
             [indicatorId]="indicator().id"
+            [indicatorCode]="indicator().indicatorCode"
             [dimension]="currentView()?.selector?.dimension ?? ''">
           </app-selector-share-trend-card-view>
         }

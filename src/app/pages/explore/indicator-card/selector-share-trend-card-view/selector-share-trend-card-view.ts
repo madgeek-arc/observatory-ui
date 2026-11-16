@@ -17,7 +17,21 @@ export class SelectorShareTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
 
   indicatorId = input.required<string>();
+  indicatorCode = input.required<string>();
   dimension = input.required<string>();
+
+  private readonly membersParams = computed(() => ({
+    indicatorCode: this.indicatorCode(),
+    dimension: this.dimension()
+  }));
+  private readonly members = this.customSearchService.dimensionMembersSignal(this.membersParams);
+  /** Open access = every member the backend groups as OPEN_ACCESS (e.g. with + without
+   *  licence); the 'OA' fallback covers members that have no group yet. */
+  private readonly openAccessCodes = computed(() => new Set(
+    (this.members() ?? [])
+      .filter(member => member.group === 'OPEN_ACCESS' || member.code === 'OA')
+      .map(member => member.code)
+  ));
 
   Highcharts: typeof Highcharts = Highcharts;
 
@@ -38,9 +52,7 @@ export class SelectorShareTrendCardView {
     return response ? [...new Set(response.data.map(point => point.dimensions['period']))].sort() : [];
   });
 
-  /** One pass over the response builds "country|period" -> OA share%. Same simplification
-   *  as StackedColumnWithTotalsCardView's headline — hardcoded to "OA", not generalized to
-   *  an arbitrary category, since that's the only share this view is asked to show. */
+  /** One pass over the response builds "country|period" -> open-access share%. */
   private readonly sharePercentByKey = computed(() => {
     const response = this.response();
     const dimension = this.dimension();
@@ -49,14 +61,15 @@ export class SelectorShareTrendCardView {
     if (!response) {
       return new Map<string, number>();
     }
+    const openAccessCodes = this.openAccessCodes();
     for (const point of response.data) {
       if (typeof point.value !== 'number') {
         continue;
       }
       const key = `${point.dimensions['country']}|${point.dimensions['period']}`;
       totals.set(key, (totals.get(key) ?? 0) + point.value);
-      if (point.dimensions[dimension] === 'OA') {
-        oaValues.set(key, point.value);
+      if (openAccessCodes.has(point.dimensions[dimension])) {
+        oaValues.set(key, (oaValues.get(key) ?? 0) + point.value);
       }
     }
     const percentByKey = new Map<string, number>();
