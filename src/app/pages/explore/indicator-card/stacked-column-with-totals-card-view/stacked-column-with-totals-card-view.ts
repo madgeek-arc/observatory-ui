@@ -42,6 +42,11 @@ export class StackedColumnWithTotalsCardView {
   private readonly labelByCode = computed(() =>
     Object.fromEntries((this.members() ?? []).map(m => [m.code, m.label]))
   );
+  private readonly openAccessCodes = computed(() => new Set(
+    (this.members() ?? [])
+      .filter(member => member.group === 'OPEN_ACCESS' || member.code === 'OA')
+      .map(member => member.code)
+  ));
 
   readonly categories = computed(() => {
     const response = this.response();
@@ -86,8 +91,8 @@ export class StackedColumnWithTotalsCardView {
 
   readonly chartOptions = computed(() => stackedColumnOptions(this.categories(), this.chartSeries(), 280));
 
-  /** Hardcoded to the "OA" access-status code — same simplification as
-   *  StackedBarWithProgressCardView's headline, not yet generalized for od-4. */
+  /** Open access = every member the backend groups as OPEN_ACCESS (e.g. with + without
+   *  licence); the 'OA' fallback covers members that have no group yet. */
   private percentOpenAccessFor(period: string | undefined): number {
     const response = this.response();
     const dimension = this.dimension();
@@ -97,9 +102,12 @@ export class StackedColumnWithTotalsCardView {
     const rows = response.data.filter(point =>
       point.dimensions['period'] === period && typeof point.value === 'number'
     );
+    const openAccessCodes = this.openAccessCodes();
     const total = rows.reduce((sum, point) => sum + (point.value as number), 0);
-    const oaValue = rows.find(point => point.dimensions[dimension] === 'OA')?.value;
-    return total > 0 && typeof oaValue === 'number' ? roundHalfUp((oaValue / total) * 100) : 0;
+    const oaValue = rows
+      .filter(point => openAccessCodes.has(point.dimensions[dimension]))
+      .reduce((sum, point) => sum + (point.value as number), 0);
+    return total > 0 ? roundHalfUp((oaValue / total) * 100) : 0;
   }
 
   readonly firstYear = computed(() => this.categories()[0]);
