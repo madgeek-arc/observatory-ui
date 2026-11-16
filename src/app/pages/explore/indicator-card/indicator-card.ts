@@ -183,13 +183,13 @@ export class IndicatorCard {
     ].filter(aggregation => allowed.includes(aggregation));
   });
 
-  /** Request for the summary only — rebuilt whenever aggregations, years or countries change. */
+  /** Request for the summary only — always EU-wide (countries: []), so "EU average" / "Median"
+   *  are the EU reference values even when specific countries are selected. Rebuilt whenever
+   *  aggregations or years change. */
   private readonly summaryParams = computed(() => ({
     id: this.indicator().id,
     request: {
-      countries: this.customSearchService.geographyScope() === 'all'
-        ? []
-        : [...this.customSearchService.selectedCountryIds()],
+      countries: [],
       yearFrom: this.customSearchService.startYear(),
       yearTo: this.customSearchService.endYear(),
       seriesAggregations: this.aggregations()
