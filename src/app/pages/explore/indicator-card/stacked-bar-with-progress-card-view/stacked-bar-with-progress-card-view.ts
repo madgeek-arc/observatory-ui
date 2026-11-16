@@ -42,6 +42,13 @@ export class StackedBarWithProgressCardView {
   private readonly labelByCode = computed(() =>
     Object.fromEntries((this.members() ?? []).map(m => [m.code, m.label]))
   );
+  /** Open access = every member the backend groups as OPEN_ACCESS (e.g. with + without
+   *  licence); the 'OA' fallback covers members that have no group yet. */
+  private readonly openAccessCodes = computed(() => new Set(
+    (this.members() ?? [])
+      .filter(member => member.group === 'OPEN_ACCESS' || member.code === 'OA')
+      .map(member => member.code)
+  ));
 
   readonly total = computed(() => {
     const response = this.response();
@@ -76,7 +83,16 @@ export class StackedBarWithProgressCardView {
       });
   });
 
-  readonly headlinePercent = computed(() => this.segments()[0]?.percent ?? 0);
+  /** Share of all open-access segments together, from the raw values (not the rounded
+   *  segment percents, so rounding errors don't add up). */
+  readonly headlinePercent = computed(() => {
+    const total = this.total();
+    const openAccessCodes = this.openAccessCodes();
+    const oaValue = this.segments()
+      .filter(segment => openAccessCodes.has(segment.code))
+      .reduce((sum, segment) => sum + segment.value, 0);
+    return total > 0 ? roundHalfUp((oaValue / total) * 100) : 0;
+  });
 
   /** One category, one stacked bar — each segment is its own series so it can carry
    *  its own fixed color (not auto-assigned by Highcharts). */
