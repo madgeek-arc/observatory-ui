@@ -1,4 +1,4 @@
-import { Component, DestroyRef, effect, ElementRef, inject, OnInit, untracked, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, DestroyRef, effect, ElementRef, inject, OnInit, signal, untracked, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { CookieConsentService } from './cookie-consent.service';
 import { COOKIE_CATALOG } from './cookie-consent.model';
@@ -30,7 +30,7 @@ declare var UIkit: any;
       cursor: pointer;
     }
   `],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (!service.hasChoice()) {
       <div class="cookie-banner uk-position-fixed uk-position-bottom-left uk-margin-left uk-margin-bottom"
@@ -104,8 +104,8 @@ declare var UIkit: any;
           <div class="uk-background-muted uk-padding-small uk-border-rounded">
             <label class="uk-flex uk-flex-between uk-flex-middle uk-text-bold">
               Analytical cookies
-              <input class="uk-checkbox" type="checkbox" [checked]="analyticsDraft"
-                     (change)="analyticsDraft = $any($event.target).checked">
+              <input class="uk-checkbox" type="checkbox" [checked]="analyticsDraft()"
+                     (change)="analyticsDraft.set($any($event.target).checked)">
             </label>
             <div class="uk-text-small uk-margin-small-top">
               These cookies help us understand how the website is used, such as which pages are visited and which
@@ -138,7 +138,7 @@ declare var UIkit: any;
             Accept all
           </button>
           <button type="button" class="uk-button uk-button-small uk-button-default"
-                  (click)="service.save(analyticsDraft)">
+                  (click)="service.save(analyticsDraft())">
             Save settings
           </button>
         </div>
@@ -152,7 +152,7 @@ export class CookieConsentComponent implements OnInit {
   readonly policyUrl = 'https://www.openaire.eu/cookies-policy';
 
   /** State of the analytics checkbox while the panel is open; only applied on save. */
-  analyticsDraft = false;
+  readonly analyticsDraft = signal(false);
 
   @ViewChild('panel', {static: true}) panel: ElementRef<HTMLElement>;
 
@@ -166,7 +166,7 @@ export class CookieConsentComponent implements OnInit {
         return;
       }
       if (open) {
-        this.analyticsDraft = untracked(() => this.service.consent()?.analytics) ?? false;
+        this.analyticsDraft.set(untracked(() => this.service.consent()?.analytics) ?? false);
         UIkit.offcanvas(el).show();
       } else if (el.classList.contains('uk-open')) {
         UIkit.offcanvas(el).hide();

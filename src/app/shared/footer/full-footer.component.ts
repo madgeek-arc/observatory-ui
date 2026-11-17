@@ -7,7 +7,7 @@ import { FooterComponent } from './footer.component';
     selector: 'app-full-footer',
     templateUrl: './full-footer.component.html',
     styleUrls: ['./footer.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [RouterLink, FooterComponent]
 })
 export class FullFooterComponent {
