@@ -93,7 +93,8 @@ export class CountriesTrendCardView {
       xAxis: { categories: years },
       yAxis: {
         title: { text: undefined },
-        labels: { formatter: axisLabelFormatter(format) }
+        labels: { formatter: axisLabelFormatter(format) },
+        ...(format === 'percentage' ? { max: 100 } : {})
       },
       tooltip: { pointFormat: '<span style="color:{point.color}">●</span> {series.name}: <b>{point.formattedValue}</b><br/>' },
       series

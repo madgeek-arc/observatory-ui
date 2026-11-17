@@ -108,7 +108,7 @@ export class SelectorShareTrendCardView {
       credits: { enabled: false },
       exporting: { enabled: false },
       xAxis: { categories: years },
-      yAxis: { title: { text: undefined }, labels: { formatter: axisLabelFormatter('percentage') } },
+      yAxis: { max: 100, title: { text: undefined }, labels: { formatter: axisLabelFormatter('percentage') } },
       tooltip: { pointFormatter: function () { return `${this.series.name}: ${formatPercent(this.y ?? 0)}`; } },
       plotOptions: { line: { marker: { enabled: false, radius: 4, symbol: 'circle' } } },
       legend: { enabled: false },

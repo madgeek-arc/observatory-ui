@@ -8,8 +8,12 @@
           @if (row.chartOptions; as options) {
             <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
                               style="flex: 1 1 auto; display: block;"></highcharts-chart>
+          } @else {
+            <div class="uk-flex uk-flex-middle" style="flex: 1 1 auto;" [style.height.px]="rowHeight">
+              <div class="uk-flex uk-flex-middle uk-flex-center uk-width-1-1 uk-text-meta uk-text-small uk-background-muted"
+                   [style.border-radius.px]="barRadius" [style.height.px]="barHeight">No data for {{ endYear() }}</div>
+            </div>
           }
-          <span class="uk-text-bold uk-text-small" style="width: 50px; flex-shrink: 0; text-align: right;">{{ row.headlinePercent | formatPercent }}</span>
           <span class="uk-text-meta uk-text-small" style="width: 50px; flex-shrink: 0; text-align: right;">{{ row.formattedTotal }}</span>
         </div>
       }
@@ -23,7 +27,6 @@
               <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
                                 style="flex: 1 1 auto; display: block;"></highcharts-chart>
             }
-            <span class="uk-text-bold uk-text-small" style="width: 50px; flex-shrink: 0; text-align: right;">{{ eu.headlinePercent | formatPercent }}</span>
             <span style="width: 50px; flex-shrink: 0;"></span>
           </div>
         </div>
@@ -39,7 +42,7 @@
       }
     </div>
     <div class="uk-text-meta uk-text-small uk-margin-small-top">
-      {{ countryRows().length }} countries · {{ endYear() }} · ranked by open access share, bars are 100% of each country's output
+      {{ countryRows().length }} countries · {{ endYear() }} · bars are 100% of each country's output
     </div>
   </ng-template>
 </app-card-state>

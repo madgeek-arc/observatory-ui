@@ -150,7 +150,8 @@
           <app-composite-columns-line-card-view
             [indicatorId]="indicator().id"
             [indicatorCode]="indicator().indicatorCode"
-            [dimension]="currentView()?.selector?.dimension ?? ''">
+            [dimension]="currentView()?.selector?.dimension ?? ''"
+            [format]="indicator().format">
           </app-composite-columns-line-card-view>
         }
         @case ('selector-share-trend') {

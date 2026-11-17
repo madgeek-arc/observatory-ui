@@ -5,7 +5,7 @@
         <div>
           <div class="uk-flex uk-flex-middle uk-flex-between uk-margin-small-bottom">
             <span class="uk-text-small uk-text-bold">{{ chart.name }}</span>
-            <span class="uk-text-small uk-text-meta">{{ chart.latestPercent | formatPercent }} OA</span>
+            <span class="uk-text-small uk-text-meta">{{ chart.headline }}</span>
           </div>
           <div style="height: 200px;">
             <highcharts-chart [Highcharts]="Highcharts" [options]="chart.chartOptions" [oneToOne]="true"

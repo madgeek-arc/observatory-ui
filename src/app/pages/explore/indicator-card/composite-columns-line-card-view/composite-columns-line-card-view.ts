@@ -1,11 +1,11 @@
 import { Component, computed, inject, input } from "@angular/core";
-import { FormatPercentPipe } from "../../../../shared/pipes/format-percent.pipe";
 import * as Highcharts from "highcharts";
 import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
 import { HighchartsChartModule } from "highcharts-angular";
-import { roundHalfUp } from "../../../../domain/format-indicator-value";
+import { formatIndicatorValue, formatPercent, roundHalfUp } from "../../../../domain/format-indicator-value";
+import { IndicatorFormat } from "../../../../domain/explore-indicators";
 import { stackedColumnOptions } from "../stacked-column-options";
 import { CardState } from "../../../../shared/card-state/card-state";
 
@@ -13,13 +13,13 @@ interface CountryColumnChart {
   id: string;
   name: string;
   chartOptions: Highcharts.Options;
-  latestPercent: number;
+  headline: string;
 }
 
 @Component({
   selector: 'app-composite-columns-line-card-view',
   templateUrl: 'composite-columns-line-card-view.html',
-  imports: [HighchartsChartModule, CardState, FormatPercentPipe]
+  imports: [HighchartsChartModule, CardState]
 })
 export class CompositeColumnsLineCardView {
   Highcharts: typeof Highcharts = Highcharts;
@@ -28,6 +28,7 @@ export class CompositeColumnsLineCardView {
   indicatorId = input.required<string>();
   indicatorCode = input.required<string>();
   dimension = input.required<string>();
+  format = input.required<IndicatorFormat>();
 
 
   private readonly queryParams = computed(() => ({
@@ -113,6 +114,28 @@ export class CompositeColumnsLineCardView {
     return total > 0 ? roundHalfUp((oaValue / total) * 100) : 0;
   }
 
+  /** Sum of every breakdown member for one country and year; null when the country has no values. */
+  private totalFor(countryId: string, period: string | undefined): number | null {
+    if (!period) {
+      return null;
+    }
+    const valueByKey = this.valueByKey();
+    const values = this.codes()
+      .map(code => valueByKey.get(`${countryId}|${code}|${period}`))
+      .filter((value): value is number => value !== undefined);
+    return values.length > 0 ? values.reduce((sum, value) => sum + value, 0) : null;
+  }
+
+  /** "% OA" when the breakdown has open-access members; otherwise the latest-year total,
+   *  since an open-access share means nothing for e.g. investments by area. */
+  private headlineFor(countryId: string, period: string | undefined): string {
+    if (this.openAccessCodes().size > 0) {
+      return `${formatPercent(this.percentOpenAccessFor(countryId, period))} OA`;
+    }
+    const total = this.totalFor(countryId, period);
+    return total === null ? '–' : `${formatIndicatorValue(total, this.format())} in ${period}`;
+  }
+
   readonly countryCharts = computed<CountryColumnChart[]>(() => {
     const response = this.response();
     if (!response) {
@@ -132,7 +155,7 @@ export class CompositeColumnsLineCardView {
         color: colors[index % colors.length],
         data: categories.map(year => valueByKey.get(`${country.id}|${code}|${year}`) ?? 0)
       })), 200, { enabled: false }),
-      latestPercent: this.percentOpenAccessFor(country.id, latestYear)
+      headline: this.headlineFor(country.id, latestYear)
     }));
   });
 
