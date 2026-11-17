@@ -4,7 +4,6 @@ import { CountryTableData } from "../../domain/country-table-data";
 import { FundingForEOSCSums } from "../../domain/funding-for-eosc";
 import { CategorizedAreaData, Series } from "../../domain/categorizedAreaData";
 import { isNumeric } from "src/app/shared/utils/is-numeric";
-import { SeriesMapbubbleDataOptions } from "highcharts";
 import { SeriesMapDataOptions } from "highcharts/highmaps";
 
 @Injectable({providedIn: 'root'})
@@ -327,29 +326,6 @@ export class DataHandlerService {
       }
     }
     return fundingForEOSCSums;
-  }
-
-  public convertRawDataToBubbleMapSeries(rawData: RawData) {
-    let series = [];
-    for (const dataset of rawData.datasets) {
-      let dataOptions: SeriesMapbubbleDataOptions[] = [];
-      for (const row of dataset.series.result) {
-        if (isNumeric(row.row[1])) {
-          let data: SeriesMapbubbleDataOptions = new class implements SeriesMapbubbleDataOptions {
-            id: string;
-            name: string;
-            z: number | null;
-          };
-          data.id = row.row[0];
-          data.name = row.row[0];
-          data.z = +row.row[1];
-          dataOptions.push(data);
-        }
-      }
-      series.push(dataOptions);
-    }
-    // console.log(series);
-    return series;
   }
 
   public convertRawDataToPercentageTableData(rawData: RawData, eoscSBCountries: string[]) {
