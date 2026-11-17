@@ -39,7 +39,7 @@ interface ChartImageData {
     ReportPieChartComponent
   ],
   providers: [StakeholdersService],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './report-creation.component.html'
 })
 
@@ -56,9 +56,9 @@ export class ReportCreationComponent implements OnInit {
   charts: Highcharts.Chart[] = [];
   pieCharts: Highcharts.Chart[][] = [];
 
-  chartsReadyCount = 0;
-  pieChartsReadyCount = 0;
-  totalPieChartsCount = 0;
+  chartsReadyCount = signal(0);
+  pieChartsReadyCount = signal(0);
+  totalPieChartsCount = signal(0);
 
   // Every survey year from the first full survey up to last year; a survey runs the year after its reference year,
   // so the current year's survey doesn't exist yet. Years the stats API has no data for are filtered out on init.
@@ -75,7 +75,7 @@ export class ReportCreationComponent implements OnInit {
 
   // Survey years up to and including the selected report year
   years: string[] = [];
-  categories: string[] = [];
+  categories = signal<string[]>([]);
 
   loading = signal(false);
 
@@ -85,7 +85,7 @@ export class ReportCreationComponent implements OnInit {
 
   chartsCfg: Chart[] = chartsCfg;
 
-  exporting = false;
+  exporting = signal(false);
 
   ngOnInit() {
     this.loading.set(true);
@@ -133,7 +133,7 @@ export class ReportCreationComponent implements OnInit {
     this.reload$.next();
 
     this.years = this.allYears.slice(0, this.allYears.indexOf(year) + 1);
-    this.categories = this.years.map(y => `Survey ${y}`);
+    this.categories.set(this.years.map(y => `Survey ${y}`));
 
     // chartsCfg is shared module state, so reset what loadChart fills in
     this.chartsCfg.forEach(chart => {
@@ -143,9 +143,9 @@ export class ReportCreationComponent implements OnInit {
     });
     this.charts = [];
     this.pieCharts = [];
-    this.chartsReadyCount = 0;
-    this.pieChartsReadyCount = 0;
-    this.totalPieChartsCount = this.countAllPieSeries();
+    this.chartsReadyCount.set(0);
+    this.pieChartsReadyCount.set(0);
+    this.totalPieChartsCount.set(this.countAllPieSeries());
     // generateReport() reuses these when non-empty, so they must not outlive the year they were rendered for
     this.chartImages = {};
     this.reportData = {
@@ -239,13 +239,15 @@ export class ReportCreationComponent implements OnInit {
   private onChartLoaded() {
     this.pendingLoads = Math.max(0, this.pendingLoads - 1);
     this.loading.set(this.pendingLoads > 0);
+    // The response handler fills chartsCfg (shared module state) and reportData in place, so mark the view for check
+    this.cdr.markForCheck();
   }
 
   async generateReport() {
-    if (this.exporting || this.loading())
+    if (this.exporting() || this.loading())
       return;
 
-    this.exporting = true;
+    this.exporting.set(true);
     // The report year must not change while its charts are being exported
     this.yearControl.disable({emitEvent: false});
     // const before = this.pieCharts.map(r => r ? r.map(c => Object.keys(c||{}).length) : []);
@@ -311,7 +313,7 @@ export class ReportCreationComponent implements OnInit {
     } catch (error) {
       console.error('Error generating report:', error);
     } finally {
-      this.exporting = false;
+      this.exporting.set(false);
       this.yearControl.enable({emitEvent: false});
     }
 
@@ -794,7 +796,7 @@ export class ReportCreationComponent implements OnInit {
       return;
 
     this.charts[chartIndex] = chart;
-    this.chartsReadyCount++;
+    this.chartsReadyCount.update(count => count + 1);
     this.cdr.detectChanges();
   }
 
@@ -807,7 +809,7 @@ export class ReportCreationComponent implements OnInit {
       this.pieCharts[i] = [];
 
     this.pieCharts[i][j] = chart;
-    this.pieChartsReadyCount++;
+    this.pieChartsReadyCount.update(count => count + 1);
     this.cdr.detectChanges();
   }
 
