@@ -29,13 +29,15 @@ const PROXY_CONFIG = [
     pathRewrite: { "^/pages": "/" }
   },
 
-  // other static paths served by the same host
+  // other static paths served by the same host (the Joomla pages and their
+  // yootheme CSS reference these with root-relative URLs)
   {
     context: [
-      "/templates/yootheme/**",
-      "/component/content/**",
-      "/media/system/**",
-      "/media/vendor/**"
+      "/templates/**",
+      "/component/**",
+      "/media/**",
+      "/images/**",
+      "/files/**"
     ],
     target: "https://dl001.madgik.di.uoa.gr/",
     secure: true,
