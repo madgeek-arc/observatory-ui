@@ -8,8 +8,14 @@
             <span class="uk-text-small uk-text-meta">{{ chart.headline }}</span>
           </div>
           <div style="height: 200px;">
-            <highcharts-chart [Highcharts]="Highcharts" [options]="chart.chartOptions" [oneToOne]="true"
-                              style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+            @if (chart.chartOptions; as options) {
+              <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
+                                style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+            } @else {
+              <app-no-data-placeholder [height]="200"
+                                       [title]="chart.allZero ? zeroLabel() + ' reported for ' + chart.name : 'No data for ' + chart.name"
+                                       [subtitle]="startYear() + '–' + endYear()"/>
+            }
           </div>
         </div>
       }

@@ -5,12 +5,13 @@ import { colors } from "../../../../domain/chart-color-palette";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { CardState } from "../../../../shared/card-state/card-state";
+import { NoDataPlaceholder } from "../../../../shared/no-data-placeholder/no-data-placeholder";
 import { axisLabelFormatter, formatCurrency } from "../../../../domain/format-indicator-value";
 
 @Component({
   selector: 'app-tabbed-countries-trend-card-view',
   templateUrl: './tabbed-countries-trend-card-view.html',
-  imports: [HighchartsChartModule, CardState]
+  imports: [HighchartsChartModule, CardState, NoDataPlaceholder]
 })
 export class TabbedCountriesTrendCardView {
   private readonly customSearchService = inject(CustomSearchService);
@@ -58,14 +59,31 @@ export class TabbedCountriesTrendCardView {
     return codes.map(code => ({ code, label: this.labelByCode()[code] ?? code }));
   });
 
+  /** First area with at least one value above 0 for a selected country — the default chip,
+   *  so the card doesn't open on an empty (or all-zero) chart. */
+  private readonly firstAreaWithData = computed(() => {
+    const response = this.response();
+    const dimension = this.dimension();
+    const countryIds = new Set(this.selectedCountries().map(country => country.id));
+    return this.areas().find(area => response?.data.some(point =>
+      point.dimensions[dimension] === area.code &&
+      countryIds.has(point.dimensions['country']) &&
+      typeof point.value === 'number' && point.value > 0
+    ))?.code;
+  });
+
   private readonly selectedCode = signal<string | undefined>(undefined);
-  /** The chosen category, or the first one while nothing valid is chosen — same fallback
-   *  IndicatorCard uses for effectiveRenderStyle. */
+  /** The chosen category, or — while nothing valid is chosen — the first one with data,
+   *  falling back to the first one. */
   readonly activeCode = computed(() => {
     const areas = this.areas();
     const selected = this.selectedCode();
-    return areas.some(area => area.code === selected) ? selected : areas[0]?.code;
+    return areas.some(area => area.code === selected) ? selected : (this.firstAreaWithData() ?? areas[0]?.code);
   });
+
+  readonly activeAreaLabel = computed(() =>
+    this.areas().find(area => area.code === this.activeCode())?.label ?? ''
+  );
 
   selectArea(code: string) {
     this.selectedCode.set(code);
@@ -114,6 +132,15 @@ export class TabbedCountriesTrendCardView {
       };
     });
   });
+
+  /** false when no selected country has a value above 0 for the active area → placeholder instead of the chart. */
+  readonly activeAreaHasData = computed(() =>
+    this.countrySeries().some(country => country.values.some(value => value !== null && value > 0))
+  );
+  /** No value above 0, but at least one country reported 0 → "€0 reported" instead of "No data". */
+  readonly activeAreaAllZero = computed(() => !this.activeAreaHasData() &&
+    this.countrySeries().some(country => country.values.some(value => value === 0))
+  );
 
   readonly caption = computed(() => {
     const metric = this.response()?.metadata.label.toLowerCase();

@@ -8,18 +8,22 @@ import { formatIndicatorValue, formatPercent, roundHalfUp } from "../../../../do
 import { IndicatorFormat } from "../../../../domain/explore-indicators";
 import { stackedColumnOptions } from "../stacked-column-options";
 import { CardState } from "../../../../shared/card-state/card-state";
+import { NoDataPlaceholder } from "../../../../shared/no-data-placeholder/no-data-placeholder";
 
 interface CountryColumnChart {
   id: string;
   name: string;
-  chartOptions: Highcharts.Options;
+  /** null when the country has no value above 0 in any year → the template shows a placeholder. */
+  chartOptions: Highcharts.Options | null;
+  /** true when the country reported values, but every one of them is 0. */
+  allZero: boolean;
   headline: string;
 }
 
 @Component({
   selector: 'app-composite-columns-line-card-view',
   templateUrl: 'composite-columns-line-card-view.html',
-  imports: [HighchartsChartModule, CardState]
+  imports: [HighchartsChartModule, CardState, NoDataPlaceholder]
 })
 export class CompositeColumnsLineCardView {
   Highcharts: typeof Highcharts = Highcharts;
@@ -30,6 +34,10 @@ export class CompositeColumnsLineCardView {
   dimension = input.required<string>();
   format = input.required<IndicatorFormat>();
 
+  readonly startYear = this.customSearchService.startYear;
+  readonly endYear = this.customSearchService.endYear;
+  /** "€0" / "0" in the indicator's own format, for the "reported" placeholder. */
+  readonly zeroLabel = computed(() => formatIndicatorValue(0, this.format()));
 
   private readonly queryParams = computed(() => ({
     id: this.indicatorId(),
@@ -146,17 +154,28 @@ export class CompositeColumnsLineCardView {
     const valueByKey = this.valueByKey();
     const latestYear = categories[categories.length - 1];
 
-    return resolveSelectedCountries(this.customSearchService.selectedCountryIds()).map(country => ({
-      id: country.id,
-      name: country.name,
-      chartOptions: stackedColumnOptions(categories, codes.map((code, index) => ({
-        type: 'column' as const,
-        name: this.labelByCode()[code] ?? code,
-        color: colors[index % colors.length],
-        data: categories.map(year => valueByKey.get(`${country.id}|${code}|${year}`) ?? 0)
-      })), 200, { enabled: false }),
-      headline: this.headlineFor(country.id, latestYear)
-    }));
+    return resolveSelectedCountries(this.customSearchService.selectedCountryIds()).map(country => {
+      // valueByKey only holds numeric values; undefined = missing.
+      const values = categories.flatMap(year =>
+        codes.map(code => valueByKey.get(`${country.id}|${code}|${year}`))
+      );
+      const hasPositive = values.some(value => value !== undefined && value > 0);
+      const hasZero = values.some(value => value === 0);
+      return {
+        id: country.id,
+        name: country.name,
+        allZero: !hasPositive && hasZero,
+        chartOptions: hasPositive
+          ? stackedColumnOptions(categories, codes.map((code, index) => ({
+              type: 'column' as const,
+              name: this.labelByCode()[code] ?? code,
+              color: colors[index % colors.length],
+              data: categories.map(year => valueByKey.get(`${country.id}|${code}|${year}`) ?? 0)
+            })), 200, { enabled: false })
+          : null,
+        headline: this.headlineFor(country.id, latestYear)
+      };
+    });
   });
 
   readonly legendItems = computed(() =>

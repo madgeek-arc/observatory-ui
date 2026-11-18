@@ -16,17 +16,23 @@
         }
       </div>
 
-      <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
-                        style="width: 100%; display: block;"></highcharts-chart>
+      @if (activeAreaHasData()) {
+        <highcharts-chart [Highcharts]="Highcharts" [options]="options" [oneToOne]="true"
+                          style="width: 100%; display: block;"></highcharts-chart>
 
-      <div class="uk-flex uk-flex-wrap uk-margin-small-top">
-        @for (country of countrySeries(); track country.id) {
-          <div class="uk-flex uk-flex-middle uk-margin-right">
-            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%;" [style.background]="country.color"></span>
-            <span class="uk-text-small uk-margin-small-left">{{ country.name }} <b>{{ country.formattedLatest }}</b></span>
-          </div>
-        }
-      </div>
+        <div class="uk-flex uk-flex-wrap uk-margin-small-top">
+          @for (country of countrySeries(); track country.id) {
+            <div class="uk-flex uk-flex-middle uk-margin-right">
+              <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%;" [style.background]="country.color"></span>
+              <span class="uk-text-small uk-margin-small-left">{{ country.name }} <b>{{ country.formattedLatest }}</b></span>
+            </div>
+          }
+        </div>
+      } @else {
+        <app-no-data-placeholder [height]="260"
+                                 [title]="activeAreaAllZero() ? '€0 reported for ' + activeAreaLabel() : 'No data for ' + activeAreaLabel()"
+                                 [subtitle]="'in the selected countries · pick another area above'"/>
+      }
 
       @if (caption(); as text) {
         <div class="uk-text-meta uk-text-small uk-margin-small-top">{{ text }}</div>
