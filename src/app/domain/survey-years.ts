@@ -1,7 +1,7 @@
 /**
  * Survey years, oldest → latest.
  *
- * Each year, add the new year here: it is the only edit the Explore pages need.
+ * Each year, add the new year here: it is the only edit the Explore and country pages need.
  */
 export const SURVEY_YEARS: readonly string[] = ['2022', '2023', '2024', '2025'];
 
