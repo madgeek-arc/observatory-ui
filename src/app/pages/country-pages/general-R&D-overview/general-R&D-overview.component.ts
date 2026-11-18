@@ -72,7 +72,6 @@ export class GeneralRDOverviewComponent implements OnInit {
   countrySurveyAnswer = signal<Object>(undefined);
   countrySurveyAnswerLastUpdate = signal<string | null>(null);
   year = signal<string>(undefined);
-  prevYear: string;
   lastUpdateDate = signal<string>(undefined);
 
   private dataShareService = inject(DataShareService);
@@ -92,8 +91,6 @@ export class GeneralRDOverviewComponent implements OnInit {
       .subscribe(([code, year]) => {
         this.countryCode = code;
         this.year.set(year);
-        const numericYear = +year;
-        this.prevYear = (numericYear - 1).toString();
         this.getPublicationPercentage();
         this.getOpenDataPercentage();
         this.loadCountryNews();
@@ -149,7 +146,7 @@ export class GeneralRDOverviewComponent implements OnInit {
 
   /** Get Open VS closed, restricted and embargoed Data -----------------------------------------------------------> **/
   getOpenDataPercentage() {
-    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode, this.prevYear, this.year())).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.queryData.getOSOStats(OAvsTotalDataPerCountry(this.countryCode, this.year())).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: value => {
         setAt(this.OpenDataPercentage, 0, this.dataShareService.calculatePercentage(value.data[0][0][0], value.data[1][0][0]));
         setAt(this.OpenDataPercentage, 1, this.dataShareService.calculatePercentage(value.data[2][0][0], value.data[3][0][0]));

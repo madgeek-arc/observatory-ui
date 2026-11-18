@@ -14,6 +14,7 @@ import {
 import { forkJoin, of } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
 import { WidgetConfig } from "../../domain/country-page-indicators";
+import { COMPARISON_SURVEY_YEARS, surveyModelId } from "../../domain/survey-years";
 import {
   CountryPageIndicatorsService, DefaultsDoc, EditingScope,
   GLOBAL_DATA_COUNTRY, GLOBAL_SCOPE_CODE, GLOBAL_SCOPE_LABEL, OverrideDoc
@@ -36,7 +37,7 @@ import {
 export class CountryPagesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
-  modelsIds: string[] = [ 'm-eosc-sb-2023', 'm-eosc-sb-2024'];
+  modelsIds: string[] = COMPARISON_SURVEY_YEARS.map(surveyModelId); // [previous, latest]: sections read [0] and [1]
   OSModelId = 'm-GPFhURKK';
 
   stakeholderId?: string;
