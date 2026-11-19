@@ -39,7 +39,13 @@ export class CoverageTrendCardView {
   /** One count of "areas with a policy" per country per year — the Y-axis max is this
    *  indicator's real area count, not a hardcoded 12, so other indicators reusing this
    *  renderStyle (e.g. nm-1) scale correctly. */
-  readonly totalAreas = computed(() => this.areas().length);
+  readonly totalAreas = computed(() => {
+    const response = this.response();
+    // Without a selector the backend sends the area count as `total` on every point.
+    return !this.dimension() && response
+      ? Math.max(0, ...response.data.map(point => point.total ?? 0))
+      : this.areas().length;
+  });
 
   readonly selectedCountries = computed(() =>
     resolveSelectedCountries(this.customSearchService.selectedCountryIds()).map((country, index) => ({
@@ -86,7 +92,7 @@ export class CoverageTrendCardView {
       xAxis: { categories: years, title: { text: 'Year' } },
       yAxis: {
         min: 0,
-        max: preAggregated ? response.data[0]?.total : this.totalAreas(),
+        max: this.totalAreas(),
         title: { text: 'Areas with a policy in place' },
         labels: { formatter: axisLabelFormatter('number') }
       },
