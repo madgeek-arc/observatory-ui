@@ -1,4 +1,4 @@
-<div class="uk-card card-simple uk-card-small uk-height-1-1 uk-margin-remove-bottom">
+<div class="uk-card card-simple uk-card-small uk-height-1-1 uk-margin-remove-bottom uk-flex uk-flex-column">
   <div class="uk-card-header">
     <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom">
       <span class="uk-label uk-label-small uk-text-muted">{{ indicator().group }}</span>
@@ -24,7 +24,7 @@
     }
   </div>
 
-  <div class="uk-card-body">
+  <div class="uk-card-body uk-flex-1">
     @if (needsCountrySelection()) {
       <div class="uk-flex uk-flex-column uk-flex-middle uk-text-center" style="padding: 32px 16px; gap: 8px;">
         <div class="uk-text-bold">Select countries to see this view</div>
@@ -201,18 +201,23 @@
           </app-count-by-area-with-average-card-view>
         }
       }
-      @if (summaryRow(); as summary) {
-        @if (summary.euAverage !== undefined || summary.median !== undefined) {
-          <div class="uk-flex uk-flex-middle uk-margin-small-top" style="gap: 12px;">
+    }
+  </div>
+
+  @if (!needsCountrySelection()) {
+    @if (summaryRow(); as summary) {
+      @if (summary.euAverage !== undefined || summary.median !== undefined) {
+        <div class="uk-card-footer" style="border-top: 1px solid #eee;">
+          <div class="uk-flex uk-flex-middle" style="gap: 12px;">
             @if (summary.euAverage !== undefined) {
               <span class="uk-text-small"><span class="uk-text-meta">EU average: </span> <span class="uk-text-bold">{{ summary.euAverage }}</span></span>
             }
             @if (summary.median !== undefined) {
-              <span class="uk-text-small"><span class="uk-text-meta">Median: </span> <span class="uk-text-bold">{{ summary.median }}</span></span>
+              <span class="uk-text-small"><span class="uk-text-meta">{{ summary.medianLabel }}: </span> <span class="uk-text-bold">{{ summary.median }}</span></span>
             }
           </div>
-        }
+        </div>
       }
     }
-  </div>
+  }
 </div>

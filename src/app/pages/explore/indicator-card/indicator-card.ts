@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output, signal } from "@angular/core";
+import { Component, computed, inject, input, output, Signal, signal } from "@angular/core";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { of } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
@@ -124,6 +124,16 @@ export function resolveCardViewKind(
   return RENDER_STYLE_TO_VIEW[renderStyle];
 }
 
+/** Middle value of the sorted list; with an even count, the average of the two middle ones. */
+function medianOf(values: number[]): number | undefined {
+  if (values.length === 0) {
+    return undefined;
+  }
+  const sorted = [...values].sort((a, b) => a - b);
+  const middle = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+}
+
 @Component({
   selector: 'app-indicator-card',
   templateUrl: './indicator-card.html',
@@ -183,48 +193,75 @@ export class IndicatorCard {
     ].filter(aggregation => allowed.includes(aggregation));
   });
 
-  /** Request for the summary only — always EU-wide (countries: []), so "EU average" / "Median"
-   *  are the EU reference values even when specific countries are selected. Rebuilt whenever
-   *  aggregations or years change. */
-  private readonly summaryParams = computed(() => ({
+  /** EU average: always all EU countries, a fixed reference. */
+  private readonly averageParams = computed(() => ({
     id: this.indicator().id,
     request: {
       countries: [],
       yearFrom: this.customSearchService.startYear(),
       yearTo: this.customSearchService.endYear(),
-      seriesAggregations: this.aggregations()
+      seriesAggregations: this.aggregations().filter(aggregation => aggregation === 'AVG')
     } as IndicatorPresetQueryRequest
   }));
 
-  /** The backend's summary, or undefined when nothing is allowed/selected or the call failed. */
-  readonly summary = toSignal(
-    toObservable(this.summaryParams).pipe(
-      switchMap(({ id, request }) =>
-        request.seriesAggregations.length === 0
-          ? of(undefined)
-          : this.customSearchService.queryIndicator(id, request).pipe(
-              map(response => response.summary),
-              catchError(() => of(undefined))
-            )
+  /** Median: follows Geography. "All EU" gives the EU median, "Select" gives the median of the picked countries. */
+  private readonly medianParams = computed(() => ({
+    id: this.indicator().id,
+    request: {
+      countries: this.customSearchService.geographyScope() === 'all'
+        ? []
+        : [...this.customSearchService.selectedCountryIds()],
+      yearFrom: this.customSearchService.startYear(),
+      yearTo: this.customSearchService.endYear(),
+      seriesAggregations: this.aggregations().filter(aggregation => aggregation === 'MEDIAN')
+    } as IndicatorPresetQueryRequest
+  }));
+
+  private readonly averageSummary = this.summaryFor(this.averageParams);
+  private readonly medianSummary = this.summaryFor(this.medianParams);
+
+  /** The backend's summary for one request, or undefined when its aggregation is off or the call failed.
+   *  switchMap drops an older in-flight call when the params change, so a slow old answer can't win. */
+  private summaryFor(params: Signal<{ id: string; request: IndicatorPresetQueryRequest }>) {
+    return toSignal(
+      toObservable(params).pipe(
+        switchMap(({ id, request }) =>
+          request.seriesAggregations.length === 0
+            ? of(undefined)
+            : this.customSearchService.queryIndicator(id, request).pipe(
+                map(response => response.summary),
+                catchError(() => of(undefined))
+              )
+        )
       )
-    )
-  );
+    );
+  }
 
   /** Formatted EU average / median for the row under the card — undefined values are not shown. */
   readonly summaryRow = computed(() => {
-    const summary = this.summary();
-    if (!summary) {
+    const averageSummary = this.averageSummary();
+    const medianSummary = this.medianSummary();
+    if (!averageSummary && !medianSummary) {
       return undefined;
     }
     const aggregations = this.aggregations();
     const format = this.indicator().format;
     return {
       euAverage: aggregations.includes('AVG')
-        ? formatIfNumber(summary.find(s => s.dimensions.aggregation === 'AVG')?.value, format)
+        ? formatIfNumber(averageSummary?.find(s => s.dimensions.aggregation === 'AVG')?.value, format)
         : undefined,
       median: aggregations.includes('MEDIAN')
-        ? formatIfNumber(summary.find(s => s.dimensions.aggregation === 'MEDIAN')?.value, format)
-        : undefined
+        ? formatIfNumber(
+            medianOf(
+              (medianSummary ?? [])
+                .filter(s => s.dimensions.aggregation === 'MEDIAN')
+                .map(s => s.value)
+                .filter((value): value is number => typeof value === 'number')
+            ),
+            format
+          )
+        : undefined,
+      medianLabel: this.customSearchService.geographyScope() === 'all' ? 'EU median' : 'Median (selected countries)'
     };
   });
 
