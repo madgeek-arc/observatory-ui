@@ -4,7 +4,7 @@ import {environment} from "../../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import { ExploreIndicatorConfig} from "../../../../domain/explore-indicators";
-import {catchError, filter, map, startWith, switchMap, scan} from "rxjs/operators";
+import {catchError, filter, map, startWith, switchMap, scan, timeout} from "rxjs/operators";
 
 interface PreDefinedIndicatorsResponse {
   indicatorPresets: ExploreIndicatorConfig[];
@@ -77,6 +77,10 @@ export const hasNumericValue = (response: IndicatorQueryResponse | undefined): b
 /** The years the backend has data for — the only choices in the Time period selects. */
 export const AVAILABLE_YEARS: readonly number[] = [2021, 2022, 2023, 2024];
 
+/** A query that hasn't answered after 3 minutes is treated as failed, so the card shows
+ *  "Couldn't load data." instead of a spinner that never stops. */
+const QUERY_TIMEOUT_MS = 3 * 60 * 1000;
+
 @Injectable({providedIn: 'root'})
 export class CustomSearchService {
   private readonly base = environment.API_ENDPOINT;
@@ -108,7 +112,9 @@ export class CustomSearchService {
   }
 
   queryIndicator(id: string, request: IndicatorPresetQueryRequest): Observable<IndicatorQueryResponse> {
-    return this.httpClient.post<IndicatorQueryResponse>(this.base + `/indicators/presets/${id}/query`, request);
+    return this.httpClient
+      .post<IndicatorQueryResponse>(this.base + `/indicators/presets/${id}/query`, request)
+      .pipe(timeout(QUERY_TIMEOUT_MS));
   }
 
   queryIndicatorState(params: Signal<{id: string; request: IndicatorPresetQueryRequest }>
