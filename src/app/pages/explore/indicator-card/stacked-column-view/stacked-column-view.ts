@@ -68,10 +68,12 @@ export class StackedColumnView {
     }
     const dimension = this.dimension();
 
-    const valueOf = (accessType: string, classification: string) =>
-      response.data.find(point =>
+    const valueOf = (accessType: string, classification: string) => {
+      const value = response.data.find(point =>
         point.dimensions[dimension] === accessType && point.dimensions['classification'] === classification
-      )?.value ?? 0;
+      )?.value;
+      return typeof value === 'number' ? value : 0;
+    };
 
     return {
       chart: { type: 'column', height: 240 },
