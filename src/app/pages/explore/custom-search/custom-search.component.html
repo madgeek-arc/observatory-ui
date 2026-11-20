@@ -55,10 +55,16 @@
             <a class="uk-text-meta uk-text-xsmall uk-link-reset uk-text-nowrap" (click)="toggleAllTopics()">
               {{ allTopicsExpanded() ? 'collapse all' : 'expand all' }}
             </a>
-            <!--<a class="uk-text-small uk-text-primary uk-link-reset uk-text-nowrap" (click)="clearAllIndicators()">Clear all</a>-->
           </div>
 
         </div>
+
+        @if (summary().indicators > 0) {
+          <div class="uk-flex uk-flex-right uk-margin-small-bottom">
+            <a class="uk-text-xsmall uk-text-primary uk-text-bold uk-link-reset uk-text-nowrap"
+               (click)="clearAllIndicators()">Clear all</a>
+          </div>
+        }
 
         <ul #accordion class="uk-accordion-default" uk-accordion="multiple: true">
           @for (topic of topics(); track topic.id) {
