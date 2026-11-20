@@ -134,6 +134,13 @@ function medianOf(values: number[]): number | undefined {
   return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
 }
 
+function averageOf(values: number[]): number | undefined {
+  if (values.length === 0) {
+    return undefined;
+  }
+  return values.reduce((sum, value) => sum + value, 0) / values.length;
+}
+
 @Component({
   selector: 'app-indicator-card',
   templateUrl: './indicator-card.html',
@@ -248,7 +255,15 @@ export class IndicatorCard {
     const format = this.indicator().format;
     return {
       euAverage: aggregations.includes('AVG')
-        ? formatIfNumber(averageSummary?.find(s => s.dimensions.aggregation === 'AVG')?.value, format)
+        ? formatIfNumber(
+            averageOf(
+              (averageSummary ?? [])
+                .filter(s => s.dimensions.aggregation === 'AVG')
+                .map(s => s.value)
+                .filter((value): value is number => typeof value === 'number')
+            ),
+            format
+          )
         : undefined,
       median: aggregations.includes('MEDIAN')
         ? formatIfNumber(
