@@ -5,7 +5,7 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small-bottom" style="gap: 8px;">
           <span class="uk-text-small">{{ row.name }}</span>
           <span class="uk-flex uk-flex-middle" style="gap: 8px;">
-            @if (row.sinceYear) {
+            @if (isRange() && row.sinceYear) {
               <span class="uk-text-meta uk-text-small">since at least {{ row.sinceYear }}</span>
             }
             <span class="uk-label uk-label-small status-badge" [class]="row.badge.cssClass">
