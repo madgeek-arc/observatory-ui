@@ -111,6 +111,7 @@ export interface IndicatorView {
   renderStyles: IndicatorRenderStyle[];
   selector?: IndicatorViewSelector;
   fullWidth: boolean;
+  format: IndicatorFormat;
   allowedSeriesAggregations: string[];
 }
 

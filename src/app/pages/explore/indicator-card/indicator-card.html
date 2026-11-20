@@ -36,18 +36,18 @@
       @switch (cardViewKind()) {
         @case ('eu-snapshot') {
           <app-eu-snapshot-card-view [indicatorId]="indicator().id"
-                                     [format]="indicator().format"></app-eu-snapshot-card-view>
+                                     [format]="format()"></app-eu-snapshot-card-view>
         }
         @case ('eu-trend') {
-          <app-eu-trend-card-view [indicatorId]="indicator().id" [format]="indicator().format"></app-eu-trend-card-view>
+          <app-eu-trend-card-view [indicatorId]="indicator().id" [format]="format()"></app-eu-trend-card-view>
         }
         @case ('countries-trend') {
-          <app-countries-trend-card-view [indicatorId]="indicator().id" [format]="indicator().format"
+          <app-countries-trend-card-view [indicatorId]="indicator().id" [format]="format()"
                                          [mode]="trendMode()"></app-countries-trend-card-view>
         }
         @case ('countries-snapshot') {
           <app-countries-snapshot-card-view [indicatorId]="indicator().id"
-                                            [format]="indicator().format"></app-countries-snapshot-card-view>
+                                            [format]="format()"></app-countries-snapshot-card-view>
         }
         @case ('policy-map') {
           <app-policy-map-card-view [indicatorId]="indicator().id"
@@ -86,11 +86,11 @@
         }
         @case ('choropleth-top-countries') {
           <app-choropleth-top-countries-card-view [indicatorId]="indicator().id"
-                                                  [format]="indicator().format"></app-choropleth-top-countries-card-view>
+                                                  [format]="format()"></app-choropleth-top-countries-card-view>
         }
         @case ('eu-column-trend') {
           <app-eu-column-trend-card-view [indicatorId]="indicator().id"
-                                         [format]="indicator().format"></app-eu-column-trend-card-view>
+                                         [format]="format()"></app-eu-column-trend-card-view>
         }
         @case ('countries-column-trend') {
           <app-countries-column-trend-card-view [indicatorId]="indicator().id"></app-countries-column-trend-card-view>
@@ -151,7 +151,7 @@
             [indicatorId]="indicator().id"
             [indicatorCode]="indicator().indicatorCode"
             [dimension]="currentView()?.selector?.dimension ?? ''"
-            [format]="indicator().format">
+            [format]="format()">
           </app-composite-columns-line-card-view>
         }
         @case ('selector-share-trend') {
@@ -172,7 +172,7 @@
           <app-progress-bars-num-percentage-card-view
             [indicatorId]="indicator().id"
             [indicatorCode]="indicator().indicatorCode"
-            [format]="indicator().format">
+            [format]="format()">
           </app-progress-bars-num-percentage-card-view>
         }
         @case ('eu-average-column-trend') {

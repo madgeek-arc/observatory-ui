@@ -2,7 +2,7 @@ import { Component, computed, inject, input, output, Signal, signal } from "@ang
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { of } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
-import { CountryScope, ExploreIndicatorConfig, IndicatorRenderStyle, IndicatorView, RenderStyle, TimeScope } from "../../../domain/explore-indicators";
+import { CountryScope, ExploreIndicatorConfig, IndicatorFormat, IndicatorRenderStyle, IndicatorView, RenderStyle, TimeScope } from "../../../domain/explore-indicators";
 import { CustomSearchService, IndicatorPresetQueryRequest } from "../custom-search/services/custom-search.service";
 import { formatIfNumber } from "../../../domain/format-indicator-value";
 import { EuSnapshotCardView } from "./eu-snapshot-card-view/eu-snapshot-card-view";
@@ -191,6 +191,8 @@ export class IndicatorCard {
     )
   );
 
+  /** The format of the cell being rendered — the backend sets it per view, not per preset. */
+  readonly format = computed<IndicatorFormat>(() => this.currentView()?.format ?? this.indicator().format);
 
   readonly aggregations = computed<string[]>(() => {
     const allowed = this.currentView()?.allowedSeriesAggregations ?? [];
@@ -252,7 +254,7 @@ export class IndicatorCard {
       return undefined;
     }
     const aggregations = this.aggregations();
-    const format = this.indicator().format;
+    const format = this.format();
     return {
       euAverage: aggregations.includes('AVG')
         ? formatIfNumber(
