@@ -26,7 +26,7 @@ export interface IndicatorPresetQueryRequest {
 export interface IndicatorQueryResponse {
   metadata: { indicatorCode: string; label: string; valueType: string; unit: string; aggregation: string };
   dimensions: string[];
-  data: { dimensions: Record<string, string>; value: number | string | null; total?: number }[];
+  data: { dimensions: Record<string, string>; value: number | string | boolean | null; total?: number }[];
   summary: { dimensions: { aggregation: string; country?: string }; value: number | null }[];
   exclusions?: { period: string; dimension: string; member: string; reason: string }[];
 }

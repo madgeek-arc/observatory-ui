@@ -26,9 +26,15 @@ const STATUS_COLORS: Record<string, string> = {
 const POSITIVE_VALUES = ['Mandatory policy', 'Policy but not mandatory', 'YES', 'Has national monitoring'];
 const AWAITING_DATA_VALUES = ['Awaiting data', 'AWAITING_DATA', 'N/A'];
 
+export type StatusValue = number | string | boolean;
+
 /** True for a "has the policy" status. A percentage-format indicator encodes yes/no
- *  per-country as 100/0 rather than as a string, so a plain 100 counts as positive too. */
-export function isPositiveStatus(value: number | string, unit?: string): boolean {
+ *  per-country as 100/0 rather than as a string, so a plain 100 counts as positive too.
+ *  A BOOLEAN indicator sends true/false directly. */
+export function isPositiveStatus(value: StatusValue, unit?: string): boolean {
+  if (typeof value === 'boolean') {
+    return value;
+  }
   if (typeof value === 'number') {
     return unit === 'PERCENT' && value === 100;
   }
@@ -37,7 +43,7 @@ export function isPositiveStatus(value: number | string, unit?: string): boolean
 
 /** True when the country's status simply hasn't been collected yet — distinct from a
  *  confirmed "No", which is why it gets its own badge state instead of collapsing into No. */
-export function isAwaitingData(value: number | string): boolean {
+export function isAwaitingData(value: StatusValue): boolean {
   return typeof value === 'string' && AWAITING_DATA_VALUES.includes(value);
 }
 
@@ -86,7 +92,7 @@ export type StatusCategory = 'positive' | 'negative' | 'awaiting';
 /** Classifies a cell's raw value into 3 UI states — positive (confirmed yes), negative
  *  (confirmed no), or awaiting (no data collected yet: a null numeric value, or one of
  *  the existing awaiting-data string categories). */
-export function statusCategory(value: number | string | null | undefined, unit?: string): StatusCategory {
+export function statusCategory(value: StatusValue | null | undefined, unit?: string): StatusCategory {
   if (value === null || value === undefined || isAwaitingData(value)) {
     return 'awaiting';
   }
@@ -98,7 +104,7 @@ export interface StatusBadge {
   cssClass: string;
 }
 
-export function statusBadge(value: number | string | null | undefined, unit?: string): StatusBadge {
+export function statusBadge(value: StatusValue | null | undefined, unit?: string): StatusBadge {
   const category = statusCategory(value, unit);
   if (category === 'positive') {
     return { text: 'Yes', cssClass: 'uk-label-success' };
@@ -112,7 +118,7 @@ export function statusBadge(value: number | string | null | undefined, unit?: st
 /** First year in the range with a Yes. A Yes never reverts to No, so the first Yes marks
  *  the earliest year the status is known to hold — hence "since at least" in the UI. */
 export function yesSinceYear(
-  statusByYear: Map<number, number | string | null>,
+  statusByYear: Map<number, StatusValue | null>,
   startYear: number,
   endYear: number,
   unit?: string
