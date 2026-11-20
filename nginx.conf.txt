@@ -1,3 +1,10 @@
+# Scheme of the original client request: taken from an outer TLS-terminating proxy when present,
+# otherwise this server's own scheme.
+map $http_x_forwarded_proto $fwd_proto {
+    default $http_x_forwarded_proto;
+    ''      $scheme;
+}
+
 server {
     ${ADD_SERVER_NAME}
     listen 80;
@@ -16,7 +23,7 @@ server {
         proxy_set_header        Host $http_host;
         proxy_set_header        X-Real-IP $remote_addr;
         proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header        X-Forwarded-Proto $scheme;
+        proxy_set_header        X-Forwarded-Proto $fwd_proto;
         proxy_pass              ${PLATFORM_API_ENDPOINT};
         proxy_read_timeout      300;
         proxy_send_timeout      300;
@@ -32,7 +39,7 @@ server {
         proxy_set_header        Host $host;
         proxy_set_header        X-Real-IP $remote_addr;
         proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header        X-Forwarded-Proto $scheme;
+        proxy_set_header        X-Forwarded-Proto $fwd_proto;
         proxy_pass              ${STATS_API_ENDPOINT};
         proxy_read_timeout      90;
         proxy_send_timeout      90;
@@ -43,7 +50,7 @@ server {
         proxy_set_header        Host $http_host;
         proxy_set_header        X-Real-IP $remote_addr;
         proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header        X-Forwarded-Proto $scheme;
+        proxy_set_header        X-Forwarded-Proto $fwd_proto;
 
         proxy_pass              https://dl001.madgik.di.uoa.gr/;
     }
@@ -52,7 +59,7 @@ server {
         proxy_set_header        Host $http_host;
         proxy_set_header        X-Real-IP $remote_addr;
         proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header        X-Forwarded-Proto $scheme;
+        proxy_set_header        X-Forwarded-Proto $fwd_proto;
 
         proxy_pass              https://dl001.madgik.di.uoa.gr;
     }
