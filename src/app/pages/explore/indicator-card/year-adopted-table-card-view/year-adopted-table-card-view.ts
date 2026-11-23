@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from "@angular/core";
 import { combineStates, CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
-import { isPositiveStatus } from "../../../../domain/policy-status";
+import { isPositiveStatus, legendForGroup } from "../../../../domain/policy-status";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CardState } from "../../../../shared/card-state/card-state";
 import { formatIfNumber } from "../../../../domain/format-indicator-value";
@@ -43,6 +43,13 @@ export class YearAdoptedTableCardView {
   private readonly labelByCode = computed(() =>
     Object.fromEntries((this.members() ?? []).map(m => [m.code, m.label]))
   );
+  /** Every area in a preset belongs to one group (POLICY / FINANCIAL_STRATEGY / MONITORING_INITIATIVE),
+   *  so the first area's group decides the wording. */
+  readonly legend = computed(() => {
+    const groupByCode = new Map((this.members() ?? []).map(m => [m.code, m.group]));
+    const firstCode = this.categoryCodes()[0];
+    return legendForGroup(firstCode ? groupByCode.get(firstCode) : undefined);
+  });
   private readonly areas = computed(() =>
     this.categoryCodes().map(code => ({ code, label: this.labelByCode()[code] ?? code }))
   );
@@ -80,6 +87,16 @@ export class YearAdoptedTableCardView {
   private readonly euState = this.customSearchService.queryIndicatorState(this.euQueryParams);
   private readonly euResponse = computed(() => dataOf(this.euState()));
 
+  /** Areas whose question was paused in endYear — the backend sends no EU value for them. */
+  private readonly pausedAreas = computed(() => {
+    const dimension = this.dimension();
+    return new Set(
+      (this.euResponse()?.exclusions ?? [])
+        .filter(exclusion => exclusion.dimension === dimension && exclusion.reason === 'QUESTION_PAUSED')
+        .map(exclusion => exclusion.member)
+    );
+  });
+
   /** The card waits for both requests — see combineStates. */
   readonly state = computed(() => combineStates(this.countriesState(), this.euState()));
 
@@ -116,9 +133,12 @@ export class YearAdoptedTableCardView {
         }
         return { year, background: this.colorMid, textColor: '#FFFFFF' };
       }),
-      euValue: formatIfNumber(euResponse.data.find(point => point.dimensions[dimension] === area.code)?.value, 'percentage')
+      euValue: formatIfNumber(euResponse.data.find(point => point.dimensions[dimension] === area.code)?.value, 'percentage'),
+      euPaused: this.pausedAreas().has(area.code)
     }));
   });
+
+  readonly hasPausedAreas = computed(() => this.rows().some(row => row.euPaused));
 
   readonly isEmpty = computed(() => (this.countriesResponse()?.data.length ?? 0) === 0);
 }
