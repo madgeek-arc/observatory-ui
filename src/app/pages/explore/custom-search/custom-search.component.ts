@@ -128,6 +128,19 @@ export class CustomSearchComponent {
         this.selectedIndicatorIds.set(new Set(items.map(item => item.id)));
       }
     });
+
+    /** Drop an analytics choice once no selected indicator supports it, so it doesn't come back by itself. */
+    effect(() => {
+      if (!this.euAverageAllowed()) {
+        this.showEuAverage.set(false);
+      }
+    });
+
+    effect(() => {
+      if (!this.medianAllowed()) {
+        this.showMedianValues.set(false);
+      }
+    });
   }
 
   readonly summary = computed(() => {

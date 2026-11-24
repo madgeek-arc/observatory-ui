@@ -206,7 +206,7 @@
         <label class="uk-flex uk-flex-middle" style="gap: 8px;" [attr.uk-tooltip]="medianAllowed()
         ? null : 'title: None of the selected indicators support median values; pos: top'">
           <input class="uk-checkbox" type="checkbox"
-                 [checked]="showMedianValues()"
+                 [checked]="showMedianValues() && medianAllowed()"
                  [disabled]="!medianAllowed()"
                  (change)="showMedianValues.set(!showMedianValues())">
           <span class="uk-text-small" [class.uk-text-muted]="!medianAllowed()">Show Median Values</span>
