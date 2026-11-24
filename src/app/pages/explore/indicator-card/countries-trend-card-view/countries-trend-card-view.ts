@@ -94,7 +94,9 @@ export class CountriesTrendCardView {
       yAxis: {
         title: { text: undefined },
         labels: { formatter: axisLabelFormatter(format) },
-        ...(format === 'percentage' ? { max: 100 } : {})
+        ...(format === 'percentage' ? { max: 100 } : {}),
+        // softMax gives an all-zero chart a 0–1 axis; without it Highcharts centres €0
+        ...(format === 'currency' ? { min: 0, softMax: 1 } : {})
       },
       tooltip: { pointFormat: '<span style="color:{point.color}">●</span> {series.name}: <b>{point.formattedValue}</b><br/>' },
       series
