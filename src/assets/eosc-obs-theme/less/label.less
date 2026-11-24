@@ -133,6 +133,40 @@
     border-color: @primary-color;
   }
 
+  // UIkit override attempted: uk-label-public is a text-sized bordered pill and UIkit has no avatar component, so this is a fixed square tile for short codes.
+  .uk-label-code {
+    width: 34px;
+    height: 34px;
+    flex: none;
+    justify-content: center;
+    padding: 0;
+    border-color: transparent;
+    border-radius: @global-border-radius-md;
+    background-color: @primary-tint-color;
+    color: @primary-dark-color;
+    font-weight: 800;
+  }
+
+  // UIkit override attempted: uk-border-circle rounds the uk-label-code tile but UIkit has no avatar size or
+  // overlapping "stack" layout, so this is a small round variant with a ring, and .eos-avatar-stack overlaps them.
+  .uk-label-code.uk-label-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 10px;
+    letter-spacing: 0;
+    background-color: @primary-color;
+    color: @global-inverse-color;
+    box-shadow: 0 0 0 2px @global-background;
+  }
+
+  .eos-avatar-stack {
+    display: inline-flex;
+    align-items: center;
+
+    > * + * { margin-left: -2px; }
+  }
+
   /* Indicator-type pills: one hue per catalog format, each a soft tint fill matching
      the "Public" pill's shape (text/border in the hue, a 12% tint as the background). */
   .uk-label-number {
