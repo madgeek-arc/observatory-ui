@@ -12,17 +12,17 @@
         </select>
       </div>
       <div>
-        <button class="uk-button uk-button-primary uk-button-large" [class.uk-disabled]="exporting || loading()"
+        <button class="uk-button uk-button-primary uk-button-large" [class.uk-disabled]="exporting() || loading()"
                 (click)="generateReport()">
           Generate Complete Report
-          <span class="uk-margin-small-left" [class.uk-hidden]="!exporting" data-uk-spinner="ratio: 0.7"></span>
+          <span class="uk-margin-small-left" [class.uk-hidden]="!exporting()" data-uk-spinner="ratio: 0.7"></span>
         </button>
         @if (!loading() && availableYears().length === 0) {
           <p class="uk-text-danger uk-margin-small-top">No survey data could be loaded for any year.</p>
         }
         <p class="uk-text-meta uk-margin-small-top">
-          Charts ready: {{ chartsReadyCount }}/{{ chartsCfg.length }} <br>
-          Pies ready: {{ pieChartsReadyCount }} / {{ totalPieChartsCount }}
+          Charts ready: {{ chartsReadyCount() }}/{{ chartsCfg.length }} <br>
+          Pies ready: {{ pieChartsReadyCount() }} / {{ totalPieChartsCount() }}
           <br>
         </p>
       </div>
@@ -58,18 +58,18 @@
               </bar-columns-chart>
             }
             @case ('stackedBars') {
-              <bar-columns-chart [series]="chart.chartSeries" [categories]="categories" [reversedStacks]="false"
+              <bar-columns-chart [series]="chart.chartSeries" [categories]="categories()" [reversedStacks]="false"
                                  [enableLegend]="true" [stacking]="'normal'" [dataLabelsEnabled]="true"
                                  (chartReady)="onChartReady($event, i)">
               </bar-columns-chart>
             }
             @case ('barChart') {
-              <bar-columns-chart [series]="chart.chartSeries" [categories]="categories"
+              <bar-columns-chart [series]="chart.chartSeries" [categories]="categories()"
                                  [dataLabelsEnabled]="true" (chartReady)="onChartReady($event, i)">
               </bar-columns-chart>
             }
             @case ('totalInvestments') {
-              <bar-columns-chart [series]="chart.chartSeries" [categories]="categories"
+              <bar-columns-chart [series]="chart.chartSeries" [categories]="categories()"
                                  [dataLabelsEnabled]="true" [YAxisTitleText]="'€K per 1000 FTEs'"
                                  (chartReady)="onChartReady($event, i)">
               </bar-columns-chart>

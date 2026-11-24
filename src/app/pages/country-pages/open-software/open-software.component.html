@@ -8,10 +8,10 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
           <!--          <h4>Open Software</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode() | lowercase}}-flag-round.png"
               class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Software for {{ year }}</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName() }} - Open Software for {{ year() }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-center" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
@@ -22,7 +22,7 @@
                 style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              @if (exportActive) {
+              @if (exportActive()) {
                 <span class="uk-margin-small-left"
                 data-uk-spinner="ratio: 0.7"></span>
               } @else {
@@ -34,10 +34,10 @@
         <div class="uk-hidden@m">
           <!--          <h4>Open Software</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode() | lowercase}}-flag-round.png"
               class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Software for {{ year }}</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName() }} - Open Software for {{ year() }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-right" (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
@@ -48,7 +48,7 @@
                 style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              @if (exportActive) {
+              @if (exportActive()) {
                 <span class="uk-margin-small-left"
                 data-uk-spinner="ratio: 0.7"></span>
               } @else {
@@ -80,7 +80,7 @@
   investments, and strategies from the Survey on National Contributions to EOSC and Open Science</p>
 
   <div class="uk-flex uk-flex-between uk-flex-middle">
-    <h5>General Overview of Open Software in {{ countryName }} for {{ year }}</h5>
+    <h5>General Overview of Open Software in {{ countryName() }} for {{ year() }}</h5>
   </div>
 
   <div class="uk-grid-small" data-uk-grid>
@@ -113,36 +113,36 @@
           </div> -->
           <!--Card 2-->
           <app-card-config indicatorId="62" colorClass="eosc-sb visualisation-card">
-          @if (rfoSoftwarePercentage[1] !== null && rfoSoftwarePercentage[1] !== undefined) {
+          @if (rfoSoftwarePercentage()[1] !== null && rfoSoftwarePercentage()[1] !== undefined) {
             <app-info-card
               [titleHtml]="`Percentage of <span class='uk-text-bold'>RFO's Policy on Open Software</span>`"
-              [value]="rfoSoftwarePercentage[1]"
+              [value]="rfoSoftwarePercentage()[1]"
               [unit]="'%'"
-              [diff]="rfoSoftwarePercentageDiff"
+              [diff]="rfoSoftwarePercentageDiff()"
               colorClass="eosc-sb visualisation-card">
             </app-info-card>
           }
           </app-card-config>
           <!-- Card 3 -->
           <app-card-config indicatorId="63" colorClass="eosc-sb visualisation-card">
-          @if (softwareFinancialInvestment[1]) {
+          @if (softwareFinancialInvestment()[1]) {
             <app-info-card
               [titleHtml]="'Total <span class=\'uk-text-bold\'>financial investment in Open Software</span>'"
-              [value]="softwareFinancialInvestment[1]"
+              [value]="softwareFinancialInvestment()[1]"
               [unit]="'mil Euro'"
-              [diff]="softwareFinancialInvestmentPercentageDiff"
+              [diff]="softwareFinancialInvestmentPercentageDiff()"
               colorClass="eosc-sb visualisation-card">
             </app-info-card>
           }
           </app-card-config>
           <!--Card 4-->
           <app-card-config indicatorId="64" colorClass="eosc-sb visualisation-card">
-          @if (rpoSoftwarePercentage[1] !== null && rpoSoftwarePercentage[1] !== undefined) {
+          @if (rpoSoftwarePercentage()[1] !== null && rpoSoftwarePercentage()[1] !== undefined) {
             <app-info-card
               [titleHtml]="`Percentage of <span class='uk-text-bold'>RPO's Policy on Open Software</span>`"
-              [value]="rpoSoftwarePercentage[1]"
+              [value]="rpoSoftwarePercentage()[1]"
               [unit]="'%'"
-              [diff]="rpoSoftwarePercentageDiff"
+              [diff]="rpoSoftwarePercentageDiff()"
               colorClass="eosc-sb visualisation-card">
             </app-info-card>
           }
@@ -160,24 +160,24 @@
         <h5 class="uk-flex uk-flex-between uk-margin-remove">
           National Open Software Policy
                   <span class="material-symbols-outlined" [ngClass]="{
-                  'up-arrow-color': hasNationalPolicy === 'Yes',
-                  'down-arrow-color': hasNationalPolicy === 'No',
-                  'unanswered-color': hasNationalPolicy === null
+                  'up-arrow-color': hasNationalPolicy() === 'Yes',
+                  'down-arrow-color': hasNationalPolicy() === 'No',
+                  'unanswered-color': hasNationalPolicy() === null
                 }">
             {{
-            hasNationalPolicy === 'Yes' ? 'check' :
-            hasNationalPolicy === 'No' ? 'close' :
+            hasNationalPolicy() === 'Yes' ? 'check' :
+            hasNationalPolicy() === 'No' ? 'close' :
             'question_mark'
             }}
           </span>
         </h5>
-        @if (policyMandatory === 'Yes') {
+        @if (policyMandatory() === 'Yes') {
           <p class="uk-text-primary uk-text-bolder uk-margin-remove-top">
           Mandatory policy</p>
         }
-        @if (nationalPolicyClarification) {
+        @if (nationalPolicyClarification()) {
           <read-more-text [maxHeight]="68"
-            [text]="nationalPolicyClarification">
+            [text]="nationalPolicyClarification()">
           </read-more-text>
         }
       </div>
@@ -186,20 +186,20 @@
         <h5 class="uk-flex uk-flex-between">
           Financial Strategy on Open Software
                   <span class="material-symbols-outlined" [ngClass]="{
-                  'up-arrow-color': hasFinancialStrategy === 'Yes',
-                  'down-arrow-color': hasFinancialStrategy === 'No',
-                  'unanswered-color': hasFinancialStrategy === null
+                  'up-arrow-color': hasFinancialStrategy() === 'Yes',
+                  'down-arrow-color': hasFinancialStrategy() === 'No',
+                  'unanswered-color': hasFinancialStrategy() === null
                 }">
             {{
-            hasFinancialStrategy === 'Yes' ? 'check' :
-            hasFinancialStrategy === 'No' ? 'close' :
+            hasFinancialStrategy() === 'Yes' ? 'check' :
+            hasFinancialStrategy() === 'No' ? 'close' :
             'question_mark'
             }}
           </span>
         </h5>
-        @if (financialStrategyClarification) {
+        @if (financialStrategyClarification()) {
           <read-more-text [maxHeight]="68"
-            [text]="financialStrategyClarification">
+            [text]="financialStrategyClarification()">
           </read-more-text>
         }
       </div>
@@ -208,19 +208,19 @@
         <h5 class="uk-flex uk-flex-between">
           Monitoring on Open Software
                   <span class="material-symbols-outlined" [ngClass]="{
-                  'up-arrow-color': hasMonitoring === 'Yes',
-                  'down-arrow-color': hasMonitoring === 'No',
-                  'unanswered-color': hasMonitoring === null
+                  'up-arrow-color': hasMonitoring() === 'Yes',
+                  'down-arrow-color': hasMonitoring() === 'No',
+                  'unanswered-color': hasMonitoring() === null
                 }">
             {{
-            hasMonitoring === 'Yes' ? 'check' :
-            hasMonitoring === 'No' ? 'close' :
+            hasMonitoring() === 'Yes' ? 'check' :
+            hasMonitoring() === 'No' ? 'close' :
             'question_mark'
             }}
           </span>
         </h5>
-        @if (monitoringClarification) {
-          <read-more-text [maxHeight]="68" [text]="monitoringClarification">
+        @if (monitoringClarification()) {
+          <read-more-text [maxHeight]="68" [text]="monitoringClarification()">
           </read-more-text>
         }
       </div>
@@ -232,9 +232,9 @@
 
   <div>
     <p><span class="uk-text-bold">Data source:</span>
-    Survey on National Contributions to EOSC and Open Science {{year}} -
-    showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
-    OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+    Survey on National Contributions to EOSC and Open Science {{year()}} -
+    showing data for {{ year() }}, except financial contributions, which reflect the previous year ({{+year()-1}});
+    OpenAIRE Graph data for {{ year() }} (updated on {{ lastUpdateDate() }}).
   </p>
 </div>
 </div>
@@ -250,15 +250,15 @@
         <app-card-config indicatorId="66">
         <div class="uk-animation-fade">
           <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-            <h6 class="uk-margin-bottom">Learn more about Open Software Landscape in {{ countryName }}</h6>
-            <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
+            <h6 class="uk-margin-bottom">Learn more about Open Software Landscape in {{ countryName() }}</h6>
+            <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate() | date: 'yyyy-MM-dd'}}</div>
             <div class="uk-margin-medium-top">
               <read-more [maxHeight]="300">
                 <div id="software_repositories">
                   <div class="uk-text-secondary">Software repositories</div>
-                  @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']?.['Question19-1']) {
+                  @if (countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']?.['Question19-1']) {
                     <div
-                      [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']['Question19-1']"
+                      [innerHTML]="countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question19']['Question19-1']"
                     class="uk-margin-medium-top"></div>
                   } @else {
                     <p>N/A</p>

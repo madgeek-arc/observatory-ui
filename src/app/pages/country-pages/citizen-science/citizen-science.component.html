@@ -8,10 +8,10 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
           <!--          <h4>Citizen Science</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode() | lowercase}}-flag-round.png"
               class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Citizen Science for {{ year }}</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName() }} - Citizen Science for {{ year() }}</h4>
             </div>
           </div>
           <div (click)="exportToPDF([exportContent, exportContent1], 'Open Data')"
@@ -20,7 +20,7 @@
               <span class="" style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              @if (exportActive) {
+              @if (exportActive()) {
                 <span class="uk-margin-small-left"
                 data-uk-spinner="ratio: 0.7"></span>
               } @else {
@@ -32,10 +32,10 @@
         <div class="uk-hidden@m">
           <!--          <h4>Citizen Science</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode() | lowercase}}-flag-round.png"
               class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Citizen Science for {{ year }}</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName() }} - Citizen Science for {{ year() }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-right"
@@ -46,7 +46,7 @@
                 style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              @if (exportActive) {
+              @if (exportActive()) {
                 <span class="uk-margin-small-left"
                 data-uk-spinner="ratio: 0.7"></span>
               } @else {
@@ -78,7 +78,7 @@
   Science goals.</p>
   <!--        <pre>{{ surveyAnswers | json }}</pre>-->
   <div class="uk-flex uk-flex-between uk-flex-middle">
-    <h5>General Overview of Citizen Science in {{ countryName }} for {{ year }}</h5>
+    <h5>General Overview of Citizen Science in {{ countryName() }} for {{ year() }}</h5>
   </div>
 
   <div class="uk-grid-small uk-grid" data-uk-grid>
@@ -99,12 +99,12 @@
 <!--              </app-info-card>-->
 <!--            }-->
             <app-card-config indicatorId="47" colorClass="eosc-sb visualisation-card">
-            @if (financialInvestmentInCS[1] !== null && financialInvestmentInCS[1] !== undefined) {
+            @if (financialInvestmentInCS()[1] !== null && financialInvestmentInCS()[1] !== undefined) {
               <app-info-card
                 [titleHtml]="`Total amount of <span class='uk-text-bold'>financial investments</span> in Citizen Science`"
-                [value]="financialInvestmentInCS[1]"
+                [value]="financialInvestmentInCS()[1]"
                 [unit]="'mil Euro'"
-                [diff]="financialInvestmentInCsPercentageDiff"
+                [diff]="financialInvestmentInCsPercentageDiff()"
                 colorClass="eosc-sb visualisation-card">
               </app-info-card>
             }
@@ -122,64 +122,64 @@
         <h5 class="uk-flex uk-flex-between uk-margin-remove">
           National Policy on Citizen Science
                   <span class="material-symbols-outlined" [ngClass]="{
-                    'up-arrow-color': hasNationalPolicyCS === 'Yes',
-                    'down-arrow-color': hasNationalPolicyCS === 'No',
-                    'unanswered-color': hasNationalPolicyCS=== null || hasNationalPolicyCS === undefined
+                    'up-arrow-color': hasNationalPolicyCS() === 'Yes',
+                    'down-arrow-color': hasNationalPolicyCS() === 'No',
+                    'unanswered-color': hasNationalPolicyCS()=== null || hasNationalPolicyCS() === undefined
                   }">
             {{
-            hasNationalPolicyCS === 'Yes' ? 'check' :
-            hasNationalPolicyCS === 'No' ? 'close' :
+            hasNationalPolicyCS() === 'Yes' ? 'check' :
+            hasNationalPolicyCS() === 'No' ? 'close' :
             'question_mark'
             }}
           </span>
         </h5>
-        @if (policyMandatoryCS === 'Yes') {
+        @if (policyMandatoryCS() === 'Yes') {
           <p class="uk-text-primary uk-text-bolder uk-margin-remove-top">
           Mandatory policy</p>
         }
-        @if (nationalPolicyClarificationCS !== null) {
+        @if (nationalPolicyClarificationCS() !== null) {
           <read-more-text [maxHeight]="68"
-          [text]="nationalPolicyClarificationCS"></read-more-text>
+          [text]="nationalPolicyClarificationCS()"></read-more-text>
         }
       </div>
       <div class="uk-margin-top">
         <h5 class="uk-flex uk-flex-between">
           Financial Strategy on Citizen Science
                   <span class="material-symbols-outlined" [ngClass]="{
-                    'up-arrow-color': hasFinancialStrategyCS === 'Yes',
-                    'down-arrow-color': hasFinancialStrategyCS === 'No',
-                    'unanswered-color': hasFinancialStrategyCS=== null || hasFinancialStrategyCS === undefined
+                    'up-arrow-color': hasFinancialStrategyCS() === 'Yes',
+                    'down-arrow-color': hasFinancialStrategyCS() === 'No',
+                    'unanswered-color': hasFinancialStrategyCS()=== null || hasFinancialStrategyCS() === undefined
                   }">
             {{
-            hasFinancialStrategyCS === 'Yes' ? 'check' :
-            hasFinancialStrategyCS === 'No' ? 'close' :
+            hasFinancialStrategyCS() === 'Yes' ? 'check' :
+            hasFinancialStrategyCS() === 'No' ? 'close' :
             'question_mark'
             }}
           </span>
         </h5>
-        @if (financialStrategyClarificationCS) {
+        @if (financialStrategyClarificationCS()) {
           <read-more-text [maxHeight]="68"
-          [text]="financialStrategyClarificationCS"></read-more-text>
+          [text]="financialStrategyClarificationCS()"></read-more-text>
         }
       </div>
       <div class="uk-margin-top">
         <h5 class="uk-flex uk-flex-between">
           Monitoring on Citizen Science
                   <span class="material-symbols-outlined" [ngClass]="{
-                    'up-arrow-color': hasMonitoringCS === 'Yes',
-                    'down-arrow-color': hasMonitoringCS === 'No',
-                    'unanswered-color': hasMonitoringCS=== null || hasMonitoringCS === undefined
+                    'up-arrow-color': hasMonitoringCS() === 'Yes',
+                    'down-arrow-color': hasMonitoringCS() === 'No',
+                    'unanswered-color': hasMonitoringCS()=== null || hasMonitoringCS() === undefined
                   }">
             {{
-            hasMonitoringCS === 'Yes' ? 'check' :
-            hasMonitoringCS === 'No' ? 'close' :
+            hasMonitoringCS() === 'Yes' ? 'check' :
+            hasMonitoringCS() === 'No' ? 'close' :
             'question_mark'
             }}
           </span>
         </h5>
-        @if (monitoringClarificationCS) {
+        @if (monitoringClarificationCS()) {
           <read-more-text [maxHeight]="68"
-          [text]="monitoringClarificationCS"></read-more-text>
+          [text]="monitoringClarificationCS()"></read-more-text>
         }
       </div>
     </div>
@@ -189,9 +189,9 @@
 <div class="uk-width-1-1 uk-margin-top uk-flex uk-flex-center">
   <div>
     <p><span class="uk-text-bold">Data source:</span>
-    Survey on National Contributions to EOSC and Open Science {{year}} -
-    showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
-    OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+    Survey on National Contributions to EOSC and Open Science {{year()}} -
+    showing data for {{ year() }}, except financial contributions, which reflect the previous year ({{+year()-1}});
+    OpenAIRE Graph data for {{ year() }} (updated on {{ lastUpdateDate() }}).
   </p>
 </div>
 </div>
@@ -205,14 +205,14 @@
         <app-card-config indicatorId="49">
         <div class="uk-animation-fade">
           <div class="uk-card uk-card-body uk-card-default eosc-sb visualisation-card">
-            <h6 class="uk-margin-bottom">Learn more about Citizen Science Landscape in {{ countryName }}</h6>
-            <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
+            <h6 class="uk-margin-bottom">Learn more about Citizen Science Landscape in {{ countryName() }}</h6>
+            <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate() | date: 'yyyy-MM-dd'}}</div>
             <div class="uk-margin-medium-top">
               <read-more [maxHeight]="300">
                 <div>
-                  @if (surveyAnswers[1]?.['Practices']?.['Question99']?.['Question99-0'] === 'Yes') {
-                    @if (surveyAnswers[1]?.['Practices']?.['Question99']?.['Question99-1-0']?.length) {
-                      @for (element of surveyAnswers[1]['Practices']['Question99']['Question99-1-0']; track element) {
+                  @if (surveyAnswers()[1]?.['Practices']?.['Question99']?.['Question99-0'] === 'Yes') {
+                    @if (surveyAnswers()[1]?.['Practices']?.['Question99']?.['Question99-1-0']?.length) {
+                      @for (element of surveyAnswers()[1]['Practices']['Question99']['Question99-1-0']; track element) {
                         <div class="uk-margin-small-bottom"> @if (element['Question99-1']?.trim() !== '') {
                           <p class="uk-margin-remove-top" [innerHTML]="element['Question99-1']"></p>
                         }
@@ -233,9 +233,9 @@
                   } @else {
                     <p class="uk-margin-remove-top">There are no use cases</p>
                   }
-                  @if (surveyAnswers[1]?.['Practices']?.['Question99']?.['Question99-3']) {
+                  @if (surveyAnswers()[1]?.['Practices']?.['Question99']?.['Question99-3']) {
                     <p class="uk-margin-remove-top"
-                       [innerHTML]="surveyAnswers[1]['Practices']['Question99']['Question99-3']">
+                       [innerHTML]="surveyAnswers()[1]['Practices']['Question99']['Question99-3']">
                     </p>
                   }
                 </div>

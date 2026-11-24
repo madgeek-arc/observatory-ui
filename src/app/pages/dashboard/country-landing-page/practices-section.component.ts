@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy} from "@angular/core";
+import {Component, input, ChangeDetectionStrategy} from "@angular/core";
 import { CommonModule, NgClass } from "@angular/common";
 import { CategoryIndicatorsWrapperComponent } from "./indicator-cards/category-indicators-wrapper.component";
 import { PracticesCategoryIndicatorsComponent } from "./indicator-cards/practices-category-indicators.component";
@@ -7,13 +7,13 @@ import { PracticesCategoryIndicatorsComponent } from "./indicator-cards/practice
     selector: 'country-landing-page-practices',
     templateUrl: 'practices-section.component.html',
     styleUrls: ['./country-landing-page.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [NgClass, CategoryIndicatorsWrapperComponent, PracticesCategoryIndicatorsComponent]
 })
 
 export class CountryLandingPagePracticesComponent {
 
-  @Input('surveyAnswer') surveyAnswer: Object = null;
+  readonly surveyAnswer = input<Object>(null);
 
   formatComments(comment: string) {
     console.log('Comment before: ',comment);

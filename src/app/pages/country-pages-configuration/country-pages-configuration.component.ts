@@ -17,7 +17,7 @@ import * as UIkit from "uikit";
   standalone: true,
   imports: [FormsModule, RouterOutlet, OverrideModeBannerComponent, IndicatorListComponent],
   templateUrl: './country-pages-configuration.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['../../../assets/css/explore-sidebar.less']
 })
 export class CountryPagesConfigurationComponent implements OnInit {
@@ -30,8 +30,8 @@ export class CountryPagesConfigurationComponent implements OnInit {
   /** Dropdown sentinel for the type-wide Global default scope (vs a real country code). */
   static readonly GLOBAL_SCOPE = 'global';
 
-  checkingAuth = true;
-  authorized = false;
+  checkingAuth = signal(true);
+  authorized = signal(false);
   countryCode = '';
 
   readonly countries = countries;
@@ -80,16 +80,16 @@ export class CountryPagesConfigurationComponent implements OnInit {
 
     this.userService.getUserInfo().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (userInfo) => {
-        this.authorized = !!userInfo?.admin
+        this.authorized.set(!!userInfo?.admin
           || (userInfo?.coordinators ?? []).some(c => c.type === 'eosc-sb')
-          || (userInfo?.administrators ?? []).some(a => a.type === 'eosc-sb');
-        this.checkingAuth = false;
-        if (!this.authorized) {
+          || (userInfo?.administrators ?? []).some(a => a.type === 'eosc-sb'));
+        this.checkingAuth.set(false);
+        if (!this.authorized()) {
           this.router.navigate(['/home']);
         }
       },
       error: () => {
-        this.checkingAuth = false;
+        this.checkingAuth.set(false);
         this.router.navigate(['/home']);
       }
     });

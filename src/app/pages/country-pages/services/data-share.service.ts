@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { ExploreService } from "../../explore/explore.service";
 import { AnswerMetadata } from "./coutry-pages.service";
+import { LATEST_SURVEY_YEAR } from "../../../domain/survey-years";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class DataShareService {
   surveyAnswers: BehaviorSubject<Object[]> = new BehaviorSubject<Object[]>([null, null]);
   countrySurveyAnswer: BehaviorSubject<Object | null> = new BehaviorSubject<Object | null>(null);
   countrySurveyAnswerMetaData: BehaviorSubject<AnswerMetadata | null> = new BehaviorSubject<AnswerMetadata | null>(null);
-  year: BehaviorSubject<string> = new BehaviorSubject<string>('2024');
+  year: BehaviorSubject<string> = new BehaviorSubject<string>(LATEST_SURVEY_YEAR);
 
   countryCode$ = this.countryCode.asObservable();
   displayCountryCode$ = this.displayCountryCode.asObservable();

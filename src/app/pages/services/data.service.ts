@@ -60,14 +60,6 @@ export class DataService {
     ]);
   }
 
-  public getFundingForEOSCBubbleSeries(): Observable<RawData> {
-    return this.getNamedQueries([
-      'eosc.sb.2021.Question11',
-      'eosc.sb.2021.Question12',
-      'eosc.sb.2021.Question13',
-    ]);
-  }
-
   public getEOSCRelevantPolicies(): Observable<RawData> {
     const EOSCRelevantPoliciesQuery = `{"series":[{"query":{"name":"eosc.sb.2021.Question3","profile":"${this.profileName}"}}],"verbose":true}`;
     return this.httpClient.get<RawData>(this.statsAPIURL + encodeURIComponent(EOSCRelevantPoliciesQuery), headerOptions);

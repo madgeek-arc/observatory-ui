@@ -23,7 +23,7 @@ import { CountryPageIndicatorsService } from "../services/country-page-indicator
   standalone: true,
   templateUrl: './card-config.component.html',
   styleUrls: ['../../../../assets/css/explore-sidebar.less'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.card-config-hidden]': '!cardVisible()',
     '[class.card-config-dimmed]': 'showHidden()',

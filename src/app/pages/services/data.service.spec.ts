@@ -21,14 +21,15 @@ describe('DataService funding queries', () => {
 
   it('sends one single-query request per question and merges the answers in question order', () => {
     let result: RawData | undefined;
-    service.getFundingForEOSCBubbleSeries().subscribe(value => result = value);
+    service.getFundingForEOSC().subscribe(value => result = value);
 
     const requests = http.match(request => request.url.startsWith(RAW_URL));
     const queries = requests.map(request => JSON.parse(decodeURIComponent(request.request.url.substring(RAW_URL.length))));
 
-    expect(queries.map(query => query.series.length)).toEqual([1, 1, 1]);
+    expect(queries.map(query => query.series.length)).toEqual([1, 1, 1, 1, 1, 1]);
     expect(queries.map(query => query.series[0].query.name))
-      .toEqual(['eosc.sb.2021.Question11', 'eosc.sb.2021.Question12', 'eosc.sb.2021.Question13']);
+      .toEqual(['eosc.sb.2021.Question6', 'eosc.sb.2021.Question7', 'eosc.sb.2021.Question8',
+        'eosc.sb.2021.Question11', 'eosc.sb.2021.Question12', 'eosc.sb.2021.Question13']);
 
     // answer in reverse order
     requests.map((request, index) => ({request, query: queries[index]})).reverse().forEach(({request, query}) => {
@@ -38,6 +39,7 @@ describe('DataService funding queries', () => {
     });
 
     expect(result?.datasets.map(dataset => dataset.series.query.name))
-      .toEqual(['eosc.sb.2021.Question11', 'eosc.sb.2021.Question12', 'eosc.sb.2021.Question13']);
+      .toEqual(['eosc.sb.2021.Question6', 'eosc.sb.2021.Question7', 'eosc.sb.2021.Question8',
+        'eosc.sb.2021.Question11', 'eosc.sb.2021.Question12', 'eosc.sb.2021.Question13']);
   });
 });

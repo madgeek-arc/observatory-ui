@@ -105,42 +105,42 @@
           <div class="uk-navbar-right">
             <ul class="uk-navbar-nav user_actions">
               <li>
-                @if (userInfo) {
+                @if (userInfo()) {
                   <a class="uk-icon" aria-expanded="false">
                     <div class="uk-flex">
                       <div class="uk-padding-remove uk-flex uk-flex-middle">
-                        @if (currentCoordinator || currentStakeholder || currentAdministrator) {
+                        @if (currentCoordinator() || currentStakeholder() || currentAdministrator()) {
                           <span class="">
-                            {{(currentStakeholder?.name ? currentStakeholder.name : (currentCoordinator?.name ? currentCoordinator.name : currentAdministrator.name))}}
+                            {{(currentStakeholder()?.name ? currentStakeholder().name : (currentCoordinator()?.name ? currentCoordinator().name : currentAdministrator().name))}}
                           </span>
                         }
                       </div>
-                      @if (!userInfo.user.profile?.picture) {
+                      @if (!userInfo().user.profile?.picture) {
                         <div>
                           <svg height="60" width="60">
                             <circle cx="30" cy="30" r="20" stroke-width="1"></circle>
                             <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%">{{parseUsername()}}</text>
-                            @if (unreadMessages.totalUnread > 0) {
+                            @if (unreadMessages().totalUnread > 0) {
                               <circle class="notification" cx="45" cy="15" r="7" stroke-width="1"></circle>
                             }
-                            @if (unreadMessages.totalUnread > 0) {
+                            @if (unreadMessages().totalUnread > 0) {
                               <text class="notification" x="45" y="19" text-anchor="middle">
-                                {{unreadMessages?.totalUnread.toString()}}
+                                {{unreadMessages()?.totalUnread.toString()}}
                               </text>
                             }
                           </svg>
                         </div>
                       } @else {
                         <svg height="60" width="60">
-                          <image x="10" y="10" [attr.href]="'data:image;base64,' + userInfo.user.profile.picture"
+                          <image x="10" y="10" [attr.href]="'data:image;base64,' + userInfo().user.profile.picture"
                             height="40" width="40" clip-path="inset(0% round 20px)" />
                           <!--                        For messages-->
-                          @if (unreadMessages?.totalUnread > 0) {
+                          @if (unreadMessages()?.totalUnread > 0) {
                             <circle class="notification" cx="45" cy="15" r="7" stroke-width="1"></circle>
                           }
-                          @if (unreadMessages?.totalUnread > 0) {
+                          @if (unreadMessages()?.totalUnread > 0) {
                             <text class="notification" x="45" y="19" text-anchor="middle">
-                              {{unreadMessages?.totalUnread.toString()}}
+                              {{unreadMessages()?.totalUnread.toString()}}
                             </text>
                           }
                         </svg>
@@ -148,20 +148,20 @@
                     </div>
                   </a>
                 }
-                @if (userInfo) {
+                @if (userInfo()) {
                   <div class="uk-padding-remove-horizontal uk-dropdown"
                     data-uk-dropdown="mode: click; offset: -2; delay-hide: 0; flip: false; pos: bottom-right">
                     <ul class="uk-nav uk-dropdown-nav">
                       <li class="user-info">
                         <div>
-                          <div class="uk-text-bold">{{userInfo.user.fullname}}</div>
-                          <div class="uk-text-meta">{{userInfo.user.email}}</div>
+                          <div class="uk-text-bold">{{userInfo().user.fullname}}</div>
+                          <div class="uk-text-meta">{{userInfo().user.email}}</div>
                         </div>
                       </li>
-                      @if (userInfo.stakeholders?.length > 0) {
+                      @if (userInfo().stakeholders?.length > 0) {
                         <hr>
                       }
-                      @for (stakeholder of userInfo.stakeholders; track stakeholder) {
+                      @for (stakeholder of userInfo().stakeholders; track stakeholder) {
                         <li class="groups">
                           <a (click)="setStakeholder(stakeholder)">
                             <div class="uk-flex uk-flex-middle">
@@ -183,10 +183,10 @@
                           </a>
                         </li>
                       }
-                      @if (userInfo.coordinators?.length > 0) {
+                      @if (userInfo().coordinators?.length > 0) {
                         <hr>
                       }
-                      @for (coordinator of userInfo.coordinators; track coordinator) {
+                      @for (coordinator of userInfo().coordinators; track coordinator) {
                         <li class="groups">
                           <a (click)="setCoordinator(coordinator)">
                             <div class="uk-flex uk-flex-middle">
@@ -205,9 +205,9 @@
                           </a>
                         </li>
                       }
-                      @if (userInfo.administrators?.length > 0) {
+                      @if (userInfo().administrators?.length > 0) {
                         <hr>
-                        @for (admin of userInfo.administrators; track admin) {
+                        @for (admin of userInfo().administrators; track admin) {
                           <li>
                             <a (click)="setAdministrator(admin)">
                               <div class="uk-flex uk-flex-middle">
@@ -226,10 +226,10 @@
                           </li>
                         }
                       }
-                      @if (superAdmin) {
+                      @if (superAdmin()) {
                         <hr>
                       }
-                      @if (superAdmin) {
+                      @if (superAdmin()) {
                         <li class="groups">
                           <a [routerLink]="['/reportExport']">
                             <div class="uk-flex uk-flex-middle">
@@ -238,10 +238,10 @@
                           </a>
                         </li>
                       }
-                      @if (showArchive) {
+                      @if (showArchive()) {
                         <hr>
                       }
-                      @if (showArchive) {
+                      @if (showArchive()) {
                         <li class="groups">
                           <a class="" style="cursor: default; pointer-events: none">
                             <div class="uk-flex uk-flex-middle">
@@ -251,7 +251,7 @@
                           </a>
                         </li>
                       }
-                      @if (showArchive) {
+                      @if (showArchive()) {
                         <li class="uk-margin-small-left">
                           <a class="" [routerLink]="['/eoscreadiness']" aria-expanded="false">
                             <span class="uk-text-small uk-margin-medium-left"> EOSC Readiness</span>
@@ -278,7 +278,7 @@
                   </div>
                 }
               </li>
-              @if (!userInfo) {
+              @if (!userInfo()) {
                 <li class="uk-animation-fade">
                   <a class="uk-button uk-button-link" (click)="logInButton()">Login</a>
                 </li>
@@ -314,16 +314,16 @@
       <div class="uk-navbar-right">
         <div>
           <ul class="uk-navbar-nav user_actions">
-            @if (!userInfo) {
+            @if (!userInfo()) {
               <li>
                 <a class="" aria-label="Login" (click)="logInButton()">
                   <span class="material-symbols-outlined">person</span>
                 </a>
               </li>
             }
-            @if (userInfo) {
+            @if (userInfo()) {
               <li>
-                @if (userInfo) {
+                @if (userInfo()) {
                   <a class="uk-icon" aria-expanded="false" href="#offcanvas-account" data-uk-toggle>
                     <div class="uk-flex">
                       <!--                  fixme selected stakeholder not show for now on the mobile menu-->
@@ -334,33 +334,33 @@
                       <!--                      currentCoordinator.name : currentAdministrator.name))}}-->
                       <!--                      </span>-->
                       <!--                  </div>-->
-                      @if (!userInfo.user.profile?.picture) {
+                      @if (!userInfo().user.profile?.picture) {
                         <div>
                           <svg height="60" width="60">
                             <circle cx="30" cy="30" r="20" stroke-width="1"></circle>
                             <text dy=".4em" font-size="16" text-anchor="middle" x="50%" y="50%">{{ parseUsername() }}
                             </text>
-                            @if (unreadMessages.totalUnread > 0) {
+                            @if (unreadMessages().totalUnread > 0) {
                               <circle class="notification" cx="45" cy="15" r="7" stroke-width="1"></circle>
                             }
-                            @if (unreadMessages.totalUnread > 0) {
+                            @if (unreadMessages().totalUnread > 0) {
                               <text class="notification" x="45" y="19" text-anchor="middle">
-                                {{ unreadMessages?.totalUnread.toString() }}
+                                {{ unreadMessages()?.totalUnread.toString() }}
                               </text>
                             }
                           </svg>
                         </div>
                       } @else {
                         <svg height="60" width="60">
-                          <image x="10" y="10" [attr.href]="'data:image;base64,' + userInfo.user.profile.picture"
+                          <image x="10" y="10" [attr.href]="'data:image;base64,' + userInfo().user.profile.picture"
                                  height="40" width="40" clip-path="inset(0% round 20px)"/>
                           <!--                        For messages-->
-                          @if (unreadMessages?.totalUnread > 0) {
+                          @if (unreadMessages()?.totalUnread > 0) {
                             <circle class="notification" cx="45" cy="15" r="7" stroke-width="1"></circle>
                           }
-                          @if (unreadMessages?.totalUnread > 0) {
+                          @if (unreadMessages()?.totalUnread > 0) {
                             <text class="notification" x="45" y="19" text-anchor="middle">
-                              {{ unreadMessages?.totalUnread.toString() }}
+                              {{ unreadMessages()?.totalUnread.toString() }}
                             </text>
                           }
                         </svg>
@@ -375,17 +375,17 @@
                 <div id="offcanvas-account" data-uk-offcanvas="overlay: true; flip: true">
                   <div class="uk-offcanvas-bar uk-width-expand">
                     <button class="uk-offcanvas-close" type="button" data-uk-close></button>
-                    @if (userInfo) {
+                    @if (userInfo()) {
                       <div>
-                        <h4 class="uk-text-bold uk-margin-small-bottom">{{ userInfo.user.fullname }}</h4>
-                        <div class="uk-text-meta uk-margin-small-bottom">{{ userInfo.user.email }}</div>
+                        <h4 class="uk-text-bold uk-margin-small-bottom">{{ userInfo().user.fullname }}</h4>
+                        <div class="uk-text-meta uk-margin-small-bottom">{{ userInfo().user.email }}</div>
                         <hr>
                         <!--Stakeholders-->
-                        @if (userInfo.stakeholders?.length > 0) {
+                        @if (userInfo().stakeholders?.length > 0) {
                           <div>
                             <h5 class="uk-text-uppercase uk-text-bold">Stakeholders</h5>
                             <ul class="uk-nav uk-nav-default">
-                              @for (stakeholder of userInfo.stakeholders; track stakeholder) {
+                              @for (stakeholder of userInfo().stakeholders; track stakeholder) {
                                 <li>
                                   <a (click)="setStakeholder(stakeholder)">
                                     {{ stakeholder.name }}
@@ -407,11 +407,11 @@
                           </div>
                         }
                         <!--Coordinators-->
-                        @if (userInfo.coordinators?.length > 0) {
+                        @if (userInfo().coordinators?.length > 0) {
                           <div>
                             <h5 class="uk-text-uppercase uk-text-bold">Coordinators</h5>
                             <ul class="uk-nav uk-nav-default">
-                              @for (coordinator of userInfo.coordinators; track coordinator) {
+                              @for (coordinator of userInfo().coordinators; track coordinator) {
                                 <li>
                                   <a (click)="setCoordinator(coordinator)">
                                     <div class="uk-flex uk-flex-middle">
@@ -435,11 +435,11 @@
                           </div>
                         }
                         <!--Administrators-->
-                        @if (userInfo.administrators?.length > 0) {
+                        @if (userInfo().administrators?.length > 0) {
                           <div>
                             <h5 class="uk-text-uppercase uk-text-bold">Administrators</h5>
                             <ul class="uk-nav uk-nav-default">
-                              @for (admin of userInfo.administrators; track admin) {
+                              @for (admin of userInfo().administrators; track admin) {
                                 <li>
                                   <a (click)="setAdministrator(admin)">
                                     {{ admin.name }}
@@ -459,7 +459,7 @@
                           </div>
                         }
                         <!--Archive Links-->
-                        @if (showArchive) {
+                        @if (showArchive()) {
                           <div>
                             <h5 class="uk-text-uppercase uk-text-bold">Other Dashboards</h5>
                             <ul class="uk-nav uk-nav-default">
@@ -492,7 +492,7 @@
                         </ul>
                       </div>
                     }
-                    @if (!userInfo) {
+                    @if (!userInfo()) {
                       <div>
                         <button class="uk-button uk-button-primary uk-width-1-1" (click)="logInButton()">Login</button>
                       </div>
@@ -586,9 +586,9 @@
     <p>Click the link below and read it carefully. By pressing I agree you acknowledge that you have read and agree to
       the following terms.</p>
     <hr>
-    @if (acceptedPrivacyPolicy) {
+    @if (acceptedPrivacyPolicy()) {
       <a target="_blank"
-         href="../../../../assets/pdf/{{acceptedPrivacyPolicy.privacyPolicy.filename}}">EOSC Observatory Privacy
+         href="../../../../assets/pdf/{{acceptedPrivacyPolicy().privacyPolicy.filename}}">EOSC Observatory Privacy
         Policy</a>
     }
     <p class="uk-text-right">

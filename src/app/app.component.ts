@@ -13,7 +13,7 @@ import { TopMenuDashboardComponent } from "./shared/top-menu/topmenudashboard/to
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         NgStyle,
         RouterOutlet,
@@ -54,29 +54,14 @@ export class AppComponent {
   );
 
   title = 'observatory-ui';
-  smallScreen= false;
-  isOpen = true;
-  hasHeader = true;
-  showFooter = true;
+  // The layout service keeps these in BehaviorSubjects, so each has a value right away
+  smallScreen = toSignal(this.layoutService.isMobile, {requireSync: true});
+  isOpen = toSignal(this.layoutService.isOpen, {requireSync: true});
+  hasHeader = toSignal(this.layoutService.hasHeader, {requireSync: true});
+  showFooter = toSignal(this.layoutService.showFooter, {requireSync: true});
 
   constructor() {
     this.auth.redirect();
-
-    this.layoutService.isMobile.subscribe(isMobile => {
-      this.smallScreen = isMobile;
-    });
-
-    this.layoutService.isOpen.subscribe(open => {
-      this.isOpen = open;
-    });
-
-    this.layoutService.hasHeader.subscribe(hasHeader => {
-      this.hasHeader = hasHeader;
-    });
-
-    this.layoutService.showFooter.subscribe(showFooter => {
-      this.showFooter = showFooter;
-    });
   }
 
   // isContributionsDashboardRoute() {

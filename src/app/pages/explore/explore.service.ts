@@ -13,6 +13,7 @@ import { countries } from "../../domain/countries";
 import { DataHandlerService } from "../services/data-handler.service";
 import * as Highcharts from "highcharts";
 import { colors } from "../../domain/chart-color-palette";
+import { isNumeric } from "../../shared/utils/is-numeric";
 
 @Injectable({providedIn: 'root'})
 export class ExploreService {
@@ -424,16 +425,10 @@ export class ExploreService {
   }
 
   // Utilities
+  // Same check as the dashboards and the report: the old String(parseFloat(value)) === value round trip
+  // silently dropped answers such as '.2' (Luxembourg's Question68) and '1.50' from the sums
   isNumeric(value: string | null): boolean {
-    // Check if the value is empty
-    if (value === undefined || value === null || value.trim() === '')
-      return false;
-
-    // Attempt to parse the value as a float
-    const number = parseFloat(value);
-
-    // Check if parsing resulted in NaN or the value has extraneous characters
-    return !Number.isNaN(number) && Number.isFinite(number) && String(number) === value;
+    return isNumeric(value);
   }
 
   calculateSum(rawData: RawData): string {

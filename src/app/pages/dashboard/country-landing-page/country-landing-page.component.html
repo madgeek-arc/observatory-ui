@@ -1,15 +1,15 @@
-@if (surveyAnswer && countryCode) {
+@if (surveyAnswer() && countryCode()) {
   <div class="uk-section uk-section-secondary uk-section-small">
     <div class="uk-container uk-container-expand">
       <div class="uk-flex uk-flex-between">
         <div class="">
-          <img src="../../survey-tool/assets/images/flags/{{countryCode | lowercase}}-flag-round.png" class="flag-image" width="78" height="78">
+          <img src="../../survey-tool/assets/images/flags/{{countryCode() | lowercase}}-flag-round.png" class="flag-image" width="78" height="78">
           <div class="uk-inline uk-margin-left">
-            <h3 class="uk-margin-small-bottom">{{findCountryByCode(countryCode)}}</h3>
+            <h3 class="uk-margin-small-bottom">{{findCountryByCode(countryCode())}}</h3>
             <div class="uk-text-italic">
               <span class="lastUpdateInfo">Last Update: </span>
-              @if (surveyAnswer?.metadata?.modificationDate) {
-                <span class="lastUpdateInfo">{{surveyAnswer.metadata.modificationDate | date:'mediumDate'}}</span>
+              @if (surveyAnswer()?.metadata?.modificationDate) {
+                <span class="lastUpdateInfo">{{surveyAnswer().metadata.modificationDate | date:'mediumDate'}}</span>
               }
             </div>
           </div>
@@ -19,7 +19,7 @@
   </div>
 }
 
-@if (answer) {
+@if (answer()) {
   <div class="uk-section-default uk-section">
     <div class="uk-container uk-container-expand">
       <div class="uk-grid uk-grid-match">
@@ -38,40 +38,40 @@
                   <div class="uk-margin-medium-top">
                     <div class="uk-text-secondary uk-text-bold uk-text-italic">National OA Policy</div>
                     <div class="uk-margin-small-top uk-flex uk-flex-middle">
-                      @if (answer['Policies']?.['Question6']?.['Question6-0'] === 'Yes') {
+                      @if (answer()['Policies']?.['Question6']?.['Question6-0'] === 'Yes') {
                         <span
                           class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
                         </span>
                       }
-                      @if (!(answer['Policies']?.['Question6']?.['Question6-0'] === 'Yes')) {
+                      @if (!(answer()['Policies']?.['Question6']?.['Question6-0'] === 'Yes')) {
                         <span
                           class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
                         </span>
                         }Publications
                       </div>
                       <div class="uk-margin-small-top uk-flex uk-flex-middle">
-                        @if (answer['Policies']?.['Question10']?.['Question10-0'] === 'Yes' ||
-                          answer['Policies']?.['Question14']?.['Question14-0'] === 'Yes' ||
-                          answer['Policies']?.['Question18']?.['Question18-0'] === 'Yes') {
+                        @if (answer()['Policies']?.['Question10']?.['Question10-0'] === 'Yes' ||
+                          answer()['Policies']?.['Question14']?.['Question14-0'] === 'Yes' ||
+                          answer()['Policies']?.['Question18']?.['Question18-0'] === 'Yes') {
                           <span
                             class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
                           </span>
                         }
-                        @if (!(answer['Policies']?.['Question10']?.['Question10-0'] === 'Yes' ||
-                          answer['Policies']?.['Question14']?.['Question14-0'] === 'Yes' ||
-                          answer['Policies']?.['Question18']?.['Question18-0'] === 'Yes')) {
+                        @if (!(answer()['Policies']?.['Question10']?.['Question10-0'] === 'Yes' ||
+                          answer()['Policies']?.['Question14']?.['Question14-0'] === 'Yes' ||
+                          answer()['Policies']?.['Question18']?.['Question18-0'] === 'Yes')) {
                           <span
                             class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
                           </span>
                           }Data
                         </div>
                         <div class="uk-margin-small-top uk-flex uk-flex-middle">
-                          @if (answer['Policies']?.['Question22']?.['Question22-0'] === 'Yes') {
+                          @if (answer()['Policies']?.['Question22']?.['Question22-0'] === 'Yes') {
                             <span
                               class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
                             </span>
                           }
-                          @if (!(answer['Policies']?.['Question22']?.['Question22-0'] === 'Yes')) {
+                          @if (!(answer()['Policies']?.['Question22']?.['Question22-0'] === 'Yes')) {
                             <span
                               class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
                             </span>
@@ -81,40 +81,40 @@
                         <div class="uk-margin-top">
                           <div class="uk-text-secondary uk-text-bold uk-text-italic">Financial strategy on OA</div>
                           <div class="uk-margin-small-top uk-flex uk-flex-middle">
-                            @if (answer['Policies']?.['Question7']?.['Question7-0'] === 'Yes') {
+                            @if (answer()['Policies']?.['Question7']?.['Question7-0'] === 'Yes') {
                               <span
                                 class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
                               </span>
                             }
-                            @if (!(answer['Policies']?.['Question7']?.['Question7-0'] === 'Yes')) {
+                            @if (!(answer()['Policies']?.['Question7']?.['Question7-0'] === 'Yes')) {
                               <span
                                 class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
                               </span>
                               }Publications
                             </div>
                             <div class="uk-margin-small-top uk-flex uk-flex-middle">
-                              @if (answer['Policies']?.['Question11']?.['Question11-0'] === 'Yes' ||
-                                answer['Policies']?.['Question15']?.['Question15-0'] === 'Yes' ||
-                                answer['Policies']?.['Question19']?.['Question19-0'] === 'Yes') {
+                              @if (answer()['Policies']?.['Question11']?.['Question11-0'] === 'Yes' ||
+                                answer()['Policies']?.['Question15']?.['Question15-0'] === 'Yes' ||
+                                answer()['Policies']?.['Question19']?.['Question19-0'] === 'Yes') {
                                 <span
                                   class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
                                 </span>
                               }
-                              @if (!(answer['Policies']?.['Question11']?.['Question11-0'] === 'Yes' ||
-                                answer['Policies']?.['Question15']?.['Question15-0'] === 'Yes' ||
-                                answer['Policies']?.['Question19']?.['Question19-0'] === 'Yes')) {
+                              @if (!(answer()['Policies']?.['Question11']?.['Question11-0'] === 'Yes' ||
+                                answer()['Policies']?.['Question15']?.['Question15-0'] === 'Yes' ||
+                                answer()['Policies']?.['Question19']?.['Question19-0'] === 'Yes')) {
                                 <span
                                   class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
                                 </span>
                                 }Data
                               </div>
                               <div class="uk-margin-small-top uk-flex uk-flex-middle">
-                                @if (answer['Policies']?.['Question23']?.['Question23-0'] === 'Yes') {
+                                @if (answer()['Policies']?.['Question23']?.['Question23-0'] === 'Yes') {
                                   <span
                                     class="material-icons uk-margin-small-right uk-text-bold" style="color: #2D9D78">check
                                   </span>
                                 }
-                                @if (!(answer['Policies']?.['Question23']?.['Question23-0'] === 'Yes')) {
+                                @if (!(answer()['Policies']?.['Question23']?.['Question23-0'] === 'Yes')) {
                                   <span
                                     class="material-icons uk-margin-small-right uk-text-bold" style="color: #D12D17">close
                                   </span>
@@ -140,14 +140,14 @@
                                     <img src="assets/images/country_pages/graph%20icon.svg">
                                     <div>
                                       <h5 class="uk-margin-remove">
-                                        @if (!answer['Practices']?.['Question57']?.['Question57-0'] &&
-                                          !answer['Practices']?.['Question57']?.['Question57-1-1']) {
+                                        @if (!answer()['Practices']?.['Question57']?.['Question57-0'] &&
+                                          !answer()['Practices']?.['Question57']?.['Question57-1-1']) {
                                           <span> N/A
                                           </span>
                                         } @else {
-                                          {{answer['Practices']?.['Question57']?.['Question57-1'] === 'Yes' ?
-                                          answer['Practices']?.['Question57']?.['Question57-0'] :
-                                          answer['Practices']?.['Question57']?.['Question57-1-1']}}
+                                          {{answer()['Practices']?.['Question57']?.['Question57-1'] === 'Yes' ?
+                                          answer()['Practices']?.['Question57']?.['Question57-0'] :
+                                          answer()['Practices']?.['Question57']?.['Question57-1-1']}}
                                         }
                                       </h5>
                                       <div class="text">Open Access publications</div>
@@ -157,8 +157,8 @@
                                     <img src="assets/images/country_pages/graph%20icon2.svg">
                                     <div>
                                       <h5 class="uk-margin-remove">
-                                        {{answer['Practices']?.['Question56']?.['Question56-0'] ?
-                                        (answer['Practices']?.['Question56']?.['Question56-0'] + 'M') : '--'}}
+                                        {{answer()['Practices']?.['Question56']?.['Question56-0'] ?
+                                        (answer()['Practices']?.['Question56']?.['Question56-0'] + 'M') : '--'}}
                                       </h5>
                                       <div class="text">investments in publications</div>
                                     </div>
@@ -230,13 +230,13 @@
               </div>
             }
 
-            @if (surveyAnswer && countryCode) {
+            @if (surveyAnswer() && countryCode()) {
               <div class="uk-section-default uk-section uk-section-small" style="min-height: auto; padding-top: 0px">
                 <div class="uk-container uk-container-expand">
-                  @if (countryPageOSOURL) {
+                  @if (countryPageOSOURL()) {
                     <div class="uk-flex uk-flex-right" style="position: relative;">
                       <a class="uk-button uk-button-primary button-osobservatory uk-flex uk-flex-middle" target="_blank"
-                        [href]="countryPageOSOURL">
+                        [href]="countryPageOSOURL()">
                         <img src="../assets/images/openaire-logos/OS_Logo_small.svg" width="20px" class="uk-margin-small-right">
                         <span>Open Science Observatory</span>
                         <span class="material-icons uk-margin-small-left" style="color: #fff">chevron_right</span>
@@ -274,30 +274,30 @@
                           <div>
                             <ul id="chapter-selection" class="uk-switcher">
                               <li>
-                                <country-landing-page-general [surveyAnswer]="answer"></country-landing-page-general>
+                                <country-landing-page-general [surveyAnswer]="answer()"></country-landing-page-general>
                               </li>
                               <li>
-                                <country-landing-page-policies [surveyAnswer]="answer"></country-landing-page-policies>
+                                <country-landing-page-policies [surveyAnswer]="answer()"></country-landing-page-policies>
                               </li>
                               <li>
-                                <country-landing-page-practices [surveyAnswer]="answer"></country-landing-page-practices>
+                                <country-landing-page-practices [surveyAnswer]="answer()"></country-landing-page-practices>
                               </li>
                               <li>
                                 Impact
                               </li>
                               <li>
-                                <country-landing-page-use-cases [surveyAnswer]="answer"></country-landing-page-use-cases>
+                                <country-landing-page-use-cases [surveyAnswer]="answer()"></country-landing-page-use-cases>
                               </li>
                             </ul>
                           </div>
                         </div>
                       </li>
                       <li>
-                        @if (countryCode === 'ES' || countryCode === 'GR') {
+                        @if (countryCode() === 'ES' || countryCode() === 'GR') {
                           <div
                             class="uk-section-primary uk-preserve-color uk-padding-remove" style="min-height: 80%">
                             <iframe width="100%" height="100%"
-                              [src]=countryPageNarrativeURL
+                              [src]="countryPageNarrativeURL()"
                               style="display: block; height: 100vh; width: 95vw; border: 0; position: relative">
                             </iframe>
                           </div>

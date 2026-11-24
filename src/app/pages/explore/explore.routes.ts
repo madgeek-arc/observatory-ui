@@ -5,7 +5,6 @@ import { InvestmentsInEoscComponent } from "./investments-in-eosc/investments-in
 import { NationalMonitoringComponent } from "./national-monitoring/national-monitoring.component";
 import { OpenScienceUseCasesComponent } from "./open-science-use-cases/open-science-use-cases.component";
 import { OpenSciencePoliciesComponent } from "./open-science-policies/open-science-policies.component";
-import { OpenScienceImpactComponent } from "./open-science-impact/open-science-impact.component";
 import { CustomSearchComponent } from "./custom-search/custom-search.component";
 import { SearchComponent } from './resources-registry/search/search.component';
 import { DocumentLandingComponent } from './resources-registry/document-landing/document-landing.component';
@@ -65,10 +64,6 @@ export const EXPLORE_ROUTES: Routes = [
             component: DocumentLandingComponent
           }
         ]
-      },
-      {
-        path: 'open-science-impact',
-        component: OpenScienceImpactComponent
       },
       {
         path: 'custom-search',

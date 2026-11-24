@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild,
+  AfterViewInit, Component, computed, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild,
   ChangeDetectionStrategy
 } from "@angular/core";
 import { Router, RouterLink, RouterLinkActive } from "@angular/router";
@@ -20,23 +20,30 @@ import * as UIkit from 'uikit';
     templateUrl: 'top-menu-dashboard.component.html',
     styleUrls: ['../top-menu.component.css', './top-menu-dashboard.component.less'],
     providers: [PrivacyPolicyService],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [RouterLink, RouterLinkActive]
 })
 
-export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   private _destroyed: Subject<boolean> = new Subject();
 
-  userInfo: UserInfo = null;
-  currentStakeholder: Stakeholder = null;
-  currentCoordinator: Coordinator = null;
-  currentAdministrator: Administrator = null;
-  acceptedPrivacyPolicy: AcceptedPrivacyPolicy = null;
+  private userService = inject(UserService);
+  private privacyPolicy = inject(PrivacyPolicyService);
+  private authentication = inject(AuthenticationService);
+  private router = inject(Router);
+  private messagingService = inject(MessagingSystemService);
+  private messagingWebsocket = inject(MessagingWebsocketService);
+
+  userInfo = signal<UserInfo>(null);
+  currentStakeholder = signal<Stakeholder>(null);
+  currentCoordinator = signal<Coordinator>(null);
+  currentAdministrator = signal<Administrator>(null);
+  acceptedPrivacyPolicy = signal<AcceptedPrivacyPolicy>(null);
   name: string = null;
-  showArchive: boolean = false;
-  superAdmin: boolean = false;
+  showArchive = computed(() => !!this.userInfo() && (this.coordinatorContains('eosc-sb') || this.checkIfManager()));
+  superAdmin = computed(() => !!this.userInfo()?.admin);
   // groupIds: string[] = [];
-  unreadMessages: UnreadMessages = new UnreadMessages();
+  unreadMessages = signal<UnreadMessages>(new UnreadMessages());
 
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('mobileNav', { static: false }) mobileNav: ElementRef;
@@ -44,12 +51,9 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
   private navComponent: any;
 
 
-  constructor(private userService: UserService, private privacyPolicy: PrivacyPolicyService,
-              private authentication: AuthenticationService, private router: Router,
-              private messagingService: MessagingSystemService, private messagingWebsocket: MessagingWebsocketService) {
-
+  constructor() {
     this.messagingService.unreadMessages.subscribe(
-      next => this.unreadMessages = next
+      next => this.unreadMessages.set(next)
     );
     this.messagingService.setUnreadCount();
 
@@ -59,19 +63,15 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
     // if (this.authentication.authenticated) {
       this.userService.getUserObservable().pipe(takeUntil(this._destroyed)).subscribe(
         next => {
-          this.userInfo = next;
-          if (this.userInfo) {
+          this.userInfo.set(next);
+          if (next) {
             if (!this.messagingWebsocket.stompClientUnread) {
-              this.messagingWebsocket.initializeWebSocketConnectionUnread(`/topic/messages/inbox/unread/${this.userInfo.user.email}`);
-              this.messagingWebsocket.WsJoin(`/app/messages/inbox/unread/${this.userInfo.user.email}`, 'action');
+              this.messagingWebsocket.initializeWebSocketConnectionUnread(`/topic/messages/inbox/unread/${next.user.email}`);
+              this.messagingWebsocket.WsJoin(`/app/messages/inbox/unread/${next.user.email}`, 'action');
             }
             if (!this.messagingWebsocket.stompClientNotification) {
-              this.messagingWebsocket.initializeWebSocketConnectionNotification(`/topic/messages/inbox/notification/${this.userInfo.user.email}`);
+              this.messagingWebsocket.initializeWebSocketConnectionNotification(`/topic/messages/inbox/notification/${next.user.email}`);
             }
-
-            this.showArchive = this.coordinatorContains('eosc-sb') || this.checkIfManager();
-            this.superAdmin = this.userInfo.admin;
-
           }
         },
         error => {console.error(error)}
@@ -79,12 +79,13 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
     // }
 
     this.userService.currentStakeholder.pipe(takeUntil(this._destroyed)).subscribe(next => {
-      this.currentStakeholder = !!next ? next : JSON.parse(sessionStorage.getItem('currentStakeholder'));
-      if (this.currentStakeholder !== null) {
-        this.privacyPolicy.hasAcceptedPolicy(this.currentStakeholder.type).pipe(takeUntil(this._destroyed)).subscribe(
+      const current = !!next ? next : JSON.parse(sessionStorage.getItem('currentStakeholder'));
+      this.currentStakeholder.set(current);
+      if (current !== null) {
+        this.privacyPolicy.hasAcceptedPolicy(current.type).pipe(takeUntil(this._destroyed)).subscribe(
           next => {
-            this.acceptedPrivacyPolicy = next;
-            if (!this.acceptedPrivacyPolicy.accepted) {
+            this.acceptedPrivacyPolicy.set(next);
+            if (!next.accepted) {
               UIkit.modal('#consent-modal').show();
             }
           },
@@ -95,12 +96,13 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
     });
 
     this.userService.currentCoordinator.pipe(takeUntil(this._destroyed)).subscribe(next => {
-      this.currentCoordinator = !!next ? next : JSON.parse(sessionStorage.getItem('currentCoordinator'));
-      if (this.currentCoordinator !== null) {
-        this.privacyPolicy.hasAcceptedPolicy(this.currentCoordinator.type).pipe(takeUntil(this._destroyed)).subscribe(
+      const current = !!next ? next : JSON.parse(sessionStorage.getItem('currentCoordinator'));
+      this.currentCoordinator.set(current);
+      if (current !== null) {
+        this.privacyPolicy.hasAcceptedPolicy(current.type).pipe(takeUntil(this._destroyed)).subscribe(
           next => {
-            this.acceptedPrivacyPolicy = next;
-            if (!this.acceptedPrivacyPolicy.accepted) {
+            this.acceptedPrivacyPolicy.set(next);
+            if (!next.accepted) {
               UIkit.modal('#consent-modal').show();
             }
           },
@@ -111,7 +113,7 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
     });
 
     this.userService.currentAdministrator.pipe(takeUntil(this._destroyed)).subscribe(next => {
-      this.currentAdministrator = !!next ? next : JSON.parse(sessionStorage.getItem('currentAdministrator'));
+      this.currentAdministrator.set(!!next ? next : JSON.parse(sessionStorage.getItem('currentAdministrator')));
       // todo: do we need privacy policy modal for admins?
 
 /*      if (this.currentAdministrator !== null) {
@@ -149,11 +151,6 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
   }
 
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.userInfo)
-      this.showArchive = this.coordinatorContains('eosc-sb') || this.checkIfManager();
-  }
-
   ngOnDestroy(): void {
     this._destroyed.next(true);
     this._destroyed.complete();
@@ -161,7 +158,7 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
 
   parseUsername() {
     let firstLetters = "";
-    let matches = this.userInfo.user.fullname.match(/\b(\w)/g);
+    let matches = this.userInfo().user.fullname.match(/\b(\w)/g);
     if(matches)
       firstLetters += matches.join('');
     return firstLetters;
@@ -190,14 +187,15 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
   }
 
   coordinatorContains(name: string) {
-    return this.userInfo.coordinators.filter(c => c.type === name).length > 0;
+    return this.userInfo().coordinators.filter(c => c.type === name).length > 0;
   }
 
   checkIfManager(): boolean {
-    if (this.userInfo.stakeholders?.length > 0) {
-      for (const stakeholder of this.userInfo.stakeholders) {
+    const userInfo = this.userInfo();
+    if (userInfo.stakeholders?.length > 0) {
+      for (const stakeholder of userInfo.stakeholders) {
         for (const manager of stakeholder.admins) {
-          if (this.userInfo.user.email === manager) {
+          if (userInfo.user.email === manager) {
             return true;
           }
         }
@@ -217,9 +215,10 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
   }
 
   showUnread(id: string) {
-    if (!this.unreadMessages)
+    const unreadMessages = this.unreadMessages();
+    if (!unreadMessages)
       return '';
-    for (const group of this.unreadMessages?.groups) {
+    for (const group of unreadMessages?.groups) {
       if (group.groupId === id) {
         if (group.unread > 0)
           return group.unread;
@@ -251,7 +250,7 @@ export class TopMenuDashboardComponent implements OnInit, AfterViewInit, OnChang
   // }
 
   updateConsent() {
-    this.userService.setUserConsent(this.acceptedPrivacyPolicy.privacyPolicy.id).pipe(takeUntil(this._destroyed))
+    this.userService.setUserConsent(this.acceptedPrivacyPolicy().privacyPolicy.id).pipe(takeUntil(this._destroyed))
       .subscribe(next => {
         UIkit.modal('#consent-modal').hide();
         // if (!this.consent) {

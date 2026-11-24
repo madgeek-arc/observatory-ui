@@ -8,10 +8,10 @@
         <div class="uk-flex uk-flex-between uk-flex-middle uk-visible@m">
           <!--          <h4>Open Data</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode() | lowercase}}-flag-round.png"
               class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data for {{ year }}</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName() }} - Open Data for {{ year() }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-center"
@@ -21,7 +21,7 @@
               <span style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              @if (exportActive) {
+              @if (exportActive()) {
                 <span class="uk-margin-small-left" data-uk-spinner="ratio: 0.7"></span>
               } @else {
                 <span class="material-symbols-outlined filled uk-margin-small-left uk-text-primary">download</span>
@@ -33,10 +33,10 @@
         <div class="uk-hidden@m">
           <!--          <h4>Open Data</h4>-->
           <div class="uk-flex uk-flex-middle uk-margin-bottom">
-            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode | lowercase}}-flag-round.png"
+            <img ngSrc="../../survey-tool/assets/images/flags/{{flagCode() | lowercase}}-flag-round.png"
               class="flag-image" width="42" height="42" alt="rounded flag image">
             <div class="uk-margin-small-left">
-              <h4 class="uk-margin-remove-bottom">{{ countryName }} - Open Data for {{ year }}</h4>
+              <h4 class="uk-margin-remove-bottom">{{ countryName() }} - Open Data for {{ year() }}</h4>
             </div>
           </div>
           <div class="uk-flex uk-flex-right"
@@ -48,7 +48,7 @@
                 style="background-color: #fff; border-radius: 50px; border: 1px solid #008691; padding: 4px 10px">
                 Export report
               </span>
-              @if (exportActive) {
+              @if (exportActive()) {
                 <span class="uk-margin-small-left"
                 data-uk-spinner="ratio: 0.7"></span>
               } @else {
@@ -90,7 +90,7 @@
     country.</p>
 
     <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-medium-top">
-      <h5>General Overview of Open Data in {{ countryName }} for {{ year }}</h5>
+      <h5>General Overview of Open Data in {{ countryName() }} for {{ year() }}</h5>
     </div>
 
     <div class="uk-grid-small uk-grid-match" data-uk-grid>
@@ -102,45 +102,45 @@
               data-uk-grid
               data-uk-height-match="target: > * .uk-card">
               <app-card-config indicatorId="25" colorClass="openaire-graph visualisation-card">
-                @if (OpenDataPercentage[1] !== null) {
+                @if (OpenDataPercentage()[1] !== null) {
                   <app-info-card
-                    [titleHtml]="`Open Data in ${countryName} (OA vs Closed)`"
-                    [value]="OpenDataPercentage[1]"
+                    [titleHtml]="`Open Data in ${countryName()} (OA vs Closed)`"
+                    [value]="OpenDataPercentage()[1]"
                     [unit]="'%'"
-                    [diff]="OpenDataPercentageDiff"
+                    [diff]="OpenDataPercentageDiff()"
                     colorClass="openaire-graph visualisation-card">
                   </app-info-card>
                 }
               </app-card-config>
               <app-card-config indicatorId="26" colorClass="eosc-sb visualisation-card">
-                @if (rfoOpenDataPercentage[1] !== null) {
+                @if (rfoOpenDataPercentage()[1] !== null) {
                   <app-info-card
                     [titleHtml]="'RFOs with Policy on Open Data'"
-                    [value]="rfoOpenDataPercentage[1]"
+                    [value]="rfoOpenDataPercentage()[1]"
                     [unit]="'%'"
-                    [diff]="rfoOpenDataPercentageDiff"
+                    [diff]="rfoOpenDataPercentageDiff()"
                     colorClass="eosc-sb visualisation-card">
                   </app-info-card>
                 }
               </app-card-config>
               <app-card-config indicatorId="27" colorClass="eosc-sb visualisation-card">
-                @if (ODfinancialInvestment[1] !== null && ODfinancialInvestment[1] !== undefined && ODfinancialInvestment[1]) {
+                @if (ODfinancialInvestment()[1] !== null && ODfinancialInvestment()[1] !== undefined && ODfinancialInvestment()[1]) {
                   <app-info-card
                     [titleHtml]="`Financial investments in <span class='uk-text-bold'>Open Data</span>`"
-                    [value]="ODfinancialInvestment[1]"
+                    [value]="ODfinancialInvestment()[1]"
                     [unit]="'mil Euro'"
-                    [diff]="ODfinancialInvestmentPercentageDiff"
+                    [diff]="ODfinancialInvestmentPercentageDiff()"
                     colorClass="eosc-sb visualisation-card">
                   </app-info-card>
                 }
               </app-card-config>
               <app-card-config indicatorId="28" colorClass="eosc-sb visualisation-card">
-                @if (rpoOpenDataPercentage[1] !== null) {
+                @if (rpoOpenDataPercentage()[1] !== null) {
                   <app-info-card
                     [titleHtml]="'RPOs with Policy on Open Data'"
-                    [value]="rpoOpenDataPercentage[1]"
+                    [value]="rpoOpenDataPercentage()[1]"
                     [unit]="'%'"
-                    [diff]="rpoOpenDataPercentageDiff"
+                    [diff]="rpoOpenDataPercentageDiff()"
                     colorClass="eosc-sb visualisation-card">
                   </app-info-card>
                 }
@@ -158,24 +158,24 @@
             <h6 class="uk-flex uk-flex-between uk-margin-remove">
               National Policy on Open Data
                   <span class="material-symbols-outlined" [ngClass]="{
-                      'up-arrow-color': hasNationalPolicyOD === 'Yes',
-                      'down-arrow-color': hasNationalPolicyOD === 'No',
-                      'unanswered-color': hasNationalPolicyOD === null || hasNationalPolicyOD === undefined
+                      'up-arrow-color': hasNationalPolicyOD() === 'Yes',
+                      'down-arrow-color': hasNationalPolicyOD() === 'No',
+                      'unanswered-color': hasNationalPolicyOD() === null || hasNationalPolicyOD() === undefined
                     }">
                 {{
-                hasNationalPolicyOD === 'Yes' ? 'check' :
-                hasNationalPolicyOD === 'No' ? 'close' :
+                hasNationalPolicyOD() === 'Yes' ? 'check' :
+                hasNationalPolicyOD() === 'No' ? 'close' :
                 'question_mark'
                 }}
               </span>
             </h6>
-            @if (policyMandatoryOD === 'Yes') {
+            @if (policyMandatoryOD() === 'Yes') {
               <p class="uk-text-primary uk-text-bolder uk-margin-remove-top">
               Mandatory policy</p>
             }
-            @if (nationalPolicyClarificationOD !== null) {
+            @if (nationalPolicyClarificationOD() !== null) {
               <read-more-text [maxHeight]="68"
-                [text]="nationalPolicyClarificationOD">
+                [text]="nationalPolicyClarificationOD()">
               </read-more-text>
             }
           </div>
@@ -183,20 +183,20 @@
             <h6 class="uk-flex uk-flex-between">
               Financial Strategy on Open Data
                   <span class="material-symbols-outlined" [ngClass]="{
-                      'up-arrow-color': hasFinancialStrategyOD === 'Yes',
-                      'down-arrow-color': hasFinancialStrategyOD === 'No',
-                      'unanswered-color': (hasFinancialStrategyOD === null || hasFinancialStrategyOD === undefined)
+                      'up-arrow-color': hasFinancialStrategyOD() === 'Yes',
+                      'down-arrow-color': hasFinancialStrategyOD() === 'No',
+                      'unanswered-color': (hasFinancialStrategyOD() === null || hasFinancialStrategyOD() === undefined)
                     }">
                 {{
-                hasFinancialStrategyOD === 'Yes' ? 'check' :
-                hasFinancialStrategyOD === 'No' ? 'close' :
+                hasFinancialStrategyOD() === 'Yes' ? 'check' :
+                hasFinancialStrategyOD() === 'No' ? 'close' :
                 'question_mark'
                 }}
               </span>
             </h6>
-            @if (financialStrategyClarificationOD) {
+            @if (financialStrategyClarificationOD()) {
               <read-more-text [maxHeight]="68"
-                [text]="financialStrategyClarificationOD">
+                [text]="financialStrategyClarificationOD()">
               </read-more-text>
             }
           </div>
@@ -204,15 +204,15 @@
             <h6 class="uk-flex uk-flex-between">
               Monitoring on Open Data
                   <span class="material-symbols-outlined" [ngClass]="{
-                      'up-arrow-color': hasMonitoringOD === 'Yes',
-                      'down-arrow-color': hasMonitoringOD === 'No',
-                      'unanswered-color': hasMonitoringOD === null || hasMonitoringOD === undefined
+                      'up-arrow-color': hasMonitoringOD() === 'Yes',
+                      'down-arrow-color': hasMonitoringOD() === 'No',
+                      'unanswered-color': hasMonitoringOD() === null || hasMonitoringOD() === undefined
                     }">
-                {{ hasMonitoringOD === 'Yes' ? 'check' : hasMonitoringOD === 'No' ? 'close' : 'question_mark' }}
+                {{ hasMonitoringOD() === 'Yes' ? 'check' : hasMonitoringOD() === 'No' ? 'close' : 'question_mark' }}
               </span>
             </h6>
-            @if (monitoringClarificationOD) {
-              <read-more-text [maxHeight]="68" [text]="monitoringClarificationOD">
+            @if (monitoringClarificationOD()) {
+              <read-more-text [maxHeight]="68" [text]="monitoringClarificationOD()">
               </read-more-text>
             }
           </div>
@@ -221,9 +221,9 @@
       </app-card-config>
       <div>
         <p><span class="uk-text-bold">Data source:</span>
-        Survey on National Contributions to EOSC and Open Science {{year}} -
-        showing data for {{ year }}, except financial contributions, which reflect the previous year ({{+year-1}});
-        OpenAIRE Graph data for {{ year }} (updated on {{ lastUpdateDate }}).
+        Survey on National Contributions to EOSC and Open Science {{year()}} -
+        showing data for {{ year() }}, except financial contributions, which reflect the previous year ({{+year()-1}});
+        OpenAIRE Graph data for {{ year() }} (updated on {{ lastUpdateDate() }}).
       </p>
     </div>
   </div>
@@ -237,15 +237,15 @@
       <app-card-config indicatorId="30">
       <div class="uk-animation-fade">
         <div class="uk-card uk-card-body uk-card-default uk-width-1-1 noads visualisation-card">
-          <h6 class="uk-margin-bottom">Learn more about Open Data Landscape in {{ countryName }}</h6>
-          <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate | date: 'yyyy-MM-dd'}}</div>
+          <h6 class="uk-margin-bottom">Learn more about Open Data Landscape in {{ countryName() }}</h6>
+          <div class="uk-text-meta">This information has been compiled by the National Open Access Desks on {{ countrySurveyAnswerLastUpdate() | date: 'yyyy-MM-dd'}}</div>
           <div class="uk-margin-medium-top">
             <read-more [maxHeight]="300">
               <div id="national_data_service">
                 <div class="uk-text-secondary uk-margin-small-bottom">National Data Service</div>
-                @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']) {
+                @if (countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']?.['Question15-1']) {
                   <div class="uk-margin-remove-top"
-                       [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']">
+                       [innerHTML]="countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question15']['Question15-1']">
                   </div>
                 } @else {
                   <p class="uk-margin-remove-top">N/A</p>
@@ -253,9 +253,9 @@
               </div>
               <div id="data_repositories" class="uk-margin-medium-top">
                 <div class="uk-text-secondary uk-margin-small-bottom">Data repositories</div>
-                @if (countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']) {
+                @if (countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']?.['Question18-1']) {
                   <div class="uk-margin-remove-top"
-                       [innerHTML]="countrySurveyAnswer['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']">
+                       [innerHTML]="countrySurveyAnswer()['OPEN SCIENCE DIGITAL INFRASTRUCTURE']['Question18']['Question18-1']">
                   </div>
                 } @else {
                   <p class="uk-margin-remove-top">N/A</p>
@@ -279,12 +279,12 @@
 
       <div class="uk-grid">
         <div class="uk-width-1-1">
-          <app-stacked-column [categories]="stackedColumnCategories" [legend]="legend"
-            [series]="stackedColumnSeries" yAxis="Number of Data Sets" [pointFormat]="tooltipPointFormat"
-            [stackLabels]="true" [dataLabels]="false" [height]="smallScreen ? 750 : 500"
-            [title]="'Trend of Open Data in ' + countryName"
+          <app-stacked-column [categories]="stackedColumnCategories()" [legend]="legend"
+            [series]="stackedColumnSeries()" yAxis="Number of Data Sets" [pointFormat]="tooltipPointFormat"
+            [stackLabels]="true" [dataLabels]="false" [height]="smallScreen() ? 750 : 500"
+            [title]="'Trend of Open Data in ' + countryName()"
                 [caption]="'<p class=\'uk-text-justify\'>The graph provides a comprehensive view of how data accessibility evolved from 2015 to '+ (dataShareService.year$ | async) +'. It categorizes the total number of data sets each year into four access types: Open, Restricted, Closed, and Embargo. This timeline reveals not only the quantity of data made available under each category but also shows the shifting patterns in data accessibility. Tracking these trends is vital for assessing the effectiveness of Open Data policies and identifying periods of significant change, which can inform future strategies to promote more open and accessible research data practices.</p>' +
-                                  '<p><strong>Data Source: </strong> OpenAIRE Graph (updated on ' + lastUpdateDate + ').</p>'">
+                                  '<p><strong>Data Source: </strong> OpenAIRE Graph (updated on ' + lastUpdateDate() + ').</p>'">
               </app-stacked-column>
             </div>
 
@@ -301,13 +301,13 @@
 
         <div class="uk-card uk-card-default visualisation-card openaire-graph uk-card-body">
 
-          <app-stacked-column [categories]="stackedColumn2Categories" [legend]="legend" [series]="stackedColumn2Series"
+          <app-stacked-column [categories]="stackedColumn2Categories()" [legend]="legend" [series]="stackedColumn2Series()"
             yAxis="Percentage of Open Data" [plotFormat]="dataLabels_format"
-        [title]="'Distribution of Open Data Types by Different Document Type in ' + countryName"
-        [height]="smallScreen ? 750 : 500" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
+        [title]="'Distribution of Open Data Types by Different Document Type in ' + countryName()"
+        [height]="smallScreen() ? 750 : 500" [pointFormat]="tooltipPointFormat" [stackLabels]="false"
         [stacking]="stacking"
             [caption]="'<p class=\'uk-text-justify\'>The graph illustrates how Open Data is implemented across various types of documents. It segments the Open Data by document type such as Bioentity, Dataset, Image, Collection, Audiovisual, Clinical Trial, and Other, each colored, according to the level of accessibility—Open, Restricted, Closed, or Embargo. This detailed breakdown helps stakeholders understand which document types are more open or restricted, providing insights into where targeted interventions might enhance accessibility and foster a more transparent, reproducible, and inclusive science.</p>' +
-                              '<p><strong>Data Source: </strong> OpenAIRE Graph data for ' + year + ' (updated on ' + lastUpdateDate + ').</p>'">
+                              '<p><strong>Data Source: </strong> OpenAIRE Graph data for ' + year() + ' (updated on ' + lastUpdateDate() + ').</p>'">
           </app-stacked-column>
 
         </div>

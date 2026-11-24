@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, ChangeDetectionStrategy, signal } from '@angular/core';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DataShareService } from "../services/data-share.service";
 import { CountryPageIndicatorsService } from "../services/country-page-indicators.service";
@@ -17,6 +17,7 @@ import { PdfExportService } from "../../services/pdf-export.service";
 
 import { CardConfigComponent } from "../card-config/card-config.component";
 import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-hidden-notice.component";
+import { setAt } from "src/app/shared/utils/set-at";
 
 @Component({
     selector: 'app-data-management',
@@ -31,39 +32,39 @@ import { SectionHiddenNoticeComponent } from "../section-hidden-notice/section-h
         CardConfigComponent,
         SectionHiddenNoticeComponent
     ],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './data-management.component.html'
 })
 export class DataManagementComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   protected readonly Math = Math;
-  exportActive = false;
+  exportActive = signal(false);
 
   countryCode?: string;
   /** Code used only for the flag/label (EU for the Global default); data still uses countryCode. */
-  flagCode?: string;
-  countryName?: string;
+  flagCode = signal<string>(undefined);
+  countryName = signal<string>(undefined);
   surveyAnswers: Object[] = [];
-  countrySurveyAnswer?: Object;
-  countrySurveyAnswerLastUpdate: string | null = null;
-  year?: string;
-  lastUpdateDate?: string;
+  countrySurveyAnswer = signal<Object>(undefined);
+  countrySurveyAnswerLastUpdate = signal<string | null>(null);
+  year = signal<string>(undefined);
+  lastUpdateDate = signal<string>(undefined);
 
-  rfoDataManagementPercentage: (number | null)[] = [null, null];
-  rfoDataManagementPercentageDiff: number | null = null;
-  rpoDataManagementPercentage: (number | null)[] = [null, null];
-  rpoDataManagementPercentageDiff: number | null = null;
-  financialInvestmentDM: (string | null)[] = [null, null];
-  financialInvestmentDMPercentageDiff: number | null = null;
-  nationalPolicyResponse: string | null = null;
-  financialStrategyResponse: string | null = null;
-  nationalPolicyClarification: string | null = null;
-  financialStrategyClarification: string | null = null;
-  monitoringResponse: string | null = null;
-  monitoringClarification: string | null = null;
-  policyMandatory: string | null = null;
+  rfoDataManagementPercentage = signal<(number | null)[]>([null, null]);
+  rfoDataManagementPercentageDiff = signal<number | null>(null);
+  rpoDataManagementPercentage = signal<(number | null)[]>([null, null]);
+  rpoDataManagementPercentageDiff = signal<number | null>(null);
+  financialInvestmentDM = signal<(string | null)[]>([null, null]);
+  financialInvestmentDMPercentageDiff = signal<number | null>(null);
+  nationalPolicyResponse = signal<string | null>(null);
+  financialStrategyResponse = signal<string | null>(null);
+  nationalPolicyClarification = signal<string | null>(null);
+  financialStrategyClarification = signal<string | null>(null);
+  monitoringResponse = signal<string | null>(null);
+  monitoringClarification = signal<string | null>(null);
+  policyMandatory = signal<string | null>(null);
 
-  stackedColumnSeries1 = [
+  stackedColumnSeries1 = signal([
     {
       type: 'column',
       name: 'RPOs with Policy on Data Management',
@@ -75,8 +76,8 @@ export class DataManagementComponent implements OnInit {
       data: [],
       // color: colors[7]
     }
-  ] as Highcharts.SeriesColumnOptions[];
-  stackedColumnSeries2 = [
+  ] as Highcharts.SeriesColumnOptions[]);
+  stackedColumnSeries2 = signal([
     {
       type: 'column',
       name: 'RFOs with Policy on Data Management',
@@ -88,20 +89,22 @@ export class DataManagementComponent implements OnInit {
       data: [],
       // color: colors[8]
     }
-  ] as Highcharts.SeriesColumnOptions[];
-  stackedColumnCategories: string[] = [];
+  ] as Highcharts.SeriesColumnOptions[]);
+  stackedColumnCategories = signal<string[]>([]);
   xAxisTitle = 'Year'
   yAxisTitle = 'Percentage of Policies on Data Management'
   tooltipPointFormat = '<span style="color:{series.color}">{series.name}</span> : <b>{point.y}</b>';
   labelFormat = '{value}%';
   plotFormat = '{point.percentage:.0f}%';
 
-  constructor(private dataShareService: DataShareService, private exploreService: ExploreService, private pdfService: PdfExportService) {}
+  private dataShareService = inject(DataShareService);
+  private exploreService = inject(ExploreService);
+  private pdfService = inject(PdfExportService);
 
   ngOnInit() {
 
     this.exploreService._lastUpdateDate.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: value => this.lastUpdateDate = value
+      next: value => this.lastUpdateDate.set(value)
     });
 
     this.dataShareService.countryCode.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -112,25 +115,25 @@ export class DataManagementComponent implements OnInit {
 
     this.dataShareService.year.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (year) => {
-        this.year = year;
+        this.year.set(year);
         // Convert the year from string to number using unary plus, then calculate the two previous years as strings
         const numericYear = +year;
-        this.stackedColumnCategories = [
+        this.stackedColumnCategories.set([
           (numericYear - 1).toString(),
           (numericYear).toString(),
-        ];
+        ]);
       }
     })
 
     this.dataShareService.countryName.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (name) => {
-        this.countryName = name;
+        this.countryName.set(name);
       }
     });
 
     this.dataShareService.displayCountryCode$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (code) => {
-        this.flagCode = code;
+        this.flagCode.set(code);
       }
     });
 
@@ -148,40 +151,40 @@ export class DataManagementComponent implements OnInit {
 
      this.dataShareService.countrySurveyAnswer.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
      next: (answer) => {
-         this.countrySurveyAnswer = answer;
+         this.countrySurveyAnswer.set(answer);
        }
      });
 
     this.dataShareService.countrySurveyAnswerMetaData.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (metadata) => {
-        this.countrySurveyAnswerLastUpdate = metadata?.lastUpdate ?? null;
+        this.countrySurveyAnswerLastUpdate.set(metadata?.lastUpdate ?? null);
       }
     });
   }
 
   initCardValues() {
-    this.rfoDataManagementPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question13']?.['Question13-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']);
-    this.rfoDataManagementPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question13']?.['Question13-0'], this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0']);
-    this.rfoDataManagementPercentageDiff = this.dataShareService.calculateDiff(this.rfoDataManagementPercentage[0], this.rfoDataManagementPercentage[1]);
+    setAt(this.rfoDataManagementPercentage, 1, this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question13']?.['Question13-0'], this.surveyAnswers[1]?.['General']?.['Question3']?.['Question3-0']));
+    setAt(this.rfoDataManagementPercentage, 0, this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question13']?.['Question13-0'], this.surveyAnswers[0]?.['General']?.['Question3']?.['Question3-0']));
+    this.rfoDataManagementPercentageDiff.set(this.dataShareService.calculateDiff(this.rfoDataManagementPercentage()[0], this.rfoDataManagementPercentage()[1]));
 
-    this.rpoDataManagementPercentage[1] = this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question12']?.['Question12-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']);
-    this.rpoDataManagementPercentage[0] = this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question12']?.['Question12-0'], this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0']);
-    this.rpoDataManagementPercentageDiff = this.dataShareService.calculateDiff(this.rpoDataManagementPercentage[0], this.rpoDataManagementPercentage[1]);
+    setAt(this.rpoDataManagementPercentage, 1, this.dataShareService.calculatePercentage(this.surveyAnswers[1]?.['Policies']?.['Question12']?.['Question12-0'], this.surveyAnswers[1]?.['General']?.['Question2']?.['Question2-0']));
+    setAt(this.rpoDataManagementPercentage, 0, this.dataShareService.calculatePercentage(this.surveyAnswers[0]?.['Policies']?.['Question12']?.['Question12-0'], this.surveyAnswers[0]?.['General']?.['Question2']?.['Question2-0']));
+    this.rpoDataManagementPercentageDiff.set(this.dataShareService.calculateDiff(this.rpoDataManagementPercentage()[0], this.rpoDataManagementPercentage()[1]));
 
-    this.financialInvestmentDM[1] = this.surveyAnswers[1]?.['Practices']?.['Question60']?.['Question60-0'];
-    this.financialInvestmentDM[0] = this.surveyAnswers[0]?.['Practices']?.['Question60']?.['Question60-0'];
-    this.financialInvestmentDMPercentageDiff = this.dataShareService.calculateDiffAsPercentage(this.financialInvestmentDM[0], this.financialInvestmentDM[1]);
+    setAt(this.financialInvestmentDM, 1, this.surveyAnswers[1]?.['Practices']?.['Question60']?.['Question60-0']);
+    setAt(this.financialInvestmentDM, 0, this.surveyAnswers[0]?.['Practices']?.['Question60']?.['Question60-0']);
+    this.financialInvestmentDMPercentageDiff.set(this.dataShareService.calculateDiffAsPercentage(this.financialInvestmentDM()[0], this.financialInvestmentDM()[1]));
 
 
-    this.nationalPolicyResponse = this.surveyAnswers[1]?.['Policies']?.['Question10']?.['Question10-0'] || null;
-    this.policyMandatory = this.surveyAnswers[1]?.['Policies']?.['Question5']?.['Question6-5-0']?.['Question5-1'] || null;
-    this.nationalPolicyClarification = this.surveyAnswers[1]?.['Policies']?.['Question10']?.['Question10-3'] || null;
+    this.nationalPolicyResponse.set(this.surveyAnswers[1]?.['Policies']?.['Question10']?.['Question10-0'] || null);
+    this.policyMandatory.set(this.surveyAnswers[1]?.['Policies']?.['Question5']?.['Question6-5-0']?.['Question5-1'] || null);
+    this.nationalPolicyClarification.set(this.surveyAnswers[1]?.['Policies']?.['Question10']?.['Question10-3'] || null);
 
-    this.financialStrategyResponse = this.surveyAnswers[1]?.['Policies']?.['Question11']?.['Question11-0'] || null;
-    this.financialStrategyClarification = this.surveyAnswers[1]?.['Policies']?.['Question11']?.['Question11-1'] || null;
+    this.financialStrategyResponse.set(this.surveyAnswers[1]?.['Policies']?.['Question11']?.['Question11-0'] || null);
+    this.financialStrategyClarification.set(this.surveyAnswers[1]?.['Policies']?.['Question11']?.['Question11-1'] || null);
 
-    this.monitoringResponse = this.surveyAnswers[1]?.['Practices']?.['Question58']?.['Question58-0'] || null;
-    this.monitoringClarification = this.surveyAnswers[1]?.['Practices']?.['Question58']?.['Question58-1'] || null;
+    this.monitoringResponse.set(this.surveyAnswers[1]?.['Practices']?.['Question58']?.['Question58-0'] || null);
+    this.monitoringClarification.set(this.surveyAnswers[1]?.['Practices']?.['Question58']?.['Question58-1'] || null);
 
   }
 
@@ -197,10 +200,10 @@ export class DataManagementComponent implements OnInit {
     ];
 
     if (this.exploreService.isNumeric(rpoWithPolicy[0]) && this.exploreService.isNumeric(rpoWithPolicy[1])) {
-      this.stackedColumnSeries1[0].data.push(+rpoWithPolicy[0], +rpoWithPolicy[1]);
+      this.stackedColumnSeries1()[0].data.push(+rpoWithPolicy[0], +rpoWithPolicy[1]);
 
       if (this.exploreService.isNumeric(rpo[0]) && this.exploreService.isNumeric(rpo[1])) {
-        this.stackedColumnSeries1[1].data.push(+rpo[0] - +rpoWithPolicy[0], +rpo[1] - +rpoWithPolicy[1])
+        this.stackedColumnSeries1()[1].data.push(+rpo[0] - +rpoWithPolicy[0], +rpo[1] - +rpoWithPolicy[1])
       }
     }
 
@@ -215,15 +218,15 @@ export class DataManagementComponent implements OnInit {
     ];
 
     if (this.exploreService.isNumeric(rfoWithPolicy[0]) && this.exploreService.isNumeric(rfoWithPolicy[1])) {
-      this.stackedColumnSeries2[0].data.push(+rfoWithPolicy[0], +rfoWithPolicy[1]);
+      this.stackedColumnSeries2()[0].data.push(+rfoWithPolicy[0], +rfoWithPolicy[1]);
 
       if (this.exploreService.isNumeric(rfo[0]) && this.exploreService.isNumeric(rfo[1])) {
-        this.stackedColumnSeries2[1].data.push(+rfo[0] - +rpoWithPolicy[0], +rfo[1] - +rfoWithPolicy[1])
+        this.stackedColumnSeries2()[1].data.push(+rfo[0] - +rpoWithPolicy[0], +rfo[1] - +rfoWithPolicy[1])
       }
     }
 
-    this.stackedColumnSeries1 = [...this.stackedColumnSeries1];
-    this.stackedColumnSeries2 = [...this.stackedColumnSeries2];
+    this.stackedColumnSeries1.set([...this.stackedColumnSeries1()]);
+    this.stackedColumnSeries2.set([...this.stackedColumnSeries2()]);
   }
 
   private readonly indicatorsService = inject(CountryPageIndicatorsService);
@@ -231,22 +234,22 @@ export class DataManagementComponent implements OnInit {
   /** Left card block renders only if at least one of its cards will be visible (see service). */
   hasAnyLeftCardVisible(): boolean {
     return this.indicatorsService.anyCardVisible([
-      { id: '40', hasData: this.rfoDataManagementPercentage[1] != null },
-      { id: '41', hasData: this.rpoDataManagementPercentage[1] != null },
-      { id: '42', hasData: this.financialInvestmentDM[1]       != null },
+      { id: '40', hasData: this.rfoDataManagementPercentage()[1] != null },
+      { id: '41', hasData: this.rpoDataManagementPercentage()[1] != null },
+      { id: '42', hasData: this.financialInvestmentDM()[1]       != null },
     ]);
   }
 
   hasAnyLeftCardData() {
     return this.dataShareService.hasAnyValue([
-      this.rfoDataManagementPercentage[1],
-      this.rpoDataManagementPercentage[1],
-      this.financialInvestmentDM[1],
+      this.rfoDataManagementPercentage()[1],
+      this.rpoDataManagementPercentage()[1],
+      this.financialInvestmentDM()[1],
     ]);
   }
 
   hasSurveyDataManagementData(): boolean {
-    const surveyData = this.countrySurveyAnswer?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
+    const surveyData = this.countrySurveyAnswer()?.['OPEN SCIENCE DIGITAL INFRASTRUCTURE'];
     if (!surveyData) {
       return false;
     }
@@ -255,16 +258,16 @@ export class DataManagementComponent implements OnInit {
   }
 
   exportToPDF(contents: HTMLElement[], filename?: string) {
-    this.exportActive = true
+    this.exportActive.set(true)
 
     // Χρόνος για να εφαρμοστούν τα styles
     // setTimeout(() => {
       this.pdfService.export(contents, filename).then(() => {
         // this.restoreAnimations(modifiedElements, contents);
-        this.exportActive = false;
+        this.exportActive.set(false);
       }).catch((error) => {
         // this.restoreAnimations(modifiedElements, contents);
-        this.exportActive = false;
+        this.exportActive.set(false);
         console.error('Error during PDF generation:', error);
       });
     // }, 0);
