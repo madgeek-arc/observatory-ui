@@ -60,6 +60,9 @@ export class StackedBarWithProgressCardView {
 
   readonly formattedTotal = computed(() => formatCompactNumber(this.total()));
 
+  /** What the indicator counts, from the backend: "Publications" → "publications". */
+  readonly unitLabel = computed(() => (this.response()?.metadata.label ?? '').toLowerCase());
+
   readonly segments = computed(() => {
     const response = this.response();
     const dimension = this.dimension();

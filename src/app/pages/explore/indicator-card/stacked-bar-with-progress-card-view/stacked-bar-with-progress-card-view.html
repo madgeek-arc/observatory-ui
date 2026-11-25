@@ -1,7 +1,7 @@
 <app-card-state [state]="state()" [height]="200" [empty]="isEmpty()">
   <ng-template>
     <span class="uk-text-bold" style="font-size: 20px;">
-      {{ headlinePercent() | formatPercent }} </span> of {{ formattedTotal() }} publications are open access
+      {{ headlinePercent() | formatPercent }} </span> of {{ formattedTotal() }} {{ unitLabel() }} are open access
 
 
     @if (chartOptions(); as options) {
