@@ -5,7 +5,8 @@ import { HighchartsChartModule } from "highcharts-angular";
 import { combineStates, CustomSearchService, dataOf, hasNumericValue, IndicatorPresetQueryRequest, IndicatorQueryResponse } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
 import { colors } from "../../../../domain/chart-color-palette";
-import { formatCompactNumber, formatPercent, roundHalfUp } from "../../../../domain/format-indicator-value";
+import { IndicatorFormat } from "../../../../domain/explore-indicators";
+import { formatCompactNumber, formatIndicatorValue, formatPercent, roundHalfUp } from "../../../../domain/format-indicator-value";
 import { CardState } from "../../../../shared/card-state/card-state";
 import { StakeholdersService } from "../../../../../survey-tool/app/services/stakeholders.service";
 
@@ -40,6 +41,7 @@ export class MultiStackedBarsCardView {
 
   indicatorId = input.required<string>();
   indicatorCode = input.required<string>();
+  format = input.required<IndicatorFormat>();
 
   readonly endYear = computed(() => this.customSearchService.endYear());
 
@@ -202,7 +204,7 @@ export class MultiStackedBarsCardView {
       const hasValue = countryData.some(point => typeof point.value === 'number');
       return {
         name: country.name,
-        formattedTotal: hasValue ? formatCompactNumber(total) : '',
+        formattedTotal: hasValue ? formatIndicatorValue(total, this.format()) : '',
         chartOptions: this.buildBarOptions(segments)
       };
     });
