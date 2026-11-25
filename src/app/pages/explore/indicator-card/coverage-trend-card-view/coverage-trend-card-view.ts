@@ -3,7 +3,7 @@ import { HighchartsChartModule } from "highcharts-angular";
 import * as Highcharts from "highcharts";
 import { CustomSearchService, dataOf, IndicatorPresetQueryRequest } from "../../custom-search/services/custom-search.service";
 import { resolveSelectedCountries } from "../../../../domain/countries";
-import { isPositiveStatus } from "../../../../domain/policy-status";
+import { isPositiveStatus, legendForGroup } from "../../../../domain/policy-status";
 import { colors } from "../../../../domain/chart-color-palette";
 import { CardState } from "../../../../shared/card-state/card-state";
 import { axisLabelFormatter, formatCompactNumber } from "../../../../domain/format-indicator-value";
@@ -71,6 +71,15 @@ export class CoverageTrendCardView {
     return response ? [...new Set(response.data.map(point => point.dimensions['period']))].sort() : undefined;
   });
 
+  private readonly axisTitle = computed(() => {
+    if (!this.dimension()) {
+      const label = (this.response()?.metadata.label ?? '').replace(/\s*count$/i, '').toLowerCase();
+      return label.charAt(0).toUpperCase() + label.slice(1);
+    }
+    const firstCode = this.areas()[0];
+    return legendForGroup(this.members()?.find(member => member.code === firstCode)?.group).areasTitle;
+  });
+
   readonly chartOptions = computed<Highcharts.Options | undefined>(() => {
     const response = this.response();
     const dimension = this.dimension();
@@ -93,7 +102,7 @@ export class CoverageTrendCardView {
       yAxis: {
         min: 0,
         max: this.totalAreas(),
-        title: { text: 'Areas with a policy in place' },
+        title: { text: this.axisTitle() },
         labels: { formatter: axisLabelFormatter('number') }
       },
       tooltip: { pointFormatter: function () { return `${this.series.name}: ${formatCompactNumber(this.y ?? 0)}`; } },

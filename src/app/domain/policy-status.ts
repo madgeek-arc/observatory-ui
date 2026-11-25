@@ -73,15 +73,17 @@ export function mapHeadlineFor(indicatorCode: string): MapHeadline | undefined {
 export interface StatusLegend {
   positive: string;
   negative: string;
+  /** Axis title for a chart that counts the positive areas. */
+  areasTitle: string;
 }
 
 /** Legend wording per member group (the `group` field of the dimension members response). */
 const LEGEND_BY_GROUP: Record<string, StatusLegend> = {
-  POLICY: { positive: 'Policy in place', negative: 'No policy' },
-  FINANCIAL_STRATEGY: { positive: 'Financial strategy in place', negative: 'No financial strategy' },
-  MONITORING_INITIATIVE: { positive: 'Monitored', negative: 'Not monitored' },
+  POLICY: { positive: 'Policy in place', negative: 'No policy', areasTitle: 'Areas with a policy in place' },
+  FINANCIAL_STRATEGY: { positive: 'Financial strategy in place', negative: 'No financial strategy', areasTitle: 'Areas with a financial strategy in place' },
+  MONITORING_INITIATIVE: { positive: 'Monitored', negative: 'Not monitored', areasTitle: 'Monitored areas' },
 };
-const DEFAULT_LEGEND: StatusLegend = { positive: 'Yes', negative: 'No' };
+const DEFAULT_LEGEND: StatusLegend = { positive: 'Yes', negative: 'No', areasTitle: 'Areas' };
 
 export function legendForGroup(group: string | undefined): StatusLegend {
   return (group && LEGEND_BY_GROUP[group]) || DEFAULT_LEGEND;
