@@ -5,9 +5,8 @@
 
       @let delta = deltaVsFirstYear();
       @if (delta !== undefined) {
-        <span class="uk-text-small uk-text-meta">
-          {{ delta >= 0 ? '+' : '' }}{{ delta }} pts vs {{ firstYear() }}
-        </span>
+        <span class="uk-margin-small-left uk-text-bold uk-text-small" [class]="deltaClass()">{{ delta > 0 ? '+' : '' }}{{ delta }} pts</span>
+        <span class="uk-text-small uk-text-muted"> vs {{ firstYear() }}</span>
       }
 
 

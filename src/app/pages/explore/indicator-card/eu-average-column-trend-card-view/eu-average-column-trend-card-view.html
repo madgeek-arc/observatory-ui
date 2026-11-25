@@ -13,6 +13,7 @@
             </span>
             @if (changeSinceStart(); as change) {
               <span class="uk-margin-small-left uk-text-bold uk-text-small" [class]="change.cssClass">{{ change.text }}</span>
+              <span class="uk-text-small uk-text-muted"> vs {{ startYear() }}</span>
             }
           </span>
         </div>

@@ -121,5 +121,13 @@ export class StackedColumnWithTotalsCardView {
     return roundHalfUp(this.latestPercent() - this.percentOpenAccessFor(this.firstYear()));
   });
 
+  readonly deltaClass = computed(() => {
+    const delta = this.deltaVsFirstYear() ?? 0;
+    if (delta > 0) {
+      return 'uk-text-success';
+    }
+    return delta < 0 ? 'uk-text-danger' : 'uk-text-muted';
+  });
+
   readonly isEmpty = computed(() => !hasNumericValue(this.response()));
 }

@@ -72,6 +72,8 @@ export class EuAverageColumnTrendCardView {
     return average == null ? undefined : roundHalfUp(average);
   });
 
+  readonly startYear = this.customSearchService.startYear;
+
   readonly changeSinceStart = computed<StatusBadge | undefined>(() => {
     const startYear = this.customSearchService.startYear();
     const first = this.yearlyAverages()?.find(item => item.year === String(startYear));
@@ -82,12 +84,12 @@ export class EuAverageColumnTrendCardView {
     // Difference of the two shown (rounded) values, so "+0.7" always matches the numbers on the columns.
     const difference = roundHalfUp(roundHalfUp(latest.average) - roundHalfUp(first.average));
     if (difference > 0) {
-      return { text: `+${difference} vs ${startYear}`, cssClass: 'uk-text-success' };
+      return { text: `+${difference}`, cssClass: 'uk-text-success' };
     }
     if (difference < 0) {
-      return { text: `${difference} vs ${startYear}`, cssClass: 'uk-text-danger' };
+      return { text: `${difference}`, cssClass: 'uk-text-danger' };
     }
-    return { text: `0 vs ${startYear}`, cssClass: 'uk-text-muted' };
+    return { text: '0', cssClass: 'uk-text-muted' };
   });
 
   /** "out of N" — every row carries the same total, taken from the latest year's rows. */
