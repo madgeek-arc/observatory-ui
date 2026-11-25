@@ -1,7 +1,8 @@
 import * as Highcharts from "highcharts";
 import { colors } from "../../../domain/chart-color-palette";
 import { renderLogo } from "../../../shared/charts/highcharts-functions";
-import { axisLabelFormatter, formatCompactNumber } from "../../../domain/format-indicator-value";
+import { IndicatorFormat } from "../../../domain/explore-indicators";
+import { axisLabelFormatter, formatIndicatorValue } from "../../../domain/format-indicator-value";
 
 /**
  * Stacked column chart options for Custom Search cards. Copies the layout of the shared
@@ -13,7 +14,8 @@ export function stackedColumnOptions(
   categories: string[],
   series: Highcharts.SeriesColumnOptions[],
   height: number,
-  legend: Highcharts.LegendOptions = { backgroundColor: '#FFFFFF' }
+  legend: Highcharts.LegendOptions = { backgroundColor: '#FFFFFF' },
+  format: IndicatorFormat = 'number'
 ): Highcharts.Options {
   return {
     colors,
@@ -42,13 +44,13 @@ export function stackedColumnOptions(
     yAxis: {
       min: 0,
       title: { text: undefined },
-      labels: { formatter: axisLabelFormatter('number') },
+      labels: { formatter: axisLabelFormatter(format) },
       stackLabels: { enabled: false }
     },
     tooltip: {
       headerFormat: '<b>{point.key}</b><br/>',
       pointFormatter: function () {
-        return `${this.series.name}: ${formatCompactNumber(this.y ?? 0)}<br/>Total: ${formatCompactNumber(this.total ?? 0)}`;
+        return `${this.series.name}: ${formatIndicatorValue(this.y ?? 0, format)}<br/>Total: ${formatIndicatorValue(this.total ?? 0, format)}`;
       }
     },
     plotOptions: {

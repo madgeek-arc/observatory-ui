@@ -171,7 +171,7 @@ export class CompositeColumnsLineCardView {
               name: this.labelByCode()[code] ?? code,
               color: colors[index % colors.length],
               data: categories.map(year => valueByKey.get(`${country.id}|${code}|${year}`) ?? 0)
-            })), 200, { enabled: false })
+            })), 200, { enabled: false }, this.format())
           : null,
         headline: this.headlineFor(country.id, latestYear)
       };
