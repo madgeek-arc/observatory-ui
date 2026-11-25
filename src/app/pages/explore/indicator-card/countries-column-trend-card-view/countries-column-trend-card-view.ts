@@ -85,7 +85,8 @@ export class CountriesColumnTrendCardView {
         type: 'column' as const,
         name: country.name,
         color: country.color,
-        data: years.map(year => valueByKey.get(`${country.id}|${year}`) ?? 0)
+        // null = no data for that year, so no column or label; a real 0 still shows as 0.
+        data: years.map(year => valueByKey.get(`${country.id}|${year}`) ?? null)
       }))
     };
   });
