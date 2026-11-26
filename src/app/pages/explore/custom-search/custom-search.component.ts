@@ -1,6 +1,8 @@
 import {Component, DestroyRef, computed, effect, inject, signal, viewChild, ElementRef} from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
+import { of } from "rxjs";
+import { catchError } from "rxjs/operators";
 import {
   SidebarMobileToggleComponent
 } from "../../../../survey-tool/app/shared/dashboard-side-menu/mobile-toggle/sidebar-mobile-toggle.component";
@@ -64,12 +66,16 @@ export class CustomSearchComponent {
   readonly showEuAverage = this.customSearchService.showEuAverage;
   readonly showMedianValues = this.customSearchService.showMedianValues;
   readonly indicators = toSignal(
-    this.customSearchService.getPreDefinedIndicators(),
+    this.customSearchService.getPreDefinedIndicators().pipe(
+      catchError(() => of([] as ExploreIndicatorConfig[]))
+    ),
     { initialValue: [] as ExploreIndicatorConfig[] }
   );
 
   readonly dashboardItems = toSignal(
-    this.customSearchService.getDashboard(),
+    this.customSearchService.getDashboard().pipe(
+      catchError(() => of([] as DashboardItem[]))   // logged out → no saved dashboard
+    ),
     { initialValue: [] as DashboardItem[] }
   );
 
